@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+.env
+.env.local
+.streamlit/secrets.toml
+*.sav
+*.csv
+*.xlsx
+*.dta
+.DS_Store
+.idea/
+.vscode/
