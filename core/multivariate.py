@@ -15,14 +15,14 @@ def _design_matrix(df: pd.DataFrame, features: list[str], types: dict[str, VarTy
     for f in features:
         s = df[f]
         if types.get(f) in {"continuous", "ordinal"}:
-            parts.append(s.rename(f).to_frame())
+            parts.append(pd.to_numeric(s, errors="coerce").rename(f).to_frame())
         else:
-            d = pd.get_dummies(s, prefix=f, drop_first=True, dummy_na=False)
+            d = pd.get_dummies(s, prefix=f, drop_first=True, dummy_na=False, dtype=float)
             parts.append(d)
     if not parts:
         return pd.DataFrame(index=df.index)
     X = pd.concat(parts, axis=1)
-    return X.apply(pd.to_numeric, errors="coerce")
+    return X.astype(float)
 
 
 def _vif(X: pd.DataFrame) -> pd.DataFrame:
