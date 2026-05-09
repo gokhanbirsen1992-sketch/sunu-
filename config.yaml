@@ -1,0 +1,33 @@
+exchange:
+  symbol: BTC_USDT
+  timeframe: 1D
+  poll_interval_sec: 30
+  candle_count: 300
+
+strategy:
+  active: rsi_ma           # rsi_ma | ma_crossover | bb_rsi
+
+  rsi_ma:
+    rsi_period: 14
+    rsi_oversold: 30
+    rsi_overbought: 70
+    ema_fast: 50
+    ema_slow: 200
+
+  ma_crossover:
+    ema_fast: 20
+    ema_slow: 50
+
+  bb_rsi:
+    bb_period: 20
+    bb_std: 2.0
+    rsi_period: 14
+    rsi_oversold: 30
+    rsi_overbought: 70
+
+risk:
+  equity_usdt: 1000
+  risk_pct: 0.01
+  atr_period: 14
+  atr_sl_mult: 2.0
+  atr_tp_mult: 4.0
