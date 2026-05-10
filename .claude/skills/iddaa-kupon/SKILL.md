@@ -128,3 +128,53 @@ curl -s "https://api.the-odds-api.com/v4/sports/?apiKey=$ODDS_API_KEY" | jq '.[0
 ```
 
 5 spor listelenirse API ve key OK.
+
+## Fallback: API çöktüğünde / key yoksa
+
+Önce API'nin gerçekten çökmüş olduğunu doğrula:
+
+```bash
+curl -sI "https://api.the-odds-api.com/v4/sports/?apiKey=$ODDS_API_KEY"
+# 5xx, timeout veya DNS hatası → API down
+# 401/403 → key sorunu (down değil)
+# 429 → rate limit (aylık 500 doldu)
+```
+
+API gerçekten erişilemezse, sırayla dene:
+
+### 1. Alternatif ücretsiz oran API'leri
+
+| API | Endpoint | Not |
+|---|---|---|
+| **OddsAPI.io** | `https://api.oddsapi.io/v1/odds` | Free tier 500/ay, format benzer |
+| **API-Football** (RapidAPI) | `https://v3.football.api-sports.io/odds` | 100 istek/gün ücretsiz, sadece futbol |
+| **OpticOdds** | `https://api.opticodds.com/api/v3/fixtures/odds` | Free tier mevcut, key gerekli |
+| **Sofascore** (resmi olmayan) | `https://www.sofascore.com/api/v1/sport/football/scheduled-events/{date}` | Auth yok ama oran kısıtlı, kırılgan |
+
+`.env`'e ilgili key'i ekle (`ODDS_API_KEY` adıyla aynı tutabilirsin, skill içinde adapte et).
+
+### 2. Manuel mod (key/internet yokken)
+
+Kullanıcıdan bülteni yapıştırmasını iste. Aşağıdaki formatlardan biri kabul:
+
+**Format A — basit liste:**
+```
+Galatasaray - Fenerbahçe  20:00  MS1: 2.10  X: 3.40  MS2: 3.20  Üst2.5: 1.85  Alt2.5: 1.95
+Arsenal - Chelsea         22:00  MS1: 1.75  X: 3.80  MS2: 4.50
+```
+
+**Format B — Mackolik/Nesine kopyala-yapıştır** (kullanıcı siteden direkt kopyalar). Satırları parse et, takım adı + saat + 1/X/2 oranları çıkar.
+
+**Format C — JSON** (ileri kullanıcı):
+```json
+[{"home":"GS","away":"FB","time":"20:00","odds":{"1":2.10,"X":3.40,"2":3.20}}]
+```
+
+Manuel modda **fair probability hesaplanamaz** (tek kaynak, konsensüs yok). Bunun yerine:
+- **Overround** (komisyon) çıkar: `total_implied = 1/o1 + 1/oX + 1/o2`, her implied'ı `total_implied`'a böl → vig-free fair prob
+- Edge yerine **value indicator**: oran × fair_prob > 1.05 ise "değerli" işaretle
+- Çıktıda kullanıcıyı uyar: "Tek kaynak — gerçek edge için çoklu bookmaker karşılaştırması gerekir"
+
+### 3. Hibrit (önerilen)
+
+Skill çalışırken önce ana API'yi dene; başarısızsa otomatik olarak manuel moda düş ve kullanıcıdan bülten iste. Sessizce "API down" deyip durma.
