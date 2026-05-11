@@ -754,19 +754,18 @@ transition: fade
 
 <div class="text-center text-sm opacity-70 mb-4">Kawade & Onishi 1981 (Biochem J)</div>
 
-```mermaid {scale: 0.85}
-gantt
-    title UGT1A1 aktivitesi (erişkin %'si)
-    dateFormat X
-    axisFormat %s
-    section Gestasyon
-    20-30. hafta — %0.1     :crit, 0, 10
-    section Doğum
-    Term — %5               :active, 20, 25
-    section Postnatal
-    6-14. gün — %50         :a1, 30, 38
-    3-6 ay — %100           :a2, 38, 60
-```
+<div class="relative h-32 bg-gradient-to-r from-red-100 via-yellow-100 to-green-100 rounded-lg mt-6 overflow-hidden">
+  <div class="absolute inset-y-0 left-0 w-[5%] bg-red-300/60 border-r border-red-400"></div>
+  <div class="absolute inset-y-0 left-[5%] w-[15%] bg-orange-300/60 border-r border-orange-400"></div>
+  <div class="absolute inset-y-0 left-[20%] w-[30%] bg-yellow-300/60 border-r border-yellow-400"></div>
+  <div class="absolute inset-y-0 left-[50%] w-[50%] bg-green-300/60"></div>
+  <div class="absolute inset-0 flex items-center justify-around text-xs font-bold">
+    <span>20-30 hf</span>
+    <span>Term</span>
+    <span>6-14 gün</span>
+    <span>3-6 ay</span>
+  </div>
+</div>
 
 <div class="grid grid-cols-4 gap-3 mt-8 text-center text-xs">
 
@@ -1281,12 +1280,20 @@ Yenidoğanda intestinal flora tam değil → bakteriyel **β-glukuronidaz** akti
 <div class="card-bile">
 <div class="badge badge-gene mb-2">*28 ALLEL FREKANSI</div>
 
-```mermaid {scale: 0.75}
-pie title Popülasyona göre dağılım
-    "Sahra-altı Afrika ~50%" : 50
-    "Avrupa 30-40%" : 35
-    "Doğu Asya ~15%" : 15
-```
+<div class="space-y-2 mt-3 text-sm">
+  <div>
+    <div class="flex justify-between"><span>Sahra-altı Afrika</span><b>%50</b></div>
+    <div class="h-3 bg-amber-100 rounded"><div class="h-full bg-amber-600 rounded" style="width:50%"></div></div>
+  </div>
+  <div>
+    <div class="flex justify-between"><span>Avrupa</span><b>%30-40</b></div>
+    <div class="h-3 bg-amber-100 rounded"><div class="h-full bg-amber-500 rounded" style="width:35%"></div></div>
+  </div>
+  <div>
+    <div class="flex justify-between"><span>Doğu Asya</span><b>%15</b></div>
+    <div class="h-3 bg-amber-100 rounded"><div class="h-full bg-amber-400 rounded" style="width:15%"></div></div>
+  </div>
+</div>
 
 </div>
 
