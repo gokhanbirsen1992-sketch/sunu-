@@ -1,0 +1,191 @@
+/* ============ Yıldız'ın Sarılığı — Özel Stil ============ */
+
+:root {
+  --bilirubin: #f5b400;
+  --bilirubin-deep: #d97706;
+  --blood: #b91c1c;
+  --bile: #15803d;
+  --cosmos: #0f0a2e;
+  --plasma: #fef3c7;
+  --neuron: #4338ca;
+  --accent: #f5b400;
+}
+
+/* Cover sayfası — kozmik gradient */
+.cover-bg {
+  background:
+    radial-gradient(ellipse at top right, rgba(245, 180, 0, 0.15), transparent 60%),
+    radial-gradient(ellipse at bottom left, rgba(67, 56, 202, 0.25), transparent 60%),
+    linear-gradient(135deg, #0a0820 0%, #1a0f3d 50%, #0f0a2e 100%);
+  color: #fef3c7;
+}
+
+.cover-bg h1 {
+  background: linear-gradient(135deg, #fde68a 0%, #f5b400 50%, #ef4444 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+/* Section divider — büyük tipografi */
+.section-divider {
+  background: linear-gradient(135deg, #1a0f3d 0%, #0f0a2e 100%);
+  color: #fde68a;
+}
+
+.section-divider h1 {
+  font-size: 6rem;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  background: linear-gradient(180deg, #fde68a 0%, #f5b400 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Cosmic background (yıldızlar bölümü) */
+.cosmic {
+  background:
+    radial-gradient(2px 2px at 20% 30%, white, transparent),
+    radial-gradient(2px 2px at 60% 70%, white, transparent),
+    radial-gradient(1px 1px at 50% 50%, white, transparent),
+    radial-gradient(1px 1px at 80% 10%, white, transparent),
+    radial-gradient(2px 2px at 90% 60%, white, transparent),
+    radial-gradient(1px 1px at 33% 80%, white, transparent),
+    radial-gradient(1px 1px at 15% 15%, white, transparent),
+    linear-gradient(135deg, #0a0820 0%, #1a0f3d 100%);
+  background-size: 200% 200%;
+  color: #fef3c7;
+}
+
+/* Plazma / sıcak arkaplan (klinik) */
+.warm-bg {
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+}
+
+/* Kart bileşeni */
+.card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.card-clinical {
+  background: white;
+  border-left: 4px solid var(--bilirubin);
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.card-warning {
+  background: #fef2f2;
+  border-left: 4px solid var(--blood);
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+}
+
+.card-bile {
+  background: #f0fdf4;
+  border-left: 4px solid var(--bile);
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+}
+
+.card-neuron {
+  background: #eef2ff;
+  border-left: 4px solid var(--neuron);
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+}
+
+/* Big number callout */
+.big-number {
+  font-size: 5rem;
+  font-weight: 900;
+  line-height: 1;
+  background: linear-gradient(135deg, var(--bilirubin) 0%, var(--blood) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.04em;
+}
+
+.big-number-cosmic {
+  font-size: 4.5rem;
+  font-weight: 900;
+  line-height: 1;
+  color: #fde68a;
+  letter-spacing: -0.03em;
+}
+
+/* Etiket / badge */
+.badge {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.badge-bili { background: #fef3c7; color: #92400e; }
+.badge-blood { background: #fee2e2; color: #991b1b; }
+.badge-bile { background: #dcfce7; color: #166534; }
+.badge-gene { background: #ede9fe; color: #5b21b6; }
+.badge-neuron { background: #e0e7ff; color: #3730a3; }
+
+/* Sendrom kartları */
+.syndrome-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-top: 4px solid var(--accent);
+}
+
+.syndrome-card.gilbert { border-top-color: #84cc16; }
+.syndrome-card.cn1 { border-top-color: #dc2626; }
+.syndrome-card.cn2 { border-top-color: #f59e0b; }
+.syndrome-card.dj { border-top-color: #1f2937; }
+.syndrome-card.rotor { border-top-color: #0891b2; }
+
+/* Vurgu metni */
+.highlight-bili {
+  background: linear-gradient(180deg, transparent 60%, rgba(245, 180, 0, 0.4) 60%);
+  padding: 0 0.2em;
+}
+
+/* Animasyonlu gradient çizgi */
+.gradient-line {
+  height: 4px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--bilirubin) 20%,
+    var(--blood) 50%,
+    var(--neuron) 80%,
+    transparent 100%);
+  margin: 1rem 0;
+}
+
+/* Timeline */
+.timeline-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--bilirubin);
+  display: inline-block;
+  box-shadow: 0 0 0 4px rgba(245, 180, 0, 0.2);
+}
+
+/* Footer minimal */
+.slidev-page footer {
+  font-size: 0.7rem;
+  opacity: 0.5;
+}
