@@ -44,7 +44,7 @@ Bir herediter hiperbilirubinemi anlatısı
 <div class="flex gap-6 mt-12 opacity-50 text-xs tracking-wider">
   <div class="flex items-center gap-1"><mdi-atom /> 13.8 milyar yıl</div>
   <div class="flex items-center gap-1"><mdi-dna /> 12 katman</div>
-  <div class="flex items-center gap-1"><mdi-baby-bottle-outline /> 1 vaka</div>
+  <div class="flex items-center gap-1"><mdi-heart-outline /> 1 vaka</div>
 </div>
 
 </div>
@@ -92,7 +92,7 @@ transition: slide-left
 transition: slide-left
 ---
 
-# <mdi-baby-face-outline class="inline text-yellow-500" /> Yıldız — 4 günlük
+# <mdi-emoticon-happy class="inline text-yellow-500" /> Yıldız — 4 günlük
 
 <div class="grid grid-cols-2 gap-6 mt-4">
 
@@ -1612,7 +1612,7 @@ TANI: Crigler-Najjar tip I
 <div class="flex gap-2"><mdi-lightbulb-on class="text-yellow-500" /> Yoğun fototerapi 12 saat/gün</div>
 <div class="flex gap-2"><mdi-hospital class="text-blue-500" /> Akdeniz Üni. nakil kuruluyla görüşme</div>
 <div class="flex gap-2"><mdi-account-group class="text-green-500" /> Aileye genetik danışmanlık</div>
-<div class="flex gap-2"><mdi-baby-bottle-outline class="text-pink-500" /> Sonraki gebelik için prenatal tanı</div>
+<div class="flex gap-2"><mdi-heart-outline class="text-pink-500" /> Sonraki gebelik için prenatal tanı</div>
 </div>
 
 </div>
@@ -1622,7 +1622,7 @@ TANI: Crigler-Najjar tip I
 
 <div class="text-sm space-y-1">
 <div><mdi-star class="inline text-yellow-500" /> <b>Atomlar</b> — yıldızlardan kalmış</div>
-<div><mdi-baby-face-outline class="inline text-pink-500" /> <b>Moleküller</b> — plasentadan miras</div>
+<div><mdi-emoticon-happy class="inline text-pink-500" /> <b>Moleküller</b> — plasentadan miras</div>
 <div><mdi-clock-outline class="inline text-blue-500" /> <b>Enzimler</b> — embriyo takvimi</div>
 <div><mdi-book-open class="inline text-amber-700" /> <b>İsimler</b> — bir asırlık eponimler</div>
 <div><mdi-dna class="inline text-red-600" /> <b>Hastalıklar</b> — bir TA tekrarı uzaklıkta</div>
