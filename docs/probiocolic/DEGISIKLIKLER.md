@@ -1,4 +1,4 @@
-# PROBIOCOLIC-2026-01 - Versiyon 4.0 Degisiklik Gunlugu
+# PROBIOCOLIC-2026-01 - Versiyon 4.1 Degisiklik Gunlugu
 
 Tarih: Mayis 2026
 Hazirlayan: Calisma sekretaryasi (otomatik yardimci ile)
@@ -57,30 +57,54 @@ Sorumlu arastirmaci tarafindan istenen degisiklikler:
 - Cok merkezli lojistik bolumu eklendi.
 - Terminoloji notu eklendi.
 
-## Halusinasyon onleme notlari (Sifir halusinasyon taahhudu)
+## v4.1 ile gelen onemli guncelleme: Rome V Pediatric Lower & Biliary DGBI tam atif
 
-Asagidaki noktalarda metinde *yer tutucu* veya *gerekceli atif* kullanilmistir; **uydurma kaynak veya tani metni eklenmemistir**:
+Sorumlu Arastirmaci tarafindan iletilen ikinci kaynak (Di Lorenzo C, Saps M, ve ark., Gastroenterology 2026;170(6):1367-1387, doi:10.1053/j.gastro.2026.01.036) Rome V'in pediatric lower ve biliary DGBI bolumudur ve **'infant distress syndrome (IDS)' resmi yeni adlandirmasini** ve **tam tani kriterlerini** icerir:
 
-1. **Rome V kriterleri kaynak metni**: Sorumlu Arastirmaci tarafindan Rome V Pediatric Upper GI makalesi (Rosen R, Borrelli O, Faure C, ve ark. Gastroenterology 2026;170(6):1347-1366; doi:10.1053/j.gastro.2026.01.039) referans olarak iletildi. Bu makale Rome V'in **Ust GI** bolumudur (esofajeal, beslenme, ruminasyon, dispepsi). Infantil kolik tani kriterleri ayni serinin **Neonate/Toddler (Lower GI) companion makalesinde** yer alir; bu companion makale henuz protokole eklenmemistir. Metinde Rome V'e somut tani metni yazilmamis, Ek 13'e referansli ve Sorumlu Arastirmaci tarafindan saglanacak sekilde isaretlenmistir. ICIN-EYLEM: companion makaleyi de iletmeniz halinde infantil kolik tani algoritmasi metne dogrudan islenebilir.
-2. **'Infant Distress Sendromu (IDS)' adlandirmasi**: Bu, calismaya ozgu adlandirmadir; PubMed/ICD-10/SNOMED CT'de bagimsiz bir tani olarak listelenmis bir karsiligi yoktur. Tum metinlerde literatur karsiligi 'infantile colic' acikca belirtilerek terminoloji koprusu kurulmustur (etik kurul ve hakem ile bilimsel iletisimde anlasilirligin korunmasi icin).
-3. **3 yeni merkezdeki lokal sorumlu arastirmaci isimleri**: Bilinmedigi icin '[Lokal Sorumlu Arastirmaci - Eklenecek]' yer tutucusu birakilmistir.
-4. **Klinik Arastirmalar Hakkinda Yonetmelik atifi**: Protokol v3.0'da 2019 Resmi Gazete atifi vardi. Yururlukteki yonetmelik daha sonra guncellenmis olabileceginden, 'yururlukteki guncel surum' ifadesi kullanildi; Sorumlu Arastirmaci'nin basvuruda guncel yonetmelik ve madde atfini netlestirmesi onerilir.
-5. **Orneklem hesabi**: Indrio ve ark. (2014) verisinden muhafazakar tahminle hesaplanan minimum n=121/grup degeri (G*Power 3.1, iki orani karsilastirma, alpha=0.05 cift yonlu, guc %90, p1=0.25 p2=0.12) literatur kanitiyla bagdaslar; n=200/grup karari heterojenite ve alt grup analizi gerekcesiyle yapilmistir. Final G*Power ciktisi Ek 10'a Sorumlu Arastirmaci tarafindan eklenecektir.
+**Rome V - H3b: Klinik Amac Icin IDS Tani Kriterleri** (hepsi olmalidir):
+1. Semptomlar basladiginda 5 ayliktan kucuk olan bebek.
+2. Bakicilar tarafindan bildirilen, bariz nedeni olmayan ve bakicilar tarafindan onlenemeyen ya da cozulemeyen tekrarlayan ve uzun sureli aglama ve huzursuzluk epizodlari.
+3. Uygun degerlendirmeden sonra semptomlar baska bir tibbi durumla tam olarak aciklanamaz.
+
+**Rome V - H3b: Klinik Arastirma Icin IDS Kriterleri** (klinik kriterler + asagidakilerden en az 1 tanesi):
+1. 6 haftalik ve daha kucuk bebeklerde gunde >3 saat veya daha buyuk bebeklerde gunde >2,5 saat (yas icin 75. persantil) aglama ve huzursuzluk, haftada en az 3 gun.
+2. Bakicilardan en az birinin gunluk yasaminin ve refahinin aglamadan ciddi sekilde etkilenmesi.
+
+**Rome IV'ten Rome V'e degisiklik gerekceleri** (Di Lorenzo 2026'dan ozetle):
+- 'Colic' adinin agrinin kolondan kaynaklandigini ima etmesi ve bunun kanitlanmamis olmasi gerekcesiyle isim 'infant distress syndrome' olarak degistirildi.
+- '5 aydan once durmasi' sarti kaldirildi (bazi bebeklerin 5 aydan sonra da asiri agladigi belirtildi).
+- Failure to thrive, ates veya hastalik yoklugu sarti diger DGBI'lar ile tutarsizdi; kaldirildi.
+- '3 saatten fazla aglama' klinik kullanim icin keyfi bulundu; klinik arastirma kriterlerinde yas kategorisi ile kalibre edildi ve bakicinin yasam kalitesi etkisi alternatif kriter olarak eklendi.
+
+## Onceki halusinasyon uyarilarinin guncel durumu
+
+v4.0 hazirlanirken birkac nokta 'kaynak yetersizliginden halusinasyon riski tasir' olarak isaretlenmis ve yer tutucu kullanilmisti. v4.1 ile Sorumlu Arastirmaci'nin iki Rome V kaynagini iletmis olmasiyla bu noktalarin BUYUK KISMI cozulmustur:
+
+- [x] **Rome V atfi**: COZULDU. Hem Upper GI (Rosen 2026) hem Lower & Biliary (Di Lorenzo 2026) makaleleri protokole tam atif olarak eklendi.
+- [x] **IDS adlandirmasi**: COZULDU. IDS bir 'calismaya ozgu' adlandirma DEGIL, Rome V Lower & Biliary Komitesi'nin resmi yeni terminolojisidir (Di Lorenzo 2026, p.1368: 'It was also decided to rename infantile colic to infant distress syndrome (IDS)').
+- [x] **Rome V tani kriterleri**: COZULDU. Klinik ve klinik arastirma kriterleri Di Lorenzo 2026'dan birebir ceviri olarak Bolum 8.1'e islendi.
+- [ ] **3 yeni merkezdeki lokal sorumlu arastirmaci isimleri**: hala bilinmiyor; '[Lokal Sorumlu Arastirmaci - Eklenecek]' olarak korunuyor.
+- [ ] **Klinik Arastirmalar Hakkinda Yonetmelik tam madde atfi**: 'yururlukteki guncel surum' ifadesi korunmustur; Sorumlu Arastirmaci basvuruda guncel yonetmelik ve madde atfini netlestirebilir.
+- [ ] **Orneklem hesabi**: G*Power 3.1 ciktisi Ek 10'a Sorumlu Arastirmaci tarafindan eklenmeli (n=400 toplam; guc %90).
+
+## ICD-10 ve SNOMED CT kodlarinin durumu
+
+Uluslararasi siniflandirmalar (ICD-10: R10.4; SNOMED CT: 73394007) hala 'infantile colic' adi altinda yapilmaktadir. Rome V'in IDS adlandirmasi ICD ve SNOMED tarafindan henuz benimsenmemis olabilir. Basvuruda hem Rome V terminolojisi (IDS) hem de yururlukteki ICD-10 kodu (R10.4) gosterilmistir.
 
 ## Klasor yapisi
 
 ```
 docs/probiocolic/
-  PROBIOCOLIC202601_Protokol_v4.0.docx
-  PROBIOCOLIC202601_Basvuru_Formu_v4.0.docx
-  PROBIOCOLIC202601_Yontem_v2.0.docx
+  PROBIOCOLIC202601_Protokol_v4.1.docx
+  PROBIOCOLIC202601_Basvuru_Formu_v4.1.docx
+  PROBIOCOLIC202601_Yontem_v2.1.docx
   DEGISIKLIKLER.md
 ```
 
 ## Sorumlu arastirmaci icin yapilmasi gerekenler listesi
 
 - [x] Rome V Upper GI kaynagi (Rosen ve ark. 2026, Gastroenterology 170(6):1347-1366) protokole eklendi
-- [ ] Rome V Neonate/Toddler (Lower GI) companion makalesini saglayip Ek 13'e ekleyiniz - infantil kolik tani kriterleri bu makalede yer alir
+- [x] Rome V Pediatric Lower & Biliary DGBI kaynagi (Di Lorenzo ve ark. 2026, Gastroenterology 170(6):1367-1387) protokole eklendi; IDS tam tani kriterleri Bolum 8.1'e islendi
 - [ ] Tepecik, Izmir Sehir, Sancaktepe merkezleri icin lokal sorumlu arastirmaci isimlerini doldurun
 - [ ] Her 3 katilimci merkez icin yerel etik kurul/kurum izin basvurularini baslatiniz
 - [ ] DSMB uyelerini belirleyip DSMB Tuzugu'nu (Ek 12) hazirlayiniz
