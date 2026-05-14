@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uzamış yenidoğan sarılığı (&gt;14 gün): konjuge bilirubin değerlendirmesi</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #f1f5f9; color: #1e293b; line-height: 1.55; padding: 16px; }
+  .wrap { max-width: 820px; margin: 0 auto; }
+  header.top { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px;
+    padding: 18px 20px; margin-bottom: 14px; }
+  header.top h1 { font-size: 20px; line-height: 1.35; }
+  .badges { margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap; }
+  .badge { font-size: 12px; background: #e0e7ff; color: #3730a3; padding: 3px 9px;
+    border-radius: 999px; }
+  .disclaimer { margin-top: 10px; font-size: 12px; color: #64748b; font-style: italic; }
+  .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px;
+    padding: 16px 20px; margin-bottom: 14px; }
+  .card h2 { font-size: 15px; margin-bottom: 10px; color: #0f172a; }
+  .card.ozet { background: #ecfeff; border-color: #a5f3fc; }
+  .card.ozet p { font-size: 14.5px; }
+  .card.kirmizi { background: #fef2f2; border-color: #fecaca; }
+  .card.giris { background: #f0fdf4; border-color: #bbf7d0; }
+  .card.tuzak { background: #fffbeb; border-color: #fde68a; }
+  ul, ol { padding-left: 20px; }
+  li { margin-bottom: 5px; font-size: 14px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th, td { text-align: left; padding: 7px 9px; border-bottom: 1px solid #e2e8f0;
+    vertical-align: top; }
+  th { background: #f8fafc; }
+  td:first-child { font-weight: 600; white-space: nowrap; }
+  .mermaid { background: #fff; text-align: center; overflow-x: auto; }
+  .kaynaklar li { margin-bottom: 8px; }
+  .kaynak-note { font-size: 12px; color: #64748b; margin-bottom: 8px; }
+  .links a { font-size: 12px; margin-left: 4px; color: #2563eb; text-decoration: none;
+    white-space: nowrap; }
+  footer { font-size: 11px; color: #94a3b8; text-align: center; margin: 18px 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>🟡 Uzamış yenidoğan sarılığı (&gt;14 gün): konjuge bilirubin değerlendirmesi</h1>
+    <div class="badges">
+      <span class="badge">Bulgu / Şikayet temelli</span>
+      <span class="badge">semptom_sarilik</span>
+      <span class="badge">id: sa_02</span>
+    </div>
+    <p class="disclaimer">Eğitim ve karar destek amaçlıdır; yerel rehberlerin ve klinik muhakemenin yerine geçmez.</p>
+  </header>
+  <section class="card ozet"><p>İki haftalık veya daha büyük, hâlâ sarı bir bebekte FRAKSİYONE bilirubin (total + direkt/konjuge) istemek zorunludur. Direkt/konjuge bilirubin &gt;1 mg/dL = kolestaz = her zaman patolojiktir ve ACİL değerlendirme gerektirir. En kritik, zamana duyarlı tanı biliyer atrezidir: Kasai portoenterostomi ne kadar erken yapılırsa (ideali ilk 30-45 gün) native karaciğer sağkalımı o kadar iyidir.
+</p></section><section class="card"><h2>🔀 Akış Şeması</h2><pre class="mermaid">flowchart TD
+  S([&quot;Yenidoğan — sarılık 14 günden uzun&quot;]) --&gt; T1[&quot;FRAKSİYONE BİLİRUBİN&lt;br/&gt;total + direkt/konjuge — ZORUNLU&quot;]
+  T1 --&gt; Q1{&quot;Direkt/konjuge bilirubin&lt;br/&gt;1 mg/dL üzerinde mi?&quot;}
+  Q1 --&gt;|&quot;Hayır — unkonjuge&quot;| U[&quot;Unkonjuge hiperbilirubinemi&lt;br/&gt;anne sütü sarılığı, hemoliz, hipotiroidi&lt;br/&gt;ayrı algoritmaya geç&quot;]
+  Q1 --&gt;|&quot;Evet — KOLESTAZ&quot;| K[&quot;KOLESTAZ&lt;br/&gt;her zaman patolojik — asla fizyolojik değil&quot;]
+  K --&gt; ACIL[&quot;ACİL pediatrik GE / hepatoloji sevki&lt;br/&gt;artı K vitamini parenteral&lt;br/&gt;gün kaybetme&quot;]
+  ACIL --&gt; T2[&quot;İlk testler:&lt;br/&gt;ALT, AST, GGT, ALP, albümin, INR&lt;br/&gt;glukoz, idrar tahlili artı kültür, TSH-fT4&lt;br/&gt;yenidoğan tarama gözden geçir&lt;br/&gt;açlık abdominal ultrason&quot;]
+  T2 --&gt; Q2{&quot;Biliyer atrezi şüphesi var mı?&lt;br/&gt;akolik dışkı artı ultrason bulgusu&quot;}
+  Q2 --&gt;|&quot;Evet / şüpheli&quot;| BA[&quot;CERRAHİ MERKEZ — ACİL&lt;br/&gt;intraoperatif kolanjiyografi&lt;br/&gt;Kasai: ilk 30-45 günde en iyi sonuç&quot;]
+  Q2 --&gt;|&quot;Hayır&quot;| D[&quot;İleri tetkik:&lt;br/&gt;alfa-1 antitripsin fenotip&lt;br/&gt;metabolik tarama, genetik panel&lt;br/&gt;karaciğer biyopsisi, TORCH, EKO, ter testi&quot;]
+  D --&gt; TE[&quot;Tedavi edilebilir nedenleri hızla dışla ve tedavi et:&lt;br/&gt;idrar yolu enfeksiyonu, galaktozemi,&lt;br/&gt;hipotiroidi, panhipopituitarizm&quot;]
+  classDef acil fill:#fee2e2,stroke:#b91c1c,stroke-width:2px,color:#7f1d1d;
+  classDef key fill:#dbeafe,stroke:#1e40af,stroke-width:1.5px,color:#1e3a8a;
+  class ACIL,BA acil;
+  class T1,K,T2 key;
+</pre></section><section class="card giris"><h2>🟢 Bu algoritma ne zaman?</h2><ul><li>Term bebek: 14 günü geçen sarılık</li><li>İyi durumda, anne sütüyle beslenen, güvenilir izlenebilen bebek: 21 güne kadar kabul edilebilir — ANCAK herhangi bir uyarı bulgusunda hemen değerlendir</li><li>Her yaşta: akolik dışkı ve/veya koyu idrar varsa süreyi bekleme</li></ul></section><section class="card kirmizi"><h2>🚨 Kırmızı Bayraklar</h2><ul><li>Akolik (beyaz/kil renkli) dışkı</li><li>Koyu idrar (bezi boyayan)</li><li>Direkt/konjuge bilirubin &gt;1 mg/dL</li><li>Hepatomegali ve/veya splenomegali</li><li>Kanama / koagülopati (K vitamini eksikliğine bağlı geç hemorajik hastalık)</li><li>Kötü beslenme, kilo alamama, letarji, kusma (metabolik hastalık / sepsis)</li><li>Dismorfik bulgular, kalp üfürümü (Alagille, biliyer atrezi-splenik malformasyon)</li></ul></section><section class="card"><h2>📋 Anamnez</h2><ul><li>Sarılığın başlangıcı ve süresi</li><li>Dışkı rengi ve zaman içindeki değişimi — başlangıçta normal, sonra akolik hâle gelebilir</li><li>İdrar rengi (koyu/bezi boyayan)</li><li>Beslenme tipi ve kilo alımı seyri</li><li>Aile öyküsü: kardeş ölümü, akraba evliliği, metabolik/karaciğer hastalığı</li><li>Gebelik ve doğum öyküsü: konjenital enfeksiyon riski, prematürite, uzamış parenteral beslenme</li><li>Doğumda K vitamini yapıldı mı</li><li>Yenidoğan tarama testi sonucu (galaktozemi, konjenital hipotiroidi)</li></ul></section><section class="card"><h2>🩺 Muayene</h2><ul><li>Sarılığın derecesi; cilt ve skleraların değerlendirilmesi</li><li>Dışkı renginin BİZZAT görülmesi (bez muayenesi / dışkı renk kartı)</li><li>Karaciğer büyüklüğü ve kıvamı; dalak büyüklüğü</li><li>Dismorfizm: Alagille (üçgen yüz, posterior embriyotokson)</li><li>Kardiyak üfürüm (Alagille — periferik pulmoner stenoz)</li><li>Kanama bulguları: peteşi, ekimoz (K vitamini eksikliği)</li><li>Büyüme parametreleri, fontanel, genital muayene (panhipopituitarizm — mikropenis)</li></ul></section><section class="card"><h2>🧪 İlk Basamak Testler</h2><ul><li>Total + direkt/konjuge bilirubin (FRAKSİYONE) — temel ve zorunlu test</li><li>ALT, AST, GGT, ALP</li><li>Albümin, total protein</li><li>INR / PT-aPTT (K vitamini öncesi-sonrası)</li><li>Tam kan sayımı; kan şekeri</li><li>Tam idrar tahlili + idrar kültürü (idrar yolu enfeksiyonu kolestaz yapabilir)</li><li>TSH, serbest T4 (genelde yenidoğan taramasında mevcut)</li><li>Yenidoğan tarama sonucunun gözden geçirilmesi (galaktozemi)</li><li>Açlık abdominal ultrason (deneyimli radyolog): safra kesesi, koledok kisti, üçgen kord bulgusu, polispleni</li><li>Hasta görünüm varsa kan kültürü</li></ul></section><section class="card"><h2>🔬 İleri Testler</h2><ul><li>Alfa-1 antitripsin düzeyi + fenotip (Pi tiplemesi)</li><li>Hepatobiliyer sintigrafi (seçili olgularda)</li><li>Karaciğer biyopsisi</li><li>İntraoperatif kolanjiyografi (biliyer atrezi şüphesinde — hem tanısal hem cerrahi)</li><li>Genetik panel: PFIC, Alagille (JAG1/NOTCH2)</li><li>Metabolik tetkik: idrar redüktan madde, süksinilaseton, serum safra asitleri, amino asitler</li><li>TORCH serolojisi; göz muayenesi (posterior embriyotokson, konjenital enfeksiyon)</li><li>Ekokardiyografi (Alagille, biliyer atrezi-splenik malformasyon)</li><li>Ter testi (kistik fibroz)</li></ul></section><section class="card"><h2>🎭 Ayırıcı Tanı</h2><table><thead><tr><th>Durum</th><th>İpucu</th></tr></thead><tbody><tr><td>Biliyer atrezi</td><td>Akolik dışkı, başlangıçta normal sonra ilerleyen sarılık, GGT yüksek, USG&#x27;de safra kesesi yok/küçük + üçgen kord — ZAMANA DUYARLI</td></tr><tr><td>Koledok kisti</td><td>Ultrasonda kistik yapı</td></tr><tr><td>Neonatal hepatit (idiyopatik / enfeksiyöz)</td><td>Dev hücreli hepatit; bir dışlama tanısı</td></tr><tr><td>Alagille sendromu</td><td>Dismorfizm, kalp üfürümü, posterior embriyotokson, vertebra anomalisi; JAG1/NOTCH2</td></tr><tr><td>Progresif ailesel intrahepatik kolestaz (PFIC)</td><td>Belirgin kaşıntı; PFIC 1-2&#x27;de GGT düşük, PFIC 3&#x27;te GGT yüksek</td></tr><tr><td>Alfa-1 antitripsin eksikliği</td><td>Düşük A1AT düzeyi, PiZZ fenotipi</td></tr><tr><td>Galaktozemi</td><td>Kusma, hipoglisemi, E. coli sepsisi, katarakt; idrar redüktan madde pozitif</td></tr><tr><td>Tirozinemi tip 1</td><td>İdrar/kan süksinilaseton pozitif</td></tr><tr><td>İdrar yolu enfeksiyonu / sepsis</td><td>İdrar ve kan kültürü; tedavi edilebilir neden</td></tr><tr><td>Parenteral beslenme ilişkili kolestaz</td><td>Uzamış parenteral beslenme öyküsü</td></tr><tr><td>Endokrin: hipotiroidi / hipopituitarizm</td><td>TSH-fT4; panhipopituitarizmde hipoglisemi + mikropenis</td></tr><tr><td>Konjenital enfeksiyon (TORCH)</td><td>İntrauterin büyüme kısıtlılığı, peteşi, mikrosefali; TORCH serolojisi</td></tr></tbody></table></section><section class="card"><h2>💊 Yönetim &amp; Sevk</h2><ul><li>Direkt/konjuge bilirubin &gt;1 mg/dL doğrulandıysa: gün kaybetmeden ACİL pediatrik gastroenteroloji/hepatoloji sevki</li><li>Biliyer atrezi şüphesi varsa cerrahi merkeze yönlendir — Kasai zamanlaması kritiktir; her hafta gecikme native karaciğer sağkalımını düşürür (ideali ilk 30-45 gün, mümkünse &lt;60 gün)</li><li>K vitamini (parenteral) uygula — koagülopati / geç hemorajik hastalık riski</li><li>Kolestaz sürdükçe: yağda eriyen vitamin desteği (A, D, E, K), MCT içeren formül</li><li>Galaktozemi/tirozinemi şüphesinde sonuç gelene kadar uygun diyet (laktozsuz formül)</li><li>Tedavi edilebilir nedenleri (idrar yolu enfeksiyonu, hipotiroidi, galaktozemi, panhipopituitarizm) hızla dışla ve tedavi et</li></ul></section><section class="card tuzak"><h2>⚠️ Tuzaklar</h2><ul><li>EN KRİTİK TUZAK: 2 haftayı geçen sarılıkta fraksiyone bilirubin istememe — tek başına total bilirubin kolestazı atlatır</li><li>Konjuge hiperbilirubinemiyi &#x27;anne sütü sarılığı&#x27; diye geçiştirmek — anne sütü sarılığı HER ZAMAN unkonjugedir</li><li>Erken dönemde dışkının normal renkte olması biliyer atreziyi DIŞLAMAZ; dışkı zamanla akolik hâle gelebilir — tekrar değerlendir</li><li>Direkt bilirubini &#x27;hafif yüksek&#x27; diye izlemeye almak — &gt;1 mg/dL anormaldir, beklenmez</li><li>Biliyer atrezide GGT genelde yüksektir, ancak normal GGT atreziyi dışlamaz</li><li>Bebeğin iyi görünmesi yanıltıcıdır — sağlıklı görünen bebekte de kolestaz olabilir</li><li>Kasai için &#x27;biraz daha izleyelim&#x27; demek — her gün önemlidir; gecikme transplantasyona gidişi artırır</li></ul></section><section class="card"><h2>📚 Kaynaklar</h2><p class="kaynak-note">Künyeler PubMed üzerinden doğrulanmıştır.</p><ol class="kaynaklar"><li>Fawaz R, et al. Guideline for the Evaluation of Cholestatic Jaundice in Infants: Joint Recommendations of NASPGHAN and ESPGHAN. J Pediatr Gastroenterol Nutr. 2017. <span class="links"><a href="https://doi.org/10.1097/MPG.0000000000001334" target="_blank" rel="noopener">DOI</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/27429428/" target="_blank" rel="noopener">PubMed 27429428</a></span></li><li>FISPGHAN. Diagnostic approaches for infants with cholestatic liver diseases: Position paper of the Federation of International Societies of Pediatric Gastroenterology, Hepatology, and Nutrition. J Pediatr Gastroenterol Nutr. 2025. <span class="links"><a href="https://doi.org/10.1002/jpn3.70207" target="_blank" rel="noopener">DOI</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/40977420/" target="_blank" rel="noopener">PubMed 40977420</a></span></li><li>Ranucci G, et al. Diagnostic approach to neonatal and infantile cholestasis: A position paper by the SIGENP liver disease working group. Dig Liver Dis. 2022. <span class="links"><a href="https://doi.org/10.1016/j.dld.2021.09.011" target="_blank" rel="noopener">DOI</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/34688573/" target="_blank" rel="noopener">PubMed 34688573</a></span></li><li>Tam PKH, et al. Biliary atresia. Nat Rev Dis Primers. 2024. <span class="links"><a href="https://doi.org/10.1038/s41572-024-00533-x" target="_blank" rel="noopener">DOI</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/38992031/" target="_blank" rel="noopener">PubMed 38992031</a></span></li><li>Tyraskis A, Davenport M. Steroids after the Kasai procedure for biliary atresia: the effect of age at Kasai portoenterostomy. Pediatr Surg Int. 2015. <span class="links"><a href="https://doi.org/10.1007/s00383-015-3836-3" target="_blank" rel="noopener">DOI</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/26590818/" target="_blank" rel="noopener">PubMed 26590818</a></span></li><li>Apfeld JC, et al. Variability in age at Kasai portoenterostomy for biliary atresia across US children&#x27;s hospitals. J Pediatr Surg. 2021. <span class="links"><a href="https://doi.org/10.1016/j.jpedsurg.2021.02.027" target="_blank" rel="noopener">DOI</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/33838903/" target="_blank" rel="noopener">PubMed 33838903</a></span></li><li>Matsui A. Screening for biliary atresia. Pediatr Surg Int. 2017. <span class="links"><a href="https://doi.org/10.1007/s00383-017-4175-3" target="_blank" rel="noopener">DOI</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/28983697/" target="_blank" rel="noopener">PubMed 28983697</a></span></li><li>Borgeat M, Korff S, Wildhaber BE. Newborn biliary atresia screening with the stool colour card: a questionnaire survey of parents. BMJ Paediatr Open. 2018. <span class="links"><a href="https://doi.org/10.1136/bmjpo-2018-000269" target="_blank" rel="noopener">DOI</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/29862332/" target="_blank" rel="noopener">PubMed 29862332</a></span></li></ol></section>
+  <footer>Pediatrik GE — Literatür Temelli Algoritmalar · önizleme derlemesi</footer>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<script>mermaid.initialize({ startOnLoad: true, theme: 'default', flowchart: { htmlLabels: true } });</script>
+</body>
+</html>

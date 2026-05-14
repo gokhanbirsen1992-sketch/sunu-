@@ -1,0 +1,170 @@
+# =============================================================================
+# ÖRNEK GİRDİ ŞABLONU — bir algoritmanın uçtan uca yapısı
+# =============================================================================
+# Bu dosya, her algoritma girdisinin alacağı yapıyı gösterir. Bulgu/şikayet
+# eksenindeki girdiler tanısal-iş akışı odaklıdır (aşağıdaki şema). Hastalık
+# eksenindeki girdilerde "ilk_testler/ileri_testler" yerine "tani_kriterleri/
+# tedavi/takip" alanları kullanılacaktır.
+#
+# kaynaklar: HER kaynak PubMed üzerinden gerçek makaleye çözümlenmiştir
+# (pmid + doi doğrulanmıştır). Link: https://doi.org/<doi>
+# =============================================================================
+
+id: sa_02
+title: "Uzamış yenidoğan sarılığı (>14 gün): konjuge bilirubin değerlendirmesi"
+axis: presentation
+group: semptom_sarilik
+icon: "🟡"
+schema_version: 1
+status: ornek
+disclaimer: "Eğitim ve karar destek amaçlıdır; yerel rehberlerin ve klinik muhakemenin yerine geçmez."
+
+ozet: >
+  İki haftalık veya daha büyük, hâlâ sarı bir bebekte FRAKSİYONE bilirubin
+  (total + direkt/konjuge) istemek zorunludur. Direkt/konjuge bilirubin
+  >1 mg/dL = kolestaz = her zaman patolojiktir ve ACİL değerlendirme gerektirir.
+  En kritik, zamana duyarlı tanı biliyer atrezidir: Kasai portoenterostomi
+  ne kadar erken yapılırsa (ideali ilk 30-45 gün) native karaciğer sağkalımı
+  o kadar iyidir.
+
+giris_kriteri:
+  - "Term bebek: 14 günü geçen sarılık"
+  - "İyi durumda, anne sütüyle beslenen, güvenilir izlenebilen bebek: 21 güne kadar kabul edilebilir — ANCAK herhangi bir uyarı bulgusunda hemen değerlendir"
+  - "Her yaşta: akolik dışkı ve/veya koyu idrar varsa süreyi bekleme"
+
+kirmizi_bayraklar:
+  - "Akolik (beyaz/kil renkli) dışkı"
+  - "Koyu idrar (bezi boyayan)"
+  - "Direkt/konjuge bilirubin >1 mg/dL"
+  - "Hepatomegali ve/veya splenomegali"
+  - "Kanama / koagülopati (K vitamini eksikliğine bağlı geç hemorajik hastalık)"
+  - "Kötü beslenme, kilo alamama, letarji, kusma (metabolik hastalık / sepsis)"
+  - "Dismorfik bulgular, kalp üfürümü (Alagille, biliyer atrezi-splenik malformasyon)"
+
+anamnez:
+  - "Sarılığın başlangıcı ve süresi"
+  - "Dışkı rengi ve zaman içindeki değişimi — başlangıçta normal, sonra akolik hâle gelebilir"
+  - "İdrar rengi (koyu/bezi boyayan)"
+  - "Beslenme tipi ve kilo alımı seyri"
+  - "Aile öyküsü: kardeş ölümü, akraba evliliği, metabolik/karaciğer hastalığı"
+  - "Gebelik ve doğum öyküsü: konjenital enfeksiyon riski, prematürite, uzamış parenteral beslenme"
+  - "Doğumda K vitamini yapıldı mı"
+  - "Yenidoğan tarama testi sonucu (galaktozemi, konjenital hipotiroidi)"
+
+muayene:
+  - "Sarılığın derecesi; cilt ve skleraların değerlendirilmesi"
+  - "Dışkı renginin BİZZAT görülmesi (bez muayenesi / dışkı renk kartı)"
+  - "Karaciğer büyüklüğü ve kıvamı; dalak büyüklüğü"
+  - "Dismorfizm: Alagille (üçgen yüz, posterior embriyotokson)"
+  - "Kardiyak üfürüm (Alagille — periferik pulmoner stenoz)"
+  - "Kanama bulguları: peteşi, ekimoz (K vitamini eksikliği)"
+  - "Büyüme parametreleri, fontanel, genital muayene (panhipopituitarizm — mikropenis)"
+
+ilk_testler:
+  - "Total + direkt/konjuge bilirubin (FRAKSİYONE) — temel ve zorunlu test"
+  - "ALT, AST, GGT, ALP"
+  - "Albümin, total protein"
+  - "INR / PT-aPTT (K vitamini öncesi-sonrası)"
+  - "Tam kan sayımı; kan şekeri"
+  - "Tam idrar tahlili + idrar kültürü (idrar yolu enfeksiyonu kolestaz yapabilir)"
+  - "TSH, serbest T4 (genelde yenidoğan taramasında mevcut)"
+  - "Yenidoğan tarama sonucunun gözden geçirilmesi (galaktozemi)"
+  - "Açlık abdominal ultrason (deneyimli radyolog): safra kesesi, koledok kisti, üçgen kord bulgusu, polispleni"
+  - "Hasta görünüm varsa kan kültürü"
+
+ileri_testler:
+  - "Alfa-1 antitripsin düzeyi + fenotip (Pi tiplemesi)"
+  - "Hepatobiliyer sintigrafi (seçili olgularda)"
+  - "Karaciğer biyopsisi"
+  - "İntraoperatif kolanjiyografi (biliyer atrezi şüphesinde — hem tanısal hem cerrahi)"
+  - "Genetik panel: PFIC, Alagille (JAG1/NOTCH2)"
+  - "Metabolik tetkik: idrar redüktan madde, süksinilaseton, serum safra asitleri, amino asitler"
+  - "TORCH serolojisi; göz muayenesi (posterior embriyotokson, konjenital enfeksiyon)"
+  - "Ekokardiyografi (Alagille, biliyer atrezi-splenik malformasyon)"
+  - "Ter testi (kistik fibroz)"
+
+ayirici_tani:
+  - durum: "Biliyer atrezi"
+    ipucu: "Akolik dışkı, başlangıçta normal sonra ilerleyen sarılık, GGT yüksek, USG'de safra kesesi yok/küçük + üçgen kord — ZAMANA DUYARLI"
+  - durum: "Koledok kisti"
+    ipucu: "Ultrasonda kistik yapı"
+  - durum: "Neonatal hepatit (idiyopatik / enfeksiyöz)"
+    ipucu: "Dev hücreli hepatit; bir dışlama tanısı"
+  - durum: "Alagille sendromu"
+    ipucu: "Dismorfizm, kalp üfürümü, posterior embriyotokson, vertebra anomalisi; JAG1/NOTCH2"
+  - durum: "Progresif ailesel intrahepatik kolestaz (PFIC)"
+    ipucu: "Belirgin kaşıntı; PFIC 1-2'de GGT düşük, PFIC 3'te GGT yüksek"
+  - durum: "Alfa-1 antitripsin eksikliği"
+    ipucu: "Düşük A1AT düzeyi, PiZZ fenotipi"
+  - durum: "Galaktozemi"
+    ipucu: "Kusma, hipoglisemi, E. coli sepsisi, katarakt; idrar redüktan madde pozitif"
+  - durum: "Tirozinemi tip 1"
+    ipucu: "İdrar/kan süksinilaseton pozitif"
+  - durum: "İdrar yolu enfeksiyonu / sepsis"
+    ipucu: "İdrar ve kan kültürü; tedavi edilebilir neden"
+  - durum: "Parenteral beslenme ilişkili kolestaz"
+    ipucu: "Uzamış parenteral beslenme öyküsü"
+  - durum: "Endokrin: hipotiroidi / hipopituitarizm"
+    ipucu: "TSH-fT4; panhipopituitarizmde hipoglisemi + mikropenis"
+  - durum: "Konjenital enfeksiyon (TORCH)"
+    ipucu: "İntrauterin büyüme kısıtlılığı, peteşi, mikrosefali; TORCH serolojisi"
+
+yonetim_sevk:
+  - "Direkt/konjuge bilirubin >1 mg/dL doğrulandıysa: gün kaybetmeden ACİL pediatrik gastroenteroloji/hepatoloji sevki"
+  - "Biliyer atrezi şüphesi varsa cerrahi merkeze yönlendir — Kasai zamanlaması kritiktir; her hafta gecikme native karaciğer sağkalımını düşürür (ideali ilk 30-45 gün, mümkünse <60 gün)"
+  - "K vitamini (parenteral) uygula — koagülopati / geç hemorajik hastalık riski"
+  - "Kolestaz sürdükçe: yağda eriyen vitamin desteği (A, D, E, K), MCT içeren formül"
+  - "Galaktozemi/tirozinemi şüphesinde sonuç gelene kadar uygun diyet (laktozsuz formül)"
+  - "Tedavi edilebilir nedenleri (idrar yolu enfeksiyonu, hipotiroidi, galaktozemi, panhipopituitarizm) hızla dışla ve tedavi et"
+
+tuzaklar:
+  - "EN KRİTİK TUZAK: 2 haftayı geçen sarılıkta fraksiyone bilirubin istememe — tek başına total bilirubin kolestazı atlatır"
+  - "Konjuge hiperbilirubinemiyi 'anne sütü sarılığı' diye geçiştirmek — anne sütü sarılığı HER ZAMAN unkonjugedir"
+  - "Erken dönemde dışkının normal renkte olması biliyer atreziyi DIŞLAMAZ; dışkı zamanla akolik hâle gelebilir — tekrar değerlendir"
+  - "Direkt bilirubini 'hafif yüksek' diye izlemeye almak — >1 mg/dL anormaldir, beklenmez"
+  - "Biliyer atrezide GGT genelde yüksektir, ancak normal GGT atreziyi dışlamaz"
+  - "Bebeğin iyi görünmesi yanıltıcıdır — sağlıklı görünen bebekte de kolestaz olabilir"
+  - "Kasai için 'biraz daha izleyelim' demek — her gün önemlidir; gecikme transplantasyona gidişi artırır"
+
+mermaid: |
+  flowchart TD
+    S(["Yenidoğan — sarılık 14 günden uzun"]) --> T1["FRAKSİYONE BİLİRUBİN<br/>total + direkt/konjuge — ZORUNLU"]
+    T1 --> Q1{"Direkt/konjuge bilirubin<br/>1 mg/dL üzerinde mi?"}
+    Q1 -->|"Hayır — unkonjuge"| U["Unkonjuge hiperbilirubinemi<br/>anne sütü sarılığı, hemoliz, hipotiroidi<br/>ayrı algoritmaya geç"]
+    Q1 -->|"Evet — KOLESTAZ"| K["KOLESTAZ<br/>her zaman patolojik — asla fizyolojik değil"]
+    K --> ACIL["ACİL pediatrik GE / hepatoloji sevki<br/>artı K vitamini parenteral<br/>gün kaybetme"]
+    ACIL --> T2["İlk testler:<br/>ALT, AST, GGT, ALP, albümin, INR<br/>glukoz, idrar tahlili artı kültür, TSH-fT4<br/>yenidoğan tarama gözden geçir<br/>açlık abdominal ultrason"]
+    T2 --> Q2{"Biliyer atrezi şüphesi var mı?<br/>akolik dışkı artı ultrason bulgusu"}
+    Q2 -->|"Evet / şüpheli"| BA["CERRAHİ MERKEZ — ACİL<br/>intraoperatif kolanjiyografi<br/>Kasai: ilk 30-45 günde en iyi sonuç"]
+    Q2 -->|"Hayır"| D["İleri tetkik:<br/>alfa-1 antitripsin fenotip<br/>metabolik tarama, genetik panel<br/>karaciğer biyopsisi, TORCH, EKO, ter testi"]
+    D --> TE["Tedavi edilebilir nedenleri hızla dışla ve tedavi et:<br/>idrar yolu enfeksiyonu, galaktozemi,<br/>hipotiroidi, panhipopituitarizm"]
+    classDef acil fill:#fee2e2,stroke:#b91c1c,stroke-width:2px,color:#7f1d1d;
+    classDef key fill:#dbeafe,stroke:#1e40af,stroke-width:1.5px,color:#1e3a8a;
+    class ACIL,BA acil;
+    class T1,K,T2 key;
+
+kaynaklar:
+  - cite: "Fawaz R, et al. Guideline for the Evaluation of Cholestatic Jaundice in Infants: Joint Recommendations of NASPGHAN and ESPGHAN. J Pediatr Gastroenterol Nutr. 2017."
+    pmid: "27429428"
+    doi: "10.1097/MPG.0000000000001334"
+  - cite: "FISPGHAN. Diagnostic approaches for infants with cholestatic liver diseases: Position paper of the Federation of International Societies of Pediatric Gastroenterology, Hepatology, and Nutrition. J Pediatr Gastroenterol Nutr. 2025."
+    pmid: "40977420"
+    doi: "10.1002/jpn3.70207"
+  - cite: "Ranucci G, et al. Diagnostic approach to neonatal and infantile cholestasis: A position paper by the SIGENP liver disease working group. Dig Liver Dis. 2022."
+    pmid: "34688573"
+    doi: "10.1016/j.dld.2021.09.011"
+  - cite: "Tam PKH, et al. Biliary atresia. Nat Rev Dis Primers. 2024."
+    pmid: "38992031"
+    doi: "10.1038/s41572-024-00533-x"
+  - cite: "Tyraskis A, Davenport M. Steroids after the Kasai procedure for biliary atresia: the effect of age at Kasai portoenterostomy. Pediatr Surg Int. 2015."
+    pmid: "26590818"
+    doi: "10.1007/s00383-015-3836-3"
+  - cite: "Apfeld JC, et al. Variability in age at Kasai portoenterostomy for biliary atresia across US children's hospitals. J Pediatr Surg. 2021."
+    pmid: "33838903"
+    doi: "10.1016/j.jpedsurg.2021.02.027"
+  - cite: "Matsui A. Screening for biliary atresia. Pediatr Surg Int. 2017."
+    pmid: "28983697"
+    doi: "10.1007/s00383-017-4175-3"
+  - cite: "Borgeat M, Korff S, Wildhaber BE. Newborn biliary atresia screening with the stool colour card: a questionnaire survey of parents. BMJ Paediatr Open. 2018."
+    pmid: "29862332"
+    doi: "10.1136/bmjpo-2018-000269"

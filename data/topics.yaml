@@ -3,7 +3,8 @@
 # BAŞLIK TASLAĞI (Taxonomy / Kapsam Tanımı)  —  v4
 # =============================================================================
 #
-# DURUM: TASLAK — kullanıcı onayı / düzeltmesi bekleniyor.
+# DURUM: ONAYLANDI — v4 başlık listesi kullanıcı tarafından onaylandı.
+#        İçerik üretimi başladı (bkz. data/entries/).
 #
 # Bu taslak güncel pediatrik GE KONSENSÜS REHBERLERİNE dayanır; yüklenen
 # referans uygulamadan BAĞIMSIZ hazırlanmıştır. Rehber künyeleri PubMed
@@ -33,7 +34,7 @@
 
 project: "Pediatrik GE — Literatür Temelli Algoritmalar"
 schema_version: 4
-status: taslak
+status: onaylandi
 
 # --- Doğrulanmış konsensüs kaynakları (PubMed) -------------------------------
 # Künyeler PubMed get_article_metadata ile doğrulandı. Link: https://doi.org/<doi>
