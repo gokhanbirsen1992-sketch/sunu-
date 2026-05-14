@@ -22,24 +22,39 @@ gözden geçirme bekliyor.
 ## Kapsam (Konsensüs Temelli Taslak)
 
 `data/topics.yaml`, yüklenen referans uygulamadan **bağımsız** olarak, güncel
-pediatrik GE konsensüs rehberlerine dayanılarak hazırlanmış bir taslaktır:
-**11 klinik alan / 68 algoritma**. Dayanak rehberlerin künyeleri (ESPGHAN,
-NASPGHAN, ECCO, Rome Foundation, WAO vb.) PubMed üzerinden doğrulanmış ve
-dosyadaki `key_consensus_sources` bölümünde DOI'leriyle listelenmiştir.
+pediatrik GE konsensüs rehberlerine dayanılarak hazırlanmış bir taslaktır.
+Dayanak rehberlerin künyeleri (ESPGHAN, NASPGHAN, ECCO, Rome Foundation, WAO,
+FISPGHAN, INSPPIRE, ASGE) PubMed üzerinden doğrulanmış ve dosyadaki
+`key_consensus_sources` bölümünde DOI'leriyle listelenmiştir.
 
-| Klinik Alan | Algoritma |
+Taslak **iki eksenlidir** — toplam **184 algoritma**:
+
+**Eksen 1 — Bulgu / Şikayet temelli** ("hasta ... ile geliyor", 81 algoritma)
+
+| Grup | Algoritma |
 |---|---|
-| 〰️ Fonksiyonel GİS Bozuklukları (Rome IV) | 7 |
-| 🫒 Özofagus & Yutma | 9 |
-| 🫃 Mide–Duodenum & Üst GİS Kanama | 6 |
-| 💧 Akut & Kronik İshal, Malabsorpsiyon | 6 |
-| 🧬 Besin Alerjileri & Eozinofilik Hastalıklar | 4 |
-| 🔵 İnflamatuar Barsak Hastalığı (IBD) | 8 |
-| 🩸 Alt GİS Kanama & Akut Karın | 6 |
-| 👶 Neonatal Kolestaz & Safra Yolları | 5 |
-| 🟫 Karaciğer Hastalıkları & Yetmezlik | 8 |
-| 🟡 Pankreas Hastalıkları | 3 |
-| 🥗 Beslenme & İntestinal Yetmezlik | 6 |
+| 🧪 Laboratuvar Bulguları | 20 |
+| 🩻 Görüntüleme & Muayene Bulguları | 13 |
+| 🤚 Semptomlar | 38 |
+| 🚨 Acil Prezentasyonlar | 10 |
+
+**Eksen 2 — Hastalık / Durum temelli** (yönetim algoritması, 103 algoritma)
+
+| Grup | Algoritma |
+|---|---|
+| 🫒 Özofagus & Yutma | 8 |
+| 🫃 Mide & Duodenum | 7 |
+| 🔵 İnflamatuar Barsak Hastalığı (IBD) | 10 |
+| 🦠 Enfeksiyöz & İnflamatuar Enterokolit | 7 |
+| 🧬 Besin Alerjisi & Eozinofilik GİS | 6 |
+| 🌀 Malabsorpsiyon & Çölyak | 8 |
+| 〰️ Fonksiyonel GİS Bozuklukları (Rome IV) | 8 |
+| 🧩 Konjenital & Cerrahi Alt GİS | 7 |
+| 👶 Neonatal Kolestaz & Safra Yolları | 7 |
+| 🟫 Karaciğer: Enfeksiyöz & Otoimmün | 7 |
+| 🟤 Karaciğer: Metabolik, Vasküler & Diğer | 11 |
+| 🟡 Safra Kesesi & Pankreas Hastalıkları | 9 |
+| 🥗 Beslenme & Nütrisyonel Destek | 8 |
 
 Başlık listesini düzenleme talimatları `data/topics.yaml` dosyasının başındadır.
 
