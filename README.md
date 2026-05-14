@@ -27,16 +27,30 @@ Dayanak rehberlerin künyeleri (ESPGHAN, NASPGHAN, ECCO, Rome Foundation, WAO,
 FISPGHAN, INSPPIRE, ASGE) PubMed üzerinden doğrulanmış ve dosyadaki
 `key_consensus_sources` bölümünde DOI'leriyle listelenmiştir.
 
-Taslak **iki eksenlidir** — toplam **184 algoritma**:
+Taslak **iki eksenlidir** — toplam **308 algoritma**. Eksen 1, bir çocuk GE
+polikliniğine gelebilecek tüm şikayet/bulgu giriş noktalarını kapsamayı hedefler.
 
-**Eksen 1 — Bulgu / Şikayet temelli** ("hasta ... ile geliyor", 81 algoritma)
+**Eksen 1 — Bulgu / Şikayet temelli** ("hasta ... ile geliyor", 205 algoritma)
 
 | Grup | Algoritma |
 |---|---|
-| 🧪 Laboratuvar Bulguları | 20 |
-| 🩻 Görüntüleme & Muayene Bulguları | 13 |
-| 🤚 Semptomlar | 38 |
-| 🚨 Acil Prezentasyonlar | 10 |
+| 👄 Ağız, Yutma & Özofagus Şikayetleri | 15 |
+| 🤮 Bulantı & Kusma | 11 |
+| 💢 Karın Ağrısı | 12 |
+| 🎈 Şişkinlik, Gaz, Distansiyon & Kitle | 5 |
+| 💧 İshal & Malabsorpsiyon Şikayetleri | 11 |
+| 🚽 Kabızlık & Defekasyon Şikayetleri | 10 |
+| 🩸 GİS Kanama Şikayetleri | 7 |
+| 🎯 Anorektal Şikayetler | 7 |
+| 🟡 Sarılık & Kolestaz Şikayetleri | 7 |
+| 🍽️ Beslenme, İştah & Büyüme Şikayetleri | 12 |
+| 🍼 Bebek (0–12 ay) Spesifik Şikayetler | 9 |
+| 🌐 Sistemik & Ekstraintestinal Bulgular | 13 |
+| 🔌 Beslenme Tüpü & Stoma Sorunları | 6 |
+| 🧪 Laboratuvar Bulguları | 36 |
+| 🩻 Görüntüleme & Muayene Bulguları | 22 |
+| 🔎 Takip, Tarama & Özel Durumlar | 9 |
+| 🚨 Acil Prezentasyonlar | 13 |
 
 **Eksen 2 — Hastalık / Durum temelli** (yönetim algoritması, 103 algoritma)
 

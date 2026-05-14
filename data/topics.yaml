@@ -1,6 +1,6 @@
 # =============================================================================
 # Pediatrik Gastroenteroloji — Literatür Temelli Algoritma Projesi
-# BAŞLIK TASLAĞI (Taxonomy / Kapsam Tanımı)  —  v3
+# BAŞLIK TASLAĞI (Taxonomy / Kapsam Tanımı)  —  v4
 # =============================================================================
 #
 # DURUM: TASLAK — kullanıcı onayı / düzeltmesi bekleniyor.
@@ -9,28 +9,30 @@
 # referans uygulamadan BAĞIMSIZ hazırlanmıştır. Rehber künyeleri PubMed
 # üzerinden doğrulanmıştır (bkz. key_consensus_sources).
 #
+# v4 HEDEFİ: Bir çocuk gastroenteroloji polikliniğine gelebilecek TÜM
+# şikayet/bulgu giriş noktalarını kapsamak (semptom + lab + görüntüleme +
+# tüp/stoma + takip + acil). Bu yüzden BULGU/ŞİKAYET ekseni ağırlıklıdır.
+#
 # İKİ EKSENLİ YAPI:
 #   presentations[]  → BULGU / ŞİKAYET temelli: "hasta ... ile geliyor"
-#                      (lab anormalliği, görüntü bulgusu, semptom, acil) → tanısal algoritma
-#   conditions[]     → HASTALIK / DURUM temelli: tanımlı tanı → yönetim algoritması
+#   conditions[]     → HASTALIK / DURUM temelli: tanımlı tanı → yönetim
+#   (İki eksen arasında bilinçli örtüşme vardır: aynı konu hem "şikayetle
+#    gelen hastaya tanısal yaklaşım" hem de "tanı konmuş hastada yönetim"
+#    olarak ayrı algoritma alır.)
 #
-# Her grup:
-#   consensus[]   → o grubu yöneten doğrulanmış konsensüs rehber(ler)i
-#   algorithms[]  → üretilecek karar/yönetim algoritmaları (her biri ileride
-#                   kendi PubMed'e çözümlenmiş kaynak listesini alacak)
+# Her grup: consensus[] = yöneten doğrulanmış rehber(ler); algorithms[] = başlıklar
 #
 # NASIL DÜZENLENİR:
 #   - İstemediğin algoritmayı sil; başlığı değiştir; yeni başlık ekle (id benzersiz)
-#   - Grupları/eksenleri serbestçe yeniden düzenle
-#   - Eksik konsensüs rehberini key_consensus_sources'a ekle
+#   - Grupları/eksenleri yeniden düzenle; eksik rehberi key_consensus_sources'a ekle
 #
-# TASLAK TOPLAMI: 184 algoritma
-#   • Bulgu/şikayet temelli: 4 grup / 81 algoritma
+# TASLAK TOPLAMI: 308 algoritma
+#   • Bulgu/şikayet temelli: 17 grup / 205 algoritma
 #   • Hastalık temelli:      13 grup / 103 algoritma
 # =============================================================================
 
 project: "Pediatrik GE — Literatür Temelli Algoritmalar"
-schema_version: 3
+schema_version: 4
 status: taslak
 
 # --- Doğrulanmış konsensüs kaynakları (PubMed) -------------------------------
@@ -114,11 +116,339 @@ key_consensus_sources:
 
 # =============================================================================
 # EKSEN 1 — BULGU / ŞİKAYET TEMELLİ ALGORİTMALAR
-# "Hasta ... bulgusu / şikayeti ile geliyor" → tanısal yaklaşım
+# "Hasta ... şikayeti / bulgusu ile geliyor" → tanısal yaklaşım
 # =============================================================================
 presentations:
 
-  - id: pres_lab
+  - id: semptom_oral
+    name: "Ağız, Yutma & Özofagus Şikayetleri"
+    icon: "👄"
+    consensus: [gerd_2018, eoe_espghan]
+    algorithms:
+      - id: or_01
+        title: "Disfaji (yutma güçlüğü): yaşa göre ayırıcı ve tanısal akış"
+      - id: or_02
+        title: "Odinofaji (ağrılı yutma): ayırıcı tanı"
+      - id: or_03
+        title: "Globus hissi (boğazda yumru hissi): yaklaşım"
+      - id: or_04
+        title: "Halitozis (ağız kokusu): GİS kaynaklı ayırıcı"
+      - id: or_05
+        title: "Aşırı salya / sialore: değerlendirme"
+      - id: or_06
+        title: "Tekrarlayan oral aft / ülser: sistemik hastalık taraması"
+      - id: or_07
+        title: "Ağız kuruluğu: ayırıcı tanı"
+      - id: or_08
+        title: "Lokma ilerletme / çiğneme güçlüğü: değerlendirme"
+      - id: or_09
+        title: "Beslenmede öğürme / boğulma: aspirasyon riski değerlendirmesi"
+      - id: or_10
+        title: "Retrosternal yanma (heartburn): GÖRH değerlendirmesi"
+      - id: or_11
+        title: "Retrosternal / göğüs ağrısı: GİS kaynaklı ayırıcı"
+      - id: or_12
+        title: "Water brash (ağza ekşi su gelmesi): yaklaşım"
+      - id: or_13
+        title: "İnatçı hıçkırık (>48 saat): ayırıcı ve yaklaşım"
+      - id: or_14
+        title: "Aşırı geğirme / aerofaji: değerlendirme"
+      - id: or_15
+        title: "Sandifer postürü / distonik hareketler: GÖRH ayrımı"
+
+  - id: semptom_kusma
+    name: "Bulantı & Kusma"
+    icon: "🤮"
+    consensus: [gerd_2018, rome4_infant, rome4_child]
+    algorithms:
+      - id: ku_01
+        title: "Akut kusma: değerlendirme ve kırmızı bayraklar"
+      - id: ku_02
+        title: "Kronik / tekrarlayan kusma: ayırıcı tanı"
+      - id: ku_03
+        title: "Siklik kusma (ataklar hâlinde): değerlendirme"
+      - id: ku_04
+        title: "Safralı (yeşil) kusma: obstrüksiyon değerlendirmesi"
+      - id: ku_05
+        title: "Kanlı kusma / hematemez: değerlendirme"
+      - id: ku_06
+        title: "Projektil kusma: pilor stenozu ve ayırıcı"
+      - id: ku_07
+        title: "Sabah kusması: kafa içi basınç / metabolik ayırıcı"
+      - id: ku_08
+        title: "Beslenme sonrası kusma / regürjitasyon: GÖR ayrımı"
+      - id: ku_09
+        title: "İzole bulantı (kusmasız): yaklaşım"
+      - id: ku_10
+        title: "Yenidoğan kusması: cerrahi / medikal ayrım"
+      - id: ku_11
+        title: "Ruminasyon (geri getirip çiğneme): tanı ve yaklaşım"
+
+  - id: semptom_agri
+    name: "Karın Ağrısı"
+    icon: "💢"
+    consensus: [rome4_child, rome4_infant]
+    algorithms:
+      - id: ag_01
+        title: "Akut karın ağrısı: triyaj ve değerlendirme"
+      - id: ag_02
+        title: "Kronik / tekrarlayan karın ağrısı: Rome IV çerçevesi"
+      - id: ag_03
+        title: "Epigastrik ağrı: ayırıcı tanı"
+      - id: ag_04
+        title: "Periumbilikal ağrı: ayırıcı tanı"
+      - id: ag_05
+        title: "Sağ üst kadran ağrısı: ayırıcı tanı"
+      - id: ag_06
+        title: "Sağ alt kadran ağrısı: apandisit ayırıcısı"
+      - id: ag_07
+        title: "Sol taraflı / yaygın karın ağrısı: ayırıcı"
+      - id: ag_08
+        title: "Sırta vuran ağrı: pankreatit paterni değerlendirmesi"
+      - id: ag_09
+        title: "Gece uyandıran karın ağrısı: organik hastalık taraması"
+      - id: ag_10
+        title: "Yemekle tetiklenen (postprandial) ağrı: ayırıcı"
+      - id: ag_11
+        title: "Defekasyonla ilişkili karın ağrısı: ayırıcı"
+      - id: ag_12
+        title: "İnfant kolik ağrısı / aşırı ağlama: Rome IV ayrımı"
+
+  - id: semptom_distansiyon
+    name: "Şişkinlik, Gaz, Distansiyon & Kitle"
+    icon: "🎈"
+    consensus: []
+    algorithms:
+      - id: di_01
+        title: "Karın distansiyonu: ayırıcı tanı"
+      - id: di_02
+        title: "Aşırı gaz / şişkinlik: FODMAP / malabsorpsiyon ayırıcısı"
+      - id: di_03
+        title: "Palpabl karın kitlesi: yaşa göre ayırıcı"
+      - id: di_04
+        title: "Görünür peristaltizm: obstrüksiyon değerlendirmesi"
+      - id: di_05
+        title: "Borborigmi / aşırı barsak sesi: yaklaşım"
+
+  - id: semptom_ishal
+    name: "İshal & Malabsorpsiyon Şikayetleri"
+    icon: "💧"
+    consensus: [age_espghan, celiac_2020]
+    algorithms:
+      - id: is_01
+        title: "Akut ishal (<14 gün): değerlendirme ve dehidratasyon"
+      - id: is_02
+        title: "Persistan ishal (14 gün – 4 hafta): yaklaşım"
+      - id: is_03
+        title: "Kronik ishal (>4 hafta): yaşa göre tanisal akış"
+      - id: is_04
+        title: "Kanlı ishal (dizanteri): ayırıcı ve HÜS değerlendirmesi"
+      - id: is_05
+        title: "Sulu / sekretuar ishal (büyük hacim): ayırıcı"
+      - id: is_06
+        title: "Yağlı dışkı / steatore: malabsorpsiyon değerlendirmesi"
+      - id: is_07
+        title: "Mukuslu dışkı: ayırıcı"
+      - id: is_08
+        title: "Gece ishali: organik hastalık göstergesi değerlendirmesi"
+      - id: is_09
+        title: "Yenidoğan ishali: konjenital ishal ayırıcısı"
+      - id: is_10
+        title: "Antibiyotik ilişkili ishal: değerlendirme"
+      - id: is_11
+        title: "Gıda ile tetiklenen ishal / intolerans şüphesi: yaklaşım"
+
+  - id: semptom_kabizlik
+    name: "Kabızlık & Defekasyon Şikayetleri"
+    icon: "🚽"
+    consensus: [constipation_2014]
+    algorithms:
+      - id: ka_01
+        title: "Akut kabızlık: değerlendirme"
+      - id: ka_02
+        title: "Kronik kabızlık: organik / fonksiyonel ayrım"
+      - id: ka_03
+        title: "Fekal impaksiyon: tanı ve disempaksiyon"
+      - id: ka_04
+        title: "Enkoprezis / dışkı kaçırma (soiling): değerlendirme"
+      - id: ka_05
+        title: "Mekonyum pasajı gecikmesi (>24–48 saat): yaklaşım"
+      - id: ka_06
+        title: "Tuvalet tutma davranışı (withholding): yaklaşım"
+      - id: ka_07
+        title: "Ağrılı defekasyon / dişezi: ayırıcı"
+      - id: ka_08
+        title: "Tenesmus: ayırıcı tanı"
+      - id: ka_09
+        title: "İnkomplet boşalma hissi: değerlendirme"
+      - id: ka_10
+        title: "Dışkı kıvamı / kalınlığı değişikliği: yaklaşım"
+
+  - id: semptom_kanama
+    name: "GİS Kanama Şikayetleri"
+    icon: "🩸"
+    consensus: []
+    algorithms:
+      - id: kn_01
+        title: "Hematemez: değerlendirme ve yönetim"
+      - id: kn_02
+        title: "Melena: üst / alt GİS kaynak ayrımı"
+      - id: kn_03
+        title: "Hematokezya (parlak kırmızı kan): yaşa göre ayırıcı"
+      - id: kn_04
+        title: "Rektoraji (anal kaynaklı kanama): yaklaşım"
+      - id: kn_05
+        title: "Currant jelly stool: invajinasyon değerlendirmesi"
+      - id: kn_06
+        title: "Gaitada gizli kan pozitifliği: değerlendirme"
+      - id: kn_07
+        title: "Tuvalet kâğıdında / dışkı yüzeyinde kan: anal patoloji ayrımı"
+
+  - id: semptom_anorektal
+    name: "Anorektal Şikayetler"
+    icon: "🎯"
+    consensus: [cd_eccoespghan]
+    algorithms:
+      - id: an_01
+        title: "Anal ağrı: ayırıcı tanı"
+      - id: an_02
+        title: "Anal kaşıntı (pruritus ani): ayırıcı"
+      - id: an_03
+        title: "Anal fissür: tanı ve yönetim"
+      - id: an_04
+        title: "Perianal akıntı / apse / fistül: yaklaşım"
+      - id: an_05
+        title: "Rektal prolapsus: ayırıcı ve yönetim"
+      - id: an_06
+        title: "Perianal cilt tagi / döküntü: değerlendirme"
+      - id: an_07
+        title: "Anüste kitle / şişlik: ayırıcı"
+
+  - id: semptom_sarilik
+    name: "Sarılık & Kolestaz Şikayetleri"
+    icon: "🟡"
+    consensus: [cholestasis_2017, cholestasis_fispghan]
+    algorithms:
+      - id: sa_01
+        title: "Akut sarılık (büyük çocuk): yaklaşım"
+      - id: sa_02
+        title: "Uzamış yenidoğan sarılığı (>14 gün): konjuge bilirubin değerlendirmesi"
+      - id: sa_03
+        title: "Akolik (beyaz / kil renkli) dışkı: değerlendirme"
+      - id: sa_04
+        title: "Koyu idrar (bilirubinüri / hemoglobinüri): ayırıcı"
+      - id: sa_05
+        title: "Kolestatik kaşıntı: yaklaşım ve semptomatik tedavi"
+      - id: sa_06
+        title: "Skleral / cilt ikterinin farkedilmesi: ilk değerlendirme"
+      - id: sa_07
+        title: "Sağ üst kadranda dolgunluk / hassasiyet: hepatobiliyer ayırıcı"
+
+  - id: semptom_beslenme
+    name: "Beslenme, İştah & Büyüme Şikayetleri"
+    icon: "🍽️"
+    consensus: [sbs_espghan, dracma]
+    algorithms:
+      - id: be_01
+        title: "Yetersiz kilo alımı (infant): değerlendirme"
+      - id: be_02
+        title: "Büyüme geriliği / FTT: GİS odaklı değerlendirme"
+      - id: be_03
+        title: "Kilo kaybı (çocuk / adölesan): ayırıcı"
+      - id: be_04
+        title: "Kilo platosu / yavaş kilo artışı: değerlendirme"
+      - id: be_05
+        title: "İştahsızlık (anoreksi): ayırıcı"
+      - id: be_06
+        title: "Aşırı kilo alımı / obezite: GİS komorbidite taraması"
+      - id: be_07
+        title: "Boy kısalığı: GİS kaynaklı şüphe değerlendirmesi"
+      - id: be_08
+        title: "Yeme reddi / meme-biberon reddi: değerlendirme"
+      - id: be_09
+        title: "Seçici yeme / ARFID şüphesi: yaklaşım"
+      - id: be_10
+        title: "Beslenme sırasında huzursuzluk / ağlama: ayırıcı"
+      - id: be_11
+        title: "Tüpten orale geçiş güçlüğü: yaklaşım"
+      - id: be_12
+        title: "Pika (yenilemez madde yeme): değerlendirme"
+
+  - id: semptom_bebek
+    name: "Bebek (0–12 ay) Spesifik Şikayetler"
+    icon: "🍼"
+    consensus: [rome4_infant, dracma, gerd_2018]
+    algorithms:
+      - id: bb_01
+        title: "Aşırı ağlayan / huzursuz bebek: PURPLE crying / kolik ayrımı"
+      - id: bb_02
+        title: "İnfant regürjitasyon (mutlu kusan bebek): GÖR / GÖRH ayrımı"
+      - id: bb_03
+        title: "İnfant koliği: Rome IV tanısı ve aile danışmanlığı"
+      - id: bb_04
+        title: "Kanlı dışkılı sağlıklı bebek: FPIAP değerlendirmesi"
+      - id: bb_05
+        title: "Gazlı / şişkin bebek: yaklaşım"
+      - id: bb_06
+        title: "Beslenme sırasında huzursuz bebek: ayırıcı"
+      - id: bb_07
+        title: "Bebek memeyi / biberonu reddediyor: değerlendirme"
+      - id: bb_08
+        title: "İnek sütü intolerans / alerji şüphesi (infant): yaklaşım"
+      - id: bb_09
+        title: "Bebek dışkı sıklığı / kıvamı endişesi: aile danışmanlığı"
+
+  - id: semptom_sistemik
+    name: "Sistemik & Ekstraintestinal Bulgular"
+    icon: "🌐"
+    consensus: [ibd_porto, celiac_2020]
+    algorithms:
+      - id: si_01
+        title: "Kronik halsizlik / yorgunluk + GİS şüphesi: yaklaşım"
+      - id: si_02
+        title: "Solukluk (anemi): GİS kaynaklı tarama"
+      - id: si_03
+        title: "Tekrarlayan / uzamış ateş + GİS bulgu: ayırıcı"
+      - id: si_04
+        title: "Ödem: hipoalbuminemi / PLE şüphesi değerlendirmesi"
+      - id: si_05
+        title: "Kolay morarma / kanama eğilimi: karaciğer kaynaklı ayrım"
+      - id: si_06
+        title: "Eklem ağrısı / şişliği: IBD ekstraintestinal bulgu"
+      - id: si_07
+        title: "Cilt döküntüsü (eritema nodozum / piyoderma gangrenozum): IBD bağlantısı"
+      - id: si_08
+        title: "Dermatitis herpetiformis: çölyak değerlendirmesi"
+      - id: si_09
+        title: "Üveit / göz bulgusu: IBD ekstraintestinal değerlendirme"
+      - id: si_10
+        title: "Pubertal gecikme / büyüme duraklaması: IBD-çölyak taraması"
+      - id: si_11
+        title: "Tekrarlayan enfeksiyon + GİS: immün yetmezlik şüphesi"
+      - id: si_12
+        title: "Çomak parmak (clubbing): kronik GİS-KC hastalığı ayırıcısı"
+      - id: si_13
+        title: "Rekürren hipoglisemi: metabolik karaciğer hastalığı şüphesi"
+
+  - id: semptom_tup
+    name: "Beslenme Tüpü & Stoma Sorunları"
+    icon: "🔌"
+    consensus: [sbs_espghan]
+    algorithms:
+      - id: tp_01
+        title: "Beslenme tüpü tıkanması: açma ve önleme"
+      - id: tp_02
+        title: "Peristomal granülom: yönetim"
+      - id: tp_03
+        title: "Peristomal sızıntı / cilt tahrişi: yaklaşım"
+      - id: tp_04
+        title: "Tüp çıkması / yer değiştirmesi: acil yaklaşım"
+      - id: tp_05
+        title: "Stoma çevresi enfeksiyonu: tanı ve tedavi"
+      - id: tp_06
+        title: "Tüp beslenme intoleransı: değerlendirme"
+
+  - id: lab_bulgulari
     name: "Laboratuvar Bulguları"
     icon: "🧪"
     consensus: [cholestasis_2017, nafld_naspghan, palf_naspghan]
@@ -154,7 +484,7 @@ presentations:
       - id: lab_15
         title: "Yüksek fekal kalprotektin: IBD taraması"
       - id: lab_16
-        title: "Demir eksikliği anemisi / okült GİS kanama taraması"
+        title: "Demir eksikliği anemisi: okült GİS kanama taraması"
       - id: lab_17
         title: "Fekal elastaz-1 düşüklüğü: ekzokrin pankreas yetmezliği"
       - id: lab_18
@@ -163,8 +493,40 @@ presentations:
         title: "Eozinofili + GİS bulguları: allerjik / otoimmün ayırıcı"
       - id: lab_20
         title: "Trombositopeni + karaciğer: hipersplenizm / portal hipertansiyon"
+      - id: lab_21
+        title: "Pansitopeni + hepatosplenomegali: ayırıcı (HLH / depo / malignite)"
+      - id: lab_22
+        title: "LDH yüksekliği + karaciğer: hemoliz / lenfoma / HLH ayrımı"
+      - id: lab_23
+        title: "Ürik asit yüksekliği: GSD I / tümör lizis bağlamı"
+      - id: lab_24
+        title: "Tekrarlayan hipoglisemi (lab): metabolik karaciğer değerlendirmesi"
+      - id: lab_25
+        title: "Laktik asidoz + karaciğer: mitokondriyal hastalık şüphesi"
+      - id: lab_26
+        title: "Hipertrigliseridemi: pankreatit riski değerlendirmesi"
+      - id: lab_27
+        title: "Kusma / ishalde elektrolit bozukluğu: yaklaşım"
+      - id: lab_28
+        title: "CRP / sedimantasyon yüksekliği + GİS: organik hastalık taraması"
+      - id: lab_29
+        title: "ADEK (A / D / E / K) vitamin eksikliği: malabsorpsiyon değerlendirmesi"
+      - id: lab_30
+        title: "B12 / folat eksikliği: GİS kaynaklı ayırıcı"
+      - id: lab_31
+        title: "Çinko eksikliği: GİS kaynaklı değerlendirme"
+      - id: lab_32
+        title: "Selektif IgA eksikliği: çölyak taraması bağlamı"
+      - id: lab_33
+        title: "Pozitif gaita kültürü / parazit incelemesi: yaklaşım"
+      - id: lab_34
+        title: "Pozitif hidrojen nefes testi: laktoz / SIBO yorumu"
+      - id: lab_35
+        title: "Besin spesifik IgE pozitifliği: klinik korelasyon"
+      - id: lab_36
+        title: "Pozitif ter testi / kistik fibroz: GİS-pankreas tutulumu değerlendirmesi"
 
-  - id: pres_goruntuleme
+  - id: goruntuleme_bulgulari
     name: "Görüntüleme & Muayene Bulguları"
     icon: "🩻"
     consensus: [choledocho_asge, cholestasis_2017]
@@ -180,105 +542,65 @@ presentations:
       - id: img_05
         title: "Koledok (CBD) dilatasyonu: tanısal akış"
       - id: img_06
-        title: "Hepatomegali: ayırıcı tanı"
+        title: "İnsidental koledok kisti: değerlendirme"
       - id: img_07
-        title: "İzole splenomegali: ayırıcı tanı"
+        title: "Hepatomegali: ayırıcı tanı"
       - id: img_08
-        title: "Hepatosplenomegali: ayırıcı tanı"
+        title: "İzole splenomegali: ayırıcı tanı"
       - id: img_09
-        title: "Karaciğer kitlesi: benign / malign ayrımı"
+        title: "Hepatosplenomegali: ayırıcı tanı"
       - id: img_10
-        title: "Pankreas kitlesi / kistik lezyon: yaklaşım"
+        title: "Karaciğer kitlesi: benign / malign ayrımı"
       - id: img_11
-        title: "Asit (yeni başlangıç): değerlendirme"
+        title: "Hepatik steatoz (USG insidental): yaklaşım"
       - id: img_12
-        title: "Palpabl karın kitlesi: yaşa göre ayırıcı"
+        title: "İnsidental hepatik fokal lezyon: değerlendirme"
       - id: img_13
-        title: "İnsidental hepatik steatoz / fokal lezyon: yaklaşım"
+        title: "Pankreas kitlesi / kistik lezyon: yaklaşım"
+      - id: img_14
+        title: "İnsidental pankreatik kist: değerlendirme"
+      - id: img_15
+        title: "Asit (yeni başlangıç): değerlendirme"
+      - id: img_16
+        title: "Palpabl karın kitlesi (görüntüleme ile): yaşa göre ayırıcı"
+      - id: img_17
+        title: "Barsak duvar kalınlaşması (USG / MR): ayırıcı"
+      - id: img_18
+        title: "Mezenterik lenfadenopati: değerlendirme"
+      - id: img_19
+        title: "İntestinal dilatasyon / obstrüksiyon bulgusu: yaklaşım"
+      - id: img_20
+        title: "Portal ven genişlemesi / portal hipertansiyon bulgusu: değerlendirme"
+      - id: img_21
+        title: "İnsidental dalak lezyonu / kisti: yaklaşım"
+      - id: img_22
+        title: "Pankreatik asit / plevral efüzyon: değerlendirme"
 
-  - id: pres_semptom
-    name: "Semptomlar"
-    icon: "🤚"
-    consensus: [age_espghan, constipation_2014, rome4_infant, rome4_child, cholestasis_2017]
+  - id: takip_tarama
+    name: "Takip, Tarama & Özel Durumlar"
+    icon: "🔎"
+    consensus: [celiac_2020]
     algorithms:
-      - id: sx_01
-        title: "Akut sarılık (büyük çocuk): yaklaşım"
-      - id: sx_02
-        title: "Akolik (beyaz / kil renkli) dışkı: değerlendirme"
-      - id: sx_03
-        title: "Koyu idrar (bilirubinüri / hemoglobinüri): ayırıcı"
-      - id: sx_04
-        title: "Kolestatik kaşıntı: yaklaşım ve semptomatik tedavi"
-      - id: sx_05
-        title: "Sağ üst kadran ağrısı: ayırıcı tanı"
-      - id: sx_06
-        title: "Epigastrik ağrı: ayırıcı tanı"
-      - id: sx_07
-        title: "Sırta vuran ağrı: pankreatit paterni değerlendirmesi"
-      - id: sx_08
-        title: "Sağ alt kadran ağrısı: apandisit ayırıcısı"
-      - id: sx_09
-        title: "Kronik / tekrarlayan karın ağrısı: Rome IV çerçevesi"
-      - id: sx_10
-        title: "Karın distansiyonu: ayırıcı tanı"
-      - id: sx_11
-        title: "Disfaji (yutma güçlüğü): yaşa göre yaklaşım"
-      - id: sx_12
-        title: "Odinofaji (ağrılı yutma): ayırıcı"
-      - id: sx_13
-        title: "Akut kusma: değerlendirme ve kırmızı bayraklar"
-      - id: sx_14
-        title: "Kronik / tekrarlayan kusma: ayırıcı tanı"
-      - id: sx_15
-        title: "Safralı kusma: obstrüksiyon değerlendirmesi"
-      - id: sx_16
-        title: "Regürjitasyon (infant): GÖR / GÖRH ayrımı"
-      - id: sx_17
-        title: "Hematemez: değerlendirme ve yönetim"
-      - id: sx_18
-        title: "Melena: üst / alt GİS kaynak ayrımı"
-      - id: sx_19
-        title: "Hematokezya / kanlı dışkı: yaşa göre ayırıcı"
-      - id: sx_20
-        title: "Akut ishal (<14 gün): değerlendirme"
-      - id: sx_21
-        title: "Kronik ishal (>4 hafta): yaşa göre tanısal akış"
-      - id: sx_22
-        title: "Kanlı ishal (dizanteri): ayırıcı ve HÜS değerlendirmesi"
-      - id: sx_23
-        title: "Yağlı dışkı / steatore: pankreatik / mukozal ayrım"
-      - id: sx_24
-        title: "Akut kabızlık: değerlendirme"
-      - id: sx_25
-        title: "Kronik kabızlık / fekal impaksiyon: yaklaşım"
-      - id: sx_26
-        title: "Enkoprezis (dışkı kaçırma): değerlendirme ve yönetim"
-      - id: sx_27
-        title: "Mukuslu dışkı: ayırıcı"
-      - id: sx_28
-        title: "Tenesmus / defekasyon ağrısı: ayırıcı"
-      - id: sx_29
-        title: "Perianal akıntı / apse / fistül: yaklaşım"
-      - id: sx_30
-        title: "Rektal prolapsus: ayırıcı ve yönetim"
-      - id: sx_31
-        title: "Kilo kaybı / yetersiz kilo alımı: değerlendirme"
-      - id: sx_32
-        title: "Büyüme geriliği (FTT): GİS odaklı değerlendirme"
-      - id: sx_33
-        title: "Ödem: hepatik / renal / kardiyak / PLE ayırıcısı"
-      - id: sx_34
-        title: "Kolay morarma / kanama eğilimi: karaciğer kaynaklı ayrım"
-      - id: sx_35
-        title: "Rekürren hipoglisemi: metabolik karaciğer şüphesi"
-      - id: sx_36
-        title: "Yenidoğan kusması: cerrahi / medikal ayrım"
-      - id: sx_37
-        title: "Mekonyum pasajı gecikmesi (>24–48 saat): yaklaşım"
-      - id: sx_38
-        title: "İştahsızlık / beslenme reddi (infant): değerlendirme"
+      - id: tk_01
+        title: "Asemptomatik aile öyküsü taraması — çölyak: yaklaşım"
+      - id: tk_02
+        title: "Asemptomatik aile öyküsü taraması — IBD / Wilson / FAP / pankreatit"
+      - id: tk_03
+        title: "Post-fundoplikasyon takibi: değerlendirme"
+      - id: tk_04
+        title: "Post-Kasai (biliyer atrezi) takibi: izlem"
+      - id: tk_05
+        title: "Karaciğer nakli sonrası takip: izlem"
+      - id: tk_06
+        title: "İnsidental bulgu izlemi: takip planı"
+      - id: tk_07
+        title: "Çölyak diyetine rağmen persistan semptom: refrakter değerlendirme"
+      - id: tk_08
+        title: "Kronik hastalıkta (KF / kalp / böbrek) GİS-beslenme sorunu"
+      - id: tk_09
+        title: "Onkoloji / immün yetmezlik hastasında GİS-beslenme bulgusu"
 
-  - id: pres_acil
+  - id: acil
     name: "Acil Prezentasyonlar"
     icon: "🚨"
     consensus: [palf_naspghan, battery_2021]
@@ -286,22 +608,28 @@ presentations:
       - id: em_01
         title: "Akut karın / akut batın: triyaj ve değerlendirme"
       - id: em_02
-        title: "GİS kanama: hemodinamik instabil hasta yönetimi"
+        title: "Masif GİS kanama (hemodinamik instabil): yönetim"
       - id: em_03
         title: "Pediatrik akut karaciğer yetmezliği: erken tanıma ve sevk"
       - id: em_04
         title: "Hepatik ensefalopati: tanı ve acil yönetim"
       - id: em_05
-        title: "Yabancı cisim / düğme pil yutma: acil yönetim"
+        title: "Yabancı cisim yutma: acil yönetim"
       - id: em_06
-        title: "Koroziv madde alımı: akut yaklaşım"
+        title: "Düğme pil yutma: acil yönetim"
       - id: em_07
-        title: "İnvajinasyon şüphesi: tanı ve redüksiyon"
+        title: "Koroziv madde alımı: akut yaklaşım"
       - id: em_08
-        title: "Toksik megakolon: tanıma ve yönetim"
+        title: "İnvajinasyon: tanı ve redüksiyon"
       - id: em_09
-        title: "Safralı kusma (yenidoğan): malrotasyon / volvulus acili"
+        title: "Toksik megakolon: tanıma ve yönetim"
       - id: em_10
+        title: "Malrotasyon / midgut volvulus: acil yönetim"
+      - id: em_11
+        title: "İntestinal perforasyon: tanıma ve yönetim"
+      - id: em_12
+        title: "Şiddetli dehidratasyon (kusma / ishal): acil yönetim"
+      - id: em_13
         title: "Nekrotizan enterokolit (NEC) şüphesi: yaklaşım"
 
 # =============================================================================
