@@ -11,3 +11,8 @@ env/
 .DS_Store
 .idea/
 .vscode/
+node_modules/
+
+# Yerel çalışma dosyaları (referans uygulamadan çıkarılan ham veri)
+/reference/
+*.tmp
