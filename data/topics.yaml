@@ -1,2282 +1,301 @@
 # =============================================================================
 # Pediatrik Gastroenteroloji — Literatür Temelli Algoritma Projesi
-# BAŞLIK LİSTESİ (Taxonomy / Kapsam Tanımı)
+# BAŞLIK TASLAĞI (Taxonomy / Kapsam Tanımı)  —  v2
 # =============================================================================
 #
-# Bu dosya, üretilecek klinik algoritmaların KAPSAMINI tanımlar.
-# Yapılan başlık seçimi, yüklenen referans uygulamadan aday havuz olarak
-# türetilmiştir; içerik sıfırdan, PubMed'e çözümlenmiş kaynaklarla üretilecektir.
+# DURUM: TASLAK — kullanıcı onayı / düzeltmesi bekleniyor.
 #
-# Her başlık ileride şunları alacak:
-#   - Klinik içerik (tanım, patogenez, tanı, ayırıcı, tedavi, tuzaklar, takip)
-#   - Mermaid akış şeması (karar algoritması)
-#   - kaynaklar: her biri gerçek makaleye (PMID / DOI) çözümlenmiş literatür
+# Bu taslak, GÜNCEL PEDİATRİK GE KONSENSÜS REHBERLERİNE dayanılarak,
+# yüklenen referans uygulamadan TAMAMEN BAĞIMSIZ olarak hazırlanmıştır.
+# Aşağıdaki rehberlerin künyeleri PubMed üzerinden doğrulanmıştır (bkz.
+# key_consensus_sources). Her algoritma ileride kendi PubMed'e çözümlenmiş
+# kaynak listesini (PMID/DOI) alacaktır.
+#
+# YAPI:
+#   domains[]            → klinik alan (rehber bazlı gruplama)
+#     consensus[]        → o alanı yöneten konsensüs rehber(ler)i
+#     algorithms[]       → o alanda üretilecek karar/yönetim algoritmaları
 #
 # NASIL DÜZENLENİR:
-#   - Kapsam dışı bırakmak istediğin başlığı sil ya da 'include: false' ekle
-#   - Yeni başlık eklemek için aynı formatta bir entry ekle (id benzersiz olmalı)
-#   - Modül / kategori adlarını serbestçe değiştirebilirsin
+#   - İstemediğin algoritmayı sil; başlığı değiştir; yeni başlık ekle (id benzersiz)
+#   - Alan (domain) adlarını, gruplamayı serbestçe değiştir
+#   - Eksik bulduğun konsensüs rehberini key_consensus_sources'a ekle
 #
-# ADAY HAVUZ TOPLAMI: 404 hastalık + 197 şikayet = 601 başlık, 6 modül
-# Üretim tarihi: 2026-05-14
+# TASLAK TOPLAMI: 11 alan, 68 algoritma
 # =============================================================================
 
 project: "Pediatrik GE — Literatür Temelli Algoritmalar"
-schema_version: 1
+schema_version: 2
+status: taslak
 
-modules:
-  - id: karaciger
-    name: "Karaciğer"
-    icon: "🟫"
-    color: "#a16207"
-    # 61 hastalık + 39 şikayet
-    diseases:
-      - category: viral
-        category_name: "Viral Hepatitler"
-        category_icon: "🦠"
-        entries:
-          - id: h01_hav
-            title: "Hepatit A (HAV)"
-            icon: "🅰️"
-          - id: h02_hbv_akut
-            title: "Akut Hepatit B (HBV)"
-            icon: "🅱️"
-          - id: h03_hbv_kronik
-            title: "Kronik Hepatit B (HBV)"
-            icon: "🅱️"
-          - id: h04_hcv
-            title: "Hepatit C (HCV)"
-            icon: "©️"
-          - id: h05_hev_hdv
-            title: "Hepatit E ve Hepatit D"
-            icon: "🅴"
-      - category: herpes
-        category_name: "Herpes / Neonatal / TORCH"
-        category_icon: "🧬"
-        entries:
-          - id: h06_ebv
-            title: "EBV Hepatit (Enfeksiyöz Mononükleoz + PTLD)"
-            icon: "💋"
-          - id: h07_cmv
-            title: "CMV Hepatit (Konjenital + Edinsel + Post-TX)"
-            icon: "🦠"
-          - id: h08_hsv
-            title: "HSV Hepatit (Neonatal + Edinsel Fulminant)"
-            icon: "🌡️"
-          - id: h09_adenovirus
-            title: "Adenovirüs Hepatit"
-            icon: "🧬"
-          - id: h10_torch
-            title: "Konjenital TORCH (Toksoplazma + Rubella + Sifiliz + Parvo + Zika)"
-            icon: "🍼"
-      - category: otoimmun
-        category_name: "Otoimmün / IgG4"
-        category_icon: "🛡️"
-        entries:
-          - id: h11_aih_tip1
-            title: "Otoimmün Hepatit Tip 1 (AIH-1)"
-            icon: "🎯"
-          - id: h12_aih_tip2
-            title: "Otoimmün Hepatit Tip 2 (AIH-2)"
-            icon: "🎯"
-          - id: h13_psc
-            title: "Primer Sklerozan Kolanjit (PSC)"
-            icon: "🌿"
-          - id: h14_asc_overlap
-            title: "Otoimmün Sklerozan Kolanjit (ASC) — AIH-PSC Overlap"
-            icon: "🔀"
-          - id: h15_igg4
-            title: "IgG4-İlişkili Hepatopati / Sklerozan Kolanjit"
-            icon: "🧪"
-      - category: met1
-        category_name: "Metabolik I — Cu + α1-AT + Fe"
-        category_icon: "🟠"
-        entries:
-          - id: h16_wilson
-            title: "Wilson Hastalığı"
-            icon: "🟤"
-          - id: h17_a1at
-            title: "α1-Antitripsin Eksikliği (A1ATD)"
-            icon: "🫧"
-          - id: h18_hh
-            title: "Herediter Hemokromatoz (HH)"
-            icon: "⛓️"
-          - id: h19_gald
-            title: "Neonatal Hemokromatoz (NH) / Gestasyonel Alloimmün KC Hastalığı (GALD)"
-            icon: "👶"
-          - id: h20_diger_bakir
-            title: "Diğer Bakır Bozuklukları (Menkes + MEDNIK + ICC + Huppke-Brendel)"
-            icon: "🔬"
-      - category: met2
-        category_name: "Metabolik II — AA + KH + UC"
-        category_icon: "🟢"
-        entries:
-          - id: h21_tirozinemi_tip1
-            title: "Tirozinemi Tip 1 (Hepatorenal Tirozinemi)"
-            icon: "🍋"
-          - id: h22_galaktozemi
-            title: "Galaktozemi (Klasik + GALK + GALE varyantları)"
-            icon: "🥛"
-          - id: h23_hfi
-            title: "Herediter Fruktoz İntoleransı (HFI)"
-            icon: "🍎"
-          - id: h24_urea_siklus
-            title: "Üre Siklus Defektleri (UCD)"
-            icon: "🧬"
-          - id: h25_sitrin
-            title: "Sitrin Eksikliği (NICCD + CTLN2 + FTTDCD)"
-            icon: "🧩"
-      - category: met3
-        category_name: "Metabolik III — GSD/Mito/OA/FAOD"
-        category_icon: "🔵"
-        entries:
-          - id: h26_gsd
-            title: "Glikojen Depo Hastalıkları (GSD I, III, IV, VI, IX)"
-            icon: "🍬"
-          - id: h27_mito
-            title: "Mitokondriyal Hepatopatiler (POLG, DGUOK, MPV17, SUCLG1, TRMU)"
-            icon: "🔋"
-          - id: h28_organic_acidemia
-            title: "Organik Asidemiler (PA, MMA, IVA, MSUD)"
-            icon: "🧪"
-          - id: h29_faod
-            title: "Yağ Asidi Oksidasyon Defektleri (MCAD, VLCAD, LCHAD/TFP, CPT2, CACT)"
-            icon: "🧈"
-          - id: h30_peroksizomal
-            title: "Peroksizomal Hastalıklar (Zellweger Spektrum + Refsum + X-ALD)"
-            icon: "🧫"
-      - category: lizo
-        category_name: "Lizozomal Hastalıklar"
-        category_icon: "🫧"
-        entries:
-          - id: h31_gaucher
-            title: "Gaucher Hastalığı (Tip 1, 2, 3)"
-            icon: "🧬"
-          - id: h32_npd
-            title: "Niemann-Pick Hastalığı (Tip A/B + Tip C)"
-            icon: "🫐"
-          - id: h33_mps
-            title: "Mukopolisakkaridozlar (MPS I-VII)"
-            icon: "🧩"
-          - id: h34_lald
-            title: "LAL-D (Wolman + CESD)"
-            icon: "🫒"
-          - id: h35_gm1_diger
-            title: "GM1 Gangliosidoz + Diğer Lizozomal (Fabry, ML II/III, Galaktosialidoz, Sialidoz)"
-            icon: "🔷"
-      - category: kol_obs
-        category_name: "Kolestatik Obstrüktif"
-        category_icon: "🟡"
-        entries:
-          - id: h36_ba
-            title: "Biliyer Atrezi (Bilyer Atrezi, BA)"
-            icon: "🟢"
-          - id: h37_koledok
-            title: "Koledok Kisti (Choledochal Cyst, Safra Yolu Kistik Dilatasyonu)"
-            icon: "🫧"
-          - id: h38_caroli
-            title: "Caroli Hastalığı / Sendromu"
-            icon: "🌿"
-          - id: h39_arpkd_chf
-            title: "ARPKD + Konjenital Hepatik Fibrozis (CHF)"
-            icon: "🫘"
-          - id: h40_neonatal_sc
-            title: "Neonatal Sklerozan Kolanjit + NISCH Sendromu"
-            icon: "🧴"
-      - category: kol_gen
-        category_name: "Kolestatik Genetik"
-        category_icon: "🟣"
-        entries:
-          - id: h41_alagille
-            title: "Alagille Sendromu (ALGS)"
-            icon: "🦋"
-          - id: h42_pfic1
-            title: "PFIC 1 — ATP8B1 / FIC1 (Byler hastalığı)"
-            icon: "🧪"
-          - id: h43_pfic2
-            title: "PFIC 2 — ABCB11 / BSEP"
-            icon: "🧫"
-          - id: h44_pfic3
-            title: "PFIC 3 — ABCB4 / MDR3"
-            icon: "🪨"
-          - id: h45_pfic456_basd
-            title: "PFIC 4/5/6 (TJP2, NR1H4, MYO5B) + Safra Asit Sentez Defektleri (BASD)"
-            icon: "🧬"
-      - category: vask
-        category_name: "Vasküler"
-        category_icon: "🩸"
-        entries:
-          - id: h46_bcs
-            title: "Budd-Chiari Sendromu (Hepatik Venöz Çıkış Obstrüksiyonu)"
-            icon: "🩸"
-          - id: h47_ehpvo
-            title: "Ekstrahepatik Portal Venöz Obstrüksiyon (EHPVO, Portal Ven Kavernoması)"
-            icon: "🟣"
-          - id: h48_abernethy
-            title: "Abernethy Malformasyonu (Konjenital Portosistemik Şant, CPSS)"
-            icon: "🔀"
-          - id: h49_fald
-            title: "FALD — Fontan-Associated Liver Disease"
-            icon: "❤️‍🩹"
-          - id: h50_vod_sos
-            title: "VOD / SOS — Sinuzoidal Obstrüktif Sendrom (Hepatic Veno-Occlusive Disease)"
-            icon: "🧊"
-      - category: tumor
-        category_name: "Tümöral (Malign + Benign)"
-        category_icon: "🎯"
-        entries:
-          - id: h51_hepatoblastom
-            title: "Hepatoblastom (HB) — Pediatrik Karaciğer En Sık Malign Tümör"
-            icon: "🟤"
-          - id: h52_hcc_pediatrik
-            title: "Hepatosellüler Karsinom (HCC) — Pediatrik"
-            icon: "🟥"
-          - id: h53_fibrolameller
-            title: "Fibrolamellar Hepatosellüler Karsinom (FLC)"
-            icon: "🟧"
-          - id: h54_ues
-            title: "Undifferansiye Embriyonel Sarkom (UES) / Embriyonel Sarkom Karaciğer"
-            icon: "🟫"
-          - id: h55_benign_lezyonlar
-            title: "Pediatrik Benign KC Lezyonları (FNH + HCA + Mezenkimal Hamartom + İnfantil Hemanjiyom)"
-            icon: "🟩"
-      - category: edinsel
-        category_name: "Edinsel / Toksik / Sendromik"
-        category_icon: "💊"
-        entries:
-          - id: h56_nafld
-            title: "NAFLD / MAFLD — Pediatrik Non-alkolik Yağlı KC Hastalığı"
-            icon: "🫒"
-          - id: h57_dili
-            title: "DILI (Drug-Induced Liver Injury) — İlaç Kaynaklı Karaciğer Hasarı"
-            icon: "💊"
-          - id: h58_pnald_ifald
-            title: "PNALD / IFALD — Parenteral Nutrition + İntestinal Failure-Associated Liver Disease"
-            icon: "💧"
-          - id: h59_hlh_mas
-            title: "HLH + MAS — Hemofagositik Lenfohistiyositoz ve Makrofaj Aktivasyon Sendromu"
-            icon: "🔥"
-          - id: h60_cfld
-            title: "CFLD — Cystic Fibrosis Liver Disease (Kistik Fibroz KC Hastalığı)"
-            icon: "🫧"
-          - id: h61_reye
-            title: "Reye Sendromu — Akut Ensefalopati + Hepatik Yağlanma"
-            icon: "🧬"
-    complaints:
-      - category: neonatal
-        category_name: "Yenidoğan / Neonatal Kolestaz"
-        category_icon: "👶"
-        entries:
-          - id: s01_uzamis_sarilik
-            title: "Uzamış Yenidoğan Sarılığı"
-            icon: "👶"
-          - id: s02_akut_sarilik
-            title: "Akut Sarılık (Büyük Çocuk)"
-            icon: "🟡"
-          - id: s37_nicu_sonrasi
-            title: "NICU Sonrası Takip (Kolestaz / IFALD)"
-            icon: "👶"
-      - category: lab
-        category_name: "Laboratuvar Anomalileri"
-        category_icon: "🧪"
-        entries:
-          - id: s07_alp_yuksekligi
-            title: "İzole ALP Yüksekliği (Kemik mi Karaciğer mi?)"
-            icon: "🦴"
-          - id: s08_hipoalbuminemi
-            title: "İzole Hipoalbuminemi (Sentez Bozukluğu mu Kayıp mı?)"
-            icon: "🔻"
-          - id: s09_inr_uzun
-            title: "Uzamış INR / Koagülopati (K Vit Yanıtlı mı Sentez Yetmezliği mi?)"
-            icon: "🩸"
-          - id: s10_hiperamonyemi
-            title: "Hiperamonyemi"
-            icon: "☠️"
-          - id: s11_afp_yuksekligi
-            title: "AFP (α-fetoprotein) Yüksekliği"
-            icon: "📏"
-          - id: s23_adolesan_yorgun
-            title: "Adolesan Yorgun + ALT Yüksekliği"
-            icon: "😴"
-          - id: s38_infant_alt_yuk
-            title: "İnfant İzole ALT Yüksekliği (<1 Yaş)"
-            icon: "👶"
-          - id: s39_infant_ast_yuk
-            title: "İnfant İzole AST Yüksekliği (Kas/KC Ayırıcı)"
-            icon: "👶"
-          - id: s40_seruloplazmin_dus
-            title: "Düşük Seruloplazmin (Wilson Tarama)"
-            icon: "🧪"
-          - id: s41_ldh_yuksek_kc
-            title: "LDH Yüksekliği + KC (HLH/Lenfoma/Hemoliz)"
-            icon: "🧪"
-          - id: s42_urik_asit_yuk
-            title: "Ürik Asit Yüksekliği (GSD I + Tümör Lizis)"
-            icon: "🧪"
-      - category: muayene
-        category_name: "Fizik Muayene + Görüntüleme"
-        category_icon: "🩺"
-        entries:
-          - id: s12_hepatomegali
-            title: "Hepatomegali"
-            icon: "🫀"
-          - id: s13_splenomegali
-            title: "İzole Splenomegali (Hepatomegali Yoksa/Hafif)"
-            icon: "🫀"
-          - id: s14_hsm
-            title: "Hepatosplenomegali (HSM)"
-            icon: "🫀🫁"
-          - id: s15_asit
-            title: "Asit (Yeni Başlangıç)"
-            icon: "💧"
-          - id: s16_kc_kitlesi
-            title: "Karaciğer Kitlesi"
-            icon: "🔍"
-          - id: s35_insidental
-            title: "İnsidental Radyolojik Bulgu"
-            icon: "🔎"
-          - id: s43_odem_kc_kaynakli
-            title: "Ödem (Hepatik / Renal / Kardiyak / PLE Ayırıcı)"
-            icon: "💧"
-      - category: semptom
-        category_name: "Klinik Semptom Şikayetleri"
-        category_icon: "🤚"
-        entries:
-          - id: s17_kasinti
-            title: "Kronik Kolestatik Kaşıntı"
-            icon: "🤚"
-          - id: s18_akolik_koyu_idrar
-            title: "Koyu İdrar / Akolik (Beyaz) Dışkı"
-            icon: "🎨"
-          - id: s19_morarma
-            title: "Kolay Morarma / Kanama Eğilimi"
-            icon: "🩹"
-          - id: s20_suk_agri
-            title: "Sağ Üst Kadran (SÜK) Ağrısı"
-            icon: "🤕"
-          - id: s21_hipoglisemi
-            title: "Rekürren Hipoglisemi (Metabolik KC Şüphesi)"
-            icon: "📉"
-          - id: s22_buyume_geriligi
-            title: "Büyüme Geriliği + Karaciğer Hastalığı"
-            icon: "📏"
-          - id: s36_nafld
-            title: "Obez + ALT Yüksekliği (NAFLD/MASLD)"
-            icon: "🍔"
-      - category: acil
-        category_name: "Akut / Acil Durumlar"
-        category_icon: "🚨"
-        entries:
-          - id: s24_palf
-            title: "Akut Karaciğer Yetmezliği / PALF"
-            icon: "🚨"
-          - id: s25_varis_kanama
-            title: "Üst GİS Kanama (Özofagus / Gastrik Varis)"
-            icon: "🩸"
-          - id: s26_ensefalopati
-            title: "Hepatik Ensefalopati (HE)"
-            icon: "🧠"
-          - id: s27_sbp
-            title: "SBP — Spontan Bakteriyel Peritonit"
-            icon: "🦠"
-          - id: s28_hrs
-            title: "Hepatorenal Sendrom (HRS)"
-            icon: "🫘"
-      - category: ozel
-        category_name: "Özel Durumlar + Takip"
-        category_icon: "🔎"
-        entries:
-          - id: s29_aile_tarama
-            title: "Aile Öyküsü Taraması (Wilson, α1-AT, PFIC, BA)"
-            icon: "👨‍👩‍👧"
-          - id: s30_siroz_dekompanse
-            title: "Dekompanse Siroz (PELD + Nakil Listesi)"
-            icon: "📊"
-          - id: s31_ilac_oncesi_tarama
-            title: "Hepatotoksik İlaç Öncesi KC Taraması"
-            icon: "💊"
-          - id: s32_kemo_ki_sonrasi
-            title: "Kemoterapi / Kemik İliği Nakli Sonrası KC"
-            icon: "🧪"
-          - id: s33_post_transplant
-            title: "Post-Transplant Takip"
-            icon: "🔄"
-          - id: s34_sendromlu_kc
-            title: "Sendromlu Hasta + KC Tutulumu"
-            icon: "🧬"
+# --- Doğrulanmış konsensüs kaynakları (PubMed) -------------------------------
+# Künyeler PubMed get_article_metadata ile doğrulandı. DOI = https://doi.org/<doi>
+key_consensus_sources:
+  - id: rome4_child
+    cite: "Hyams JS ve ark. Functional Disorders: Children and Adolescents. Gastroenterology 2016"
+    doi: "10.1053/j.gastro.2016.02.015"
+  - id: rome4_infant
+    cite: "Zeevenhooven J ve ark. The New Rome IV Criteria for FGID in Infants and Toddlers. 2017"
+    doi: "10.5223/pghn.2017.20.1.1"
+  - id: gerd_2018
+    cite: "Rosen R ve ark. Pediatric GER Clinical Practice Guidelines — NASPGHAN-ESPGHAN. JPGN 2018"
+    doi: "10.1097/MPG.0000000000001889"
+  - id: eatef
+    cite: "ESPGHAN-NASPGHAN Guidelines — GI/Nutritional Complications in Esophageal Atresia-TEF. JPGN"
+    doi: "10.1097/MPG.0000000000001401"
+  - id: battery_2021
+    cite: "Mubarak A ve ark. Button Battery Ingestion in Childhood — ESPGHAN Position Paper. JPGN 2021"
+    doi: "10.1097/MPG.0000000000003048"
+  - id: hpylori_2023
+    cite: "Updated joint ESPGHAN/NASPGHAN guidelines — H. pylori in children and adolescents. JPGN 2023"
+    doi: "10.1002/jpn3.12314"
+  - id: age_espghan
+    cite: "ESPGHAN/ESPID evidence-based guidelines — acute gastroenteritis in children in Europe. JPGN"
+    doi: "10.1097/01.mpg.0000319064.93905.44"
+  - id: celiac_2020
+    cite: "Husby S ve ark. ESPGHAN Guidelines for Diagnosing Coeliac Disease 2020. JPGN"
+    doi: "10.1097/MPG.0000000000002497"
+  - id: dracma
+    cite: "WAO DRACMA guideline update — Cow's Milk Allergy. World Allergy Organ J 2024"
+    doi: "10.1016/j.waojou.2024.100888"
+  - id: ibd_porto
+    cite: "Levine A ve ark. ESPGHAN Revised Porto Criteria — IBD diagnosis in children. JPGN 2014"
+    doi: "10.1097/MPG.0000000000000239"
+  - id: cd_eccoespghan
+    cite: "van Rheenen PF ve ark. Medical Management of Paediatric Crohn's Disease — ECCO-ESPGHAN Update. JCC 2020"
+    doi: "10.1093/ecco-jcc/jjaa161"
+  - id: uc_eccoespghan_1
+    cite: "Turner D ve ark. Management of Paediatric UC Part 1: Ambulatory Care — ECCO-ESPGHAN. JPGN 2018"
+    doi: "10.1097/MPG.0000000000002035"
+  - id: uc_eccoespghan_2
+    cite: "Turner D ve ark. Management of Paediatric UC Part 2: Acute Severe Colitis — ECCO-ESPGHAN. JPGN 2018"
+    doi: "10.1097/MPG.0000000000002036"
+  - id: cholestasis_2017
+    cite: "Fawaz R ve ark. Guideline — Evaluation of Cholestatic Jaundice in Infants — NASPGHAN-ESPGHAN. JPGN 2017"
+    doi: "10.1097/MPG.0000000000001334"
+  - id: cholestasis_fispghan
+    cite: "Diagnostic approaches for infants with cholestatic liver diseases — FISPGHAN Position Paper. JPGN 2025"
+    doi: "10.1002/jpn3.70207"
+  - id: constipation_2014
+    cite: "Tabbers MM ve ark. Evaluation and Treatment of Functional Constipation — ESPGHAN-NASPGHAN. JPGN 2014"
+    doi: "10.1097/MPG.0000000000000266"
+  - id: eoe_ueg
+    cite: "Lucendo AJ ve ark. Guidelines on Eosinophilic Esophagitis — UEG. United Eur Gastroenterol J 2017"
+    doi: "10.1177/2050640616689525"
+  - id: eoe_espghan
+    cite: "Diagnosis and management of EoE in children — ESPGHAN update. JPGN"
+    doi: "10.1002/jpn3.12188"
+  - id: palf_naspghan
+    cite: "NASPGHAN Position Paper — Diagnosis and Management of Pediatric Acute Liver Failure. JPGN"
+    doi: "10.1097/MPG.0000000000003268"
+  - id: sbs_espghan
+    cite: "Nutrition and Intestinal Rehabilitation of Children with SBS — ESPGHAN CoN, Part 1. JPGN"
+    doi: "10.1097/MPG.0000000000003849"
+  - id: pancreatitis_naspghan
+    cite: "Management of Acute Pancreatitis in the Pediatric Population — NASPGHAN bazlı"
+    doi: "10.12788/jhm.3285"
 
-  - id: ust_gis
-    name: "Üst GİS"
-    icon: "🍽️"
-    color: "#dc2626"
-    # 56 hastalık + 30 şikayet
-    diseases:
-      - category: ozofagus
-        category_name: "Özofagus Hastalıkları"
-        category_icon: "🫒"
-        entries:
-          - id: gorh
-            title: "Gastroözofageal Reflü Hastalığı (GÖRH)"
-            icon: "🔥"
-          - id: infeksiyoz_ozofajit
-            title: "Enfeksiyöz Özofajit (Kandida / HSV / CMV)"
-            icon: "🦠"
-          - id: ozofagus_varis
-            title: "Özofagus Varis Kanaması (Pediatrik)"
-            icon: "🩸"
-          - id: schatzki
-            title: "Schatzki Halkası / Özofageal Web"
-            icon: "⭕"
-          - id: barrett
-            title: "Barrett Özofagusu (Pediatrik)"
-            icon: "🔴"
-          - id: ozofajeal_striktür
-            title: "Özofageal Striktür (Peptik / Post-Koroziv / Anastomoz)"
-            icon: "⛓️"
-          - id: ozofagus_divertikul
-            title: "Özofageal Divertikül (Zenker, midözofageal, epifrenik)"
-            icon: "🧳"
-          - id: ilaç_özofajiti
-            title: "İlaç İndüklü Özofajit (Pill Esophagitis)"
-            icon: "💊"
-          - id: postfundoplikasyon
-            title: "Post-Fundoplikasyon Sendromları"
-            icon: "🔁"
-          - id: ozofagus_polip
-            title: "Özofagus Polip ve Tümörler (Pediatrik)"
-            icon: "🔬"
-      - category: mide
-        category_name: "Mide Hastalıkları"
-        category_icon: "🫃"
-        entries:
-          - id: h_pylori
-            title: "Helicobacter pylori Enfeksiyonu (Pediatrik)"
-            icon: "🌀"
-          - id: peptik_ulser
-            title: "Peptik Ülser Hastalığı (PÜH)"
-            icon: "💥"
-          - id: gastrit
-            title: "Gastrit (Non-H. pylori)"
-            icon: "🫄"
-          - id: stres_ulseri
-            title: "Stres İlişkili Mukozal Hasar (SRMD)"
-            icon: "⚡"
-          - id: menetrier
-            title: "Ménétrier Hastalığı"
-            icon: "📏"
-          - id: dieulafoy
-            title: "Dieulafoy Lezyonu"
-            icon: "🩸"
-          - id: gastrik_polip
-            title: "Gastrik Polipler (Fundik/Hamartom/Adenomatöz)"
-            icon: "⚪"
-          - id: zollinger_ellison
-            title: "Zollinger-Ellison Sendromu (ZES)"
-            icon: "📈"
-          - id: bezoar
-            title: "Bezoar (Trikobezoar / Fitobezoar / Laktobezoar)"
-            icon: "🧶"
-          - id: gvhd_ust_gis
-            title: "Graft-versus-Host Hastalığı — Üst GİS Tutulumu"
-            icon: "🧬"
-          - id: portal_gastropati
-            title: "Portal Hipertansif Gastropati (PHG) + GAVE"
-            icon: "🩸"
-          - id: pnomatozis_gastrik
-            title: "Gastrik Pnömatozis"
-            icon: "🫧"
-      - category: duodenum
-        category_name: "Duodenum Hastalıkları"
-        category_icon: "🌀"
-        entries:
-          - id: celiac
-            title: "Çölyak Hastalığı"
-            icon: "🌾"
-          - id: duodenit
-            title: "Duodenit (Peptik / Eozinofilik / Diğer)"
-            icon: "🔥"
-          - id: sma_sendromu
-            title: "Superior Mezenterik Arter (SMA / Wilkie) Sendromu"
-            icon: "📐"
-          - id: crohn_ust_gis
-            title: "Crohn Hastalığı — Üst GİS Tutulumu"
-            icon: "🎯"
-      - category: motilite
-        category_name: "Motilite / Fonksiyonel"
-        category_icon: "〰️"
-        entries:
-          - id: akalazya
-            title: "Akalazya"
-            icon: "〰️"
-          - id: gastroparezi
-            title: "Gastroparezi"
-            icon: "⏳"
-          - id: fonksiyonel_dispepsi
-            title: "Fonksiyonel Dispepsi (Rome IV)"
-            icon: "💭"
-          - id: siklik_kusma
-            title: "Siklik Kusma Sendromu (CVS)"
-            icon: "🔄"
-          - id: ruminasyon
-            title: "Ruminasyon Sendromu"
-            icon: "↩️"
-          - id: aerofaji
-            title: "Aerofaji"
-            icon: "💨"
-          - id: nut_craker
-            title: "Nutcracker (Jackhammer) Özofagusu"
-            icon: "🔨"
-          - id: des
-            title: "Diffüz Özofageal Spazm (DES)"
-            icon: "⚡"
-      - category: eozinofilik
-        category_name: "Eozinofilik / İmmün"
-        category_icon: "🧬"
-        entries:
-          - id: eoe
-            title: "Eozinofilik Özofajit (EoE)"
-            icon: "🧬"
-          - id: eog_eod
-            title: "Eozinofilik Gastrit / Duodenit (EoG / EoD)"
-            icon: "🌸"
-          - id: ppi_ree
-            title: "PPI-Responsive Özofageal Eozinofili (PPI-REE)"
-            icon: "💊"
-          - id: allergic_proctocolitis_ust
-            title: "İnek Sütü Proteini Alerjisi — Üst GİS Prezentasyon"
-            icon: "🍼"
-          - id: radyasyon_ozofajiti
-            title: "Radyasyon / Kemoterapi Mukoziti (Üst GİS)"
-            icon: "☢️"
-      - category: konjenital
-        category_name: "Konjenital / Anatomik"
-        category_icon: "🧩"
-        entries:
-          - id: ozofagus_atrezi_tof
-            title: "Özofagus Atrezisi / Trakeoözofageal Fistül (EA/TÖF)"
-            icon: "🧩"
-          - id: pilor_stenozu
-            title: "Hipertrofik Pilor Stenozu (HPS)"
-            icon: "🫒"
-          - id: gastrik_volvulus
-            title: "Gastrik Volvulus"
-            icon: "🌪️"
-          - id: duodenal_atrezi
-            title: "Duodenal Atrezi / Web"
-            icon: "🧩"
-          - id: hiatal_herni
-            title: "Hiatal Herni"
-            icon: "🧩"
-          - id: diyafragma_herni
-            title: "Konjenital Diyafragma Hernisi (Geç Prezentasyon)"
-            icon: "🧩"
-          - id: duplikasyon_kisti
-            title: "Özofageal / Gastrik Duplikasyon Kisti"
-            icon: "🫧"
-          - id: mikrogastri
-            title: "Konjenital Mikrogastri"
-            icon: "📏"
-      - category: acil
-        category_name: "Acil / Travma"
-        category_icon: "🚨"
-        entries:
-          - id: koroziv_hasar
-            title: "Koroziv Özofageal Hasar"
-            icon: "🧪"
-          - id: ozofagus_yabanci_cisim
-            title: "Özofagus Yabancı Cisim"
-            icon: "🪙"
-          - id: buton_pil
-            title: "Buton Pil İngesti"
-            icon: "🔋"
-          - id: mallory_weiss
-            title: "Mallory-Weiss Sendromu"
-            icon: "🩹"
-          - id: boerhaave
-            title: "Boerhaave Sendromu / Özofagus Perforasyonu"
-            icon: "⚠️"
-          - id: hemobilia
-            title: "Hemobilia / Hemosuksus Pankreatikus"
-            icon: "🩸"
-          - id: bolus_impact
-            title: "Gıda Bolus İmpaksiyonu"
-            icon: "🥩"
-          - id: magnet_ingestion
-            title: "Mıknatıs İngesti (Tekli / Çoklu)"
-            icon: "🧲"
-          - id: keskin_cisim
-            title: "Keskin / Uzun Yabancı Cisim İngesti"
-            icon: "📌"
-    complaints:
-      - category: yutma
-        category_name: "Yutma Bozuklukları"
-        category_icon: "👄"
-        entries:
-          - id: disfaji
-            title: "Disfaji (Yutma Güçlüğü)"
-            icon: "🫗"
-          - id: odinofaji
-            title: "Odinofaji (Ağrılı Yutma)"
-            icon: "😣"
-          - id: globus
-            title: "Globus Hissi"
-            icon: "🧱"
-      - category: kusma
-        category_name: "Kusma / Regürjitasyon"
-        category_icon: "🤮"
-        entries:
-          - id: akut_kusma
-            title: "Akut Kusma"
-            icon: "🤢"
-          - id: kronik_kusma
-            title: "Kronik Kusma"
-            icon: "🔁"
-          - id: siklik_kusma_semptom
-            title: "Siklik Kusma (Semptom Yaklaşımı)"
-            icon: "🔄"
-          - id: regurjitasyon
-            title: "Regürjitasyon"
-            icon: "⬆️"
-          - id: ruminasyon_semptom
-            title: "Ruminasyon (Semptom Yaklaşımı)"
-            icon: "↩️"
-          - id: yenidogan_kusmasi
-            title: "Yenidoğan Kusması"
-            icon: "🍼"
-          - id: safrali_kusma
-            title: "Safralı Kusma"
-            icon: "🟢"
-          - id: sandifer_send
-            title: "Sandifer Sendromu (GERD'in Distonik Bulgusu)"
-            icon: "🌀"
-          - id: izole_bulanti
-            title: "İzole Bulantı (Kusma Olmadan) — Şikayet Yaklaşımı"
-            icon: "🤢"
-          - id: water_brash
-            title: "Water Brash (Sulu Tükürük Reflüsü) — Şiddetli GERD Bulgusu"
-            icon: "💦"
-      - category: kanama
-        category_name: "Üst GİS Kanaması"
-        category_icon: "🩸"
-        entries:
-          - id: hematemez
-            title: "Hematemez"
-            icon: "🩸"
-          - id: melena_ust
-            title: "Melena (Üst GİS Kaynaklı)"
-            icon: "⚫"
-      - category: agri
-        category_name: "Ağrı / Dispepsi"
-        category_icon: "💢"
-        entries:
-          - id: epigastrik_agri
-            title: "Epigastrik Ağrı"
-            icon: "🎯"
-          - id: dispepsi
-            title: "Dispepsi"
-            icon: "🤒"
-          - id: retrosternal_agri
-            title: "Retrosternal Ağrı"
-            icon: "💢"
-          - id: heartburn_yanma
-            title: "Heartburn — Retrosternal Yanma (GERD'in Tipik Sunumu)"
-            icon: "🔥"
-          - id: erken_doyma_pds
-            title: "Erken Doyma + Postprandial Distress (Fonksiyonel Dispepsi PDS)"
-            icon: "🍽️"
-          - id: halitozis
-            title: "Halitozis (Kötü Ağız Kokusu) — GE Şüphesi"
-            icon: "👃"
-          - id: asiri_gegirme_aerofaji
-            title: "Aşırı Geğirme + Aerofaji (Rome IV — Belching Disorders)"
-            icon: "💨"
-          - id: inatci_hickirik
-            title: "İnatçı Hıçkırık (>48 saat) — Persistan/İnatçı Hıçkırık"
-            icon: "🌬️"
-      - category: toksik
-        category_name: "Toksik / Yabancı Cisim"
-        category_icon: "☢️"
-        entries:
-          - id: yabanci_cisim_yutma
-            title: "Yabancı Cisim Yutma"
-            icon: "🪙"
-          - id: koroziv_maruziyet
-            title: "Koroziv Maruziyet"
-            icon: "🧪"
-      - category: beslenme
-        category_name: "Beslenme / Büyüme"
-        category_icon: "🍼"
-        entries:
-          - id: yetersiz_tarti
-            title: "Yetersiz Tartı Alımı"
-            icon: "📉"
-      - category: semptom
-        category_name: "semptom"
-        category_icon: "•"
-        entries:
-          - id: cmpa_gerd_ayrim
-            title: "CMPA vs GERD Ayrımı (İnfant Reflü/Kusma/Huzursuzluk)"
-            icon: "🍼"
-          - id: eating_dis_ge
-            title: "Adolesan Beslenme Bozukluğu + GIS Etki"
-            icon: "⚖️"
-          - id: agiz_kuru_sjogren
-            title: "Ağız Kuruluğu + Sjögren GIS Etki (Pediatrik Otoimmün Sialoadenit)"
-            icon: "👄"
-      - category: acil
-        category_name: "acil"
-        category_icon: "•"
-        entries:
-          - id: toksik_ingest_gis
-            title: "Toksik İngestion + GIS Etki (Korozyon / İlaç / Pil / Yabancı Cisim)"
-            icon: "☠️"
+# --- Klinik alanlar ve algoritmalar ------------------------------------------
+domains:
 
-  - id: alt_gis
-    name: "Alt GİS"
-    icon: "🩻"
-    color: "#16a34a"
-    # 90 hastalık + 47 şikayet
-    diseases:
-      - category: ibd
-        category_name: "İnflamatuar Barsak Hastalıkları"
-        category_icon: "🔥"
-        entries:
-          - id: crohn
-            title: "Crohn Hastalığı (Pediatrik Klasik)"
-            icon: "🔥"
-          - id: uc
-            title: "Ülseratif Kolit (UC)"
-            icon: "🔥"
-          - id: veo_ibd
-            title: "VEO-IBD (<6 yaş)"
-            icon: "👶"
-          - id: ibd_u
-            title: "IBD-Unclassified / İndeterminate Kolit (IBDU)"
-            icon: "❓"
-          - id: monogenik_ibd
-            title: "Monogenik IBD (IL-10R, XIAP, CGD, IPEX, LRBA, CTLA4)"
-            icon: "🧬"
-          - id: mikroskobik_kolit
-            title: "Mikroskobik Kolit (Kollajenöz + Lenfositik)"
-            icon: "🔬"
-          - id: behcet_gis
-            title: "Behçet GİS Tutulumu"
-            icon: "🌑"
-      - category: enfeksiyoz
-        category_name: "Enfeksiyöz Enterokolit"
-        category_icon: "🦠"
-        entries:
-          - id: viral_ge
-            title: "Akut Viral Gastroenterit (Rotavirüs, Norovirüs, Adenovirüs, Astrovirüs)"
-            icon: "🦠"
-          - id: bakteriyel_ec
-            title: "Akut Bakteriyel Enterokolit (Salmonella, Shigella, Campylobacter, Yersinia)"
-            icon: "🦠"
-          - id: ehec_hus
-            title: "EHEC/STEC + Hemolitik Üremik Sendrom (HUS)"
-            icon: "🚨"
-          - id: cdiff
-            title: "Clostridioides difficile Enfeksiyonu (CDI)"
-            icon: "🦠"
-          - id: giardia
-            title: "Giardiasis (Giardia duodenalis / lamblia / intestinalis)"
-            icon: "🪱"
-          - id: amip
-            title: "Amibiasis (Entamoeba histolytica)"
-            icon: "🪱"
-          - id: crypto
-            title: "Cryptosporidium + Cyclospora"
-            icon: "🪱"
-          - id: helmint
-            title: "Helmintik Enfeksiyonlar (Ascaris, Oksiyur, Strongyloides, Trichuris, Hookworm)"
-            icon: "🪱"
-          - id: int_tb
-            title: "İntestinal Tüberküloz"
-            icon: "🫁"
-      - category: allerjik
-        category_name: "Alerjik / Eozinofilik / İmmün"
-        category_icon: "🧬"
-        entries:
-          - id: cmpa_ige
-            title: "İnek Sütü Proteini Alerjisi — IgE-aracılı (CMPA-IgE)"
-            icon: "🥛"
-          - id: fpies
-            title: "FPIES (Food Protein-Induced Enterocolitis Syndrome)"
-            icon: "🥛"
-          - id: fpiap
-            title: "FPIAP (Food Protein-Induced Allergic Proctocolitis) — Kanlı Dışkılı İnfant"
-            icon: "🩸"
-          - id: fpe
-            title: "FPE (Food Protein-Induced Enteropathy)"
-            icon: "🥛"
-          - id: celiac_alt
-            title: "Çölyak Hastalığı (Alt GİS Perspektifi)"
-            icon: "🌾"
-          - id: eoc
-            title: "Eozinofilik Kolit (EoC)"
-            icon: "🧬"
-          - id: oto_enteropati
-            title: "Otoimmün Enteropati (AIE)"
-            icon: "🧬"
-          - id: ipex
-            title: "IPEX Sendromu (Immune Dysregulation, Polyendocrinopathy, Enteropathy, X-linked)"
-            icon: "🧬"
-      - category: malabs
-        category_name: "Malabsorpsiyon / Kısa Barsak"
-        category_icon: "🌀"
-        entries:
-          - id: sbs
-            title: "Kısa Barsak Sendromu (SBS)"
-            icon: "✂️"
-          - id: sibo
-            title: "İnce Barsak Bakteri Aşırı Çoğalması (SIBO)"
-            icon: "🌀"
-          - id: laktaz
-            title: "Laktaz Eksikliği (Primer + Sekonder + Konjenital)"
-            icon: "🥛"
-          - id: csid
-            title: "Konjenital Sukraz-İzomaltaz Eksikliği (CSID)"
-            icon: "🍬"
-          - id: glukoz_gal_malabs
-            title: "Glukoz-Galaktoz Malabsorpsiyonu (GGM)"
-            icon: "🍯"
-          - id: lenfanjiektazi
-            title: "İntestinal Lenfanjiektazi (Waldmann Hastalığı)"
-            icon: "🔗"
-          - id: ple
-            title: "Protein-Kaybedici Enteropati (PLE)"
-            icon: "💧"
-          - id: abetalipo
-            title: "Abetalipoproteinemi + Hipobetalipoproteinemi"
-            icon: "🫧"
-          - id: konj_ishaller
-            title: "Konjenital İshaller (MVID, CLD, Tufting, DGAT1)"
-            icon: "👶"
-      - category: motilite
-        category_name: "Motilite / Fonksiyonel"
-        category_icon: "〰️"
-        entries:
-          - id: func_kabizlik
-            title: "Fonksiyonel Kabızlık (Rome IV)"
-            icon: "🚽"
-          - id: ibs
-            title: "İrritabl Barsak Sendromu (IBS) — Pediatrik"
-            icon: "🔄"
-          - id: fap_nos
-            title: "Fonksiyonel Karın Ağrısı — Başka Türlü Tanımlanmamış (FAP-NOS)"
-            icon: "😣"
-          - id: abdo_migren
-            title: "Abdominal Migren"
-            icon: "🌀"
-          - id: infant_kolik
-            title: "İnfant Koliği (Rome IV G4)"
-            icon: "👶"
-          - id: cipo
-            title: "Kronik İntestinal Psödoobstrüksiyon (CIPO)"
-            icon: "🔄"
-          - id: hirschsprung
-            title: "Hirschsprung Hastalığı (HSCR)"
-            icon: "🎯"
-          - id: ias_akalazya
-            title: "İnternal Anal Sfinkter (İAS) Akalazyası"
-            icon: "🔒"
-          - id: slow_transit
-            title: "Slow Transit Konstipasyon"
-            icon: "🐌"
-      - category: konjenital
-        category_name: "Konjenital / Anatomik"
-        category_icon: "🧩"
-        entries:
-          - id: jejunoileal_atrezi
-            title: "Jejunoileal Atrezi / Stenoz"
-            icon: "🧩"
-          - id: kolon_atrezi
-            title: "Kolon Atrezi"
-            icon: "🧩"
-          - id: malrotasyon
-            title: "Malrotasyon + Midgut Volvulus"
-            icon: "🚨"
-          - id: meckel
-            title: "Meckel Divertikülü"
-            icon: "🎯"
-          - id: duplikasyon
-            title: "İntestinal Duplikasyon Kisti"
-            icon: "🧩"
-          - id: invajinasyon
-            title: "İnvajinasyon (İdyopatik + Patolojik)"
-            icon: "🚨"
-          - id: anorektal_malf
-            title: "Anorektal Malformasyonlar (İmperforat Anüs, Kloaka)"
-            icon: "🧩"
-          - id: omfalosel
-            title: "Omfalosel + Gastroşizis"
-            icon: "👶"
-          - id: mekonyum_ileus
-            title: "Mekonyum İleusu / Mekonyum Tıkacı"
-            icon: "👶"
-          - id: umbilikal_anomali
-            title: "Umbilikal Anomaliler (Patent Omfalomezenterik, Urakal, Granülom)"
-            icon: "🧩"
-      - category: polip
-        category_name: "Polip + Tümöral"
-        category_icon: "🎗️"
-        entries:
-          - id: juvenil_polip
-            title: "Juvenil Polip (İzole)"
-            icon: "🎗️"
-          - id: jps
-            title: "Juvenil Polipozis Sendromu (JPS)"
-            icon: "🧬"
-          - id: fap
-            title: "FAP (Familial Adenomatous Polyposis)"
-            icon: "🧬"
-          - id: pjs
-            title: "Peutz-Jeghers Sendromu (PJS)"
-            icon: "🧬"
-          - id: diger_polipoz
-            title: "Lynch + Cowden (PHTS) + Cronkhite-Canada Sendromu"
-            icon: "🧬"
-          - id: int_lenfoma
-            title: "Pediatrik İntestinal Lenfoma (Burkitt, DLBCL)"
-            icon: "⚠️"
-          - id: ped_kolon_ca
-            title: "Pediatrik Kolorektal Kanser"
-            icon: "⚠️"
-          - id: gist_diger
-            title: "GIST + Diğer Nadir Pediatrik GI Tümörleri"
-            icon: "⚠️"
-      - category: vaskuler
-        category_name: "Vasküler / İskemik / Acil"
-        category_icon: "🩸"
-        entries:
-          - id: hsp_gis
-            title: "Henoch-Schönlein Purpura (IgA Vaskülit) — GİS Tutulumu"
-            icon: "🩸"
-          - id: sistemik_vaskulit
-            title: "Sistemik Vaskülit — Behçet GI + PAN + Diğer"
-            icon: "🩸"
-          - id: nec
-            title: "Nekrotizan Enterokolit (NEC)"
-            icon: "🚨"
-          - id: iskemik_kolit
-            title: "İskemik Kolit — Pediatrik"
-            icon: "🩸"
-          - id: apandisit
-            title: "Akut Apandisit — Pediatrik"
-            icon: "🚨"
-          - id: mezenter_adenit
-            title: "Mezenterik Adenit"
-            icon: "🔬"
-          - id: primer_peritonit
-            title: "Primer (Spontan) Peritonit (SBP)"
-            icon: "💧"
-          - id: sekonder_peritonit
-            title: "Sekonder Peritonit (Perforasyon + Cerrahi Kaynak)"
-            icon: "🚨"
-      - category: proktoloji
-        category_name: "Proktoloji / Perianal"
-        category_icon: "🎯"
-        entries:
-          - id: anal_fissur
-            title: "Anal Fissür (Akut + Kronik)"
-            icon: "🎯"
-          - id: perianal_apse
-            title: "Perianal Apse + Fistül (Crohn-Dışı)"
-            icon: "🎯"
-          - id: crohn_perianal
-            title: "Crohn-İlişkili Perianal Hastalık"
-            icon: "🔥"
-          - id: rektal_prolaps
-            title: "Rektal Prolaps"
-            icon: "🎯"
-          - id: srus
-            title: "Solitary Rectal Ulcer Syndrome (SRUS)"
-            icon: "🎯"
-          - id: proktitis
-            title: "Proktitis (Enfeksiyöz + Radyasyon + Post-AB)"
-            icon: "🎯"
-          - id: anorektal_stenoz
-            title: "Anorektal Stenoz (Konjenital + Edinsel)"
-            icon: "🎯"
-      - category: postop
-        category_name: "Post-op / İatrojenik"
-        category_icon: "🔧"
-        entries:
-          - id: ostomi_komp
-            title: "Ostomi Komplikasyonları (İleostomi + Kolostomi)"
-            icon: "🔧"
-          - id: pouchitis
-            title: "Pouchitis (İPAA Sonrası)"
-            icon: "🔥"
-          - id: anastomoz_darlik
-            title: "Anastomoz Darlığı / Sızıntı / Enterokutan Fistül"
-            icon: "🔧"
-          - id: gvhd_alt_gis
-            title: "GVHD Alt GİS Tutulumu (HSCT Sonrası)"
-            icon: "🧬"
-          - id: radyasyon_ent
-            title: "Radyasyon Enteropatisi"
-            icon: "☢️"
-          - id: ilac_enteropati
-            title: "İlaç-İlişkili Enteropati (NSAİİ + MMF + Checkpoint + KT)"
-            icon: "💊"
-      - category: apendiks
-        category_name: "Apendiks + Çekum"
-        category_icon: "📍"
-        entries:
-          - id: apendiks_mukosel
-            title: "Apendiks Mukoseli + Karsinoid (NET)"
-            icon: "📍"
-          - id: tiflit
-            title: "Tiflit (Nötropenik Enterokolit)"
-            icon: "🚨"
-          - id: cekal_volvulus
-            title: "Çekal Volvulus (Pediatrik)"
-            icon: "🌀"
-      - category: ozel
-        category_name: "Özel / Sendromik / Takip"
-        category_icon: "⭐"
-        entries:
-          - id: diversiyon_kolit
-            title: "Diversiyon Kolitisi"
-            icon: "⭐"
-          - id: beslenme_alt_gis
-            title: "Beslenme-İlişkili Alt GİS (Parenteral + Refeeding)"
-            icon: "🍼"
-          - id: diabetes_gis
-            title: "Tip 1 Diyabet-İlişkili Alt GİS"
-            icon: "💉"
-          - id: turkiye_parazit
-            title: "Türkiye Endemik Paraziter + Ekinokok"
-            icon: "🇹🇷"
-          - id: tropikal_sprue
-            title: "Tropikal Sprue"
-            icon: "🌴"
-          - id: munchausen_gis
-            title: "Çocuk İstismarı / Munchausen by Proxy — GİS Bulguları"
-            icon: "⚠️"
-    complaints:
-      - category: kabizlik
-        category_name: "Kabızlık / Defekasyon"
-        category_icon: "⏳"
-        entries:
-          - id: akut_kabizlik
-            title: "Akut Kabızlık"
-            icon: "⏳"
-          - id: kronik_kabizlik
-            title: "Kronik Fonksiyonel Kabızlık"
-            icon: "⏳"
-          - id: fekal_impaksiyon
-            title: "Fekal İmpaksiyon"
-            icon: "🚨"
-          - id: enkoprezis
-            title: "Enkoprezis (Retansiyonlu + Retansiyonsuz)"
-            icon: "⚠️"
-          - id: mekonyum_gecikme
-            title: "Yenidoğan Mekonyum Pasajı Gecikmesi (>24-48 saat)"
-            icon: "👶"
-      - category: ishal
-        category_name: "İshal / Diyare"
-        category_icon: "💧"
-        entries:
-          - id: akut_ishal
-            title: "Akut İshal (<14 gün)"
-            icon: "💧"
-          - id: persistan_ishal
-            title: "Persistan İshal (2-4 hafta)"
-            icon: "💧"
-          - id: kronik_ishal
-            title: "Kronik İshal (>4 hafta)"
-            icon: "💧"
-          - id: kanli_ishal
-            title: "Kanlı İshal (Dizanteri)"
-            icon: "🩸"
-          - id: steatore
-            title: "Yağlı Dışkı / Steatore"
-            icon: "🧈"
-          - id: sekretuvar_ishal
-            title: "Sekretuvar İshal (Sulu, Büyük Hacim)"
-            icon: "💧"
-          - id: yenidogan_ishal
-            title: "Yenidoğan İshali (Konjenital Ayırıcı)"
-            icon: "👶"
-      - category: kanama
-        category_name: "Alt GİS Kanaması"
-        category_icon: "🩸"
-        entries:
-          - id: hematokezya
-            title: "Hematokezya (Parlak Kırmızı Kan)"
-            icon: "🩸"
-          - id: alt_melena
-            title: "Melena — Alt GİS Kaynaklı"
-            icon: "🩸"
-          - id: okult_kanama
-            title: "Okült GİS Kanaması (IDA — Demir Eksikliği Anemi Taraması)"
-            icon: "🔍"
-          - id: currant_jelly
-            title: "Currant Jelly Stool (İnvajinasyon Patognomonik)"
-            icon: "🫐"
-          - id: rektoraji
-            title: "Rektoraji (Anal Kaynaklı Kanama)"
-            icon: "🎯"
-          - id: solgunluk_ida_genel
-            title: "Solgunluk + Halsizlik (IDA Sunumu — GE Kaynaklı Tarama)"
-            icon: "🩸"
-      - category: agri
-        category_name: "Karın Ağrısı / Distansiyon"
-        category_icon: "💢"
-        entries:
-          - id: akut_batin
-            title: "Akut Karın / Akut Batın"
-            icon: "🚨"
-          - id: kronik_agri
-            title: "Kronik-Tekrarlayan Karın Ağrısı (FAP / Rome IV)"
-            icon: "💢"
-          - id: periumbilikal
-            title: "Peri-umbilikal Ağrı"
-            icon: "💢"
-          - id: sag_alt_kadran
-            title: "Sağ Alt Kadran Ağrısı (Apandisit Ayırıcı)"
-            icon: "🚨"
-          - id: distansiyon
-            title: "Abdominal Distansiyon"
-            icon: "💢"
-          - id: infant_kolik_sem
-            title: "İnfant Kolik Ağrısı (Rome IV — Fonksiyonel)"
-            icon: "👶"
-          - id: tenesmus
-            title: "Tenesmus + Defekasyon Ağrısı"
-            icon: "💢"
-      - category: anorektal
-        category_name: "Anorektal Şikayetler"
-        category_icon: "🎯"
-        entries:
-          - id: anal_agri
-            title: "Anal Ağrı (Defekasyon)"
-            icon: "🎯"
-          - id: anal_kasinti
-            title: "Anal Kaşıntı (Pruritus Ani)"
-            icon: "🎯"
-          - id: rektal_prolaps_sem
-            title: "Rektal Prolaps (Şikayet)"
-            icon: "🎯"
-          - id: perianal_akinti
-            title: "Perianal Akıntı / Apse"
-            icon: "🎯"
-          - id: mukuslu_diski
-            title: "Mukuslu Dışkı"
-            icon: "🎯"
-      - category: neonatal
-        category_name: "Yenidoğan-Spesifik"
-        category_icon: "👶"
-        entries:
-          - id: yenidogan_kusma_alt
-            title: "Yenidoğan Kusması — Alt Obstrüksiyon"
-            icon: "👶"
-          - id: nec_bulgulari
-            title: "NEC Şüpheli Bulgular"
-            icon: "🚨"
-          - id: yenidogan_melena
-            title: "Yenidoğan Hematokezi / Melena"
-            icon: "🩸"
-          - id: imperforat_anus
-            title: "İmperforat Anüs Tespiti (ARM)"
-            icon: "👶"
-      - category: beslenme
-        category_name: "Beslenme / Büyüme / Özel"
-        category_icon: "🍼"
-        entries:
-          - id: buyume_geriligi
-            title: "Büyüme Geriliği (Alt GİS Kaynaklı — FTT)"
-            icon: "📊"
-          - id: ple_bulgusu
-            title: "Protein-Kaybedici Enteropati (PLE — Ödem + Hipoalbuminemi)"
-            icon: "💧"
-          - id: gida_intolerans
-            title: "Gıda İntoleransı (Alt GİS Belirtileri)"
-            icon: "🥛"
-          - id: karin_kitle
-            title: "Karın Kitlesi (Çocukta Palpabl)"
-            icon: "🎗️"
-          - id: celiac_persistan
-            title: "Çölyak Diyet Uyumlu Ama Persistan Semptom — Refrakter Çölyak Yaklaşımı"
-            icon: "🌾"
-      - category: lab
-        category_name: "lab"
-        category_icon: "•"
-        entries:
-          - id: fekal_kalprotektin
-            title: "Yüksek Fekal Kalprotektin (IBD Tarama)"
-            icon: "🧪"
-          - id: crp_esr_yuksek
-            title: "CRP/ESR Yüksekliği + GIS Şüphesi"
-            icon: "🧪"
-          - id: anti_ttg_pozitif
-            title: "Pozitif Anti-tTG IgA (Çölyak Yaklaşımı)"
-            icon: "🧪"
-      - category: semptom
-        category_name: "semptom"
-        category_icon: "•"
-        entries:
-          - id: ibs_ibd_ayrim
-            title: "Adolesan IBS vs IBD Ayırıcı (Şikayet Yaklaşımı)"
-            icon: "🎭"
-          - id: anus_kanama_izole
-            title: "İzole Anüs Kanaması (Fissür / Polip / Hemoroid Ayırıcı)"
-            icon: "🩸"
-          - id: dishki_kokusu
-            title: "Anormal Dışkı Kokusu (Steatore / SIBO / CDI / Diğer)"
-            icon: "🤢"
-          - id: uriner_sx_kombo
-            title: "İdrar Semptom + Karın Ağrısı Kombi (UTI/Apandisit/PID Ayırıcı)"
-            icon: "🩺"
-      - category: acil
-        category_name: "acil"
-        category_icon: "•"
-        entries:
-          - id: volvulus_alarm
-            title: "Yenidoğan Volvulus Alarm (Cerrahi Acil — Malrotasyon)"
-            icon: "🚨"
+  - id: fgid
+    name: "Fonksiyonel GİS Bozuklukları (Rome IV)"
+    icon: "〰️"
+    consensus: [rome4_infant, rome4_child, constipation_2014]
+    algorithms:
+      - id: fgid_01
+        title: "İnfant regürjitasyonu: GÖR / GÖRH ayrımı ve adımlı yönetim"
+      - id: fgid_02
+        title: "İnfant koliği: Rome IV tanısı ve aile danışmanlığı"
+      - id: fgid_03
+        title: "Fonksiyonel kabızlık: tanı + disempaksiyon + idame tedavisi"
+      - id: fgid_04
+        title: "Fonksiyonel karın ağrısı bozuklukları (FAP / IBS / abdominal migren) ayrımı"
+      - id: fgid_05
+        title: "Fonksiyonel dispepsi: Rome IV tanı ve yönetim"
+      - id: fgid_06
+        title: "Siklik kusma sendromu: atak ve profilaksi yönetimi"
+      - id: fgid_07
+        title: "Ruminasyon ve aerofaji: tanı ve yaklaşım"
 
-  - id: safra_pankreas
-    name: "Safra-Pankreas"
-    icon: "🟡"
-    color: "#ca8a04"
-    # 66 hastalık + 26 şikayet
-    diseases:
-      - category: safra_konj
-        category_name: "Safra Yolları Konjenital"
-        category_icon: "🟡"
-        entries:
-          - id: biliyer_atrezi
-            title: "Biliyer Atrezi"
-            icon: "🟡"
-          - id: basm
-            title: "BASM (Biliyer Atrezi + Splenik Malformasyon Sendromu)"
-            icon: "🟡"
-          - id: koledok_kisti
-            title: "Koledok Kisti (Todani I-V)"
-            icon: "🟡"
-          - id: caroli
-            title: "Caroli Hastalığı / Sendromu"
-            icon: "🟡"
-          - id: arpkd_ductal
-            title: "ARPKD + Duktal Plate Malformasyonu"
-            icon: "🟡"
-          - id: neonatal_skleroz
-            title: "Neonatal Sklerozan Kolanjit (NSC)"
-            icon: "🟡"
-          - id: gb_agenezi
-            title: "Safra Kesesi Agenezi / Hipoplazi"
-            icon: "🟡"
-      - category: kolestatik
-        category_name: "Kolestatik / PSC / Kolanjit"
-        category_icon: "🔗"
-        entries:
-          - id: psc_pediatri
-            title: "PSC Pediatrik (Primer Sklerozan Kolanjit)"
-            icon: "🔗"
-          - id: pfic
-            title: "PFIC 1-6 (İlerleyici Ailesel İntrahepatik Kolestaz)"
-            icon: "🔗"
-          - id: bric
-            title: "BRIC (Benign Rekürren İntrahepatik Kolestaz)"
-            icon: "🔗"
-          - id: dubin_johnson_rotor
-            title: "Dubin-Johnson + Rotor Sendromu"
-            icon: "🔗"
-          - id: dili_kolestatik
-            title: "İlaç İlişkili Kolestaz (DILI Kolestatik Tip)"
-            icon: "🔗"
-          - id: sekonder_skleroz
-            title: "Sekonder Sklerozan Kolanjit"
-            icon: "🔗"
-          - id: askending_kolanjit
-            title: "Askending (Akut Bakteriyel) Kolanjit"
-            icon: "🔗"
-          - id: igg4_kolanjit
-            title: "IgG4 İlişkili Kolanjit (IgG4-SC)"
-            icon: "🔗"
-          - id: biliyer_ascariasis
-            title: "🇹🇷 Biliyer Ascariasis (Parazit Endemik)"
-            icon: "🪱"
-          - id: hidatid_safra_pank
-            title: "🇹🇷 Hidatid Kist (Safra + Pankreas)"
-            icon: "🫧"
-      - category: safra_tasi
-        category_name: "Safra Taşı + Kolesistit"
-        category_icon: "💎"
-        entries:
-          - id: kolelitiyaz
-            title: "Pediatrik Kolelitiyaz (Safra Taşı)"
-            icon: "💎"
-          - id: safra_camuru
-            title: "Safra Çamuru (Biliary Sludge)"
-            icon: "💎"
-          - id: akut_kolesistit
-            title: "Akut Kolesistit (Taşlı + Taşsız)"
-            icon: "💎"
-          - id: kronik_kolesistit
-            title: "Kronik Kolesistit"
-            icon: "💎"
-          - id: biliyer_kolik
-            title: "Biliyer Kolik"
-            icon: "💎"
-          - id: koledokolitiyaz
-            title: "Koledokolitiyaz (Safra Kanal Taşı — CBD)"
-            icon: "💎"
-          - id: mirizzi
-            title: "Mirizzi Sendromu"
-            icon: "💎"
-          - id: gb_polip
-            title: "Safra Kesesi Polipi (GB Polip)"
-            icon: "💎"
-          - id: gb_hidrops
-            title: "Safra Kesesi Hidropsu (GB Hidrops)"
-            icon: "💎"
-          - id: sod_biliyer
-            title: "Sfinkter Oddi Disfonksiyonu (SOD) — Biliyer Tip"
-            icon: "💎"
-          - id: fonk_biliyer
-            title: "Fonksiyonel Biliyer Ağrı (FBG)"
-            icon: "💎"
-          - id: post_kolecist_send
-            title: "Post-Kolesistektomi Sendromu (PCS)"
-            icon: "💎"
-      - category: akut_pank
-        category_name: "Akut Pankreatit"
-        category_icon: "🔥"
-        entries:
-          - id: akut_pankreatit
-            title: "Akut Pankreatit (Genel Yaklaşım)"
-            icon: "🔥"
-          - id: biliyer_pank
-            title: "Biliyer Pankreatit"
-            icon: "🔥"
-          - id: travmatik_pank
-            title: "Travmatik Pankreatit"
-            icon: "🔥"
-          - id: ilac_pank
-            title: "İlaç İlişkili Pankreatit (DIP)"
-            icon: "🔥"
-          - id: metabolik_pank
-            title: "Metabolik Pankreatit (Hipertrigliseridemi + Hiperkalsemi + DKA)"
-            icon: "🔥"
-          - id: viral_pank
-            title: "Viral / Enfeksiyöz Pankreatit"
-            icon: "🔥"
-          - id: pseudokist_won
-            title: "Pankreatik Pseudokist + WON (Walled-off Necrosis)"
-            icon: "🔥"
-      - category: kronik_pank
-        category_name: "Kronik / Rekürren Pankreatit"
-        category_icon: "🔄"
-        entries:
-          - id: kronik_pankreatit
-            title: "Kronik Pankreatit (Genel Yaklaşım)"
-            icon: "🔄"
-          - id: hereditary_prss1
-            title: "Herediter Pankreatit (PRSS1)"
-            icon: "🔄"
-          - id: spink1_ctrc
-            title: "SPINK1 + CTRC İlişkili Pankreatit"
-            icon: "🔄"
-          - id: cftr_pank
-            title: "CFTR İle İlişkili Pankreatit (CFTR-Related Pancreatitis)"
-            icon: "🔄"
-          - id: arp_rekurren
-            title: "Akut Rekürren Pankreatit (ARP — INSPPIRE)"
-            icon: "🔄"
-          - id: obstruktif_kronik
-            title: "Obstrüktif Kronik Pankreatit"
-            icon: "🔄"
-          - id: splenik_ven_troz
-            title: "Splenik Ven Trombozu + Segmenter (Sinistral) Portal HT"
-            icon: "🔄"
-          - id: pankreatik_diyabet
-            title: "Pankreatogenik Diyabet (Tip 3c — Pancreatic Diabetes)"
-            icon: "🔄"
-      - category: pankreas_konj
-        category_name: "Pankreas Konjenital / Anatomik"
-        category_icon: "🏗️"
-        entries:
-          - id: annuler_pank
-            title: "Annuler Pankreas"
-            icon: "🏗️"
-          - id: pancreas_divisum
-            title: "Pankreas Divisum"
-            icon: "🏗️"
-          - id: ektopik_pank
-            title: "Ektopik (Heterotopik) Pankreas"
-            icon: "🏗️"
-          - id: agenezi_pank
-            title: "Pankreas Agenezisi / Hipoplazisi"
-            icon: "🏗️"
-          - id: konj_pank_kist
-            title: "Konjenital Pankreatik Kist"
-            icon: "🏗️"
-      - category: ekzokrin
-        category_name: "Ekzokrin Yetmezlik / Sendromik"
-        category_icon: "🫀"
-        entries:
-          - id: cf_pancreatic
-            title: "Kistik Fibrozis (CF) Pankreatik Yetmezliği"
-            icon: "🫀"
-          - id: shwachman_diamond
-            title: "Shwachman-Diamond Sendromu (SDS)"
-            icon: "🫀"
-          - id: johanson_blizzard
-            title: "Johanson-Blizzard Sendromu (JBS)"
-            icon: "🫀"
-          - id: pearson
-            title: "Pearson Sendromu"
-            icon: "🫀"
-          - id: izole_enzim_ek
-            title: "İzole Pankreatik Enzim Eksiklikleri"
-            icon: "🫀"
-      - category: tumor
-        category_name: "Safra + Pankreas Tümör"
-        category_icon: "🎗️"
-        entries:
-          - id: ipmn_ped
-            title: "IPMN (Intraduktal Papiller Müsinöz Neoplazm) — Pediatri"
-            icon: "🎗️"
-          - id: solid_pseudopap
-            title: "Solid Pseudopapiller Tümör (SPT — Frantz Tümörü)"
-            icon: "🎗️"
-          - id: pankreatoblastom
-            title: "Pankreatoblastom"
-            icon: "🎗️"
-          - id: insulinoma_net
-            title: "İnsulinoma + Pankreatik NET (Nöroendokrin Tümör)"
-            icon: "🎗️"
-          - id: safra_rms
-            title: "Safra Yolu Rabdomyosarkomu (Biliyer RMS — Embriyonel)"
-            icon: "🎗️"
-          - id: kolanjiokarsinom
-            title: "Kolanjiokarsinom (Pediatri Çok Nadir)"
-            icon: "🎗️"
-          - id: ampulla_tumor
-            title: "Ampulla Vater Tümörü (Ampullar Adenom + Adenokarsinom)"
-            icon: "🎗️"
-      - category: ozel
-        category_name: "Özel / Sendromik / İatrojenik"
-        category_icon: "💧"
-        entries:
-          - id: otoimmun_pank
-            title: "Otoimmün Pankreatit (AIP — Tip 1 IgG4-RD + Tip 2 GEL)"
-            icon: "💧"
-          - id: post_ercp_pank
-            title: "Post-ERCP Pankreatit (PEP)"
-            icon: "💧"
-          - id: alagille
-            title: "Alagille Sendromu — Pankreas Tutulumu"
-            icon: "💧"
-          - id: hemosiderozis
-            title: "Hemosideroz / Kronik Transfüzyon Pankreas Tutulumu"
-            icon: "💧"
-          - id: fmf_amiloidoz
-            title: "Ailesel Akdeniz Ateşi (FMF) + Amiloidoz Pankreas Tutulumu"
-            icon: "💧"
-    complaints:
-      - category: sarilik
-        category_name: "Sarılık / Kolestaz"
-        category_icon: "🟡"
-        entries:
-          - id: konj_hiperbili
-            title: "Konjuge (Direkt) Hiperbilirubinemi — Şikayet Yaklaşımı"
-            icon: "🟡"
-          - id: unkonj_hiperbili
-            title: "Unkonjuge (İndirekt) Hiperbilirubinemi — Şikayet Yaklaşımı"
-            icon: "🟡"
-          - id: akolik_diski
-            title: "Akolik Dışkı (Beyaz/Kil Renkli) — Şikayet Yaklaşımı"
-            icon: "⚪"
-          - id: koyu_idrar
-            title: "Koyu İdrar (Bilirubinüri / Hemoglobinüri) — Şikayet Yaklaşımı"
-            icon: "🟤"
-          - id: kolestaz_kasinti
-            title: "Kolestatik Kaşıntı (Prurit) — Şikayet Yaklaşımı"
-            icon: "🟡"
-      - category: agri
-        category_name: "Ağrı (SÜK / Epigastrik / Sırt)"
-        category_icon: "💢"
-        entries:
-          - id: sag_ust_suk
-            title: "Sağ Üst Kadran Ağrısı (Safra Kaynaklı) — Şikayet Yaklaşımı"
-            icon: "💢"
-          - id: epigastrik_pank
-            title: "Epigastrik Ağrı (Pankreatit Şüphesi) — Şikayet Yaklaşımı"
-            icon: "💢"
-          - id: sirta_vuran
-            title: "Sırta Vuran Ağrı (Klasik Pankreatit Paterni) — Şikayet Yaklaşımı"
-            icon: "💢"
-          - id: postprandial_safra
-            title: "Postprandial Ağrı (Safra Disfonksiyonu / Akalkülöz Bilier Hastalık) — Şikayet Yaklaşımı"
-            icon: "💢"
-          - id: safrali_kusma
-            title: "Safralı Kusma (Biliyer Obstrüksiyon Şüphesi) — Şikayet Yaklaşımı"
-            icon: "💢"
-      - category: lab
-        category_name: "Lab Anormallik"
-        category_icon: "🔬"
-        entries:
-          - id: amilaz_lipaz
-            title: "Amilaz / Lipaz Yüksekliği — Şikayet/Lab Yaklaşımı"
-            icon: "🔬"
-          - id: hiperamilazemi_np
-            title: "Hiperamilazemi Non-Pankreatik + Makroamilazemi — Şikayet/Lab Yaklaşımı"
-            icon: "🔬"
-          - id: alp_ggt
-            title: "ALP / GGT Yüksekliği (Kolestaz Markır) — Şikayet/Lab Yaklaşımı"
-            icon: "🔬"
-          - id: eozinofili_pank
-            title: "Eozinofili + Pankreatit (Allerjik / Otoimmün) — Şikayet/Lab"
-            icon: "🔬"
-          - id: igg4_yuksek
-            title: "IgG4 Yüksekliği (Otoimmün Pankreatit + IgG4-RD) — Şikayet/Lab"
-            icon: "🔬"
-          - id: hipokalsemi_pank
-            title: "Hipokalsemi + Pankreatit (Ağır Pankreatit Belirteci) — Şikayet/Lab"
-            icon: "🔬"
-          - id: trigliserit_yuksek
-            title: "Hipertrigliseridemi (TG >1000 → AP Riski) — Şikayet/Lab Yaklaşımı"
-            icon: "🧪"
-      - category: kitle
-        category_name: "Kitle / Görüntü Bulgusu"
-        category_icon: "🎗️"
-        entries:
-          - id: gb_dilate
-            title: "Safra Kesesi Dilate (Courvoisier Bulgusu) — Görüntü Yaklaşımı"
-            icon: "🎗️"
-          - id: pankreas_kitle
-            title: "Pankreas Kitlesi (Kistik + Solid Lezyon) — Görüntü Yaklaşımı"
-            icon: "🎗️"
-          - id: cbd_genisleme
-            title: "CBD Genişlemesi (Koledok Dilatasyonu) — Görüntü Yaklaşımı"
-            icon: "🎗️"
-          - id: insidental_kist
-            title: "İnsidental Pankreas Kistik Lezyon — Görüntü Yaklaşımı"
-            icon: "🎗️"
-          - id: pank_asit_plevral
-            title: "Pankreatik Asit / Plevral Efüzyon — Görüntü Yaklaşımı"
-            icon: "🎗️"
-      - category: malabs
-        category_name: "Malabs / Büyüme / ADEK"
-        category_icon: "📊"
-        entries:
-          - id: steatore_pank
-            title: "Steatore (Pankreatik Ekzokrin Yetmezlik) — Şikayet/Lab Yaklaşımı"
-            icon: "📊"
-          - id: ftt_pankreas
-            title: "FTT / Büyüme Geriliği (Pankreas Hastalıkları) — Şikayet Yaklaşımı"
-            icon: "📊"
-          - id: adek_eksiklik
-            title: "ADEK Eksikliği (A/D/E/K Vitamin) — Şikayet/Lab Yaklaşımı"
-            icon: "📊"
-          - id: fekal_elastaz_dus
-            title: "Fekal Elastaz-1 Düşüklüğü (Pankreatik Ekzokrin Tanı) — Lab Yaklaşımı"
-            icon: "📊"
+  - id: ozofagus
+    name: "Özofagus & Yutma"
+    icon: "🫒"
+    consensus: [gerd_2018, eoe_espghan, eoe_ueg, battery_2021, eatef]
+    algorithms:
+      - id: ozo_01
+        title: "GÖRH (infant): kırmızı bayraklar ve adımlı yaklaşım"
+      - id: ozo_02
+        title: "GÖRH (çocuk / adölesan): tanı, PPI ve cerrahi karar"
+      - id: ozo_03
+        title: "Disfaji: yaşa göre ayırıcı tanı ve tanısal akış"
+      - id: ozo_04
+        title: "Eozinofilik özofajit: tanı ve tedavi (PPI / topikal steroid / diyet)"
+      - id: ozo_05
+        title: "Yabancı cisim yutma: yönetim algoritması"
+      - id: ozo_06
+        title: "Düğme pil yutma: acil yönetim"
+      - id: ozo_07
+        title: "Koroziv madde alımı: akut yaklaşım ve endoskopi zamanlaması"
+      - id: ozo_08
+        title: "Akalazya: tanı ve tedavi seçenekleri"
+      - id: ozo_09
+        title: "Özofagus atrezisi / TÖF: GİS ve beslenme komplikasyon takibi"
 
-  - id: beslenme
-    name: "Beslenme"
-    icon: "🥗"
-    color: "#0891b2"
-    # 76 hastalık + 32 şikayet
-    diseases:
-      - category: bebek_besl
-        category_name: "Bebek Beslenmesi (0-2 yaş) + Formüller"
-        category_icon: "🍼"
-        entries:
-          - id: anne_sutu
-            title: "Anne Sütü ile Beslenme + Emzirme Sorunları"
-            icon: "🍼"
-          - id: standart_formul
-            title: "Standart İnek Sütü Bazlı Formüller (Stage 1+2+3)"
-            icon: "🍼"
-          - id: hidrolize_formul
-            title: "Hidrolize Formüller (Hafif HA/pHF vs Ekstensif eHF)"
-            icon: "🍼"
-          - id: aminoasit_formul
-            title: "Aminoasit Formülleri (AAF — Neocate + EleCare + Alfamino)"
-            icon: "🍼"
-          - id: soya_formul
-            title: "Soya Bazlı Formüller (Galaktozemi + Vegan + İMPA Sınırlı)"
-            icon: "🍼"
-          - id: ar_formul
-            title: "Anti-Reflü (AR) Formüller (Pirinç Nişastalı)"
-            icon: "🍼"
-          - id: antikolik_formul
-            title: "Anti-Kolik + Düşük Laktoz Formüller (Comfort)"
-            icon: "🍼"
-          - id: preterm_formul
-            title: "Preterm Formüller + Anne Sütü Fortifier (HMF)"
-            icon: "🍼"
-          - id: tamamlayici_besl
-            title: "Tamamlayıcı Beslenmeye Geçiş (4-6 ay — ESPGHAN/WHO)"
-            icon: "🍼"
-          - id: sgk_formul_raporlu
-            title: "🇹🇷 SGK Formül Endikasyonları + Raporlu Reçete (Modül Temel Referans)"
-            icon: "🇹🇷"
-      - category: sut_alerji
-        category_name: "Süt + Süt Ürünleri + Alerji"
-        category_icon: "🥛"
-        entries:
-          - id: impa_ige
-            title: "İnek Sütü Protein Alerjisi — IgE (Klasik)"
-            icon: "🥛"
-          - id: impa_nonige
-            title: "İnek Sütü Protein Alerjisi — Non-IgE"
-            icon: "🥛"
-          - id: fpiap
-            title: "FPIAP (Anne Sütü Proktit/Proktokolit)"
-            icon: "🥛"
-          - id: laktoz_intol
-            title: "Laktoz İntoleransı (Primer + Sekonder + Konj.)"
-            icon: "🥛"
-          - id: ust_yas_sut
-            title: ">1 Yaş Tam Yağlı vs Diğer Süt Geçişi"
-            icon: "🥛"
-          - id: bitkisel_sut
-            title: "Bitkisel Sütler (Badem + Soya + Yulaf — Riskler)"
-            icon: "🥛"
-          - id: kefir_yogurt_prob
-            title: "Kefir + Yoğurt + Probiyotik Beslenme"
-            icon: "🥛"
-      - category: gluten_tahil
-        category_name: "Glüten + Tahıl + Çölyak Diyet"
-        category_icon: "🌾"
-        entries:
-          - id: celiac_diyet
-            title: "Çölyak Diyeti (Glütensiz Yaşam Boyu)"
-            icon: "🌾"
-          - id: ncgs
-            title: "Non-Celiac Glüten Sensitivite"
-            icon: "🌾"
-          - id: bugday_alerji
-            title: "Buğday Alerjisi (IgE — Anaflaksi)"
-            icon: "🌾"
-          - id: fodmap_diyet
-            title: "FODMAP Diyeti (İBS Pediatri)"
-            icon: "🌾"
-          - id: tahil_tamamlayici
-            title: "Tahıl Tamamlayıcı (Yulaf + Pirinç + Arpa)"
-            icon: "🌾"
-      - category: elim_diyet
-        category_name: "Eliminasyon Diyetleri (EoE/IMPA/FPIES)"
-        category_icon: "🥗"
-        entries:
-          - id: fed6
-            title: "6-Besin Eliminasyon Diyeti (6-FED — EoE)"
-            icon: "🥗"
-          - id: fed4_fed2
-            title: "4-FED + 2-FED Step-Down (EoE — Daha Az Kısıtlı)"
-            icon: "🥗"
-          - id: empirik_elim
-            title: "Empirik Eliminasyon Diyeti (Süt + Soya — IMPA + FPIAP)"
-            icon: "🥗"
-          - id: fpies_elim
-            title: "FPIES Eliminasyon + Tetik Besinler"
-            icon: "🥗"
-          - id: coklu_alerji
-            title: "Çoklu Besin Alerjisi (Multi-Food Allergy)"
-            icon: "🥗"
-          - id: vegan_pediatri
-            title: "Vegan + Vejetaryen Pediatri (B12 + D + Fe + Protein)"
-            icon: "🥗"
-          - id: reintroduction
-            title: "Allergen Reintroduction (Fırın Testi + OFC)"
-            icon: "🥗"
-          - id: elemental_diyet
-            title: "Elemental Diyet (EEN — Crohn İndüksiyon + EGID)"
-            icon: "🥗"
-      - category: enteral_paren
-        category_name: "Enteral + Parenteral Nütrisyon"
-        category_icon: "🍽️"
-        entries:
-          - id: ng_nj_tup
-            title: "NG / NJ Tüpü (Endikasyon + Yerleştirme + Bakım)"
-            icon: "🍽️"
-          - id: peg_g_tup
-            title: "PEG / G-Tüpü (Perkütan + Cerrahi + Komplikasyon)"
-            icon: "🍽️"
-          - id: gj_jejunostomi
-            title: "GJ-Tüp + Jejunostomi (Aspirasyon Risk)"
-            icon: "🍽️"
-          - id: surekli_bolus
-            title: "Sürekli vs Bolus Beslenme (Pompa + Gece)"
-            icon: "🍽️"
-          - id: enteral_formul_sec
-            title: "Enteral Formül Seçimi (Polimerik + Yarı + Elem)"
-            icon: "🍽️"
-          - id: tpn_endikasyon
-            title: "TPN Endikasyonları + Komponentler"
-            icon: "🍽️"
-          - id: pnald_ifald
-            title: "PNALD/IFALD (SMOFlipid + Önleme + Tedavi)"
-            icon: "🍽️"
-          - id: trofik_besl
-            title: "Trofik Beslenme (Preterm + Minimal Enteral)"
-            icon: "🍽️"
-          - id: refeeding
-            title: "Refeeding Sendromu (AN + Uzun Açlık + Onkoloji)"
-            icon: "🍽️"
-          - id: home_enteral
-            title: "Home Enteral Nutrition + Aile Eğitim"
-            icon: "🍽️"
-      - category: metabolik_diyet
-        category_name: "Özel Metabolik Diyetler"
-        category_icon: "🧬"
-        entries:
-          - id: ketojenik
-            title: "Ketojenik Diyet (Epilepsi + GLUT1 + Metabolik)"
-            icon: "🧬"
-          - id: dusuk_protein
-            title: "Düşük Protein Diyet (Üre Siklus + OA)"
-            icon: "🧬"
-          - id: mct_diyet
-            title: "MCT Yağ Baskın Diyet (FAO + LCHADD + Lenfanj.)"
-            icon: "🧬"
-          - id: galaktozemi_pku
-            title: "Galaktozemi + PKU + Özel Formüller"
-            icon: "🧬"
-          - id: gsd_diyet
-            title: "GSD Diyeti (Tip I + III — Kornnişasta)"
-            icon: "🧬"
-      - category: mikronutrient
-        category_name: "Mikronütrient Eksiklikleri (Vit + Min)"
-        category_icon: "💊"
-        entries:
-          - id: demir_eksiklik
-            title: "Demir Eksikliği Anemi (🇹🇷 Yaygın — Profilaksi)"
-            icon: "💊"
-          - id: b12_eksiklik
-            title: "B12 Eksikliği (Vegan + Pernicious + Kısa Barsak)"
-            icon: "💊"
-          - id: folat_eksiklik
-            title: "Folat Eksikliği (Diyet + İlaç + Hemoliz)"
-            icon: "💊"
-          - id: cinko_eksiklik
-            title: "Çinko Eksikliği (Akrodermatit + İBD + Diyare)"
-            icon: "💊"
-          - id: selenyum_bakir
-            title: "Selenyum + Bakır + Krom Eksikliği (TPN)"
-            icon: "💊"
-          - id: ca_mg_eksiklik
-            title: "Kalsiyum + Magnezyum Eksikliği"
-            icon: "💊"
-          - id: vitb_komp
-            title: "Vit B Kompleks (Tiamin + B6 + Niasin + Biotin)"
-            icon: "💊"
-          - id: vitc_skorbut
-            title: "Vit C Eksikliği / Skorbüt (Otizm + Selektif)"
-            icon: "💊"
-          - id: iyot_endemik
-            title: "İyot Eksikliği (🇹🇷 Endemik Bölge + Tarama)"
-            icon: "💊"
-          - id: yenidogan_tarama
-            title: "🇹🇷 Yenidoğan Metabolik Tarama (Topuk Kanı)"
-            icon: "🇹🇷"
-      - category: davranis_obz
-        category_name: "Beslenme Davranış + Obezite + ARFID"
-        category_icon: "🍔"
-        entries:
-          - id: arfid_picky
-            title: "ARFID + Selektif/Picky Eating"
-            icon: "🍔"
-          - id: an_bn_pediatri
-            title: "Anoreksiya + Bulimia Pediatri (DSM-5 Adolesan)"
-            icon: "🍔"
-          - id: obezite_pediatri
-            title: "Pediatrik Obezite (BMI + MetS + NAFLD)"
-            icon: "🍔"
-          - id: pem_kwash
-            title: "PEM (Kwashiorkor + Marasmus + Mikst)"
-            icon: "🍔"
-          - id: otizm_besl
-            title: "Otizm + Beslenme (Selektif + Sensoriyel + GI)"
-            icon: "🍔"
-      - category: subspecialty
-        category_name: "Subspecialty Beslenmesi (PICU/Onko/Renal)"
-        category_icon: "📋"
-        entries:
-          - id: picu_besl
-            title: "PICU Kritik Hasta Beslenmesi (Sepsis + Vent.)"
-            icon: "📋"
-          - id: onkoloji_besl
-            title: "Pediatrik Onkoloji Beslenmesi (Kemo + Kaşeksi)"
-            icon: "📋"
-          - id: hsct_besl
-            title: "HSCT Beslenme (Kök Hücre Trans. + GVHD)"
-            icon: "📋"
-          - id: kkh_besl
-            title: "KKH Beslenmesi (Kalp Yet. + Kalori Boost)"
-            icon: "📋"
-          - id: ckd_besl
-            title: "CKD/Renal Pediatri Beslenme (K/P/Na + Pro.)"
-            icon: "📋"
-          - id: diyaliz_besl
-            title: "Pediatrik Diyaliz Beslenme (HD vs PD)"
-            icon: "📋"
-          - id: cp_norolojik
-            title: "CP + Nörolojik Kronik Beslenme (Disfaji + PEG)"
-            icon: "📋"
-          - id: bpd_besl
-            title: "BPD + Kronik Akciğer Beslenmesi (Premature)"
-            icon: "📋"
-      - category: endokrin_diy
-        category_name: "Endokrin Beslenme (T1DM + CAH)"
-        category_icon: "🩺"
-        entries:
-          - id: t1dm_besl
-            title: "T1DM Karbonhidrat Sayımı + İnsülin Yönetimi"
-            icon: "🩺"
-          - id: cah_besl
-            title: "Konjenital Adrenal Hiperplazi (CAH) Beslenme"
-            icon: "🩺"
-      - category: sosyokultur
-        category_name: "Sosyokültürel Beslenme (Ramazan/Vegan)"
-        category_icon: "🌍"
-        entries:
-          - id: ramazan_pediatri
-            title: "🇹🇷 Ramazan Orucu Pediatri (T1DM + Kronik Hast.)"
-            icon: "🌍"
-          - id: suriyeli_gocmen
-            title: "🇹🇷 Suriyeli Göçmen Pediatri Beslenme"
-            icon: "🌍"
-          - id: donor_anne_sutu
-            title: "Donör Anne Sütü + İnsan Süt Bankası (HMB)"
-            icon: "🌍"
-      - category: diger_hast
-        category_name: "Diğer Pediatrik Hastalıklar"
-        category_icon: "⚕️"
-        entries:
-          - id: hiv_tb_besl
-            title: "HIV/TB Pediatri Beslenme (İmmün + Kaşeksi)"
-            icon: "⚕️"
-          - id: mitokondrial_besl
-            title: "Mitokondriyal Hastalıklar Beslenme (CoQ10+L-Carn)"
-            icon: "⚕️"
-          - id: refrakter_celiac
-            title: "Refrakter Çölyak (Tip I/II + Diyet Dışı)"
-            icon: "⚕️"
-    complaints:
-      - category: bebek_sik
-        category_name: "Bebek Beslenme Şikayetleri"
-        category_icon: "🍼"
-        entries:
-          - id: yetersiz_kilo
-            title: "Bebek Yetersiz Kilo Alma"
-            icon: "🍼"
-          - id: bebek_reflu
-            title: "Bebek Reflü/Regürjitasyon (GER vs GERD)"
-            icon: "🍼"
-          - id: bebek_kolik
-            title: "Bebek Koliği (Rome IV + Wessel)"
-            icon: "🍼"
-          - id: huzursuz_besl
-            title: "Beslenme Sırasında Huzursuz/Ağlayan Bebek"
-            icon: "🍼"
-          - id: emmiyor
-            title: "Bebek Memeyi/Biberonu Reddediyor"
-            icon: "🍼"
-          - id: purple_crying
-            title: "PURPLE Crying — Patolojik Ağlama Ayrımı"
-            icon: "👶"
-          - id: sialore_asiri_tukurme
-            title: "Sialore (Aşırı Tükürme) — Pediatrik Yaklaşım"
-            icon: "💧"
-      - category: buyume_kilo
-        category_name: "Büyüme + Kilo Sorunları"
-        category_icon: "📉"
-        entries:
-          - id: ftt_genel
-            title: "FTT / Büyüme Geriliği (Genel Yaklaşım)"
-            icon: "📉"
-          - id: boy_kisaligi
-            title: "Boy Kısalığı + Beslenme Bağlantısı"
-            icon: "📉"
-          - id: obez_pers
-            title: "Aşırı Kilo / Obezite (BMI >85 / >95)"
-            icon: "📉"
-          - id: kilo_kaybi
-            title: "Kilo Kaybı (Akut + Kronik — Etyoloji)"
-            icon: "📉"
-          - id: kilo_duragan
-            title: "Kilo Durağan / Yavaş Artış (Plato)"
-            icon: "📉"
-      - category: gi_besl
-        category_name: "GI Semptom + Beslenme"
-        category_icon: "🤢"
-        entries:
-          - id: kronik_kusma
-            title: "Kronik Kusma + Beslenme"
-            icon: "🤢"
-          - id: kronik_diare_besl
-            title: "Kronik Diyare + Beslenme Yaklaşımı"
-            icon: "🤢"
-          - id: kabizlik_besl
-            title: "Kabızlık + Beslenme (Lif + Sıvı)"
-            icon: "🤢"
-          - id: istahsizlik
-            title: "İştahsızlık (Anoreksia — Ergen + Çocuk)"
-            icon: "🤢"
-          - id: disfaji
-            title: "Yutma Güçlüğü (Disfaji) + Beslenme"
-            icon: "🤢"
-          - id: karin_agri_besl
-            title: "Karın Ağrısı + Beslenme İlişkisi (Trigger)"
-            icon: "🤢"
-          - id: gaz_siskinlik
-            title: "Gaz / Şişkinlik + Beslenme (FODMAP + Laktoz)"
-            icon: "🤢"
-          - id: besin_reaksiyon
-            title: "Akut Besin Reaksiyonu (Anaflaksi + Geç)"
-            icon: "🤢"
-      - category: yol_sorun
-        category_name: "Beslenme Yolu Sorunları (Tüp/Diyet)"
-        category_icon: "🥄"
-        entries:
-          - id: tup_tikanma
-            title: "Beslenme Tüpü Tıkanması + Açma"
-            icon: "🥄"
-          - id: aspirasyon_risk
-            title: "Aspirasyon Riski + Güvenli Beslenme"
-            icon: "🥄"
-          - id: peristomal
-            title: "PEG/G-Tüp Peristomal Sorunlar (Granülom + Sızıntı)"
-            icon: "🥄"
-          - id: diyet_uyum
-            title: "Diyet Uyumsuzluğu + Aile Eğitim (Çölyak + Aler.)"
-            icon: "🥄"
-          - id: tup_oral_gecis
-            title: "Tüpten Orale Geçiş + Yutma Terapisi"
-            icon: "🥄"
-      - category: akut_sik
-        category_name: "Acil/Akut Beslenme Şikayetleri"
-        category_icon: "🚨"
-        entries:
-          - id: akut_gastroenterit
-            title: "Akut Gastroenterit + ORS Yaklaşımı"
-            icon: "🚨"
-          - id: dehidrasyon
-            title: "Pediatrik Dehidrasyon (DSÖ + ESPGHAN)"
-            icon: "🚨"
-          - id: hipoglisemi
-            title: "Hipoglisemi (T1DM + Genel — 15-15 Kuralı)"
-            icon: "🚨"
-          - id: mukozit
-            title: "Pediatrik Mukozit (Kemoterapi + RT)"
-            icon: "🚨"
-          - id: spor_red_s
-            title: "Adolesan Spor Beslenmesi + RED-S (Atletik Triad)"
-            icon: "🚨"
-      - category: lab
-        category_name: "lab"
-        category_icon: "•"
-        entries:
-          - id: vit_d_eksik_ge
-            title: "Vit D Eksikliği + GIS Etki (Malabsorpsiyon / IBD / Çölyak / Kistik Fibroz)"
-            icon: "☀️"
-      - category: semptom
-        category_name: "semptom"
-        category_icon: "•"
-        entries:
-          - id: mukokutanoz_lezyon
-            title: "Mukokutanöz Lezyon + GIS Bağlantısı (Eksiklik / Sendromik / Otoimmün)"
-            icon: "🎨"
+  - id: mide_duodenum
+    name: "Mide–Duodenum & Üst GİS Kanama"
+    icon: "🫃"
+    consensus: [hpylori_2023, rome4_child]
+    algorithms:
+      - id: mid_01
+        title: "Helicobacter pylori: test endikasyonu ve eradikasyon"
+      - id: mid_02
+        title: "Peptik ülser hastalığı: tanı ve tedavi"
+      - id: mid_03
+        title: "Üst GİS kanama (hematemez / melena): stabilizasyon ve endoskopi"
+      - id: mid_04
+        title: "Özofagus varis kanaması: akut yönetim ve profilaksi"
+      - id: mid_05
+        title: "Hipertrofik pilor stenozu: tanı ve yönetim"
+      - id: mid_06
+        title: "Safralı kusma (yenidoğan): malrotasyon / obstrüksiyon ayırıcısı"
+
+  - id: ishal_malabs
+    name: "Akut & Kronik İshal, Malabsorpsiyon"
+    icon: "💧"
+    consensus: [age_espghan, celiac_2020]
+    algorithms:
+      - id: ish_01
+        title: "Akut gastroenterit ve dehidratasyon: değerlendirme + ORS + tedavi"
+      - id: ish_02
+        title: "Kanlı ishal (dizanteri): ayırıcı tanı ve HÜS değerlendirmesi"
+      - id: ish_03
+        title: "Kronik ishal (>4 hafta): yaşa göre tanısal akış"
+      - id: ish_04
+        title: "Çölyak hastalığı: tanı (biyopsisiz yol dahil)"
+      - id: ish_05
+        title: "Laktoz / karbonhidrat malabsorpsiyonu: yaklaşım"
+      - id: ish_06
+        title: "Yağlı dışkı / steatore: pankreatik ve mukozal ayrım"
+
+  - id: besin_alerji
+    name: "Besin Alerjileri & Eozinofilik Hastalıklar"
+    icon: "🧬"
+    consensus: [dracma]
+    algorithms:
+      - id: ala_01
+        title: "İnek sütü protein alerjisi (IgE / non-IgE): tanı, eliminasyon, reintrodüksiyon"
+      - id: ala_02
+        title: "FPIES: akut atak yönetimi ve uzun dönem izlem"
+      - id: ala_03
+        title: "FPIAP (alerjik proktokolit): kanlı dışkılı sağlıklı infant yaklaşımı"
+      - id: ala_04
+        title: "Eozinofilik gastrit / enterit / kolit: tanı ve yönetim"
 
   - id: ibd
-    name: "IBD Pediatri"
+    name: "İnflamatuar Barsak Hastalığı (IBD)"
     icon: "🔵"
-    color: "#7c3aed"
-    # 55 hastalık + 23 şikayet
-    diseases:
-      - category: crohn
-        category_name: "Crohn Hastalığı (CD)"
-        category_icon: "🔵"
-        entries:
-          - id: cd_genel
-            title: "Crohn Hastalığı — Genel + Pediatrik Tanı"
-            icon: "🔵"
-          - id: cd_terminal_ileal
-            title: "Terminal İleal CD + İleokolik Tutulum"
-            icon: "🔵"
-          - id: cd_kolik
-            title: "Kolonik CD (UC Ayırıcı Tanı)"
-            icon: "🔵"
-          - id: cd_ust_gis
-            title: "Üst GİS CD (Özofagus + Mide + Duodenum)"
-            icon: "🔵"
-          - id: cd_perianal
-            title: "Perianal CD (Fistül + Abse + Tag)"
-            icon: "🔵"
-          - id: cd_strikturizan
-            title: "Striktürizan CD Fenotip (B2 Montreal)"
-            icon: "🔵"
-          - id: cd_penetran
-            title: "Penetran CD Fenotip (B3 — Fistül + Abse)"
-            icon: "🔵"
-          - id: cd_refrakter
-            title: "Refrakter CD (Steroid + Biyolojik Yanıtsız)"
-            icon: "🔵"
-      - category: uc
-        category_name: "Ulseratif Kolit (UC)"
-        category_icon: "🔴"
-        entries:
-          - id: uc_genel
-            title: "Ulseratif Kolit — Genel + Pediatrik Tanı"
-            icon: "🔴"
-          - id: uc_proktit
-            title: "UC — Proktit + Sol-Taraflı Kolit"
-            icon: "🔴"
-          - id: uc_pankolit
-            title: "UC — Pankolit (Pediatride Yaygın ~%70-80)"
-            icon: "🔴"
-          - id: asuc
-            title: "ASUC — Akut Şiddetli UC (PUCAI ≥65)"
-            icon: "🔴"
-          - id: uc_atipik
-            title: "Atipik UC (eski 'İndeterminate Kolit')"
-            icon: "🔴"
-          - id: uc_refrakter
-            title: "Refrakter UC + Kolektomi Endikasyonu"
-            icon: "🔴"
-      - category: veo_ibd
-        category_name: "VEO-IBD + Monogenic IBD"
-        category_icon: "🧬"
-        entries:
-          - id: veo_ibd_genel
-            title: "VEO-IBD (<6 yaş) — Genel Yaklaşım"
-            icon: "🧬"
-          - id: infantile_ibd
-            title: "İnfantil IBD (<2 yaş) — Monogenic Şüphe"
-            icon: "🧬"
-          - id: il10r_il10
-            title: "IL-10/IL-10R Eksikliği (Bebek + HSCT)"
-            icon: "🧬"
-          - id: xiap_cgd
-            title: "XIAP + CGD (Granülomatöz IBD-Benzeri)"
-            icon: "🧬"
-          - id: ipex_diger_mono
-            title: "IPEX + Diğer Monogenic IBD"
-            icon: "🧬"
-      - category: ibd_komplik
-        category_name: "IBD Komplikasyonları"
-        category_icon: "⚠️"
-        entries:
-          - id: perianal_hast
-            title: "Perianal Hastalık (IBD Komplikasyon Genel)"
-            icon: "⚠️"
-          - id: fistul_genel
-            title: "Fistül Genel (IBD Cross-Cutting)"
-            icon: "⚠️"
-          - id: abse_genel
-            title: "Abse Genel (IBD Cross-Cutting)"
-            icon: "⚠️"
-          - id: striktur_genel
-            title: "Striktür Genel (IBD Cross-Cutting)"
-            icon: "⚠️"
-          - id: toksik_megakolon
-            title: "Toksik Megakolon (ASUC + CD)"
-            icon: "⚠️"
-          - id: vte_ibd
-            title: "VTE — Venöz Tromboemboli IBD'de"
-            icon: "⚠️"
-      - category: konv_tedavi
-        category_name: "Konvansiyonel Tedavi"
-        category_icon: "💊"
-        entries:
-          - id: 5asa
-            title: "5-ASA / Mesalazin — UC İndüksiyon + İdame (Altın Standart)"
-            icon: "💊"
-          - id: sistemik_steroid
-            title: "Sistemik Kortikosteroid (Prednizolon + IV) — Akut İndüksiyon"
-            icon: "💊"
-          - id: budesonid
-            title: "Budesonid (CD İleokolik + UC Refrakter) — Lokal Etki"
-            icon: "💊"
-          - id: tiopurin
-            title: "Tiopurin (Azatiyoprin + 6-MP) + TPMT/NUDT15 Genetik Test"
-            icon: "💊"
-          - id: mtx
-            title: "Metotreksat (MTX) — CD İdame Alternatif"
-            icon: "💊"
-          - id: een
-            title: "EEN (Exclusive Enteral Nutrition) — Pediatride CD Birinci Basamak"
-            icon: "💊"
-          - id: cded
-            title: "CDED (Crohn's Disease Exclusion Diet) — Levine 2019+"
-            icon: "💊"
-          - id: antibiyotik_ibd
-            title: "Antibiyotik (Perianal + Pouchit + Bireysel)"
-            icon: "💊"
-      - category: biyolojik
-        category_name: "Biyolojik + Hedef Tedavi"
-        category_icon: "💉"
-        entries:
-          - id: anti_tnf
-            title: "Anti-TNF (Infliximab + Adalimumab) — Biyolojik Temel"
-            icon: "💉"
-          - id: vedolizumab
-            title: "Vedolizumab — α4β7 İntegrin İnhibitörü (Bağırsak Selektif)"
-            icon: "💉"
-          - id: ustekinumab
-            title: "Ustekinumab — Anti-IL-12/23 (p40 Subunit İnhibitörü)"
-            icon: "💉"
-          - id: risankizumab
-            title: "Risankizumab — Anti-IL-23p19 (Yeni Selektif Mekanizma)"
-            icon: "💉"
-          - id: jak_inhibitor
-            title: "JAK İnhibitörü (Tofacitinib + Upadacitinib) — Oral Küçük Molekül"
-            icon: "💉"
-          - id: s1p_modulator
-            title: "S1P Modülatör (Ozanimod + Etrasimod) — Yeni Oral Mekanizma"
-            icon: "💉"
-          - id: tedavi_secimi
-            title: "Tedavi Seçimi — Treat-to-Target (STRIDE-II 2021+)"
-            icon: "💉"
-      - category: ibd_cerrahi
-        category_name: "Cerrahi Tedavi"
-        category_icon: "🏥"
-        entries:
-          - id: cerrahi_ileokolik
-            title: "İleokolik Rezeksiyon (CD) — En Yaygın CD Cerrahisi"
-            icon: "🏥"
-          - id: cerrahi_kolektomi
-            title: "Total Kolektomi (UC) — Acil + Elektif"
-            icon: "🏥"
-          - id: cerrahi_ipaa
-            title: "IPAA — İleal Pouch Anal Anastomoz (UC Küratif Rekonstrüksiyon)"
-            icon: "🏥"
-          - id: cerrahi_perianal
-            title: "Perianal Cerrahi (Seton + Fistül Tedavisi)"
-            icon: "🏥"
-          - id: post_op_nuks
-            title: "Post-Op CD Nüks Önleme (Endoskopi + Profilaksi)"
-            icon: "🏥"
-      - category: komorbidite
-        category_name: "IBD + Komorbidite"
-        category_icon: "🦴"
-        entries:
-          - id: ibd_buyume
-            title: "IBD + Büyüme Yetersizliği (Pediatrik Spesifik)"
-            icon: "🦴"
-          - id: ibd_kemik
-            title: "IBD + Osteopeni/Osteoporoz (DEXA + Vit D + Ca)"
-            icon: "🦴"
-          - id: ibd_psc
-            title: "IBD + PSC (Primer Sklerozan Kolanjit) — UC ile Sıkı İlişki"
-            icon: "🦴"
-          - id: ibd_aih
-            title: "IBD + AIH Overlap (Otoimmün Hepatit) — Pediatrik Spesifik Yüksek"
-            icon: "🦴"
-          - id: eim
-            title: "EIM (Ekstraintestinal Bulgular) — Artrit + Cilt + Göz"
-            icon: "🦴"
-      - category: ozel_pediatri
-        category_name: "Pediatrik IBD Özel Konular"
-        category_icon: "🌍"
-        entries:
-          - id: ibd_asilar
-            title: "Aşılar IBD Pediatri (Canlı vs İnaktif + İmmünsüpresif)"
-            icon: "🌍"
-          - id: ibd_transition
-            title: "Adolesan Transition (Pediatrik → Erişkin GE) 16-21 Yaş"
-            icon: "🌍"
-          - id: ibd_hamile_ado
-            title: "Adolesan Kız IBD + Fertilite + Gebelik (IPAA + Teratojenik İlaç)"
-            icon: "🌍"
-          - id: ibd_mikrobiyota
-            title: "IBD Mikrobiyota (FMT + Probiyotik) — akademik"
-            icon: "🌍"
-          - id: ibd_kanser_taram
-            title: "IBD Kanser Tarama (Uzun Süreli) — Kolorektal + Kolanjiokarsinom + İlaç İlişkili"
-            icon: "🌍"
-    complaints:
-      - category: klasik_ibd
-        category_name: "Klasik IBD Şikayetleri"
-        category_icon: "🚨"
-        entries:
-          - id: kanli_diski_ibd
-            title: "Kanlı Dışkı (Pediatrik IBD)"
-            icon: "🩸"
-          - id: kronik_diare_ibd
-            title: "Kronik Diyare (Pediatrik IBD)"
-            icon: "💧"
-          - id: kilo_kaybi_ibd
-            title: "Kilo Kaybı + Büyüme Yetersizliği (Pediatrik IBD)"
-            icon: "⚖️"
-          - id: perianal_agri
-            title: "Perianal Ağrı (CD Bulgu Sıklıkla)"
-            icon: "🩸"
-          - id: karin_agri_ibd
-            title: "Karın Ağrısı (Pediatrik IBD)"
-            icon: "🩹"
-          - id: eim_sikayet
-            title: "EIM Şikayetleri (Artrit + Cilt + Göz)"
-            icon: "🦴"
-          - id: ates_ibd
-            title: "Ateş (Pediatrik IBD)"
-            icon: "🌡️"
-          - id: anemi_ibd
-            title: "Anemi (Pediatrik IBD)"
-            icon: "🩸"
-          - id: ibd_flare_klinik
-            title: "IBD Klinik Flare (Remisyondan Kötüleşme) — Şikayet Yaklaşımı"
-            icon: "🔥"
-      - category: akut_komplik
-        category_name: "Akut IBD Komplikasyonları"
-        category_icon: "🔥"
-        entries:
-          - id: asuc_sik
-            title: "ASUC (Acute Severe UC) Şikayet — PUCAI ≥65 Acil"
-            icon: "🚨"
-          - id: toksik_meg_sik
-            title: "Toksik Megakolon (Akut Komplikasyon)"
-            icon: "🚨"
-          - id: perforasyon_ibd
-            title: "Perforasyon (IBD Akut Komplikasyon)"
-            icon: "🚨"
-          - id: sepsis_ibd
-            title: "Sepsis (IBD Akut Komplikasyon)"
-            icon: "🚨"
-          - id: vte_sik
-            title: "VTE (Venöz Tromboemboli — IBD Akut Komplikasyon)"
-            icon: "🚨"
-          - id: akut_obstruksiyon
-            title: "Akut Bağırsak Obstrüksiyonu (CD Striktür)"
-            icon: "🚨"
-          - id: cd_perianal_akut_flare
-            title: "CD Perianal Akut Flare — Akut Yönetim Yaklaşımı"
-            icon: "🚨"
-      - category: tedavi_yan
-        category_name: "Tedavi Yanıt + Yan Etki"
-        category_icon: "⚙️"
-        entries:
-          - id: antitnf_reaksiyon
-            title: "Anti-TNF İnfüzyon Reaksiyonu (Akut + Geç)"
-            icon: "💉"
-          - id: steroid_yanetki
-            title: "Sistemik Steroid Yan Etkileri (Pediatrik)"
-            icon: "💊"
-          - id: tiopurin_tox
-            title: "Tiopurin Toksisite (AZA + 6-MP)"
-            icon: "💊"
-          - id: ibd_enf_riski
-            title: "İmmünsupresif IBD Enfeksiyon Riski"
-            icon: "🦠"
-          - id: paradoks_reak
-            title: "Paradoks Reaksiyon (Anti-TNF + Bireysel UST)"
-            icon: "🔄"
-          - id: loss_of_response
-            title: "LOR — Loss of Response (Anti-TNF + Biyolojik)"
-            icon: "📉"
-      - category: lab
-        category_name: "lab"
-        category_icon: "•"
-        entries:
-          - id: ibd_anemi_persistan
-            title: "IBD Persistan Anemi (Demir + B12 + Folat + Kronik Hastalık + Tedavi-Dirençli)"
-            icon: "🩸"
+    consensus: [ibd_porto, cd_eccoespghan, uc_eccoespghan_1, uc_eccoespghan_2]
+    algorithms:
+      - id: ibd_01
+        title: "Pediatrik IBD tanısı: revize Porto kriterleri ile tanısal akış"
+      - id: ibd_02
+        title: "Crohn hastalığı indüksiyon: EEN / steroid kararı"
+      - id: ibd_03
+        title: "Crohn hastalığı idame ve risk tabakalandırma (top-down / anti-TNF)"
+      - id: ibd_04
+        title: "Ülseratif kolit (ayaktan): adımlı tedavi"
+      - id: ibd_05
+        title: "Akut şiddetli ülseratif kolit (ASUC): PUCAI ≥65 yönetimi"
+      - id: ibd_06
+        title: "Perianal Crohn hastalığı: değerlendirme ve yönetim"
+      - id: ibd_07
+        title: "VEO-IBD (<6 yaş): monogenik hastalık tarama yaklaşımı"
+      - id: ibd_08
+        title: "Treat-to-target izlem: STRIDE-II + kalprotektin + ilaç düzeyi"
 
+  - id: altgis_akut
+    name: "Alt GİS Kanama & Akut Karın"
+    icon: "🩸"
+    consensus: []
+    algorithms:
+      - id: alt_01
+        title: "Hematokezya: yaşa göre ayırıcı tanı ve tanısal akış"
+      - id: alt_02
+        title: "İnvajinasyon: tanı ve redüksiyon yönetimi"
+      - id: alt_03
+        title: "Meckel divertikülü: şüphe ve tanı"
+      - id: alt_04
+        title: "Akut karın / apandisit ayırıcısı: değerlendirme akışı"
+      - id: alt_05
+        title: "Hirschsprung hastalığı: tanı ve yönetim"
+      - id: alt_06
+        title: "Yenidoğan alt GİS obstrüksiyonu / NEC şüphesi: yaklaşım"
+
+  - id: neonatal_kolestaz
+    name: "Neonatal Kolestaz & Safra Yolları"
+    icon: "👶"
+    consensus: [cholestasis_2017, cholestasis_fispghan]
+    algorithms:
+      - id: kol_01
+        title: "Uzamış yenidoğan sarılığı: 14. günde konjuge bilirubin değerlendirmesi"
+      - id: kol_02
+        title: "Neonatal kolestaz: tanısal akış"
+      - id: kol_03
+        title: "Biliyer atrezi: erken tanı ve Kasai zamanlaması"
+      - id: kol_04
+        title: "Koledok kisti: tanı ve yönetim"
+      - id: kol_05
+        title: "Akolik dışkı: değerlendirme yaklaşımı"
+
+  - id: karaciger
+    name: "Karaciğer Hastalıkları & Yetmezlik"
+    icon: "🟫"
+    consensus: [palf_naspghan]
+    algorithms:
+      - id: kc_01
+        title: "İzole transaminaz yüksekliği: tanısal akış"
+      - id: kc_02
+        title: "Akut viral hepatit: değerlendirme ve izlem"
+      - id: kc_03
+        title: "Otoimmün hepatit: tanı ve tedavi"
+      - id: kc_04
+        title: "Wilson hastalığı: tanı ve tedavi"
+      - id: kc_05
+        title: "Pediatrik akut karaciğer yetmezliği (PALF): tanı, yönetim, nakil kararı"
+      - id: kc_06
+        title: "NAFLD / MASLD: obez çocukta ALT yüksekliğine yaklaşım"
+      - id: kc_07
+        title: "Portal hipertansiyon: tarama ve varis yönetimi"
+      - id: kc_08
+        title: "Hepatomegali / hepatosplenomegali: ayırıcı tanı"
+
+  - id: pankreas
+    name: "Pankreas Hastalıkları"
+    icon: "🟡"
+    consensus: [pancreatitis_naspghan]
+    algorithms:
+      - id: pan_01
+        title: "Akut pankreatit: tanı ve yönetim"
+      - id: pan_02
+        title: "Akut rekürren / kronik pankreatit: etiyolojik değerlendirme"
+      - id: pan_03
+        title: "Ekzokrin pankreas yetmezliği: tanı ve enzim replasmanı"
+
+  - id: beslenme
+    name: "Beslenme & İntestinal Yetmezlik"
+    icon: "🥗"
+    consensus: [sbs_espghan]
+    algorithms:
+      - id: bes_01
+        title: "Büyüme geriliği (faltering growth / FTT): değerlendirme ve yaklaşım"
+      - id: bes_02
+        title: "Kısa barsak sendromu / intestinal yetmezlik: rehabilitasyon"
+      - id: bes_03
+        title: "Enteral beslenme ve tüp seçimi: endikasyon ve yönetim"
+      - id: bes_04
+        title: "Parenteral nütrisyon ve IFALD: önleme ve yönetim"
+      - id: bes_05
+        title: "Refeeding sendromu: risk değerlendirmesi ve önleme"
+      - id: bes_06
+        title: "Mikronütrient eksiklikleri (demir / D vit / B12 / çinko): GİS bağlamı"

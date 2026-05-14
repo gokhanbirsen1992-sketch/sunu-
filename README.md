@@ -16,22 +16,30 @@ mobil uyumlu bir klinik referans uygulamasıdır.
 5. Derleme              →  tek dosyalık HTML uygulaması üretilir
 ```
 
-Şu an **1. adımdayız**: başlık listesi (kapsam) belirleniyor.
+Şu an **1. adımdayız**: başlık listesi (kapsam) belirleniyor — taslak hâlinde,
+gözden geçirme bekliyor.
 
-## Kapsam (Aday Havuz)
+## Kapsam (Konsensüs Temelli Taslak)
 
-`data/topics.yaml` içinde 6 modül altında **601 aday başlık** (404 hastalık + 197 şikayet)
-bulunuyor. Bu liste, yüklenen referans uygulamadan aday havuz olarak türetildi;
-içerik sıfırdan üretilecek.
+`data/topics.yaml`, yüklenen referans uygulamadan **bağımsız** olarak, güncel
+pediatrik GE konsensüs rehberlerine dayanılarak hazırlanmış bir taslaktır:
+**11 klinik alan / 68 algoritma**. Dayanak rehberlerin künyeleri (ESPGHAN,
+NASPGHAN, ECCO, Rome Foundation, WAO vb.) PubMed üzerinden doğrulanmış ve
+dosyadaki `key_consensus_sources` bölümünde DOI'leriyle listelenmiştir.
 
-| Modül | Hastalık | Şikayet |
-|---|---|---|
-| 🟫 Karaciğer | 61 | 39 |
-| 🍽️ Üst GİS | 56 | 30 |
-| 🩻 Alt GİS | 90 | 47 |
-| 🟡 Safra-Pankreas | 66 | 26 |
-| 🥗 Beslenme | 76 | 32 |
-| 🔵 IBD Pediatri | 55 | 23 |
+| Klinik Alan | Algoritma |
+|---|---|
+| 〰️ Fonksiyonel GİS Bozuklukları (Rome IV) | 7 |
+| 🫒 Özofagus & Yutma | 9 |
+| 🫃 Mide–Duodenum & Üst GİS Kanama | 6 |
+| 💧 Akut & Kronik İshal, Malabsorpsiyon | 6 |
+| 🧬 Besin Alerjileri & Eozinofilik Hastalıklar | 4 |
+| 🔵 İnflamatuar Barsak Hastalığı (IBD) | 8 |
+| 🩸 Alt GİS Kanama & Akut Karın | 6 |
+| 👶 Neonatal Kolestaz & Safra Yolları | 5 |
+| 🟫 Karaciğer Hastalıkları & Yetmezlik | 8 |
+| 🟡 Pankreas Hastalıkları | 3 |
+| 🥗 Beslenme & İntestinal Yetmezlik | 6 |
 
 Başlık listesini düzenleme talimatları `data/topics.yaml` dosyasının başındadır.
 
@@ -48,7 +56,7 @@ dist/             # (sonraki adım) üretilen tek dosyalık HTML uygulaması
 ## Durum
 
 - [x] Repo pediatrik GE projesine dönüştürüldü
-- [x] Aday başlık havuzu çıkarıldı (`data/topics.yaml`)
+- [x] Konsensüs temelli başlık taslağı hazırlandı (`data/topics.yaml`)
 - [ ] Başlık listesi gözden geçirilip onaylandı
 - [ ] İçerik şeması ve örnek girdi
 - [ ] PubMed kaynak çözümleme pipeline'ı
