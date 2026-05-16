@@ -7,95 +7,149 @@ type Props = {
 };
 
 /**
- * Scroll'a kilitli bir geçiş divider'ı. Her katman'dan önce 80vh
- * yüksekliğinde render edilir; kullanıcı içinden geçerken:
- *  - Aksan rengi yumuşak bir parlama doğar
- *  - Yatay bir ışın çizgisi soldan sağa süpürür
- *  - Devasa katman numarası + glyph + label aşağıdan yukarı yükselir,
- *    ekran ortasında büyür, sonra üstte küçülüp solar
+ * "Portal" transition between katmans.
+ *
+ * 100vh sticky'li bir bölge — kullanıcı içinden geçerken:
+ * - Aksan renkli radyal perde aşağıdan yükselir, ekranı kaplar,
+ *   sonra üstten süzülüp gider
+ * - Tam orta noktada warp çizgileri dışa fırlar
+ * - Dev katman glyph'i hafifçe dönerek görünür, geçişin tepesinde
+ *   en büyük halini alır, sonra ileri zoom yaparak çıkar
+ * - Açıkça hissedilen bir "sahne arası" — fade-in değil, perde.
  */
 export function KatmanIntro({ id }: Props) {
   const ref = useRef<HTMLDivElement | null>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start end", "end start"],
+    offset: ["start start", "end end"],
   });
   const theme = layerTheme(id);
 
-  const burstOpacity = useTransform(
+  // Curtain slides in from below, holds for a beat, slides off the top
+  const curtainY = useTransform(
     scrollYProgress,
-    [0.15, 0.5, 0.85],
-    [0, 1, 0],
-  );
-  const burstScale = useTransform(scrollYProgress, [0, 1], [0.6, 1.6]);
-
-  const sweepX = useTransform(scrollYProgress, [0.35, 0.65], ["-110%", "110%"]);
-  const sweepOpacity = useTransform(
-    scrollYProgress,
-    [0.3, 0.5, 0.7],
-    [0, 1, 0],
+    [0, 0.32, 0.55, 0.9],
+    ["100%", "0%", "0%", "-100%"],
   );
 
-  const contentY = useTransform(
+  // Glyph: starts small/rotated, peaks at center, zooms out as curtain leaves
+  const glyphScale = useTransform(
     scrollYProgress,
-    [0, 0.45, 0.6, 1],
-    [120, 0, 0, -120],
+    [0.25, 0.45, 0.55, 0.75],
+    [0.4, 1, 1.05, 1.8],
   );
-  const contentOpacity = useTransform(
+  const glyphRotate = useTransform(
     scrollYProgress,
-    [0.05, 0.3, 0.7, 0.95],
+    [0.25, 0.75],
+    [-22, 22],
+  );
+  const glyphOpacity = useTransform(
+    scrollYProgress,
+    [0.28, 0.4, 0.62, 0.78],
     [0, 1, 1, 0],
   );
-  const numScale = useTransform(
+
+  // Number + label crawl up
+  const labelY = useTransform(
     scrollYProgress,
-    [0, 0.4, 0.6, 1],
-    [0.55, 1, 1.05, 0.55],
+    [0.3, 0.7],
+    [30, -30],
+  );
+  const labelOpacity = useTransform(
+    scrollYProgress,
+    [0.32, 0.45, 0.6, 0.72],
+    [0, 1, 1, 0],
+  );
+
+  // Warp streaks fire outward at peak
+  const streakOpacity = useTransform(
+    scrollYProgress,
+    [0.4, 0.5, 0.65],
+    [0, 0.85, 0],
+  );
+  const streakScale = useTransform(scrollYProgress, [0.4, 0.65], [0.4, 2.6]);
+
+  // Quick flash at the curtain's apex
+  const flashOpacity = useTransform(
+    scrollYProgress,
+    [0.48, 0.52, 0.56],
+    [0, 1, 0],
   );
 
   return (
-    <div ref={ref} className="katman-intro" aria-hidden="true">
-      <motion.div
-        className="katman-intro__burst"
-        style={{
-          opacity: burstOpacity,
-          scale: burstScale,
-          background: `radial-gradient(circle at center, ${theme.accent}33, transparent 60%)`,
-        }}
-      />
-      <motion.div
-        className="katman-intro__sweep"
-        style={{
-          x: sweepX,
-          opacity: sweepOpacity,
-          background: `linear-gradient(90deg, transparent, ${theme.accent}, transparent)`,
-        }}
-      />
-      <motion.div
-        className="katman-intro__content"
-        style={{ y: contentY, opacity: contentOpacity }}
-      >
-        <div
-          className="katman-intro__kicker"
-          style={{ color: theme.accent }}
-        >
-          KATMAN {id}
-        </div>
+    <div ref={ref} className="katman-portal" aria-hidden="true">
+      <div className="katman-portal__sticky">
+        {/* Curtain — radial accent gradient slab */}
         <motion.div
-          className="katman-intro__glyph"
-          style={{ color: theme.accent, scale: numScale }}
+          className="katman-portal__curtain"
+          style={{
+            y: curtainY,
+            background: `radial-gradient(ellipse at center, ${theme.accent}ee 0%, ${theme.accent}cc 30%, ${theme.accent}55 70%, ${theme.accent}11 100%)`,
+          }}
+        />
+
+        {/* Warp streaks radiating outward */}
+        <motion.div
+          className="katman-portal__streaks"
+          style={{ opacity: streakOpacity, scale: streakScale }}
         >
-          {theme.glyph}
+          <svg
+            viewBox="-100 -100 200 200"
+            preserveAspectRatio="xMidYMid slice"
+          >
+            {Array.from({ length: 32 }).map((_, i) => {
+              const angle = ((i * 360) / 32) * (Math.PI / 180);
+              const r1 = 24;
+              const r2 = 180;
+              return (
+                <line
+                  key={i}
+                  x1={Math.cos(angle) * r1}
+                  y1={Math.sin(angle) * r1}
+                  x2={Math.cos(angle) * r2}
+                  y2={Math.sin(angle) * r2}
+                  stroke="rgba(255, 255, 255, 0.85)"
+                  strokeWidth={0.6}
+                  strokeLinecap="round"
+                />
+              );
+            })}
+          </svg>
         </motion.div>
-        <div
-          className="katman-intro__label"
-          style={{ color: theme.accent }}
+
+        {/* Peak flash */}
+        <motion.div
+          className="katman-portal__flash"
+          style={{
+            opacity: flashOpacity,
+            background: `radial-gradient(circle, #fff 0%, ${theme.accent}00 60%)`,
+          }}
+        />
+
+        {/* Giant glyph */}
+        <motion.div
+          className="katman-portal__glyph-wrap"
+          style={{
+            scale: glyphScale,
+            rotate: glyphRotate,
+            opacity: glyphOpacity,
+          }}
         >
-          {theme.label}
-        </div>
-        {theme.tagline && (
-          <div className="katman-intro__tagline">{theme.tagline}</div>
-        )}
-      </motion.div>
+          <div className="katman-portal__glyph">{theme.glyph}</div>
+        </motion.div>
+
+        {/* Number + label, separately animated */}
+        <motion.div
+          className="katman-portal__label"
+          style={{ y: labelY, opacity: labelOpacity }}
+        >
+          <div className="katman-portal__num">KATMAN {id}</div>
+          <div className="katman-portal__name">{theme.label}</div>
+          {theme.tagline && (
+            <div className="katman-portal__tagline">{theme.tagline}</div>
+          )}
+        </motion.div>
+      </div>
     </div>
   );
 }
