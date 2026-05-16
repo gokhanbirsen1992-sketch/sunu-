@@ -423,6 +423,7 @@
   max-width: 1320px;
   margin: 0 auto;
   padding: 0 24px;
+  min-height: 130vh;
 }
 
 .scene__visual {
@@ -497,5 +498,82 @@
   }
   .scene__text {
     padding: 24px 4px 80px;
+  }
+}
+
+/* ---------- Katman intro (between-section transition) ---------- */
+.katman-intro {
+  position: relative;
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.katman-intro__burst {
+  position: absolute;
+  inset: -20% -10%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.katman-intro__sweep {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  margin-top: -0.5px;
+  pointer-events: none;
+}
+
+.katman-intro__content {
+  position: relative;
+  z-index: 1;
+}
+
+.katman-intro__kicker {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+  opacity: 0.8;
+}
+
+.katman-intro__glyph {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(140px, 22vw, 280px);
+  line-height: 0.85;
+  text-shadow: 0 0 32px currentColor;
+}
+
+.katman-intro__label {
+  margin-top: 18px;
+  font-family: var(--sans);
+  font-size: 13px;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.katman-intro__tagline {
+  margin-top: 14px;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(16px, 1.6vw, 20px);
+  color: var(--ink-muted);
+}
+
+@media (max-width: 900px) {
+  .katman-intro {
+    height: 60vh;
+  }
+  .katman-intro__glyph {
+    font-size: clamp(96px, 30vw, 180px);
   }
 }

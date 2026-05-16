@@ -7,8 +7,6 @@ import { layerTheme } from "../layerThemes";
 type Props = {
   section: SectionData;
   Visual: React.ComponentType<{ progress: MotionValue<number> }>;
-  /** How tall the scene is, in viewport heights. Longer = slower scroll progression. */
-  heightVh?: number;
   /** Optional intro element rendered above the text column (e.g. a pull quote). */
   intro?: ReactNode;
 };
@@ -46,7 +44,7 @@ function classify(p: string): string {
   return "";
 }
 
-export function Scene({ section, Visual, heightVh = 280, intro }: Props) {
+export function Scene({ section, Visual, intro }: Props) {
   const ref = useRef<HTMLElement | null>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -60,7 +58,6 @@ export function Scene({ section, Visual, heightVh = 280, intro }: Props) {
       className="scene"
       id={`katman-${section.id}`}
       style={{
-        minHeight: `${heightVh}vh`,
         ["--accent-current" as never]: theme.accent,
       }}
     >

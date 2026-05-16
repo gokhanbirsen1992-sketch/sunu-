@@ -6,9 +6,10 @@ import { Cosmos } from "./components/Cosmos";
 import { ProgressBar } from "./components/ProgressBar";
 import { SideNav } from "./components/SideNav";
 import { Hero } from "./components/Hero";
-import { SectionView } from "./components/Section";
 import { Scene } from "./components/Scene";
+import { KatmanIntro } from "./components/KatmanIntro";
 import { Footer } from "./components/Footer";
+import { AmbientVisual } from "./scenes/AmbientVisual";
 import { CosmosVisual } from "./scenes/CosmosVisual";
 import { BilirubinVisual } from "./scenes/BilirubinVisual";
 import { HepatocyteVisual } from "./scenes/HepatocyteVisual";
@@ -26,12 +27,19 @@ const SCENE_VISUALS: Record<
   "13": ClosureVisual,
 };
 
-function renderSection(s: Section, i: number) {
-  const Visual = SCENE_VISUALS[s.id];
-  if (Visual) {
-    return <Scene key={s.id} section={s} Visual={Visual} />;
-  }
-  return <SectionView key={s.id} section={s} index={i} />;
+function renderSection(s: Section) {
+  const Bespoke = SCENE_VISUALS[s.id];
+  const Visual = Bespoke
+    ? Bespoke
+    : ({ progress }: { progress: MotionValue<number> }) => (
+        <AmbientVisual id={s.id} progress={progress} />
+      );
+  return (
+    <div key={s.id}>
+      <KatmanIntro id={s.id} />
+      <Scene section={s} Visual={Visual} />
+    </div>
+  );
 }
 
 function App() {
