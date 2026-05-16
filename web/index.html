@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Maison Lumière — A Cabinet of Light</title>
+  <meta name="description" content="An immersive 3D atelier. Six alcoves, six objects, each lit by its own private dawn." />
+  <meta name="theme-color" content="#0a0807" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://unpkg.com" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Inter:wght@300;400;500&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="./styles.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='6' fill='%23c9a86b'/%3E%3C/svg%3E" />
+
+  <script src="https://cdn.jsdelivr.net/npm/howler@2.2.4/dist/howler.min.js" defer></script>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand" aria-label="Maison Lumière">
+      <span class="brand-mark" aria-hidden="true">◐</span>
+      <span class="brand-name">Maison Lumière</span>
+    </div>
+    <nav class="topnav" aria-label="Gallery">
+      <ol class="dot-nav" id="dot-nav"></ol>
+      <button
+        id="audio-toggle"
+        class="audio-toggle"
+        type="button"
+        aria-pressed="false"
+        title="Toggle ambient sound"
+      >
+        <span class="audio-icon" aria-hidden="true">♪</span>
+        <span class="visually-hidden">Toggle sound</span>
+      </button>
+    </nav>
+  </header>
+
+  <main id="gallery">
+
+    <section class="alcove alcove--hero" data-room="hero" data-title="Prelude">
+      <canvas class="alcove__canvas" aria-hidden="true"></canvas>
+      <div class="alcove__veil"></div>
+      <div class="alcove__copy alcove__copy--center">
+        <p class="eyebrow">Maison Lumière · MMXXVI</p>
+        <h1 class="display">A cabinet<br/>of light.</h1>
+        <p class="lead">Six rooms. Six objects.<br/>Each lit by its own private dawn.</p>
+        <p class="scroll-hint" aria-hidden="true">— scroll —</p>
+      </div>
+    </section>
+
+    <section class="alcove" data-room="aurore" data-title="L'Aurore">
+      <canvas class="alcove__canvas" aria-hidden="true"></canvas>
+      <div class="alcove__copy alcove__copy--right">
+        <p class="eyebrow">Chapter I</p>
+        <h2 class="display">L'Aurore</h2>
+        <p class="story">
+          A single solitaire in rose gold, caught at the precise minute the
+          horizon turns from violet to honey. We lit it with one window and
+          waited three days for the sky.
+        </p>
+        <dl class="spec">
+          <dt>Stone</dt><dd>1.84 ct · brilliant</dd>
+          <dt>Metal</dt><dd>18k rose gold</dd>
+          <dt>Edition</dt><dd>Unique</dd>
+        </dl>
+      </div>
+    </section>
+
+    <section class="alcove" data-room="onyx" data-title="Onyx">
+      <canvas class="alcove__canvas" aria-hidden="true"></canvas>
+      <div class="alcove__copy alcove__copy--left">
+        <p class="eyebrow">Chapter II</p>
+        <h2 class="display">Onyx</h2>
+        <p class="story">
+          Three shards of black tourmaline grown over a decade in the dark,
+          then set on a single beam of cold blue. The room is silent except
+          for the hum of a winter night.
+        </p>
+        <dl class="spec">
+          <dt>Material</dt><dd>Schorl tourmaline</dd>
+          <dt>Base</dt><dd>Brushed gunmetal</dd>
+          <dt>Edition</dt><dd>Series of 3</dd>
+        </dl>
+      </div>
+    </section>
+
+    <section class="alcove" data-room="meridien" data-title="Méridien">
+      <canvas class="alcove__canvas" aria-hidden="true"></canvas>
+      <div class="alcove__copy alcove__copy--right">
+        <p class="eyebrow">Chapter III</p>
+        <h2 class="display">Méridien</h2>
+        <p class="story">
+          A pocket watch suspended in brass light. Forty-two jewels, one
+          tourbillon, one note of a piano held under the dial. It is always
+          a quarter past five.
+        </p>
+        <dl class="spec">
+          <dt>Calibre</dt><dd>ML-42 manuel</dd>
+          <dt>Case</dt><dd>Yellow gold, 41 mm</dd>
+          <dt>Reserve</dt><dd>72 hours</dd>
+        </dl>
+      </div>
+    </section>
+
+    <section class="alcove" data-room="constellation" data-title="Constellation">
+      <canvas class="alcove__canvas" aria-hidden="true"></canvas>
+      <div class="alcove__copy alcove__copy--left">
+        <p class="eyebrow">Chapter IV</p>
+        <h2 class="display">Constellation</h2>
+        <p class="story">
+          Twenty-one diamonds along a circle of platinum, lit by the small
+          ghosts of stars that would have been visible above Paris on the
+          night the maison opened.
+        </p>
+        <dl class="spec">
+          <dt>Stones</dt><dd>21 · 0.12 ct each</dd>
+          <dt>Chain</dt><dd>Hand-knotted platinum</dd>
+          <dt>Edition</dt><dd>Series of 12</dd>
+        </dl>
+      </div>
+    </section>
+
+    <section class="alcove" data-room="heritage" data-title="Héritage">
+      <canvas class="alcove__canvas" aria-hidden="true"></canvas>
+      <div class="alcove__copy alcove__copy--right">
+        <p class="eyebrow">Chapter V</p>
+        <h2 class="display">Héritage</h2>
+        <p class="story">
+          A decanter cut from a single block of lead crystal, lit only by
+          one candle that we replace every morning. The room smells of
+          beeswax and the cellar below it.
+        </p>
+        <dl class="spec">
+          <dt>Material</dt><dd>Crystal · 32% PbO</dd>
+          <dt>Stopper</dt><dd>Hand-ground</dd>
+          <dt>Edition</dt><dd>Unique, signed</dd>
+        </dl>
+      </div>
+    </section>
+
+    <footer class="alcove alcove--outro" data-room="outro" data-title="Fin">
+      <canvas class="alcove__canvas" aria-hidden="true"></canvas>
+      <div class="alcove__copy alcove__copy--center">
+        <p class="eyebrow">Fin</p>
+        <h2 class="display">Crafted in light.</h2>
+        <p class="lead">
+          Each piece exists once.<br/>Each room, once a year.
+        </p>
+        <p class="meta">© MMXXVI Maison Lumière · Atelier Paris</p>
+        <a class="back-top" href="#gallery">Return to the prelude ↑</a>
+      </div>
+    </footer>
+
+  </main>
+
+  <div id="boot" class="boot" aria-hidden="true">
+    <div class="boot__ring"></div>
+    <p class="boot__label">opening the cabinet…</p>
+  </div>
+
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
