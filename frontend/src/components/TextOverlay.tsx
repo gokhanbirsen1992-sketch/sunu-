@@ -74,7 +74,7 @@ export function TextOverlay({ story }: Props) {
       style={{ height: `${NARRATIVE_ORDER.length * 160}vh` }}
     >
       <div className="overlay__viewport">
-        {NARRATIVE_ORDER.map((id) => {
+        {NARRATIVE_ORDER.map((id, i) => {
           const section = sectionsById[id];
           if (!section) return null;
           return (
@@ -83,6 +83,8 @@ export function TextOverlay({ story }: Props) {
               section={section}
               range={ranges[id]}
               progress={scrollYProgress}
+              isFirst={i === 0}
+              isLast={i === NARRATIVE_ORDER.length - 1}
             />
           );
         })}
@@ -97,67 +99,77 @@ function KatmanText({
   section,
   range,
   progress,
+  isFirst,
+  isLast,
 }: {
   section: Section;
   range: [number, number];
   progress: MotionValue<number>;
+  isFirst: boolean;
+  isLast: boolean;
 }) {
   const [r0, r1] = range;
   const theme = layerTheme(section.id);
   const span = r1 - r0;
 
+  // First katman: visible from scroll=0. Last katman: stays at end. Others: fade in/out.
   const opacity = useTransform(
     progress,
-    [r0, r0 + span * 0.1, r1 - span * 0.12, r1],
-    [0, 1, 1, 0],
+    isFirst
+      ? [r0, r0 + span * 0.05, r1 - span * 0.18, r1]
+      : isLast
+        ? [r0, r0 + span * 0.15, r1, r1 + 0.001]
+        : [r0, r0 + span * 0.12, r1 - span * 0.18, r1],
+    isFirst ? [1, 1, 1, 0] : isLast ? [0, 1, 1, 1] : [0, 1, 1, 0],
   );
-  const y = useTransform(progress, [r0, r1], ["52vh", "-58vh"]);
+  // Subtle vertical drift instead of full-screen sweep
+  const y = useTransform(progress, [r0, r1], ["8vh", "-8vh"]);
   const titleScale = useTransform(
     progress,
     [r0, r0 + span * 0.15],
-    [0.88, 1],
+    [0.92, 1],
   );
 
   return (
-    <motion.div
-      className="overlay__text"
-      style={{
-        opacity,
-        y,
-        ["--accent-current" as never]: theme.accent,
-      }}
+    <div
+      className="overlay__text-wrap"
+      style={{ ["--accent-current" as never]: theme.accent }}
     >
-      <div className="overlay__text-head">
-        <div className="overlay__text-id" style={{ color: theme.accent }}>
-          <span className="overlay__text-glyph">{theme.glyph}</span>
-          KATMAN {section.id} · {theme.label.toUpperCase()}
+      <motion.div className="overlay__text" style={{ opacity, y }}>
+        <div className="overlay__text-head">
+          <div className="overlay__text-id" style={{ color: theme.accent }}>
+            <span className="overlay__text-glyph">{theme.glyph}</span>
+            KATMAN {section.id} · {theme.label.toUpperCase()}
+          </div>
+          {theme.tagline && (
+            <div className="overlay__text-tagline">{theme.tagline}</div>
+          )}
+          <motion.h2
+            className="overlay__text-title"
+            style={{ scale: titleScale, transformOrigin: "left center" }}
+          >
+            {section.title}
+          </motion.h2>
         </div>
-        {theme.tagline && (
-          <div className="overlay__text-tagline">{theme.tagline}</div>
-        )}
-        <motion.h2
-          className="overlay__text-title"
-          style={{ scale: titleScale, transformOrigin: "left center" }}
-        >
-          {section.title}
-        </motion.h2>
-      </div>
 
-      <div className="overlay__text-body">
-        {section.paragraphs.map((p, i) => {
-          const variant = classify(p);
-          return (
-            <p
-              key={i}
-              className={variant}
-              style={variant === "short" ? { color: theme.accent } : undefined}
-            >
-              {renderParagraph(p)}
-            </p>
-          );
-        })}
-      </div>
-    </motion.div>
+        <div className="overlay__text-body">
+          {section.paragraphs.map((p, i) => {
+            const variant = classify(p);
+            return (
+              <p
+                key={i}
+                className={variant}
+                style={
+                  variant === "short" ? { color: theme.accent } : undefined
+                }
+              >
+                {renderParagraph(p)}
+              </p>
+            );
+          })}
+        </div>
+      </motion.div>
+    </div>
   );
 }
 

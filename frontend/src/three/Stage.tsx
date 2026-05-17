@@ -13,23 +13,10 @@ import { Pullback } from "./scenes/Pullback";
 
 type Props = {
   scroll: ScrollProgressRef;
+  effects?: boolean;
 };
 
-/**
- * R3F kök sahnesi. Sticky bir wrapper içinde tüm 3D sahneler yaşar.
- * ScrollCamera scroll progress'iyle kamera pozisyonunu sürer; her
- * sahne kendi range'inde aktive olur.
- *
- * Sahne range'leri kameranın koreografisiyle eşleştirilmiş:
- *   [0.00, 0.16] — Cosmos (kozmos + atomlar)
- *   [0.10, 0.22] — Atoms (overlay, geçiş)
- *   [0.18, 0.32] — Molecule (bilirubin)
- *   [0.32, 0.55] — Cell (hepatosit)
- *   [0.52, 0.72] — Organ (karaciğer)
- *   [0.68, 0.88] — Body (Yıldız + inkübatör)
- *   [0.85, 1.00] — Pullback (kapanış)
- */
-export function Stage({ scroll }: Props) {
+export function Stage({ scroll, effects = true }: Props) {
   return (
     <div className="stage">
       <Canvas
@@ -39,17 +26,19 @@ export function Stage({ scroll }: Props) {
           alpha: true,
           powerPreference: "high-performance",
         }}
-        camera={{ position: [0, 0, 28], fov: 60 }}
+        camera={{ position: [0, 0, 28], fov: 60, near: 0.05, far: 500 }}
+        onCreated={({ gl }) => {
+          gl.setClearColor(0x03040a, 0);
+        }}
       >
         <Suspense fallback={null}>
           <ScrollCamera scroll={scroll} />
 
-          {/* Ambient + directional lights */}
-          <ambientLight intensity={0.45} color="#9fa5b8" />
-          <directionalLight position={[5, 6, 5]} intensity={1.1} color="#fef3c7" />
-          <directionalLight position={[-5, -3, 2]} intensity={0.45} color="#a78bfa" />
+          <ambientLight intensity={0.55} color="#9fa5b8" />
+          <directionalLight position={[5, 6, 5]} intensity={1.2} color="#fef3c7" />
+          <directionalLight position={[-5, -3, 2]} intensity={0.5} color="#a78bfa" />
+          <hemisphereLight args={["#fde68a", "#1a1224", 0.4]} />
 
-          {/* Scenes */}
           <Cosmos scroll={scroll} range={[0.0, 0.16]} />
           <Atoms scroll={scroll} range={[0.1, 0.22]} />
           <Molecule scroll={scroll} range={[0.18, 0.34]} />
@@ -58,7 +47,7 @@ export function Stage({ scroll }: Props) {
           <Body scroll={scroll} range={[0.68, 0.9]} />
           <Pullback scroll={scroll} range={[0.85, 1.0]} />
 
-          <Effects />
+          {effects && <Effects />}
         </Suspense>
       </Canvas>
     </div>

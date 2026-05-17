@@ -148,15 +148,19 @@
   pointer-events: none;
 }
 
-.overlay__text {
+.overlay__text-wrap {
   position: absolute;
   right: 0;
-  top: 0;
+  top: 50%;
   width: clamp(360px, 38vw, 560px);
   padding: 0 56px 0 24px;
-  will-change: transform, opacity;
   pointer-events: auto;
-  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.55);
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.7);
+  transform: translateY(-50%);
+}
+
+.overlay__text {
+  will-change: transform, opacity;
 }
 
 .overlay__text-head {

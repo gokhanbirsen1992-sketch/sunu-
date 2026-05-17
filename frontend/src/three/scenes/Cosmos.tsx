@@ -6,10 +6,7 @@ import type { SceneProps } from "../types";
 import { localProgress, lerp, smoothstep } from "../types";
 
 /**
- * KATMAN 1 — Kozmoloji
- *
- * 3D yıldız alanı, drift eden Sparkles, merkezde "Big Bang" parlaması.
- * Kamera yaklaştıkça yıldızlar parlar, sonra çekiliyor.
+ * KATMAN 1 — Kozmoloji. drei Sparkles ×2 + Big Bang flash + nebula halo.
  */
 export function Cosmos({ scroll, range }: SceneProps) {
   const groupRef = useRef<THREE.Group>(null);
@@ -19,20 +16,22 @@ export function Cosmos({ scroll, range }: SceneProps) {
   useFrame(() => {
     const p = scroll.current.value;
     const lp = localProgress(p, range);
-    // Visible only roughly within range with feathered edges
-    const vis = smoothstep(range[0] - 0.05, range[0], p) * (1 - smoothstep(range[1], range[1] + 0.05, p));
+    const vis =
+      smoothstep(range[0] - 0.05, range[0], p) *
+      (1 - smoothstep(range[1], range[1] + 0.05, p));
 
     if (groupRef.current) {
       groupRef.current.visible = vis > 0.01;
-      groupRef.current.position.z = lerp(-2, 8, lp); // sahne kamera yönünde hareket eder
+      groupRef.current.position.z = lerp(-2, 8, lp);
       groupRef.current.rotation.z = lp * 0.4;
     }
     if (flashRef.current) {
-      // Big Bang flash — kısa bir parlama
       const flashStrength = Math.max(0, 1 - Math.abs(lp - 0.12) * 8);
       const m = flashRef.current.material as THREE.MeshBasicMaterial;
       m.opacity = flashStrength * vis;
-      flashRef.current.scale.setScalar(lerp(0.4, 3, lp) * (1 + flashStrength * 2));
+      flashRef.current.scale.setScalar(
+        lerp(0.4, 3, lp) * (1 + flashStrength * 2),
+      );
     }
     if (haloRef.current) {
       const m = haloRef.current.material as THREE.MeshBasicMaterial;
@@ -42,43 +41,39 @@ export function Cosmos({ scroll, range }: SceneProps) {
   });
 
   return (
-    <group ref={groupRef}>
-      {/* Dense star sparkles filling space */}
+    <group ref={groupRef} visible={true} position={[0, 0, -2]}>
       <Sparkles
         count={400}
         scale={[40, 40, 40]}
         size={3}
         speed={0.25}
-        opacity={0.8}
+        opacity={0.9}
         color="#ffffff"
       />
-      {/* Larger, brighter sparkles closer */}
       <Sparkles
-        count={120}
+        count={140}
         scale={[18, 18, 18]}
         size={6}
         speed={0.4}
         opacity={1}
         color="#fef3c7"
       />
-      {/* Big Bang flash */}
-      <mesh ref={flashRef} position={[0, 0, 0]}>
+      <mesh ref={flashRef} position={[0, 0, 0]} scale={0.5}>
         <sphereGeometry args={[1, 32, 32]} />
         <meshBasicMaterial
           color="#fef3c7"
           transparent
-          opacity={0}
+          opacity={0.4}
           blending={THREE.AdditiveBlending}
           depthWrite={false}
         />
       </mesh>
-      {/* Ambient nebula halo */}
-      <mesh ref={haloRef} position={[0, 0, -2]}>
+      <mesh ref={haloRef} position={[0, 0, -2]} scale={3}>
         <sphereGeometry args={[1, 32, 32]} />
         <meshBasicMaterial
           color="#a78bfa"
           transparent
-          opacity={0.2}
+          opacity={0.25}
           blending={THREE.AdditiveBlending}
           depthWrite={false}
           side={THREE.BackSide}

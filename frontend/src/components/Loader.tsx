@@ -27,16 +27,16 @@ export function Loader({ onDone }: Props) {
     const unsub = bili.on("change", (v) =>
       setBiliText(Math.round(v).toString()),
     );
-    const t1 = window.setTimeout(() => setStage(1), 700);
-    const t2 = window.setTimeout(() => setStage(2), 1500);
-    const t3 = window.setTimeout(() => setStage(3), 2400);
+    const t1 = window.setTimeout(() => setStage(1), 350);
+    const t2 = window.setTimeout(() => setStage(2), 800);
+    const t3 = window.setTimeout(() => setStage(3), 1200);
     const ctrl = animate(bili, 28, {
-      duration: 1.6,
-      delay: 1.6,
+      duration: 1.2,
+      delay: 0.8,
       ease: [0.16, 1, 0.3, 1],
     });
-    const t4 = window.setTimeout(() => setDone(true), 3500);
-    const t5 = window.setTimeout(() => onDone(), 4100);
+    const t4 = window.setTimeout(() => setDone(true), 2200);
+    const t5 = window.setTimeout(() => onDone(), 2700);
     return () => {
       window.clearTimeout(t1);
       window.clearTimeout(t2);
