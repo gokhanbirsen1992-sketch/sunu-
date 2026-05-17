@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   animate,
   AnimatePresence,
@@ -23,6 +23,9 @@ export function Loader({ onDone }: Props) {
   const bili = useMotionValue(0);
   const [biliText, setBiliText] = useState("0");
 
+  const onDoneRef = useRef(onDone);
+  onDoneRef.current = onDone;
+
   useEffect(() => {
     const unsub = bili.on("change", (v) =>
       setBiliText(Math.round(v).toString()),
@@ -36,7 +39,7 @@ export function Loader({ onDone }: Props) {
       ease: [0.16, 1, 0.3, 1],
     });
     const t4 = window.setTimeout(() => setDone(true), 2200);
-    const t5 = window.setTimeout(() => onDone(), 2700);
+    const t5 = window.setTimeout(() => onDoneRef.current(), 2700);
     return () => {
       window.clearTimeout(t1);
       window.clearTimeout(t2);
@@ -46,7 +49,8 @@ export function Loader({ onDone }: Props) {
       ctrl.stop();
       unsub();
     };
-  }, [bili, onDone]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <AnimatePresence>
