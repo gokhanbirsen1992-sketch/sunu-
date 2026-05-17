@@ -64,11 +64,11 @@ function AppInner() {
         <div className="grain" />
       </div>
 
-      <ErrorBoundary>
+      <ErrorBoundary label="3D Stage">
         <Stage scroll={scroll} effects={false} />
       </ErrorBoundary>
 
-      <ErrorBoundary>
+      <ErrorBoundary label="Text Overlay">
         <TextOverlay story={story} />
       </ErrorBoundary>
 
