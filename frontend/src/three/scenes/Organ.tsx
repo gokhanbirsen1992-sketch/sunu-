@@ -1,44 +1,47 @@
 import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
+import { Float } from "@react-three/drei";
 import * as THREE from "three";
 import type { SceneProps } from "../types";
 import { localProgress, lerp, smoothstep } from "../types";
 
 /**
- * KATMAN 5 / 7 / 9 — Karaciğer + Lobül + Embriyo.
+ * KATMAN 5 / 7 / 9 — Karaciğer.
  *
- * Procedural karaciğer: yumuşak ellipsoid + lobül altıgenleri yüzeyde,
- * portal-triad işaretleri. Embriyoloji fazında küçük "bud" görünür ve
- * büyüyerek tam organ olur.
+ * Anatomik olarak şekillendirilmiş 4-lobed liver: büyük sağ lob,
+ * küçük sol lob, kaudat ve kuadrat. Her lob displacement'lı bir
+ * deforme ellipsoid. Yumuşak doku rengi + clearcoat.
  */
 export function Organ({ scroll, range }: SceneProps) {
   const groupRef = useRef<THREE.Group>(null);
-  const liverRef = useRef<THREE.Mesh>(null);
-  const lobuleRef = useRef<THREE.Group>(null);
+  const liverRef = useRef<THREE.Group>(null);
 
-  // Hex lobule positions on a 2D grid (we'll wrap them onto liver surface)
-  const lobules = useMemo(() => {
-    const result: Array<{ pos: [number, number, number]; size: number }> = [];
-    const rows = 6;
-    const cols = 8;
-    for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < cols; c++) {
-        const u = c / (cols - 1) - 0.5;
-        const v = r / (rows - 1) - 0.5;
-        // Map to sphere-ish liver surface
-        const theta = u * Math.PI * 0.8;
-        const phi = v * Math.PI * 0.5;
-        const radius = 2;
-        const x = radius * Math.cos(phi) * Math.sin(theta);
-        const y = radius * Math.sin(phi);
-        const z = radius * Math.cos(phi) * Math.cos(theta);
-        result.push({
-          pos: [x, y, z],
-          size: 0.12 + Math.abs(u) * 0.04,
-        });
+  // Pre-compute displaced geometries for an organic, lobed look
+  const geometries = useMemo(() => {
+    const make = (radius: number, displaceAmount: number, seed: number) => {
+      const g = new THREE.IcosahedronGeometry(radius, 6);
+      const pos = g.attributes.position as THREE.BufferAttribute;
+      const v = new THREE.Vector3();
+      let s = seed;
+      const rand = () => {
+        s = (s * 9301 + 49297) % 233280;
+        return s / 233280 - 0.5;
+      };
+      for (let i = 0; i < pos.count; i++) {
+        v.fromBufferAttribute(pos, i);
+        const d = 1 + rand() * displaceAmount + Math.sin(v.x * 3 + v.y * 2) * displaceAmount * 0.5;
+        v.multiplyScalar(d);
+        pos.setXYZ(i, v.x, v.y, v.z);
       }
-    }
-    return result;
+      g.computeVertexNormals();
+      return g;
+    };
+    return {
+      rightLobe: make(1.4, 0.15, 11),
+      leftLobe: make(0.8, 0.18, 23),
+      caudate: make(0.35, 0.2, 47),
+      quadrate: make(0.4, 0.18, 71),
+    };
   }, []);
 
   useFrame((state) => {
@@ -50,63 +53,95 @@ export function Organ({ scroll, range }: SceneProps) {
 
     if (groupRef.current) {
       groupRef.current.visible = vis > 0.01;
-      groupRef.current.rotation.y = state.clock.elapsedTime * 0.08 + lp * 0.5;
-      groupRef.current.rotation.x = lerp(0.2, -0.1, lp);
+      groupRef.current.rotation.y =
+        state.clock.elapsedTime * 0.08 + lp * 0.4;
+      groupRef.current.rotation.x = lerp(0.2, -0.05, lp);
     }
     if (liverRef.current) {
-      // Embryology phase: liver grows from a small bud
       const grow = smoothstep(0, 0.3, lp);
-      liverRef.current.scale.set(
-        1.0 + grow * 0.4,
-        0.75 + grow * 0.25,
-        0.85 + grow * 0.15,
-      );
-    }
-    if (lobuleRef.current) {
-      // Lobules emerge in mid-phase
-      const lob = smoothstep(0.3, 0.55, lp);
-      lobuleRef.current.visible = lob > 0.05;
-      lobuleRef.current.children.forEach((child, i) => {
-        const m = (child as THREE.Mesh).material as THREE.MeshStandardMaterial;
-        m.opacity = lob * 0.85;
-        (child as THREE.Mesh).scale.setScalar(0.5 + lob * 0.6 + Math.sin(state.clock.elapsedTime * 2 + i * 0.2) * 0.04);
-      });
+      liverRef.current.scale.setScalar(0.7 + grow * 0.5);
     }
   });
 
   return (
     <group ref={groupRef}>
-      {/* Liver body */}
-      <mesh ref={liverRef} scale={[1, 0.75, 0.85]}>
-        <sphereGeometry args={[1.8, 48, 32]} />
-        <meshStandardMaterial
-          color="#7a3328"
-          emissive="#5a1f15"
-          emissiveIntensity={0.18}
-          roughness={0.7}
-          metalness={0.05}
-        />
-      </mesh>
-      {/* Wireframe overlay for "anatomical" feel */}
-      <mesh scale={[1.005, 0.755, 0.855]}>
-        <sphereGeometry args={[1.8, 24, 16]} />
-        <meshBasicMaterial color="#f97316" wireframe transparent opacity={0.12} />
-      </mesh>
-      {/* Lobule markers */}
-      <group ref={lobuleRef}>
-        {lobules.map((l, i) => (
-          <mesh key={i} position={l.pos}>
-            <sphereGeometry args={[l.size, 8, 8]} />
-            <meshStandardMaterial
-              color="#fb923c"
-              emissive="#fb923c"
-              emissiveIntensity={0.5}
-              transparent
-              opacity={0.7}
+      <Float speed={1.0} rotationIntensity={0.1} floatIntensity={0.18}>
+        <group ref={liverRef}>
+          {/* Right lobe — largest */}
+          <mesh
+            geometry={geometries.rightLobe}
+            position={[0.4, 0, 0]}
+            rotation={[0, 0.2, -0.1]}
+            scale={[1.2, 0.85, 0.95]}
+          >
+            <meshPhysicalMaterial
+              color="#7a2d22"
+              roughness={0.55}
+              metalness={0.0}
+              clearcoat={0.7}
+              clearcoatRoughness={0.4}
+              sheen={0.5}
+              sheenColor="#f97316"
+              emissive="#3d1108"
+              emissiveIntensity={0.4}
             />
           </mesh>
-        ))}
-      </group>
+          {/* Left lobe */}
+          <mesh
+            geometry={geometries.leftLobe}
+            position={[-1.1, 0.15, 0.05]}
+            scale={[1.0, 0.7, 0.85]}
+          >
+            <meshPhysicalMaterial
+              color="#7a2d22"
+              roughness={0.55}
+              clearcoat={0.7}
+              clearcoatRoughness={0.4}
+              emissive="#3d1108"
+              emissiveIntensity={0.4}
+            />
+          </mesh>
+          {/* Caudate lobe (top behind) */}
+          <mesh
+            geometry={geometries.caudate}
+            position={[-0.2, 0.5, -0.4]}
+            scale={[0.9, 0.8, 0.7]}
+          >
+            <meshPhysicalMaterial
+              color="#702820"
+              roughness={0.6}
+              clearcoat={0.5}
+              emissive="#3d1108"
+              emissiveIntensity={0.35}
+            />
+          </mesh>
+          {/* Quadrate lobe */}
+          <mesh
+            geometry={geometries.quadrate}
+            position={[-0.1, -0.4, 0.3]}
+            scale={[0.85, 0.6, 0.75]}
+          >
+            <meshPhysicalMaterial
+              color="#702820"
+              roughness={0.6}
+              clearcoat={0.55}
+              emissive="#3d1108"
+              emissiveIntensity={0.35}
+            />
+          </mesh>
+          {/* Gallbladder hint */}
+          <mesh position={[0.05, -0.55, 0.7]} scale={[0.18, 0.3, 0.18]}>
+            <sphereGeometry args={[1, 16, 16]} />
+            <meshPhysicalMaterial
+              color="#3b3b1f"
+              roughness={0.3}
+              clearcoat={0.9}
+              emissive="#2d2d1a"
+              emissiveIntensity={0.5}
+            />
+          </mesh>
+        </group>
+      </Float>
     </group>
   );
 }
