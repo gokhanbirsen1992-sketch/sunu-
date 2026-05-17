@@ -3,9 +3,8 @@ import "./App.css";
 import storyJson from "./data/katmanlar.json";
 import type { Story } from "./types";
 import { useLenis } from "./hooks/useLenis";
-import { useScrollProgressRef } from "./hooks/useScrollProgress";
 import { Loader } from "./components/Loader";
-import { Stage } from "./three/Stage";
+import { PhotoStage } from "./components/PhotoStage";
 import { TextOverlay } from "./components/TextOverlay";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 
@@ -25,16 +24,12 @@ function App() {
 
 function AppInner() {
   useLenis();
-  const scroll = useScrollProgressRef();
   const [loaded, setLoaded] = useState(false);
   const [mounted, setMounted] = useState(false);
-
-  // Mark React mount succeeded
   useEffect(() => setMounted(true), []);
 
   return (
     <div className="app">
-      {/* Diagnostic banner — visible in top-left corner. Disappears after loaded */}
       {!loaded && (
         <div
           style={{
@@ -54,18 +49,14 @@ function AppInner() {
             pointerEvents: "none",
           }}
         >
-          {mounted ? "react ok · loading scene" : "mounting..."}
+          {mounted ? "ready" : "mounting..."}
         </div>
       )}
 
       <Loader onDone={() => setLoaded(true)} />
 
-      <div className="cosmos-bg" aria-hidden="true">
-        <div className="grain" />
-      </div>
-
-      <ErrorBoundary label="3D Stage">
-        <Stage scroll={scroll} />
+      <ErrorBoundary label="Photo Stage">
+        <PhotoStage />
       </ErrorBoundary>
 
       <ErrorBoundary label="Text Overlay">
@@ -77,7 +68,7 @@ function AppInner() {
           Bilirubin 28. Yıldız hâlâ ışığın altında.
         </div>
         <div className="story-foot__meta">
-          Yıldız'ın Sarılığı · 21 katman · 3D scrollytelling
+          Yıldız'ın Sarılığı · 21 katman · görseller OpenStax Biology (CC-BY)
         </div>
       </footer>
     </div>

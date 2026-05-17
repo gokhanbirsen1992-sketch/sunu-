@@ -53,10 +53,9 @@ export function TextOverlay({ story }: Props) {
   for (const s of story.sections) sectionsById[s.id] = s;
 
   const ref = useRef<HTMLDivElement | null>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end end"],
-  });
+  // Window-level scroll progress (same as PhotoStage), so visual + text are
+  // perfectly in sync. Container only provides the scroll height.
+  const { scrollYProgress } = useScroll();
 
   const ranges = NARRATIVE_ORDER.reduce<Record<string, [number, number]>>(
     (acc, id, i) => {
