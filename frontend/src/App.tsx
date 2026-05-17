@@ -5,7 +5,7 @@ import type { Story } from "./types";
 import { useLenis } from "./hooks/useLenis";
 import { useScrollProgressRef } from "./hooks/useScrollProgress";
 import { Loader } from "./components/Loader";
-import { Stage } from "./three/Stage";
+import { StageMinimal } from "./three/StageMinimal";
 import { TextOverlay } from "./components/TextOverlay";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 
@@ -25,7 +25,7 @@ function App() {
 
 function AppInner() {
   useLenis();
-  const scroll = useScrollProgressRef();
+  useScrollProgressRef();
   const [loaded, setLoaded] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -65,7 +65,7 @@ function AppInner() {
       </div>
 
       <ErrorBoundary label="3D Stage">
-        <Stage scroll={scroll} effects={false} />
+        <StageMinimal />
       </ErrorBoundary>
 
       <ErrorBoundary label="Text Overlay">
