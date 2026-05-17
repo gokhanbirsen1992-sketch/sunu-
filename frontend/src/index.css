@@ -1,16 +1,19 @@
 :root {
-  --bg-0: #05060a;
-  --bg-1: #0a0d18;
-  --bg-2: #11162a;
-  --ink: #ece8df;
-  --ink-muted: #8a8c98;
-  --ink-faint: #4a4d5e;
-  --rule: rgba(236, 232, 223, 0.08);
-  --accent: #f5b942;
-  --serif: "Cormorant Garamond", "Iowan Old Style", "Apple Garamond", Georgia,
-    "Times New Roman", serif;
+  /* Refined editorial palette */
+  --bg-0: #0a0907;
+  --bg-1: #100e0a;
+  --bg-2: #1a1610;
+  --ink: #f0e9d9;
+  --ink-strong: #fbf4e3;
+  --ink-muted: #7a7363;
+  --ink-faint: #4a443a;
+  --rule: rgba(240, 233, 217, 0.09);
+  --accent: #d4a44b;
+  --accent-bright: #f5c870;
+  --serif: "Fraunces", "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
   --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
 }
 
 *,
@@ -31,13 +34,8 @@ body,
   -moz-osx-font-smoothing: grayscale;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
 body {
   min-height: 100vh;
-  overflow-x: hidden;
 }
 
 a {
@@ -55,7 +53,7 @@ button {
 }
 
 ::selection {
-  background: rgba(245, 185, 66, 0.35);
+  background: rgba(212, 164, 75, 0.45);
   color: #fff;
 }
 
