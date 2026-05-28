@@ -177,5 +177,44 @@ def signal(ctx: click.Context) -> None:
     console.print(_render(sym, tf, strategy.name, sig, None))
 
 
+@cli.command()
+@click.option(
+    "--amount",
+    required=True,
+    type=click.FloatRange(min=0, min_open=True),
+    help="Bu ay yatırılacak USDT tutarı (maaş kalanı).",
+)
+@click.option("--symbol", default=None, help="Sembol (örn. BTC_USDT).")
+@click.option(
+    "--fee-pct",
+    default=0.001,
+    show_default=True,
+    type=click.FloatRange(min=0, max=0.1),
+    help="Taker komisyon oranı (0.001 = %0.1).",
+)
+@click.pass_context
+def dca(ctx: click.Context, amount: float, symbol: str | None, fee_pct: float) -> None:
+    """Aylık DCA: verilen tutarla anlık fiyattan ne kadar alabileceğini göster."""
+    from src.monitor import _enrich_signal, _render_dca
+
+    cfg = ctx.obj["config"]
+    ex_cfg = cfg["exchange"]
+    sym = symbol or ex_cfg["symbol"]
+    tf = ex_cfg["timeframe"]
+    count = int(ex_cfg.get("candle_count", 300))
+
+    strategy = _build_strategy_from_config(cfg)
+    risk = RiskConfig(**cfg["risk"])
+
+    console = Console()
+    with Exchange() as ex:
+        df = ex.get_candles(sym, tf, count)
+        ticker = ex.get_ticker(sym)
+
+    sig = strategy.generate_signal(df, ticker["price"])
+    sig = _enrich_signal(sig, df, risk)
+    console.print(_render_dca(sym, tf, strategy.name, sig, amount, fee_pct))
+
+
 if __name__ == "__main__":
     cli(obj={})

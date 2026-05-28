@@ -75,6 +75,66 @@ def _render(
     )
 
 
+def _render_dca(
+    symbol: str,
+    timeframe: str,
+    strategy_name: str,
+    signal: Signal,
+    amount: float,
+    fee_pct: float,
+) -> Panel:
+    """DCA için anlık fiyat + alınabilir miktar + sinyal yorumu paneli."""
+    fee = amount * fee_pct
+    net_amount = amount - fee
+    coin_qty = net_amount / signal.price if signal.price > 0 else 0.0
+    effective_cost = amount / coin_qty if coin_qty > 0 else 0.0
+
+    base_asset = symbol.split("_")[0] if "_" in symbol else symbol
+    quote_asset = symbol.split("_")[1] if "_" in symbol else "USDT"
+
+    note = {
+        "BUY": "Strateji şu an alım sinyali veriyor — DCA için uygun zaman.",
+        "HOLD": "Strateji belirsiz; DCA disiplini gereği yine de alabilirsin.",
+        "SELL": "Strateji satış sinyalinde — istersen bir sonraki aya erteleyebilirsin (DCA disiplini ihlal etmez).",
+    }.get(signal.action, "")
+
+    table = Table.grid(padding=(0, 2))
+    table.add_column(justify="right", style="dim")
+    table.add_column()
+
+    table.add_row("Sembol", f"[bold]{symbol}[/bold]   ({timeframe})")
+    table.add_row("Strateji", strategy_name)
+    table.add_row("Anlık Fiyat", f"[bold cyan]{signal.price:,.2f}[/bold cyan] {quote_asset}")
+
+    if signal.indicators:
+        ind_str = "  ".join(f"{k}={v:.2f}" for k, v in signal.indicators.items())
+        table.add_row("Göstergeler", ind_str)
+
+    table.add_row(
+        "Sinyal",
+        Text(signal.action, style=_color_for_action(signal.action)),
+    )
+
+    table.add_row("Yatırım Tutarı", f"[bold]{amount:,.2f}[/bold] {quote_asset}")
+    table.add_row("Komisyon", f"[dim]{fee:,.4f} {quote_asset}  ({fee_pct*100:.3f}%)[/dim]")
+    table.add_row("Net Tutar", f"{net_amount:,.4f} {quote_asset}")
+    table.add_row("Alınabilir Miktar", f"[bold green]{coin_qty:.8f}[/bold green] {base_asset}")
+    table.add_row("Efektif Birim Maliyet", f"{effective_cost:,.2f} {quote_asset}/{base_asset}")
+
+    if note:
+        table.add_row("Strateji Notu", f"[{_color_for_action(signal.action)}]{note}[/]")
+
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+    table.add_row("Hesaplama Zamanı", f"[dim]{now}[/dim]")
+
+    return Panel(
+        table,
+        title="[bold]Aylık DCA — Maaş Kalanı Yatırımı[/bold]",
+        subtitle="[dim]Yatırım tavsiyesi değildir. Gerçek emir verilmez.[/dim]",
+        border_style=_color_for_action(signal.action),
+    )
+
+
 def _enrich_signal(
     signal: Signal,
     df: pd.DataFrame,
