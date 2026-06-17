@@ -1,8 +1,37 @@
 # word2pdf — Word'den PDF'e Dönüştürücü
 
 Word belgelerini (`.docx`, `.doc`) PDF'e çeviren basit ve sağlam bir araç.
-Hem terminalden hem de Python kodu içinden kullanılabilir; tek dosya ya da
-bütün bir klasörü toplu olarak dönüştürebilir.
+Pencereli masaüstü uygulaması olarak (çift tıkla), terminalden ya da Python
+kodu içinden kullanılabilir; tek dosya ya da bütün bir klasörü toplu olarak
+dönüştürebilir.
+
+## 🖥️ Masaüstü uygulaması (pencereli — önerilen)
+
+Terminalle uğraşmadan, açıp tıklayarak kullan:
+
+```bash
+# Python kuruluysa, kök dizinde:
+python word2pdf_app.pyw
+```
+ya da `word2pdf_app.pyw` dosyasına **çift tıkla**.
+
+Açılan pencerede: **Dosya Ekle** (veya **Klasör Ekle**) → **PDF'e Dönüştür**.
+Bitti. PDF'ler kaynak dosyayla aynı klasöre (ya da seçtiğin çıktı klasörüne)
+kaydedilir.
+
+### Python kurulu olmayanlara: tek dosyalık bağımsız uygulama (.exe / .app)
+
+Bilgisayarına bir kez Python kurup ilgili derleme betiğini çalıştır; çıkan
+dosya **Python gerektirmeden** tek başına çalışır:
+
+| İşletim sistemi | Çalıştır | Üretilen |
+|---|---|---|
+| Windows | `build_windows.bat` (çift tıkla) | `dist\Word2PDF.exe` |
+| macOS | `bash build_macos.sh` | `dist/Word2PDF.app` |
+| Linux | `bash build_linux.sh` | `dist/word2pdf` |
+
+> Linux'ta GUI için tkinter gerekir: `sudo apt install python3-tk`.
+> (Windows ve macOS'ta tkinter, Python ile birlikte hazır gelir.)
 
 ## Nasıl çalışır? (İki motor)
 
