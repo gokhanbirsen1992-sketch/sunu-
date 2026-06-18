@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>Word → PDF Dönüştürücü</title>
+
+<!-- PWA / iPhone "Ana Ekrana Ekle" -->
+<meta name="theme-color" content="#2563eb">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Word→PDF">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+
+<style>
+  :root { --brand:#2563eb; --brand-dark:#1d4ed8; --bg:#f1f5f9; --card:#fff; --ink:#0f172a; --muted:#64748b; --ok:#16a34a; --err:#dc2626; }
+  * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html,body { margin:0; padding:0; }
+  body {
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg); color:var(--ink);
+    min-height:100vh; min-height:100dvh;
+    padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+  .wrap { max-width:640px; margin:0 auto; padding:20px 16px 40px; }
+  header { text-align:center; margin:8px 0 22px; }
+  .logo { width:64px; height:64px; border-radius:16px; background:linear-gradient(135deg,var(--brand),#7c3aed);
+           display:inline-flex; align-items:center; justify-content:center; color:#fff; font-weight:800; font-size:15px; line-height:1.1;
+           box-shadow:0 8px 20px rgba(37,99,235,.35); margin-bottom:12px; }
+  h1 { font-size:22px; margin:0 0 4px; }
+  .sub { color:var(--muted); font-size:14px; margin:0; }
+
+  .card { background:var(--card); border-radius:18px; padding:18px; box-shadow:0 1px 3px rgba(0,0,0,.08); }
+
+  .drop { border:2px dashed #cbd5e1; border-radius:14px; padding:26px 16px; text-align:center; transition:.15s;
+          background:#f8fafc; cursor:pointer; }
+  .drop:active { background:#eef2ff; border-color:var(--brand); }
+  .drop .ic { font-size:34px; }
+  .drop b { display:block; margin-top:6px; font-size:16px; }
+  .drop span { color:var(--muted); font-size:13px; }
+  input[type=file] { display:none; }
+
+  ul#list { list-style:none; padding:0; margin:14px 0 0; }
+  ul#list li { display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:12px; background:#f8fafc; margin-top:8px; font-size:14px; }
+  ul#list li .name { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  ul#list li .st { font-size:18px; width:22px; text-align:center; }
+  .spin { width:16px; height:16px; border:2px solid #cbd5e1; border-top-color:var(--brand); border-radius:50%; animation:sp .7s linear infinite; }
+  @keyframes sp { to { transform:rotate(360deg); } }
+  .dl { color:var(--brand); font-weight:600; text-decoration:none; font-size:13px; padding:6px 10px; border:1px solid var(--brand); border-radius:9px; }
+
+  button.go { width:100%; margin-top:16px; padding:16px; font-size:17px; font-weight:700; color:#fff; background:var(--brand);
+              border:none; border-radius:14px; cursor:pointer; box-shadow:0 6px 16px rgba(37,99,235,.3); }
+  button.go:active { background:var(--brand-dark); }
+  button.go:disabled { background:#94a3b8; box-shadow:none; }
+
+  .note { color:var(--muted); font-size:12.5px; text-align:center; margin-top:18px; line-height:1.6; }
+  .note .lock { color:var(--ok); font-weight:600; }
+
+  /* PDF'e dönüştürülecek belge yerleşimi (ekran dışında render edilir) */
+  #stage { position:fixed; left:-10000px; top:0; }
+  .pdf-page { width:760px; background:#fff; color:#000; padding:8px 4px;
+              font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; font-size:15px; line-height:1.5; }
+  .pdf-page h1 { font-size:24px; margin:0 0 10px; }
+  .pdf-page h2 { font-size:20px; margin:16px 0 8px; }
+  .pdf-page h3 { font-size:17px; margin:14px 0 6px; }
+  .pdf-page p { margin:0 0 10px; }
+  .pdf-page table { border-collapse:collapse; width:100%; max-width:100%; table-layout:fixed; margin:10px 0; }
+  .pdf-page td, .pdf-page th { border:1px solid #999; padding:6px 9px; vertical-align:top; word-wrap:break-word; overflow-wrap:break-word; }
+  .pdf-page img { max-width:100%; height:auto; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">W→PDF</div>
+    <h1>Word → PDF Dönüştürücü</h1>
+    <p class="sub">Word (.docx) dosyalarını telefonunda PDF'e çevir.</p>
+  </header>
+
+  <div class="card">
+    <label class="drop" for="file" id="drop">
+      <div class="ic">📄→📕</div>
+      <b>Word dosyası seç</b>
+      <span>.docx dosyaları • birden fazla seçebilirsin</span>
+    </label>
+    <input type="file" id="file" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" multiple>
+
+    <ul id="list"></ul>
+
+    <button class="go" id="go" disabled>PDF'e Dönüştür</button>
+  </div>
+
+  <p class="note">
+    <span class="lock">🔒 Dosyaların telefonundan çıkmaz.</span><br>
+    Dönüştürme tamamen cihazında yapılır — internet bağlantısı bile gerektirmez.
+  </p>
+</div>
+
+<div id="stage"></div>
+
+<!-- Dönüştürme kütüphaneleri (yerel — CDN/internet gerektirmez) -->
+<script src="vendor/mammoth.browser.min.js"></script>
+<script src="vendor/html2pdf.bundle.min.js"></script>
+
+<script>
+  const fileInput = document.getElementById('file');
+  const listEl = document.getElementById('list');
+  const goBtn = document.getElementById('go');
+  const stage = document.getElementById('stage');
+  let files = [];
+
+  fileInput.addEventListener('change', () => {
+    files = Array.from(fileInput.files).filter(f => /\.docx$/i.test(f.name));
+    const skipped = fileInput.files.length - files.length;
+    renderList();
+    goBtn.disabled = files.length === 0;
+    if (skipped > 0) alert('Yalnızca .docx desteklenir. Eski .doc dosyaları için önce Word\'de .docx olarak kaydet.');
+  });
+
+  function renderList() {
+    listEl.innerHTML = '';
+    files.forEach((f, i) => {
+      const li = document.createElement('li');
+      li.innerHTML = `<span class="st" id="st${i}">•</span><span class="name">${escapeHtml(f.name)}</span>`;
+      listEl.appendChild(li);
+    });
+  }
+  function escapeHtml(s){ return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  function setStatus(i, html){ const el=document.getElementById('st'+i); if(el) el.innerHTML=html; }
+
+  goBtn.addEventListener('click', async () => {
+    goBtn.disabled = true;
+    goBtn.textContent = 'Dönüştürülüyor…';
+    let ok = 0;
+    for (let i = 0; i < files.length; i++) {
+      setStatus(i, '<span class="spin"></span>');
+      try {
+        const blob = await convert(files[i]);
+        const url = URL.createObjectURL(blob);
+        const base = files[i].name.replace(/\.docx$/i, '') + '.pdf';
+        attachResult(i, url, base, blob);
+        ok++;
+      } catch (e) {
+        console.error(e);
+        setStatus(i, '<span style="color:var(--err)">✗</span>');
+      }
+    }
+    goBtn.textContent = ok === files.length ? '✓ Tamamlandı' : `Bitti (${ok}/${files.length})`;
+    setTimeout(() => { goBtn.disabled = false; goBtn.textContent = 'PDF\'e Dönüştür'; }, 2500);
+  });
+
+  async function convert(file) {
+    const arrayBuffer = await file.arrayBuffer();
+    const { value: html } = await mammoth.convertToHtml({ arrayBuffer });
+    const page = document.createElement('div');
+    page.className = 'pdf-page';
+    page.innerHTML = html || '<p>(Boş belge)</p>';
+    stage.appendChild(page);
+    try {
+      const opt = {
+        margin: [12, 12, 14, 12],
+        filename: file.name.replace(/\.docx$/i, '') + '.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak: { mode: ['css', 'legacy'] }
+      };
+      return await html2pdf().set(opt).from(page).outputPdf('blob');
+    } finally {
+      page.remove();
+    }
+  }
+
+  // Sonuç: iOS'ta "Paylaş" (Dosyalar'a kaydet) varsa onu, yoksa indirme bağlantısı sun.
+  function attachResult(i, url, name, blob) {
+    const li = listEl.children[i];
+    const old = li.querySelector('.dl'); if (old) old.remove();
+    const a = document.createElement('a');
+    a.className = 'dl';
+    a.textContent = 'PDF';
+    a.href = url; a.download = name;
+    const file = new File([blob], name, { type: 'application/pdf' });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      a.textContent = 'Paylaş / Kaydet';
+      a.addEventListener('click', async (ev) => {
+        ev.preventDefault();
+        try { await navigator.share({ files: [file], title: name }); }
+        catch (_) { window.open(url, '_blank'); }
+      });
+    }
+    li.appendChild(a);
+    setStatus(i, '<span style="color:var(--ok)">✓</span>');
+  }
+
+  // Service worker (çevrimdışı çalışma + ana ekran uygulaması)
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(()=>{}));
+  }
+</script>
+</body>
+</html>

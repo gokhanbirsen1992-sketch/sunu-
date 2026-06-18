@@ -1,0 +1,15 @@
+# Word→PDF iPhone web uygulaması (statik PWA) için Netlify yayın ayarı.
+[build]
+  publish = "webapp"
+  command = ""
+
+# PWA için doğru içerik tipleri ve önbellek başlıkları
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/manifest.webmanifest"
+  [headers.values]
+    Content-Type = "application/manifest+json"
