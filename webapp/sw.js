@@ -3,7 +3,6 @@ const CACHE = 'word2pdf-v1';
 
 // Yerel uygulama kabuğu (CDN kütüphaneleri ilk kullanımda fetch ile önbelleğe alınır).
 const APP_SHELL = [
-  './',
   './index.html',
   './manifest.webmanifest',
   './icon-192.png',

@@ -3,7 +3,7 @@
   "short_name": "Word→PDF",
   "description": "Word (.docx) dosyalarını telefonda PDF'e çevirir. Dosyalar cihazdan çıkmaz.",
   "lang": "tr",
-  "start_url": "./",
+  "start_url": "index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
