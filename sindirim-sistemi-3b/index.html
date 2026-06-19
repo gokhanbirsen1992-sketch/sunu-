@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>🚀 Sindirim Sistemi Macerası — 3B İnteraktif Keşif</title>
+<style>
+  :root{
+    --mor:#7b4fb0; --pembe:#e8836f; --kirmizi:#d9534f;
+    --turuncu:#f0a06a; --moru:#b07cc6; --kahve:#7b4a3a;
+    --panel:rgba(255,255,255,0.92);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;overflow:hidden;font-family:"Trebuchet MS","Segoe UI",sans-serif;}
+  body{
+    background:radial-gradient(circle at 50% 20%, #eaf7ff 0%, #cdeafe 55%, #bfe0fb 100%);
+    color:#23314a;-webkit-user-select:none;user-select:none;
+  }
+  #app{position:fixed;inset:0;}
+  canvas{display:block;}
+
+  /* Üst başlık */
+  #baslik{
+    position:absolute;top:14px;left:50%;transform:translateX(-50%);
+    text-align:center;pointer-events:none;z-index:5;
+  }
+  #baslik h1{
+    margin:0;font-size:26px;color:#3a2a66;
+    text-shadow:0 2px 0 #fff, 0 4px 12px rgba(0,0,0,.15);
+  }
+  #baslik p{margin:2px 0 0;font-size:13px;color:#5a6b86;}
+
+  /* Sol organ listesi */
+  #organlar{
+    position:absolute;top:80px;left:14px;z-index:6;
+    display:flex;flex-direction:column;gap:8px;max-width:170px;
+  }
+  .chip{
+    cursor:pointer;border:none;border-radius:14px;padding:9px 12px;
+    background:var(--panel);box-shadow:0 4px 10px rgba(0,0,0,.12);
+    font-size:14px;font-weight:bold;color:#33415c;text-align:left;
+    transition:transform .12s, box-shadow .12s;display:flex;align-items:center;gap:8px;
+  }
+  .chip:hover{transform:translateX(4px) scale(1.03);box-shadow:0 6px 16px rgba(0,0,0,.2);}
+  .chip .dot{width:14px;height:14px;border-radius:50%;flex:0 0 auto;}
+
+  /* Sağ bilgi paneli */
+  #bilgi{
+    position:absolute;top:80px;right:14px;width:300px;max-width:78vw;z-index:6;
+    background:var(--panel);border-radius:18px;padding:18px 18px 16px;
+    box-shadow:0 8px 24px rgba(0,0,0,.18);display:none;
+  }
+  #bilgi.acik{display:block;animation:pop .25s ease;}
+  @keyframes pop{from{transform:scale(.9);opacity:0;}to{transform:scale(1);opacity:1;}}
+  #bilgi h2{margin:0 0 6px;font-size:22px;display:flex;align-items:center;gap:8px;}
+  #bilgi .aciklama{font-size:14.5px;line-height:1.5;color:#3c4a63;}
+  #bilgi .fact{
+    margin-top:12px;background:#fff7e6;border-left:5px solid #ffba49;
+    padding:9px 11px;border-radius:8px;font-size:13.5px;color:#6b4e00;
+  }
+  #bilgi .kapat{
+    position:absolute;top:10px;right:12px;cursor:pointer;border:none;background:none;
+    font-size:20px;color:#9aa6bd;line-height:1;
+  }
+
+  /* Alt kontrol çubuğu */
+  #kontroller{
+    position:absolute;bottom:18px;left:50%;transform:translateX(-50%);z-index:6;
+    display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:center;
+  }
+  .btn{
+    cursor:pointer;border:none;border-radius:30px;padding:12px 20px;font-size:15px;font-weight:bold;
+    color:#fff;box-shadow:0 6px 16px rgba(0,0,0,.2);transition:transform .12s, filter .12s;
+  }
+  .btn:hover{transform:translateY(-2px);filter:brightness(1.07);}
+  .btn:active{transform:translateY(0);}
+  .btn.yolculuk{background:linear-gradient(135deg,#ff8a5b,#ff5e7e);}
+  .btn.quiz{background:linear-gradient(135deg,#7b6cf6,#5b8def);}
+  .toggle{
+    background:var(--panel);color:#33415c;border-radius:30px;padding:10px 14px;
+    box-shadow:0 4px 10px rgba(0,0,0,.12);font-size:13px;display:flex;align-items:center;gap:7px;cursor:pointer;
+  }
+  .toggle input{accent-color:var(--mor);width:16px;height:16px;}
+
+  /* Anlatım bandı */
+  #anlatim{
+    position:absolute;bottom:78px;left:50%;transform:translateX(-50%) translateY(20px);
+    z-index:6;background:rgba(40,28,80,.92);color:#fff;padding:12px 22px;border-radius:30px;
+    font-size:16px;font-weight:bold;box-shadow:0 8px 24px rgba(0,0,0,.3);
+    opacity:0;transition:opacity .3s, transform .3s;pointer-events:none;max-width:84vw;text-align:center;
+  }
+  #anlatim.gor{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  /* Giriş / Quiz modal */
+  .overlay{
+    position:absolute;inset:0;z-index:20;background:rgba(20,24,40,.55);
+    display:flex;align-items:center;justify-content:center;backdrop-filter:blur(3px);
+  }
+  .modal{
+    background:#fff;border-radius:22px;padding:26px 28px;max-width:440px;width:90%;
+    box-shadow:0 20px 60px rgba(0,0,0,.35);text-align:center;animation:pop .3s ease;
+  }
+  .modal h2{margin:0 0 10px;font-size:24px;color:#3a2a66;}
+  .modal p{font-size:15px;line-height:1.55;color:#46546f;}
+  .modal .kucuk{font-size:13px;color:#7b88a1;margin-top:14px;}
+  .qopt{
+    display:block;width:100%;margin:8px 0;padding:13px;border-radius:14px;border:2px solid #e3e8f2;
+    background:#f7f9fd;font-size:15px;font-weight:bold;color:#33415c;cursor:pointer;text-align:left;
+    transition:.12s;
+  }
+  .qopt:hover{border-color:#b8c4dd;background:#eef3fb;}
+  .qopt.dogru{border-color:#3ec97a;background:#e6f9ee;color:#1f7a45;}
+  .qopt.yanlis{border-color:#ef6b6b;background:#fdeaea;color:#a52a2a;}
+  .qopt:disabled{cursor:default;}
+  #qbar{height:8px;background:#eef1f7;border-radius:6px;overflow:hidden;margin-bottom:16px;}
+  #qbar>div{height:100%;background:linear-gradient(90deg,#7b6cf6,#5b8def);width:0;transition:width .3s;}
+  #yukleniyor{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-size:18px;color:#46546f;z-index:30;
+  }
+  @media (max-width:680px){
+    #organlar{top:70px;left:8px;max-width:128px;}
+    .chip{font-size:12px;padding:7px 9px;}
+    #bilgi{top:auto;bottom:150px;right:8px;width:240px;}
+    #baslik h1{font-size:19px;}
+  }
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<div id="yukleniyor">3B sahne yükleniyor… 🧬</div>
+
+<div id="baslik">
+  <h1>🚀 Sindirim Sistemi Macerası</h1>
+  <p>Organlara tıkla • sürükleyerek döndür • tekerlekle yakınlaş</p>
+</div>
+
+<div id="organlar"></div>
+
+<div id="bilgi">
+  <button class="kapat" onclick="bilgiKapat()">✕</button>
+  <h2 id="bilgiBaslik"></h2>
+  <div class="aciklama" id="bilgiAciklama"></div>
+  <div class="fact" id="bilgiFact"></div>
+</div>
+
+<div id="anlatim"></div>
+
+<div id="kontroller">
+  <button class="btn yolculuk" id="btnYolculuk">🍎 Yolculuğa Başla</button>
+  <button class="btn quiz" id="btnQuiz">🧠 Mini Quiz</button>
+  <label class="toggle"><input type="checkbox" id="autoRotate"> 🔄 Döndür</label>
+</div>
+
+<!-- Giriş ekranı -->
+<div class="overlay" id="girisOverlay">
+  <div class="modal">
+    <h2>🧬 Sindirim Sistemine Hoş Geldin!</h2>
+    <p>Bir lokmanın <b>ağızdan</b> başlayıp <b>ince ve kalın bağırsaklardan</b> geçerek çıkışa kadar yaptığı
+    inanılmaz yolculuğu keşfet. Organlara tıklayarak ne işe yaradıklarını öğren,
+    sonra <b>🍎 Yolculuğa Başla</b> de ve elmayı takip et!</p>
+    <button class="btn yolculuk" style="margin-top:16px" onclick="girisKapat()">Keşfe Başla ✨</button>
+    <div class="kucuk">İpucu: En sonda bilgini test etmek için bir mini quiz var.</div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+/* ============================================================
+   Çocuklar için 3B Sindirim Sistemi — eğitsel keşif uygulaması
+   ============================================================ */
+
+if (typeof THREE === "undefined") {
+  document.getElementById("yukleniyor").innerHTML =
+    "⚠️ 3B kütüphanesi yüklenemedi.<br>İnternet bağlantını kontrol edip sayfayı yenile.";
+  throw new Error("THREE yüklenemedi");
+}
+
+const V = (x, y, z) => new THREE.Vector3(x, y, z);
+
+/* ---------- Organ bilgileri (çocuk dostu Türkçe) ---------- */
+const ORGANS = {
+  mouth: {
+    name: "Ağız", emoji: "👄", color: "#e8836f", center: V(0, 7, 0),
+    desc: "Yolculuk burada başlar! Dişlerin yiyecekleri küçük parçalara öğütür, tükürük ise onları yumuşatıp kaygan hâle getirir.",
+    fact: "Her gün yaklaşık 1,5 litre tükürük üretiriz! 💧"
+  },
+  esophagus: {
+    name: "Yemek Borusu", emoji: "🛝", color: "#e07a66", center: V(0.5, 4, 0),
+    desc: "Kaslı bir kaydırak gibi! Dalga dalga kasılarak (peristaltizm) lokmayı mideye doğru iter. Baş aşağı dursan bile yemek yukarı düşmez.",
+    fact: "Bir lokma yaklaşık 7 saniyede mideye ulaşır. ⏱️"
+  },
+  stomach: {
+    name: "Mide", emoji: "🫙", color: "#d9534f", center: V(1.6, 1.4, 0),
+    desc: "Güçlü bir karıştırıcı! Asit ve enzimlerle yiyecekleri çorba kıvamına getirir. Mide kendini kalın bir mukus tabakasıyla asitten korur.",
+    fact: "Mide bir balon gibi şişip yaklaşık 1 litre yiyecek alabilir! 🎈"
+  },
+  small: {
+    name: "İnce Bağırsak", emoji: "🌀", color: "#f0a06a", center: V(0, -1.9, 0),
+    desc: "Vücudun en uzun organı, kıvrım kıvrım yaklaşık 6 metre! Besinlerdeki vitaminler ve enerji burada emilip kana karışır.",
+    fact: "Açılıp uzatılsa bir minibüs boyunca uzanır (~6 m)! 🚐"
+  },
+  large: {
+    name: "Kalın Bağırsak", emoji: "💧", color: "#b07cc6", center: V(0, 0.2, 0),
+    desc: "Su geri kazanım merkezi! Kalan sıvıyı emer ve atıkları dışarı atılmaya hazırlar. Trilyonlarca dost bakteri burada yaşar.",
+    fact: "Bağırsaklarında, gökyüzündeki yıldızlardan bile çok bakteri yaşar! ✨"
+  },
+  liver: {
+    name: "Karaciğer", emoji: "🧪", color: "#7b4a3a", center: V(-1.9, 2.2, 0.2),
+    desc: "Vücudun kimya fabrikası! Yağları parçalamaya yardım eden 'safra'yı üretir ve kanı zararlı maddelerden temizler. (Bonus organ)",
+    fact: "Karaciğer kendini yenileyebilen tek iç organımızdır! 🔁"
+  },
+  exit: {
+    name: "Çıkış (Rektum)", emoji: "🚪", color: "#d98c8c", center: V(0, -4.4, 0),
+    desc: "Yolculuğun sonu! Vücudun kullanamadığı atıklar burada toplanır ve uygun zamanda dışarı atılır.",
+    fact: "Sindirim tüm yolculuğu ortalama 24–48 saatte tamamlar! 🕐"
+  }
+};
+
+/* ---------- Sahne kurulumu ---------- */
+const app = document.getElementById("app");
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 100);
+camera.position.set(0, 0, 17);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+app.appendChild(renderer.domElement);
+
+const controls = new THREE.OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.08;
+controls.minDistance = 8;
+controls.maxDistance = 30;
+controls.target.set(0, -0.4, 0);
+let desiredTarget = V(0, -0.4, 0);
+
+/* Işıklar */
+scene.add(new THREE.HemisphereLight(0xffffff, 0x4a4a66, 0.85));
+const dir = new THREE.DirectionalLight(0xffffff, 0.7);
+dir.position.set(4, 8, 10);
+scene.add(dir);
+scene.add(new THREE.AmbientLight(0xffffff, 0.35));
+
+/* Tüm organları tutan kök grup (dikeyde ortalamak için kaydırılır) */
+const root = new THREE.Group();
+root.position.y = -1.2;
+scene.add(root);
+
+/* Tıklanabilir meshleri ve organa göre mesh listesini tut */
+const clickable = [];
+const meshesByOrgan = {};
+function kaydet(mesh, id) {
+  mesh.userData.organId = id;
+  mesh.traverse(c => { c.userData.organId = id; if (c.isMesh) clickable.push(c); });
+  (meshesByOrgan[id] = meshesByOrgan[id] || []).push(mesh);
+}
+
+/* Etiket (sprite) üretici */
+function etiket(text, renk) {
+  const c = document.createElement("canvas");
+  const ctx = c.getContext("2d");
+  const fs = 46;
+  ctx.font = "bold " + fs + "px Trebuchet MS, sans-serif";
+  const w = Math.ceil(ctx.measureText(text).width) + 44;
+  const h = fs + 28;
+  c.width = w; c.height = h;
+  ctx.font = "bold " + fs + "px Trebuchet MS, sans-serif";
+  // arka plan
+  ctx.fillStyle = "rgba(255,255,255,0.92)";
+  const r = 18;
+  ctx.beginPath();
+  ctx.moveTo(r, 0); ctx.arcTo(w, 0, w, h, r); ctx.arcTo(w, h, 0, h, r);
+  ctx.arcTo(0, h, 0, 0, r); ctx.arcTo(0, 0, w, 0, r); ctx.closePath(); ctx.fill();
+  ctx.fillStyle = renk || "#333";
+  ctx.textAlign = "center"; ctx.textBaseline = "middle";
+  ctx.fillText(text, w / 2, h / 2 + 2);
+  const tex = new THREE.CanvasTexture(c);
+  const mat = new THREE.SpriteMaterial({ map: tex, depthTest: false, transparent: true });
+  const sp = new THREE.Sprite(mat);
+  sp.scale.set((w / h) * 0.95, 0.95, 1);
+  sp.renderOrder = 999;
+  return sp;
+}
+function etiketEkle(id, offset) {
+  const o = ORGANS[id];
+  const sp = etiket(o.emoji + " " + o.name, o.color);
+  sp.position.copy(o.center).add(offset || V(0, 0, 0));
+  root.add(sp);
+}
+
+/* ---------- ORGAN GEOMETRİLERİ ---------- */
+
+/* Ağız — sevimli bir yüz */
+(function buildMouth() {
+  const g = new THREE.Group();
+  const kafa = new THREE.Mesh(
+    new THREE.SphereGeometry(1.15, 32, 32),
+    new THREE.MeshStandardMaterial({ color: 0xf2c9a0, roughness: 0.8 })
+  );
+  g.add(kafa);
+  const gozMat = new THREE.MeshStandardMaterial({ color: 0x33384a });
+  [-0.42, 0.42].forEach(x => {
+    const goz = new THREE.Mesh(new THREE.SphereGeometry(0.13, 16, 16), gozMat);
+    goz.position.set(x, 0.28, 1.02); g.add(goz);
+  });
+  const agiz = new THREE.Mesh(
+    new THREE.SphereGeometry(0.5, 24, 24),
+    new THREE.MeshStandardMaterial({ color: 0x7a1f1f, roughness: 0.6 })
+  );
+  agiz.scale.set(1, 0.55, 0.5); agiz.position.set(0, -0.45, 0.92); g.add(agiz);
+  g.position.copy(ORGANS.mouth.center);
+  root.add(g);
+  kaydet(g, "mouth");
+})();
+
+/* Yemek borusu — eğri tüp */
+(function buildEsophagus() {
+  const curve = new THREE.CatmullRomCurve3([
+    V(0, 6.2, 0), V(0.1, 5.4, 0), V(0.35, 4.4, 0), V(0.65, 3.4, 0), V(1.0, 2.6, 0)
+  ]);
+  const mesh = new THREE.Mesh(
+    new THREE.TubeGeometry(curve, 60, 0.32, 16, false),
+    new THREE.MeshStandardMaterial({ color: 0xe07a66, roughness: 0.7 })
+  );
+  root.add(mesh);
+  kaydet(mesh, "esophagus");
+})();
+
+/* Mide — fasulye benzeri (bükük) şekil */
+(function buildStomach() {
+  const g = new THREE.Group();
+  const mat = new THREE.MeshStandardMaterial({ color: 0xd9534f, roughness: 0.65 });
+  const ana = new THREE.Mesh(new THREE.SphereGeometry(1.1, 32, 32), mat);
+  ana.scale.set(1.05, 1.45, 0.95);
+  g.add(ana);
+  const alt = new THREE.Mesh(new THREE.SphereGeometry(0.62, 24, 24), mat);
+  alt.position.set(-0.55, -1.0, 0); g.add(alt);
+  g.rotation.z = 0.35;
+  g.position.copy(ORGANS.stomach.center);
+  root.add(g);
+  kaydet(g, "stomach");
+})();
+
+/* İnce bağırsak — yılankavi (serpentin) tüp */
+function inceBagirsakNoktalari() {
+  const pts = [];
+  const rows = 5, xMax = 2.0, yTop = -0.3, yBot = -3.4;
+  for (let i = 0; i < rows; i++) {
+    const y = yTop + (yBot - yTop) * (i / (rows - 1));
+    const dir = i % 2 === 0 ? 1 : -1;
+    const z = (i % 2 === 0 ? 1 : -1) * 0.5;
+    pts.push(V(-xMax * dir, y, 0));
+    pts.push(V(0, y, z));
+    pts.push(V(xMax * dir, y, 0));
+  }
+  return pts;
+}
+const inceNoktalar = inceBagirsakNoktalari();
+(function buildSmall() {
+  const curve = new THREE.CatmullRomCurve3(inceNoktalar);
+  const mesh = new THREE.Mesh(
+    new THREE.TubeGeometry(curve, 240, 0.3, 16, false),
+    new THREE.MeshStandardMaterial({ color: 0xf0a06a, roughness: 0.6 })
+  );
+  root.add(mesh);
+  kaydet(mesh, "small");
+})();
+
+/* Kalın bağırsak — ince bağırsağı çerçeveleyen kalın tüp */
+const kalinNoktalar = [
+  V(2.55, -3.7, 0), V(2.9, -2.5, 0), V(2.9, -1.0, 0), V(2.9, 0.6, 0),  // çıkan kolon
+  V(2.4, 1.15, 0), V(0, 1.35, 0), V(-2.4, 1.15, 0),                    // enine kolon
+  V(-2.9, 0.6, 0), V(-2.9, -1.0, 0), V(-2.9, -2.6, 0),                 // inen kolon
+  V(-2.4, -3.5, 0), V(-1.0, -3.85, 0), V(0, -3.95, 0)                  // sigmoid
+];
+(function buildLarge() {
+  const curve = new THREE.CatmullRomCurve3(kalinNoktalar);
+  const mesh = new THREE.Mesh(
+    new THREE.TubeGeometry(curve, 260, 0.46, 16, false),
+    new THREE.MeshStandardMaterial({ color: 0xb07cc6, roughness: 0.6 })
+  );
+  root.add(mesh);
+  kaydet(mesh, "large");
+})();
+
+/* Karaciğer — bonus organ */
+(function buildLiver() {
+  const mesh = new THREE.Mesh(
+    new THREE.IcosahedronGeometry(1.05, 1),
+    new THREE.MeshStandardMaterial({ color: 0x7b4a3a, roughness: 0.85, flatShading: true })
+  );
+  mesh.scale.set(1.35, 0.85, 0.75);
+  mesh.position.copy(ORGANS.liver.center);
+  root.add(mesh);
+  kaydet(mesh, "liver");
+})();
+
+/* Çıkış (rektum) — kısa tüp */
+(function buildExit() {
+  const curve = new THREE.CatmullRomCurve3([V(0, -3.95, 0), V(0, -4.4, 0), V(0, -4.9, 0)]);
+  const mesh = new THREE.Mesh(
+    new THREE.TubeGeometry(curve, 30, 0.4, 16, false),
+    new THREE.MeshStandardMaterial({ color: 0xd98c8c, roughness: 0.7 })
+  );
+  root.add(mesh);
+  kaydet(mesh, "exit");
+})();
+
+/* Etiketler */
+etiketEkle("mouth", V(2.0, 0.2, 0));
+etiketEkle("esophagus", V(-1.7, 0, 0));
+etiketEkle("stomach", V(1.9, 0.4, 0));
+etiketEkle("small", V(0, 0.0, 1.2));
+etiketEkle("large", V(0, 2.1, 0));
+etiketEkle("liver", V(-1.4, 1.0, 0));
+etiketEkle("exit", V(1.5, -0.2, 0));
+
+/* ---------- Yiyecek (elma) ve yolculuk yolu ---------- */
+const food = new THREE.Group();
+const elma = new THREE.Mesh(
+  new THREE.SphereGeometry(0.28, 20, 20),
+  new THREE.MeshStandardMaterial({ color: 0xff4d4d, roughness: 0.4 })
+);
+food.add(elma);
+const yaprak = new THREE.Mesh(
+  new THREE.ConeGeometry(0.1, 0.28, 8),
+  new THREE.MeshStandardMaterial({ color: 0x4caf50 })
+);
+yaprak.position.set(0.12, 0.28, 0); yaprak.rotation.z = -0.6; food.add(yaprak);
+food.visible = false;
+root.add(food);
+
+const yolNoktalari = [
+  V(0, 6.6, 0), V(0, 5.6, 0), V(0.2, 4.6, 0), V(0.5, 3.6, 0), V(0.9, 2.7, 0), // ağız+yemek borusu
+  V(1.5, 2.1, 0), V(2.0, 1.5, 0), V(1.7, 0.7, 0), V(1.0, 0.4, 0),             // mide
+  V(-0.6, 0.0, 0),                                                            // mide→ince geçiş
+  ...inceNoktalar,                                                            // ince bağırsak
+  ...kalinNoktalar,                                                           // kalın bağırsak
+  V(0, -4.4, 0), V(0, -4.9, 0)                                               // çıkış
+];
+const yolEgrisi = new THREE.CatmullRomCurve3(yolNoktalari);
+
+/* Yol üzerindeki aşamalar (t aralığı → anlatım + odak organ) */
+const asamalar = [
+  { t: 0.13, id: "mouth", msg: "👄 Dişler öğütüyor, tükürük yumuşatıyor!" },
+  { t: 0.22, id: "esophagus", msg: "🛝 Yemek borusu lokmayı aşağı itiyor (peristaltizm)!" },
+  { t: 0.34, id: "stomach", msg: "🫙 Midede asitle karışıp çorba oluyor!" },
+  { t: 0.66, id: "small", msg: "🌀 İnce bağırsakta besinler kana emiliyor!" },
+  { t: 0.94, id: "large", msg: "💧 Kalın bağırsakta su geri emiliyor!" },
+  { t: 1.01, id: "exit", msg: "🚪 Yolculuk tamamlandı! Atıklar çıkışa hazır." }
+];
+
+/* ---------- Seçim / vurgulama ---------- */
+let seciliId = null;
+function vurgula(id) {
+  // önce hepsini sıfırla
+  Object.values(meshesByOrgan).flat().forEach(m =>
+    m.traverse(c => { if (c.isMesh) { c.material.emissive && c.material.emissive.setHex(0x000000); c.material.emissiveIntensity = 0; } })
+  );
+  if (id && meshesByOrgan[id]) {
+    const renk = new THREE.Color(ORGANS[id].color);
+    meshesByOrgan[id].forEach(m =>
+      m.traverse(c => { if (c.isMesh && c.material.emissive) { c.material.emissive.copy(renk); c.material.emissiveIntensity = 0.45; } })
+    );
+  }
+}
+
+const bilgi = document.getElementById("bilgi");
+function bilgiGoster(id) {
+  const o = ORGANS[id];
+  document.getElementById("bilgiBaslik").textContent = o.emoji + " " + o.name;
+  document.getElementById("bilgiAciklama").textContent = o.desc;
+  document.getElementById("bilgiFact").textContent = "💡 Bunu biliyor muydun? " + o.fact;
+  bilgi.classList.add("acik");
+  seciliId = id;
+  vurgula(id);
+  desiredTarget = o.center.clone().add(root.position);
+}
+function bilgiKapat() {
+  bilgi.classList.remove("acik");
+  vurgula(null);
+  seciliId = null;
+  desiredTarget = V(0, -0.4, 0);
+}
+window.bilgiKapat = bilgiKapat;
+
+/* Sol organ chipleri */
+const organListe = document.getElementById("organlar");
+Object.keys(ORGANS).forEach(id => {
+  const o = ORGANS[id];
+  const b = document.createElement("button");
+  b.className = "chip";
+  b.innerHTML = '<span class="dot" style="background:' + o.color + '"></span>' + o.emoji + " " + o.name;
+  b.onclick = () => bilgiGoster(id);
+  organListe.appendChild(b);
+});
+
+/* ---------- Tıklama ile organ seçme (raycast) ---------- */
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+let downPos = null;
+renderer.domElement.addEventListener("pointerdown", e => downPos = { x: e.clientX, y: e.clientY });
+renderer.domElement.addEventListener("pointerup", e => {
+  if (!downPos) return;
+  const dist = Math.hypot(e.clientX - downPos.x, e.clientY - downPos.y);
+  downPos = null;
+  if (dist > 6) return; // sürükleme = döndürme, tıklama değil
+  mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+  raycaster.setFromCamera(mouse, camera);
+  const hits = raycaster.intersectObjects(clickable, false);
+  if (hits.length) {
+    let o = hits[0].object;
+    while (o && !o.userData.organId) o = o.parent;
+    if (o && o.userData.organId) bilgiGoster(o.userData.organId);
+  }
+});
+
+/* ---------- Yolculuk animasyonu ---------- */
+let yolculukAktif = false, yolT = 0;
+const yolSure = 22; // saniye
+const anlatim = document.getElementById("anlatim");
+const btnYolculuk = document.getElementById("btnYolculuk");
+let sonAsama = -1;
+
+function yolculukBaslat() {
+  if (yolculukAktif) return;
+  yolculukAktif = true; yolT = 0; sonAsama = -1;
+  food.visible = true;
+  document.getElementById("autoRotate").checked = false;
+  controls.autoRotate = false;
+  bilgi.classList.remove("acik");
+  btnYolculuk.textContent = "⏳ Yolculuk sürüyor…";
+}
+btnYolculuk.onclick = yolculukBaslat;
+
+function yolculukGuncelle(dt) {
+  yolT += dt / yolSure;
+  if (yolT >= 1) {
+    yolT = 1; yolculukAktif = false;
+    btnYolculuk.textContent = "🔁 Tekrar İzle";
+    anlatimGoster("🎉 Tebrikler! Yolculuk tamamlandı. 🧠 Mini Quiz'i denemeye ne dersin?");
+    setTimeout(() => { food.visible = false; vurgula(null); }, 2600);
+    desiredTarget = V(0, -0.4, 0);
+    return;
+  }
+  const p = yolEgrisi.getPointAt(yolT);
+  food.position.copy(p);
+  food.rotation.y += dt * 2;
+  desiredTarget = p.clone().add(root.position);
+
+  // aşama / anlatım
+  let idx = asamalar.findIndex(a => yolT <= a.t);
+  if (idx === -1) idx = asamalar.length - 1;
+  if (idx !== sonAsama) {
+    sonAsama = idx;
+    anlatimGoster(asamalar[idx].msg);
+    vurgula(asamalar[idx].id);
+  }
+}
+let anlatimZaman = 0;
+function anlatimGoster(msg) {
+  anlatim.textContent = msg;
+  anlatim.classList.add("gor");
+  anlatimZaman = 3.2;
+}
+
+/* ---------- Quiz ---------- */
+const QUIZ = [
+  { q: "Sindirim yolculuğu nerede başlar?", a: ["Ağız", "Mide", "Kalın bağırsak"], d: 0 },
+  { q: "Yiyecekleri güçlü asitle çorba kıvamına getiren organ hangisi?", a: ["İnce bağırsak", "Mide", "Karaciğer"], d: 1 },
+  { q: "Besinlerin çoğu hangi organda kana emilir?", a: ["İnce bağırsak", "Yemek borusu", "Mide"], d: 0 },
+  { q: "Suyu geri emip atıkları hazırlayan organ hangisi?", a: ["Ağız", "Kalın bağırsak", "Karaciğer"], d: 1 },
+  { q: "Yemek borusunda lokmayı iten dalga hareketine ne denir?", a: ["Fotosentez", "Peristaltizm", "Sirkülasyon"], d: 1 }
+];
+let qi = 0, qSkor = 0;
+const btnQuiz = document.getElementById("btnQuiz");
+btnQuiz.onclick = quizBaslat;
+
+function quizBaslat() {
+  qi = 0; qSkor = 0;
+  quizGoster();
+}
+function quizModal(inner) {
+  let ov = document.getElementById("quizOverlay");
+  if (!ov) {
+    ov = document.createElement("div");
+    ov.className = "overlay"; ov.id = "quizOverlay";
+    document.body.appendChild(ov);
+  }
+  ov.innerHTML = '<div class="modal">' + inner + "</div>";
+  ov.style.display = "flex";
+}
+function quizKapat() {
+  const ov = document.getElementById("quizOverlay");
+  if (ov) ov.style.display = "none";
+}
+window.quizKapat = quizKapat;
+
+function quizGoster() {
+  const item = QUIZ[qi];
+  const pct = Math.round((qi / QUIZ.length) * 100);
+  let html = '<div id="qbar"><div style="width:' + pct + '%"></div></div>';
+  html += "<h2>Soru " + (qi + 1) + " / " + QUIZ.length + "</h2>";
+  html += "<p style='font-weight:bold;font-size:16px'>" + item.q + "</p>";
+  item.a.forEach((opt, i) => {
+    html += '<button class="qopt" onclick="quizCevap(' + i + ')">' + opt + "</button>";
+  });
+  quizModal(html);
+}
+window.quizCevap = function (i) {
+  const item = QUIZ[qi];
+  const btns = document.querySelectorAll("#quizOverlay .qopt");
+  btns.forEach((b, j) => {
+    b.disabled = true;
+    if (j === item.d) b.classList.add("dogru");
+    if (j === i && i !== item.d) b.classList.add("yanlis");
+  });
+  if (i === item.d) qSkor++;
+  setTimeout(() => {
+    qi++;
+    if (qi < QUIZ.length) quizGoster();
+    else quizSonuc();
+  }, 950);
+};
+function quizSonuc() {
+  let mesaj, emoji;
+  if (qSkor === QUIZ.length) { mesaj = "Mükemmel! Tam bir sindirim uzmanısın!"; emoji = "🏆"; }
+  else if (qSkor >= 3) { mesaj = "Harika gidiyorsun! Birazcık daha keşfet."; emoji = "🌟"; }
+  else { mesaj = "İyi deneme! Organlara tekrar tıklayıp öğrenelim."; emoji = "💪"; }
+  const html =
+    "<h2>" + emoji + " Sonuç</h2>" +
+    "<p style='font-size:30px;font-weight:bold;margin:6px 0'>" + qSkor + " / " + QUIZ.length + "</p>" +
+    "<p>" + mesaj + "</p>" +
+    '<button class="btn quiz" style="margin:8px 6px 0" onclick="quizBaslatTekrar()">🔁 Tekrar</button>' +
+    '<button class="btn yolculuk" style="margin:8px 6px 0" onclick="quizKapat()">Kapat</button>';
+  quizModal(html);
+}
+window.quizBaslatTekrar = quizBaslat;
+
+/* ---------- Giriş / döndür ---------- */
+window.girisKapat = function () {
+  document.getElementById("girisOverlay").style.display = "none";
+};
+document.getElementById("autoRotate").addEventListener("change", e => {
+  controls.autoRotate = e.target.checked;
+  controls.autoRotateSpeed = 1.2;
+});
+
+/* ---------- Render döngüsü ---------- */
+const clock = new THREE.Clock();
+function animate() {
+  requestAnimationFrame(animate);
+  const dt = Math.min(clock.getDelta(), 0.05);
+
+  if (yolculukAktif) yolculukGuncelle(dt);
+
+  if (anlatimZaman > 0) {
+    anlatimZaman -= dt;
+    if (anlatimZaman <= 0 && !yolculukAktif) anlatim.classList.remove("gor");
+  }
+
+  // kamera hedefini yumuşakça taşı
+  controls.target.lerp(desiredTarget, 0.07);
+  controls.update();
+  renderer.render(scene, camera);
+}
+document.getElementById("yukleniyor").style.display = "none";
+animate();
+
+/* ---------- Yeniden boyutlandırma ---------- */
+window.addEventListener("resize", () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+</script>
+</body>
+</html>
