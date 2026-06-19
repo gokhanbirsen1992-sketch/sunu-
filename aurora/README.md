@@ -33,6 +33,36 @@ Tarayıcıda `http://localhost:5173` adresini aç.
 | `npm run build` | Üretim derlemesi (`dist/`) |
 | `npm run preview` | Derlenmiş sürümü önizle |
 | `npm run typecheck` | TypeScript tip kontrolü |
+| `npm run electron:dev` | Masaüstü uygulamasını yerelde aç (Electron) |
+| `npm run dist:win` | Windows kurulum + taşınabilir `.exe` paketle (`release/`) |
+
+## 🪟 Windows masaüstü uygulaması
+
+Aurora, [Electron](https://www.electronjs.org/) ile gerçek bir Windows uygulaması olarak
+paketlenir. İki çıktı üretilir:
+
+- **Setup `.exe`** — kurulum sihirbazı (Başlat menüsü + masaüstü kısayolu)
+- **Portable `.exe`** — kurulum gerektirmez, çift tıkla çalışır
+
+Uygulama, fontu da içine gömdüğü için **tamamen çevrimdışı** çalışır.
+
+### Hazır `.exe` indir (önerilen)
+
+Her `aurora/` değişikliğinde GitHub Actions, **Windows runner'da** otomatik derleyip
+`.exe` dosyalarını yayınlar:
+
+- **Releases** → `windows-build` etiketi: doğrudan indirilebilir kurulum/portable dosyaları
+- **Actions** → ilgili çalışma → **Artifacts** → `aurora-windows`
+
+> Uygulama imzalı değildir; Windows SmartScreen uyarısında **"Ek bilgi → Yine de çalıştır"** de.
+
+### Windows'ta kendin derle
+
+```bash
+cd aurora
+npm install
+npm run dist:win     # release/ klasöründe Setup ve Portable .exe oluşur
+```
 
 ## Klavye kısayolları (Sunum modu)
 
