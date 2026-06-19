@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b5cad">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SPSS→Makale">
+<link rel="manifest" href="/static/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/static/icon-180.png">
+<title>SPSS → Makale</title>
+<style>
+  :root { --blue:#0b5cad; --bg:#f4f6f9; --card:#fff; --ink:#1c2430; --mut:#6b7785; --ok:#1a8a4a; }
+  * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  body { margin:0; font-family:-apple-system,system-ui,Segoe UI,Roboto,sans-serif; background:var(--bg);
+         color:var(--ink); padding:env(safe-area-inset-top) 16px calc(env(safe-area-inset-bottom) + 24px); }
+  header { text-align:center; padding:28px 0 16px; }
+  header h1 { font-size:22px; margin:0; }
+  header p { color:var(--mut); font-size:13px; margin:6px 0 0; }
+  .card { background:var(--card); border-radius:16px; padding:20px; margin:14px auto; max-width:520px;
+          box-shadow:0 1px 4px rgba(0,0,0,.06); }
+  .drop { border:2px dashed #c5d2e0; border-radius:14px; padding:26px 16px; text-align:center; }
+  .drop.has { border-color:var(--blue); background:#eef5fd; }
+  .drop .fn { font-weight:600; color:var(--blue); word-break:break-all; }
+  input[type=file] { display:none; }
+  .pick { display:inline-block; background:#eef2f7; border-radius:10px; padding:10px 16px; font-weight:600;
+          color:var(--blue); cursor:pointer; }
+  label.chk { display:flex; align-items:center; gap:10px; font-size:14px; color:var(--mut); margin-top:14px; }
+  button.go { width:100%; background:var(--blue); color:#fff; border:0; border-radius:12px; padding:15px;
+              font-size:17px; font-weight:700; margin-top:16px; }
+  button.go:disabled { opacity:.5; }
+  .muted { color:var(--mut); font-size:12.5px; line-height:1.5; }
+  .spin { width:34px; height:34px; border:4px solid #dce4ee; border-top-color:var(--blue); border-radius:50%;
+          margin:8px auto; animation:r 1s linear infinite; } @keyframes r { to { transform:rotate(360deg); } }
+  .hide { display:none; }
+  .ok { color:var(--ok); font-weight:700; }
+  .row { display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px solid #eef1f5; font-size:14px; }
+  a.dl { display:block; text-align:center; background:var(--ok); color:#fff; text-decoration:none;
+         border-radius:12px; padding:15px; font-weight:700; margin-top:14px; }
+  .err { color:#c02626; font-size:14px; }
+</style>
+</head>
+<body>
+  <header>
+    <h1>📊 SPSS → Makale</h1>
+    <p>SPSS <b>.sav</b> dosyanızı yükleyin; Türkçe bir makale taslağı (Word) üretelim.</p>
+  </header>
+
+  <div class="card">
+    <label class="drop" id="drop" for="file">
+      <div id="dropTxt">📎 Dosya seçmek için dokunun<br><span class="muted">(.sav — “Dosyalar”dan)</span></div>
+      <div class="fn hide" id="fn"></div>
+    </label>
+    <input type="file" id="file" accept=".sav">
+    <label class="chk"><input type="checkbox" id="pub"> Gerçek PubMed kaynakları ekle (internet gerektirir)</label>
+    <input type="text" id="topic" class="hide" placeholder="Konu (ör. nonalcoholic fatty liver children)"
+           style="width:100%;margin-top:10px;padding:11px;border:1px solid #cdd6e0;border-radius:10px;font-size:14px">
+    <button class="go" id="go" disabled>Makale Üret</button>
+    <p class="muted" style="margin-top:14px">🔒 Verileriniz yalnızca üretim için kullanılır, işlem biter bitmez
+      sunucudan silinir. Sayılar istatistik motorundan birebir gelir (uydurma yok).</p>
+  </div>
+
+  <div class="card hide" id="busy">
+    <div class="spin"></div>
+    <p style="text-align:center" class="muted" id="busyTxt">Analiz ediliyor… (birkaç saniye)</p>
+  </div>
+
+  <div class="card hide" id="done">
+    <p class="ok" style="text-align:center;font-size:17px">✓ Makale taslağı hazır</p>
+    <div class="row"><span>Gruplama değişkeni</span><b id="rGrp">—</b></div>
+    <div class="row"><span>Analiz sonucu sayısı</span><b id="rN">—</b></div>
+    <div class="row"><span>Sayı doğrulaması</span><b id="rGate">—</b></div>
+    <div class="row"><span>Gerçek kaynaklar</span><b id="rCit">—</b></div>
+    <a class="dl" id="dl" href="#">⬇︎ Word belgesini indir</a>
+    <p class="muted" style="margin-top:12px">Etik kurul no, finansman ve yazar bilgileri [köşeli parantez]
+      ile işaretlidir; Word'de doldurun. Giriş/Tartışma için akıcı metni daha sonra ekleyebilirsiniz.</p>
+  </div>
+
+  <div class="card hide" id="errCard"><p class="err" id="errTxt"></p></div>
+
+<script>
+const $=id=>document.getElementById(id);
+let file=null;
+$('file').onchange=e=>{ file=e.target.files[0]||null;
+  if(file){ $('fn').textContent='📄 '+file.name; $('fn').classList.remove('hide');
+    $('dropTxt').classList.add('hide'); $('drop').classList.add('has'); $('go').disabled=false; } };
+$('pub').onchange=e=>{ $('topic').classList.toggle('hide', !e.target.checked); };
+function show(id){ ['busy','done','errCard'].forEach(x=>$(x).classList.add('hide')); if(id)$(id).classList.remove('hide'); }
+$('go').onclick=async()=>{
+  if(!file) return;
+  $('go').disabled=true; show('busy');
+  try{
+    const fd=new FormData(); fd.append('file',file); fd.append('with_pubmed', $('pub').checked?'true':'false');
+    fd.append('topic', $('topic').value||'');
+    const r=await fetch('/api/analyze',{method:'POST',body:fd});
+    if(!r.ok){ const t=await r.json().catch(()=>({detail:'Bilinmeyen hata'})); throw new Error(t.detail||r.status); }
+    const d=await r.json();
+    $('rGrp').textContent=d.group_var||'—';
+    $('rN').textContent=d.n_results;
+    $('rGate').textContent=(d.gate&&d.gate.numeric==='PASS')?'✓ Geçti (0 ihlal)':'⚠ Kontrol edin';
+    $('rCit').textContent=d.with_citations?'Evet (PubMed)':'Hayır';
+    $('dl').href='/api/result/'+d.job;
+    show('done');
+  }catch(err){ $('errTxt').textContent='Hata: '+err.message; show('errCard'); }
+  finally{ $('go').disabled=false; }
+};
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('/static/service-worker.js').catch(()=>{}); }
+</script>
+</body>
+</html>

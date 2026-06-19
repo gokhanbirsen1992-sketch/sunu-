@@ -146,13 +146,13 @@ def _add_figures(doc: Document, ledger: dict, rundir: Path) -> None:
 
 def _add_references(doc: Document, refs: list[str], evidence: dict, style: str) -> None:
     by_key = {e["key"]: e for e in evidence.get("entries", [])}
+    cited = [k for k in refs if k in by_key]
+    if not cited:
+        return                                   # kaynak yoksa "Kaynaklar" başlığını koyma
     doc.add_heading("Kaynaklar", level=1)
     fmt = format_apa7 if style == "apa7" else format_vancouver
-    for i, key in enumerate(refs, start=1):
-        e = by_key.get(key)
-        if not e:
-            continue
-        doc.add_paragraph(fmt(e, i))
+    for i, key in enumerate(cited, start=1):
+        doc.add_paragraph(fmt(by_key[key], i))
 
 
 def _add_icmje(doc: Document, icmje: dict) -> None:

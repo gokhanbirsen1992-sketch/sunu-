@@ -1,0 +1,14 @@
+# Render.com tek-tık dağıtım. https://render.com/deploy?repo=<bu repo>
+# NOT: Bilimsel yığın (scipy/statsmodels/pandas) ~0,5 GB RAM ister; "starter"
+# yetmezse "standard" (2 GB) planını seçin.
+services:
+  - type: web
+    name: spss-makale
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: starter
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: PORT
+        value: "8000"
