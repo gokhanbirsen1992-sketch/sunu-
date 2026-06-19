@@ -38,7 +38,10 @@ def make_marker_boxplots(df, group_var, markers, value_labels, var_labels, outdi
         axes = [axes]
     for ax, m in zip(axes, markers):
         data = [df.loc[df[group_var] == c, m].dropna().to_numpy() for c in codes]
-        ax.boxplot(data, tick_labels=glabels)
+        try:
+            ax.boxplot(data, tick_labels=glabels)          # matplotlib >= 3.9
+        except TypeError:
+            ax.boxplot(data, labels=glabels)               # eski matplotlib (Colab)
         ax.set_title((var_labels.get(m) or m))
         ax.set_ylabel((var_labels.get(m) or m))
         ax.tick_params(axis="x", rotation=20)
