@@ -1,0 +1,68 @@
+name: Build Windows App
+
+# Aurora Sunum masaüstü uygulamasını (Electron) Windows runner'da derler.
+# Bu sandbox'ta Windows .exe üretilemediği için derleme GitHub'ın bulutunda yapılır.
+
+on:
+  push:
+    branches:
+      - claude/affectionate-brown-357xn8
+    paths:
+      - 'aurora/**'
+      - '.github/workflows/build-windows.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: aurora
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: aurora/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build web bundle + package Windows app
+        run: npm run dist:win
+
+      - name: List build output
+        run: dir release
+        shell: cmd
+
+      - name: Upload installer & portable exe (artifact)
+        uses: actions/upload-artifact@v4
+        with:
+          name: aurora-windows
+          path: aurora/release/*.exe
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Publish GitHub Release (direct download link)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: windows-build
+          name: Aurora Sunum — Windows
+          body: |
+            Aurora Sunum masaüstü uygulamasının en güncel Windows derlemesi.
+
+            - **Setup .exe** — kurulum sihirbazı (Başlat menüsü + masaüstü kısayolu)
+            - **Portable .exe** — kurulum gerektirmez, çift tıkla çalışır
+
+            Not: uygulama dijital olarak imzalı değildir. Windows SmartScreen uyarı verirse
+            "Ek bilgi → Yine de çalıştır" diyerek açabilirsin.
+          files: aurora/release/*.exe
+          fail_on_unmatched_files: false
