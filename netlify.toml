@@ -1,0 +1,11 @@
+# Netlify yapılandırması — aurora/ alt klasöründeki sunum uygulamasını yayınlar.
+[build]
+  base = "aurora"
+  command = "npm run build"
+  publish = "dist"
+
+# SPA: tüm yollar index.html'e (HashRouter ile zaten güvenli, ek güvence)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
