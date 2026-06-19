@@ -18,35 +18,38 @@ keşfettiren, oyunlaştırılmış (edutainment) bir öğrenme deneyimi.
 
 ## ▶️ Nasıl Çalıştırılır?
 
-Kurulum gerektirmez. Tek dosya:
+**Kurulum yok, internet yok, bağımlılık yok.** Tek dosya:
+
+```text
+sindirim-sistemi-3b/index.html  dosyasını çift tıklayıp tarayıcıda aç — bu kadar.
+```
+
+İstersen yerel sunucuyla da açabilirsin:
 
 ```bash
-# 1) Doğrudan aç
-sindirim-sistemi-3b/index.html  dosyasını çift tıklayıp tarayıcıda aç
-
-# 2) ya da yerel sunucu ile (önerilir)
 cd sindirim-sistemi-3b
 python3 -m http.server 8000
 # sonra tarayıcıda:  http://localhost:8000
 ```
 
-> Not: Three.js kütüphanesi CDN'den yüklendiği için **ilk açılışta internet bağlantısı** gerekir.
-> Tamamen çevrimdışı çalışması istenirse `three.min.js` ve `OrbitControls.js` dosyaları proje
-> klasörüne indirilip `index.html` içindeki `<script src="...">` yolları yerel dosyalara çevrilebilir.
+> ✅ Dosya **tamamen bağımsızdır**: hiçbir dış kütüphane veya CDN kullanmaz,
+> bu yüzden çevrimdışı ortamda ve her tarayıcıda doğrudan açılır.
 
 ## 🛠️ Teknolojiler
 
-- **Three.js (r128)** — 3B sahne, geometri, ışıklandırma, OrbitControls
-- Saf **HTML + CSS + JavaScript** (derleme adımı yok, bağımlılık yönetimi yok)
+- Saf **HTML + CSS + JavaScript** — derleme adımı, paket veya bağımlılık yok
+- **Kendi mini 3B motoru** (saf `<canvas>` 2D üzerinde): 3B döndürme, perspektif
+  projeksiyon ve derinlik (painter) sıralaması elle yazıldı — harici 3B kütüphanesi yok
 
 ## 🧩 Mimari (tek dosya)
 
 `index.html` içinde:
 - `ORGANS` — organ adları, renkleri, konumları ve çocuk dostu metinleri
-- Geometri üreticileri — `buildMouth`, `buildEsophagus`, `buildStomach`, `buildSmall` (serpentin tüp),
-  `buildLarge` (çerçeveleyen tüp), `buildLiver`, `buildExit`
-- `yolEgrisi` — elmanın izlediği `CatmullRomCurve3` yol; `asamalar` ile anlatım eşlenir
-- Etkileşim — raycast ile tıklama, sprite etiketler, vurgulama, quiz ve yolculuk mantığı
+- 3B çekirdek — `rot()` (döndürme), `proj()` (perspektif), `smooth()` (Catmull-Rom eğrisi)
+- Geometri — `INCE` (serpentin ince bağırsak), `KALIN` (çerçeveleyen kalın bağırsak),
+  `GEO` (tüm çizilebilir organlar: tüpler + küreler + yüz)
+- `YOL` — elmanın izlediği yol; `ASAMA` ile aşama aşama anlatım eşlenir
+- Etkileşim — `pick()` ile tıklama isabeti, fare/dokunma ile döndürme, quiz ve yolculuk mantığı
 
 ## 🚀 Geliştirme Fikirleri (sonraki adımlar)
 
