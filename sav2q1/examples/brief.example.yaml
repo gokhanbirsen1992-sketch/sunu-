@@ -1,0 +1,50 @@
+# brief.yaml — Araştırma özeti (BİRİNCİ SINIF GİRDİ)
+# Analizin tamamı buna dayanır. Eksik/şüpheli alanlar İNSAN KAPISI 1'de sorulur.
+# .sav ile birlikte sav2q1/input/ içine bırakın.
+
+title: "Bir stres azaltma müdahalesinin algılanan stres üzerine etkisi"
+language: tr                      # tr | en
+citation_style: vancouver         # vancouver (tıp) | apa7 (hemşirelik)
+target_journal: ""                # varsa hedef dergi (format/limitleri buradan türetilir)
+
+study_design: randomized_controlled_trial   # rct | cohort | case_control | cross_sectional | systematic_review
+# checklist otomatik seçilir (rct->CONSORT, gözlemsel->STROBE, derleme->PRISMA); elle de verilebilir:
+reporting_checklist: ""           # boş = otomatik
+
+# Araştırma soruları ve değişken ROLLERİ (sezgisel çıkarımı geçersiz kılar)
+research_questions:
+  - id: RQ1
+    text: "Algılanan stres düzeyi müdahale ve kontrol grupları arasında farklı mıdır?"
+    outcome: stres                 # sonuç değişkeni (.sav sütun adı)
+    group: grup                    # gruplama değişkeni
+    covariates: []                 # düzeltilecek değişkenler (regresyon için)
+    paired: false                  # eşleştirilmiş ölçüm mü?
+
+# Doğrulayıcı hipotezler (bunlar dışındakiler KEŞİFSEL sayılır ve çokluluk düzeltmesine girer)
+confirmatory_hypotheses:
+  - "Kontrol grubunun algılanan stres puanı müdahale grubundan yüksektir."
+
+# Türetilmiş değişkenler (ters-kodlama, ölçek skoru) — analizden ÖNCE deterministik üretilir
+derived_variables:
+  - name: stres_toplam
+    method: sum                    # sum | mean
+    items: [olcek1, olcek2, olcek3, olcek4, olcek5, olcek6, olcek7, olcek8, olcek9, olcek10]
+    reverse: []                    # ters-kodlanacak maddeler
+    scale_min: 1
+    scale_max: 5
+
+missing_data_policy: report_and_listwise   # report_and_listwise | mice | pairwise
+multiplicity_policy: holm                   # none | holm | bh (yalnız keşifsel analizlere)
+
+# ICMJE alanları (Q1 sağlık dergileri için ZORUNLU)
+icmje:
+  ethics: "X Üniversitesi Girişimsel Olmayan Etik Kurulu, No: 2026/123"
+  informed_consent: true
+  registration: ""                 # RCT ise zorunlu (ClinicalTrials.gov NCT...)
+  funding: "Bu çalışma dış kaynaktan fon almamıştır."
+  coi: "Yazarlar çıkar çatışması bildirmemiştir."
+  data_availability: "Veriler makul talep üzerine sorumlu yazardan edinilebilir."
+  authors:
+    - name: "Ad SOYAD"
+      affiliation: "X Üniversitesi, Hemşirelik Fakültesi"
+      contributions: ["tasarım", "analiz", "yazım"]

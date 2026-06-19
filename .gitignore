@@ -11,3 +11,10 @@ env/
 .DS_Store
 .idea/
 .vscode/
+
+# sav2q1 — VERİ YÖNETİŞİMİ: hasta verisi ve koşu çıktıları ASLA commit edilmez
+*.sav
+sav2q1/input/*
+!sav2q1/input/.gitkeep
+sav2q1/runs/*
+!sav2q1/runs/.gitkeep

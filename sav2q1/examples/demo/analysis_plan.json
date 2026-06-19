@@ -1,0 +1,8 @@
+{
+  "run_id": "smoke-0",
+  "design": {"kind": "randomized_controlled_trial", "checklist": "CONSORT"},
+  "steps": [
+    {"type": "descriptives", "include": ["yas", "cinsiyet", "egitim", "kronik", "grup", "stres", "tukenmislik"]},
+    {"type": "group_compare", "id": "R1", "outcome": "stres", "group": "grup", "paired": false, "question_ref": "RQ1"}
+  ]
+}

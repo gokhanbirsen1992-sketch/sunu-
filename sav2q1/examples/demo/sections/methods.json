@@ -1,0 +1,23 @@
+{
+  "section": "methods",
+  "language": "tr",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "sentences": [
+        {"text": "Bu randomize kontrollü çalışmaya toplam 220 katılımcı dahil edildi.", "binding": {"kind": "narrative"}},
+        {"text": "Katılımcılar müdahale (n = 113) ve kontrol (n = 107) gruplarına ayrıldı.", "binding": {"kind": "narrative"}}
+      ]
+    },
+    {
+      "type": "paragraph",
+      "sentences": [
+        {"text": "Algılanan stres düzeyi, Algılanan Stres Ölçeği ile değerlendirildi ve gruplar arasında karşılaştırıldı.", "binding": {"kind": "narrative"}},
+        {"text": "Sonuç değişkeni en az bir grupta normallik varsayımını karşılamadığından (Shapiro p < 0,05) ve iki bağımsız grup karşılaştırıldığından Mann-Whitney U testi seçildi.", "binding": {"kind": "ledger", "result_id": "R1"}},
+        {"text": "İstatistiksel anlamlılık düzeyi 0,05 olarak kabul edildi.", "binding": {"kind": "narrative"}}
+      ]
+    }
+  ],
+  "tables_referenced": [],
+  "figures_referenced": []
+}

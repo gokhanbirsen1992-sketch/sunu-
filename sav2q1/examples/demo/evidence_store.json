@@ -1,0 +1,31 @@
+{
+  "generated_at": "2026-06-19T00:00:00Z",
+  "source_note": "Tüm girdiler gerçek PubMed MCP çağrılarından gelir; PMID/DOI doğrulanmıştır.",
+  "entries": [
+    {
+      "key": "ref1",
+      "status": "VERIFIED",
+      "source": "pubmed",
+      "pmid": "32627860",
+      "doi": "10.1002/14651858.CD012527.pub2",
+      "title": "Psychological interventions to foster resilience in healthcare professionals.",
+      "year": 2020,
+      "journal": "Cochrane Database Syst Rev",
+      "authors": ["Kunzler AM", "Helmreich I", "Chmitorz A", "König J", "Binder H", "Wessa M", "Lieb K"],
+      "volume": "7",
+      "issue": "7",
+      "pages": "CD012527",
+      "resolved_at": "2026-06-19T00:00:00Z",
+      "retracted": false,
+      "predatory_flag": false,
+      "abstract": "We included 44 RCTs (high-income countries: 36). At post-intervention, very-low certainty evidence indicated that, compared to controls, healthcare professionals receiving resilience training may report higher levels of resilience (standardised mean difference (SMD) 0.45, 95% confidence interval (CI) 0.25 to 0.65; 12 studies, 690 participants), lower levels of depression (SMD -0.29, 95% CI -0.50 to -0.09; 14 studies, 788 participants), and lower levels of stress or stress perception (SMD -0.61, 95% CI -1.07 to -0.15; 17 studies, 997 participants).",
+      "supports_claims": [
+        {
+          "claim": "Sağlık çalışanlarında psikolojik dayanıklılık/stres azaltıcı müdahaleler algılanan stresi azaltabilir.",
+          "support": "supported",
+          "quote": "lower levels of stress or stress perception (SMD -0.61, 95% CI -1.07 to -0.15; 17 studies, 997 participants)"
+        }
+      ]
+    }
+  ]
+}

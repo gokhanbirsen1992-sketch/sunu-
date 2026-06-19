@@ -1,0 +1,24 @@
+{
+  "section": "results",
+  "language": "tr",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "sentences": [
+        {"text": "Araştırmaya toplam 220 katılımcı dahil edildi.", "binding": {"kind": "narrative"}},
+        {"text": "Katılımcıların yaş ortalaması 41,23 ± 11,12 yıl olarak hesaplandı.", "binding": {"kind": "ledger", "result_id": "desc.yas"}},
+        {"text": "Örneklemin 137’si (%62,3) kadın, 83’ü (%37,7) erkeklerden oluşmaktaydı.", "binding": {"kind": "ledger", "result_id": "desc.cinsiyet"}},
+        {"text": "Katılımcıların 113’ü (%51,4) müdahale, 107’si (%48,6) kontrol grubunda yer aldı.", "binding": {"kind": "ledger", "result_id": "desc.grup"}}
+      ]
+    },
+    {
+      "type": "paragraph",
+      "sentences": [
+        {"text": "Algılanan stres puanı, kontrol grubunda (ortanca 46,70; ÇAÇ 41,25–52,45) müdahale grubuna (ortanca 41,70; ÇAÇ 35,40–46,00) kıyasla anlamlı biçimde daha yüksekti.", "binding": {"kind": "ledger", "result_id": "R1"}},
+        {"text": "Gruplar arasındaki bu fark istatistiksel olarak anlamlıydı (U = 3596,5, p < 0,001, r = 0,41; %95 GA: 0,27 – 0,54).", "binding": {"kind": "ledger", "result_id": "R1"}}
+      ]
+    }
+  ],
+  "tables_referenced": ["T1"],
+  "figures_referenced": ["F1"]
+}

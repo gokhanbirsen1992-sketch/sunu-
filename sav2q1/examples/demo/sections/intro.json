@@ -1,0 +1,16 @@
+{
+  "section": "intro",
+  "language": "tr",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "sentences": [
+        {"text": "Yüksek iş yükü ve duygusal talepler nedeniyle sağlık ortamlarında çalışan bireyler artmış stres riski altındadır.", "binding": {"kind": "narrative"}},
+        {"text": "Sağlık çalışanlarında stres azaltıcı psikolojik müdahalelerin algılanan stresi azaltabildiği bildirilmiştir [1].", "binding": {"kind": "citation", "ref": "ref1"}},
+        {"text": "Bu çalışmanın amacı, bir stres azaltma müdahalesinin algılanan stres üzerindeki etkisini değerlendirmektir.", "binding": {"kind": "narrative"}}
+      ]
+    }
+  ],
+  "tables_referenced": [],
+  "figures_referenced": []
+}

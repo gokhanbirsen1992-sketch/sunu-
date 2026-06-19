@@ -1,0 +1,31 @@
+{
+  "language": "tr",
+  "citation_style": "vancouver",
+  "title": "Bir Stres Azaltma Müdahalesinin Algılanan Stres Üzerine Etkisi: Randomize Kontrollü Bir Çalışma",
+  "authors": [{"name": "Ad SOYAD", "affiliation": "X Üniversitesi, Hemşirelik Fakültesi"}],
+  "corresponding": "Ad SOYAD, ad.soyad@ornek.edu.tr",
+  "keywords": ["algılanan stres", "hemşirelik", "psikolojik müdahale", "randomize kontrollü çalışma"],
+  "abstract": {
+    "Amaç": "Bir stres azaltma müdahalesinin sağlık çalışanlarında algılanan stres üzerindeki etkisini değerlendirmek.",
+    "Yöntem": "Randomize kontrollü desende 220 katılımcı müdahale ve kontrol gruplarına ayrıldı; algılanan stres puanları Mann-Whitney U testi ile karşılaştırıldı.",
+    "Bulgular": "Algılanan stres düzeyi kontrol grubunda müdahale grubuna kıyasla anlamlı düzeyde yüksekti (U = 3596,5, p < 0,001, r = 0,41).",
+    "Sonuç": "Stres azaltma müdahalesi algılanan stresi azaltmada etkili görünmektedir."
+  },
+  "sections": [
+    {"heading": "Giriş", "file": "sections/intro.json"},
+    {"heading": "Yöntem", "file": "sections/methods.json"},
+    {"heading": "Bulgular", "file": "sections/results.json"},
+    {"heading": "Tartışma", "file": "sections/discussion.json"}
+  ],
+  "table1": {"include": ["yas", "cinsiyet", "egitim", "kronik"],
+             "title": "Tablo 1. Katılımcıların tanımlayıcı özellikleri (N = 220)"},
+  "icmje": {
+    "ethics": "Çalışma için X Üniversitesi Girişimsel Olmayan Etik Kurulu onayı alınmıştır (No: 2026/123).",
+    "informed_consent": "Tüm katılımcılardan bilgilendirilmiş onam alınmıştır.",
+    "registration": "ClinicalTrials.gov: NCT00000000",
+    "funding": "Bu çalışma herhangi bir dış kaynaktan fon almamıştır.",
+    "coi": "Yazarlar herhangi bir çıkar çatışması bildirmemiştir.",
+    "data_availability": "Veri seti, makul talep üzerine sorumlu yazardan edinilebilir.",
+    "authors_contributions": "Tüm yazarlar çalışmanın tasarımına ve yazımına katkıda bulunmuştur."
+  }
+}

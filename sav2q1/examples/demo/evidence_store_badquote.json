@@ -1,0 +1,22 @@
+{
+  "generated_at": "2026-06-19T00:00:00Z",
+  "source_note": "NEGATİF TEST: ref1'in destek alıntısı kasıtlı olarak uydurulmuştur (abstract'ta yok).",
+  "entries": [
+    {
+      "key": "ref1",
+      "status": "VERIFIED",
+      "source": "pubmed",
+      "pmid": "32627860",
+      "doi": "10.1002/14651858.CD012527.pub2",
+      "title": "Psychological interventions to foster resilience in healthcare professionals.",
+      "year": 2020,
+      "journal": "Cochrane Database Syst Rev",
+      "authors": ["Kunzler AM"],
+      "retracted": false,
+      "abstract": "We included 44 RCTs. ... lower levels of stress or stress perception (SMD -0.61, 95% CI -1.07 to -0.15; 17 studies, 997 participants).",
+      "supports_claims": [
+        {"claim": "uydurma", "support": "supported", "quote": "the intervention completely eliminated all perceived stress in 100% of nurses"}
+      ]
+    }
+  ]
+}

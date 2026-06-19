@@ -1,0 +1,15 @@
+{
+  "section": "discussion",
+  "language": "tr",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "sentences": [
+        {"text": "Çalışmamızda kontrol grubunun algılanan stres düzeyi, müdahale grubuna kıyasla anlamlı derecede yüksek bulunmuştur (r = 0,41).", "binding": {"kind": "ledger", "result_id": "R1"}},
+        {"text": "Bu bulgu, sağlık çalışanlarında stres azaltıcı psikolojik müdahalelerin algılanan stresi azaltabileceğini gösteren önceki kanıtlarla uyumludur [1].", "binding": {"kind": "citation", "ref": "ref1"}}
+      ]
+    }
+  ],
+  "tables_referenced": [],
+  "figures_referenced": []
+}

@@ -1,0 +1,15 @@
+{
+  "section": "results",
+  "language": "tr",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "sentences": [
+        {"text": "Gruplar arasındaki fark anlamlıydı (U = 9999,9, p < 0,001, r = 0,55).", "binding": {"kind": "ledger", "result_id": "R1"}},
+        {"text": "Ayrıca etki büyüklüğü 0,82 olarak bulundu ve hastaların %73,4’ünde iyileşme gözlendi.", "binding": {"kind": "narrative"}}
+      ]
+    }
+  ],
+  "tables_referenced": [],
+  "figures_referenced": []
+}

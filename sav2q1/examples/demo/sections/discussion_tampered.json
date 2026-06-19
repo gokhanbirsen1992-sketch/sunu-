@@ -1,0 +1,14 @@
+{
+  "section": "discussion",
+  "language": "tr",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "sentences": [
+        {"text": "Benzer bir çalışmada müdahalenin stresi %40 oranında azalttığı gösterilmiştir [2].", "binding": {"kind": "citation", "ref": "ref2"}}
+      ]
+    }
+  ],
+  "tables_referenced": [],
+  "figures_referenced": []
+}
