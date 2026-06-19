@@ -110,3 +110,103 @@ def compare_two_groups(df, outcome: str, group: str, *, value_labels=None,
         "_display": display,
         "_global": [str(ga["n"]), str(gb["n"]), str(int(sub.shape[0]))],
     }
+
+
+def _ph_p(p: float) -> str:
+    s = fmt_p(p)
+    return s if s.startswith("<") else s
+
+
+def compare_multi_groups(df, outcome: str, group: str, *, value_labels=None,
+                         result_id: str = "R", question_ref: str | None = None,
+                         confirmatory: bool = False) -> dict:
+    """İkiden çok bağımsız grup karşılaştırması: ANOVA/Welch/Kruskal-Wallis + post-hoc + η²."""
+    import pingouin as pg
+    import scikit_posthocs as sp
+
+    sub = df[[outcome, group]].dropna()
+    codes = sorted(sub[group].unique())
+    arrays = [sub.loc[sub[group] == g, outcome].to_numpy(float) for g in codes]
+    labels = [_group_label(value_labels, g) for g in codes]
+    k = len(codes)
+    n_total = int(sub.shape[0])
+
+    norm = assumptions.normality_by_group(sub[outcome].to_numpy(float), sub[group].to_numpy())
+    lev = assumptions.levene(*arrays)
+    test_id, reason = decision_tree.choose_multi_group_test(
+        all_normal=norm["all_normal"], equal_variance=lev["equal_variance"], repeated=False)
+
+    groups_desc = []
+    display: list[str] = []
+    glob: list[str] = [str(n_total)]
+    for code, lab, a in zip(codes, labels, arrays):
+        gd = _group_desc(a)
+        groups_desc.append({"code": (int(code) if float(code).is_integer() else code), "label": lab, **gd})
+        display.append(f"{fmt_num(gd['mean'])} ± {fmt_num(gd['sd'])}")
+        display.append(f"{fmt_num(gd['median'])} ({fmt_num(gd['q1'])}–{fmt_num(gd['q3'])})")
+        glob.append(str(gd["n"]))
+
+    posthoc: list[dict] = []
+
+    if test_id in ("oneway_anova", "welch_anova"):
+        if test_id == "oneway_anova":
+            F, p = stats.f_oneway(*arrays)
+            dfb, dfw = k - 1, n_total - k
+            ph = pg.pairwise_tukey(data=sub, dv=outcome, between=group)
+            ph_pcol = "p_tukey"
+        else:
+            aov = pg.welch_anova(data=sub, dv=outcome, between=group)
+            F = float(aov["F"].iloc[0]); p = float(aov["p-unc"].iloc[0])
+            dfb = float(aov["ddof1"].iloc[0]); dfw = float(aov["ddof2"].iloc[0])
+            ph = pg.pairwise_gameshowell(data=sub, dv=outcome, between=group)
+            ph_pcol = "pval"
+        eta2 = effects.eta_squared_oneway(arrays)
+        lo, hi = effects.eta_squared_ci_boot(arrays, kind="anova")
+        dfb_s = fmt_num(dfb, 0 if test_id == "oneway_anova" else 1)
+        dfw_s = fmt_num(dfw, 0 if test_id == "oneway_anova" else 1)
+        apa = f"F({dfb_s}, {dfw_s}) = {fmt_num(F)}, {_p_segment(p)}, η² = {fmt_num(eta2)} (%95 GA: {fmt_ci(lo, hi)})"
+        stat = {"name": "F", "value": float(F), "df1": dfb, "df2": dfw}
+        eff = {"name": "η²", "value": float(eta2), "ci": [lo, hi]}
+        rep = "mean_sd"
+        for _, row in ph.iterrows():
+            pv = float(row[ph_pcol])
+            posthoc.append({"a": _group_label(value_labels, row["A"]), "b": _group_label(value_labels, row["B"]),
+                            "p": pv, "p_str": _ph_p(pv)})
+    else:  # kruskal_wallis
+        H, p = stats.kruskal(*arrays)
+        eta2 = effects.eta_squared_h(float(H), n_total, k)
+        lo, hi = effects.eta_squared_ci_boot(arrays, kind="kw")
+        apa = f"H({k - 1}) = {fmt_num(float(H))}, {_p_segment(p)}, η² = {fmt_num(eta2)} (%95 GA: {fmt_ci(lo, hi)})"
+        stat = {"name": "H", "value": float(H), "df": k - 1}
+        eff = {"name": "η²(H)", "value": float(eta2), "ci": [lo, hi]}
+        rep = "median_iqr"
+        dunn = sp.posthoc_dunn(sub, val_col=outcome, group_col=group, p_adjust="bonferroni")
+        for i in range(len(codes)):
+            for j in range(i + 1, len(codes)):
+                pv = float(dunn.loc[codes[i], codes[j]])
+                posthoc.append({"a": labels[i], "b": labels[j], "p": pv, "p_str": _ph_p(pv)})
+
+    display.append(apa)
+    for ph_item in posthoc:
+        display.append(ph_item["p_str"])
+
+    return {
+        "id": result_id,
+        "question_ref": question_ref,
+        "family": "multi_group_compare",
+        "test": test_id,
+        "reason": reason,
+        "confirmatory": confirmatory,
+        "variables": {"outcome": outcome, "group": group},
+        "groups": groups_desc,
+        "report_style": rep,
+        "statistic": stat,
+        "p_value": float(p),
+        "effect": eff,
+        "posthoc": posthoc,
+        "assumptions": {"normality": norm, "levene": lev},
+        "n_analyzed": n_total,
+        "apa": apa,
+        "_display": display,
+        "_global": glob,
+    }

@@ -13,7 +13,7 @@ from pathlib import Path
 
 from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
-from docx.shared import Pt
+from docx.shared import Inches, Pt
 
 from .references_docx import format_vancouver, format_apa7
 from .styles import apply_base_styles
@@ -99,6 +99,51 @@ def _add_table1(doc: Document, ledger: dict, spec: dict) -> None:
                 cells[1].text = c["apa"]
 
 
+def _render_table_json(doc: Document, tjson: dict) -> None:
+    """Ledger tablo JSON'unu (group_table1 / correlation_table) Word tablosu yapar."""
+    cap = doc.add_paragraph()
+    cap.add_run(tjson.get("title", "Tablo")).bold = True
+    cols = tjson["columns"]
+    table = doc.add_table(rows=1, cols=len(cols))
+    table.style = "Table Grid"
+    for j, c in enumerate(cols):
+        table.rows[0].cells[j].paragraphs[0].add_run(str(c)).bold = True
+    for row in tjson.get("rows", []):
+        cells = table.add_row().cells
+        cells[0].text = str(row["label"])
+        vals = list(row.get("values", []))
+        if "p" in row:
+            vals = vals + [row["p"]]
+        for j, v in enumerate(vals, start=1):
+            if j < len(cols):
+                cells[j].text = str(v)
+    if tjson.get("footnote"):
+        fp = doc.add_paragraph()
+        fr = fp.add_run(tjson["footnote"]); fr.italic = True; fr.font.size = Pt(9)
+
+
+def _render_ledger_tables(doc: Document, ledger: dict, rundir: Path) -> bool:
+    tabs = ledger.get("tables", [])
+    if not tabs:
+        return False
+    for t in tabs:
+        fpath = rundir / t["file"]
+        if fpath.exists():
+            _render_table_json(doc, json.loads(fpath.read_text(encoding="utf-8")))
+    return True
+
+
+def _add_figures(doc: Document, ledger: dict, rundir: Path) -> None:
+    for f in ledger.get("figures", []):
+        fpath = rundir / f["file"]
+        if not fpath.exists():
+            continue
+        doc.add_picture(str(fpath), width=Inches(6))
+        cap = doc.add_paragraph()
+        cap.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        r = cap.add_run(f.get("title", f["id"])); r.italic = True; r.font.size = Pt(10)
+
+
 def _add_references(doc: Document, refs: list[str], evidence: dict, style: str) -> None:
     by_key = {e["key"]: e for e in evidence.get("entries", [])}
     doc.add_heading("Kaynaklar", level=1)
@@ -151,8 +196,12 @@ def build_docx(rundir: str, out: str | None = None) -> str:
         doc.add_heading(sec["_heading"], level=1)
         for block in sec.get("blocks", []):
             doc.add_paragraph(_block_text(block))
-        if sec["_heading"].lower().startswith("bulgu") and m.get("table1"):
-            _add_table1(doc, ledger, m["table1"])
+        if sec["_heading"].lower().startswith("bulgu"):
+            # Önce ledger tablolarını (gruplara göre Tablo 1 + korelasyon) dene; yoksa M0 tek-sütun Tablo 1.
+            if not _render_ledger_tables(doc, ledger, rundir):
+                if m.get("table1"):
+                    _add_table1(doc, ledger, m["table1"])
+            _add_figures(doc, ledger, rundir)
 
     _add_references(doc, cited, evidence, m.get("citation_style", "vancouver"))
     _add_icmje(doc, m.get("icmje", {}))

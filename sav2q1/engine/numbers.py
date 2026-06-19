@@ -12,8 +12,12 @@ from __future__ import annotations
 
 import re
 
+_LETTER = "A-Za-zÇĞİıÖŞÜçğöşü"
 _CITES = re.compile(r"\[[\d\s,–\-]+\]")
-_NUM = re.compile(r"[-+]?\d+(?:[.,]\d+)?")
+# Tablo/Şekil referanslarındaki numara yapısaldır, istatistik değildir.
+_TABFIG = re.compile(r"(?:Tablo|Şekil|Table|Figure|Fig\.?)\s*\d+", re.IGNORECASE)
+# Sayı: harfe bitişik rakamları (HC3, I.FABP, COVID gibi) DIŞLAR.
+_NUM = re.compile(rf"(?<![{_LETTER}])[-+]?\d+(?:[.,]\d+)?(?![{_LETTER}])")
 _YEAR = re.compile(r"^(19|20)\d{2}$")
 
 # İstatistik-dışı, her yerde kabul edilebilir sabitler (GA düzeyi, p eşikleri, %100 tabanı).
@@ -21,7 +25,7 @@ GLOBAL_WHITELIST: set[str] = {"90", "95", "99", "100", "0,05", "0,01", "0,001"}
 
 
 def strip_citation_markers(text: str) -> str:
-    return _CITES.sub(" ", text)
+    return _TABFIG.sub(" ", _CITES.sub(" ", text))
 
 
 def normalize(tok: str) -> str:

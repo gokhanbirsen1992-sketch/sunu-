@@ -84,3 +84,40 @@ def cramers_v(table: np.ndarray) -> float:
     n = table.sum()
     k = min(table.shape) - 1
     return float(np.sqrt(chi2 / (n * k))) if n and k else 0.0
+
+
+def eta_squared_h(H: float, n: int, k: int) -> float:
+    """Kruskal-Wallis için η² (eta-kare-H): (H - k + 1)/(n - k). 0–1 sınırlı."""
+    denom = (n - k)
+    return float((H - k + 1) / denom) if denom > 0 else 0.0
+
+
+def eta_squared_ci_boot(arrays: list, n_boot: int = 1000, conf: float = 0.95,
+                        kind: str = "anova") -> tuple[float, float]:
+    """Tek yönlü η² (ANOVA) veya η²_H (KW) için katmanlı, sabit-seed bootstrap GA."""
+    arrays = [np.asarray(a, float) for a in arrays]
+    arrays = [a[~np.isnan(a)] for a in arrays]
+    rng = np.random.default_rng(GLOBAL_SEED)
+    k = len(arrays)
+    boots = np.empty(n_boot)
+    for i in range(n_boot):
+        res = [rng.choice(a, size=len(a), replace=True) for a in arrays]
+        if kind == "kw":
+            H, _ = stats.kruskal(*res)
+            n = sum(len(a) for a in res)
+            boots[i] = eta_squared_h(H, n, k)
+        else:
+            boots[i] = eta_squared_oneway(res)
+    lo = float(np.percentile(boots, 100 * (1 - conf) / 2))
+    hi = float(np.percentile(boots, 100 * (1 - (1 - conf) / 2)))
+    return (lo, hi)
+
+
+def correlation_ci(r: float, n: int, conf: float = 0.95, spearman: bool = False) -> tuple[float, float]:
+    """Pearson/Spearman korelasyonu için Fisher-z GA."""
+    if n < 4 or abs(r) >= 1:
+        return (float("nan"), float("nan"))
+    z = np.arctanh(r)
+    se = (1.03 if spearman else 1.0) / np.sqrt(n - 3)
+    zc = stats.norm.ppf(1 - (1 - conf) / 2)
+    return (float(np.tanh(z - zc * se)), float(np.tanh(z + zc * se)))

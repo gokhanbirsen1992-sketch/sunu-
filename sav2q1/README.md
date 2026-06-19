@@ -70,9 +70,16 @@ doğrulayıcı hipotezler, türetilmiş değişkenler, desen, eksik-veri/çoklul
 
 ## Yapım durumu
 
-- **M0 (tamam):** Yürüyen iskelet — motor (tanımlayıcı + grup karşılaştırma, etki büyüklüğü+GA, karar ağacı),
-  sayı defteri, binding-bazlı `verify-numeric`, birebir-alıntılı `verify-citations` (gerçek PubMed kaynağı),
-  Word derleme (IMRaD + Tablo 1 + Vancouver kaynakça + ICMJE), `/makale` skill + temel agent kadrosu, 20 test.
-- **Sonraki (M1–M7):** tam test paketi (ki-kare/korelasyon/regresyon/güvenirlik/EFA-CFA/mediation) + golden-value
-  sayısal doğruluk testleri; tablo/şekil üretimi; kalan yazar agentları (Giriş/Yöntem/Öz/başlık);
-  hakem→düzeltme döngüsü + resumable orkestrasyon; İngilizce çeviri aşaması.
+- **M0 (tamam):** Yürüyen iskelet — sayı defteri, binding-bazlı `verify-numeric`, birebir-alıntılı
+  `verify-citations` (gerçek PubMed), Word derleme (IMRaD + Tablo 1 + Vancouver + ICMJE), `/makale` skill.
+- **M1 — istatistik motoru genişletildi (tamam):** çok-gruplu karşılaştırma (ANOVA/Welch + Tukey/Games-Howell,
+  Kruskal-Wallis + Dunn, η²/ε²), ki-kare/Fisher + Cramér's V, Pearson/Spearman korelasyon + matris,
+  çok değişkenli doğrusal regresyon (HC3 robust SE, VIF, Breusch-Pagan), eksik-veri raporu, çokluluk
+  (Benjamini-Hochberg). **Golden-value** testleri scipy/statsmodels/pingouin'e karşı doğrulanır (25 test).
+- **M2 — tablo/şekil + docx (tamam):** gruplara göre Tablo 1 + korelasyon tablosu; kutu grafiği + saçılım
+  (300 dpi); docx çok-sütun tablo render + şekil gömme.
+- **Yazar agentları (tamam):** profiler, Giriş/Yöntem/Bulgular/Tartışma/Öz/başlık yazarları (no-fabrication).
+- **Gerçek veri kanıtı:** N=150 pediatrik "gut–liver axis" veri setiyle uçtan uca tam Türkçe taslak üretildi
+  (her sayı doğrulandı, 6 gerçek PubMed atıfı, PII sızıntısı yok).
+- **Sonraki:** güvenirlik/EFA-CFA/mediation (Likert verisi için); hakem→düzeltme döngüsü + resumable
+  orkestrasyon; İngilizce çeviri aşaması (M7).
