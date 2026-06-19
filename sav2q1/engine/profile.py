@@ -67,8 +67,10 @@ def _infer_role(s: pd.Series, measure: str, value_labels: dict, n_rows: int) -> 
         return "constant"
     if is_string:
         return "id" if nun > 0.9 * max(n_rows, 1) else "nominal"
-    # numeric:
-    if nun > 0.95 * max(n_rows, 1) and not value_labels:
+    # numeric: yalnız TAM SAYI + neredeyse benzersiz olanları kimlik say
+    # (ondalıklı klinik ölçümler — insülin, VKİ, skor — kimlik DEĞİL, süreklidir).
+    is_int = bool((non_null == non_null.round()).all()) if len(non_null) else False
+    if nun > 0.95 * max(n_rows, 1) and not value_labels and is_int:
         return "id"
     if nun == 2:
         return "binary"

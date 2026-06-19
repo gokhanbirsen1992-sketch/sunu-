@@ -22,7 +22,7 @@ import argparse
 import json
 from pathlib import Path
 
-from . import missing, multiplicity, tables as tables_mod, figures as figures_mod
+from . import missing, multiplicity, planner, tables as tables_mod, figures as figures_mod
 from .fmt import fmt_p
 from .io_sav import read_sav
 from .ledger import LedgerBuilder, _NpEncoder
@@ -45,6 +45,21 @@ def cmd_profile(args) -> None:
     prof = profile_dataset(sav)
     _dump(prof, args.out)
     print(f"[profile] {args.out} yazıldı: {prof['n_rows']} satır, {prof['n_vars']} değişken")
+
+
+def cmd_plan(args) -> None:
+    import yaml
+    sav = read_sav(args.sav)
+    prof = profile_dataset(sav)
+    brief = None
+    if args.brief:
+        brief = yaml.safe_load(Path(args.brief).read_text(encoding="utf-8"))
+    plan = planner.build_plan(prof, brief)
+    _dump(plan, args.out)
+    n_cmp = sum(1 for s in plan["steps"] if s["type"] in ("group_compare", "multi_group_compare"))
+    print(f"[plan] {args.out} yazıldı: grup değişkeni={plan['group_var']}, "
+          f"{n_cmp} grup karşılaştırması, {len(plan['id_vars'])} kimlik değişkeni dışlandı "
+          f"({', '.join(plan['id_vars'][:4])}{'…' if len(plan['id_vars'])>4 else ''})")
 
 
 def cmd_run(args) -> None:
@@ -161,6 +176,12 @@ def main(argv=None) -> None:
     pp.add_argument("--sav", required=True)
     pp.add_argument("--out", required=True)
     pp.set_defaults(func=cmd_profile)
+
+    pl = sub.add_parser("plan", help="Profilden (+brief) analiz planını OTOMATİK üret")
+    pl.add_argument("--sav", required=True)
+    pl.add_argument("--out", required=True)
+    pl.add_argument("--brief", required=False)
+    pl.set_defaults(func=cmd_plan)
 
     pr = sub.add_parser("run", help="Analiz planını yürüt, ledger üret")
     pr.add_argument("--sav", required=True)

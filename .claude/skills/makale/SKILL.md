@@ -30,8 +30,10 @@ Sen bu boru hattının ORKESTRATÖRÜsün. Aşağıdaki aşamaları SIRAYLA sür
 `brief.yaml`'ı oku. brief eksikse `sav2q1/examples/brief.example.yaml`'ı şablon alıp kullanıcıdan
 eksikleri iste (uydurma).
 
-**1. Profil + plan.** `makale-analyst` ile profil çıkar (`engine.runner profile`). `makale-methodologist`
-ile `analysis_plan.json` üret (desen→checklist, RQ→rol, türetilmiş değişken, eksik-veri/çokluluk).
+**1. Profil + OTOMATİK plan.** `makale-profiler` ile profil çıkar. `makale-methodologist` ile planı
+OTOMATİK üret: `engine.runner plan --sav <SAV> --out $RUN/analysis_plan.json [--brief ...]`. Bu, PII'yi
+dışlar, gruplama değişkenini bulur, her sürekli değişken için karşılaştırma + Tablo 1 önerir. Methodologist
+planı denetler/düzeltir (desen→checklist, eksik-veri/çokluluk).
 
 **2. ⛔ İNSAN KAPISI 1.** `analysis_plan.json` özetini (seçilen testler + gerekçeleri, türetilmiş
 değişkenler, eksik-veri politikası) kullanıcıya sun ve AÇIK onay iste. Onaysız ilerleme.
