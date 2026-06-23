@@ -10,7 +10,7 @@ from __future__ import annotations
 import numpy as np
 from scipy import stats
 
-from .. import assumptions, effects, decision_tree
+from .. import assumptions, decision_tree, effects, posthoc
 from ..fmt import fmt_num, fmt_p, fmt_ci
 
 
@@ -108,7 +108,7 @@ def compare_two_groups(df, outcome: str, group: str, *, value_labels=None,
         "n_analyzed": int(sub.shape[0]),
         "apa": apa,
         "_display": display,
-        "_global": [str(ga["n"]), str(gb["n"]), str(int(sub.shape[0]))],
+        "_global": [str(ga["n"]), str(gb["n"]), str(int(sub.shape[0])), la, lb],
     }
 
 
@@ -121,9 +121,6 @@ def compare_multi_groups(df, outcome: str, group: str, *, value_labels=None,
                          result_id: str = "R", question_ref: str | None = None,
                          confirmatory: bool = False) -> dict:
     """İkiden çok bağımsız grup karşılaştırması: ANOVA/Welch/Kruskal-Wallis + post-hoc + η²."""
-    import pingouin as pg
-    import scikit_posthocs as sp
-
     sub = df[[outcome, group]].dropna()
     codes = sorted(sub[group].unique())
     arrays = [sub.loc[sub[group] == g, outcome].to_numpy(float) for g in codes]
@@ -146,20 +143,18 @@ def compare_multi_groups(df, outcome: str, group: str, *, value_labels=None,
         display.append(f"{fmt_num(gd['median'])} ({fmt_num(gd['q1'])}–{fmt_num(gd['q3'])})")
         glob.append(str(gd["n"]))
 
-    posthoc: list[dict] = []
+    ph_list: list[dict] = []
+    out_vals = sub[outcome].to_numpy(float)
+    grp_vals = sub[group].to_numpy()
 
     if test_id in ("oneway_anova", "welch_anova"):
         if test_id == "oneway_anova":
             F, p = stats.f_oneway(*arrays)
-            dfb, dfw = k - 1, n_total - k
-            ph = pg.pairwise_tukey(data=sub, dv=outcome, between=group)
-            ph_pcol = "p_tukey"
+            dfb, dfw = float(k - 1), float(n_total - k)
+            ph_pairs = posthoc.tukey_hsd(out_vals, grp_vals, codes)
         else:
-            aov = pg.welch_anova(data=sub, dv=outcome, between=group)
-            F = float(aov["F"].iloc[0]); p = float(aov["p-unc"].iloc[0])
-            dfb = float(aov["ddof1"].iloc[0]); dfw = float(aov["ddof2"].iloc[0])
-            ph = pg.pairwise_gameshowell(data=sub, dv=outcome, between=group)
-            ph_pcol = "pval"
+            F, p, dfb, dfw = posthoc.welch_anova(arrays)
+            ph_pairs = posthoc.games_howell(arrays, codes)
         eta2 = effects.eta_squared_oneway(arrays)
         lo, hi = effects.eta_squared_ci_boot(arrays, kind="anova")
         dfb_s = fmt_num(dfb, 0 if test_id == "oneway_anova" else 1)
@@ -168,10 +163,6 @@ def compare_multi_groups(df, outcome: str, group: str, *, value_labels=None,
         stat = {"name": "F", "value": float(F), "df1": dfb, "df2": dfw}
         eff = {"name": "η²", "value": float(eta2), "ci": [lo, hi]}
         rep = "mean_sd"
-        for _, row in ph.iterrows():
-            pv = float(row[ph_pcol])
-            posthoc.append({"a": _group_label(value_labels, row["A"]), "b": _group_label(value_labels, row["B"]),
-                            "p": pv, "p_str": _ph_p(pv)})
     else:  # kruskal_wallis
         H, p = stats.kruskal(*arrays)
         eta2 = effects.eta_squared_h(float(H), n_total, k)
@@ -180,14 +171,14 @@ def compare_multi_groups(df, outcome: str, group: str, *, value_labels=None,
         stat = {"name": "H", "value": float(H), "df": k - 1}
         eff = {"name": "η²(H)", "value": float(eta2), "ci": [lo, hi]}
         rep = "median_iqr"
-        dunn = sp.posthoc_dunn(sub, val_col=outcome, group_col=group, p_adjust="bonferroni")
-        for i in range(len(codes)):
-            for j in range(i + 1, len(codes)):
-                pv = float(dunn.loc[codes[i], codes[j]])
-                posthoc.append({"a": labels[i], "b": labels[j], "p": pv, "p_str": _ph_p(pv)})
+        ph_pairs = posthoc.dunn(out_vals, grp_vals, codes)
+
+    for ca, cb, pv in ph_pairs:
+        ph_list.append({"a": _group_label(value_labels, ca), "b": _group_label(value_labels, cb),
+                        "p": float(pv), "p_str": _ph_p(float(pv))})
 
     display.append(apa)
-    for ph_item in posthoc:
+    for ph_item in ph_list:
         display.append(ph_item["p_str"])
 
     return {
@@ -203,10 +194,10 @@ def compare_multi_groups(df, outcome: str, group: str, *, value_labels=None,
         "statistic": stat,
         "p_value": float(p),
         "effect": eff,
-        "posthoc": posthoc,
+        "posthoc": ph_list,
         "assumptions": {"normality": norm, "levene": lev},
         "n_analyzed": n_total,
         "apa": apa,
         "_display": display,
-        "_global": glob,
+        "_global": glob + [str(lbl) for lbl in labels],   # grup etiketleri (rakam içerebilir)
     }

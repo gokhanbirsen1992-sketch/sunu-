@@ -50,6 +50,7 @@ def crosstab_test(df, row_var: str, col_var: str, *, value_labels_row=None,
             display.append(f"{n} (%{fmt_num(pct, 1)})")
 
     display.append(apa)
+    glob += list({c["row"] for c in cells}) + list({c["col"] for c in cells})  # etiketler
     return {
         "id": result_id, "question_ref": question_ref, "family": "categorical",
         "test": test_id, "reason": reason, "confirmatory": confirmatory,

@@ -13,23 +13,23 @@ dependencies = [
     "numpy>=1.26",
     "scipy>=1.13",
     "statsmodels>=0.14",
-    "pingouin>=0.5",
-    "scikit-posthocs>=0.9",
-    "factor_analyzer>=0.5",
     "python-docx>=1.1",
     "jsonschema>=4.21",
     "pyyaml>=6.0",
     "tabulate>=0.9",
     "matplotlib>=3.8",
     "click>=8.1",
+    "httpx>=0.27",
 ]
 
 [project.optional-dependencies]
-sem = ["semopy>=2.3"]   # CFA/SEM (M1) — bazı ortamlarda kurulumu sorunlu olabilir
-test = ["pytest>=8.0"]
+efa = ["factor_analyzer>=0.5", "semopy>=2.3"]   # EFA/CFA (gelecek)
+web = ["fastapi>=0.110", "uvicorn[standard]>=0.29", "python-multipart>=0.0.9"]
+# pingouin/scikit-posthocs YALNIZ test içindir (post-hoc çapraz-doğrulama); motor kullanmaz.
+test = ["pytest>=8.0", "pingouin>=0.5", "scikit-posthocs>=0.9"]
 
 [tool.setuptools]
-packages = ["sav2q1", "sav2q1.engine", "sav2q1.engine.analyses", "sav2q1.docx", "sav2q1.tools"]
+packages = ["sav2q1", "sav2q1.engine", "sav2q1.engine.analyses", "sav2q1.docx", "sav2q1.tools", "sav2q1.lit"]
 
 [tool.pytest.ini_options]
 testpaths = ["sav2q1/tests"]

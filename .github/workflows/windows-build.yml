@@ -34,9 +34,6 @@ jobs:
           --collect-submodules sav2q1
           --collect-all pyreadstat
           --collect-all statsmodels
-          --collect-all pingouin
-          --collect-all scikit_posthocs
-          --collect-all factor_analyzer
           --collect-all scipy
           --collect-data docx
           desktop/app.py

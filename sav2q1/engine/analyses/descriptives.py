@@ -48,7 +48,9 @@ def describe_categorical(var: str, label: str, s: dict) -> dict:
         "total": s.get("total"),
         "categories": cats_out,
         "_display": display,
-        "_global": [str(s.get("total"))] if s.get("total") is not None else [],
+        # toplam n + kategori etiketleri (etikette rakam olabilir, ör. "Evre 2")
+        "_global": ([str(s.get("total"))] if s.get("total") is not None else []) +
+                   [c["label"] for c in s["categories"]],
     }
 
 

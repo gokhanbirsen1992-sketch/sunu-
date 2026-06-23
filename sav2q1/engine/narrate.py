@@ -153,6 +153,49 @@ def narrate_abstract(ledger: dict) -> dict:
             "tables_referenced": [], "figures_referenced": []}
 
 
+def _group_var(ledger: dict) -> str | None:
+    for r in ledger.get("results", []):
+        if r.get("family") in ("multi_group_compare", "group_compare"):
+            return r["variables"].get("group")
+    return None
+
+
+def narrate_intro(ledger: dict) -> dict:
+    """Deterministik Giriş (amaç/gerekçe) — atıf/sayı içermez."""
+    gv = _group_var(ledger)
+    glab = _lab(ledger, gv) if gv else "gruplar"
+    sents = [
+        _sent("Klinik araştırmalarda farklı gruplar arasında değişkenlerin karşılaştırılması, "
+              "hastalık ve sağlık süreçlerinin anlaşılmasına katkı sağlar."),
+        _sent(f"Bu çalışmada, {glab} temelinde tanımlanan gruplar arasında klinik ve laboratuvar "
+              "değişkenleri karşılaştırılmış ve değişkenler arası ilişkiler incelenmiştir."),
+        _sent("Çalışmanın amacı, gruplar arasındaki farkları ortaya koymak ve ilgili değişkenler "
+              "arasındaki ilişkileri tanımlamaktır."),
+    ]
+    return {"section": "intro", "language": "tr", "blocks": [{"type": "paragraph", "sentences": sents}],
+            "tables_referenced": [], "figures_referenced": []}
+
+
+def narrate_discussion(ledger: dict) -> dict:
+    """Deterministik Tartışma: önemli bulguların özeti (ledger-bağlı) + genel sınırlılıklar."""
+    sig = [r for r in ledger.get("results", [])
+           if r.get("family") in ("multi_group_compare", "group_compare") and _sig(r)]
+    sig.sort(key=lambda r: -abs(r.get("effect", {}).get("value", 0) or 0))
+    main = [_sent("Bu çalışmada gruplar arasında çeşitli değişkenlerde anlamlı farklar saptanmıştır.")]
+    for r in sig[:3]:
+        main.append(_result_sentence(ledger, r))
+    main.append(_sent("Bu bulgular, incelenen değişkenlerin gruplar arasında farklılaştığını göstermektedir."))
+    lim = [
+        _sent("Çalışmanın bazı sınırlılıkları bulunmaktadır."),
+        _sent("Tasarımın gözlemsel doğası neden-sonuç çıkarımına izin vermez; bulgular daha büyük ve "
+              "prospektif örneklemlerde doğrulanmalıdır."),
+        _sent("Sonuç olarak, saptanan farklar ilgili literatür ışığında değerlendirilmelidir."),
+    ]
+    return {"section": "discussion", "language": "tr",
+            "blocks": [{"type": "paragraph", "sentences": main}, {"type": "paragraph", "sentences": lim}],
+            "tables_referenced": [], "figures_referenced": []}
+
+
 def abstract_dict(ledger: dict) -> dict:
     """manuscript.json için yapılandırılmış Öz (assembler bunu render eder)."""
     g = _groups(ledger)

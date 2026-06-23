@@ -31,6 +31,15 @@ class _Args:
         self.sav, self.plan, self.rundir = sav, plan, rundir
 
 
+def _drop_violating(section: dict, violations: list[dict]) -> dict:
+    """Sayı kapısı ihlali olan cümleleri bölümden çıkar (defter-dışı sayı sızmasın)."""
+    drop = {(v["block"], v["sentence"]) for v in violations if "block" in v and "sentence" in v}
+    for bi, block in enumerate(section.get("blocks", [])):
+        block["sentences"] = [s for si, s in enumerate(block.get("sentences", [])) if (bi, si) not in drop]
+    section["blocks"] = [b for b in section.get("blocks", []) if b.get("sentences")]
+    return section
+
+
 def generate_article(sav_path: str, rundir: str, *, brief: dict | None = None,
                      title: str | None = None, with_pubmed: bool = False, log=print) -> dict:
     rundir = Path(rundir)
@@ -53,15 +62,13 @@ def generate_article(sav_path: str, rundir: str, *, brief: dict | None = None,
     cmd_run(_Args(sav_path, str(plan_path), str(rundir)))
     ledger = json.loads((rundir / "results_ledger.json").read_text(encoding="utf-8"))
 
-    log("Yöntem, Bulgular ve Öz bölümleri yazılıyor (deterministik)…")
+    log("Bölümler yazılıyor (deterministik)…")
     _dump(narrate.narrate_methods(ledger), rundir / "sections" / "methods.json")
     _dump(narrate.narrate_results(ledger), rundir / "sections" / "results.json")
     _dump(narrate.narrate_abstract(ledger), rundir / "sections" / "abstract.json")
 
-    sections = [{"heading": "Yöntem", "file": "sections/methods.json"},
-                {"heading": "Bulgular", "file": "sections/results.json"}]
-
     evidence = {"entries": []}
+    have_lit = False
     if with_pubmed:
         try:
             from .lit import pubmed_http
@@ -71,21 +78,34 @@ def generate_article(sav_path: str, rundir: str, *, brief: dict | None = None,
             if evidence["entries"]:
                 _dump(intro, rundir / "sections" / "intro.json")
                 _dump(disc, rundir / "sections" / "discussion.json")
-                sections = ([{"heading": "Giriş", "file": "sections/intro.json"}] + sections +
-                            [{"heading": "Tartışma", "file": "sections/discussion.json"}])
+                have_lit = True
         except Exception as e:  # noqa: BLE001 — literatür opsiyoneldir, başarısızsa atla
             log(f"Literatür adımı atlandı: {e}")
+    if not have_lit:                                   # deterministik Giriş/Tartışma (atıfsız)
+        _dump(narrate.narrate_intro(ledger), rundir / "sections" / "intro.json")
+        _dump(narrate.narrate_discussion(ledger), rundir / "sections" / "discussion.json")
     _dump(evidence, rundir / "evidence_store.json")
+
+    sections = [{"heading": "Giriş", "file": "sections/intro.json"},
+                {"heading": "Yöntem", "file": "sections/methods.json"},
+                {"heading": "Bulgular", "file": "sections/results.json"},
+                {"heading": "Tartışma", "file": "sections/discussion.json"}]
 
     log("Sayı ve atıf doğrulama kapıları çalışıyor…")
     from .tools import verify_citations, verify_numeric
-    gate = {"numeric": "PASS", "citations": "PASS", "violations": 0}
+    gate = {"numeric": "PASS", "citations": "PASS", "violations": 0, "dropped": 0}
     for sec_file in sorted((rundir / "sections").glob("*.json")):
         section = json.loads(sec_file.read_text(encoding="utf-8"))
         rep = verify_numeric.verify(section, ledger)
         if rep["status"] != "PASS":
-            gate.update(numeric="FAIL", violations=gate["violations"] + rep["n_violations"], section=sec_file.stem)
-            log(f"  ⚠ sayı: {sec_file.stem}: {rep['n_violations']} ihlal")
+            # KAPI ZORLAMASI: defter-dışı sayı içeren cümleleri at, yeniden yaz ve doğrula
+            section = _drop_violating(section, rep["violations"])
+            _dump(section, sec_file)
+            gate["dropped"] += rep["n_violations"]
+            log(f"  ⚠ sayı: {sec_file.stem}: {rep['n_violations']} ihlalli cümle çıkarıldı")
+            rep = verify_numeric.verify(section, ledger)
+            if rep["status"] != "PASS":
+                gate.update(numeric="FAIL", violations=gate["violations"] + rep["n_violations"])
         if evidence["entries"]:
             crep = verify_citations.verify(section, evidence)
             if crep["status"] != "PASS":
@@ -117,8 +137,9 @@ def generate_article(sav_path: str, rundir: str, *, brief: dict | None = None,
 
 def _default_title(ledger: dict, plan: dict) -> str:
     g = plan.get("group_var")
-    return (f"{narrate._lab(ledger, g)}'a Göre Klinik ve Laboratuvar Değişkenlerinin Karşılaştırılması"
-            if g else "SPSS Veri Analizi Raporu")
+    if not g:
+        return "SPSS Veri Analizi Raporu"
+    return f"Gruplara Göre Klinik ve Laboratuvar Değişkenlerinin Karşılaştırılması ({narrate._lab(ledger, g)})"
 
 
 def _keywords(ledger: dict, plan: dict) -> list[str]:

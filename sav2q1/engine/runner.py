@@ -154,12 +154,15 @@ def cmd_run(args) -> None:
     # Şekiller
     figspec = plan.get("figures")
     if figspec:
-        fdir = rundir / "figures"
-        lb.add_figure(figures_mod.make_marker_boxplots(
-            sav.df, figspec["group"], figspec["markers"], vl(figspec["group"]), labels, fdir))
-        if figspec.get("scatter"):
-            sx, sy = figspec["scatter"]
-            lb.add_figure(figures_mod.make_scatter(sav.df, sx, sy, labels, fdir))
+        try:
+            fdir = rundir / "figures"
+            lb.add_figure(figures_mod.make_marker_boxplots(
+                sav.df, figspec["group"], figspec["markers"], vl(figspec["group"]), labels, fdir))
+            if figspec.get("scatter"):
+                sx, sy = figspec["scatter"]
+                lb.add_figure(figures_mod.make_scatter(sav.df, sx, sy, labels, fdir))
+        except Exception as e:  # noqa: BLE001 — şekil hatası tüm koşuyu düşürmesin
+            print(f"[run] şekil üretimi atlandı: {e}")
 
     out = rundir / "results_ledger.json"
     lb.write(out)
