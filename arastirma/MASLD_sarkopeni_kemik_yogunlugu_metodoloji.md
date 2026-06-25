@@ -1,5 +1,7 @@
 # MASLD'li Hastalarda MR Temelli Sarkopeni ve Kemik Mineral Yoğunluğu Çalışması — Metodoloji Protokolü
 
+> ⚠️ **GÜNCELLEME:** Çalışma popülasyonu **pediyatrik MASLD (çocuk/adölesan)** olarak belirlendi. Güncel ve asıl plan için bkz. **`pediyatrik_MASLD_kemik_kas_protokol.md`**. Bu belge yetişkin çerçevesindeki ilk taslaktır; genel mantık (MR temelli kas/kemik, istatistik yaklaşımı) geçerlidir ancak popülasyona özgü bölümler pediyatrik belge tarafından öncelenir.
+
 > **Çalışma kısa adı (öneri):** MASLD-MUSCLE-BONE (Metabolik disfonksiyonla ilişkili steatotik karaciğer hastalığında Kas–Kemik–Karaciğer ekseninin MR ile değerlendirilmesi)
 >
 > **Belge durumu:** Taslak v1.0 — literatür taraması temelli metodoloji önerisi

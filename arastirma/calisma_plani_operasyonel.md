@@ -1,5 +1,7 @@
 # Çalışma Planı (Operasyonel Protokol) — MASLD'de Kas–Kemik–Karaciğer Ekseni
 
+> ⚠️ **GÜNCELLEME:** Çalışma popülasyonu **pediyatrik MASLD (çocuk/adölesan)** olarak belirlendi. Dahil/dışlama kriterleri, kemik (DXA Z-skoru/BMAD), kas (pediyatrik Z-skor) ve büyüme/puberte düzeltmeleri için güncel ve asıl belge: **`pediyatrik_MASLD_kemik_kas_protokol.md`**. Bu belgedeki yetişkin kesim değerleri pediyatride GEÇERLİ DEĞİLDİR.
+
 > Bu belge, `MASLD_sarkopeni_kemik_yogunlugu_metodoloji.md` dosyasının uygulamaya dönük tamamlayıcısıdır.
 > **Soru:** Kimi alacağız? Kimi dışlayacağız? Neye bakacağız? Akış nasıl olacak?
 > **Belge durumu:** Taslak v1.0
