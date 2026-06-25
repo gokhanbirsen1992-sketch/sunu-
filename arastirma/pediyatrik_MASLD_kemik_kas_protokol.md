@@ -82,7 +82,7 @@ Boy, kilo, VKİ ve **Z-skorları/SDS**; bel/kalça persentili; **Tanner evresi**
 | Büyüme/puberte & hipogonadizm rule-out | **IGF-1**, LH/FSH, **estradiol/testosteron** (pediyatrik düşük-aralık, tercihen LC-MS/MS), TSH/sT4; (klinik şüpheyle) **kortizol taraması** (sabah kortizol ± gece tükürük/düşük-doz deksametazon) |
 | Çölyak | doku transglutaminaz-IgA **+ total IgA** (IgA eksikliğinde yalancı negatif) |
 | İnflamasyon/adipokin | hs-CRP, (opsiyonel adiponektin, leptin) |
-| Genetik (opsiyonel) | **PNPLA3 I148M (rs738409)** |
+| Genetik | **PNPLA3 I148M (rs738409)** — kontrol karşılaştırması/ayarı (§3.2) ve etki-değiştirici analizi (H4) için **standart** (opsiyonel değil) |
 | Diğer dışlama | HBsAg, anti-HCV, seruloplazmin, otoantikorlar |
 | Kız adölesan | menstrüel öykü (fonksiyonel etkiler) |
 
