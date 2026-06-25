@@ -1,24 +1,42 @@
-# Pediyatrik MASLD'de Sarkopeni ve Kemik Yoğunluğu Kaybı — Protokol v4.0 (KESİTSEL)
+# Pediyatrik MASLD'de Kas Kalitesi (Miyosteatoz) ve Kemik — Kas Kütlesinden Bağımsız mı? — Protokol v4.1 (KESİTSEL)
 
 > **GÜNCEL/ASIL PLAN.** Popülasyon = çocuk/adölesan (pediyatrik MASLD).
-> **Amaç:** MASLD'li çocuklarda **sarkopeni (kütle/kalite temelli)** ve **kemik yoğunluğu kaybı** var mı; bunlar karaciğer yağ şiddetiyle ve kontrole göre ilişkili mi?
+> **Amaç:** MASLD'li çocuklarda karaciğer yağı arttıkça **kasın yağlanması (miyosteatoz / kas kalitesi)** artıyor ve **kemik yoğunluğu** azalıyor mu — ve bu, kas **kütlesinden** ve kilo durumundan **bağımsız** mı? *(Özgünlük: başkaları pediyatrik NAFLD'de kası hep "kütle" olarak ölçtü; biz ilk kez kasın "kalitesini/yağlanmasını" ölçüyoruz — bkz. `ozgunluk_literatur_reviewer2.md`.)*
 > **Tasarım kararları:** (1) **KESİTSEL** vaka–kontrol (takip/prospektif YOK), (2) Kemik = kemik dansitometrisi (Z-skor) + boyut düzeltmesi + omurga kırığı taraması + (keşifsel) ilik yağı, (3) Pediyatrik, (4) **Görüntüleme-odaklı kas değerlendirmesi — KAS GÜCÜ ÖLÇÜLMEZ**, tek merkez, genetik yalnız PNPLA3.
-> **Durum:** 5-üyeli uzman konseyi kapanışları (kesitsel tasarıma uygun olanlar) işlendi. Tam sicil: `konsey_sentez_kapanis.md`.
+> **Durum:** v4.1 — 5-üyeli uzman konseyi + literatür/Reviewer-2 turu sonrası birincil sonlanım özgünlükle (kas kalitesi) hizalandı. Siciller: `konsey_sentez_kapanis.md`, `ozgunluk_literatur_reviewer2.md`.
 
 ---
 
 ## 0. Dürüst konumlandırma
-İyi fenotiplenmiş, tek-merkezli, **kesitsel** bir görüntüleme ilişki çalışması. Kesitsel olduğu için neden-sonuç/zaman sırası kurulamaz; **birlikte görülme (ilişki)** ortaya konur. Mekanistik kan belirteçleri/biyobank ve takip dahil değildir (bilinçli kapsam). Özgünlük: tek manyetik rezonans oturumunda **karaciğer yağı + kas niceliği + kas niteliği (miyosteatoz) + vertebral ilik yağı** birlikte fenotiplenir ve literatürde bulunmayan **pediyatrik kas/ilik referans dağılımları** üretilir. Gerçekçi hedef dergiler: pediyatrik gastroenteroloji/obezite/radyoloji ve kemik dergileri.
+İyi fenotiplenmiş, tek-merkezli, **kesitsel** bir görüntüleme ilişki çalışması. Kesitsel olduğu için neden-sonuç/zaman sırası kurulamaz; **birlikte görülme (ilişki)** ortaya konur. Mekanistik kan belirteçleri/biyobank ve takip dahil değildir (bilinçli kapsam).
+
+**Özgünlüğün dayanağı (literatür taramasından):** Pediyatrik NAFLD/MASLD'de kas bugüne kadar neredeyse hep **kütle** olarak ölçülmüştür (biyoempedans ya da kemik dansitometrisi) ve karaciğer çoğunlukla **ultrasonla** tanımlanmıştır; **kasın kalitesini (yağlanmasını/miyosteatozu) ölçen yoktur** ve kas ile kemiği aynı MASLD kohortunda birleştiren yoktur. Bu çalışma: (a) ilk kez **manyetik rezonansla kas kalitesini (miyosteatoz)** ölçer; (b) **kas + kemik + karaciğeri tek oturumda** birlikte fenotipler; (c) literatürde olmayan **pediyatrik kas-yağ/L3/ilik-yağı referans dağılımlarını** üretir. Bu nedenle çalışma "sarkopeni/kemik kaybı var mı" doğrulayıcı sorusuyla değil, **"kas *kalitesi* ve kemik, kas *kütlesinden bağımsız* olarak mı etkileniyor"** özgün sorusuyla çerçevelenir. Gerçekçi hedef dergiler: pediyatrik gastroenteroloji/obezite/radyoloji ve kemik dergileri.
 
 ---
 
 ## 1. Amaç ve hipotezler (kesitsel)
-- **H1 (birincil):** Sürekli **karaciğer yağ oranı (MR-PDFF)**, boy/puberteye göre düzeltilmiş **kemik yoğunluğu Z-skoru** ve **kas niteliği (kasın yağlanması/miyosteatoz)** ile ilişkilidir ve bu ilişki **vücut-kitle-indeksi standart skorundan (kilo durumu) bağımsızdır**. *(Sürekli yağ oranı doz-yanıtı, kontrol-seçilim yanlılığına dayanıklı olduğu için birincil — §9.)*
-- **H2 (doğrulama):** MASLD'li çocuklarda **sarkopeni (düşük kas kütlesi ve/veya artmış kas yağlanması)** ve **yaşa göre düşük kemik yoğunluğu** sıklığı, eşleştirilmiş **obez-steatozsuz** kontrollere göre daha yüksektir.
-- **H3 (keşifsel):** Karaciğer yağı ↔ düşük kemik yoğunluğu ilişkisinde kas yağlanması bir ara değişken olabilir; ancak **insülin direnci, inflamasyon ve D vitaminine ek-ayarlandığında** ilişki kalıyor mu test edilir (kesitsel olduğu için "aracılık" değil, *ilişki örüntüsü* olarak yorumlanır).
-- **H4 (yöntem alt-amacı):** **İliopsoas kas indeksi**, kol-bacak yağsız kütlesinin ve tüm-L3 kas alanının geçerli bir göstergesi midir (kohort-içi uyum)?
+- **H1 (BİRİNCİL — özgün):** Sürekli **karaciğer yağ oranı (MR-PDFF)** arttıkça **kasın yağlanması (miyosteatoz / kas-PDFF)** artar ve boy/puberteye göre düzeltilmiş **kemik yoğunluğu Z-skoru** azalır; bu ilişkiler **kas kütlesinden VE kilo durumundan (VKİ-SDS) bağımsızdır**. *(Birincil sonuç ölçütleri: kas-PDFF/miyosteatoz ve kemik yoğunluğu Z-skoru. Sürekli yağ oranı doz-yanıtı, kontrol-seçilim yanlılığına dayanıklı olduğu için birincil — §9.)*
+- **H2 (anahtar — kalite > kütle):** **Kasın yağlanması (miyosteatoz)**, düşük kemik yoğunluğuyla **kas kütlesinden bağımsız** olarak ilişkilidir (yani kemiği belirleyen, kasın *ne kadar olduğu* değil *ne kadar yağlandığıdır*).
+- **H3 (doğrulama/replikasyon):** MASLD'li çocuklarda **miyosteatoz** daha belirgin, **düşük kemik yoğunluğu** ve **düşük kas kütlesi** sıklığı, eşleştirilmiş **obez-steatozsuz** kontrollere göre daha yüksektir. *(Bu, literatürde bilinen ilişkileri doğrulayan ikincil/pozitif-kontrol amaçtır, manşet değildir.)*
+- **H4 (keşifsel — ilişki örüntüsü):** Miyosteatoz ↔ düşük kemik yoğunluğu ilişkisi, **insülin direnci, inflamasyon ve D vitaminine ek-ayarlandığında** kalıyor mu (kasın yağlanması bağımsız bir işaret mi, yoksa insülin direncinin yansıması mı)? *(Kesitsel olduğu için "aracılık" iddia edilmez.)*
+- **H5 (yöntem alt-amacı):** **İliopsoas kas indeksi**, kol-bacak yağsız kütlesinin ve tüm-L3 kas alanının geçerli bir göstergesi midir (kohort-içi uyum)?
 
-> **"Sarkopeni" tanımı (önemli):** Kas **gücü ölçülmediği** için bu çalışmada sarkopeni, **kas kütlesi (görüntüleme + kol-bacak yağsız kütle) ve kas kalitesi (kasın yağlanması)** üzerinden tanımlanır. Bu, görüntüleme temelli çalışmalarda standart yaklaşımdır; metinde "kütle/kalite temelli sarkopeni" olarak açıkça belirtilir.
+> **Terim notu (önemli):** Kas **gücü ölçülmediği** için "sarkopeni" tanı etiketi olarak **kullanılmaz**; bunun yerine ölçülen iki şey ayrı ayrı adlandırılır: **düşük kas kütlesi** (görüntüleme + kol-bacak yağsız kütle) ve **kasın yağlanması / miyosteatoz** (kas kalitesi). Çalışmanın özgün vurgusu **kalite (yağlanma)** üzerindedir.
+
+---
+
+## 1A. Literatürden farklılaşma (özgünlük tablosu)
+*(Giriş ve Tartışma'da kullanılır; tam taramayı `ozgunluk_literatur_reviewer2.md` içerir.)*
+
+| Boyut | Başkaları (pediyatrik NAFLD/MASLD) | BİZ |
+|---|---|---|
+| Karaciğer yağı | Çoğunlukla **ultrason** (niteliksel) | **MR-PDFF** (sayısal, sürekli; doz-yanıt) |
+| Kas miktarı | **Biyoempedans / kemik dansitometrisi** (tüm-vücut) | **MR'da L3 + iliopsoas** (+ dansitometriden kol-bacak yağsız kütle, doğrulama) |
+| **Kas KALİTESİ (yağlanma/miyosteatoz)** | **YOK** | **MR ile — pediyatrik MASLD'de ilk** |
+| Kemik | Dansitometri (ayrı çalışmalarda) | Dansitometri Z-skoru + boyut düzeltmesi + omurga kırığı + **MR ilik yağı** |
+| Kas + kemik birlikte? | **Neredeyse hiç** (yalnız kolestazda) | **Aynı MASLD kohortunda, tek oturumda** |
+| Kontrol | Çoğu "NAFLD var/yok" | **Obez-steatozsuz eşleştirilmiş** + sürekli yağ oranı |
+| Referans veri | Yok | **Pediyatrik kas-yağ / L3 / ilik-yağı dağılımları** |
 
 ---
 
@@ -77,10 +95,10 @@ Boy, kilo, bel (yaşa göre standart skor), tansiyon; **ergenlik evresi (objekti
 - **MR-PDFF** (sürekli yağ oranı + ≥%5 eşiği) — confounder-corrected (§7).
 - **Fibrozis:** MR elastografi (karaciğer sertliği) birincil; ultrason temelli sertlik ölçer yedek.
 
-### 5.4. Kas — kütle ve kalite (GÜÇ ÖLÇÜLMEZ)
-- **Kas miktarı (birincil):** belin 3. omur seviyesinde **tüm-L3 kas alanı → boy²'ye normalize** (tek kesit, landmark operasyonel tanımlı).
-- **İliopsoas (kullanıcının ölçütü, ikincil):** iki taraflı iliopsoas alanı/boy²; **H4**: kol-bacak yağsız kütle ve tüm-L3 ile uyum (ICC/Bland-Altman).
-- **Kas kalitesi/miyosteatoz:** **kasın yağ oranı (sürekli)**; psoas + erektör spina, fasyadan erode edilmiş ROI; kas-*içi* yağ ile kaslar-*arası* yağ ayrılır. Dağılım yaş/cinsiyet/Tanner'a göre raporlanır (referans-üretimi).
+### 5.4. Kas — kalite (birincil) ve kütle (bağlam) (GÜÇ ÖLÇÜLMEZ)
+- **Kas KALİTESİ / miyosteatoz (BİRİNCİL — çalışmanın özgün ölçütü):** **kasın yağ oranı (sürekli)**, çok-ekolu Dixon ile; psoas + erektör spina, fasyadan erode edilmiş ROI; kas-*içi* yağ ile kaslar-*arası* yağ ayrılır. Dağılım yaş/cinsiyet/Tanner'a göre raporlanır (literatürde olmayan **referans-üretimi**). *Pediyatrik NAFLD/MASLD'de bu ölçüm ilk kez yapılıyor.*
+- **Kas miktarı (bağlam/ikincil):** belin 3. omur seviyesinde **tüm-L3 kas alanı → boy²'ye normalize** (tek kesit, landmark operasyonel tanımlı). Kalitenin kütleden *bağımsız* etkisini göstermek için modele birlikte girer.
+- **İliopsoas (kullanıcının ölçütü, ikincil):** iki taraflı iliopsoas alanı/boy²; **H5**: kol-bacak yağsız kütle ve tüm-L3 ile uyum (ICC/Bland-Altman).
 - **Kol-bacak yağsız (kas) kütle indeksi:** kemik dansitometrisinden, Z-skoru.
 - **Kas gücü/performans:** **ÖLÇÜLMEZ** (çalışma amacı dışı).
 - **Fiziksel aktivite (kemik için kovaryat):** hareket ölçer cihaz **veya** valide anket ile kaydedilir.
@@ -108,10 +126,13 @@ Diyet kalsiyum & D vitamini; şekerli içecek/fruktoz ve doymuş yağ.
 |---|---|
 | MASLD (pediatrik) | Yağ oranı ≥%5 + ≥1 persentil kardiyometabolik kriter |
 | Birincil maruziyet | **Sürekli karaciğer yağ oranı (MR-PDFF)** |
+| **Birincil sonuç ölçütleri** | **(1) Kasın yağlanması (miyosteatoz / kas-PDFF, sürekli)** ve **(2) kemik yoğunluğu Z-skoru (boy/puberte düzeltilmiş)** |
+| Miyosteatoz (kas kalitesi) | Kasın yağ oranı (sürekli; eşik yalnız keşifsel) |
+| Düşük kas kütlesi (bağlam değişkeni) | Tüm-L3 veya kol-bacak yağsız kütle **Z ≤ −2** |
 | Yaşa göre düşük kemik yoğunluğu | Boy/puberte-düzeltilmiş **Z ≤ −2.0** |
 | Pediyatrik osteoporoz | Omurga kırığı/anlamlı kırık öyküsü + Z ≤ −2.0 |
-| Sarkopeni (kütle/kalite) | Düşük kas kütlesi (tüm-L3 / kol-bacak yağsız kütle Z ≤ −2) **ve/veya** artmış kas yağlanması |
-| Miyosteatoz | Kasın yağ oranı (sürekli; eşik yalnız keşifsel) |
+
+> **Not:** "Sarkopeni" tanı etiketi kullanılmaz; kas kütlesi ve kas yağlanması ayrı ölçülür ve raporlanır.
 
 ---
 
@@ -136,14 +157,15 @@ Diyet kalsiyum & D vitamini; şekerli içecek/fruktoz ve doymuş yağ.
 
 ## 9. İstatistik planı (kesitsel)
 1. **Ön-kayıt + veriden önce kilitli analiz planı**; neden-sonuç şeması kodu paylaşımlı.
-2. **Birincil (H1):** sürekli yağ oranı ↔ kemik yoğunluğu Z ve kas yağlanması; **yalnız-konfounder modeli = birincil (toplam ilişki)**; ham ve +ara-değişken modelleri ayrı. Doz-yanıt için spline + lineer.
-3. **Grup karşılaştırması (H2):** MASLD vs kontrol; sarkopeni ve düşük kemik yoğunluğu sıklıkları (oran + güven aralığı); düzeltilmiş lojistik/lineer.
-4. **Dayanıklılık:** ölçülmemiş karıştırıcı/seçilime karşı **E-value**; **alternatif kontrol tanımı** duyarlılığı; **boyut-düzeltme yöntemi** duyarlılığı; **yağ eşiği (%5)** duyarlılığı + gri-bölge.
-5. **Ölçüm hatası:** yağ oranı/kas-yağ güvenilirliğiyle düzeltme (regresyon-kalibrasyonu) — ilişkinin olduğundan zayıf görünmesini (sönümlenme) ele alır.
-6. **İlişki örüntüsü (H3, keşifsel):** kas yağlanması ara değişken mi — insülin direnci/inflamasyon/D vitaminine ek-ayarla sinyal kalıyor mu (kesitsel; "aracılık" iddia edilmez).
-7. **Çoklu test:** **tek birincil sonlanım**; ikincil aileler içinde yanlış-keşif-oranı düzeltmesi; keşifseller "hipotez-üretici". Cinsiyet a priori tabaka (SAGER).
-8. **Eksik veri:** tamamlanma oranı yaş/şiddete göre raporlanır; çoklu atama (uygun varsayımla).
-9. **Raporlama:** STROBE (kesitsel/vaka-kontrol) + eşleştirme; tanısal-doğruluk bileşeni için STARD; genetik için STREGA.
+2. **Birincil (H1):** sürekli yağ oranı ↔ **(a) kas yağlanması (miyosteatoz)** ve **(b) kemik yoğunluğu Z-skoru**; **yalnız-konfounder modeli = birincil (toplam ilişki)**; ham ve +ara-değişken modelleri ayrı. Doz-yanıt için spline + lineer.
+3. **Kalite > kütle (H2 — anahtar):** miyosteatoz ↔ düşük kemik yoğunluğu modeline **kas kütlesi de eklenir**; miyosteatozun katsayısı, kas kütlesinden **bağımsız** kalıyor mu sınanır (çalışmanın özgün iddiasının testi).
+4. **Grup karşılaştırması (H3, doğrulama):** MASLD vs kontrol; miyosteatoz, düşük kemik yoğunluğu ve düşük kas kütlesi sıklıkları (oran + güven aralığı); düzeltilmiş lojistik/lineer.
+5. **Dayanıklılık:** ölçülmemiş karıştırıcı/seçilime karşı **E-value**; **alternatif kontrol tanımı** duyarlılığı; **boyut-düzeltme yöntemi** duyarlılığı; **yağ eşiği (%5)** duyarlılığı + gri-bölge.
+6. **Ölçüm hatası:** yağ oranı/kas-yağ güvenilirliğiyle düzeltme (regresyon-kalibrasyonu) — ilişkinin olduğundan zayıf görünmesini (sönümlenme) ele alır.
+7. **İlişki örüntüsü (H4, keşifsel):** kas yağlanması bağımsız işaret mi — insülin direnci/inflamasyon/D vitaminine ek-ayarla sinyal kalıyor mu (kesitsel; "aracılık" iddia edilmez).
+8. **Çoklu test:** **iki birincil sonuç ölçütü** (miyosteatoz + kemik yoğunluğu) önceden ilan; ikincil aileler içinde yanlış-keşif-oranı düzeltmesi; keşifseller "hipotez-üretici". Cinsiyet a priori tabaka (SAGER).
+9. **Eksik veri:** tamamlanma oranı yaş/şiddete göre raporlanır; çoklu atama (uygun varsayımla).
+10. **Raporlama:** STROBE (kesitsel/vaka-kontrol) + eşleştirme; tanısal-doğruluk bileşeni için STARD; genetik için STREGA.
 
 ---
 
@@ -166,8 +188,9 @@ Tek merkez; sedasyonsuz manyetik rezonans + niceliksel hareket kalite-kontrolü;
 ---
 
 ## 12. Güçlü yönler & sınırlılıklar
-**Güçlü:** tutarlı pediyatrik sinyal; obez-steatozsuz kontrol + sürekli yağ oranı (seçilim-yanlılığına dayanıklı); kas niteliği + kemik kalitesi birlikte; QIBA-uyumlu görüntüleme; literatüre referans-dağılımı katkısı.
-**Sınırlı (dürüst):** **kesitsel → neden-sonuç ve zaman sırası kurulamaz** (yalnız ilişki); kas **gücü ölçülmediği** için sarkopeni kütle/kalite temellidir (fonksiyonel boyut yok); mekanistik kan belirteçleri/biyobank yok; tek merkez genellenebilirlik sınırı; kas/kas-yağ/ilik-yağı için dış pediyatrik referans yok (kohort-içi + referans-üretimi).
+**Özgünlük (üç ayak):** (1) pediyatrik MASLD'de **ilk kez kas kalitesi/miyosteatoz** (manyetik rezonansla) — başkaları hep kütle ölçtü; (2) **kas + kemik + karaciğer tek oturumda** birlikte (daha önce ayrı); (3) literatürde olmayan **pediyatrik kas-yağ/L3/ilik-yağı referans dağılımları**.
+**Diğer güçlü yönler:** obez-steatozsuz kontrol + sürekli yağ oranı (seçilim-yanlılığına dayanıklı); ölçüm yükseltmesi (ultrason/biyoempedans yerine MR-PDFF + MR kası); QIBA-uyumlu görüntüleme.
+**Sınırlı (dürüst):** **kesitsel → neden-sonuç ve zaman sırası kurulamaz** (yalnız ilişki); kas **gücü/fonksiyonu ölçülmez** (yalnız kütle + kalite); mekanistik kan belirteçleri/biyobank yok; tek merkez genellenebilirlik sınırı; kas-yağ/ilik-yağı için dış pediyatrik referans yok (kohort-içi + referans-üretimi).
 
 ---
 
@@ -186,4 +209,4 @@ Görüntüleme: QIBA yağ-ölçüm profili; Yokoo 2018; Trout 2018 (pediyatrik e
 Konsolide liste: `konsey_sentez_kapanis.md` §6.
 
 ---
-*Protokol v4.0 — kesitsel, görüntüleme-odaklı, kas gücü ölçümü yok; yerel olanak ve pediyatrik etik kurula göre uyarlanır.*
+*Protokol v4.1 — kesitsel, görüntüleme-odaklı; birincil odak kas KALİTESİ (miyosteatoz) + kemik; kas gücü ölçümü yok; yerel olanak ve pediyatrik etik kurula göre uyarlanır.*
