@@ -1,257 +1,199 @@
-# Pediyatrik MASLD'de Kemik Yoğunluğu ve Kas (MR) Çalışması — Bütünleşik Protokol
+# Pediyatrik MASLD'de Kemik Yoğunluğu ve Kas (MR) Çalışması — Protokol v3.0
 
-> **BU BELGE GÜNCEL/ASIL PLANDIR.** Popülasyon = **çocuk/adölesan (pediyatrik MASLD)**.
-> Önceki iki belge (`MASLD_sarkopeni_kemik_yogunlugu_metodoloji.md`, `calisma_plani_operasyonel.md`) yetişkin çerçevesinde yazılmıştı; bu belge onları pediyatrik popülasyona göre **günceller ve önceler**.
->
-> **Seçilen tasarım kararları:** (1) **Vaka–kontrol**, (2) Kemik kolu = **DXA (Z-skor) + TBS + MR vertebral kemik iliği yağı**, (3) Popülasyon = **pediyatrik MASLD**, (4) **12–24 ay prospektif takip** dahil.
-> **Belge durumu:** Taslak **v2.0** — bağımsız "Reviewer 2" değerlendirmesine göre revize edildi (madde madde yanıt için bkz. **§13 Revizyona Yanıt**).
-
----
-
-## 0. Neden pediyatrik? (gerekçenin güçlenmesi)
-
-Yetişkinlerde MASLD–kemik ilişkisi **çelişkiliyken**, **çocuklarda kanıt çok daha tutarlı ve VKİ'den bağımsız:**
-- Mantovani meta-analizi (632 çocuk): NAFLD'de tüm-vücut/lomber **BMD Z-skoru anlamlı düşük (WMD −0.48)**, yaş/cinsiyet/etnisite/VKİ'den bağımsız; NASH'te daha belirgin [M1].
-- Biyopsi kanıtlı NAFLD'de BMD Z-skoru −1.98 (kontrol +0.48); NASH daha kötü [M5].
-- MR-PDFF ile BMD Z-skoru arasında güçlü negatif ilişki (R=−0.42) [M8]; hepatik yağ adipozite/yaşam tarzından bağımsız [M10].
-- Aracı mekanizmalar: NASH/şiddet, hs-CRP, visseral yağ, adiponektin, PNPLA3 I148M [M2][M7][M17].
-
-> **Önemli dürüstlük notu (özgünlük):** Pediyatrik MASLD ↔ düşük BMD ilişkisi **zaten meta-analizle gösterilmiştir**. Dolayısıyla kesitsel BMD farkı bizim **manşetimiz değil, doğrulayıcı arka planımızdır**. Özgün katkımız §11'de tanımlanan **kas kalitesi (miyosteatoz) + vertebral kemik iliği yağı + prospektif kemik/kas yörüngesi + pediyatrik referans dağılımları**dır.
+> **GÜNCEL/ASIL PLAN.** Popülasyon = çocuk/adölesan (pediyatrik MASLD).
+> **Kilitli tasarım kararları:** (1) Vaka–kontrol + prospektif, (2) Kemik = DXA(Z-skor)+BMAD+TBS+MR ilik yağı, (3) Pediyatrik, (4) Prospektif takip.
+> **Kullanıcı kapsam kararları (v3.0):** **Görüntüleme-odaklı** (mekanistik biyobelirteç paneli ve biyobank YOK), **takip 12–24 ay**, **tek merkez**, **zorunlu akselerometri**, genetik yalnız PNPLA3, HR-pQCT yok.
+> **Durum:** 5-üyeli uzman konseyi (bkz. `konsey_sentez_kapanis.md`) sonrası kapanışlar işlendi. Kapanış sicili §14.
 
 ---
 
-## 1. Amaç ve hipotezler
+## 0. Dürüst konumlandırma (ne olduğu / ne olmadığı)
+Bu, **iyi fenotiplenmiş, tek-merkezli bir görüntüleme ilişki + kısa-dönem yörünge çalışmasıdır.** Mekanistik biyobelirteç paneli ve biyobank dahil edilmediği için çalışma "kas–karaciğer–kemik ekseninin moleküler mekanizmasını **kanıtlayan**" değil, bu ekseni **görüntüleme fenotipi düzeyinde tanımlayan ve VKİ'den bağımsızlığını test eden** bir çalışmadır. Gerçekçi hedef dergiler: **JPGN, Pediatric Obesity, Pediatric Radiology, Bone (pediyatrik), JCSM-Clinical Reports**. En üst-düzey hepatoloji (J Hepatol/Hepatology) için mekanistik katman gerekir (bilinçli olarak kapsamdışı bırakıldı). Özgünlük üç ayağa dayanır: (a) tek MR oturumunda karaciğer + **kas niteliği (miyosteatoz)** + vertebral ilik yağının birlikte fenotiplenmesi; (b) literatürde bulunmayan **pediyatrik kas-PDFF/L3-SMI/BMAT referans dağılımları**; (c) kısa-dönem **prospektif kemik/kas yörüngesi**.
 
-- **H1 (birincil):** Boy/puberteye göre düzeltilmiş BMD Z-skoru, pediyatrik MASLD'de, yaş-cinsiyet-Tanner-VKİ(SDS) eşleştirilmiş **obez-steatozsuz** kontrollere göre **düşüktür** — ve bu fark **VKİ-SDS'den bağımsızdır**.
-- **H2:** İlişki **sürekli MR-PDFF** (steatoz şiddeti) ile doz-yanıt gösterir (birincil şiddet analizi süreklidir; ≥%5 dikotomu ikincildir).
-- **H3 (keşifsel/aracılık):** MR kas niteliği (kas-PDFF, **sürekli**) ve düşük L3-SMI, düşük BMD ile ilişkilidir; miyosteatoz, MASLD → düşük BMD yolunda aracı olabilir (tek ön-tanımlı aracı; bkz. §9).
-- **H4 (keşifsel):** İlişki hs-CRP, visseral yağ ve PNPLA3 genotipiyle modüle olur.
-- **H5 (prospektif):** 12–24 ayda BMD Z ve yağsız kütle Z değişimi (büyüme hızına göre düzeltilmiş), başlangıç MASLD şiddetiyle ters ilişkilidir.
-- **H6 (yöntem alt-amacı / YENİ):** **İliopsoas kas indeksi**, çocukta tüm-vücut kas kütlesinin (DXA ALMI) ve tüm-L3 kas alanının geçerli bir göstergesi midir? (Bkz. §5.4 — kohort-içi doğrulama.)
+---
+
+## 1. Amaç ve hipotezler (özgünlükle ve nedensel dayanıklılıkla hizalı)
+
+- **H1 (BİRİNCİL):** Sürekli **karaciğer MR-PDFF**, boy/puberteye göre düzeltilmiş **BMD-Z** ve **kas niteliği (kas-PDFF/miyosteatoz)** ile ilişkilidir; bu ilişki **VKİ-SDS'den bağımsızdır**. *(Sürekli PDFF doz-yanıtı, kontrol-seçilim/collider yanlılığına dayanıklı olduğu için birincil seçildi — bkz. §9.)*
+- **H2 (öncelikli ikincil / prospektif):** 12–24 ayda **kemik döngü belirteçleri, Δkas-PDFF ve Δyağsız-kütle-Z** (büyüme hızına göre düzeltilmiş) başlangıç PDFF şiddetiyle ilişkilidir.
+- **H3 (doğrulama/replikasyon):** MASLD'li çocuklar, **obez-steatozsuz** eşleştirilmiş kontrollere göre daha düşük BMD-Z gösterir *(pozitif-kontrol sonlanımı; manşet değil)*.
+- **H4 (keşifsel — aracılık):** Kas-PDFF, PDFF→düşük BMD ilişkisinde aracı olabilir; ancak **HOMA-IR, inflamasyon ve D vitaminine ek-ayarlandığında** sinyalin kalıp kalmadığı test edilir (miyosteatoz "bağımsız aktör mü, IR vekili mi?").
+- **H5 (yöntem alt-amacı):** **İliopsoas kas indeksi**, DXA-ALMI ve tüm-L3 kas alanının geçerli göstergesi midir? (kohort-içi ICC/Bland-Altman doğrulama).
 
 ---
 
 ## 2. Tasarım
-Vaka–kontrol + prospektif kol. **Çok merkezli önerilir** (§7d gerekçesi: kontrol alımı, düzeltilmiş etki için örneklem, genellenebilirlik). Pediatrik gastroenteroloji + radyoloji + endokrinoloji iş birliği. Faz 1 kesitsel, Faz 2 (12–24 ay) prospektif.
+**Vaka–kontrol + 12–24 ay prospektif kol; tek merkez.** Tek merkez seçimi nedeniyle **örneklem ve alım hızı için zorunlu fizibilite pilotu** (§8). Pediatrik gastroenteroloji + radyoloji + endokrinoloji iş birliği.
 
 ---
 
-## 3. KİMİ ALACAĞIZ — Dahil edilme kriterleri
-
+## 3. KİMİ ALACAĞIZ
 ### 3.1. MASLD grubu (vaka)
-1. **Yaş 8–17.**
-2. **Hepatik steatoz:** **MR-PDFF ≥ %5** (birincil; pediyatrik eşik için §6b sınırlılık/duyarlılık analizi) veya USG/CAP.
-3. **En az 1 kardiyometabolik kriter — pediyatrik persentil eşikleriyle** (tanınmış pediyatrik MASLD/ESPGHAN-uyumlu çerçeve esas alınır):
-   - VKİ ≥ 85. persentil veya bel çevresi ≥ 95. persentil (yaş-cinsiyet);
-   - Açlık glukozu ≥ 100 mg/dL veya bozulmuş glukoz toleransı veya HbA1c ≥ %5.7 veya T2DM;
-   - KB ≥ 95. persentil (<13 yaş) veya ≥ 130/85 mmHg (≥13 yaş);
-   - **Trigliserit ≥ 100 mg/dL** (<10 yaş ≥ 75 mg/dL) — *tek eşik*;
-   - HDL ≤ 40 mg/dL.
-4. Ebeveyn/vasi **onamı + çocuğun yaşa uygun rızası (assent).**
+1. Yaş **8–17**.
+2. Hepatik steatoz: **MR-PDFF ≥ %5** (birincil; pediyatrik eşik duyarlılık analizi §9) veya USG/CAP.
+3. **≥1 kardiyometabolik kriter — pediyatrik persentil** (ESPGHAN/NASPGHAN-uyumlu; Vos 2017 + Rinella 2023 atfı): VKİ ≥85p veya bel ≥95p; açlık glukozu ≥100 mg/dL / HbA1c ≥%5.7 / T2DM; KB ≥95p (<13y) veya ≥130/85 (≥13y); **TG ≥100 mg/dL** (<10y ≥75); HDL ≤40 mg/dL.
+4. Ebeveyn onamı + çocuk rızası.
 
-### 3.2. Kontrol grubu — **obez ama steatozsuz**
-1. Yaş 8–17; MR-PDFF **< %5** ve USG normal.
-2. MASLD ile **yaş, cinsiyet, Tanner, VKİ-SDS** eşleştirilmiş (eşleştirme türü ve VKİ-SDS toleransı §9'da).
-3. Onam + rıza.
-
-> **Seçilim yanlılığı uyarısı (Reviewer 2 / 4b):** Obez çocuklarda steatoz prevalansı yüksek olduğundan, "obez-steatozsuz" kontroller seçilmiş bir alt gruptur ("metabolik olarak daha sağlıklı obez" — daha kısa obezite süresi, farklı VAT/PNPLA3). Bu nedenle: (i) beklenen **tarama:alım oranı** (~2–4×) ve kontrol kaynağı önceden belirtilir; (ii) gruplar **VAT, HOMA-IR ve PNPLA3** açısından ek olarak karşılaştırılır/ayarlanır; (iii) mümkünse **obezite süresi** eşleştirilir; (iv) bu, sınırlılık olarak raporlanır.
+### 3.2. Kontrol grubu — obez-steatozsuz
+1. MR-PDFF **<%5** ve USG normal; yaş, cinsiyet, **Tanner, VKİ-SDS** eşleştirilmiş.
+2. **Collider/seçilim uyarısı (Üye 1):** Obeziteyi steatoz durumuna göre koşullandırmak yanlılık açabilir; bu nedenle **birincil analiz sürekli PDFF** üzerindedir, eşleştirilmiş karşılaştırma doğrulayıcıdır; alternatif kontrol tanımlarıyla duyarlılık (§9). Eşleştirme **geniş caliper (VKİ-SDS ±0.5–0.75)** ile (aşırı-eşleştirmeyi önlemek için).
 
 ---
 
 ## 4. KİMİ DIŞLAYACAĞIZ
-- **Karaciğer:** viral/otoimmün hepatit, Wilson, α1-antitripsin, kolestaz, ilaca bağlı steatoz; adölesanda anlamlı alkol (→ MetALD/ALD).
-- **Büyüme/puberte-endokrin:** GH eksikliği, hipotiroidi, Cushing, erken/gecikmiş puberte, hipogonadizm, IGF-1 ekseni bozuklukları.
-- **Sistemik/sendromik:** çölyak, İBH, JİA, KBH, T1DM, kistik fibrozis; Prader-Willi vb. sendromik obezite, iskelet displazileri, nöromusküler hastalık; belirgin prematürite/SGA.
-- **İlaçlar:** sistemik glukokortikoid (≥3 ay), antiepileptik, GnRH analoğu/puberte baskılayıcı, büyümeyi etkileyen uyarıcılar, antiosteoporotik.
+- **Karaciğer:** viral/otoimmün hepatit, Wilson, α1-AT, kolestaz, ilaca bağlı steatoz; adölesanda anlamlı alkol.
+- **Büyüme/endokrin:** GH eksikliği, hipotiroidi, Cushing, erken/gecikmiş puberte, hipogonadizm *(yalnız patolojik uçlar dışlanır; normal-aralık IGF-1/seks-steroid varyasyonu mekanizma sinyali olarak modelde tutulur)*.
+- **Sistemik/sendromik:** çölyak, İBH, JİA, KBH, T1DM, kistik fibrozis; sendromik obezite, iskelet displazisi, nöromusküler hastalık; belirgin prematürite/SGA.
+- **İlaçlar:** sistemik glukokortikoid (≥3 ay), antiepileptik, GnRH analoğu, büyümeyi etkileyen uyarıcı, antiosteoporotik.
 - **Genel:** MR kontrendikasyonu, gebelik, onam/rıza yokluğu.
 
 ---
 
-## 5. NELERE BAKACAĞIZ — Ölçümler
+## 5. NELERE BAKACAĞIZ
+
+### 5.0. Nedensel çerçeve (Üye 1, 5 — önce bu)
+Yayından önce **açık DAG** çizilir (DAGitty, kod repoda). Değişkenler rollerine göre etiketlenir:
+- **Konfounder (düzeltilecek):** yaş, cinsiyet, **Tanner**, mevsim, soy/etnisite, SES, 25-OH-D, fiziksel aktivite (akselerometre).
+- **Mediyatör / yol-üstü (birincil modelde DÜZELTİLMEZ):** VAT, HOMA-IR, inflamasyon, kas-PDFF.
+- **Collider (koşullandırılmaz):** steatoz-statüsü (kontrol seçimi).
+Bundan **3 katmanlı model**: M0 ham; **M1 = yalnız konfounder = toplam etki (birincil)**; M2 = M1+mediyatör = yalnız yol/aracılık analizi.
 
 ### 5.1. Antropometri & büyüme/puberte (zorunlu)
-Boy, kilo, VKİ ve **Z-skorları/SDS**; bel/kalça persentili; **Tanner evresi**; **kemik yaşı** (sol el-bilek grafisi — yöntemsel amaç: kemik-yaşına göre Z-skorlama); KB persentili; (prospektif) **büyüme hızı (cm/yıl)**; **değerlendirme ayı/mevsimi**; **kendi bildirimli soy/etnisite**; basit **SES göstergesi** (ebeveyn eğitimi/gelir bandı).
+Boy/kilo/VKİ ve **Z-skor/SDS**; bel/kalça persentili; **Tanner** (objektif: testis hacmi/menarş); **kemik yaşı** (sol el-bilek, GP veya TW3 — yöntem sabit); (prospektif) **büyüme hızı**; KB persentili; **değerlendirme mevsimi**; kendi-bildirimli **soy/etnisite**; **SES** göstergesi.
 
-### 5.2. Laboratuvar (açlık) — *pediyatrik, yaş/puberte referanslı; ikincil düşük-BMD taraması dahil*
+### 5.2. Laboratuvar (açlık; yaş/Tanner referanslı; ikincil-osteoporoz taraması tam)
 | Panel | Testler |
 |---|---|
 | Karaciğer | ALT, AST, GGT, ALP, bilirubin, albümin, INR, trombosit (pediyatrik fibrozis skorları) |
 | Metabolik | Açlık glukozu, HbA1c, insülin (**HOMA-IR**), lipid profili |
-| **Kemik–mineral / ikincil osteoporoz taraması** | **25-OH D vitamini, PTH, kalsiyum, fosfor, magnezyum**, **kreatinin/eGFR**, **spot idrar Ca/Cr** (± fraksiyonel fosfat atılımı/TmP-GFR), **kemik-spesifik ALP** (total ALP büyümede yorumlanamaz → standart) |
-| Kemik döngü belirteçleri | CTX, P1NP, osteokalsin — *büyüyen çocukta fizyolojik yüksek; yaş/puberteye özgü referans şart* |
-| Büyüme/puberte & hipogonadizm rule-out | **IGF-1**, LH/FSH, **estradiol/testosteron** (pediyatrik düşük-aralık, tercihen LC-MS/MS), TSH/sT4; (klinik şüpheyle) **kortizol taraması** (sabah kortizol ± gece tükürük/düşük-doz deksametazon) |
-| Çölyak | doku transglutaminaz-IgA **+ total IgA** (IgA eksikliğinde yalancı negatif) |
-| İnflamasyon/adipokin | hs-CRP, (opsiyonel adiponektin, leptin) |
-| Genetik | **PNPLA3 I148M (rs738409)** — kontrol karşılaştırması/ayarı (§3.2) ve etki-değiştirici analizi (H4) için **standart** (opsiyonel değil) |
-| Diğer dışlama | HBsAg, anti-HCV, seruloplazmin, otoantikorlar |
-| Kız adölesan | menstrüel öykü (fonksiyonel etkiler) |
+| Kemik–mineral / ikincil osteoporoz | 25-OH D, PTH, **iyonize veya albumin-düzeltilmiş kalsiyum**, fosfor (yaşa göre), magnezyum, kreatinin/eGFR, **spot idrar Ca/Cr**, **kemik-spesifik ALP** |
+| Kemik döngü belirteçleri (BTM) | **CTX, P1NP, osteokalsin** — *pre-analitik SOP: sabah 07–09, ≥8 saat açlık, mevsim kaydı, tek batch/assay; CALIPER pediyatrik referansla Z* |
+| Büyüme/puberte ekseni (mekanizma-lite, rutin) | **IGF-1, IGFBP-3 (+ oran)**, serbest/biyoyararlı **estradiol/testosteron (LC-MS/MS), SHBG**, TSH/sT4, **anti-TPO** |
+| İnflamasyon | hs-CRP (rutin) |
+| Genetik | **PNPLA3 I148M (rs738409)** — şiddet etki-değiştirici + kontrol karşılaştırması |
+| Dışlama | HBsAg, anti-HCV, seruloplazmin, otoantikorlar, doku transglutaminaz-IgA **+ total IgA** |
+| Kız adölesan | menstrüel öykü; PCOS/hiperandrojenizm kovaryat/alt-grup |
 
-> **Senin notunun karşılığı (PTH/Ca):** PTH + kalsiyum + fosfor + 25-OH-D + kemik-spesifik ALP + idrar Ca/Cr birlikte, DXA'daki düşük BMD'nin **ikincil nedenlerini** (hiperparatiroidi, D vitamini eksikliği, renal fosfat kaybı, hiperkalsiüri) dışlamak için *zorunlu* hale getirildi.
+> *(Kapsamdışı, kullanıcı kararı):* hepatokin/myokin/osteokin paneli (FGF21, myostatin, irisin, sklerostin, OPG/RANKL...) ve biyobank **dahil edilmedi**. Sonuç: aracılık (H4) **yalnızca görüntüleme + rutin metabolik** değişkenlerle, keşifsel düzeyde test edilir. *(Düşük-maliyet sigorta notu: artan serumun saklanması ileride mekanistik alt-çalışmaya kapı açardı; kapsamdışı bırakıldı.)*
 
 ### 5.3. Karaciğer
-- **MR-PDFF** (sürekli + ≥%5 eşiği, §6b).
-- **MR elastografi (MRE)** — pediatride valide; *birincil fibrozis yöntemi olarak önerilir*. Alternatif **FibroScan** (uygun S/M/XL prob + CAP); obez çocukta **başarısızlık oranı** yüksek olduğundan prob seçimi ve güvenilmez-ölçüm yönetimi belirtilir. Yöntem heterojenliğini önlemek için MRE birincil kabul edilir.
-- Biyopsi: yalnız klinik endikasyonla (etik). Sonuç: fibrozis ağırlıklı **noninvaziv** evrelenir (sınırlılık).
+- **MR-PDFF** (sürekli + ≥%5) — confounder-corrected (§7).
+- **MRE** birincil fibrozis yöntemi (demir/başarısızlık yönetimi §7); FibroScan yedek.
 
-### 5.4. Kas — *birincil tüm-L3; iliopsoas ikincil + doğrulama; "sarkopeni" tanı etiketi KULLANILMAZ*
+### 5.4. Kas — birincil tüm-L3; iliopsoas ikincil + doğrulama; "sarkopeni" tanı etiketi yok
+- **Birincil nicelik:** **tüm-L3 iskelet kas alanı → L3-SMI = alan/boy²** (tek kesit, L3 alt son-plağı; landmark operasyonel tanımlı).
+- **İkincil (kullanıcının ölçütü):** **bilateral iliopsoas alanı → iliopsoas indeksi (boy²)**; **H5**: DXA-ALMI ve tüm-L3 ile uyum (ICC/Bland-Altman).
+- **Referans-bağlı nicelik:** **DXA appendiküler yağsız kütle indeksi (ALMI) Z-skoru**.
+- **Nitelik / miyosteatoz:** **kas-PDFF (Dixon/IDEAL), SÜREKLİ** (dikotomlaştırılmaz); psoas + erektör spina ROI **fasyadan erode**; **IMAT (kaslar-arası yağ) PDFF-eşiğiyle maskelenir** → 3 metrik: **kas-CSA / IMAT-alan / kas-PDFF**. Dağılım yaş/cinsiyet/Tanner'a göre raporlanır (referans-üretimi).
+- **Kas gücü/performans:** el kavrama (pediyatrik persentil); dikey sıçrama/standing long jump (güç); zamanlı kalk-yürü.
+- **Fiziksel aktivite — ZORUNLU akselerometri** (kullanıcı kararı): objektif aktivite + **yüksek-etki/mekanik yükleme** ayrı kodlanır (ters-nedenselliği kırmak için, Üye 1+5).
+- **Okuma:** ≥2 okuyucu **gruba+klinik+birbirine kör**, randomize sıra, ≥2 hafta washout; **kesit-seçim ICC'si segmentasyondan ayrı**; DL otomatik L3-lokalizasyon+segmentasyon birincil, manuel doğrulama.
 
-> **Önemli (Reviewer 2 / senin iliopsoas notun):** Çocukta tek-kas (iliopsoas) kesit alanının tüm-vücut kas kütlesini yansıttığına dair **kanıt yok** ve **sağlıklı pediyatrik normatif/Z-skor verisi yok** (psoas, L3-SMI ve kas-PDFF için referans literatürde bulunamadı). Bu yüzden iliopsoas korunur ama **tek başına sarkopeni tanısı olarak kullanılmaz**; kohort-içi doğrulanır.
+### 5.5. Kemik (pediyatrik DXA — ISCD 2019; tahkim edildi)
+- **Cihaz/referans isimle:** **Hologic + BMDCS (Zemel/Kalkwarf) normatifi**; tek marka; **in-vivo LSC (≥30 çocukta duplike tarama)** sayısal raporlanır.
+- **DXA → BMD/BMC Z-skoru** (T-skoru değil); bölgeler **PA omurga (L1–L4) + TBLH**.
+- **Boyut/maturasyon düzeltmesi:** **birincil = kronolojik yaş-Z**; **BMAD ko-birincil**; **BMC/yağsız-kütle (kas-kemik birimi / mechanostat)** ve **boy-Z düzeltme** birlikte; kemik-yaşı-Z **duyarlılık** (çift-düzeltme önlenir); kemik yaşı ayrıca sürekli kovaryat.
+- **Kemik kazanım hız-Z (prospektif):** Kelly 2019 yöntemi.
+- **Vertebra kırığı:** **Genant semikantitatif (T4–L4), ≥2 kör okuyucu + kappa**; sagital MR morfometri birincil kaynak (DXA-VFA torasik kısıtı).
+- **Pediyatrik osteoporoz:** vertebra kompresyon kırığı **veya** anlamlı kırık öyküsü [ISCD: 10y'a dek ≥2 / 19y'a dek ≥3 uzun kemik] **+ BMD-Z ≤ −2.0**; aksi "yaşa göre düşük BMD".
+- **TBS (keşifsel):** obezite/yumuşak-doku kısıtı belirtilir; birincil ailede değil.
+- **MR vertebral ilik yağı (BMAT, keşifsel):** **dual-R2* düzeltmeli CSE-PDFF**, sabit düzey (L1–L4), ven/end-plate dışlama, **Tanner+cinsiyet ayarı zorunlu**, MRS alt-grup doğrulama.
 
-- **Birincil kas-niceliği:** **Tüm-L3 iskelet kas alanı**, tek kesit (L3 alt son-plağı), **boy²'ye normalize → L3-SMI**.
-- **İkincil (senin ölçütün):** **Bilateral iliopsoas kesit alanı → iliopsoas/psoas kas indeksi (boy²)**; ayrıca **H6 alt-amacı**: iliopsoas indeksinin **DXA ALMI** ve **tüm-L3 alanı** ile uyumu (ICC/Bland-Altman) kohort-içinde raporlanır.
-- **Referans-bağlı kas-niceliği:** **DXA appendiküler yağsız kütle indeksi (ALMI) → pediyatrik Z-skoru** (dış referansa bağlı tek metrik).
-- **Kas niteliği / miyosteatoz:** **kas-PDFF (Dixon/IDEAL), SÜREKLİ değişken** (dikotomlaştırılmaz). Bölme önceden belirlenir: psoas ve erektör spina kas karnı içinde ROI; **kas-içi yağ (intramusküler) ile kaslar-arası yağ dokusu (intermusküler) ayrılır**. Dağılım yaş/cinsiyet/Tanner'a göre raporlanır (alanın eksik referansına **katkı** olarak çerçevelenir).
-- **Kas gücü:** el kavrama → pediyatrik persentil normları.
-- **Kas gücü/performansı (yaşa uygun):** dikey sıçrama/standing long jump (güç), zamanlı kalk-yürü.
-- **Görüntü kalitesi:** ≥2 kör okuyucu, **ICC (gözlemciler-arası/-içi)** pilotta; kesit/sekans/slice kalınlığı SOP'ye bağlanır.
-- **Normalizasyon:** birincil **boy²**; ağırlık/BSA duyarlılık analizinde.
+### 5.6. Vücut kompozisyonu
+MR'dan **VAT/SAT** (segmentasyon yöntemi/kesit tanımlı); DXA total yağ.
 
-### 5.5. Kemik — *pediyatrik DXA (ISCD 2019)*
-- **DXA → BMD/BMC Z-skoru** (T-skoru değil). Bölgeler: **PA lomber omurga (L1–L4) + TBLH**; kalça önerilmez.
-- **Birincil boyut düzeltmesi:** **boy-için-yaş Z'ye göre düzeltilmiş BMD Z-skoru (Zemel tipi)**; **BMAD** ikincil. Kullanılan **referans veri tabanı/cihaz/yazılım** ve **kemik-yaşına göre Z-skorlama** (toplanan kemik yaşından yararlanılır) önceden belirtilir.
-- **Vertebra kırığı saptama (YENİ — mantık boşluğu kapatıldı):** Osteoporoz tanımı vertebra kırığına dayandığından, **lateral omurga görüntüleme (DXA-VFA)** ve/veya **sagital MR lokalizer/T1 üzerinde vertebral morfometri** ile kompresyon kırığı taranır.
-- **Terminoloji:** Çocukta dansitometriyle tek başına "osteoporoz" denmez. **Pediyatrik osteoporoz** = vertebra kompresyon kırığı **veya** anlamlı kırık öyküsü **+ BMD Z ≤ −2.0**; aksi halde **"yaşa göre düşük BMD"** (Z ≤ −2.0).
-- **TBS (keşifsel):** obez çocukta yumuşak doku/karın yağı düzeltmesi güvenilmezdir ve pediyatrik referans kısıtlıdır → **birincil sonlanım ailesine alınmaz**; kullanılan pediyatrik referans belirtilir.
-- **MR vertebral kemik iliği yağı (BMAT, PDFF) (keşifsel):** pediatride valide klinik belirteç **değildir** ve **puberteyle fizyolojik artar** → **Tanner ve cinsiyete göre ayarlı analiz zorunlu**; vertebra düzeyleri/ROI ve kırmızı-ilik katkısı yönetimi belirtilir; **hipotez-üretici referans** olarak çerçevelenir.
-- **FRAX kullanılmaz** (yalnız ≥40 yaş).
-
-### 5.6. Vücut kompozisyonu (karıştırıcı)
-MR'dan **VAT/SAT**; DXA total yağ kütlesi/yüzdesi.
-
-### 5.7. Yaşam tarzı
-Fiziksel aktivite (akselerometri veya IPAQ-A), **diyet Ca & D vitamini** (24-saatlik), güneş maruziyeti, ekran süresi.
+### 5.7. Yaşam tarzı / diyet
+Akselerometri (§5.4); **diyet Ca & D vitamini** (çoklu-gün veya valide Ca-FFQ); **fruktoz/şekerli içecek + doymuş yağ**; güneş maruziyeti.
 
 ---
 
-## 6. Operasyonel tanımlar (pediyatrik)
-
+## 6. Operasyonel tanımlar
 | Kavram | Tanım |
 |---|---|
-| **MASLD (pediatrik)** | MR-PDFF ≥%5 (veya USG steatoz) + ≥1 persentil-tabanlı kardiyometabolik kriter (§3.1) |
-| **Yaşa göre düşük BMD** | Boy/puberteye göre düzeltilmiş **BMD Z ≤ −2.0** |
-| **Pediyatrik osteoporoz** | Vertebra kompresyon kırığı **veya** anlamlı kırık öyküsü **+ Z ≤ −2.0** |
-| **Kas-niceliği (birincil)** | L3-SMI (sürekli) ve **DXA ALMI Z-skoru** (referans-bağlı) |
-| **İliopsoas indeksi (ikincil)** | Bilateral iliopsoas alanı/boy² (sürekli; tanı eşiği yok) |
-| **Miyosteatoz** | Kas-PDFF — **sürekli**; her eşik (tertil) yalnız **keşifsel/kohort-içi** etiketlenir |
-| **MASLD şiddeti (birincil)** | **Sürekli MR-PDFF**; fibrozis (MRE) ikincil; ≥%5 dikotomu ikincil |
+| MASLD (pediatrik) | MR-PDFF ≥%5 (veya USG) + ≥1 persentil kardiyometabolik kriter |
+| Birincil maruziyet | **Sürekli karaciğer MR-PDFF** |
+| Yaşa göre düşük BMD | Boy/puberte-düzeltilmiş **BMD-Z ≤ −2.0** |
+| Pediyatrik osteoporoz | Vertebra kırığı veya anlamlı kırık öyküsü + Z ≤ −2.0 |
+| Kas niceliği (birincil) | L3-SMI; DXA ALMI-Z (referans-bağlı) |
+| İliopsoas indeksi (ikincil) | Bilateral iliopsoas alanı/boy² (sürekli) |
+| Miyosteatoz | Kas-PDFF (sürekli; eşik yalnız keşifsel) |
 
 ---
 
-## 7. Fizibilite & Etik
-
-- **7a. Çocukta MR uyumu (YENİ):** PDFF/MRE nefes-tutma gerektirir; 8–10 yaş ve anksiyöz çocuklarda zordur. Plan: mümkün olduğunca **serbest-soluk/kısa nefes-tutma** sekansları, **mock-scanner/child-life hazırlığı**, **rutin sedasyon YOK** (açıkça belirtilir), toplam **tarama-süresi bütçesi**, ve **hareket için önceden tanımlı kalite-kontrol/dışlama kuralı**. Yaşa göre beklenen tamamlanamama oranı raporlanır.
-- **7b. Radyasyon (ALARA):** DXA dozu çok düşük; **kemik-yaşı grafisi** yöntemsel gerekçeyle (kemik-yaşı Z-skorlama) tek başlangıçta alınır (takipte opsiyonel). Gereksiz tekrar yok.
-- **7c. Onam/rıza:** ebeveyn onamı + yaşa uygun rıza; **prospektif vizitte yeniden onam/rıza** (çocuk büyümüş/ergin olabilir); **insidental bulgu** yolağı: kim karar verir, açıklama politikası (özellikle MR'da beklenmedik karaciğer/abdomen bulgusu).
-- **7d. Çok merkezli gereklilik:** Kontrol alımı, düzeltilmiş etki örneklemi ve genellenebilirlik için **çok merkez** fiilen gereklidir; bu durumda **DXA ve MR harmonizasyonu/fantom kalibrasyonu** zorunludur. Tek merkezse, §8 hedefleri için alım hızı varsayımları açıkça belirtilir.
+## 7. MR protokolü (teknik şartname — Üye 3; QIBA-uyumlu)
+- **PDFF:** confounder-corrected **CSE multi-echo Dixon**, **≥6 eko**, düşük flip angle (T1-bias↓), **çok-pik (≥6) yağ modeli**, **R2*/T2* modelleme**, **noise-bias düzeltmesi**; tüm-karaciğer/9-segment ROI; vendor ürün+yazılım sürümü kayıtlı; **QIBA PDFF Profile conformance** beyanı. *(%5 eşik bölgesinde doğruluk kritik.)*
+- **MRE:** 60 Hz; çocuk-boyu passive driver; **demir/yüksek-R2* için SE-EPI yedeği**; **teknik-başarı eşiği** (confidence-mask ≥%75) önceden; başarısızlık **informatif-eksiklik** olarak raporlanır.
+- **Kas/BMAT/yağ:** tek **abdominal Dixon FOV'undan** karaciğer-PDFF + L3 kas-CSA/PDFF + IMAT + VAT/SAT + vertebra-PDFF (süre ekonomisi + ko-kayıt).
+- **Yağ-su swap QC:** her haritada zorunlu görsel kontrol + B0 field-map; düzeltilemezse ROI/kesit dışlanır; 0–100% sınır kontrolü.
+- **Tekrarlanabilirlik:** **test-retest pilotu** (≥15–20 çocuk, aynı oturum reposition-rescan) → her metrik için **RC, wCV, Bland-Altman LoA = MR'ın LSC'si**; longitudinal "gerçek değişim" bu eşikle.
+- **Tek merkez avantajı:** çok-vendor harmonizasyonu gerekmez; ancak **longitudinal aynı tarayıcı + günlük/periyodik fantom QC + drift kontrolü** zorunlu. Tarayıcı yazılım yükseltmesi olursa fantomla yeniden-kalibrasyon.
+- **Fizibilite:** **rutin sedasyon YOK**; serbest-soluk/kısa nefes-tutma sekansları; mock-scanner/child-life; **toplam sekans-zamanı ≤30 dk**; **hareket için niceliksel QC/dışlama eşikleri** (Likert ≥3); modalite-bazlı **STARD/CONSORT akış-şeması**.
 
 ---
 
-## 8. Örneklem büyüklüğü (yeniden hesaplandı — *düzeltilmiş* etkiye göre)
-
-> Reviewer 2 (5a): Eski hesap **ham** 0.5 SD'ye göreydi; oysa asıl iddia **VKİ-SDS'ye göre düzeltilmiş** etkidir ve eşleştirilmiş tasarımda bu etki **daha küçüktür**. Bu yüzden daha muhafazakâr düzeltilmiş etkiyle hesaplanır.
-
-| Senaryo (BMD-Z farkı) | Yaklaşık n/grup (α=0.05, güç 0.80) |
-|---|---|
-| Ham 0.5 SD (eski) | ~64 |
-| Düzeltilmiş 0.40 SD | ~100 |
-| Düzeltilmiş 0.35 SD | ~130 |
-| + ko-değişken varyans + eşleştirme tasarım etkisi + %20 takip kaybı | **hedef ~150/grup (~300 toplam)** |
-
-- **Tek birincil sonlanım:** boy-düzeltilmiş **BMD-Z (tek bölge: PA omurga)**. Diğer her şey sınırlı ikincil aile.
-- **Aracılık (H3) ve etkileşimler (puberte×MASLD, cinsiyet×MASLD):** **keşifsel** — bunlar için ayrıca güçlendirilmedikçe iddia edilmez (etkileşim, eşit ana etkinin ~4 katı N ister). Nihai N, G*Power/simülasyonla kesinleştirilir.
+## 8. Örneklem büyüklüğü (tek merkez — dürüst)
+- **Fizibilite pilotu (önce):** ilk ~20–30 olguda **tarama:alım oranı, MR tamamlanma oranı (yaşa göre), test-retest RC**.
+- Pediyatrik etki büyük (Mantovani WMD ≈ −0.48). **Birincil (sürekli PDFF ↔ BMD-Z, M1-ayarlı):** orta korelasyon (r≈0.30–0.35) için ~85–120 olgu yeterli.
+- **Hedef (tek merkez gerçekçi):** **~100 MASLD + ~80–100 obez-steatozsuz kontrol**, %20 takip kaybı payıyla. Daha büyük (~150/grup) hedef tek merkezde fizibıl değilse, **etkileşim (puberte×, cinsiyet×) ve aracılık (H4) açıkça keşifsel/güç-altı** ilan edilir.
+- Nihai N, pilot + birincil sonlanıma göre **simülasyon-tabanlı** (per-aim) kesinleştirilir.
 
 ---
 
 ## 9. İstatistik planı
-1. Tanımlayıcı: vaka vs kontrol (eşleştirme türü — bireysel/çift mi, frekans mı — ve VKİ-SDS **caliper**'ı belirtilir; bireysel eşleştirmede **koşullu modeller**).
-2. **Birincil:** boy-düzeltilmiş BMD-Z; çok değişkenli model — **VKİ-SDS, Tanner, yaş, cinsiyet, VAT, 25-OH-D, mevsim, soy, fiziksel aktivite** için düzeltme. **Ham + düzeltilmiş ayrı** raporlanır. *Aşırı-eşleştirme uyarısı:* VKİ-SDS'ye sıkı eşleşip sonra VAT/HOMA'yı ayarlamak, MASLD etkisinin bir kısmını (nedensel yolda) silebilir → analiz buna göre ön-tanımlanır.
-3. **Şiddet (H2):** **sürekli MR-PDFF** ile doz-yanıt (birincil); ≥%5 dikotomu ve fibrozis ikincil.
-4. **Aracılık (H3, keşifsel):** **tek ön-tanımlı aracı** (kas-PDFF, sürekli); DAG ve "ölçülmemiş karıştırıcı yok" varsayımları (VAT/HOMA, aracı-sonuç yolunu karıştırır) açıkça yazılır; bootstrap.
-5. **Etkileşim (keşifsel):** puberteyi **pre- vs peri/post-pubertal** olarak toplayarak hücre korunur.
-6. **Tanısal performans (keşifsel):** kas metrikleri/BMAT için ROC; kohort-içi tertil kullanılırsa **döngüsellik** açıkça belirtilir.
-7. **Prospektif:** karma etkili modeller; **zaman sürekli** (sabit "vizit 2" değil); büyüme hızı ve **zamanla değişen Tanner** düzeltmesi; DXA **en küçük anlamlı değişim (LSC)/saptanabilir minimum değişim** raporlanır (12–24 ayda gerçek değişim ölçüm gürültüsü içinde kalabilir).
-8. **Çoklu test:** **tek birincil sonlanım**; ikincil aileler içinde FDR. Geniş sonlanım ailesi (omurga/TBLH BMD, BMAD, TBS, BMAT, ALMI, L3-SMI, iliopsoas, kas-PDFF, biyobelirteçler) "balık avı"na dönüşmemesi için önceden sınırlanır. Eksik veri: çoklu atama.
+1. **Ön-kayıt (OSF/ClinicalTrials) + veri-öncesi kilitli SAP.** DAG kodu paylaşımlı.
+2. **Birincil (H1):** sürekli PDFF ↔ BMD-Z ve kas-PDFF; **M1 = toplam etki (yalnız konfounder)**; M0 ve M2 ayrı raporlanır. Doz-yanıt için **spline + lineer**.
+3. **Dayanıklılık:** **E-value** (ölçülmemiş konfounder + seçilim); **alternatif kontrol tanımı** duyarlılığı (tüm-obez / toplum-VKİ); **boyut-düzeltme yöntemi** duyarlılığı (yaş-Z / BMAD / boy-Z).
+4. **Ölçüm hatası:** PDFF/kas-PDFF güvenilirliğiyle **regression-calibration/SIMEX** duyarlılık (atenüasyon).
+5. **Aracılık (H4, keşifsel):** tek aracı (kas-PDFF); **HOMA-IR/inflamasyon/D-vit ek-ayarıyla** sinyal kalıyor mu (IR-vekili testi); potential-outcomes çerçevesi, 4 kimliklenebilirlik varsayımı yazılı, bootstrap.
+6. **Prospektif (H2):** karma modeller; **zaman sürekli**; büyüme hızı + zamanla-değişen Tanner; **RTM**: değişimi başlangıç-**maruziyetle** (PDFF) ilişkilendir, ANCOVA; gerçek-değişim eşiği = LSC; **cross-lagged panel** (yön); **informatif eksik** (tamamlanma oranı yaş/şiddete göre; MNAR pattern-mixture/tipping-point; çoklu atama yalnız MAR).
+7. **Tanısal performans (keşifsel):** kohort-içi tertil kullanımında **döngüsellik** açıkça belirtilir.
+8. **Çoklu test:** **tek birincil sonlanım**; ikincil aileler içinde FDR; tüm keşifsel "hipotez-üretici". Cinsiyet **a priori tabaka** (SAGER).
 
 ---
 
 ## 10. Vizit planı
-
 | Değerlendirme | Tarama | Vizit 1 | Vizit 2 (12–24 ay) |
 |---|:--:|:--:|:--:|
-| Uygunluk + onam/rıza | ✔ | — | (yeniden onam) |
-| Antropometri + Z-skorlar + KB + mevsim/soy/SES | — | ✔ | ✔ |
-| Tanner evresi | — | ✔ | ✔ |
-| Kemik yaşı (el-bilek grafisi) | — | ✔ | (ops.) |
-| Açlık kan paneli + idrar Ca/Cr (§5.2) | — | ✔ | ✔ |
-| MR (PDFF + MRE + L3 kas + iliopsoas + kas-PDFF + BMAT + VAT/SAT) | — | ✔ | ✔ |
-| DXA (PA omurga + TBLH; ALMI; **VFA**; TBS) | — | ✔ | ✔ |
+| Uygunluk + onam/rıza | ✔ | — | yeniden onam |
+| Antropometri + Z + KB + mevsim/soy/SES | — | ✔ | ✔ |
+| Tanner + kemik yaşı | — | ✔ | (kemik yaşı ops.) |
+| Açlık kan paneli + idrar Ca/Cr | — | ✔ | ✔ |
+| MR (PDFF+MRE+L3 kas+iliopsoas+kas-PDFF+IMAT+BMAT+VAT/SAT) | — | ✔ | ✔ |
+| DXA (PA omurga+TBLH; ALMI; BMAD; Genant/VFA; TBS) | — | ✔ | ✔ |
 | El kavrama + güç/performans | — | ✔ | ✔ |
-| Diyet/aktivite anketi | — | ✔ | ✔ |
+| **Akselerometri** + diyet anketi | — | ✔ | ✔ |
 
 ---
 
-## 11. Özgünlük çerçevesi (yeniden konumlandırıldı)
-**Manşet kemik bulgusu değil; özgünlük kombinasyondadır:** (1) pediyatrik MASLD'de **kas kalitesi (kas-PDFF/miyosteatoz) ↔ kemik** ekseni (referans verisi yok); (2) **vertebral kemik iliği yağı** ile karaciğer-kas-kemik bağlantısı, tek MR oturumunda; (3) başlangıç karaciğer şiddetine göre **prospektif kemik/yağsız kütle yörüngesi**; (4) alanın eksik olduğu **pediyatrik kas-PDFF/L3-SMI/BMAT referans dağılımlarının** üretilmesi. Tek-cümle iddia: *"Pediyatrik MASLD'de kas-PDFF, vertebral BMAT ve prospektif kemik-kazanım yörüngesini, VKİ-SDS eşleştirilmiş obez kontrollere karşı birlikte niceleyen ilk çalışma."* Çelişkili bulgu (Xie 2022, adölesan NHANES pozitif ilişki) açıkça ele alınır: sürekli PDFF doz-yanıtı + eşleştirilmiş obez kontrol ile adjudike edilir.
+## 11. Fizibilite & etik
+Tek merkez; **rutin sedasyonsuz** MR + niceliksel hareket-QC; ALARA (DXA düşük doz; kemik yaşı tek başlangıçta, yöntemsel gerekçeyle); ebeveyn onamı + çocuk rızası + **prospektifte yeniden onam**; **insidental bulgu** adjudikasyon politikası; veri gizliliği (reşit olmayan).
 
 ---
 
-## 12. Güçlü yönler & sınırlılıklar
-**Güçlü:** tutarlı pediyatrik sinyal; obez-steatozsuz kontrol; tek oturumda karaciğer+kas niteliği+kemik iliği yağı; puberte/büyümeye titiz düzeltme; prospektif; alana referans verisi katkısı.
-**Sınırlı:** pediatride standart sarkopeni tanımı ve MR kas/kas-PDFF/BMAT için **dış pediyatrik referans yok** (→ sürekli değişken + kohort-içi, genellenebilirlik sınırı); DXA boyut artefaktı (→ BMAD/boy düzeltmesi); TBS obezitede güvenilmez; "sağlıklı-obez" kontrol seçilimi; 12–24 ay doruk-kemik-kütlesi ayrışması için kısa (→ uzatılabilir/pilot olarak çerçevelenir); ters nedensellik (kesitsel kol).
+## 12. Özgünlük (gerçekçi)
+Üç ayak: (1) tek MR oturumunda karaciğer + **kas niteliği (miyosteatoz)** + vertebral ilik yağı fenotipi, obez-steatozsuz eşleştirilmiş kontrole karşı; (2) **pediyatrik kas-PDFF/L3-SMI/BMAT referans dağılımları** (literatürde yok — açık-erişim resource değeri); (3) kısa-dönem **prospektif kemik/kas yörüngesi**. Çelişkili bulgu (Xie 2022) sürekli-PDFF doz-yanıtıyla adjudike edilir. Öncül **Letissier 2025 (n=23 BMAT pilotu)** fizibilite öncülü olarak atıflanır ve aşılır.
 
 ---
 
-## 13. Revizyona Yanıt (Reviewer 2 — madde madde)
-
-| # | Reviewer 2 maddesi (sınıf) | Yapılan değişiklik |
-|---|---|---|
-| 1a | İliopsoas/L3/uyluk tutarsızlığı (MAJÖR) | §5.4: **birincil L3-SMI**, iliopsoas ikincil; uyluk çıkarıldı; kesit L3 alt son-plağı |
-| 1b | Tek-kas geçersizliği (MAJÖR) | İliopsoas tek başına tanı değil; **DXA ALMI ile kohort-içi doğrulama (H6)** |
-| 1c | Düzey/normalizasyon (MAJÖR) | Düzey + **boy² birincil**, ağırlık/BSA duyarlılık; ICC/SOP eklendi |
-| 1d | "Sarkopeni" çelişkisi (MAJÖR) | Tanı etiketi **kaldırıldı**; MR metrikleri **sürekli**; tertil yalnız keşifsel |
-| 1e | Kas-PDFF referansı yok (MAJÖR) | Sürekli aracı; ROI/bölme; intramusküler vs intermusküler ayrımı; referans-üretimi çerçevesi |
-| 2a | DXA boyut düzeltmesi (MİNÖR) | **Birincil yöntem seçildi** (boy-Z düzeltme), referans/yazılım + kemik-yaşı Z |
-| 2b | TBS (MİNÖR-MAJÖR) | Birincil aileden çıkarıldı; obezite sınırı belirtildi |
-| 2c | BMAT pubertesi (MAJÖR) | **Tanner/cinsiyet ayarı zorunlu**; düzey/ROI; keşifsel |
-| 2d | Vertebra kırığı saptama boşluğu (MİNÖR-kritik) | **DXA-VFA / sagital MR morfometri** eklendi |
-| 3 | İkincil BMD taraması eksik (MAJÖR) | eGFR, **idrar Ca/Cr**, kemik-spesifik ALP standart, **total IgA**, kortizol & hipogonadizm mantığı |
-| 4b | "Sağlıklı-obez" seçilimi (MAJÖR) | tarama:alım oranı; VAT/HOMA/PNPLA3 ayar; obezite süresi; sınırlılık |
-| 4c | Eşleştirme/aşırı-eşleştirme (MİNÖR-MAJÖR) | eşleştirme türü/caliper; koşullu modeller; aşırı-eşleştirme uyarısı |
-| 4d | Artık karıştırıcılar (MAJÖR) | **mevsim, soy/etnisite, SES** eklendi |
-| 5a | Güç hesabı düzeltilmemiş etkiye göre (MAJÖR) | **Yeniden hesap**: düzeltilmiş 0.35–0.40 SD → hedef ~150/grup |
-| 5b–5c | Aracılık/etkileşim güçsüz (MAJÖR) | **keşifsel** ilan; tek aracı; puberte pre vs peri/post |
-| 5d | Çoklu test (MİNÖR-MAJÖR) | **tek birincil sonlanım** + sınırlı ikincil aile |
-| 5e | Prospektif model (MİNÖR) | zaman sürekli; zamanla-değişen Tanner; **LSC** |
-| 6a | MASLD kriter netliği (MİNÖR) | TG **tek eşik**; pediyatrik çerçeve atfı |
-| 6b | PDFF ≥%5 eşiği (MAJÖR) | sürekli PDFF birincil; **duyarlılık analizi** + pediyatrik gerekçe |
-| 6c | Fibrozis yöntemi (MİNÖR) | **MRE birincil**; FibroScan prob/başarısızlık yönetimi |
-| 7a | MR uyumu/sedasyon (MAJÖR) | **uyum/QC/sedasyonsuz** planı eklendi |
-| 7c | Yeniden onam/insidental (MİNÖR) | prospektif yeniden onam + insidental yolak |
-| 7d | Tek vs çok merkez (MAJÖR) | **çok merkez** + harmonizasyon/fantom |
-| 8 | Özgünlük çerçevesi (MAJÖR) | §11 yeniden konumlandırma; Xie 2022 ele alındı |
+## 13. Güçlü yönler & sınırlılıklar
+**Güçlü:** tutarlı pediyatrik sinyal; obez-steatozsuz kontrol + sürekli PDFF (collider-dayanıklı); kas niteliği + kemik kalitesi (BMAD/kas-kemik birimi); QIBA-uyumlu görüntüleme + test-retest; tek-merkez harmonizasyon kolaylığı; referans-dağılımı katkısı.
+**Sınırlı (dürüst):** **mekanistik biyobelirteç/biyobank yok → aracılık yalnız fenotip düzeyinde** (eksenin molekülü ölçülmedi); **tek merkez** genellenebilirlik + örneklem sınırı; **12–24 ay** doruk-kemik-kütlesi yörüngesi için kısa (BMD-Z değişimi LSC'ye yakın olabilir → prospektif birincil okuma BTM/kas-PDFF); MR kas/kas-PDFF/BMAT için **dış pediyatrik referans yok** (kohort-içi + referans-üretim); ters-nedensellik kesitselde tam çözülemez (akselerometri + cross-lagged hafifletir).
 
 ---
 
-## 14. Kaynaklar (seçilmiş)
-
-**Pediyatrik MASLD ve kemik (Consensus bağlantıları):**
-- [M1] [NAFLD and Reduced BMD in Children: A Meta-Analysis](https://consensus.app/papers/details/33f381c3947f5eb6b9afc30d9bc49007/?utm_source=claude_desktop) (Mantovani et al., 2019, Hepatology)
-- [M5] [NAFLD Is Associated with Low BMD in Obese Children](https://consensus.app/papers/details/224a75a6eab55108ae14e8bdfee1dc83/?utm_source=claude_desktop) (Pardee et al., 2011, Aliment Pharmacol Ther)
-- [M8] [Hepatic steatosis is negatively associated with BMD in children](https://consensus.app/papers/details/1c153ee9aafc5319814dd2d089eb2c14/?utm_source=claude_desktop) (Chun et al., 2021, J Pediatr)
-- [M10] [Hepatic fat content and BMD in children with overweight/obesity](https://consensus.app/papers/details/24060ce5be7e5cbfa6ebf89ecfbf14d0/?utm_source=claude_desktop) (Labayen et al., 2018, Pediatr Res)
-- [M7] [Adipokines and CRP in pediatric NAFLD bone mineralization](https://consensus.app/papers/details/5f9ec4e3176c5faaa92e2b24313b3df3/?utm_source=claude_desktop) (Pacifico et al., 2013, World J Gastroenterol)
-- [M2] [Histologic Severity of NAFLD Associates with Reduced BMD in Children](https://consensus.app/papers/details/9320074a56835e57a889a19bfd2fe0a6/?utm_source=claude_desktop) (Khan et al., 2022, Dig Dis Sci)
-- [M17] [NASH, PNPLA3 I148M and BMD in adolescents](https://consensus.app/papers/details/b53d7fb684af5933aa9f2e112326ed61/?utm_source=claude_desktop) (Mosca et al., 2018, Liver Int)
-- [M9] [MAFLD and BMD in School-Aged Children (PSM)](https://consensus.app/papers/details/558be0a8c3a7560cb08613f215df7836/?utm_source=claude_desktop) (Liu et al., 2026, Nutrients)
-- [M11] [NAFLD and BMD in adolescents with obesity: meta-analysis](https://consensus.app/papers/details/47b9460d2b765311b7278f96c26c8446/?utm_source=claude_desktop) (Sun et al., 2019)
-- (Karşıt bulgu) [NAFLD ve total BMD adölesan NHANES](https://consensus.app/papers/details/73940a85094a5afa825bb6fce4c363c3/?utm_source=claude_desktop) (Xie et al., 2022)
-
-**Tanım/epidemiyoloji (PubMed — atıf zorunlu):** *Based on articles retrieved from PubMed:*
-- Rinella ME, et al. A multisociety Delphi consensus statement on new fatty liver disease nomenclature. *J Hepatol.* 2023. [DOI](https://doi.org/10.1016/j.jhep.2023.06.003)
-- Younossi ZM, et al. Epidemiology of MASLD. *Clin Mol Hepatol.* 2024. [DOI](https://doi.org/10.3350/cmh.2024.0431)
-
-**Yöntem standartları:** ISCD 2019 Pediatric Official Positions (DXA Z-skor, TBLH/PA-spine, boyut/BMAD düzeltmesi, pediyatrik osteoporoz tanımı).
+## 14. Konsey açık-kapanış sicili (özet — tam tablo: `konsey_sentez_kapanis.md`)
+**Kapatıldı (v3.0):** DAG + 3-katmanlı model (over-adjustment/collider); birincil = sürekli PDFF; geniş-caliper eşleştirme; E-value/alternatif-kontrol duyarlılığı; regresyon dilüsyonu (SIMEX); RTM/informatif-eksik; QIBA-PDFF + MRE-iron + swap-QC + test-retest RC/LSC; IMAT ayrımı; kesit-seçim ICC + kör/randomize okuma; Hologic/BMDCS + sayısal LSC; BMAD ko-birincil + kas-kemik birimi + hız-Z; Genant kırık adjudikasyonu; ikincil-osteoporoz work-up tamamlandı (iyonize Ca, IGFBP-3, anti-TPO, BTM pre-analitik); IGF-1/seks-steroid sürekli kovaryat; zorunlu akselerometri; ön-kayıt+SAP+STROBE/STARD/STREGA/SAGER; yayın paketleme; per-aim güç (etkileşim/aracılık keşifsel).
+**Kullanıcı kararıyla DAHİL EDİLMEDİ:** mekanistik hepatokin/myokin/osteokin paneli + biyobank; ≥24–36 ay uzun takip; çok-merkez; HR-pQCT; genişletilmiş genetik (yalnız PNPLA3). → Sonuçları §0/§13'te dürüstçe konumlandırıldı.
 
 ---
 
-*Bu protokol v2.0; yerel olanaklara, hedef dergiye ve pediyatrik etik kurul gereksinimlerine göre uyarlanmalıdır.*
+## 15. Kaynaklar
+Çekirdek pediyatrik MASLD↔kemik: Mantovani 2019 [M1], Pardee 2011 [M5], Pacifico 2013 [M7], Khan 2022 [M2], Mosca 2018 [M17], Labayen 2018 [M10], Chun 2021 [M8]; karşıt Xie 2022; öncül Letissier 2025 ([DOI](https://doi.org/10.3390/jcm14217594)).
+Tanım/kılavuz (*PubMed*): Rinella 2023 ([DOI](https://doi.org/10.1016/j.jhep.2023.06.003)); Vos/NASPGHAN 2017 ([DOI](https://doi.org/10.1097/MPG.0000000000001482)); Younossi 2024 ([DOI](https://doi.org/10.3350/cmh.2024.0431)).
+Kemik yöntemi: ISCD 2019 (Shuhart [DOI](https://doi.org/10.1016/j.jocd.2019.07.001), Weber [DOI](https://doi.org/10.1016/j.jocd.2019.07.002)); Zemel 2010 ([DOI](https://doi.org/10.1210/jc.2009-2057)); Kelly 2019 hız-Z ([DOI](https://doi.org/10.1002/jbmr.3589)); Shepherd 2011 (LSC).
+İstatistik: Schisterman 2009 (overadjustment); VanderWeele & Ding 2017 (E-value); Hutcheon 2010 (regresyon dilüsyonu); Barnett 2005 (RTM); Pearce 2016 (eşleştirilmiş vaka-kontrol).
+Görüntüleme: QIBA PDFF Profile; Yokoo 2018; Trout 2018 (pediyatrik MRE); Karampinos 2018 (ilik MR/MRS); QIBA Statistics (RC/wCV).
+Tam konsolide liste + mekanizma literatürü (kapsamdışı bırakılsa da referans): `konsey_sentez_kapanis.md` §6.
+
+---
+*Protokol v3.0 — tek-merkezli, görüntüleme-odaklı; yerel olanak ve pediyatrik etik kurula göre uyarlanır.*
