@@ -143,14 +143,22 @@ def discover_relationships(X, y, task: str, feat_names):
         from sklearn.preprocessing import StandardScaler
         from sklearn.pipeline import make_pipeline
         import xgboost as xgb
+        n_cls = len(np.unique(y))
         lin = make_pipeline(StandardScaler(),
                             LogisticRegression(max_iter=2000)).fit(Xtr, ytr)
         gb = xgb.XGBClassifier(n_estimators=400, learning_rate=0.05, max_depth=4,
                                subsample=0.8, colsample_bytree=0.8,
                                eval_metric="logloss", n_jobs=-1).fit(Xtr, ytr)
-        score = lambda m: roc_auc_score(yte, m.predict_proba(Xte)[:, 1])
-        out["metric"] = "AUC"
-        scorer = "roc_auc"
+        if n_cls == 2:
+            score = lambda m: roc_auc_score(yte, m.predict_proba(Xte)[:, 1])
+            out["metric"] = "AUC"
+            scorer = "roc_auc"
+        else:
+            score = lambda m: roc_auc_score(yte, m.predict_proba(Xte),
+                                            multi_class="ovr")
+            out["metric"] = f"AUC-ovr({n_cls}sınıf)"
+            scorer = "roc_auc_ovr"
+        out["n_classes"] = n_cls
     else:
         from sklearn.linear_model import LinearRegression
         from sklearn.preprocessing import StandardScaler
@@ -196,6 +204,8 @@ def discover_interactions(model, Xte, feat_names, top=8):
     try:
         expl = shap.TreeExplainer(model)
         sv = expl.shap_interaction_values(Xte.iloc[:min(400, len(Xte))])
+        if isinstance(sv, list):          # çok-sınıflı: her sınıf için bir matris
+            sv = np.sum([np.abs(s) for s in sv], axis=0)
         inter = np.abs(sv).mean(axis=0)
         np.fill_diagonal(inter, 0)
         pairs = []
