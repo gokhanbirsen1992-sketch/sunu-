@@ -31,3 +31,20 @@ risk:
   atr_period: 14
   atr_sl_mult: 2.0
   atr_tp_mult: 4.0
+
+# Genesis: Çift Katmanlı Evrim (Nested Evolution / Meta-Optimization)
+# Tanrı (Olimpos) → Evren (fizik kuralları) → Robot (Arena) hiyerarşisiyle
+# trading stratejilerini evrimleştirir. Varsayılanlar saniyeler içinde koşar;
+# "tam Genesis ölçeği" için sayıları (PDF'deki gibi 50×50) büyütün.
+genesis:
+  god_population: 8        # paralel evren / Tanrı sayısı
+  god_generations: 4       # Olimpos (Tanrı) nesil sayısı
+  robot_population: 16      # her evrendeki robot sayısı
+  robot_generations: 6      # Arena (robot) nesil sayısı
+  elite: 2                 # her nesilde korunan en iyi birey sayısı
+  tournament: 3            # turnuva seçilim havuzu
+  pantheon_size: 5         # test edilecek en iyi Tanrı (Team Alpha)
+  train_ratio: 0.7         # eğitim/test ayrımı (örn. 2020-2023 / 2024-2025)
+  max_leverage: 5.0        # Tanrıların verebileceği azami kaldıraç
+  allow_leverage: true     # false → tüm evrenlerde kaldıraç yasak
+  seed: 42                 # tekrarlanabilirlik için tohum

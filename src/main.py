@@ -153,6 +153,113 @@ def backtest(
 
 
 @cli.command()
+@click.option("--symbol", default=None, help="Sembol (örn. BTC_USDT).")
+@click.option("--candles", default=1000, show_default=True, type=int, help="Çekilecek mum sayısı.")
+@click.option("--fee-pct", default=0.001, show_default=True, help="Taraf başına komisyon.")
+@click.option("--seed", default=None, type=int, help="Config tohumunu geçersiz kıl.")
+@click.option("--export", "export_path", default=None, help="Pantheon'u JSON'a kaydet.")
+@click.pass_context
+def genesis(
+    ctx: click.Context,
+    symbol: str | None,
+    candles: int,
+    fee_pct: float,
+    seed: int | None,
+    export_path: str | None,
+) -> None:
+    """Çift Katmanlı Evrim: Tanrı → Evren → Robot meta-optimizasyonu.
+
+    Eğitim verisinde robotları ve onları yetiştiren evren kurallarını
+    (Tanrıları) birlikte evrimleştirir; en iyi 5 şampiyonu görülmemiş test
+    verisinde HODL'a karşı sınar.
+    """
+    from src.genesis import GenesisConfig, run_genesis
+    from src.genesis.engine import export_pantheon
+
+    cfg = ctx.obj["config"]
+    ex_cfg = cfg["exchange"]
+    sym = symbol or ex_cfg["symbol"]
+    tf = ex_cfg["timeframe"]
+
+    g = cfg.get("genesis", {})
+    gen_cfg = GenesisConfig(
+        god_population=int(g.get("god_population", 8)),
+        god_generations=int(g.get("god_generations", 4)),
+        robot_population=int(g.get("robot_population", 16)),
+        robot_generations=int(g.get("robot_generations", 6)),
+        elite=int(g.get("elite", 2)),
+        tournament=int(g.get("tournament", 3)),
+        pantheon_size=int(g.get("pantheon_size", 5)),
+        train_ratio=float(g.get("train_ratio", 0.7)),
+        max_leverage=float(g.get("max_leverage", 5.0)),
+        allow_leverage=bool(g.get("allow_leverage", True)),
+        fee_pct=fee_pct,
+        seed=int(seed if seed is not None else g.get("seed", 42)),
+    )
+    risk = RiskConfig(**cfg["risk"])
+
+    console = Console()
+    console.print(
+        f"[bold]🌌 GENESIS[/bold] — Çift Katmanlı Evrim: {sym} {tf}, {candles} mum\n"
+        f"[dim]{gen_cfg.god_population} Tanrı × {gen_cfg.god_generations} nesil  ·  "
+        f"{gen_cfg.robot_population} robot × {gen_cfg.robot_generations} nesil[/dim]"
+    )
+
+    with Exchange() as ex:
+        df = ex.get_candles(sym, tf, candles)
+
+    with console.status("[bold green]Evrim sürüyor...", spinner="dots"):
+        result = run_genesis(df, gen_cfg, risk, on_progress=lambda m: console.log(m))
+
+    console.print(
+        f"\n[bold]🧬 PANTHEON[/bold] — Arena "
+        f"{result.arena_span[0].date()}→{result.arena_span[1].date()}  ·  "
+        f"Doğrulama {result.val_span[0].date()}→{result.val_span[1].date()}  ·  "
+        f"Test {result.test_span[0].date()}→{result.test_span[1].date()}"
+    )
+
+    table = Table(title="En İyi Tanrılar — Şampiyon Robotların Performansı")
+    table.add_column("#", justify="right")
+    table.add_column("Evren (fizik kuralları)")
+    table.add_column("Arena %", justify="right")
+    table.add_column("Doğr. %", justify="right")
+    table.add_column("Test %", justify="right")
+    table.add_column("İşlem", justify="right")
+    table.add_column("Kazanç%", justify="right")
+    table.add_column("MaxDD%", justify="right")
+    for i, d in enumerate(result.pantheon, 1):
+        t = d.test
+        ret_color = "green" if t.return_pct > 0 else "red"
+        beats = "✓" if t.return_pct > result.hodl_test_return_pct else " "
+        table.add_row(
+            f"{i}{beats}",
+            d.god.describe(),
+            f"{d.train.return_pct:+.0f}",
+            f"{d.validation.return_pct:+.1f}",
+            f"[{ret_color}]{t.return_pct:+.1f}[/{ret_color}]" + (" 💀" if t.ruined else ""),
+            str(t.num_trades),
+            f"{t.win_rate * 100:.0f}",
+            f"{t.max_drawdown_pct:.1f}",
+        )
+    console.print(table)
+
+    best = max(result.pantheon, key=lambda d: d.test.return_pct)
+    console.print(
+        f"\n[bold]Büyük Yüzleşme:[/bold] En iyi şampiyon test getirisi "
+        f"[cyan]{best.test.return_pct:+.1f}%[/cyan]  vs  HODL "
+        f"[magenta]{result.hodl_test_return_pct:+.1f}%[/magenta]  "
+        f"→ {'[green]Evrim kazandı[/green]' if best.test.return_pct > result.hodl_test_return_pct else '[red]HODL kazandı[/red]'}"
+    )
+    console.print(
+        "[dim]✓ = HODL'u geçti · 💀 = likidasyon. Yatırım tavsiyesi değildir.[/dim]"
+    )
+
+    if export_path:
+        export_pantheon(result, export_path)
+        console.print(f"[dim]Pantheon kaydedildi → {export_path}[/dim]")
+
+
+@cli.command()
 @click.pass_context
 def signal(ctx: click.Context) -> None:
     """Tek seferlik anlık sinyal üret ve çık."""

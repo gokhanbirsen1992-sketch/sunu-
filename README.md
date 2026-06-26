@@ -16,6 +16,7 @@ Crypto.com Exchange üzerinden BTC/USDT (veya istediğin başka bir USDT parites
 - ⏱️ **30 saniyede bir** anlık fiyatı çeker, sinyali yeniler.
 - 🎯 **Risk yönetimi**: ATR tabanlı stop-loss/take-profit, risk-yüzdesi tabanlı pozisyon büyüklüğü önerisi.
 - 🔁 **Backtest**: Geçmiş 300 mum üzerinde stratejiyi simüle eder; kazanma oranı, getiri, max drawdown raporu.
+- 🌌 **Genesis — Çift Katmanlı Evrim**: Stratejileri ve onları yetiştiren "evren kurallarını" birlikte evrimleştiren nested genetic algorithm (meta-optimization). Bkz. aşağıdaki bölüm.
 - 🎨 **Renkli terminal arayüzü** (Rich): canlı yenilenen panel + sinyal değişim logları.
 
 ## Kurulum
@@ -115,6 +116,47 @@ pip install -r requirements.txt
 python -m pytest tests/ -v
 ```
 
+## 🌌 Genesis — Çift Katmanlı Evrim (Nested Evolution / Meta-Optimization)
+
+Sabit indikatör parametreleri yerine, **stratejilerin kendisini evrimleştiren**
+iki katmanlı bir genetik algoritma. Sadece "en iyi oyuncuyu" değil, "o oyuncuyu
+yetiştiren en verimli ortamı" da arar.
+
+```
+Tanrı (Olimpos)  →  Evren (fizik kuralları)  →  Robot (Arena)
+```
+
+| Katman | Varlık | Geni (DNA) | Amacı |
+|---|---|---|---|
+| **1 · Olimpos** | Tanrı (Evren Mimarı) | hangi indikatörler aktif, kaldıraç, agresiflik, mutasyon hızı | Genelleyen robot üreten **evren kuralları** bulmak |
+| **2 · Arena** | Trader Robot (Titan) | indikatör ağırlıkları, RSI/EMA/BB/MACD parametreleri, eşik | Evrenin kuralları içinde en çok kazanmak |
+
+**İşleyiş (PDF'deki akış):**
+
+1. **Yaratılış:** N Tanrı rastgele N paralel evren (fizik kuralı seti) yaratır.
+2. **Mikro-Evrim (Arena):** Her evrende robotlar `arena` verisinde al-sat yapar; doğal seçilim + çaprazlama + mutasyonla nesiller boyu evrimleşir → her evrenin **Şampiyon Robotu** çıkar.
+3. **Makro-Evrim (Olimpos):** Her Tanrı, şampiyonunun **görmediği bir doğrulama penceresindeki** performansıyla yargılanır. Başarısız evren kuralları elenir, başarılılardan yeni nesil Tanrılar türetilir.
+4. **Pantheon:** En iyi 5 Tanrı ve şampiyonları (Team Alpha) seçilir.
+5. **Büyük Yüzleşme:** Bu 5 şampiyon, hiç görülmemiş **test** verisinde HODL'a karşı sınanır.
+
+> **Aşırı uydurmaya (overfitting) karşı:** Robotlar `arena` penceresinde
+> evrimleşir ama Tanrılar ayrı bir `doğrulama` penceresinde yargılanır
+> (iç içe cross-validation). Böylece Olimpos, veriyi **ezberleyen** değil
+> **genelleyen** robotlar üreten kuralları seçer.
+
+```bash
+# Varsayılan ölçek (saniyeler içinde): 8 Tanrı × 4 nesil, 16 robot × 6 nesil
+python -m src.main genesis --candles 1000
+
+# Başka sembol + tohum + sonuçları kaydet
+python -m src.main genesis --symbol ETH_USDT --candles 1500 --seed 7 --export pantheon.json
+```
+
+Ölçek `config.yaml`'daki `genesis` bölümünden ayarlanır (PDF'deki "tam ölçek"
+için `god_population: 50`, `robot_population: 100` yapın — koşu süresi buna göre
+artar). Kazanan şampiyon genomu (`--export`), `EvolvableStrategy` ile yeniden
+kurulup mevcut `monitor`/`backtest` arayüzüne takılabilir.
+
 ## Mimari
 
 ```
@@ -126,7 +168,11 @@ src/
 ├── strategies/       # Strateji sınıfları (registry pattern)
 ├── backtest.py       # Tek pozisyon, SL/TP destekli backtester
 ├── monitor.py        # Rich Live ile canlı tablo
-└── main.py           # click CLI
+├── genesis/          # 🌌 Çift Katmanlı Evrim
+│   ├── genome.py     #   RobotGenome + GodGenome (mutasyon/çaprazlama)
+│   ├── strategy.py   #   EvolvableStrategy (Strategy arayüzünü uygular)
+│   └── engine.py     #   Arena + Olimpos + Pantheon + hızlı simülatör
+└── main.py           # click CLI (monitor | signal | backtest | genesis)
 ```
 
 ## Sıkça Sorulanlar
