@@ -61,7 +61,7 @@ def test_docx_builder_produces_valid_document(tmp_path):
         references=_refs(2),
     )
     report = CleaningReport(rows_before=120, rows_after=115, actions=["Temizlik yapıldı."])
-    out = build_docx(m, [_finding()], report, tmp_path / "out.docx")
+    out = build_docx(m, [_finding()], report, None, tmp_path / "out.docx")
     assert out.exists() and out.stat().st_size > 5000
     doc = Document(str(out))
     text = "\n".join(p.text for p in doc.paragraphs)

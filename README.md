@@ -11,6 +11,7 @@ size **APA formatında Word (.docx)** makale taslağı versin — tamamı **ücr
 |---|---|---|
 | 1. Veri Temizleme | Kopya satır, sabit sütun, aşırı eksik satır, 3×IQR aykırı değer temizliği + rapor | Veri Yükleyici, Tip Müfettişi, Temizlik Ajanı, Bütünlük Denetçisi |
 | 2. İstatistik | Normallik (Shapiro-Wilk) + Levene kontrolüyle **otomatik test seçimi** (t/Welch/Mann-Whitney, ANOVA/Kruskal + post-hoc, Pearson/Spearman, ki-kare/Fisher, regresyon), Holm/FDR p-düzeltmesi, etki büyüklükleri | Karar Motoru, Hesap Ordusu, Sağlamlık Denetçisi |
+| 2b. Keşifsel Analiz | Gizli grup keşfi (PCA + K-Means), çok-değişkenli aykırı vaka tespiti (Isolation Forest), klasik korelasyonun kaçırdığı ilişkiler için bilgi teorisi (Mutual Information), ikili sonuç değişkeni işaretlenirse Lojistik Regresyon + Random Forest ile çapraz doğrulamalı **risk skoru** — hipotez üretici, doğrulayıcı sonuçlardan ayrı raporlanır | Örüntü Kaşifi, Sağlamlık Denetçisi |
 | 3. Literatür | Anlamlı bulgular için **OpenAlex + Crossref + PubMed** taraması (anahtarsız, ücretsiz), DOI dedup + skorlama | Sorgu Yazarı, Tarama Ordusu, Kaynak Denetçisi |
 | 4. Yazım | Yöntem/Bulgular gerçek analizlerden; Giriş/Tartışma literatüre dayalı — **paralel işçi ajanlar + seçici editör** | N× Bölüm Yazarı, Seçici Editör, Atıf/Yapı/Tutarlılık Denetçileri |
 | 5. Dil Düzenleme | Akıcılık ve dilbilgisi; atıf işaretleri ve sayılar **korunarak** | Dil Editörü, Atıf Koruması |
@@ -18,8 +19,8 @@ size **APA formatında Word (.docx)** makale taslağı versin — tamamı **ücr
 | 7. Çıktı | Uçtan uca son doğrulama, atıfların APA'ya dönüşümü, **Word (.docx)** üretimi | Atıf Montajcısı, Uçtan Uca Denetçi, Word Üretici |
 
 Her aşamada **işçi ajanlar** üretir, **doğrulayıcı ajanlar** denetler; doğrulama geçilmezse geri
-bildirimle yeniden denenir. İstatistikler asla yapay zekâya hesaplatılmaz — SciPy/statsmodels ile
-deterministik hesaplanır. Atıflar yalnızca gerçekten bulunan kaynaklardan `[n]` işaretiyle yapılır
+bildirimle yeniden denenir. İstatistikler asla yapay zekâya hesaplatılmaz — SciPy/statsmodels/
+scikit-learn ile deterministik hesaplanır. Atıflar yalnızca gerçekten bulunan kaynaklardan `[n]` işaretiyle yapılır
 ve kod tarafından APA'ya dönüştürülür; **uydurma kaynak yapısal olarak engellenir**.
 
 ## Kurulum
@@ -114,10 +115,10 @@ app/
 ├── main.py, config.py, models.py      # FastAPI, ayarlar, veri modelleri
 ├── api/          # REST uçları + SSE canlı olay akışı
 ├── jobs/         # iş deposu (JSON kalıcılık) + arkaplan çalıştırıcı
-├── pipeline/     # aşama tabanı (işçi+doğrulayıcı+retry) ve 7 aşama
+├── pipeline/     # aşama tabanı (işçi+doğrulayıcı+retry) ve 8 aşama
 ├── agents/       # prompt şablonları (TR/EN) + deterministik doğrulayıcılar
 ├── llm/          # Gemini / Groq / OpenRouter + şablon modu + yönlendirici
-├── statistics/   # yükleme, tipleme, temizlik, karar motoru, testler, APA raporu
+├── statistics/   # yükleme, tipleme, temizlik, karar motoru, testler, keşifsel analiz, APA raporu
 ├── literature/   # OpenAlex, Crossref, PubMed istemcileri + skorlama + APA 7
 ├── manuscript/   # [n] atıf sistemi, APA dönüşümü, Word üretici
 └── static/       # Türkçe tek sayfa web paneli (vanilla JS + SSE)

@@ -142,6 +142,55 @@ class CleaningReport(BaseModel):
     actions: list[str] = Field(default_factory=list)
 
 
+class ClusterProfile(BaseModel):
+    cluster_id: int
+    size: int
+    share: float
+    top_variables: list[dict[str, Any]] = Field(default_factory=list)  # [{name, mean_z}]
+
+
+class ClusteringResult(BaseModel):
+    k: int
+    silhouette: float
+    variables_used: list[str] = Field(default_factory=list)
+    clusters: list[ClusterProfile] = Field(default_factory=list)
+    pca_explained_variance: list[float] = Field(default_factory=list)
+    pca_top_loadings: list[dict[str, Any]] = Field(default_factory=list)  # [{component, variable, loading}]
+
+
+class AnomalyResult(BaseModel):
+    n_flagged: int
+    contamination: float
+    variables_used: list[str] = Field(default_factory=list)
+    flagged_rows: list[dict[str, Any]] = Field(default_factory=list)  # [{row_index, score}]
+
+
+class MutualInfoPair(BaseModel):
+    var_a: str
+    var_b: str
+    mi: float
+    correlation: Optional[float] = None
+    hidden: bool = False  # klasik korelasyonun kaçırdığı, yalnızca bilgi teorisiyle görünen ilişki
+
+
+class RiskScoreResult(BaseModel):
+    dv: str
+    n: int
+    n_positive: int
+    positive_class: Optional[str] = None
+    auc_logreg: Optional[float] = None
+    auc_rf: Optional[float] = None
+    predictors: list[dict[str, Any]] = Field(default_factory=list)  # [{name, odds_ratio, rf_importance}]
+
+
+class DiscoveryReport(BaseModel):
+    clustering: Optional[ClusteringResult] = None
+    anomalies: Optional[AnomalyResult] = None
+    mutual_info: list[MutualInfoPair] = Field(default_factory=list)
+    risk_score: Optional[RiskScoreResult] = None
+    skipped_reasons: list[str] = Field(default_factory=list)
+
+
 class ReviewCritique(BaseModel):
     id: str = Field(default_factory=lambda: new_id("c"))
     section: str = "general"
@@ -176,6 +225,7 @@ class Job(BaseModel):
     current_stage: Optional[str] = None
     stages: dict[str, StageResult] = Field(default_factory=dict)
     findings: list[Finding] = Field(default_factory=list)
+    discovery: Optional[DiscoveryReport] = None
     n_references: int = 0
     error: Optional[str] = None
     output_docx: Optional[str] = None

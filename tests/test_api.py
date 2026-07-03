@@ -60,7 +60,7 @@ def test_full_pipeline_template_mode(client, sav_path):
     assert status == "completed", f"durum={status}, hata={job.get('error')}"
 
     stages = job["stages"]
-    assert set(stages) == {"clean", "stats", "literature", "writing", "editing", "review", "assemble"}
+    assert set(stages) == {"clean", "stats", "discovery", "literature", "writing", "editing", "review", "assemble"}
     assert all(s["status"] == "passed" for s in stages.values())
     # her aşamada en az bir ajan koşmuş olmalı
     assert all(len(s["agents"]) >= 1 for s in stages.values())

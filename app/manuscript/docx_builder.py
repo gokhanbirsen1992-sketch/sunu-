@@ -8,21 +8,41 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING
 from docx.shared import Cm, Pt
 
 from app.literature.apa import format_reference_runs
-from app.models import CleaningReport, Finding, Manuscript
+from app.models import CleaningReport, DiscoveryReport, Finding, Manuscript
 from app.statistics.reporting import fmt_df, fmt_p, fmt_stat
 
 LABELS = {
     "tr": {
         "intro": "Giriş", "methods": "Yöntem", "results": "Bulgular",
+        "exploratory": "Keşifsel Bulgular (Hipotez Üretici)",
         "discussion": "Tartışma", "limitations": "Sınırlılıklar", "references": "Kaynakça",
-        "appendix": "Ek: Veri Temizleme Raporu", "table_results": "Tablo 1. Analiz Sonuçları Özeti",
+        "appendix": "Ek: Veri Temizleme Raporu",
+        "appendix2": "Ek 2: Keşifsel Analiz Detayları",
+        "table_results": "Tablo 1. Analiz Sonuçları Özeti",
+        "table_clusters": "Tablo 2. Gizli Grup (Küme) Profilleri",
+        "table_risk": "Tablo 3. Risk Skoru Yordayıcıları",
         "author": "Yazar Adı", "cols": ["Analiz", "Değişkenler", "İstatistik", "p", "Etki Büyüklüğü"],
+        "cols_clusters": ["Grup", "n", "%", "Tanımlayıcı Değişkenler"],
+        "cols_risk": ["Değişken", "Odds Oranı", "RF Önem Skoru"],
+        "anomalies_line": "Sıra dışı vaka sayısı (Isolation Forest, kirlilik %{c:.0f}): {n}",
+        "mi_line": "Gizli bilgi-teorik ilişki (MI): {a} – {b} (MI={mi:.3f}, r={r})",
+        "skipped_line": "Atlanan analiz: {reason}",
     },
     "en": {
         "intro": "Introduction", "methods": "Method", "results": "Results",
+        "exploratory": "Exploratory Findings (Hypothesis-Generating)",
         "discussion": "Discussion", "limitations": "Limitations", "references": "References",
-        "appendix": "Appendix: Data Cleaning Report", "table_results": "Table 1. Summary of Analyses",
+        "appendix": "Appendix: Data Cleaning Report",
+        "appendix2": "Appendix 2: Exploratory Analysis Details",
+        "table_results": "Table 1. Summary of Analyses",
+        "table_clusters": "Table 2. Hidden Cluster Profiles",
+        "table_risk": "Table 3. Risk Score Predictors",
         "author": "Author Name", "cols": ["Analysis", "Variables", "Statistic", "p", "Effect Size"],
+        "cols_clusters": ["Cluster", "n", "%", "Defining Variables"],
+        "cols_risk": ["Variable", "Odds Ratio", "RF Importance"],
+        "anomalies_line": "Flagged atypical cases (Isolation Forest, contamination {c:.0f}%): {n}",
+        "mi_line": "Hidden information-theoretic relationship (MI): {a} – {b} (MI={mi:.3f}, r={r})",
+        "skipped_line": "Skipped analysis: {reason}",
     },
 }
 
@@ -76,6 +96,7 @@ def build_docx(
     manuscript: Manuscript,
     findings: list[Finding],
     cleaning_report: CleaningReport | None,
+    discovery: DiscoveryReport | None,
     out_path: str | Path,
 ) -> Path:
     lang = manuscript.language
@@ -122,6 +143,40 @@ def build_docx(
                 f"{f.effect_size_name} = {fmt_stat(f.effect_size)}" if f.effect_size is not None else "—"
             )
 
+    # Keşifsel bulgular — doğrulayıcı sonuçlardan bilinçli olarak ayrı bölüm
+    if manuscript.sections.get("exploratory"):
+        _heading(doc, L["exploratory"])
+        _body(doc, manuscript.sections["exploratory"])
+
+        if discovery and discovery.clustering and discovery.clustering.clusters:
+            doc.add_paragraph()
+            cap = doc.add_paragraph()
+            cap.add_run(L["table_clusters"]).bold = True
+            table = doc.add_table(rows=1, cols=4)
+            table.style = "Table Grid"
+            for i, col in enumerate(L["cols_clusters"]):
+                table.rows[0].cells[i].paragraphs[0].add_run(col).bold = True
+            for cl in discovery.clustering.clusters:
+                row = table.add_row().cells
+                row[0].text = str(cl.cluster_id)
+                row[1].text = str(cl.size)
+                row[2].text = f"{cl.share * 100:.0f}"
+                row[3].text = ", ".join(v["name"] for v in cl.top_variables[:5])
+
+        if discovery and discovery.risk_score and discovery.risk_score.predictors:
+            doc.add_paragraph()
+            cap = doc.add_paragraph()
+            cap.add_run(L["table_risk"]).bold = True
+            table = doc.add_table(rows=1, cols=3)
+            table.style = "Table Grid"
+            for i, col in enumerate(L["cols_risk"]):
+                table.rows[0].cells[i].paragraphs[0].add_run(col).bold = True
+            for p in discovery.risk_score.predictors:
+                row = table.add_row().cells
+                row[0].text = str(p["name"])
+                row[1].text = fmt_stat(p["odds_ratio"])
+                row[2].text = fmt_stat(p["rf_importance"], 3)
+
     for key in ("discussion", "limitations"):
         if manuscript.sections.get(key):
             _heading(doc, L[key])
@@ -146,6 +201,22 @@ def build_docx(
         _heading(doc, L["appendix"])
         for action in cleaning_report.actions:
             doc.add_paragraph("• " + action)
+
+    # Ek 2: keşifsel analiz detayları
+    if discovery and (discovery.anomalies or discovery.mutual_info or discovery.skipped_reasons):
+        doc.add_page_break()
+        _heading(doc, L["appendix2"])
+        if discovery.anomalies:
+            doc.add_paragraph(
+                "• " + L["anomalies_line"].format(c=discovery.anomalies.contamination * 100, n=discovery.anomalies.n_flagged)
+            )
+        for p in discovery.mutual_info:
+            if not p.hidden:
+                continue
+            r_txt = fmt_stat(p.correlation) if p.correlation is not None else "—"
+            doc.add_paragraph("• " + L["mi_line"].format(a=p.var_a, b=p.var_b, mi=p.mi, r=r_txt))
+        for reason in discovery.skipped_reasons:
+            doc.add_paragraph("• " + L["skipped_line"].format(reason=reason))
 
     out_path = Path(out_path)
     out_path.parent.mkdir(parents=True, exist_ok=True)

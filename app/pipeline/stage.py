@@ -14,6 +14,7 @@ from app.llm.router import LLMRouter
 from app.models import (
     AgentRun,
     CleaningReport,
+    DiscoveryReport,
     Finding,
     Job,
     Manuscript,
@@ -45,6 +46,7 @@ class PipelineContext:
     cleaning_report: CleaningReport | None = None
     plans: list[PlannedTest] = field(default_factory=list)
     findings: list[Finding] = field(default_factory=list)
+    discovery: DiscoveryReport | None = None
     references: list[Reference] = field(default_factory=list)
     refs_by_finding: dict[str, list[int]] = field(default_factory=dict)
     intro_ref_ids: list[int] = field(default_factory=list)

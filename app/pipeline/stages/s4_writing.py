@@ -89,6 +89,125 @@ def build_results(ctx: PipelineContext) -> str:
     return "\n\n".join(lines)
 
 
+def build_exploratory(ctx: PipelineContext) -> str:
+    """Kümeleme/anomali/bilgi-teorisi/risk skoru bulgularını keşifsel bir bölüm olarak yazar.
+
+    Bu bölüm bilinçli olarak Bulgular'dan ayrı tutulur: p-değeri taşıyan doğrulayıcı hipotez
+    testlerinin aksine, kümeleme/ML sonuçları klasik anlamda "anlamlı" değildir — hipotez
+    üreticidir, doğrulayıcı değil.
+    """
+    d = ctx.discovery
+    if d is None:
+        return ""
+    lang = ctx.job.config.language
+    paras: list[str] = []
+
+    if lang == "tr":
+        intro = (
+            "Doğrulayıcı hipotez testlerine ek olarak, klasik yöntemlerin gözden kaçırabileceği "
+            "örüntüleri ortaya çıkarmak amacıyla kümeleme, anomali tespiti, bilgi teorisi ve "
+            "(uygunsa) makine öğrenmesi tabanlı risk modellemesi içeren keşifsel bir analiz "
+            "yürütülmüştür. Aşağıdaki bulgular hipotez üreticidir; p-değerine dayalı anlamlılık "
+            "testi içermez ve doğrulayıcı sonuçlarla karıştırılmamalıdır."
+        )
+    else:
+        intro = (
+            "In addition to the confirmatory hypothesis tests, an exploratory analysis — "
+            "clustering, anomaly detection, information theory, and, where applicable, "
+            "machine-learning-based risk modeling — was conducted to surface patterns that "
+            "classical methods may overlook. The findings below are hypothesis-generating; "
+            "they carry no p-value-based significance and should not be conflated with the "
+            "confirmatory results."
+        )
+    paras.append(intro)
+
+    if d.clustering:
+        c = d.clustering
+        if lang == "tr":
+            paras.append(
+                f"K-Means kümeleme ve temel bileşenler analizi (PCA) ile veride {c.k} gizli alt-grup "
+                f"tespit edilmiştir (silhouette skoru = {c.silhouette:.2f}). "
+                + " ".join(
+                    f"Grup {cl.cluster_id} (n={cl.size}, %{cl.share*100:.0f}) en çok "
+                    + ", ".join(v["name"] for v in cl.top_variables[:3])
+                    + " değişkenleriyle ayrışmaktadır."
+                    for cl in c.clusters
+                )
+            )
+        else:
+            paras.append(
+                f"K-Means clustering combined with principal component analysis (PCA) identified "
+                f"{c.k} hidden subgroups in the data (silhouette score = {c.silhouette:.2f}). "
+                + " ".join(
+                    f"Group {cl.cluster_id} (n={cl.size}, {cl.share*100:.0f}%) is most distinguished by "
+                    + ", ".join(v["name"] for v in cl.top_variables[:3]) + "."
+                    for cl in c.clusters
+                )
+            )
+
+    if d.anomalies and d.anomalies.n_flagged:
+        if lang == "tr":
+            paras.append(
+                f"Isolation Forest algoritmasıyla yapılan çok-değişkenli aykırı değer taramasında "
+                f"{d.anomalies.n_flagged} sıra dışı vaka işaretlenmiştir (kirlilik oranı "
+                f"%{d.anomalies.contamination*100:.0f}); bu vakalar tek-değişkenli aykırı değer "
+                "kontrolünde fark edilmemiş olabilir."
+            )
+        else:
+            paras.append(
+                f"A multivariate outlier scan using Isolation Forest flagged {d.anomalies.n_flagged} "
+                f"atypical cases (contamination = {d.anomalies.contamination*100:.0f}%) that univariate "
+                "outlier checks may have missed."
+            )
+
+    hidden_pairs = [p for p in d.mutual_info if p.hidden]
+    if hidden_pairs:
+        top = hidden_pairs[:5]
+        if lang == "tr":
+            listed = "; ".join(f"{p.var_a}–{p.var_b} (MI={p.mi:.3f})" for p in top)
+            paras.append(
+                "Karşılıklı bilgi (mutual information) analizi, klasik Pearson/Spearman "
+                "korelasyonunun zayıf gösterdiği ancak doğrusal olmayan bir bilgi akışı taşıyan "
+                f"{len(hidden_pairs)} değişken çifti ortaya çıkarmıştır: {listed}."
+            )
+        else:
+            listed = "; ".join(f"{p.var_a}–{p.var_b} (MI={p.mi:.3f})" for p in top)
+            paras.append(
+                "Mutual information analysis revealed "
+                f"{len(hidden_pairs)} variable pairs carrying a non-linear informational relationship "
+                f"that classical Pearson/Spearman correlation rated as weak: {listed}."
+            )
+
+    if d.risk_score:
+        r = d.risk_score
+        auc = r.auc_logreg if r.auc_logreg is not None else r.auc_rf
+        top_pred = ", ".join(p["name"] for p in r.predictors[:5])
+        if lang == "tr":
+            auc_txt = f"AUC = {auc:.2f}" if auc is not None else "AUC hesaplanamadı"
+            paras.append(
+                f"'{r.dv}' değişkeni için lojistik regresyon ve Random Forest ile çapraz doğrulamalı "
+                f"bir risk skoru modeli kurulmuştur (n={r.n}, {auc_txt}). En güçlü yordayıcılar: "
+                f"{top_pred}. Bu skor, klinik/karar amaçlı kullanılmadan önce bağımsız bir örneklemde "
+                "doğrulanmalıdır."
+            )
+        else:
+            auc_txt = f"AUC = {auc:.2f}" if auc is not None else "AUC could not be computed"
+            paras.append(
+                f"A cross-validated risk-score model (logistic regression and Random Forest) was "
+                f"built for '{r.dv}' (n={r.n}, {auc_txt}). Strongest predictors: {top_pred}. This "
+                "score should be validated on an independent sample before any clinical or "
+                "decision-making use."
+            )
+
+    if d.skipped_reasons:
+        if lang == "tr":
+            paras.append("Atlanan keşifsel analizler: " + " ".join(d.skipped_reasons))
+        else:
+            paras.append("Skipped exploratory analyses: " + " ".join(d.skipped_reasons))
+
+    return "\n\n".join(paras)
+
+
 class WritingStage(Stage):
     stage_id = "writing"
     name = "Makale Yazımı"
@@ -148,6 +267,9 @@ class WritingStage(Stage):
         async with self.agent(ctx, "Bulgu Derleyici", "worker", attempt) as h:
             sections["results"] = build_results(ctx)
             await h.passed("APA sonuç cümleleri derlendi")
+        async with self.agent(ctx, "Keşifsel Bulgu Derleyici", "worker", attempt) as h:
+            sections["exploratory"] = build_exploratory(ctx)
+            await h.passed("keşifsel bulgular derlendi" if sections["exploratory"] else "keşifsel bulgu yok, atlandı")
 
         # Başlık
         title = tpl.draft_title(ctx.findings, topic, lang)

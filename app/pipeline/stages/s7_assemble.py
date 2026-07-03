@@ -9,7 +9,7 @@ from app.manuscript.docx_builder import build_docx
 from app.models import ValidationIssue
 from app.pipeline.stage import PipelineContext, Stage
 
-SECTION_ORDER = ["intro", "methods", "results", "discussion", "limitations"]
+SECTION_ORDER = ["intro", "methods", "results", "exploratory", "discussion", "limitations"]
 
 
 class AssembleStage(Stage):
@@ -50,7 +50,7 @@ class AssembleStage(Stage):
 
         async with self.agent(ctx, "Word Üretici", "worker", attempt) as h:
             out_path = ctx.job_dir / "output.docx"
-            await asyncio.to_thread(build_docx, m, ctx.findings, ctx.cleaning_report, out_path)
+            await asyncio.to_thread(build_docx, m, ctx.findings, ctx.cleaning_report, ctx.discovery, out_path)
             await h.passed(f"{out_path.name} oluşturuldu")
 
         return str(out_path), issues
