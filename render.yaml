@@ -14,3 +14,14 @@ services:
       # İsteğe bağlı: siteyi parolayla korumak isterseniz APP_PASSWORD ekleyin
       # - key: APP_PASSWORD
       #   sync: false
+
+  # MegaStat — literatür/makale olmadan saf istatistik motoru (ayrı adres)
+  - type: web
+    name: megastat
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn megastat.web:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
