@@ -31,7 +31,10 @@ def load_dataset(path: str | Path) -> tuple[pd.DataFrame, dict]:
     if suffix == ".csv":
         df = pd.read_csv(path)
         return df, {"labels": {}, "value_labels": {}, "measures": {}}
-    raise ValueError(f"Desteklenmeyen dosya türü: {suffix} (yalnızca .sav ve .csv)")
+    if suffix in (".xlsx", ".xls"):
+        df = pd.read_excel(path)
+        return df, {"labels": {}, "value_labels": {}, "measures": {}}
+    raise ValueError(f"Desteklenmeyen dosya türü: {suffix} (.sav, .csv, .xlsx veya .xls kullanın)")
 
 
 def _read_sav_with_fallbacks(path: Path):

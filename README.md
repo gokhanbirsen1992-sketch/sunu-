@@ -102,6 +102,22 @@ PaperForge, PWA desteği sayesinde tam ekran, kendi simgesiyle bir uygulama gibi
 (App Store'a girmek Apple geliştirici hesabı ve ayrı bir native uygulama gerektirir;
 bu yol onun ücretsiz ve pratik karşılığıdır.)
 
+## Bağımsız istatistik analiz aracı (`analyze.py`)
+
+Makale yazımı, literatür taraması veya yapay zekâ **olmadan**, sadece verinizi tam istatistik +
+keşifsel örüntü/risk skoru raporuna çeviren, tek başına çalışan basit bir komut satırı aracı.
+Web uygulamasını kurmanıza gerek yoktur.
+
+```bash
+pip install -r requirements.txt
+python analyze.py veri.xlsx                          # .xlsx, .xls, .csv, .sav destekler
+python analyze.py veri.sav --dv sonuc --lang en       # ikili sonuç değişkeni işaretlenirse risk skoru da hesaplanır
+```
+
+Çıktı: `<girdi>_rapor.docx` — değişken özeti, klasik hipotez testleri (Tablo 1) ve keşifsel
+bulgular (gizli gruplar, sıra dışı vakalar, klasik korelasyonun kaçırdığı gizli ilişkiler, risk
+skoru) içeren bir Word raporu. Tüm seçenekler için: `python analyze.py --help`.
+
 ## Test
 
 ```bash
@@ -122,6 +138,8 @@ app/
 ├── literature/   # OpenAlex, Crossref, PubMed istemcileri + skorlama + APA 7
 ├── manuscript/   # [n] atıf sistemi, APA dönüşümü, Word üretici
 └── static/       # Türkçe tek sayfa web paneli (vanilla JS + SSE)
+
+standalone_stats/ + analyze.py   # bağımsız istatistik analiz aracı (web uygulamasından bağımsız)
 ```
 
 ## Önemli notlar

@@ -3,33 +3,11 @@ from __future__ import annotations
 
 import asyncio
 
-import pandas as pd
-
-from app.models import ValidationIssue, VariableInfo
+from app.models import ValidationIssue
 from app.pipeline.stage import PipelineContext, Stage
-from app.statistics.cleaning import clean
+from app.statistics.cleaning import apply_value_labels, clean
 from app.statistics.loader import load_dataset
 from app.statistics.vartypes import infer_types
-
-
-def _apply_value_labels(df: pd.DataFrame, variables: list[VariableInfo]) -> pd.DataFrame:
-    """Nominal/binary değişkenlerde ham kodları (1.0) etiketlere (Kadın) çevirir."""
-    df = df.copy()
-    for v in variables:
-        if v.kind not in ("nominal", "binary") or not v.value_labels or v.name not in df.columns:
-            continue
-        labels = dict(v.value_labels)
-
-        def _map(x):
-            if pd.isna(x):
-                return x
-            for key in (str(x), str(int(x)) if isinstance(x, float) and float(x).is_integer() else None):
-                if key is not None and key in labels:
-                    return labels[key]
-            return x
-
-        df[v.name] = df[v.name].map(_map)
-    return df
 
 
 class CleanStage(Stage):
@@ -53,7 +31,7 @@ class CleanStage(Stage):
 
         async with self.agent(ctx, "Temizlik Ajanı", "worker", attempt) as h:
             df_clean, report = await asyncio.to_thread(clean, df, ctx.job.variables)
-            df_clean = _apply_value_labels(df_clean, ctx.job.variables)
+            df_clean = apply_value_labels(df_clean, ctx.job.variables)
             await h.passed(f"{report.rows_before} → {report.rows_after} satır")
 
         return df_clean, meta, report

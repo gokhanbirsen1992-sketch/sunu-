@@ -92,6 +92,110 @@ def _body(doc: Document, text: str) -> None:
         p.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
 
 
+def add_title_page(doc: Document, title: str, lang: str) -> None:
+    L = LABELS[lang]
+    title_p = doc.add_paragraph()
+    title_p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    run = title_p.add_run(title or ("Başlıksız Çalışma" if lang == "tr" else "Untitled Study"))
+    run.bold = True
+    for line in (L["author"], ""):
+        p = doc.add_paragraph(line)
+        p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    doc.add_page_break()
+
+
+def add_results_table(doc: Document, findings: list[Finding], lang: str) -> None:
+    """Tablo 1: klasik hipotez testi sonuçları (doğrulayıcı istatistikler)."""
+    L = LABELS[lang]
+    valid = [f for f in findings if f.error is None]
+    if not valid:
+        return
+    doc.add_paragraph()
+    cap = doc.add_paragraph()
+    cap.add_run(L["table_results"]).bold = True
+    table = doc.add_table(rows=1, cols=5)
+    table.style = "Table Grid"
+    for i, col in enumerate(L["cols"]):
+        table.rows[0].cells[i].paragraphs[0].add_run(col).bold = True
+    for f in valid:
+        row = table.add_row().cells
+        row[0].text = TEST_NAMES.get(f.planned.test_id, {}).get(lang, f.planned.test_id)
+        vars_text = " × ".join(x for x in [f.planned.dv, f.planned.iv] if x) or ", ".join(f.planned.extra_vars)
+        row[1].text = vars_text
+        df_part = f"({fmt_df(f.df)})" if f.df is not None else ""
+        row[2].text = f"{f.statistic_name}{df_part} = {fmt_stat(f.statistic)}"
+        p_final = f.p_adjusted if f.p_adjusted is not None else f.p_value
+        row[3].text = fmt_p(p_final) + (" *" if f.significant else "")
+        row[4].text = f"{f.effect_size_name} = {fmt_stat(f.effect_size)}" if f.effect_size is not None else "—"
+
+
+def add_exploratory_section(doc: Document, exploratory_text: str, discovery: DiscoveryReport | None, lang: str) -> None:
+    """Keşifsel bulgular bölümü + küme/risk skoru tabloları — doğrulayıcı sonuçlardan ayrı."""
+    L = LABELS[lang]
+    if not exploratory_text:
+        return
+    _heading(doc, L["exploratory"])
+    _body(doc, exploratory_text)
+
+    if discovery and discovery.clustering and discovery.clustering.clusters:
+        doc.add_paragraph()
+        cap = doc.add_paragraph()
+        cap.add_run(L["table_clusters"]).bold = True
+        table = doc.add_table(rows=1, cols=4)
+        table.style = "Table Grid"
+        for i, col in enumerate(L["cols_clusters"]):
+            table.rows[0].cells[i].paragraphs[0].add_run(col).bold = True
+        for cl in discovery.clustering.clusters:
+            row = table.add_row().cells
+            row[0].text = str(cl.cluster_id)
+            row[1].text = str(cl.size)
+            row[2].text = f"{cl.share * 100:.0f}"
+            row[3].text = ", ".join(v["name"] for v in cl.top_variables[:5])
+
+    if discovery and discovery.risk_score and discovery.risk_score.predictors:
+        doc.add_paragraph()
+        cap = doc.add_paragraph()
+        cap.add_run(L["table_risk"]).bold = True
+        table = doc.add_table(rows=1, cols=3)
+        table.style = "Table Grid"
+        for i, col in enumerate(L["cols_risk"]):
+            table.rows[0].cells[i].paragraphs[0].add_run(col).bold = True
+        for p in discovery.risk_score.predictors:
+            row = table.add_row().cells
+            row[0].text = str(p["name"])
+            row[1].text = fmt_stat(p["odds_ratio"])
+            row[2].text = fmt_stat(p["rf_importance"], 3)
+
+
+def add_cleaning_appendix(doc: Document, cleaning_report: CleaningReport | None, lang: str) -> None:
+    if not cleaning_report:
+        return
+    L = LABELS[lang]
+    doc.add_page_break()
+    _heading(doc, L["appendix"])
+    for action in cleaning_report.actions:
+        doc.add_paragraph("• " + action)
+
+
+def add_discovery_appendix(doc: Document, discovery: DiscoveryReport | None, lang: str) -> None:
+    if not discovery or not (discovery.anomalies or discovery.mutual_info or discovery.skipped_reasons):
+        return
+    L = LABELS[lang]
+    doc.add_page_break()
+    _heading(doc, L["appendix2"])
+    if discovery.anomalies:
+        doc.add_paragraph(
+            "• " + L["anomalies_line"].format(c=discovery.anomalies.contamination * 100, n=discovery.anomalies.n_flagged)
+        )
+    for p in discovery.mutual_info:
+        if not p.hidden:
+            continue
+        r_txt = fmt_stat(p.correlation) if p.correlation is not None else "—"
+        doc.add_paragraph("• " + L["mi_line"].format(a=p.var_a, b=p.var_b, mi=p.mi, r=r_txt))
+    for reason in discovery.skipped_reasons:
+        doc.add_paragraph("• " + L["skipped_line"].format(reason=reason))
+
+
 def build_docx(
     manuscript: Manuscript,
     findings: list[Finding],
@@ -104,78 +208,15 @@ def build_docx(
     doc = Document()
     _setup_styles(doc)
 
-    # Başlık sayfası
-    title_p = doc.add_paragraph()
-    title_p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    run = title_p.add_run(manuscript.title or ("Başlıksız Çalışma" if lang == "tr" else "Untitled Study"))
-    run.bold = True
-    for line in (L["author"], ""):
-        p = doc.add_paragraph(line)
-        p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    doc.add_page_break()
+    add_title_page(doc, manuscript.title, lang)
 
     for key in ("intro", "methods", "results"):
         if manuscript.sections.get(key):
             _heading(doc, L[key])
             _body(doc, manuscript.sections[key])
 
-    # Sonuç tablosu
-    valid = [f for f in findings if f.error is None]
-    if valid:
-        doc.add_paragraph()
-        cap = doc.add_paragraph()
-        cap.add_run(L["table_results"]).bold = True
-        table = doc.add_table(rows=1, cols=5)
-        table.style = "Table Grid"
-        for i, col in enumerate(L["cols"]):
-            cell_run = table.rows[0].cells[i].paragraphs[0].add_run(col)
-            cell_run.bold = True
-        for f in valid:
-            row = table.add_row().cells
-            row[0].text = TEST_NAMES.get(f.planned.test_id, {}).get(lang, f.planned.test_id)
-            vars_text = " × ".join(x for x in [f.planned.dv, f.planned.iv] if x) or ", ".join(f.planned.extra_vars)
-            row[1].text = vars_text
-            df_part = f"({fmt_df(f.df)})" if f.df is not None else ""
-            row[2].text = f"{f.statistic_name}{df_part} = {fmt_stat(f.statistic)}"
-            p_final = f.p_adjusted if f.p_adjusted is not None else f.p_value
-            row[3].text = fmt_p(p_final) + (" *" if f.significant else "")
-            row[4].text = (
-                f"{f.effect_size_name} = {fmt_stat(f.effect_size)}" if f.effect_size is not None else "—"
-            )
-
-    # Keşifsel bulgular — doğrulayıcı sonuçlardan bilinçli olarak ayrı bölüm
-    if manuscript.sections.get("exploratory"):
-        _heading(doc, L["exploratory"])
-        _body(doc, manuscript.sections["exploratory"])
-
-        if discovery and discovery.clustering and discovery.clustering.clusters:
-            doc.add_paragraph()
-            cap = doc.add_paragraph()
-            cap.add_run(L["table_clusters"]).bold = True
-            table = doc.add_table(rows=1, cols=4)
-            table.style = "Table Grid"
-            for i, col in enumerate(L["cols_clusters"]):
-                table.rows[0].cells[i].paragraphs[0].add_run(col).bold = True
-            for cl in discovery.clustering.clusters:
-                row = table.add_row().cells
-                row[0].text = str(cl.cluster_id)
-                row[1].text = str(cl.size)
-                row[2].text = f"{cl.share * 100:.0f}"
-                row[3].text = ", ".join(v["name"] for v in cl.top_variables[:5])
-
-        if discovery and discovery.risk_score and discovery.risk_score.predictors:
-            doc.add_paragraph()
-            cap = doc.add_paragraph()
-            cap.add_run(L["table_risk"]).bold = True
-            table = doc.add_table(rows=1, cols=3)
-            table.style = "Table Grid"
-            for i, col in enumerate(L["cols_risk"]):
-                table.rows[0].cells[i].paragraphs[0].add_run(col).bold = True
-            for p in discovery.risk_score.predictors:
-                row = table.add_row().cells
-                row[0].text = str(p["name"])
-                row[1].text = fmt_stat(p["odds_ratio"])
-                row[2].text = fmt_stat(p["rf_importance"], 3)
+    add_results_table(doc, findings, lang)
+    add_exploratory_section(doc, manuscript.sections.get("exploratory", ""), discovery, lang)
 
     for key in ("discussion", "limitations"):
         if manuscript.sections.get(key):
@@ -195,28 +236,8 @@ def build_docx(
                 r = p.add_run(text)
                 r.italic = italic
 
-    # Ek: temizlik raporu
-    if cleaning_report:
-        doc.add_page_break()
-        _heading(doc, L["appendix"])
-        for action in cleaning_report.actions:
-            doc.add_paragraph("• " + action)
-
-    # Ek 2: keşifsel analiz detayları
-    if discovery and (discovery.anomalies or discovery.mutual_info or discovery.skipped_reasons):
-        doc.add_page_break()
-        _heading(doc, L["appendix2"])
-        if discovery.anomalies:
-            doc.add_paragraph(
-                "• " + L["anomalies_line"].format(c=discovery.anomalies.contamination * 100, n=discovery.anomalies.n_flagged)
-            )
-        for p in discovery.mutual_info:
-            if not p.hidden:
-                continue
-            r_txt = fmt_stat(p.correlation) if p.correlation is not None else "—"
-            doc.add_paragraph("• " + L["mi_line"].format(a=p.var_a, b=p.var_b, mi=p.mi, r=r_txt))
-        for reason in discovery.skipped_reasons:
-            doc.add_paragraph("• " + L["skipped_line"].format(reason=reason))
+    add_cleaning_appendix(doc, cleaning_report, lang)
+    add_discovery_appendix(doc, discovery, lang)
 
     out_path = Path(out_path)
     out_path.parent.mkdir(parents=True, exist_ok=True)

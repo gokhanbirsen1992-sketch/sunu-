@@ -6,19 +6,19 @@ import asyncio
 from app.agents import prompts, validators
 from app.llm import template_provider as tpl
 from app.llm.provider import LLMUnavailable
-from app.models import ValidationIssue
+from app.models import CleaningReport, DiscoveryReport, Finding, JobConfig, PlannedTest, ValidationIssue
 from app.pipeline.stage import PipelineContext, Stage
 
 P_ADJUST_NAMES = {"holm": "Holm", "fdr_bh": "Benjamini-Hochberg (FDR)", "none": None}
 
 
-def build_methods(ctx: PipelineContext) -> str:
-    lang = ctx.job.config.language
-    r = ctx.cleaning_report
-    n = r.rows_after if r else (len(ctx.df) if ctx.df is not None else 0)
-    adj = P_ADJUST_NAMES[ctx.job.config.p_adjust]
+def build_methods(cleaning_report: CleaningReport | None, plans: list[PlannedTest], config: JobConfig) -> str:
+    lang = config.language
+    r = cleaning_report
+    n = r.rows_after if r else 0
+    adj = P_ADJUST_NAMES[config.p_adjust]
     rationales = []
-    for p in ctx.plans:
+    for p in plans:
         rat = p.rationale_tr if lang == "tr" else p.rationale_en
         if rat and rat not in rationales:
             rationales.append(rat)
@@ -30,7 +30,7 @@ def build_methods(ctx: PipelineContext) -> str:
             "Analizlerden önce her sürekli değişken için normallik (Shapiro-Wilk testi ve çarpıklık-basıklık "
             "katsayıları) ve gerektiğinde varyans homojenliği (Levene testi) incelenmiş; test seçimi bu varsayım "
             "kontrollerine dayandırılmıştır. " + " ".join(rationales[:12]),
-            f"Anlamlılık düzeyi α = {ctx.job.config.alpha} olarak belirlenmiştir."
+            f"Anlamlılık düzeyi α = {config.alpha} olarak belirlenmiştir."
             + (f" Çoklu karşılaştırmalar için p-değerleri {adj} yöntemiyle düzeltilmiştir." if adj else "")
             + " Etki büyüklükleri (Cohen d, η², Cramér V vb.) tüm testler için raporlanmıştır. "
             "Tüm analizler Python (SciPy, statsmodels) ile gerçekleştirilmiştir.",
@@ -42,7 +42,7 @@ def build_methods(ctx: PipelineContext) -> str:
             "Prior to the analyses, normality (Shapiro-Wilk test and skewness-kurtosis coefficients) and, "
             "where appropriate, homogeneity of variance (Levene's test) were examined for each continuous "
             "variable; test selection was based on these assumption checks. " + " ".join(rationales[:12]),
-            f"The significance level was set at α = {ctx.job.config.alpha}."
+            f"The significance level was set at α = {config.alpha}."
             + (f" P-values were corrected for multiple comparisons using the {adj} method." if adj else "")
             + " Effect sizes (Cohen's d, η², Cramér's V, etc.) are reported for all tests. "
             "All analyses were performed in Python (SciPy, statsmodels).",
@@ -50,9 +50,8 @@ def build_methods(ctx: PipelineContext) -> str:
     return "\n\n".join(paras)
 
 
-def build_results(ctx: PipelineContext) -> str:
-    lang = ctx.job.config.language
-    valid = [f for f in ctx.findings if f.error is None]
+def build_results(findings: list[Finding], lang: str) -> str:
+    valid = [f for f in findings if f.error is None]
     sig = [f for f in valid if f.significant]
     nonsig = [f for f in valid if not f.significant]
     lines = []
@@ -89,17 +88,16 @@ def build_results(ctx: PipelineContext) -> str:
     return "\n\n".join(lines)
 
 
-def build_exploratory(ctx: PipelineContext) -> str:
+def build_exploratory(discovery: DiscoveryReport | None, lang: str) -> str:
     """Kümeleme/anomali/bilgi-teorisi/risk skoru bulgularını keşifsel bir bölüm olarak yazar.
 
     Bu bölüm bilinçli olarak Bulgular'dan ayrı tutulur: p-değeri taşıyan doğrulayıcı hipotez
     testlerinin aksine, kümeleme/ML sonuçları klasik anlamda "anlamlı" değildir — hipotez
     üreticidir, doğrulayıcı değil.
     """
-    d = ctx.discovery
+    d = discovery
     if d is None:
         return ""
-    lang = ctx.job.config.language
     paras: list[str] = []
 
     if lang == "tr":
@@ -262,13 +260,13 @@ class WritingStage(Stage):
         sections: dict[str, str] = {}
 
         async with self.agent(ctx, "Yöntem Derleyici", "worker", attempt) as h:
-            sections["methods"] = build_methods(ctx)
+            sections["methods"] = build_methods(ctx.cleaning_report, ctx.plans, ctx.job.config)
             await h.passed("varsayım gerekçeleriyle derlendi")
         async with self.agent(ctx, "Bulgu Derleyici", "worker", attempt) as h:
-            sections["results"] = build_results(ctx)
+            sections["results"] = build_results(ctx.findings, lang)
             await h.passed("APA sonuç cümleleri derlendi")
         async with self.agent(ctx, "Keşifsel Bulgu Derleyici", "worker", attempt) as h:
-            sections["exploratory"] = build_exploratory(ctx)
+            sections["exploratory"] = build_exploratory(ctx.discovery, lang)
             await h.passed("keşifsel bulgular derlendi" if sections["exploratory"] else "keşifsel bulgu yok, atlandı")
 
         # Başlık

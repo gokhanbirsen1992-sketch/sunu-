@@ -81,3 +81,23 @@ def clean(df: pd.DataFrame, variables: list[VariableInfo]) -> tuple[pd.DataFrame
         f"Nihai veri seti: {report.rows_after} satır. Testler değişken bazında mevcut veriyle (pairwise) yürütülür."
     )
     return df, report
+
+
+def apply_value_labels(df: pd.DataFrame, variables: list[VariableInfo]) -> pd.DataFrame:
+    """Nominal/binary değişkenlerde ham kodları (1.0) etiketlere (Kadın) çevirir."""
+    df = df.copy()
+    for v in variables:
+        if v.kind not in ("nominal", "binary") or not v.value_labels or v.name not in df.columns:
+            continue
+        labels = dict(v.value_labels)
+
+        def _map(x):
+            if pd.isna(x):
+                return x
+            for key in (str(x), str(int(x)) if isinstance(x, float) and float(x).is_integer() else None):
+                if key is not None and key in labels:
+                    return labels[key]
+            return x
+
+        df[v.name] = df[v.name].map(_map)
+    return df
