@@ -75,6 +75,8 @@ Uygulamayı kendi bilgisayarınıza kurmak istemiyorsanız ücretsiz bulut seçe
 1. <https://render.com> adresinde ücretsiz hesap açın (GitHub ile giriş yapın).
 2. **New + → Blueprint** deyin ve bu depoyu (`gokhanbirsen1992-sketch/sunu-`) seçin —
    depodaki `render.yaml` her şeyi otomatik yapılandırır.
+   **Önemli:** Dal (branch) soran ekranda **`main`** dalını seçin — `render.yaml` bu daldadır.
+   "render.yaml bulunamadı" hatası alırsanız sebebi yanlış dalın seçili olmasıdır.
 3. Sorulan iki ortam değişkenini doldurun:
    - `APP_PASSWORD`: sitenize gireceğiniz parola (**mutlaka doldurun**, yoksa site herkese açık olur).
    - `GEMINI_API_KEY`: <https://aistudio.google.com/apikey> adresinden alacağınız ücretsiz anahtar.
