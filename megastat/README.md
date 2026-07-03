@@ -37,6 +37,21 @@ uvicorn megastat.web:app --host 0.0.0.0 --port 8000
 
 Tarayıcıdan adrese girin → dosyayı yükleyin → özet ekranda, tam rapor Excel olarak iner.
 
+### Render.com'a kurulum (kurulumsuz, telefondan kullanım)
+
+Depodaki `render.yaml` artık **iki servis** içerir: `paperforge` (makale pipeline'ı) ve
+`megastat` (bu araç). Kurulum:
+
+1. <https://render.com> → GitHub ile giriş yapın.
+2. **New + → Blueprint** → bu depoyu (`gokhanbirsen1992-sketch/sunu-`) seçin.
+3. Dal (branch) ekranında `render.yaml`'ın bulunduğu dalı seçin ve onaylayın.
+4. Dakikalar içinde `https://megastat-XXXX.onrender.com` gibi bir adres alırsınız —
+   telefonunuzdan bu adrese girip dosya yükleyerek analiz yapabilirsiniz.
+
+Not: Ücretsiz planda servis 15 dakika boş kalınca uyur; ilk açılış ~1 dakika sürebilir.
+Sadece MegaStat isterseniz Blueprint yerine **New + → Web Service** ile depoyu seçip
+başlatma komutu olarak `uvicorn megastat.web:app --host 0.0.0.0 --port $PORT` yazmanız yeterli.
+
 ## Excel raporu sayfaları
 
 1. **Özet** — kaç satır/sütun/test/istatistik, kaç anlamlı bulgu
