@@ -36,8 +36,8 @@ async def create_job(
 ):
     name = file.filename or "veri.sav"
     suffix = "." + name.rsplit(".", 1)[-1].lower() if "." in name else ""
-    if suffix not in (".sav", ".csv"):
-        raise HTTPException(400, "Yalnızca SPSS .sav (veya .csv) dosyaları kabul edilir.")
+    if suffix not in (".sav", ".zsav", ".csv"):
+        raise HTTPException(400, "Yalnızca SPSS .sav/.zsav (veya .csv) dosyaları kabul edilir.")
     content = await file.read()
     if len(content) > MAX_UPLOAD_MB * 1024 * 1024:
         raise HTTPException(400, f"Dosya çok büyük (en fazla {MAX_UPLOAD_MB} MB).")
@@ -56,6 +56,9 @@ async def create_job(
     try:
         df, meta = await asyncio.to_thread(load_dataset, input_path)
     except Exception as exc:
+        import traceback
+
+        traceback.print_exc()
         store.delete(job.id)
         raise HTTPException(400, f"Dosya okunamadı: {exc}")
     if df.empty:

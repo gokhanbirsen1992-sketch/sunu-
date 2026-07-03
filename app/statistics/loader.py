@@ -14,10 +14,8 @@ def load_dataset(path: str | Path) -> tuple[pd.DataFrame, dict]:
     """
     path = Path(path)
     suffix = path.suffix.lower()
-    if suffix == ".sav":
-        import pyreadstat
-
-        df, meta = pyreadstat.read_sav(str(path), apply_value_formats=False)
+    if suffix in (".sav", ".zsav"):
+        df, meta = _read_sav_with_fallbacks(path)
         labels = {}
         if meta.column_labels:
             labels = {
@@ -34,3 +32,25 @@ def load_dataset(path: str | Path) -> tuple[pd.DataFrame, dict]:
         df = pd.read_csv(path)
         return df, {"labels": {}, "value_labels": {}, "measures": {}}
     raise ValueError(f"Desteklenmeyen dosya türü: {suffix} (yalnızca .sav ve .csv)")
+
+
+def _read_sav_with_fallbacks(path: Path):
+    """SPSS dosyasını okur; Türkçe/eski dosyalardaki kodlama sorunlarında
+    yaygın kodlamalarla yeniden dener."""
+    import pyreadstat
+
+    last_error: Exception | None = None
+    for encoding in (None, "WINDOWS-1254", "LATIN1", "WINDOWS-1252"):
+        try:
+            kwargs = {"apply_value_formats": False}
+            if encoding:
+                kwargs["encoding"] = encoding
+            return pyreadstat.read_sav(str(path), **kwargs)
+        except Exception as exc:
+            last_error = exc
+    raise ValueError(
+        "SPSS dosyası okunamadı. Dosya bozuk olabilir veya çok eski bir SPSS sürümüyle "
+        "kaydedilmiş olabilir. Çözüm: SPSS'te dosyayı açıp Dosya → Farklı Kaydet → "
+        "'SPSS Statistics (*.sav)' biçimiyle yeniden kaydedin ve tekrar yükleyin. "
+        f"(Teknik ayrıntı: {last_error})"
+    ) from last_error
