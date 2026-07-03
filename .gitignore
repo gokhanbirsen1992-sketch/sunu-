@@ -11,3 +11,7 @@ env/
 .DS_Store
 .idea/
 .vscode/
+data/
+*.sav
+!tests/fixtures/*.sav
+*.egg-info/

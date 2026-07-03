@@ -1,24 +1,30 @@
-# BTC/USDT Sinyal Botu
+# 📄 PaperForge — SPSS'ten Makaleye Otomatik Pipeline
 
-Crypto.com Exchange üzerinden BTC/USDT (veya istediğin başka bir USDT paritesi) parametrelerini takip eden, **AL/SAT/BEKLE** sinyalleri üreten ve önerilen stop-loss / take-profit / pozisyon büyüklüğünü hesaplayan terminal tabanlı bir araç.
-
-## ⚠️ Uyarı
-
-**Bu bot yatırım tavsiyesi değildir, sadece eğitim amaçlıdır.**
-- Hiçbir gerçek emir verilmez. Sadece public veriyi okur ve önerileri ekrana yazar.
-- API anahtarı veya cüzdan bilgisi gerektirmez.
-- Geçmiş performans gelecekteki sonuçların garantisi değildir. Kararlar tamamen kullanıcının sorumluluğundadır.
+SPSS (.sav) verinizi yükleyin; **ajan orduları** sırasıyla veriyi temizlesin, doğru istatistiksel
+testlere karar verip çalıştırsın, anlamlı bulgular için literatür tarasın, Giriş/Yöntem/Bulgular/
+Tartışma bölümlerini yazsın, dil düzenlemesi yapsın, **Reviewer 2** gibi eleştirip revize etsin ve
+size **APA formatında Word (.docx)** makale taslağı versin — tamamı **ücretsiz** altyapıyla.
 
 ## Özellikler
 
-- 📊 **3 hazır strateji**: RSI + EMA crossover, MA crossover, Bollinger + RSI — `config.yaml`'dan seçilebilir.
-- 📈 **Günlük (1D) zaman dilimi** üzerinde çalışır (config'den değiştirilebilir).
-- ⏱️ **30 saniyede bir** anlık fiyatı çeker, sinyali yeniler.
-- 🎯 **Risk yönetimi**: ATR tabanlı stop-loss/take-profit, risk-yüzdesi tabanlı pozisyon büyüklüğü önerisi.
-- 🔁 **Backtest**: Geçmiş 300 mum üzerinde stratejiyi simüle eder; kazanma oranı, getiri, max drawdown raporu.
-- 🎨 **Renkli terminal arayüzü** (Rich): canlı yenilenen panel + sinyal değişim logları.
+| Aşama | Ne yapar | Ajanlar |
+|---|---|---|
+| 1. Veri Temizleme | Kopya satır, sabit sütun, aşırı eksik satır, 3×IQR aykırı değer temizliği + rapor | Veri Yükleyici, Tip Müfettişi, Temizlik Ajanı, Bütünlük Denetçisi |
+| 2. İstatistik | Normallik (Shapiro-Wilk) + Levene kontrolüyle **otomatik test seçimi** (t/Welch/Mann-Whitney, ANOVA/Kruskal + post-hoc, Pearson/Spearman, ki-kare/Fisher, regresyon), Holm/FDR p-düzeltmesi, etki büyüklükleri | Karar Motoru, Hesap Ordusu, Sağlamlık Denetçisi |
+| 3. Literatür | Anlamlı bulgular için **OpenAlex + Crossref + PubMed** taraması (anahtarsız, ücretsiz), DOI dedup + skorlama | Sorgu Yazarı, Tarama Ordusu, Kaynak Denetçisi |
+| 4. Yazım | Yöntem/Bulgular gerçek analizlerden; Giriş/Tartışma literatüre dayalı — **paralel işçi ajanlar + seçici editör** | N× Bölüm Yazarı, Seçici Editör, Atıf/Yapı/Tutarlılık Denetçileri |
+| 5. Dil Düzenleme | Akıcılık ve dilbilgisi; atıf işaretleri ve sayılar **korunarak** | Dil Editörü, Atıf Koruması |
+| 6. Reviewer 2 | Düşmanca hakem eleştirisi → gerekirse **ek literatür** → revizyon → yanıt denetimi (2 tur) | Reviewer 2, Ek Literatür Tarayıcı, Revizyon Yazarı, Yanıt Denetçisi |
+| 7. Çıktı | Uçtan uca son doğrulama, atıfların APA'ya dönüşümü, **Word (.docx)** üretimi | Atıf Montajcısı, Uçtan Uca Denetçi, Word Üretici |
+
+Her aşamada **işçi ajanlar** üretir, **doğrulayıcı ajanlar** denetler; doğrulama geçilmezse geri
+bildirimle yeniden denenir. İstatistikler asla yapay zekâya hesaplatılmaz — SciPy/statsmodels ile
+deterministik hesaplanır. Atıflar yalnızca gerçekten bulunan kaynaklardan `[n]` işaretiyle yapılır
+ve kod tarafından APA'ya dönüştürülür; **uydurma kaynak yapısal olarak engellenir**.
 
 ## Kurulum
+
+Python 3.10+ gerekir.
 
 ```bash
 git clone https://github.com/gokhanbirsen1992-sketch/sunu-.git
@@ -26,121 +32,104 @@ cd sunu-
 pip install -r requirements.txt
 ```
 
-Python 3.10+ gereklidir.
+## Çalıştırma
+
+```bash
+uvicorn app.main:app
+```
+
+Tarayıcıda **http://127.0.0.1:8000** adresini açın.
+
+## Ücretsiz yapay zekâ anahtarı (önerilir)
+
+Anahtar olmadan da uygulama **şablon modunda** eksiksiz bir taslak üretir (gerçek istatistikler +
+gerçek kaynaklar, ancak daha kuru bir metin). Çok daha kaliteli Giriş/Tartışma ve gerçek bir
+Reviewer 2 deneyimi için ücretsiz bir anahtar girin:
+
+1. **Google Gemini (önerilen)** — <https://aistudio.google.com/apikey> adresinden Google hesabıyla
+   ücretsiz anahtar alın (kredi kartı istemez).
+2. Uygulamadaki **⚙️ Ayarlar** panelinde anahtarı yapıştırın → **Kaydet** → **Test et**.
+
+Alternatifler: [Groq](https://console.groq.com/keys), [OpenRouter](https://openrouter.ai/keys)
+(":free" modeller). Birden fazla anahtar girerseniz kota dolduğunda otomatik olarak sıradakine geçilir.
+
+Anahtarlar yalnızca bilgisayarınızda `data/keys.json` dosyasında saklanır; hiçbir yere gönderilmez
+(yalnızca ilgili sağlayıcının API'sine).
 
 ## Kullanım
 
-### Canlı izleme
+1. **Veri Yükleme** — .sav dosyanızı seçin, makale dilini (TR/EN) belirleyin ve çalışmanın konusunu
+   1-2 cümleyle yazın (literatür taramasının isabetini artırır).
+2. **Değişkenler** — otomatik tespit edilen değişken tiplerini kontrol edin; gerekirse düzeltin
+   (örn. Likert → "Sıralayıcı"). Regresyon istiyorsanız bir değişkeni "Bağımlı değişken" olarak işaretleyin.
+3. **Analizi Başlat** — pipeline'ı canlı izleyin: her aşama kartında ajan çipleri (🤖 işçi,
+   🔍 doğrulayıcı, ⚖️ seçici) gerçek zamanlı renklenir; bulgular ve kaynaklar geldikçe listelenir.
+4. **Sonuç** — Word dosyasını indirin. Ekinde veri temizleme raporu da bulunur.
 
-```bash
-python -m src.main monitor
-```
+## Canlıya alma — kurulum gerektirmeyen web sitesi
 
-Çıktı örneği:
+Uygulamayı kendi bilgisayarınıza kurmak istemiyorsanız ücretsiz bulut seçenekleri:
 
-```
-╭───────────────────── BTC/USDT Sinyal Botu — Crypto.com ─────────────────────╮
-│      Sembol  BTC_USDT   (1D)                                                │
-│    Strateji  rsi_ma                                                         │
-│       Fiyat  80,283.38 USDT                                                 │
-│ Göstergeler  rsi=58.4  ema_50=78,102.55  ema_200=72,914.30  atr=1904.96     │
-│      Sinyal  BUY                                                            │
-│   Stop-Loss  76,473.46                                                      │
-│ Take-Profit  87,903.22                                                      │
-│ Önerilen…    156.21 USDT                                                    │
-│       Sebep  Yükseliş trendi (EMA50>EMA200) + RSI=28.4 aşırı satım          │
-╰──────────── Yatırım tavsiyesi değildir. Sadece eğitim amaçlıdır. ───────────╯
-```
+### Seçenek A: Render.com (önerilen, ~5 dakika)
 
-`Ctrl+C` ile durdurulur.
+1. <https://render.com> adresinde ücretsiz hesap açın (GitHub ile giriş yapın).
+2. **New + → Blueprint** deyin ve bu depoyu (`gokhanbirsen1992-sketch/sunu-`) seçin —
+   depodaki `render.yaml` her şeyi otomatik yapılandırır.
+   **Önemli:** Dal (branch) soran ekranda **`main`** dalını seçin — `render.yaml` bu daldadır.
+   "render.yaml bulunamadı" hatası alırsanız sebebi yanlış dalın seçili olmasıdır.
+3. Sorulan ortam değişkenini doldurun:
+   - `GEMINI_API_KEY`: <https://aistudio.google.com/apikey> adresinden alacağınız ücretsiz anahtar.
+   - İsteğe bağlı: siteyi parolayla korumak isterseniz `APP_PASSWORD` adında bir değişken
+     ekleyin (girişte tarayıcı parola sorar; kullanıcı adı boş bırakılır). Eklenmezse site
+     adresi bilen herkese açıktır ve Gemini kotanızı başkaları da kullanabilir.
+4. **Apply** → birkaç dakika içinde `https://paperforge-xxxx.onrender.com` gibi bir adresiniz olur.
 
-### Tek seferlik anlık sinyal
+Not: Ücretsiz planda site 15 dk kullanılmayınca uyur; ilk açılış ~1 dk sürebilir. Disk kalıcı
+değildir — anahtarı arayüz yerine `GEMINI_API_KEY` ortam değişkeniyle vermeniz bu yüzden önemlidir.
 
-```bash
-python -m src.main signal
-```
+### Seçenek B: Hugging Face Spaces (ücretsiz)
 
-### Backtest
+1. <https://huggingface.co> hesabı açın → **New Space** → SDK olarak **Docker** seçin.
+2. Bu deponun dosyalarını Space'e yükleyin (depodaki `Dockerfile` hazır).
+3. Space ayarlarından **Settings → Variables and secrets** ile `APP_PASSWORD` ve
+   `GEMINI_API_KEY` ekleyin. Space'i **private** yapmanız da yeterli koruma sağlar.
 
-```bash
-python -m src.main backtest --strategy rsi_ma
-python -m src.main backtest --strategy ma_crossover --candles 500
-python -m src.main backtest --strategy bb_rsi --fee-pct 0.0015
-```
+### iPhone/Android'de uygulama gibi kullanma
 
-### Strateji veya sembol değiştirme
-
-CLI üzerinden geçici geçersiz kılma:
-
-```bash
-python -m src.main monitor --strategy ma_crossover --symbol ETH_USDT
-```
-
-Veya `config.yaml` dosyasını düzenle:
-
-```yaml
-strategy:
-  active: bb_rsi      # rsi_ma | ma_crossover | bb_rsi
-exchange:
-  symbol: BTC_USDT    # ETH_USDT, SOL_USDT vb. de çalışır
-  timeframe: 1D       # 1m,5m,15m,30m,1h,4h,6h,12h,1D,7D,14D,1M
-  poll_interval_sec: 30
-```
-
-## Stratejiler
-
-| Strateji | Mantık |
-|---|---|
-| `rsi_ma` | Yükseliş trendinde (EMA50 > EMA200) RSI < 30 → AL. Düşüş trendinde RSI > 70 → SAT. |
-| `ma_crossover` | EMA20 yukarı doğru EMA50'yi keserse AL; aşağı keserse SAT. |
-| `bb_rsi` | Fiyat alt Bollinger bandı altına düşer ve RSI < 30 → AL. Üst banda çıkıp RSI > 70 → SAT. |
-
-## Risk Yönetimi
-
-`config.yaml` içindeki `risk` bölümü:
-
-```yaml
-risk:
-  equity_usdt: 1000      # toplam sermaye (varsayım)
-  risk_pct: 0.01         # işlem başına risk %1
-  atr_period: 14
-  atr_sl_mult: 2.0       # stop-loss = entry - 2*ATR
-  atr_tp_mult: 4.0       # take-profit = entry + 4*ATR  → R:R 1:2
-```
+Site adresinizi telefonda Safari/Chrome ile açın → **Paylaş → Ana Ekrana Ekle**.
+PaperForge, PWA desteği sayesinde tam ekran, kendi simgesiyle bir uygulama gibi açılır.
+(App Store'a girmek Apple geliştirici hesabı ve ayrı bir native uygulama gerektirir;
+bu yol onun ücretsiz ve pratik karşılığıdır.)
 
 ## Test
 
 ```bash
-pip install -r requirements.txt
-python -m pytest tests/ -v
+pytest -q
 ```
 
 ## Mimari
 
 ```
-src/
-├── exchange.py       # Crypto.com public REST client (httpx)
-├── indicators.py     # SMA, EMA, RSI, Bollinger, ATR
-├── signal.py         # Signal dataclass
-├── risk.py           # SL/TP ve pozisyon büyüklüğü hesabı
-├── strategies/       # Strateji sınıfları (registry pattern)
-├── backtest.py       # Tek pozisyon, SL/TP destekli backtester
-├── monitor.py        # Rich Live ile canlı tablo
-└── main.py           # click CLI
+app/
+├── main.py, config.py, models.py      # FastAPI, ayarlar, veri modelleri
+├── api/          # REST uçları + SSE canlı olay akışı
+├── jobs/         # iş deposu (JSON kalıcılık) + arkaplan çalıştırıcı
+├── pipeline/     # aşama tabanı (işçi+doğrulayıcı+retry) ve 7 aşama
+├── agents/       # prompt şablonları (TR/EN) + deterministik doğrulayıcılar
+├── llm/          # Gemini / Groq / OpenRouter + şablon modu + yönlendirici
+├── statistics/   # yükleme, tipleme, temizlik, karar motoru, testler, APA raporu
+├── literature/   # OpenAlex, Crossref, PubMed istemcileri + skorlama + APA 7
+├── manuscript/   # [n] atıf sistemi, APA dönüşümü, Word üretici
+└── static/       # Türkçe tek sayfa web paneli (vanilla JS + SSE)
 ```
 
-## Sıkça Sorulanlar
+## Önemli notlar
 
-**Gerçek emir verecek mi?**
-Hayır. Bu bot yalnızca public okuma yapar — API anahtarı kullanmaz. Gerçek emir desteği kasıtlı olarak eklenmemiştir.
-
-**Başka borsa eklenebilir mi?**
-Evet. `src/exchange.py`'a benzer bir Binance/CCXT istemcisi yazıp `Exchange` arayüzünü taklit etmek yeterli.
-
-**Yeni strateji nasıl eklerim?**
-1. `src/strategies/` altında `Strategy` sınıfını miras alan bir dosya oluştur.
-2. `src/strategies/__init__.py` içindeki `STRATEGY_REGISTRY`'ye ekle.
-3. `config.yaml`'a parametrelerini ekle.
+- Sunucu varsayılan olarak yalnızca yerel makinede çalışır; kimlik doğrulama yoktur, internete açmayın.
+- Üretilen makale bir **taslaktır**: göndermeden önce mutlaka okuyun, kaynakları doğrulayın.
+  Yayın etiği gereği içerik sorumluluğu yazara aittir; derginizin yapay zekâ kullanım politikasını kontrol edin.
+- Literatür API'leri (OpenAlex/Crossref/PubMed) ücretsizdir ve anahtar istemez; nadiren yavaş
+  yanıt verebilirler — pipeline tek API çökse bile devam eder.
 
 ## Lisans
 

@@ -1,0 +1,14 @@
+{
+  "name": "PaperForge — SPSS'ten Makaleye",
+  "short_name": "PaperForge",
+  "description": "SPSS verinizden ajan ordularıyla otomatik akademik makale üretimi",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0e1420",
+  "theme_color": "#171f2e",
+  "lang": "tr",
+  "icons": [
+    { "src": "/static/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/static/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

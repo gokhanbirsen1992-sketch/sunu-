@@ -1,0 +1,16 @@
+# Render.com tek tık dağıtımı (Blueprint) — ücretsiz plan
+services:
+  - type: web
+    name: paperforge
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: GEMINI_API_KEY        # ücretsiz anahtar: https://aistudio.google.com/apikey
+        sync: false
+      # İsteğe bağlı: siteyi parolayla korumak isterseniz APP_PASSWORD ekleyin
+      # - key: APP_PASSWORD
+      #   sync: false
