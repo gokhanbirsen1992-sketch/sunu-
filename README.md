@@ -77,9 +77,11 @@ Uygulamayı kendi bilgisayarınıza kurmak istemiyorsanız ücretsiz bulut seçe
    depodaki `render.yaml` her şeyi otomatik yapılandırır.
    **Önemli:** Dal (branch) soran ekranda **`main`** dalını seçin — `render.yaml` bu daldadır.
    "render.yaml bulunamadı" hatası alırsanız sebebi yanlış dalın seçili olmasıdır.
-3. Sorulan iki ortam değişkenini doldurun:
-   - `APP_PASSWORD`: sitenize gireceğiniz parola (**mutlaka doldurun**, yoksa site herkese açık olur).
+3. Sorulan ortam değişkenini doldurun:
    - `GEMINI_API_KEY`: <https://aistudio.google.com/apikey> adresinden alacağınız ücretsiz anahtar.
+   - İsteğe bağlı: siteyi parolayla korumak isterseniz `APP_PASSWORD` adında bir değişken
+     ekleyin (girişte tarayıcı parola sorar; kullanıcı adı boş bırakılır). Eklenmezse site
+     adresi bilen herkese açıktır ve Gemini kotanızı başkaları da kullanabilir.
 4. **Apply** → birkaç dakika içinde `https://paperforge-xxxx.onrender.com` gibi bir adresiniz olur.
 
 Not: Ücretsiz planda site 15 dk kullanılmayınca uyur; ilk açılış ~1 dk sürebilir. Disk kalıcı

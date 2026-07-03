@@ -9,7 +9,8 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.9
-      - key: APP_PASSWORD          # siteyi parolayla korur (boş bırakmayın!)
-        sync: false
       - key: GEMINI_API_KEY        # ücretsiz anahtar: https://aistudio.google.com/apikey
         sync: false
+      # İsteğe bağlı: siteyi parolayla korumak isterseniz APP_PASSWORD ekleyin
+      # - key: APP_PASSWORD
+      #   sync: false
