@@ -66,6 +66,37 @@ Anahtarlar yalnızca bilgisayarınızda `data/keys.json` dosyasında saklanır; 
    🔍 doğrulayıcı, ⚖️ seçici) gerçek zamanlı renklenir; bulgular ve kaynaklar geldikçe listelenir.
 4. **Sonuç** — Word dosyasını indirin. Ekinde veri temizleme raporu da bulunur.
 
+## Canlıya alma — kurulum gerektirmeyen web sitesi
+
+Uygulamayı kendi bilgisayarınıza kurmak istemiyorsanız ücretsiz bulut seçenekleri:
+
+### Seçenek A: Render.com (önerilen, ~5 dakika)
+
+1. <https://render.com> adresinde ücretsiz hesap açın (GitHub ile giriş yapın).
+2. **New + → Blueprint** deyin ve bu depoyu (`gokhanbirsen1992-sketch/sunu-`) seçin —
+   depodaki `render.yaml` her şeyi otomatik yapılandırır.
+3. Sorulan iki ortam değişkenini doldurun:
+   - `APP_PASSWORD`: sitenize gireceğiniz parola (**mutlaka doldurun**, yoksa site herkese açık olur).
+   - `GEMINI_API_KEY`: <https://aistudio.google.com/apikey> adresinden alacağınız ücretsiz anahtar.
+4. **Apply** → birkaç dakika içinde `https://paperforge-xxxx.onrender.com` gibi bir adresiniz olur.
+
+Not: Ücretsiz planda site 15 dk kullanılmayınca uyur; ilk açılış ~1 dk sürebilir. Disk kalıcı
+değildir — anahtarı arayüz yerine `GEMINI_API_KEY` ortam değişkeniyle vermeniz bu yüzden önemlidir.
+
+### Seçenek B: Hugging Face Spaces (ücretsiz)
+
+1. <https://huggingface.co> hesabı açın → **New Space** → SDK olarak **Docker** seçin.
+2. Bu deponun dosyalarını Space'e yükleyin (depodaki `Dockerfile` hazır).
+3. Space ayarlarından **Settings → Variables and secrets** ile `APP_PASSWORD` ve
+   `GEMINI_API_KEY` ekleyin. Space'i **private** yapmanız da yeterli koruma sağlar.
+
+### iPhone/Android'de uygulama gibi kullanma
+
+Site adresinizi telefonda Safari/Chrome ile açın → **Paylaş → Ana Ekrana Ekle**.
+PaperForge, PWA desteği sayesinde tam ekran, kendi simgesiyle bir uygulama gibi açılır.
+(App Store'a girmek Apple geliştirici hesabı ve ayrı bir native uygulama gerektirir;
+bu yol onun ücretsiz ve pratik karşılığıdır.)
+
 ## Test
 
 ```bash

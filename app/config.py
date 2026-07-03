@@ -24,7 +24,7 @@ PROVIDER_ENV = {
 }
 
 DEFAULT_MODELS = {
-    "gemini": os.environ.get("GEMINI_MODEL", "gemini-2.0-flash"),
+    "gemini": os.environ.get("GEMINI_MODEL", "gemini-2.5-flash"),
     "groq": os.environ.get("GROQ_MODEL", "llama-3.3-70b-versatile"),
     "openrouter": os.environ.get("OPENROUTER_MODEL", "meta-llama/llama-3.3-70b-instruct:free"),
 }

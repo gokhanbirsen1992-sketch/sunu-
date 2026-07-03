@@ -154,9 +154,13 @@ class WritingStage(Stage):
         if ctx.router.mode == "llm":
             async with self.agent(ctx, "Başlık Yazarı", "worker", attempt) as h:
                 try:
-                    resp = await ctx.router.complete(prompts.system_writer(lang), prompts.user_title(ctx.findings, topic, lang), max_tokens=100)
-                    title = resp.text.strip().strip('"').splitlines()[0][:150]
-                    await h.passed(title)
+                    resp = await ctx.router.complete(prompts.system_writer(lang), prompts.user_title(ctx.findings, topic, lang), max_tokens=256)
+                    candidate = resp.text.strip().strip('"').splitlines()[0].strip()[:150]
+                    if len(candidate.split()) >= 3:
+                        title = candidate
+                        await h.passed(title)
+                    else:
+                        await h.failed(f"başlık çok kısa ({candidate!r}); şablon başlık korundu")
                 except LLMUnavailable as exc:
                     await h.failed(str(exc))
 

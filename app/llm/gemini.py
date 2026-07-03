@@ -11,7 +11,7 @@ BASE = "https://generativelanguage.googleapis.com/v1beta"
 class GeminiProvider(LLMProvider):
     name = "gemini"
 
-    def __init__(self, api_key: str, model: str = "gemini-2.0-flash"):
+    def __init__(self, api_key: str, model: str = "gemini-2.5-flash"):
         self.api_key = api_key
         self.model = model
 
@@ -20,6 +20,9 @@ class GeminiProvider(LLMProvider):
             "contents": [{"role": "user", "parts": [{"text": user}]}],
             "generationConfig": {"temperature": temperature, "maxOutputTokens": max_tokens},
         }
+        if self.model.startswith("gemini-2.5"):
+            # 2.5 modelleri varsayılan "düşünme" token'larını çıktı bütçesinden harcar; kapat
+            payload["generationConfig"]["thinkingConfig"] = {"thinkingBudget": 0}
         if system:
             payload["systemInstruction"] = {"parts": [{"text": system}]}
         if json_mode:
