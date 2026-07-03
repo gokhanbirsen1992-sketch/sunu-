@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Veri Kâşifi</title>
+<link rel="stylesheet" href="/static/style.css">
+<link rel="manifest" href="/static/manifest.json">
+<link rel="apple-touch-icon" href="/static/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Veri Kâşifi">
+<meta name="theme-color" content="#12192b">
+</head>
+<body>
+<header>
+  <h1>🔎 Veri Kâşifi</h1>
+  <p class="sub">Veri dosyanızı yükleyin: istatistik testleri, gizli gruplar, sıra dışı vakalar,
+  klasik korelasyonun kaçırdığı gizli ilişkiler ve risk skoru — tek dokunuşla bir Word raporunda.</p>
+</header>
+
+<main>
+  <section class="card" id="upload-card">
+    <h2 class="card-title">Veriyi Yükle</h2>
+    <div class="card-body">
+      <div class="field">
+        <label>Dosya (.csv, .xlsx, .xls, .sav)</label>
+        <input type="file" id="file-input" accept=".csv,.xlsx,.xls,.sav,.zsav">
+      </div>
+      <div class="field">
+        <label>Sonuç değişkeni <span class="hint">(isteğe bağlı — ikiliyse risk skoru hesaplanır)</span></label>
+        <input type="text" id="target-input" placeholder="ör. sonuc, hasta_mi">
+      </div>
+      <button class="btn" id="analyze-btn">Analiz Et</button>
+      <div id="spinner" class="spinner hidden"></div>
+      <p class="status" id="status-text"></p>
+    </div>
+  </section>
+
+  <section class="card hidden" id="result-card">
+    <h2 class="card-title">Sonuçlar</h2>
+    <div class="card-body" id="result-body"></div>
+  </section>
+</main>
+
+<footer>Veri Kâşifi — tüm hesaplamalar cihazınızda değil sunucuda, deterministik olarak (SciPy/scikit-learn) yapılır. Yapay zekâ sayı üretmez.</footer>
+<script src="/static/app.js"></script>
+</body>
+</html>

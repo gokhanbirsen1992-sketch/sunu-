@@ -1,0 +1,14 @@
+# Render.com tek tık dağıtımı (Blueprint) — ücretsiz plan
+# Not: Bu klasörün kendi bağımsız servisidir; PaperForge (kök dizindeki render.yaml) ile
+# ilgisi yoktur. Render'da "New +  Blueprint" derken bu deponun Root Directory alanına
+# "verikasifi" yazmanız gerekir.
+services:
+  - type: web
+    name: veri-kasifi
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
