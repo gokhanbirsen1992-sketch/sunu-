@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PaperForge — SPSS'ten Makaleye</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header>
+  <h1>📄 PaperForge</h1>
+  <p class="sub">SPSS verinizi yükleyin → temizlik, istatistik, literatür, yazım, Reviewer&nbsp;2 ve Word çıktısı — hepsi ajan ordularıyla, ücretsiz.</p>
+</header>
+
+<main>
+  <!-- AYARLAR -->
+  <section class="card" id="settings-card">
+    <h2 class="card-title" data-toggle="settings-body">⚙️ Ayarlar <span id="mode-badge" class="badge"></span></h2>
+    <div id="settings-body" class="card-body">
+      <p class="hint">Yapay zeka ajanları için <b>ücretsiz</b> bir API anahtarı girin (önerilen: <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Google Gemini</a> — kredi kartı istemez). Anahtar girmezseniz uygulama <b>şablon modunda</b> yine de tam bir taslak üretir.</p>
+      <div class="key-rows" id="key-rows">
+        <div class="key-row" data-provider="gemini">
+          <label>Gemini</label>
+          <input type="password" placeholder="AIza..." autocomplete="off">
+          <button class="btn small save-key">Kaydet</button>
+          <button class="btn small ghost test-key">Test et</button>
+          <span class="key-status"></span>
+        </div>
+        <div class="key-row" data-provider="groq">
+          <label>Groq</label>
+          <input type="password" placeholder="gsk_..." autocomplete="off">
+          <button class="btn small save-key">Kaydet</button>
+          <button class="btn small ghost test-key">Test et</button>
+          <span class="key-status"></span>
+        </div>
+        <div class="key-row" data-provider="openrouter">
+          <label>OpenRouter</label>
+          <input type="password" placeholder="sk-or-..." autocomplete="off">
+          <button class="btn small save-key">Kaydet</button>
+          <button class="btn small ghost test-key">Test et</button>
+          <span class="key-status"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VERİ YÜKLEME -->
+  <section class="card" id="upload-card">
+    <h2 class="card-title">1️⃣ Veri Yükleme</h2>
+    <div class="card-body">
+      <div class="form-grid">
+        <div class="form-field wide">
+          <label>SPSS dosyası (.sav) veya .csv</label>
+          <input type="file" id="file-input" accept=".sav,.csv">
+        </div>
+        <div class="form-field">
+          <label>Makale dili</label>
+          <select id="language">
+            <option value="tr">Türkçe</option>
+            <option value="en">İngilizce</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Anlamlılık düzeyi (α)</label>
+          <select id="alpha">
+            <option value="0.05">0.05</option>
+            <option value="0.01">0.01</option>
+            <option value="0.10">0.10</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Çoklu test düzeltmesi</label>
+          <select id="p-adjust">
+            <option value="holm">Holm (önerilen)</option>
+            <option value="fdr_bh">Benjamini-Hochberg (FDR)</option>
+            <option value="none">Yok</option>
+          </select>
+        </div>
+        <div class="form-field wide">
+          <label>Çalışmanın konusu (isteğe bağlı ama önerilir)</label>
+          <textarea id="topic" rows="2" placeholder="Örn: Hemşirelerde tükenmişlik ile iş doyumu arasındaki ilişkinin incelenmesi"></textarea>
+        </div>
+      </div>
+      <button class="btn primary" id="upload-btn">Dosyayı Yükle ve İncele</button>
+      <span id="upload-status" class="status-text"></span>
+    </div>
+  </section>
+
+  <!-- DEĞİŞKENLER -->
+  <section class="card hidden" id="vars-card">
+    <h2 class="card-title">2️⃣ Değişkenler <span class="hint-inline">(otomatik tespit — gerekirse düzeltin)</span></h2>
+    <div class="card-body">
+      <div class="table-wrap">
+        <table id="vars-table">
+          <thead>
+            <tr><th>Değişken</th><th>Etiket</th><th>Eksik</th><th>Farklı Değer</th><th>Tip</th><th>Rol</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <button class="btn primary big" id="start-btn">🚀 Analizi Başlat — Ajan Ordusunu Çalıştır</button>
+    </div>
+  </section>
+
+  <!-- PIPELINE -->
+  <section class="card hidden" id="pipeline-card">
+    <h2 class="card-title">3️⃣ Pipeline — Canlı Ajan İzleme</h2>
+    <div class="card-body">
+      <div id="stages" class="stages"></div>
+      <div class="live-grid">
+        <div>
+          <h3>📊 Anlamlı Bulgular</h3>
+          <ul id="findings-list" class="live-list empty" data-empty="Henüz bulgu yok…"></ul>
+        </div>
+        <div>
+          <h3>📚 Bulunan Kaynaklar</h3>
+          <ul id="refs-list" class="live-list empty" data-empty="Henüz kaynak yok…"></ul>
+        </div>
+      </div>
+      <h3>📜 Canlı Günlük</h3>
+      <div id="log" class="log"></div>
+    </div>
+  </section>
+
+  <!-- SONUÇ -->
+  <section class="card hidden" id="result-card">
+    <h2 class="card-title">4️⃣ Sonuç</h2>
+    <div class="card-body">
+      <div id="result-body"></div>
+    </div>
+  </section>
+
+  <!-- GEÇMİŞ -->
+  <section class="card" id="history-card">
+    <h2 class="card-title" data-toggle="history-body">🗂️ Geçmiş İşler</h2>
+    <div id="history-body" class="card-body">
+      <ul id="history-list" class="live-list empty" data-empty="Henüz iş yok."></ul>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>PaperForge — istatistikler yerel Python ile (SciPy/statsmodels), literatür OpenAlex · Crossref · PubMed ile aranır. Üretilen taslak <b>insan denetimi gerektirir</b>; etik kurallar gereği yazar sorumluluğu size aittir.</p>
+</footer>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
