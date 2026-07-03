@@ -12,6 +12,7 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = Path(os.environ.get("PAPERFORGE_DATA_DIR", BASE_DIR / "data"))
 JOBS_DIR = DATA_DIR / "jobs"
+STANDALONE_REPORTS_DIR = DATA_DIR / "standalone"
 KEYS_FILE = DATA_DIR / "keys.json"
 STATIC_DIR = Path(__file__).resolve().parent / "static"
 
@@ -36,6 +37,7 @@ def is_offline() -> bool:
 
 def ensure_dirs() -> None:
     JOBS_DIR.mkdir(parents=True, exist_ok=True)
+    STANDALONE_REPORTS_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def _keys_from_file() -> dict[str, str]:

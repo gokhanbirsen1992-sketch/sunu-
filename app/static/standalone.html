@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>İstatistik Analiz Aracı — PaperForge</title>
+<link rel="stylesheet" href="/static/style.css">
+<link rel="manifest" href="/static/manifest.json">
+<link rel="apple-touch-icon" href="/static/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="İstatistik Analizi">
+<meta name="theme-color" content="#171f2e">
+</head>
+<body>
+<header>
+  <h1>📊 İstatistik Analiz Aracı</h1>
+  <p class="sub">
+    Veri dosyanızı yükleyin: tüm klasik istatistik testleri, gizli gruplar, sıra dışı vakalar,
+    klasik korelasyonun kaçırdığı gizli ilişkiler ve (isteğe bağlı) risk skoru — tek dokunuşla,
+    Word raporu olarak. Makale yazmaz, literatür taramaz, yapay zekâ kullanmaz.
+  </p>
+  <p class="sub"><a href="/">← PaperForge makale aracına dön</a></p>
+</header>
+
+<main>
+  <section class="card" id="upload-card">
+    <h2 class="card-title">Veri Yükle ve Analiz Et</h2>
+    <div class="card-body">
+      <div class="form-grid">
+        <div class="form-field wide">
+          <label>Veri dosyası (.xlsx, .xls, .csv, .sav)</label>
+          <input type="file" id="file-input" accept=".xlsx,.xls,.csv,.sav,.zsav">
+        </div>
+        <div class="form-field">
+          <label>Sonuç değişkeni <span class="hint-inline">(isteğe bağlı — ikiliyse risk skoru hesaplanır)</span></label>
+          <input type="text" id="dv-input" placeholder="ör. sonuc, hasta_mi">
+        </div>
+        <div class="form-field">
+          <label>Dil</label>
+          <select id="lang-input">
+            <option value="tr" selected>Türkçe</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Anlamlılık düzeyi (α)</label>
+          <input type="number" id="alpha-input" value="0.05" step="0.01" min="0.001" max="0.5">
+        </div>
+      </div>
+      <button class="btn primary big" id="analyze-btn">📊 Analiz Et</button>
+      <p class="status-text" id="status-text"></p>
+    </div>
+  </section>
+
+  <section class="card hidden" id="result-card">
+    <h2 class="card-title">Sonuçlar</h2>
+    <div class="card-body" id="result-body"></div>
+  </section>
+</main>
+
+<footer>PaperForge — bağımsız istatistik analiz aracı. Yüklenen veriler yalnızca raporunuzu üretmek için sunucuda geçici olarak tutulur.</footer>
+<script src="/static/standalone.js"></script>
+</body>
+</html>

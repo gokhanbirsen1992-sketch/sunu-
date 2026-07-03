@@ -102,11 +102,21 @@ PaperForge, PWA desteği sayesinde tam ekran, kendi simgesiyle bir uygulama gibi
 (App Store'a girmek Apple geliştirici hesabı ve ayrı bir native uygulama gerektirir;
 bu yol onun ücretsiz ve pratik karşılığıdır.)
 
-## Bağımsız istatistik analiz aracı (`analyze.py`)
+## Bağımsız istatistik analiz aracı
 
 Makale yazımı, literatür taraması veya yapay zekâ **olmadan**, sadece verinizi tam istatistik +
-keşifsel örüntü/risk skoru raporuna çeviren, tek başına çalışan basit bir komut satırı aracı.
-Web uygulamasını kurmanıza gerek yoktur.
+keşifsel örüntü/risk skoru raporuna çeviren, tek başına çalışan basit bir araç. İki şekilde
+kullanılabilir:
+
+### Telefondan / tarayıcıdan (mobil uyumlu)
+
+Uygulama çalışır durumdayken (yerelde veya "Canlıya alma" bölümündeki Render/Hugging Face
+adresinde) tarayıcıda **`/analiz`** sayfasını açın — ör. `https://paperforge-xxxx.onrender.com/analiz`.
+Dosyanızı yükleyin, isterseniz ikili bir sonuç değişkeni yazın, **Analiz Et**'e dokunun; sonuçlar
+ekranda özetlenir ve Word raporu **📥 Raporu İndir** ile indirilir. Ana sayfadaki PWA kurulum
+adımlarıyla (Paylaş → Ana Ekrana Ekle) bu sayfayı da telefonunuza uygulama gibi ekleyebilirsiniz.
+
+### Komut satırından (`analyze.py`)
 
 ```bash
 pip install -r requirements.txt
@@ -114,9 +124,9 @@ python analyze.py veri.xlsx                          # .xlsx, .xls, .csv, .sav d
 python analyze.py veri.sav --dv sonuc --lang en       # ikili sonuç değişkeni işaretlenirse risk skoru da hesaplanır
 ```
 
-Çıktı: `<girdi>_rapor.docx` — değişken özeti, klasik hipotez testleri (Tablo 1) ve keşifsel
-bulgular (gizli gruplar, sıra dışı vakalar, klasik korelasyonun kaçırdığı gizli ilişkiler, risk
-skoru) içeren bir Word raporu. Tüm seçenekler için: `python analyze.py --help`.
+Her iki yol da aynı motoru kullanır. Çıktı: değişken özeti, klasik hipotez testleri (Tablo 1) ve
+keşifsel bulgular (gizli gruplar, sıra dışı vakalar, klasik korelasyonun kaçırdığı gizli
+ilişkiler, risk skoru) içeren bir Word raporu. CLI seçenekleri için: `python analyze.py --help`.
 
 ## Test
 

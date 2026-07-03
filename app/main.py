@@ -12,6 +12,7 @@ from fastapi.staticfiles import StaticFiles
 
 from app import config
 from app.api.routes import router
+from app.api.standalone_routes import router as standalone_router
 from app.jobs.store import store
 
 
@@ -52,11 +53,17 @@ async def basic_auth_middleware(request: Request, call_next):
 
 
 app.include_router(router, prefix="/api")
+app.include_router(standalone_router, prefix="/api/standalone")
 
 
 @app.get("/", include_in_schema=False)
 async def index():
     return FileResponse(config.STATIC_DIR / "index.html")
+
+
+@app.get("/analiz", include_in_schema=False)
+async def standalone_page():
+    return FileResponse(config.STATIC_DIR / "standalone.html")
 
 
 app.mount("/static", StaticFiles(directory=config.STATIC_DIR), name="static")
