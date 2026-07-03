@@ -1,3 +1,8 @@
+> **📊 Sadece istatistik mi istiyorsunuz?** Bu depoda ayrıca **[MegaStat](megastat/README.md)** var:
+> literatür ve makale olmadan, veri dosyanızdaki **hesaplanabilecek her istatistiği** (tüm
+> korelasyonlar, tüm grup karşılaştırmaları, post-hoc, ki-kare, çoklu-test düzeltmeleri) tek
+> komutla hesaplayıp Excel raporu üretir: `python -m megastat veri.sav`
+
 # 📄 PaperForge — SPSS'ten Makaleye Otomatik Pipeline
 
 SPSS (.sav) verinizi yükleyin; **ajan orduları** sırasıyla veriyi temizlesin, doğru istatistiksel
