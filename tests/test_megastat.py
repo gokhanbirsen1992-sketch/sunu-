@@ -113,7 +113,20 @@ def test_web_uctan_uca(ornek_veri):
         "/analiz", files={"dosya": ("veri.csv", buf.getvalue(), "text/csv")}
     )
     assert yanit.status_code == 200, yanit.text
-    veri = yanit.json()
+    is_id = yanit.json()["is_id"]
+
+    # Analiz arka planda çalışır; durum sorgusuyla bitmesini bekle
+    import time
+
+    veri = None
+    for _ in range(600):
+        d = istemci.get(f"/durum/{is_id}")
+        assert d.status_code == 200, d.text
+        veri = d.json()
+        if veri["durum"] != "calisiyor":
+            break
+        time.sleep(0.5)
+    assert veri is not None and veri["durum"] == "bitti", veri
     assert "MegaStat" in veri["ozet_html"]
     indirme = istemci.get(veri["indir"])
     assert indirme.status_code == 200

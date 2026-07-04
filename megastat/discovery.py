@@ -172,7 +172,7 @@ def _gbm_tarama(
                     y = y_ham.astype("category").cat.codes
                     if y.nunique() < 2 or y.value_counts().min() < CV_KAT:
                         continue
-                    model = HistGradientBoostingClassifier(random_state=RANDOM_STATE)
+                    model = HistGradientBoostingClassifier(random_state=RANDOM_STATE, max_iter=80)
                     skorlar = cross_val_score(model, X, y, cv=CV_KAT, scoring="accuracy")
                     metrik_ad, metrik = "doğruluk (CV)", float(np.mean(skorlar))
                     # basit temel: en sık sınıfın oranı
@@ -182,13 +182,13 @@ def _gbm_tarama(
                     y = y_ham.astype(float)
                     if y.nunique() < 5:
                         continue
-                    model = HistGradientBoostingRegressor(random_state=RANDOM_STATE)
+                    model = HistGradientBoostingRegressor(random_state=RANDOM_STATE, max_iter=80)
                     skorlar = cross_val_score(model, X, y, cv=CV_KAT, scoring="r2")
                     metrik_ad, metrik = "R² (CV)", float(np.mean(skorlar))
                     temel, kazanc = 0.0, metrik
                 model.fit(X, y)
                 onem = permutation_importance(
-                    model, X, y, n_repeats=5, random_state=RANDOM_STATE
+                    model, X, y, n_repeats=3, random_state=RANDOM_STATE
                 )
         except Exception:
             continue
@@ -369,13 +369,13 @@ def _risk_skoru(
         try:
             with warnings.catch_warnings():
                 warnings.simplefilter("ignore")
-                model = HistGradientBoostingClassifier(random_state=RANDOM_STATE)
+                model = HistGradientBoostingClassifier(random_state=RANDOM_STATE, max_iter=80)
                 cv = StratifiedKFold(n_splits=CV_KAT, shuffle=True, random_state=RANDOM_STATE)
                 proba = cross_val_predict(model, X, y, cv=cv, method="predict_proba")[:, 1]
                 auc = float(roc_auc_score(y, proba))
                 model.fit(X, y)
                 onem = permutation_importance(
-                    model, X, y, n_repeats=5, random_state=RANDOM_STATE
+                    model, X, y, n_repeats=3, random_state=RANDOM_STATE
                 )
         except Exception:
             continue

@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import html
 import io
+import threading
 import urllib.parse
 import uuid
 
@@ -20,11 +21,15 @@ from megastat.engine import analyze_dataframe
 from megastat.loader import DESTEKLENEN_UZANTILAR, load_bytes
 from megastat.report import excel_raporu, metin_ozeti
 
-app = FastAPI(title="MegaStat", version="1.0.0")
+app = FastAPI(title="MegaStat", version="1.1.0")
 
-# Son raporlar bellekte tutulur (küçük, tek kullanıcılı araç için yeterli)
+# Son raporlar ve işler bellekte tutulur (küçük, tek kullanıcılı araç için yeterli)
 _raporlar: dict[str, tuple[str, bytes]] = {}
 _MAX_RAPOR = 20
+# Analiz ARKA PLANDA çalışır: ücretsiz sunucularda uzun HTTP istekleri ~100 sn'de
+# kesilir; iş kuyruğu + durum sorgusu bu sınırı tamamen devre dışı bırakır.
+_isler: dict[str, dict[str, str]] = {}
+_MAX_IS = 20
 
 _SAYFA = """<!doctype html>
 <html lang="tr">
@@ -79,6 +84,7 @@ _SAYFA = """<!doctype html>
 </div>
 <script>
 const form = document.getElementById("form");
+const bekle = (ms) => new Promise((r) => setTimeout(r, ms));
 form.addEventListener("submit", async (e) => {{
   e.preventDefault();
   const btn = document.getElementById("btn");
@@ -86,16 +92,34 @@ form.addEventListener("submit", async (e) => {{
   const alan = document.getElementById("sonuc");
   const dosya = document.getElementById("dosya").files[0];
   if (!dosya) return;
-  btn.disabled = true; btn.textContent = "Hesaplanıyor… (büyük veride birkaç dakika sürebilir)";
+  btn.disabled = true;
   kart.style.display = "block";
-  alan.innerHTML = "<p>⏳ Tüm istatistikler hesaplanıyor…</p>";
+  alan.innerHTML = "<p>⏳ Analiz başlatılıyor…</p>";
   const fd = new FormData(); fd.append("dosya", dosya);
   try {{
     const yanit = await fetch("/analiz", {{ method: "POST", body: fd }});
     const veri = await yanit.json();
-    if (!yanit.ok) throw new Error(veri.detail || "Analiz başarısız");
-    alan.innerHTML = "<pre>" + veri.ozet_html + "</pre>" +
-      '<a class="indir" href="' + veri.indir + '">⬇️ Tam Excel Raporunu İndir</a>';
+    if (!yanit.ok) throw new Error(veri.detail || "Analiz başlatılamadı");
+    const basla = Date.now();
+    while (true) {{
+      await bekle(3000);
+      const sn = Math.round((Date.now() - basla) / 1000);
+      btn.textContent = "Hesaplanıyor… " + sn + " sn";
+      alan.innerHTML = "<p>⏳ 7 katman hesaplanıyor… (" + sn +
+        " sn) Büyük veride birkaç dakika sürebilir; sayfayı kapatmayın.</p>";
+      let d;
+      try {{
+        const dy = await fetch("/durum/" + veri.is_id);
+        d = await dy.json();
+        if (!dy.ok) throw new Error(d.detail || "durum alınamadı");
+      }} catch (agHata) {{ continue; }}  // geçici ağ hatasında sormaya devam et
+      if (d.durum === "bitti") {{
+        alan.innerHTML = "<pre>" + d.ozet_html + "</pre>" +
+          '<a class="indir" href="' + d.indir + '">⬇️ Tam Excel Raporunu İndir</a>';
+        break;
+      }}
+      if (d.durum === "hata") throw new Error(d.hata || "analiz hatası");
+    }}
   }} catch (err) {{
     alan.innerHTML = '<p class="hata">Hata: ' + err.message + "</p>";
   }} finally {{
@@ -112,30 +136,48 @@ def anasayfa() -> str:
     return _SAYFA.format(uzantilar=", ".join(DESTEKLENEN_UZANTILAR))
 
 
+def _analizi_calistir(is_id: str, icerik: bytes, dosya_adi: str) -> None:
+    try:
+        df = load_bytes(icerik, dosya_adi)
+        sonuc = analyze_dataframe(df)
+        rapor = excel_raporu(sonuc)
+        rapor_id = uuid.uuid4().hex
+        temel_ad = dosya_adi.rsplit(".", 1)[0]
+        _raporlar[rapor_id] = (f"{temel_ad}_megastat.xlsx", rapor)
+        while len(_raporlar) > _MAX_RAPOR:
+            _raporlar.pop(next(iter(_raporlar)))
+        _isler[is_id] = {
+            "durum": "bitti",
+            "ozet_html": html.escape(metin_ozeti(sonuc)),
+            "indir": f"/indir/{rapor_id}",
+        }
+    except Exception as exc:  # okunur mesaj; ayrıntı sunucu logunda
+        _isler[is_id] = {"durum": "hata", "hata": str(exc)}
+
+
 @app.post("/analiz")
 async def analiz(dosya: UploadFile = File(...)) -> dict[str, str]:
     icerik = await dosya.read()
     if not icerik:
         raise HTTPException(status_code=400, detail="Boş dosya yüklendi.")
-    try:
-        df = load_bytes(icerik, dosya.filename or "veri.csv")
-        sonuc = analyze_dataframe(df)
-        rapor = excel_raporu(sonuc)
-    except ValueError as exc:
-        raise HTTPException(status_code=400, detail=str(exc)) from exc
-    except Exception as exc:  # okunur hata mesajı, iz sürme sunucu logunda
-        raise HTTPException(status_code=500, detail=f"Analiz hatası: {exc}") from exc
+    is_id = uuid.uuid4().hex
+    _isler[is_id] = {"durum": "calisiyor"}
+    while len(_isler) > _MAX_IS:
+        _isler.pop(next(iter(_isler)))
+    threading.Thread(
+        target=_analizi_calistir,
+        args=(is_id, icerik, dosya.filename or "veri.csv"),
+        daemon=True,
+    ).start()
+    return {"is_id": is_id}
 
-    rapor_id = uuid.uuid4().hex
-    temel_ad = (dosya.filename or "veri").rsplit(".", 1)[0]
-    _raporlar[rapor_id] = (f"{temel_ad}_megastat.xlsx", rapor)
-    while len(_raporlar) > _MAX_RAPOR:
-        _raporlar.pop(next(iter(_raporlar)))
 
-    return {
-        "ozet_html": html.escape(metin_ozeti(sonuc)),
-        "indir": f"/indir/{rapor_id}",
-    }
+@app.get("/durum/{is_id}")
+def durum(is_id: str) -> dict[str, str]:
+    kayit = _isler.get(is_id)
+    if kayit is None:
+        raise HTTPException(status_code=404, detail="İş bulunamadı; lütfen analizi yeniden başlatın.")
+    return kayit
 
 
 @app.get("/indir/{rapor_id}")
