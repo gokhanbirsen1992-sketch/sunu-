@@ -56,9 +56,17 @@ _SAYFA = """<!doctype html>
 <div class="kutu">
   <h1>📊 Mega<span>Stat</span></h1>
   <div class="kart">
-    <p>Veri dosyanızı seçin (<b>{uzantilar}</b>). Program <b>hesaplanabilecek her istatistiği</b>
-    hesaplar: betimseller, tüm korelasyonlar, tüm grup karşılaştırmaları, post-hoc testler,
-    tüm kategorik ilişkiler ve çoklu-test düzeltmeleri. Sonuç çok sayfalı Excel raporu olarak iner.</p>
+    <p>Veri dosyanızı seçin (<b>{uzantilar}</b>). Program <b>7 katmanlı tam analiz</b> yapar:</p>
+    <ol style="font-size:.9rem; padding-left:20px; margin-top:4px">
+      <li>Betimseller + normallik</li>
+      <li>Tüm klasik testler (t/ANOVA/Mann-Whitney/Kruskal/ki-kare/korelasyon) + FDR düzeltmesi</li>
+      <li>Doğrusal-olmayan gizli ilişkiler (Karşılıklı Bilgi — Pearson'ın kaçırdıkları)</li>
+      <li>Gradient Boosting ML: çok değişkenli öngörü + değişken önem sıralaması</li>
+      <li>Kısmi korelasyon: sahte/aracılı ilişki ayıklama</li>
+      <li>Gizli alt gruplar (PCA + K-Means kümeleme) + sıra dışı vaka tespiti</li>
+      <li>Risk skoru: ikili sonuçlar için çapraz-doğrulamalı risk modeli (AUC)</li>
+    </ol>
+    <p>Sonuç çok sayfalı Excel raporu olarak iner; apaçık/tanımsal korelasyonlar keşiflerden ayrı tutulur.</p>
     <form id="form">
       <input type="file" name="dosya" id="dosya" required>
       <button type="submit" id="btn">Analiz Et</button>

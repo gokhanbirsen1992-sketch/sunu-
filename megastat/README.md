@@ -1,10 +1,25 @@
-# 📊 MegaStat — Sınırsız İstatistik Motoru
+# 📊 MegaStat — 7 Katmanlı Sınırsız İstatistik + ML Keşif Motoru
 
-Veri dosyanızı verin (CSV / Excel / SPSS `.sav`), MegaStat **hesaplanabilecek her istatistiği**
-hesaplasın. Literatür yok, makale yok, yapay zekâ yok — sadece saf, deterministik istatistik.
-PaperForge (`app/`) kodundan tamamen bağımsızdır.
+Veri dosyanızı verin (CSV / Excel / SPSS `.sav`), MegaStat **7 katmanlı tam analiz** yapsın.
+Literatür yok, makale yok, üretken yapay zekâ yok — saf, deterministik istatistik + makine
+öğrenmesi. PaperForge (`app/`) kodundan tamamen bağımsızdır.
 
-## Ne hesaplar?
+## 7 Katman
+
+| # | Katman | Ne bulur |
+|---|---|---|
+| 1 | **Betimseller + normallik** | her değişkenin tam profili (20+ ölçü), Shapiro-Wilk / D'Agostino |
+| 2 | **Klasik testler (sınırsız)** | tüm t/Welch/Mann-Whitney/ANOVA/Kruskal/ki-kare/Fisher/korelasyon çiftleri + etki büyüklükleri + Bonferroni/Holm/FDR |
+| 3 | **Doğrusal-olmayan gizli ilişkiler** | Karşılıklı Bilgi (Mutual Information): Pearson'ın düşük gösterdiği ama gerçekte güçlü (eğrisel/eşikli) bağlar |
+| 4 | **ML öngörü (Gradient Boosting)** | her değişkeni diğerlerinden tahmin eden çapraz-doğrulamalı model + permütasyon önem sıralaması: "X'i asıl ne belirliyor?" |
+| 5 | **Kısmi korelasyon** | üçüncü değişken kontrol edilince kaybolan **sahte/aracılı** ilişkiler ve güçlenen **baskılanmış** ilişkiler |
+| 6 | **Gizli alt gruplar + sıra dışı vakalar** | PCA + K-Means kümeleme (silhouette kaliteli), Isolation Forest ile çok değişkenli anomali tespiti |
+| 7 | **Risk skoru** | ikili sonuçlar (hasta/sağlam vb.) için çapraz-doğrulamalı risk modeli: AUC, risk belirleyicileri, en riskli vakalar |
+
+Ayrıca: `TotalBilirubin↔İndirekBilirubin` gibi **apaçık/tanımsal korelasyonlar** (|r|≥0.95)
+otomatik ayıklanıp ayrı sayfaya konur — gerçek keşifleri boğmazlar.
+
+## Klasik katmanın (1-2) tam dökümü
 
 | Kategori | İçerik |
 |---|---|

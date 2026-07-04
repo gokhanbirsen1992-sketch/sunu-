@@ -94,6 +94,27 @@ def excel_raporu(sonuc: AnalysisResult) -> bytes:
             else:
                 tablo.to_excel(yazici, sheet_name=ad, index=False)
 
+        # ── ML / Keşif katmanı sayfaları ──
+        k = sonuc.kesif
+        if k is not None and k.calisti:
+            if k.one_cikanlar:
+                pd.DataFrame({"ML Keşif Bulguları (öne çıkanlar)": k.one_cikanlar}).to_excel(
+                    yazici, sheet_name="ML Keşif Özeti", index=False
+                )
+            kesif_sayfalar = [
+                ("Doğrusal-Olmayan İlişkiler", k.dogrusal_olmayan),
+                ("Öngörü (Gradient Boosting)", k.gbm_onem),
+                ("Gizli Alt Gruplar", k.kumeler),
+                ("Sıra Dışı Vakalar", k.anomaliler),
+                ("Kısmi Korelasyon", k.kismi_korelasyon),
+                ("Risk Modelleri", k.risk_modelleri),
+                ("Riskli Vakalar", k.riskli_vakalar),
+                ("Beklenen (Tanımsal) Korelasyon", k.gereksiz_korelasyonlar),
+            ]
+            for ad, tablo in kesif_sayfalar:
+                if tablo is not None and not tablo.empty:
+                    tablo.to_excel(yazici, sheet_name=ad[:31], index=False)
+
         if sonuc.atlanan_testler:
             pd.DataFrame(sonuc.atlanan_testler).to_excel(
                 yazici, sheet_name="Atlanan Testler", index=False
@@ -108,7 +129,9 @@ def metin_ozeti(sonuc: AnalysisResult, en_fazla_bulgu: int = 25) -> str:
         "═══ MegaStat Analiz Özeti ═══",
         f"Veri: {o['satır sayısı']} satır × {o['sütun sayısı']} sütun "
         f"({o['sayısal değişken']} sayısal, {o['kategorik değişken']} kategorik değişken kullanıldı)",
-        f"Hesaplanan istatistik sayısı: {o['hesaplanan istatistik (hücre) sayısı']:,}".replace(",", "."),
+        f"Klasik istatistik hücresi: {o['hesaplanan istatistik (hücre) sayısı']:,}".replace(",", "."),
+        f"TOPLAM hesaplama (klasik + ML, yaklaşık): "
+        f"{o.get('TOPLAM hesaplama (yaklaşık)', 0):,}".replace(",", "."),
         f"Çalıştırılan test grupları: {o['korelasyon çifti']} korelasyon çifti, "
         f"{o['grup karşılaştırması']} grup karşılaştırması, "
         f"{o['post-hoc karşılaştırma']} post-hoc, {o['kategorik ilişki testi']} kategorik ilişki",
@@ -127,6 +150,24 @@ def metin_ozeti(sonuc: AnalysisResult, en_fazla_bulgu: int = 25) -> str:
             fdr = r["FDR p"]
             fdr_s = f"{fdr:.2e}" if (isinstance(fdr, float) and not np.isnan(fdr)) else "?"
             satirlar.append(f"• [{r['tür']}] {r['bulgu']} — {r['istatistik']} (FDR p={fdr_s}, n={r['n']})")
+    k = sonuc.kesif
+    if k is not None:
+        satirlar.append("")
+        if not k.calisti:
+            satirlar.append(f"ML keşif katmanı çalışmadı: {k.neden}")
+        elif k.one_cikanlar:
+            satirlar.append("── 🧠 ML KEŞİF KATMANI (Pearson'ın göremediği örüntüler) ──")
+            satirlar.extend(f"{b}" for b in k.one_cikanlar)
+            if not k.gereksiz_korelasyonlar.empty:
+                satirlar.append(
+                    f"ℹ️ {len(k.gereksiz_korelasyonlar)} apaçık/tanımsal korelasyon "
+                    "(ör. birbirinin kopyası ölçümler) keşif listesinden ayıklandı — "
+                    "Excel'de 'Beklenen (Tanımsal) Korelasyon' sayfasında."
+                )
+        else:
+            satirlar.append(
+                "🧠 ML keşif katmanı çalıştı; klasik testlerin ötesinde ek gizli örüntü bulunamadı."
+            )
     if sonuc.atlanan_sutunlar:
         satirlar.append("")
         satirlar.append(f"Atlanan sütun: {len(sonuc.atlanan_sutunlar)} (ayrıntı Excel'de)")

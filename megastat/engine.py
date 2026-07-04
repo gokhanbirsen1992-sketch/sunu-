@@ -50,6 +50,7 @@ class AnalysisResult:
     posthoc: pd.DataFrame
     kategorik_iliskiler: pd.DataFrame
     atlanan_testler: list[dict[str, str]]
+    kesif: Any = None  # DiscoveryResult | None (ML/keşif katmanı)
     ozet: dict[str, Any] = field(default_factory=dict)
 
 
@@ -567,9 +568,36 @@ def _p_duzeltmeleri(tablo: pd.DataFrame, p_sutunu: str) -> pd.DataFrame:
     return tablo
 
 
+def _ml_hesap_sayisi(kesif: Any, n_satir: int, n_say: int, n_kat: int) -> int:
+    """ML/keşif katmanının yaptığı ara hesap sayısının kaba ama gerçekçi tahmini.
+
+    Her ağaç modeli için: CV katları × (ağaç sayısı × düğüm bölme değerlendirmesi) +
+    permütasyon önemi (n_tekrar × özellik × satır). Sayı şişirmeden, gerçek işlem yükünü
+    yansıtır — kullanıcı 'kaç hesap yapıldı' sorusuna dürüst bir cevap görsün diye.
+    """
+    hesap = 0
+    # Doğrusal-olmayan (MI): her çift için k-NN taraması ≈ n log n
+    n_cift_say = n_say * (n_say - 1) // 2
+    if n_satir > 1:
+        hesap += n_cift_say * int(n_satir * max(1, np.log2(n_satir)))
+    # Gradient boosting: model başına ~100 ağaç × 32 düğüm × n satır (bölme değerlendirmesi)
+    #                     + permütasyon (5 tekrar × özellik × n)
+    n_model = int(len(kesif.gbm_onem)) + int(len(kesif.risk_modelleri))
+    ozellik = max(1, n_say + n_kat - 1)
+    hesap += n_model * (100 * 32 * n_satir + 5 * ozellik * n_satir)
+    # Kümeleme: k denemesi × K-Means iterasyonları × n × boyut
+    if not kesif.kumeler.empty:
+        hesap += 5 * 50 * n_satir * min(n_say, 10)
+    # Anomali (Isolation Forest): 100 ağaç × n
+    hesap += 100 * n_satir
+    # Kısmi korelasyon: matris tersleme ≈ n_say³
+    hesap += n_say ** 3
+    return int(hesap)
+
+
 # ── Ana giriş noktası ─────────────────────────────────────────────────────────
-def analyze_dataframe(df: pd.DataFrame) -> AnalysisResult:
-    """Tüm istatistik bataryasını çalıştırır ve sonuç paketini döndürür."""
+def analyze_dataframe(df: pd.DataFrame, kesif_yap: bool = True) -> AnalysisResult:
+    """Tüm istatistik bataryasını + (isteğe bağlı) ML keşif katmanını çalıştırır."""
     df = df.copy()
     degiskenler, atlanan_sutunlar = degiskenleri_algila(df)
     sayisallar = [d.ad for d in degiskenler if d.tip == "sayisal"]
@@ -581,6 +609,17 @@ def analyze_dataframe(df: pd.DataFrame) -> AnalysisResult:
     korelasyon = korelasyon_taramasi(df, sayisallar, atlanan_testler)
     gruplar, posthoc = grup_karsilastirmalari(df, kategorikler, sayisallar, atlanan_testler)
     kat_iliski = kategorik_iliskiler(df, kategorikler, atlanan_testler)
+
+    kesif = None
+    if kesif_yap:
+        try:
+            from megastat.discovery import kesif_analizi
+
+            kesif = kesif_analizi(df, sayisallar, kategorikler)
+        except Exception as exc:  # keşif katmanı hatası klasik analizi durdurmasın
+            from megastat.discovery import DiscoveryResult
+
+            kesif = DiscoveryResult(calisti=False, neden=f"Keşif katmanı hatası: {exc}")
 
     istatistik_sayisi = int(
         bet_say.size + bet_kat.size + korelasyon.size + gruplar.size + posthoc.size + kat_iliski.size
@@ -605,6 +644,15 @@ def analyze_dataframe(df: pd.DataFrame) -> AnalysisResult:
         "FDR sonrası anlamlı bulgu": anlamli,
         "atlanan test": len(atlanan_testler),
     }
+    ml_hesap = 0
+    if kesif is not None and kesif.calisti:
+        ozet["ML keşif bulgusu"] = len(kesif.one_cikanlar)
+        ozet["doğrusal-olmayan gizli ilişki"] = int(len(kesif.dogrusal_olmayan))
+        ozet["gizli alt grup (küme)"] = int(kesif.kume_ozet.get("küme sayısı", 0) or 0)
+        ozet["beklenen/tanımsal korelasyon (ayıklandı)"] = int(len(kesif.gereksiz_korelasyonlar))
+        ml_hesap = _ml_hesap_sayisi(kesif, len(df), len(sayisallar), len(kategorikler))
+        ozet["ML ara hesap (yaklaşık)"] = ml_hesap
+    ozet["TOPLAM hesaplama (yaklaşık)"] = istatistik_sayisi + ml_hesap
     return AnalysisResult(
         degiskenler=degiskenler,
         atlanan_sutunlar=atlanan_sutunlar,
@@ -615,5 +663,6 @@ def analyze_dataframe(df: pd.DataFrame) -> AnalysisResult:
         posthoc=posthoc,
         kategorik_iliskiler=kat_iliski,
         atlanan_testler=atlanan_testler,
+        kesif=kesif,
         ozet=ozet,
     )
