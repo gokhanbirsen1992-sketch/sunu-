@@ -129,7 +129,9 @@ def metin_ozeti(sonuc: AnalysisResult, en_fazla_bulgu: int = 25) -> str:
         "═══ MegaStat Analiz Özeti ═══",
         f"Veri: {o['satır sayısı']} satır × {o['sütun sayısı']} sütun "
         f"({o['sayısal değişken']} sayısal, {o['kategorik değişken']} kategorik değişken kullanıldı)",
-        f"Hesaplanan istatistik sayısı: {o['hesaplanan istatistik (hücre) sayısı']:,}".replace(",", "."),
+        f"Klasik istatistik hücresi: {o['hesaplanan istatistik (hücre) sayısı']:,}".replace(",", "."),
+        f"TOPLAM hesaplama (klasik + ML, yaklaşık): "
+        f"{o.get('TOPLAM hesaplama (yaklaşık)', 0):,}".replace(",", "."),
         f"Çalıştırılan test grupları: {o['korelasyon çifti']} korelasyon çifti, "
         f"{o['grup karşılaştırması']} grup karşılaştırması, "
         f"{o['post-hoc karşılaştırma']} post-hoc, {o['kategorik ilişki testi']} kategorik ilişki",
