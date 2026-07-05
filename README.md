@@ -139,9 +139,8 @@ app/
 ## Claude Code: Akademik Araştırma Becerileri
 
 Bu depo, [Academic Research Skills](https://github.com/Imbad0202/academic-research-skills)
-eklentisini (CC-BY-NC 4.0, Cheng-I Wu) proje ayarları üzerinden otomatik yükler
-(`.claude/settings.json` → plugin marketplace kaydı + etkinleştirme). Depoyu Claude Code
-ile açtığınızda eklentiyi kurmanız önerilir; kurulduğunda şu 4 beceri kullanılabilir olur:
+paketini (CC-BY-NC 4.0, Cheng-I Wu) doğrudan `.claude/` altında içerir — ek kurulum
+gerekmez, depoyu Claude Code ile açtığınızda şu 4 beceri hazırdır:
 
 - **deep-research** — 13 ajanlı derin araştırma ekibi (sistematik derleme, PRISMA, fact-check)
 - **academic-paper** — 12 ajanlı makale yazım hattı (taslak, özet, literatür, atıf dönüşümü)
