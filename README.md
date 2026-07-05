@@ -136,6 +136,20 @@ app/
 - Literatür API'leri (OpenAlex/Crossref/PubMed) ücretsizdir ve anahtar istemez; nadiren yavaş
   yanıt verebilirler — pipeline tek API çökse bile devam eder.
 
+## Claude Code: Akademik Araştırma Becerileri
+
+Bu depo, [Academic Research Skills](https://github.com/Imbad0202/academic-research-skills)
+eklentisini (CC-BY-NC 4.0, Cheng-I Wu) proje ayarları üzerinden otomatik yükler
+(`.claude/settings.json` → plugin marketplace kaydı + etkinleştirme). Depoyu Claude Code
+ile açtığınızda eklentiyi kurmanız önerilir; kurulduğunda şu 4 beceri kullanılabilir olur:
+
+- **deep-research** — 13 ajanlı derin araştırma ekibi (sistematik derleme, PRISMA, fact-check)
+- **academic-paper** — 12 ajanlı makale yazım hattı (taslak, özet, literatür, atıf dönüşümü)
+- **academic-paper-reviewer** — 7 ajanlı çok perspektifli hakem değerlendirmesi
+- **academic-pipeline** — araştırma → yazım → hakemlik → revizyon → finalizasyon orkestratörü
+
+Ayrıca `/ars-full`, `/ars-outline`, `/ars-lit-review`, `/ars-reviewer` gibi slash komutları gelir.
+
 ## Lisans
 
-MIT
+MIT (uygulama kodu). Academic Research Skills eklentisi kendi deposunda CC-BY-NC 4.0 ile lisanslıdır.
