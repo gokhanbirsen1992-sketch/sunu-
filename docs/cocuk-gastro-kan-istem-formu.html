@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Çocuk Gastroenteroloji Poliklinik Kan Tetkik İstem Formu</title>
+<style>
+  @page { size: A4; margin: 8mm; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: #fff; }
+  body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 8.6pt;
+    color: #1a1a1a;
+    width: 194mm;
+    margin: 0 auto;
+    padding: 4mm 0;
+  }
+  /* ---------- Başlık ---------- */
+  .form-header {
+    display: flex; justify-content: space-between; align-items: center;
+    border: 1.4pt solid #1a3e6e; border-radius: 3pt;
+    padding: 4pt 8pt; margin-bottom: 4pt;
+    background: #eef3fa;
+  }
+  .form-header h1 { font-size: 12pt; color: #1a3e6e; letter-spacing: .3pt; }
+  .form-header .sub { font-size: 8pt; color: #444; margin-top: 1pt; }
+  .form-header .kurum {
+    text-align: right; font-size: 7.5pt; color: #333; line-height: 1.35;
+  }
+  .kurum .dots { color: #888; }
+  /* ---------- Hasta bilgileri ---------- */
+  table.hasta {
+    width: 100%; border-collapse: collapse; margin-bottom: 4pt;
+    font-size: 8.3pt;
+  }
+  table.hasta td {
+    border: .6pt solid #9ab; padding: 3pt 5pt; vertical-align: bottom;
+  }
+  table.hasta .lbl { font-weight: 600; color: #1a3e6e; white-space: nowrap; }
+  .yaz { color: #999; }
+  /* ---------- Hazır paneller ---------- */
+  .paneller {
+    border: .9pt solid #1a3e6e; border-radius: 3pt;
+    padding: 3pt 6pt 4pt; margin-bottom: 4pt; background: #f6f9fd;
+  }
+  .paneller .baslik {
+    font-size: 8.5pt; font-weight: 700; color: #1a3e6e; margin-bottom: 2pt;
+  }
+  .paneller .satir { display: flex; flex-wrap: wrap; gap: 2pt 12pt; }
+  .paneller label { white-space: nowrap; font-size: 8.2pt; }
+  /* ---------- Tetkik kolonları ---------- */
+  .kolonlar { display: flex; gap: 4pt; align-items: flex-start; }
+  .kolon { flex: 1; display: flex; flex-direction: column; gap: 4pt; }
+  .grup {
+    border: .7pt solid #b6c3d4; border-radius: 3pt; overflow: hidden;
+    break-inside: avoid;
+  }
+  .grup h2 {
+    font-size: 8.4pt; font-weight: 700; color: #fff;
+    background: #1a3e6e; padding: 2.5pt 6pt; letter-spacing: .2pt;
+  }
+  .grup ul { list-style: none; padding: 2.5pt 5pt 3.5pt; }
+  .grup li {
+    padding: 1pt 0; line-height: 1.32;
+    display: flex; align-items: baseline; gap: 4pt;
+  }
+  .kutu {
+    display: inline-block; width: 8pt; height: 8pt;
+    border: .9pt solid #333; border-radius: 1.2pt;
+    flex: 0 0 auto; position: relative; top: 1pt;
+  }
+  .not { font-size: 7.2pt; color: #666; }
+  /* ---------- Alt bölüm ---------- */
+  .alt {
+    display: flex; gap: 4pt; margin-top: 4pt; align-items: stretch;
+  }
+  .alt .kutu-alan {
+    border: .7pt solid #b6c3d4; border-radius: 3pt; padding: 3pt 6pt;
+    flex: 1; font-size: 8pt;
+  }
+  .alt .kutu-alan .b { font-weight: 700; color: #1a3e6e; }
+  .cizgi { border-bottom: .6pt dotted #999; height: 11pt; }
+  .imza { flex: 0 0 58mm; text-align: center; }
+  .imza .b { font-weight: 700; color: #1a3e6e; }
+  .imza .alan { height: 34pt; }
+  .dipnot {
+    margin-top: 3pt; font-size: 6.8pt; color: #777; text-align: center;
+  }
+  @media print {
+    body { width: auto; padding: 0; }
+    .grup, .paneller, .form-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<!-- BAŞLIK -->
+<div class="form-header">
+  <div>
+    <h1>ÇOCUK GASTROENTEROLOJİ POLİKLİNİĞİ</h1>
+    <div class="sub">Kan Tetkik İstem Formu</div>
+  </div>
+  <div class="kurum">
+    Kurum / Hastane: <span class="dots">........................................</span><br>
+    Poliklinik: Çocuk Gastroenteroloji, Hepatoloji ve Beslenme<br>
+    Form No: ÇG-LAB-01 &nbsp;•&nbsp; Sayfa 1/1
+  </div>
+</div>
+
+<!-- HASTA BİLGİLERİ -->
+<table class="hasta">
+  <tr>
+    <td class="lbl">Adı Soyadı:</td><td style="width:26%"></td>
+    <td class="lbl">Doğum Tarihi:</td><td style="width:12%"></td>
+    <td class="lbl">Yaş:</td><td style="width:7%"></td>
+    <td class="lbl">Cinsiyet:</td><td style="width:9%">☐ K &nbsp; ☐ E</td>
+  </tr>
+  <tr>
+    <td class="lbl">Protokol / Dosya No:</td><td></td>
+    <td class="lbl">T.C. Kimlik No:</td><td></td>
+    <td class="lbl">Tarih:</td><td></td>
+    <td class="lbl">Açlık:</td><td>☐ Aç &nbsp; ☐ Tok</td>
+  </tr>
+  <tr>
+    <td class="lbl">Ön Tanı / Tanı (ICD-10):</td><td colspan="5"></td>
+    <td class="lbl">Aciliyet:</td><td>☐ Rutin ☐ Acil</td>
+  </tr>
+</table>
+
+<!-- HAZIR PANELLER -->
+<div class="paneller">
+  <div class="baslik">HIZLI PANEL SEÇİMİ <span class="not">(işaretlenen panel, altındaki tüm tetkikleri kapsar — ayrıca tek tek işaretlemek için aşağıdaki listeyi kullanınız)</span></div>
+  <div class="satir">
+    <label><span class="kutu"></span> Karın ağrısı / dispepsi temel paneli</label>
+    <label><span class="kutu"></span> Kronik ishal – malabsorbsiyon paneli</label>
+    <label><span class="kutu"></span> Çölyak tarama paneli</label>
+    <label><span class="kutu"></span> Transaminaz yüksekliği / hepatit paneli</label>
+    <label><span class="kutu"></span> Kolestaz paneli</label>
+    <label><span class="kutu"></span> İBH (İnflamatuvar Bağırsak Hastalığı) paneli</label>
+    <label><span class="kutu"></span> Büyüme geriliği / beslenme paneli</label>
+    <label><span class="kutu"></span> Kabızlık paneli</label>
+  </div>
+</div>
+
+<!-- TETKİK LİSTESİ – 3 KOLON -->
+<div class="kolonlar">
+
+  <!-- KOLON 1 -->
+  <div class="kolon">
+    <div class="grup">
+      <h2>1. HEMATOLOJİ</h2>
+      <ul>
+        <li><span class="kutu"></span> Tam kan sayımı (Hemogram)</li>
+        <li><span class="kutu"></span> Periferik yayma</li>
+        <li><span class="kutu"></span> Retikülosit</li>
+        <li><span class="kutu"></span> Sedimentasyon (ESH)</li>
+        <li><span class="kutu"></span> PT / INR</li>
+        <li><span class="kutu"></span> aPTT</li>
+        <li><span class="kutu"></span> Fibrinojen</li>
+        <li><span class="kutu"></span> Kan grubu + Rh</li>
+      </ul>
+    </div>
+
+    <div class="grup">
+      <h2>2. BİYOKİMYA – TEMEL</h2>
+      <ul>
+        <li><span class="kutu"></span> Glukoz (açlık)</li>
+        <li><span class="kutu"></span> Üre (BUN)</li>
+        <li><span class="kutu"></span> Kreatinin</li>
+        <li><span class="kutu"></span> AST</li>
+        <li><span class="kutu"></span> ALT</li>
+        <li><span class="kutu"></span> GGT</li>
+        <li><span class="kutu"></span> ALP</li>
+        <li><span class="kutu"></span> Total / Direkt bilirubin</li>
+        <li><span class="kutu"></span> Total protein</li>
+        <li><span class="kutu"></span> Albümin</li>
+        <li><span class="kutu"></span> Na, K, Cl</li>
+        <li><span class="kutu"></span> Kalsiyum (Ca)</li>
+        <li><span class="kutu"></span> Fosfor (P)</li>
+        <li><span class="kutu"></span> Magnezyum (Mg)</li>
+        <li><span class="kutu"></span> Ürik asit</li>
+        <li><span class="kutu"></span> LDH</li>
+        <li><span class="kutu"></span> CK</li>
+      </ul>
+    </div>
+
+    <div class="grup">
+      <h2>3. PANKREAS / LİPİT</h2>
+      <ul>
+        <li><span class="kutu"></span> Amilaz</li>
+        <li><span class="kutu"></span> Lipaz</li>
+        <li><span class="kutu"></span> Trigliserid</li>
+        <li><span class="kutu"></span> Total kolesterol</li>
+        <li><span class="kutu"></span> HDL / LDL</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- KOLON 2 -->
+  <div class="kolon">
+    <div class="grup">
+      <h2>4. İNFLAMASYON / İBH</h2>
+      <ul>
+        <li><span class="kutu"></span> CRP</li>
+        <li><span class="kutu"></span> Prokalsitonin</li>
+        <li><span class="kutu"></span> ANCA (p-ANCA / c-ANCA)</li>
+        <li><span class="kutu"></span> ASCA (IgA / IgG)</li>
+        <li><span class="kutu"></span> Quantiferon (TDT öncesi tarama)</li>
+        <li><span class="kutu"></span> TPMT aktivitesi <span class="not">(azatiyoprin öncesi)</span></li>
+      </ul>
+    </div>
+
+    <div class="grup">
+      <h2>5. ÇÖLYAK PANELİ</h2>
+      <ul>
+        <li><span class="kutu"></span> Total IgA</li>
+        <li><span class="kutu"></span> Anti-doku transglutaminaz IgA (anti-tTG IgA)</li>
+        <li><span class="kutu"></span> Anti-tTG IgG <span class="not">(IgA eksikliğinde)</span></li>
+        <li><span class="kutu"></span> Anti-endomisyum antikoru (EMA)</li>
+        <li><span class="kutu"></span> Deamide gliadin peptid (DGP IgA/IgG)</li>
+        <li><span class="kutu"></span> HLA-DQ2 / DQ8</li>
+      </ul>
+    </div>
+
+    <div class="grup">
+      <h2>6. VİTAMİN – MİNERAL / BESLENME</h2>
+      <ul>
+        <li><span class="kutu"></span> Demir, demir bağlama (TDBK)</li>
+        <li><span class="kutu"></span> Ferritin</li>
+        <li><span class="kutu"></span> Vitamin B12</li>
+        <li><span class="kutu"></span> Folat (folik asit)</li>
+        <li><span class="kutu"></span> 25-OH Vitamin D</li>
+        <li><span class="kutu"></span> Çinko</li>
+        <li><span class="kutu"></span> Vitamin A</li>
+        <li><span class="kutu"></span> Vitamin E</li>
+        <li><span class="kutu"></span> Selenyum</li>
+        <li><span class="kutu"></span> Prealbümin</li>
+      </ul>
+    </div>
+
+    <div class="grup">
+      <h2>7. HORMON / METABOLİK</h2>
+      <ul>
+        <li><span class="kutu"></span> TSH</li>
+        <li><span class="kutu"></span> Serbest T4</li>
+        <li><span class="kutu"></span> HbA1c</li>
+        <li><span class="kutu"></span> İnsülin (açlık)</li>
+        <li><span class="kutu"></span> Parathormon (PTH)</li>
+        <li><span class="kutu"></span> Laktat</li>
+        <li><span class="kutu"></span> Amonyak</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- KOLON 3 -->
+  <div class="kolon">
+    <div class="grup">
+      <h2>8. HEPATİT / VİRAL SEROLOJİ</h2>
+      <ul>
+        <li><span class="kutu"></span> HBsAg</li>
+        <li><span class="kutu"></span> Anti-HBs</li>
+        <li><span class="kutu"></span> Anti-HBc IgM / total</li>
+        <li><span class="kutu"></span> Anti-HAV IgM / IgG</li>
+        <li><span class="kutu"></span> Anti-HCV</li>
+        <li><span class="kutu"></span> Anti-HIV</li>
+        <li><span class="kutu"></span> EBV serolojisi (VCA IgM/IgG)</li>
+        <li><span class="kutu"></span> CMV serolojisi (IgM/IgG)</li>
+      </ul>
+    </div>
+
+    <div class="grup">
+      <h2>9. KARACİĞER – İLERİ / KOLESTAZ</h2>
+      <ul>
+        <li><span class="kutu"></span> Seruloplazmin</li>
+        <li><span class="kutu"></span> Serum bakır</li>
+        <li><span class="kutu"></span> Alfa-1 antitripsin (düzey)</li>
+        <li><span class="kutu"></span> Alfa-fetoprotein (AFP)</li>
+        <li><span class="kutu"></span> Safra asitleri (açlık)</li>
+        <li><span class="kutu"></span> ANA</li>
+        <li><span class="kutu"></span> Anti-düz kas antikoru (ASMA)</li>
+        <li><span class="kutu"></span> Anti-LKM-1</li>
+        <li><span class="kutu"></span> IgG (otoimmün hepatit için)</li>
+        <li><span class="kutu"></span> TORCH paneli <span class="not">(infantil kolestaz)</span></li>
+      </ul>
+    </div>
+
+    <div class="grup">
+      <h2>10. İMMÜNOLOJİ / ALERJİ</h2>
+      <ul>
+        <li><span class="kutu"></span> İmmünoglobulinler (IgA, IgG, IgM)</li>
+        <li><span class="kutu"></span> Total IgE</li>
+        <li><span class="kutu"></span> Spesifik IgE – besin paneli <span class="not">(süt, yumurta, buğday…)</span></li>
+        <li><span class="kutu"></span> Eozinofil sayısı</li>
+      </ul>
+    </div>
+
+    <div class="grup">
+      <h2>11. DİĞER</h2>
+      <ul>
+        <li><span class="kutu"></span> H. pylori antikoru (serum)</li>
+        <li><span class="kutu"></span> İlaç düzeyi: ............................</li>
+        <li><span class="kutu"></span> Diğer: ......................................</li>
+        <li><span class="kutu"></span> Diğer: ......................................</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ALT BÖLÜM -->
+<div class="alt">
+  <div class="kutu-alan">
+    <div class="b">Klinik Not / Açıklama:</div>
+    <div class="cizgi"></div>
+    <div class="cizgi"></div>
+    <div class="cizgi"></div>
+  </div>
+  <div class="kutu-alan imza">
+    <div class="b">İsteyen Hekim</div>
+    <div class="alan"></div>
+    Adı Soyadı / Kaşe – İmza
+  </div>
+</div>
+
+<div class="dipnot">
+  Bu form poliklinik iç kullanımı için hazırlanmıştır. Tetkik seçimi klinik endikasyona göre hekim tarafından yapılır.
+  Açlık gerektiren tetkikler (glukoz, insülin, lipit paneli, safra asitleri) için hastanın aç gelmesi sağlanmalıdır.
+</div>
+
+</body>
+</html>
