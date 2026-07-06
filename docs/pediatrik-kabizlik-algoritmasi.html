@@ -1,0 +1,488 @@
+<title>Pediyatrik Kabızlık — Tanı ve Tedavi Algoritması</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8;
+    --surface: #ffffff;
+    --surface-2: #eef2f2;
+    --ink: #14201f;
+    --ink-soft: #4a5957;
+    --line: #d5dedd;
+    --line-strong: #b7c4c3;
+    --accent: #0f766e;
+    --accent-wash: #e6f1ef;
+    --alarm: #b91c1c;
+    --alarm-wash: #fbeaea;
+    --warn: #b45309;
+    --warn-wash: #fbf1e4;
+    --safe: #15803d;
+    --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px;
+    --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716;
+      --surface: #14201f;
+      --surface-2: #1a2827;
+      --ink: #e7eeed;
+      --ink-soft: #a3b2b0;
+      --line: #263635;
+      --line-strong: #354947;
+      --accent: #4cc4b6;
+      --accent-wash: #12312d;
+      --alarm: #f38b8b;
+      --alarm-wash: #34201f;
+      --warn: #e2a862;
+      --warn-wash: #322616;
+      --safe: #6dc98a;
+      --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  /* ---------- Header ---------- */
+  header.masthead {
+    border-left: 4px solid var(--accent);
+    padding: 4px 0 4px 18px;
+    margin-bottom: 28px;
+  }
+  .eyebrow {
+    font-size: .72rem; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--accent); font-weight: 700; margin: 0 0 6px;
+  }
+  h1 {
+    font-size: clamp(1.5rem, 3.4vw, 2.15rem);
+    line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em;
+  }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 62ch; font-size: .98rem; }
+  .meta {
+    margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px;
+  }
+  .tag {
+    font-size: .74rem; padding: 4px 10px; border-radius: 100px;
+    background: var(--accent-wash); color: var(--accent); font-weight: 600;
+    border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+  }
+
+  /* ---------- Section scaffolding ---------- */
+  section { margin-top: 34px; }
+  h2 {
+    font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em;
+    display: flex; align-items: baseline; gap: 10px;
+  }
+  h2 .n {
+    font-size: .78rem; font-weight: 700; color: var(--accent);
+    font-variant-numeric: tabular-nums;
+    border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+    border-radius: 6px; padding: 1px 7px; translate: 0 -2px;
+  }
+  .lede { color: var(--ink-soft); max-width: 68ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: 20px 22px;
+  }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+  .hl { color: var(--accent); font-weight: 700; }
+
+  /* ---------- Rome criteria callout ---------- */
+  .rome { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .rome { grid-template-columns: 1fr 1fr; } }
+  .rome .card h3 { margin: 0 0 4px; font-size: 1rem; }
+  .rome .age { font-size: .76rem; color: var(--ink-soft); margin: 0 0 12px; letter-spacing: .02em; }
+  .crit { counter-reset: c; margin: 0; padding: 0; list-style: none; }
+  .crit li {
+    position: relative; padding: 7px 0 7px 30px; border-top: 1px solid var(--line);
+    font-size: .92rem;
+  }
+  .crit li:first-child { border-top: none; }
+  .crit li::before {
+    counter-increment: c; content: counter(c);
+    position: absolute; left: 0; top: 7px;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: var(--accent-wash); color: var(--accent);
+    font-size: .72rem; font-weight: 700; display: grid; place-items: center;
+  }
+  .note-inline { font-size: .84rem; color: var(--ink-soft); margin-top: 12px; }
+
+  /* ---------- Flowchart ---------- */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node {
+    width: 100%; max-width: 640px; background: var(--surface);
+    border: 1px solid var(--line-strong); border-radius: var(--radius);
+    padding: 14px 18px; box-shadow: var(--shadow); position: relative;
+  }
+  .node .k {
+    font-size: .68rem; letter-spacing: .12em; text-transform: uppercase;
+    font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px;
+  }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision {
+    border-color: var(--warn); background: var(--warn-wash);
+    border-radius: 14px;
+  }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches {
+    width: 100%; max-width: 640px; display: grid; grid-template-columns: 1fr 1fr;
+    gap: 16px; position: relative;
+  }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label {
+    font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px;
+    margin-bottom: 8px;
+  }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* ---------- Tables ---------- */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; color: var(--accent); }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* ---------- Alarm list ---------- */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item {
+    display: flex; gap: 10px; align-items: flex-start;
+    background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent);
+    border-radius: 10px; padding: 10px 12px; font-size: .9rem;
+  }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  /* ---------- Callout ---------- */
+  .callout {
+    border-left: 4px solid var(--warn); background: var(--warn-wash);
+    padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px;
+  }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+
+  footer {
+    margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line);
+    font-size: .82rem; color: var(--ink-soft);
+  }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer {
+    margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong);
+    border-radius: 10px; font-size: .82rem; color: var(--ink-soft);
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Çocuklarda Fonksiyonel Kabızlık — Tanı ve Tedavi Algoritması</h1>
+    <p class="sub">Rome IV tanı ölçütleri ve ESPGHAN/NASPGHAN 2014 kanıta dayalı kılavuzuna göre; birinci basamak ve pediatri pratiği için basamaklı yaklaşım.</p>
+    <div class="meta">
+      <span class="tag">Rome IV</span>
+      <span class="tag">ESPGHAN / NASPGHAN 2014</span>
+      <span class="tag">0–18 yaş</span>
+      <span class="tag">Fonksiyonel (organik olmayan) kabızlık</span>
+    </div>
+  </header>
+
+  <!-- 1. TANIM & TANI -->
+  <section>
+    <h2><span class="n">01</span> Tanı ölçütleri (Rome IV)</h2>
+    <p class="lede">Çocukların ~%95'inde kabızlık <b>fonksiyoneldir</b>. Tanı öncelikle klinik olup, iki ölçüt setinden en az <b>2 madde</b> ≥1 ay (≥4 yaş için ≥1 ay, çoğu semptom son 2 ayda) karşılanmalıdır.</p>
+
+    <div class="rome">
+      <div class="card">
+        <h3>0–4 yaş (bebek/erken çocukluk)</h3>
+        <p class="age">≥1 ay süreyle, aşağıdakilerden ≥2</p>
+        <ol class="crit">
+          <li>Haftada ≤2 defekasyon</li>
+          <li>Tuvalet eğitimi sonrası haftada ≥1 kirletme (enkoprezis)</li>
+          <li>Aşırı gaita tutma öyküsü</li>
+          <li>Ağrılı veya sert-sıkı dışkılama</li>
+          <li>Rektumda büyük gaita kitlesi</li>
+          <li>Tuvaleti tıkayan büyük çaplı dışkı</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h3>≥4 yaş (çocuk/ergen)</h3>
+        <p class="age">≥1 ay, İBS ölçütlerini karşılamayan, aşağıdakilerden ≥2</p>
+        <ol class="crit">
+          <li>Haftada ≤2 tuvalette defekasyon</li>
+          <li>Haftada ≥1 kirletme epizodu</li>
+          <li>Retansif postür / istemli gaita tutma öyküsü</li>
+          <li>Ağrılı veya sert dışkılama</li>
+          <li>Rektumda büyük gaita kitlesi</li>
+          <li>Tuvaleti tıkayan büyük çaplı dışkı</li>
+        </ol>
+      </div>
+    </div>
+    <p class="note-inline">Tanı için görüntüleme, laboratuvar veya kolonik geçiş çalışması <b>gerekmez</b>. Ayrıntılı öykü + fizik muayene (perianal/lomber-sakral bölge + tek seferlik rektal muayene endikeyse) çoğu vakada yeterlidir.</p>
+  </section>
+
+  <!-- 2. ANA ALGORİTMA -->
+  <section>
+    <h2><span class="n">02</span> Karar akışı</h2>
+    <p class="lede">Değerlendir → alarm bulgularını dışla → impaksiyonu boşalt → idame → izlem. Her basamakta ailenin eğitimi ve tuvalet rutini tedavinin temelidir.</p>
+
+    <div class="flow">
+      <div class="node start">
+        <span class="k">Başlangıç</span>
+        <span class="t">Kabızlık şikâyeti ile başvuru</span>
+        <p>Öykü: başlangıç yaşı, dışkı sıklığı/kıvamı (Bristol), ağrı, kanama, kirletme, tuvalet eğitimi, beslenme, ilaçlar, mekonyum çıkış zamanı, büyüme.</p>
+      </div>
+      <div class="connector"></div>
+
+      <div class="node decision">
+        <span class="k">Karar 1</span>
+        <span class="t">Alarm bulgusu / organik neden şüphesi var mı?</span>
+        <p>Bkz. bölüm 03. Mekonyumun >48 saatte çıkışı, kanlı dışkı (fissür yokken), büyüme geriliği, safralı kusma, karın distansiyonu, anormal nörolojik/sakral bulgu…</p>
+      </div>
+
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → organik değerlendirme</span>
+          <div class="node alarm">
+            <span class="k">Yönlendirme</span>
+            <span class="t">Hedefe yönelik tetkik + sevk</span>
+            <p>Hirschsprung, hipotiroidi, çölyak, anatomik/spinal anomali, inek sütü alerjisi vb. Pediatrik gastroenterolojiye yönlendir; ampirik idameyi geciktirme.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → fonksiyonel kabızlık</span>
+          <div class="node action">
+            <span class="k">Tanı</span>
+            <span class="t">Fonksiyonel kabızlık kabul et</span>
+            <p>Aileyi bilgilendir; tuvalet ve beslenme davranışlarını düzenle; tedaviye başla.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 2</span>
+        <span class="t">Fekal impaksiyon var mı?</span>
+        <p>Rektumda kitle, sık kirletme, taşkın (overflow) inkontinans, kısmi tıkanma. Muayene/öyküyle değerlendir.</p>
+      </div>
+
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">VAR → önce disimpaksiyon</span>
+          <div class="node action">
+            <span class="k">Basamak A</span>
+            <span class="t">Disimpaksiyon (boşaltma)</span>
+            <p><b>Oral PEG 1–1.5 g/kg/gün, 3–6 gün</b> (ilk basamak). Alternatif/başarısızlıkta lavman. İdameye ancak boşalma sağlanınca geç.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">YOK → doğrudan idame</span>
+          <div class="node action safe">
+            <span class="k">Basamak B</span>
+            <span class="t">İdame tedavisine başla</span>
+            <p>Boşaltma gerekmiyorsa idame ozmotik laksatifle başla.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="connector"></div>
+      <div class="node action safe">
+        <span class="k">Basamak C · Temel</span>
+        <span class="t">İdame tedavi — en az 2 ay</span>
+        <p><b>PEG 0.4 g/kg/gün</b> (birinci tercih), doz dışkıyı yumuşak tutacak şekilde titre edilir. + düzenli <b>tuvalet oturma rutini</b> (öğünlerden sonra 5–10 dk), pozitif pekiştirme, yeterli sıvı ve dengeli lif. Belirtiler <b>en az 1 ay tamamen düzeldikten sonra</b> ve tuvalet eğitimi tamamsa kademeli azalt.</p>
+      </div>
+
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 3</span>
+        <span class="t">4–8 haftada yeterli yanıt var mı?</span>
+      </div>
+
+      <div class="branches">
+        <div class="branch no">
+          <span class="label">YANIT VAR → sürdür + azalt</span>
+          <div class="node action safe">
+            <span class="k">İzlem</span>
+            <span class="t">Devam et, relapsı izle</span>
+            <p>Tedaviyi erken kesme; nüks sıktır. Kademeli doz azaltımı, aile eğitimini pekiştir.</p>
+          </div>
+        </div>
+        <div class="branch yes">
+          <span class="label">YANIT YOK → yeniden değerlendir</span>
+          <div class="node alarm">
+            <span class="k">Dirençli</span>
+            <span class="t">Uyum? doz? tanı? → sevk</span>
+            <p>İlaç uyumu ve dozu gözden geçir, ikinci ajan ekle (bkz. tablo). İnatçı vakada organik nedenleri yeniden ara ve <b>pediatrik gastroenterolojiye yönlendir</b>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. ALARM BULGULARI -->
+  <section>
+    <h2><span class="n">03</span> Alarm bulguları (organik neden düşündürenler)</h2>
+    <p class="lede">Bu bulgulardan herhangi biri varsa fonksiyonel kabızlık tanısı ertelenir; hedefe yönelik tetkik ve sevk gerekir.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Yaşamın ilk <b>1 ayında</b> başlayan kabızlık</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Mekonyumun <b>>48 saatte</b> çıkışı (Hirschsprung)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span><b>Büyüme geriliği</b> / kilo kaybı</span></div>
+      <div class="alarm-item"><span class="dot"></span><span><b>Safralı kusma</b>, ciddi karın distansiyonu</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Fissür olmadan <b>rektal kanama</b></span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ailede <b>Hirschsprung</b> öyküsü</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Anormal anüs pozisyonu / <b>anal ton</b>, gluteal asimetri</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Lombosakral bölgede kıllanma, gamze, sakral çukur → <b>spinal anomali</b></span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Alt ekstremitede <b>nörolojik defisit</b> / kremaster refleks kaybı</span></div>
+      <div class="alarm-item"><span class="dot"></span><span><b>Mesane disfonksiyonu</b>, sürekli idrar kaçırma</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Sistemik: ateş, <b>çölyak/hipotiroidi</b> bulguları, aşırı susama</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Cinsel istismar kaygısı / açıklanamayan bulgular</span></div>
+    </div>
+  </section>
+
+  <!-- 4. İLAÇ TABLOSU -->
+  <section>
+    <h2><span class="n">04</span> İlaç dozları</h2>
+    <p class="lede">Ozmotik laksatifler (özellikle PEG) hem boşaltma hem idamede birinci basamaktır. Dozlar yaklaşık olup çocuğa ve yanıta göre titre edilir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Disimpaksiyon (boşaltma) — kısa süreli</caption>
+        <thead><tr><th>İlaç</th><th>Doz</th><th>Süre / not</th></tr></thead>
+        <tbody>
+          <tr><td>PEG 3350/4000 <span style="color:var(--accent)">(1. tercih)</span></td><td class="dose">1–1.5 g/kg/gün</td><td>3–6 gün; sıvıyla; ayaktan uygulanabilir</td></tr>
+          <tr><td>Sodyum fosfat / salin lavman</td><td class="dose">Yaşa göre</td><td>PEG yoksa/yetersizse; süt çocuğunda dikkatli</td></tr>
+          <tr><td>Bisakodil (rektal) — seçili vaka</td><td class="dose">5–10 mg</td><td>Rutin ilk tercih değil</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-scroll" style="margin-top:16px;">
+      <table>
+        <caption>İdame tedavi — en az 2 ay</caption>
+        <thead><tr><th>İlaç</th><th>Başlangıç dozu</th><th>Not</th></tr></thead>
+        <tbody>
+          <tr><td>PEG 3350/4000 <span style="color:var(--accent)">(1. tercih)</span></td><td class="dose">0.4 g/kg/gün</td><td>Yumuşak dışkıya göre titre; her yaşta güvenli, palatabl</td></tr>
+          <tr><td>Laktuloz</td><td class="dose">1–2 g/kg/gün<br>(1–3 mL/kg)</td><td>&lt;6 ay / PEG uygun değilse tercih; gaz yapabilir</td></tr>
+          <tr><td>Sıvı parafin (mineral yağ)</td><td class="dose">1–3 mL/kg/gün</td><td>&gt;1 yaş; aspirasyon riski olanda kaçın</td></tr>
+          <tr><td>Magnezyum hidroksit</td><td class="dose">Yaşa göre</td><td>Alternatif ozmotik; böbrek yetmezliğinde dikkat</td></tr>
+          <tr><td>Bisakodil / senna <span style="color:var(--warn)">(ek uyarıcı)</span></td><td class="dose">Yaşa göre</td><td>Ozmotik yetersizse kısa süreli ekleme (kurtarma)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout" style="margin-top:16px;">
+      <b>Süt çocuğunda</b> (&lt;6 ay) laktuloz veya ozmotik ilk seçenektir; ayrıca laktuloz/sorbitol içeren meyve suları (kuru erik, armut, elma) faydalıdır. <b>İnek sütü proteini alerjisi</b> düşünülen dirençli vakalarda 2–4 haftalık eliminasyon denenebilir.
+    </div>
+  </section>
+
+  <!-- 5. DAVRANIŞ & DİYET -->
+  <section>
+    <h2><span class="n">05</span> Davranışsal ve beslenme desteği</h2>
+    <div class="grid two">
+      <div class="card">
+        <h3 style="margin:0 0 8px; font-size:1rem;">Tuvalet rutini &amp; davranış</h3>
+        <ul class="clean">
+          <li>Öğünlerden sonra günde 2–3 kez, <b>5–10 dk</b> tuvalette oturma (gastrokolik refleks).</li>
+          <li>Ayakların desteklendiği <b>uygun postür</b> (basamak/tabure).</li>
+          <li>Dışkı günlüğü ve <b>pozitif pekiştirme</b> (ödül/yıldız çizelgesi).</li>
+          <li>Cezalandırıcı tutumdan kaçın; tuvalet korkusunu azalt.</li>
+          <li>Aile eğitimi: kabızlık kronik seyreder, tedavi <b>aylar</b> sürer.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 style="margin:0 0 8px; font-size:1rem;">Beslenme</h3>
+        <ul class="clean">
+          <li><b>Yeterli sıvı</b> ve yaşa uygun dengeli <b>lif</b> alımı (normalin üstüne çıkarmak gerekmez).</li>
+          <li>Sorbitol içeren meyve suları (kuru erik, armut, elma) süt çocuğunda yardımcı.</li>
+          <li><b>Rutin olarak</b> prebiyotik/probiyotik önerilmez (yeterli kanıt yok).</li>
+          <li>Aşırı inek sütü tüketimini gözden geçir.</li>
+          <li>Diyet tek başına tedavi değildir — laksatifin yerini tutmaz.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout safe" style="margin-top:16px;">
+      <b>Tedavinin süresi:</b> İdame en az <b>2 ay</b> sürdürülür; belirtiler <b>en az 1 ay tam düzeldikten</b> ve tuvalet eğitimi tamamlandıktan sonra doz kademeli azaltılır. Erken kesme en sık nüks nedenidir.
+    </div>
+  </section>
+
+  <!-- 6. SEVK -->
+  <section>
+    <h2><span class="n">06</span> Pediatrik gastroenterolojiye ne zaman sevk?</h2>
+    <div class="card">
+      <div class="pill-row">
+        <span class="pill">Herhangi bir <b>alarm bulgusu</b></span>
+        <span class="pill">Optimal tedaviye rağmen <b>dirençli</b> seyir</span>
+        <span class="pill">Tanıda belirsizlik / organik şüphe</span>
+        <span class="pill">Hirschsprung şüphesi (mekonyum gecikmesi)</span>
+        <span class="pill">Ağır enkoprezis / psikososyal etki</span>
+        <span class="pill">Rektal prolapsus, anal patoloji</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="disclaimer">
+    <b>Uyarı:</b> Bu şema eğitim ve hızlı başvuru amaçlıdır; bireysel klinik karar, güncel kılavuzlar ve yerel protokollerin yerine geçmez. İlaç dozları uygulamadan önce doğrulanmalıdır. Yayımlanmış tam metin kılavuzlara başvurun.
+  </div>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Tabbers MM, DiLorenzo C, Berger MY, ve ark. Evaluation and Treatment of Functional Constipation in Infants and Children: Evidence-Based Recommendations From ESPGHAN and NASPGHAN. <i>JPGN.</i> 2014;58(2):258–274.</li>
+      <li>Hyams JS, Di Lorenzo C, Saps M, ve ark. Functional Disorders: Children and Adolescents (Rome IV). <i>Gastroenterology.</i> 2016;150(6):1456–1468.</li>
+      <li>Benninga MA, Faure C, Hyman PE, ve ark. Childhood Functional Gastrointestinal Disorders: Neonate/Toddler (Rome IV). <i>Gastroenterology.</i> 2016;150(6):1443–1455.</li>
+    </ol>
+  </footer>
+
+</div>
