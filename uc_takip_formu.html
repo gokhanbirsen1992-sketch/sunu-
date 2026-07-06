@@ -1,0 +1,407 @@
+<title>Ülseratif Kolit — Poliklinik Takip Formu</title>
+<style>
+  :root{
+    --bg:#f4f6f7; --surface:#ffffff; --ink:#16232b; --muted:#5c6b74;
+    --line:#d7dee2; --line-strong:#b9c4ca;
+    --accent:#0f5c63; --accent-soft:#e3eff0; --accent-ink:#0a4046;
+    --thead:#0f5c63; --thead-ink:#ffffff; --zebra:#f2f6f6;
+    --field:#fbfdfd; --shadow:0 1px 2px rgba(16,35,43,.06),0 8px 24px rgba(16,35,43,.05);
+    --radius:12px;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --bg:#0e1618; --surface:#15211f; --ink:#e7eef0; --muted:#9db0b2;
+      --line:#2a3a3a; --line-strong:#3a4e4e;
+      --accent:#4fb7bd; --accent-soft:#12312f; --accent-ink:#8fd6da;
+      --thead:#12403f; --thead-ink:#daf1f2; --zebra:#122220;
+      --field:#101c1b; --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="light"]{
+    --bg:#f4f6f7; --surface:#ffffff; --ink:#16232b; --muted:#5c6b74;
+    --line:#d7dee2; --line-strong:#b9c4ca; --accent:#0f5c63; --accent-soft:#e3eff0;
+    --accent-ink:#0a4046; --thead:#0f5c63; --thead-ink:#ffffff; --zebra:#f2f6f6; --field:#fbfdfd;
+  }
+  :root[data-theme="dark"]{
+    --bg:#0e1618; --surface:#15211f; --ink:#e7eef0; --muted:#9db0b2;
+    --line:#2a3a3a; --line-strong:#3a4e4e; --accent:#4fb7bd; --accent-soft:#12312f;
+    --accent-ink:#8fd6da; --thead:#12403f; --thead-ink:#daf1f2; --zebra:#122220; --field:#101c1b;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;
+    font-size:15px; line-height:1.5; -webkit-text-size-adjust:100%;
+  }
+  .wrap{max-width:900px; margin:0 auto; padding:20px 16px 64px;}
+
+  /* Toolbar */
+  .toolbar{
+    position:sticky; top:0; z-index:20; display:flex; gap:10px; flex-wrap:wrap;
+    align-items:center; justify-content:space-between;
+    background:color-mix(in srgb,var(--bg) 86%, transparent);
+    backdrop-filter:saturate(1.2) blur(8px);
+    padding:10px 4px; margin-bottom:14px; border-bottom:1px solid var(--line);
+  }
+  .toolbar .hint{color:var(--muted); font-size:12.5px}
+  .btn{
+    border:1px solid var(--accent); background:var(--accent); color:#fff;
+    font:inherit; font-size:13.5px; font-weight:600; padding:8px 14px; border-radius:999px;
+    cursor:pointer; display:inline-flex; gap:7px; align-items:center;
+  }
+  .btn.secondary{background:transparent; color:var(--accent-ink); border-color:var(--line-strong)}
+  .btn:hover{filter:brightness(1.05)}
+  .btn:focus-visible,input:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+  /* Header */
+  header.doc{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+    box-shadow:var(--shadow); padding:22px 24px; margin-bottom:16px;
+    border-top:4px solid var(--accent);
+  }
+  header.doc h1{margin:0; font-size:22px; letter-spacing:.2px; text-wrap:balance}
+  header.doc .sub{color:var(--muted); font-size:13.5px; margin-top:4px}
+  header.doc .basis{
+    margin-top:10px; font-size:11.5px; color:var(--muted);
+    border-top:1px dashed var(--line); padding-top:8px;
+  }
+  header.doc .basis b{color:var(--accent-ink)}
+
+  section.card{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+    box-shadow:var(--shadow); padding:16px 18px; margin-bottom:14px; break-inside:avoid;
+  }
+  h2{
+    font-size:14px; text-transform:uppercase; letter-spacing:.8px; color:var(--accent-ink);
+    margin:0 0 12px; display:flex; align-items:center; gap:9px;
+  }
+  h2 .num{
+    flex:0 0 auto; width:24px; height:24px; border-radius:7px; background:var(--accent-soft);
+    color:var(--accent-ink); display:grid; place-items:center; font-size:12.5px; font-weight:700;
+  }
+  h3{font-size:12.5px; margin:14px 0 8px; color:var(--muted); text-transform:uppercase; letter-spacing:.6px}
+
+  .grid{display:grid; gap:10px 20px}
+  .g2{grid-template-columns:1fr 1fr}
+  @media(max-width:620px){.g2{grid-template-columns:1fr}}
+
+  .fld{display:flex; flex-direction:column; gap:3px; min-width:0}
+  .fld label{font-size:12.5px; font-weight:600}
+  .fld .line{
+    border:1px solid var(--line); background:var(--field); border-radius:8px;
+    min-height:32px; padding:5px 9px; font-size:13px;
+  }
+  .fld .line[contenteditable]:empty:before{content:attr(data-ph); color:var(--muted); opacity:.7}
+  .fld .cue{font-size:11px; color:var(--muted); font-style:italic}
+
+  .checks{display:flex; flex-wrap:wrap; gap:6px 8px; margin:2px 0}
+  .chk{
+    display:inline-flex; align-items:center; gap:6px; font-size:12.5px;
+    border:1px solid var(--line); background:var(--field); padding:4px 10px; border-radius:999px; cursor:pointer;
+  }
+  .chk input{accent-color:var(--accent); width:15px; height:15px; margin:0}
+  .chk:has(input:checked){border-color:var(--accent); background:var(--accent-soft); color:var(--accent-ink); font-weight:600}
+
+  .note{
+    font-size:11.5px; color:var(--muted); background:var(--accent-soft);
+    border-left:3px solid var(--accent); border-radius:0 8px 8px 0; padding:8px 11px; margin-top:10px;
+  }
+  .note b{color:var(--accent-ink)}
+
+  .tablewrap{overflow-x:auto; margin:4px 0 2px; border-radius:10px; border:1px solid var(--line)}
+  table{border-collapse:collapse; width:100%; font-size:12.5px; min-width:480px}
+  thead th{background:var(--thead); color:var(--thead-ink); text-align:left; font-weight:600; padding:8px 10px; font-size:12px}
+  tbody td{border-top:1px solid var(--line); padding:7px 10px; vertical-align:top}
+  tbody tr:nth-child(even){background:var(--zebra)}
+  td.fill{color:var(--muted)}
+  .blankcell{display:block; min-height:20px; border-bottom:1px dotted var(--line-strong)}
+
+  .sig{display:flex; flex-wrap:wrap; gap:24px; margin-top:8px; font-size:13px; color:var(--muted)}
+  .sig .u{border-bottom:1px solid var(--line-strong); min-width:220px; display:inline-block}
+
+  ol.refs{margin:6px 0 0; padding-left:20px; font-size:11.5px; color:var(--muted)}
+  ol.refs li{margin-bottom:5px}
+  .disclaimer{margin-top:12px; font-size:11px; color:var(--muted); font-style:italic}
+
+  /* Print → temiz A4 / PDF */
+  @media print{
+    :root{--bg:#fff; --surface:#fff; --shadow:none}
+    body{font-size:11pt}
+    .toolbar{display:none}
+    .wrap{max-width:none; padding:0}
+    section.card,header.doc{border:1px solid #ccc; box-shadow:none; break-inside:avoid}
+    .note{background:#f4f8f8 !important}
+    thead th{background:#0f5c63 !important; -webkit-print-color-adjust:exact; print-color-adjust:exact}
+    .chk:has(input:checked){background:#e3eff0 !important}
+  }
+</style>
+
+<div class="wrap">
+  <div class="toolbar">
+    <span class="hint">Ekranda doldurabilir, ☐ kutuları işaretleyebilirsiniz. PDF için <b>Yazdır</b>ı kullanın.</span>
+    <div style="display:flex;gap:8px">
+      <button class="btn secondary" onclick="toggleTheme()" type="button">🌓 Tema</button>
+      <button class="btn" onclick="window.print()" type="button">🖨️ Yazdır / PDF</button>
+    </div>
+  </div>
+
+  <header class="doc">
+    <h1>Ülseratif Kolit — Poliklinik Takip Formu</h1>
+    <div class="sub">Gastroenteroloji / İç Hastalıkları Polikliniği — İBH İzlem Formu</div>
+    <div class="basis">Literatür temeli: <b>ECCO</b> Kılavuzları (Tanı/İzlem &amp; Tıbbi Tedavi, 2022) · <b>STRIDE-II</b> Treat-to-Target (2021) · <b>Mayo</b> &amp; <b>UCEIS</b> aktivite skorları · <b>Truelove-Witts</b> ağır atak kriterleri</div>
+  </header>
+
+  <!-- 1 -->
+  <section class="card">
+    <h2><span class="num">1</span> Hasta Kimlik ve Ziyaret Bilgileri</h2>
+    <div class="grid g2">
+      <div class="fld"><label>Ad-Soyad / Protokol No</label><div class="line" contenteditable data-ph="…"></div></div>
+      <div class="fld"><label>Ziyaret tarihi</label><div class="line" contenteditable data-ph="gg/aa/yyyy"></div></div>
+      <div class="fld"><label>Doğum tarihi / Yaş</label><div class="line" contenteditable></div></div>
+      <div class="fld"><label>Takip eden hekim</label><div class="line" contenteditable></div></div>
+      <div class="fld"><label>Cinsiyet / Telefon</label><div class="line" contenteditable></div></div>
+      <div class="fld"><label>Bir sonraki randevu</label><div class="line" contenteditable></div></div>
+    </div>
+    <h3>Ziyaret tipi</h3>
+    <div class="checks">
+      <label class="chk"><input type="checkbox">Rutin</label>
+      <label class="chk"><input type="checkbox">Alevlenme</label>
+      <label class="chk"><input type="checkbox">Kontrol</label>
+      <label class="chk"><input type="checkbox">İlk değerlendirme</label>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="card">
+    <h2><span class="num">2</span> Tanı ve Hastalık Özellikleri — Montreal Sınıflaması</h2>
+    <div class="grid g2">
+      <div class="fld"><label>Tanı tarihi / Hastalık süresi</label><div class="line" contenteditable data-ph="… yıl"></div></div>
+      <div class="fld"><label>Tanı yöntemi</label><div class="line" contenteditable data-ph="kolonoskopi + histopatoloji"></div></div>
+    </div>
+    <h3>Yaygınlık (Montreal E)</h3>
+    <div class="checks">
+      <label class="chk"><input type="checkbox">E1 – Proktit (rektum)</label>
+      <label class="chk"><input type="checkbox">E2 – Sol kolon (splenik fleksuraya dek)</label>
+      <label class="chk"><input type="checkbox">E3 – Yaygın / Pankolit</label>
+    </div>
+    <h3>Şiddet (Montreal S — güncel / en yüksek)</h3>
+    <div class="checks">
+      <label class="chk"><input type="checkbox">S0 – Klinik remisyon</label>
+      <label class="chk"><input type="checkbox">S1 – Hafif</label>
+      <label class="chk"><input type="checkbox">S2 – Orta</label>
+      <label class="chk"><input type="checkbox">S3 – Ağır</label>
+    </div>
+    <div class="grid g2" style="margin-top:10px">
+      <div class="fld"><label>Ekstraintestinal tutulum</label><div class="line" contenteditable data-ph="artrit, üveit, eritema nodozum, PSK, VTE…"></div></div>
+      <div class="fld"><label>Aile öyküsü (İBH)</label><div class="line" contenteditable></div></div>
+      <div class="fld"><label>Sigara durumu</label><div class="line" contenteditable data-ph="hiç / bırakmış / aktif"></div></div>
+      <div class="fld"><label>Önceki komplikasyon</label><div class="line" contenteditable data-ph="ağır atak, yatış, displazi, cerrahi"></div></div>
+    </div>
+    <div class="note"><b>E</b> = hastalığın en geniş anatomik sınırı; yaygınlık gözetim, tedavi yolu ve kolektomi riskini belirler (ECCO 2022).</div>
+  </section>
+
+  <!-- 3 -->
+  <section class="card">
+    <h2><span class="num">3</span> Güncel Tedavi ve Uyum</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>İlaç</th><th>Doz / Yol</th><th>Başlangıç</th><th>Uyum</th><th>Yan etki</th></tr></thead>
+        <tbody>
+          <tr><td><span class="blankcell"></span></td><td><span class="blankcell"></span></td><td><span class="blankcell"></span></td><td><span class="blankcell"></span></td><td><span class="blankcell"></span></td></tr>
+          <tr><td><span class="blankcell"></span></td><td><span class="blankcell"></span></td><td><span class="blankcell"></span></td><td><span class="blankcell"></span></td><td><span class="blankcell"></span></td></tr>
+          <tr><td><span class="blankcell"></span></td><td><span class="blankcell"></span></td><td><span class="blankcell"></span></td><td><span class="blankcell"></span></td><td><span class="blankcell"></span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="fld" style="margin-top:10px"><label>Steroide maruziyet (son 12 ay)</label><div class="line" contenteditable data-ph="kür sayısı / kümülatif süre — bağımlılık? direnç?"></div></div>
+    <div class="note">5-ASA (oral ± topikal), topikal/sistemik steroid, tiyopürin (AZA/6-MP), anti-TNF, vedolizumab, ustekinumab, JAK inhibitörü (tofa/upadasitinib), ozanimod. <b>Steroid idame tedavi değildir</b> — bağımlılık/direnç kaydedilmeli.</div>
+  </section>
+
+  <!-- 4 -->
+  <section class="card">
+    <h2><span class="num">4</span> Semptom Değerlendirme — Kısmi Mayo (pMayo)</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Parametre</th><th>0</th><th>1</th><th>2</th><th>3</th></tr></thead>
+        <tbody>
+          <tr><td>Dışkılama sıklığı</td><td>Normal</td><td>1–2/gün fazla</td><td>3–4/gün fazla</td><td>≥5/gün fazla</td></tr>
+          <tr><td>Rektal kanama</td><td>Yok</td><td>Çizgi (&lt;%50 zaman)</td><td>Belirgin (≥%50)</td><td>Yalnız kan</td></tr>
+          <tr><td>Hekim genel değerlendirmesi</td><td>Normal</td><td>Hafif</td><td>Orta</td><td>Ağır</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="grid g2" style="margin-top:10px">
+      <div class="fld"><label>pMayo toplam (0–9)</label><div class="line" contenteditable></div></div>
+      <div class="fld"><label>Ek semptomlar</label><div class="line" contenteditable data-ph="aciliyet, gece dışkılama, tenezm, ağrı, kilo kaybı"></div></div>
+    </div>
+    <div class="note"><b>Remisyon:</b> pMayo ≤2, hiçbir alt skor &gt;1 <b>ve rektal kanama = 0</b> (STRIDE-II klinik hedef). <b>Yanıt:</b> başlangıca göre ≥2 puan ve ≥%30 düşüş. Alternatif: SCCAI ≤2.</div>
+  </section>
+
+  <!-- 5 -->
+  <section class="card">
+    <h2><span class="num">5</span> Fizik Muayene</h2>
+    <div class="grid g2">
+      <div class="fld"><label>Genel durum / Vital</label><div class="line" contenteditable data-ph="ateş, NB, TA, KH"></div></div>
+      <div class="fld"><label>Kilo / Boy / VKİ</label><div class="line" contenteditable data-ph="kilo trendi önemli"></div></div>
+      <div class="fld"><label>Batın muayenesi</label><div class="line" contenteditable data-ph="hassasiyet, distansiyon, rebound"></div></div>
+      <div class="fld"><label>Perianal / rektal muayene</label><div class="line" contenteditable></div></div>
+      <div class="fld"><label>Ekstraintestinal bulgular</label><div class="line" contenteditable data-ph="eklem, göz, cilt, oral aft"></div></div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="card">
+    <h2><span class="num">6</span> Laboratuvar ve Biyobelirteçler</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Test</th><th>Sonuç</th><th>Referans / Hedef</th><th>Not</th></tr></thead>
+        <tbody>
+          <tr><td>Hemogram (Hb, Lökosit, Trombosit)</td><td><span class="blankcell"></span></td><td>Anemi taraması</td><td class="fill">—</td></tr>
+          <tr><td>CRP</td><td><span class="blankcell"></span></td><td>Normalleşme hedef</td><td class="fill">Tek başına yetersiz</td></tr>
+          <tr><td>Sedimantasyon (ESR)</td><td><span class="blankcell"></span></td><td>—</td><td class="fill">—</td></tr>
+          <tr><td><b>Fekal Kalprotektin</b></td><td><span class="blankcell"></span></td><td>&lt;150 µg/g (hedef; ideal 100–250)</td><td class="fill">En iyi non-invaziv gösterge</td></tr>
+          <tr><td>Albümin / Total protein</td><td><span class="blankcell"></span></td><td>Ağır atakta düşük</td><td class="fill">—</td></tr>
+          <tr><td>Ferritin / Demir / TSAT / B12–Folat</td><td><span class="blankcell"></span></td><td>Anemi etiyolojisi</td><td class="fill">—</td></tr>
+          <tr><td>Elektrolit / Böbrek / KCFT</td><td><span class="blankcell"></span></td><td>İlaç izlemi</td><td class="fill">—</td></tr>
+          <tr><td>Gaita mik. + <b>C. difficile</b> toksini</td><td><span class="blankcell"></span></td><td>Alevlenmede zorunlu</td><td class="fill">Enfeksiyonu dışla</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">Fekal kalprotektin STRIDE-II'de <b>ara (formatif) hedeftir</b>; kalıcı yükseklik endoskopik değerlendirmeyi tetikler. Tiyopürin öncesi <b>TPMT/NUDT15</b>; biyolojik/JAK öncesi tarama testleri (bölüm 10).</div>
+  </section>
+
+  <!-- 7 -->
+  <section class="card">
+    <h2><span class="num">7</span> Endoskopik Aktivite ve Görüntüleme</h2>
+    <div class="fld"><label>Son kolonoskopi / sigmoidoskopi tarihi</label><div class="line" contenteditable></div></div>
+    <h3>Mayo Endoskopik Alt Skoru (MES)</h3>
+    <div class="checks">
+      <label class="chk"><input type="checkbox">0 – Normal / inaktif</label>
+      <label class="chk"><input type="checkbox">1 – Hafif (eritem, azalmış vaskülarite)</label>
+      <label class="chk"><input type="checkbox">2 – Orta (belirgin eritem, erozyon)</label>
+      <label class="chk"><input type="checkbox">3 – Ağır (spontan kanama, ülser)</label>
+    </div>
+    <div class="grid g2" style="margin-top:10px">
+      <div class="fld"><label>UCEIS (0–8)</label><div class="line" contenteditable data-ph="vasküler patern + kanama + erozyon/ülser"></div></div>
+      <div class="fld"><label>Histoloji (Nancy / Robarts)</label><div class="line" contenteditable data-ph="bazal plazmositoz, nötrofil infiltrasyonu"></div></div>
+    </div>
+    <div class="note"><b>Endoskopik iyileşme (mukozal iyileşme) = MES ≤1</b> (ideal MES 0) — STRIDE-II uzun dönem hedefi. UCEIS daha ayrıntılı ve doğrulanmıştır. Histolojik remisyon opsiyonel ileri hedeftir.</div>
+  </section>
+
+  <!-- 8 -->
+  <section class="card">
+    <h2><span class="num">8</span> Hastalık Aktivitesi — Truelove-Witts (Ağır Atak / ASUC)</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Kriter</th><th>Hafif</th><th>Ağır (ATAK)</th></tr></thead>
+        <tbody>
+          <tr><td>Kanlı dışkılama / gün</td><td>&lt; 4</td><td><b>≥ 6</b></td></tr>
+          <tr><td>Nabız</td><td>&lt; 90/dk</td><td>&gt; 90/dk</td></tr>
+          <tr><td>Ateş</td><td>&lt; 37.8 °C</td><td>&gt; 37.8 °C</td></tr>
+          <tr><td>Hemoglobin</td><td>Normal</td><td>&lt; 10.5 g/dL</td></tr>
+          <tr><td>ESR / CRP</td><td>≤ 30</td><td>&gt; 30</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3>Genel değerlendirme</h3>
+    <div class="checks">
+      <label class="chk"><input type="checkbox">Klinik remisyon</label>
+      <label class="chk"><input type="checkbox">Hafif aktivite</label>
+      <label class="chk"><input type="checkbox">Orta aktivite</label>
+      <label class="chk"><input type="checkbox">Ağır atak (ASUC)</label>
+    </div>
+    <div class="note"><b>≥6 kanlı dışkılama + ≥1 sistemik bulgu</b> (nabız/ateş/Hb/ESR) = Akut Ağır ÜK. Yatış, IV steroid, VTE profilaksisi, günlük izlem; 3. günde Oxford/Travis kriterleriyle kurtarma tedavisi (infliksimab / siklosporin) veya cerrahi kararı.</div>
+  </section>
+
+  <!-- 9 -->
+  <section class="card">
+    <h2><span class="num">9</span> Tedavi Hedefleri — Treat-to-Target (STRIDE-II 2021)</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Zaman</th><th>Hedef</th><th>Ulaşıldı?</th></tr></thead>
+        <tbody>
+          <tr><td>Kısa dönem</td><td>Klinik yanıt (semptomlarda düzelme)</td><td>☐ Evet&nbsp;&nbsp;☐ Hayır</td></tr>
+          <tr><td>Orta dönem</td><td>Klinik remisyon (pMayo ≤2) + CRP normal + FKP düşüş</td><td>☐ Evet&nbsp;&nbsp;☐ Hayır</td></tr>
+          <tr><td>Uzun dönem</td><td>Endoskopik iyileşme (MES ≤1) + normal yaşam kalitesi + kalıcı <b>steroidsiz</b> remisyon</td><td>☐ Evet&nbsp;&nbsp;☐ Hayır</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">Hedefe ulaşılmadıysa <b>tedavi optimizasyonu / değişikliği</b>: doz artışı, TDM ile ilaç düzeyi &amp; antikor bakısı, sınıf değişimi. Formatif hedefler: CRP ve fekal kalprotektin normalizasyonu.</div>
+  </section>
+
+  <!-- 10 -->
+  <section class="card">
+    <h2><span class="num">10</span> Gözetim, Tarama ve Koruyucu Sağlık</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Alan</th><th>Öneri</th><th>Son / Planlanan</th></tr></thead>
+        <tbody>
+          <tr><td>KRK gözetim kolonoskopisi</td><td>Yaygın/sol kolonda tanıdan 8 yıl sonra başla; riske göre 1–5 yıl (kromoendoskopi/HD)</td><td><span class="blankcell"></span></td></tr>
+          <tr><td>PSK varlığı</td><td>Tanı anından itibaren <b>yıllık</b> kolonoskopi</td><td><span class="blankcell"></span></td></tr>
+          <tr><td>Kemik sağlığı (DEXA)</td><td>Uzun/tekrarlayan steroid; Ca + D vitamini</td><td><span class="blankcell"></span></td></tr>
+          <tr><td>Aşılama</td><td>İnaktive: influenza, pnömokok, Hep B, HPV, COVID-19; <b>canlı aşılar immünsupresyon öncesi</b></td><td><span class="blankcell"></span></td></tr>
+          <tr><td>Latent enfeksiyon</td><td>Biyolojik/JAK öncesi TB (IGRA/PPD+grafi), HBV, HCV, HIV, VZV</td><td><span class="blankcell"></span></td></tr>
+          <tr><td>Ruhsal sağlık / üreme</td><td>Anksiyete-depresyon taraması; gebelik planı, gebelikte remisyon hedefi</td><td><span class="blankcell"></span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 11 -->
+  <section class="card">
+    <h2><span class="num">11</span> Değerlendirme ve Plan</h2>
+    <div class="fld"><label>Klinik değerlendirme özeti</label><div class="line" contenteditable data-ph="aktivite, hedefe ulaşım, komplikasyon"></div></div>
+    <h3>Tedavi kararı</h3>
+    <div class="checks">
+      <label class="chk"><input type="checkbox">Mevcut tedaviye devam</label>
+      <label class="chk"><input type="checkbox">Doz optimizasyonu</label>
+      <label class="chk"><input type="checkbox">Basamak yükseltme (step-up)</label>
+      <label class="chk"><input type="checkbox">Sınıf değişimi</label>
+      <label class="chk"><input type="checkbox">Topikal ekleme</label>
+      <label class="chk"><input type="checkbox">Cerrahi konsültasyon</label>
+    </div>
+    <div class="grid g2" style="margin-top:10px">
+      <div class="fld"><label>Yeni / değişen ilaç ve gerekçe</label><div class="line" contenteditable></div></div>
+      <div class="fld"><label>TDM / ilaç düzeyi istemi</label><div class="line" contenteditable data-ph="anti-TNF düzeyi + anti-drug antikor"></div></div>
+      <div class="fld"><label>Beslenme / demir replasmanı</label><div class="line" contenteditable data-ph="IV demir tercih"></div></div>
+      <div class="fld"><label>Bir sonraki değerlendirme planı</label><div class="line" contenteditable data-ph="poliklinik / lab / FKP / endoskopi tarihi"></div></div>
+    </div>
+    <h3>Hasta eğitimi</h3>
+    <div class="checks">
+      <label class="chk"><input type="checkbox">Hastalık &amp; ilaç uyumu</label>
+      <label class="chk"><input type="checkbox">Alevlenme belirtileri</label>
+      <label class="chk"><input type="checkbox">Sigara bırakma</label>
+      <label class="chk"><input type="checkbox">Aşılama</label>
+      <label class="chk"><input type="checkbox">Kırmızı bayrak (artan kanama, ateş, şiddetli ağrı → acil)</label>
+    </div>
+    <div class="sig">
+      <span>Hekim adı-soyadı / İmza: <span class="u"></span></span>
+      <span>Tarih: <span class="u" style="min-width:130px"></span></span>
+    </div>
+  </section>
+
+  <!-- Kaynaklar -->
+  <section class="card">
+    <h2><span class="num">§</span> Kaynaklar</h2>
+    <ol class="refs">
+      <li>Raine T, et al. ECCO Guidelines on Therapeutics in Ulcerative Colitis: Medical Treatment. <i>J Crohns Colitis</i>. 2022;16(1):2–17.</li>
+      <li>Gordon H, Raine T, et al. ECCO Guidelines on Diagnosis &amp; Monitoring / Surgical Treatment in UC (2022–2023).</li>
+      <li>Turner D, et al. STRIDE-II: Selecting Therapeutic Targets in IBD. <i>Gastroenterology</i>. 2021;160(5):1570–1583.</li>
+      <li>Schroeder KW, et al. Mayo skoru. <i>N Engl J Med</i>. 1987;317:1625–1629.</li>
+      <li>Travis SPL, et al. UCEIS — UC Endoscopic Index of Severity. <i>Gut</i> 2012 / <i>Gastroenterology</i> 2013.</li>
+      <li>Truelove SC, Witts LJ. Cortisone in ulcerative colitis. <i>BMJ</i>. 1955;2:1041–1048.</li>
+      <li>Lamb CA, et al. BSG consensus guidelines on IBD. <i>Gut</i>. 2019;68(Suppl 3).</li>
+    </ol>
+    <p class="disclaimer">Bu form klinik karar desteği amaçlıdır; kurumsal protokoller ve güncel kılavuzlarla birlikte kullanılmalı, hekimin klinik yargısının yerine geçmez. Eşik değerler kaynağa göre değişebilir.</p>
+  </section>
+</div>
+
+<script>
+  function toggleTheme(){
+    var r=document.documentElement;
+    var cur=r.getAttribute('data-theme');
+    if(!cur){cur=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';}
+    r.setAttribute('data-theme', cur==='dark'?'light':'dark');
+  }
+</script>
