@@ -1,0 +1,394 @@
+<title>Pediyatrik Kronik İshal — Değerlendirme Algoritması</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* mechanism cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; }
+  .mech .m .cue { font-size: .8rem; color: var(--ink-soft); margin: 2px 0 8px; font-style: italic; }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.osm { --tone: #2563eb; }
+  .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); }
+  .mech .m.fat { --tone: #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm { --tone: #7da3f8; }
+    .mech .m.fat { --tone: #b79cf5; }
+  }
+
+  /* Flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* Tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 620px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Çocuklarda Kronik İshal — Değerlendirme Algoritması</h1>
+    <p class="sub">≥ 2–4 hafta süren ishalde yaşa ve fizyopatolojik mekanizmaya göre yaklaşım: önce büyümeyi ve alarm bulgularını değerlendir, ozmotik/sekretuar ayrımını yap, hedefe yönelik tetkik et.</p>
+    <div class="meta">
+      <span class="tag">Kronik ishal ≥ 2–4 hafta</span>
+      <span class="tag">Ozmotik / Sekretuar / İnflamatuar</span>
+      <span class="tag">0–18 yaş</span>
+      <span class="tag">Malabsorpsiyon</span>
+    </div>
+  </header>
+
+  <!-- 1. TANIM -->
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede"><b>Kronik ishal</b> = ≥ 14 gün (çoğu kaynakta ≥ 4 hafta) süren, dışkı sıklığı ve/veya su içeriğinde artış. İlk soru: <b>çocuk büyüyor mu?</b> Büyüme geriliği ve alarm bulguları organik/malabsorptif nedeni işaret eder.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öykü</h3>
+        <ul class="clean">
+          <li>Süre, başlangıç yaşı, sıklık, <b>dışkı özelliği</b> (sulu / yağlı / kanlı-mukuslu).</li>
+          <li>Beslenme: <b>aşırı meyve suyu/sorbitol</b>, yeni gıdalar, glüten, süt.</li>
+          <li>Gece ishali, karın ağrısı, kilo/iştah, ateş, döküntü, seyahat.</li>
+          <li>Antibiyotik öyküsü, aile öyküsü (çölyak, IBD, KF, immün yetmezlik).</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayene</h3>
+        <ul class="clean">
+          <li><b>Büyüme eğrisi</b> ve hidrasyon/ödem (protein kaybı).</li>
+          <li>Karın distansiyonu, kitle, perianal hastalık (fistül/fissür → IBD).</li>
+          <li>Çomak parmak, döküntü, aftöz lezyon, artrit (ekstraintestinal).</li>
+          <li>Cilt altı yağ, kas kütlesi (kronik malnütrisyon işaretleri).</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. MEKANİZMA -->
+  <section>
+    <h2><span class="n">02</span> Mekanizmaya göre sınıflama</h2>
+    <p class="lede">Fizyopatoloji tetkiki yönlendirir. Basit ipucu: <b>açlıkla düzelen</b> ishal ozmotik, <b>açlıkta süren</b> ishal sekretuardır.</p>
+    <div class="mech">
+      <div class="m osm">
+        <div class="h">Ozmotik</div>
+        <div class="cue">Açlıkla düzelir · dışkı pH &lt; 5.5, redüktan madde (+), ozmotik aralık ↑</div>
+        <p>Karbonhidrat malabsorpsiyonu (laktoz, sukraz-izomaltaz), aşırı meyve suyu/sorbitol, laksatif.</p>
+      </div>
+      <div class="m sec">
+        <div class="h">Sekretuar</div>
+        <div class="cue">Açlıkta sürer · bol sulu, ozmotik aralık düşük</div>
+        <p>Enfeksiyon toksinleri, konjenital diyareler, nöroendokrin tümör, safra asidi.</p>
+      </div>
+      <div class="m inf">
+        <div class="h">İnflamatuar</div>
+        <div class="cue">Kan/mukus · kalprotektin ↑, CRP/ESR ↑</div>
+        <p>İnflamatuar bağırsak hastalığı, alerjik kolit, invaziv/kronik enfeksiyon.</p>
+      </div>
+      <div class="m fat">
+        <div class="h">Yağ malabsorpsiyonu</div>
+        <div class="cue">Yağlı-kokulu dışkı · elastaz ↓, dışkı yağı ↑</div>
+        <p>Çölyak, kistik fibrozis / pankreas yetmezliği, kolestaz, kısa bağırsak.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. AKIŞ -->
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">Büyüme + alarm değerlendir → sağlıklı büyüyende sık iyi huylu nedenler → aksi halde mekanizmaya göre basamaklı tetkik → tanı yoksa sevk/endoskopi.</p>
+
+    <div class="flow">
+      <div class="node start">
+        <span class="k">Başlangıç</span>
+        <span class="t">≥ 2–4 hafta süren ishal</span>
+        <p>Öykü, beslenme, dışkı özelliği ve büyüme eğrisini değerlendir.</p>
+      </div>
+      <div class="connector"></div>
+
+      <div class="node decision">
+        <span class="k">Karar 1</span>
+        <span class="t">Büyüme geriliği veya alarm bulgusu var mı?</span>
+        <p>Kilo kaybı/duraklama, kanlı dışkı, gece ishali, dehidratasyon, ödem, ateş, perianal hastalık (bkz. bölüm 05).</p>
+      </div>
+      <div class="branches">
+        <div class="branch no">
+          <span class="label">HAYIR → sağlıklı büyüyor</span>
+          <div class="node action safe">
+            <span class="k">Sık iyi huylu nedenler</span>
+            <span class="t">Diyet öyküsünü gözden geçir</span>
+            <p><b>Toddler ishali</b> (kronik nonspesifik), aşırı meyve suyu/sorbitol, geçici post-enfeksiyöz laktoz intoleransı. Diyet düzenle + izle.</p>
+          </div>
+        </div>
+        <div class="branch yes">
+          <span class="label">EVET → organik tetkik</span>
+          <div class="node action">
+            <span class="k">Yönlendir</span>
+            <span class="t">Basamaklı tetkike geç</span>
+            <p>Dışkı özelliği ve mekanizmaya göre hedefe yönelik test iste.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="connector"></div>
+      <div class="node action">
+        <span class="k">Adım 1 · 1. basamak</span>
+        <span class="t">Dışkı + kan tetkikleri</span>
+        <p><b>Dışkı:</b> kültür, parazit/Giardia antijeni, gizli kan, <b>kalprotektin</b>, pH + redüktan madde, elastaz. <b>Kan:</b> TKS, CRP/ESR, elektrolit, albümin, <b>çölyak serolojisi</b> (doku transglutaminaz IgA + total IgA), TSH.</p>
+      </div>
+      <div class="connector"></div>
+
+      <div class="node decision">
+        <span class="k">Karar 2</span>
+        <span class="t">Yönlendirici bulgu var mı?</span>
+      </div>
+      <div class="branches">
+        <div class="branch no">
+          <span class="label">EVET → nedene yönelik</span>
+          <div class="node action safe">
+            <span class="k">Yönet</span>
+            <span class="t">Tanıya göre tedavi</span>
+            <p>Çölyak → glütensiz diyet; Giardia → tedavi; laktoz intoleransı → diyet; alerjik → eliminasyon. Yanıtı doğrula.</p>
+          </div>
+        </div>
+        <div class="branch yes">
+          <span class="label">HAYIR / kalıcı → 2. basamak</span>
+          <div class="node action">
+            <span class="k">Adım 2 · 2. basamak</span>
+            <span class="t">Genişletilmiş tetkik</span>
+            <p><b>Ter testi</b> (KF), immünglobulinler, IBD göstergeleri, endokrin/metabolik, gerekirse dışkı ozmotik aralığı ve nöroendokrin belirteçler.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 3</span>
+        <span class="t">Tanı hâlâ belirsiz / IBD veya konjenital şüphesi?</span>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → sevk / endoskopi</span>
+          <div class="node alarm">
+            <span class="k">İleri</span>
+            <span class="t">Pediatrik gastroenterolojiye yönlendir</span>
+            <p>Üst/alt endoskopi + biyopsi, görüntüleme; süt çocuğunda konjenital ishal için genetik tetkik.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → izlem</span>
+          <div class="node action safe">
+            <span class="k">İzlem</span>
+            <span class="t">Büyüme ve semptom takibi</span>
+            <p>Diyet ampirik denemesi + yakın izlem; kötüleşme/yeni alarm → yeniden değerlendir.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. TETKİK TABLOSU -->
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik listesi</h2>
+    <div class="table-scroll">
+      <table>
+        <caption>Hedefe yönelik laboratuvar / işlemler</caption>
+        <thead><tr><th>Basamak</th><th>Hedef</th><th>Testler</th></tr></thead>
+        <tbody>
+          <tr><td class="step">Dışkı</td><td>Enfeksiyon</td><td>Kültür, Giardia/Cryptosporidium antijeni, parazit yumurta, (C. difficile seçili)</td></tr>
+          <tr><td class="step">Dışkı</td><td>İnflamasyon</td><td>Fekal <b>kalprotektin</b>, gizli kan, lökosit</td></tr>
+          <tr><td class="step">Dışkı</td><td>Malabsorpsiyon tipi</td><td>pH + redüktan madde (ozmotik), dışkı elastazı (pankreas), dışkı yağı</td></tr>
+          <tr><td class="step">Kan</td><td>Genel + beslenme</td><td>TKS, CRP/ESR, elektrolit, albümin, demir, çinko, vitaminler</td></tr>
+          <tr><td class="step">Kan</td><td>Çölyak</td><td>Doku transglutaminaz IgA + total IgA</td></tr>
+          <tr><td class="step">Kan</td><td>Endokrin</td><td>TSH (± hipertiroidi taraması)</td></tr>
+          <tr><td class="step">2. basamak</td><td>Kistik fibrozis</td><td>Ter testi (± genetik)</td></tr>
+          <tr><td class="step">2. basamak</td><td>İmmün yetmezlik</td><td>İmmünglobulinler (IgG/A/M), lenfosit alt grupları</td></tr>
+          <tr><td class="step">3. basamak</td><td>IBD / mukozal</td><td>Üst + alt endoskopi ve biyopsi, görüntüleme (MR enterografi)</td></tr>
+          <tr><td class="step">3. basamak</td><td>Konjenital ishal (süt çocuğu)</td><td>Dışkı elektrolit/ozmotik aralık, genetik panel, nöroendokrin belirteçler</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout safe" style="margin-top:16px;">
+      <b>Toddler ishali</b> (6 ay–5 yaş, iyi büyüyen, ekstra tetkik gerektirmeyen): "4 F" düzenlemesi — aşırı <b>meyve suyu</b> (fruktoz/sorbitol) azalt, yeterli <b>yağ</b>, normal <b>lif</b>, aşırı <b>sıvı</b>yı sınırla. Genellikle 4 yaş civarı kendiliğinden geriler.
+    </div>
+  </section>
+
+  <!-- 5. ALARM -->
+  <section>
+    <h2><span class="n">05</span> Alarm bulguları (organik neden düşündürenler)</h2>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span><b>Büyüme geriliği</b> / kilo kaybı / duraklama</span></div>
+      <div class="alarm-item"><span class="dot"></span><span><b>Kanlı veya mukuslu</b> dışkı</span></div>
+      <div class="alarm-item"><span class="dot"></span><span><b>Gece ishali</b> (uykudan uyandıran)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Dehidratasyon, elektrolit bozukluğu</span></div>
+      <div class="alarm-item"><span class="dot"></span><span><b>Ödem</b> / hipoalbüminemi (protein kaybı)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Sürekli ateş, sistemik hastalık bulgusu</span></div>
+      <div class="alarm-item"><span class="dot"></span><span><b>Perianal hastalık</b> (fistül, fissür, apse) → IBD</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ekstraintestinal: artrit, döküntü, aftöz ülser, üveit</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Süt çocuğunda <b>doğumdan itibaren</b> ağır sulu ishal (konjenital)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Tekrarlayan/ağır enfeksiyon (immün yetmezlik)</span></div>
+    </div>
+  </section>
+
+  <!-- 6. YAŞA ÖZGÜ -->
+  <section>
+    <h2><span class="n">06</span> Yaşa özgü en sık nedenler</h2>
+    <div class="grid two">
+      <div class="card">
+        <h3>Süt çocuğu (&lt; 1 yaş)</h3>
+        <ul class="clean">
+          <li><b>İnek sütü/besin protein alerjisi</b>, post-enfeksiyöz ishal.</li>
+          <li>Doğumdan itibaren ağır sulu ishalde <b>konjenital ishaller</b> (mikrovillus inklüzyon, tufting, konjenital klor/sodyum ishali).</li>
+          <li><b>Kistik fibrozis</b>, primer immün yetmezlik.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Toddler / okul çağı / ergen</h3>
+        <ul class="clean">
+          <li><b>Toddler ishali</b> (kronik nonspesifik), post-enfeksiyöz laktoz intoleransı, Giardia.</li>
+          <li><b>Çölyak</b> hastalığı her yaşta düşünülmeli.</li>
+          <li>Okul çağı/ergende <b>IBD</b> (Crohn, ülseratif kolit) ve İBS.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. SEVK -->
+  <section>
+    <h2><span class="n">07</span> Pediatrik gastroenterolojiye ne zaman sevk?</h2>
+    <div class="card">
+      <div class="pill-row">
+        <span class="pill">Herhangi bir <b>alarm bulgusu</b></span>
+        <span class="pill"><b>Büyüme geriliği</b> / malnütrisyon</span>
+        <span class="pill">Kanlı ishal / <b>IBD</b> şüphesi</span>
+        <span class="pill">1. basamak tetkik tanısız + kalıcı</span>
+        <span class="pill">Süt çocuğunda <b>konjenital ishal</b> şüphesi</span>
+        <span class="pill">Endoskopi/biyopsi gerektiren durum</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="disclaimer">
+    <b>Uyarı:</b> Bu şema eğitim ve hızlı başvuru amaçlıdır; bireysel klinik karar, güncel kılavuzlar ve yerel protokollerin yerine geçmez. Tetkik seçimi çocuğun yaşı, büyümesi ve klinik gidişine göre bireyselleştirilmelidir.
+  </div>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Zella GC, Israel EJ. Chronic Diarrhea in Children. <i>Pediatr Rev.</i> 2012;33(5):207–218.</li>
+      <li>Guarino A, Lo Vecchio A, Berni Canani R. Chronic diarrhoea in children. <i>Best Pract Res Clin Gastroenterol.</i> 2012;26(5):649–661.</li>
+      <li>Thiagarajah JR, Kamin DS, Acra S, ve ark. Advances in Evaluation of Chronic Diarrhea in Infants. <i>Gastroenterology.</i> 2018;154(8):2045–2059.</li>
+      <li>Hill ID, Fasano A, Guandalini S, ve ark. NASPGHAN Clinical Report on Celiac Disease. <i>JPGN.</i> 2016;63(1):156–165.</li>
+    </ol>
+  </footer>
+
+</div>
