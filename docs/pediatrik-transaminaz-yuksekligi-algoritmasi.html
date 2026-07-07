@@ -1,0 +1,408 @@
+<title>Pediyatrik Transaminaz Yüksekliği — Değerlendirme Algoritması</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8;
+    --surface: #ffffff;
+    --surface-2: #eef2f2;
+    --ink: #14201f;
+    --ink-soft: #4a5957;
+    --line: #d5dedd;
+    --line-strong: #b7c4c3;
+    --accent: #0f766e;
+    --accent-wash: #e6f1ef;
+    --alarm: #b91c1c;
+    --alarm-wash: #fbeaea;
+    --warn: #b45309;
+    --warn-wash: #fbf1e4;
+    --safe: #15803d;
+    --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px;
+    --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 64ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 70ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+  .hl { color: var(--accent); font-weight: 700; }
+
+  /* severity strip */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(3, 1fr); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .sev .band.mild { --tone: var(--safe); }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+
+  /* Flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* Tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 620px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji / Hepatoloji · Klinik Karar Aracı</p>
+    <h1>Çocuklarda Transaminaz Yüksekliği — Değerlendirme Algoritması</h1>
+    <p class="sub">İzole veya kalıcı ALT/AST yüksekliğine basamaklı yaklaşım; önce doğrula ve karaciğer dışı nedenleri dışla, akut yetmezliği tanı, ardından yaygından nadire tetkik et.</p>
+    <div class="meta">
+      <span class="tag">ALT / AST</span>
+      <span class="tag">Basamaklı tetkik</span>
+      <span class="tag">0–18 yaş</span>
+      <span class="tag">Hipertransaminazemi</span>
+    </div>
+  </header>
+
+  <!-- 1. TANIM -->
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk doğrulama</h2>
+    <p class="lede"><b>ALT</b> karaciğere daha özgüdür; <b>AST</b> kas, eritrosit ve kalpte de bulunur. Tek bir yüksek değer üzerine geniş tetkik başlatmadan önce sonucu <b>tekrarlayın</b> ve karaciğer dışı kaynakları dışlayın.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Önce netleştir</h3>
+        <ul class="clean">
+          <li><b>Yaş/cinsiyete göre ULN</b> kullan — çocukta ALT üst sınırı erişkinden düşüktür (yaklaşık erkek ~25–30, kız ~22–25 U/L).</li>
+          <li>Hafif izole yükseklikte <b>2–4 hafta sonra tekrarla</b>; geçici yükseklik sık.</li>
+          <li>Öncesi hastalık, egzersiz, ilaç/bitkisel ürün, alkol (ergen) sorgula.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Karaciğer dışı kaynağı dışla</h3>
+        <ul class="clean">
+          <li><b>Kas:</b> AST&gt;ALT + CK/aldolaz yüksek → kas hastalığı (miyopati, egzersiz).</li>
+          <li><b>Hemoliz:</b> AST + LDH + indirekt bilirubin.</li>
+          <li><b>Makro-AST:</b> izole kalıcı AST yüksekliği, asemptomatik.</li>
+          <li><b>Tiroid</b> ve çölyak da transaminazı yükseltebilir.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="lede" style="margin-top:14px;">Karaciğer hasarını <b>GGT, ALP, bilirubin, INR, albümin</b> ile bütünle: sentetik fonksiyon (INR, albümin) ve kolestaz (GGT/ALP/bilirubin) paterni yönü belirler.</p>
+  </section>
+
+  <!-- 2. ŞİDDET -->
+  <section>
+    <h2><span class="n">02</span> Yükseklik derecesi (ULN katı)</h2>
+    <div class="sev">
+      <div class="band mild">
+        <div class="lvl">Hafif</div>
+        <div class="rng">&lt; 3× ULN</div>
+        <p>Sık ve çoğu geçici. Tekrarla; obezite/NAFLD, ilaç, geçirilmiş enfeksiyonu düşün.</p>
+      </div>
+      <div class="band mod">
+        <div class="lvl">Orta</div>
+        <div class="rng">3–15× ULN</div>
+        <p>Belirgin hepatosellüler hasar. Basamaklı tetkiki tamamla, nedeni araştır.</p>
+      </div>
+      <div class="band sev">
+        <div class="lvl">Ağır</div>
+        <div class="rng">&gt; 15× ULN veya &gt; 1000 U/L</div>
+        <p>Akut hepatit / toksik / iskemik / otoimmün. Sentetik fonksiyonu acil değerlendir.</p>
+      </div>
+    </div>
+    <p class="lede" style="margin-top:14px;">Değerin mutlak yüksekliği kadar <b>kalıcılığı</b> ve <b>sentetik bozulma</b> eşlik edip etmediği önemlidir.</p>
+  </section>
+
+  <!-- 3. AKIŞ -->
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">Doğrula → karaciğer dışını dışla → akut yetmezliği tanı → risk/öykü → basamaklı tetkik → tanı yoksa görüntüleme ve sevk.</p>
+
+    <div class="flow">
+      <div class="node start">
+        <span class="k">Başlangıç</span>
+        <span class="t">Yüksek ALT ve/veya AST saptandı</span>
+        <p>Öykü: semptom (sarılık, halsizlik, karın ağrısı, kaşıntı, koyu idrar), ilaç/toksin, aile öyküsü (Wilson, otoimmün, metabolik), obezite, seyahat/temas.</p>
+      </div>
+      <div class="connector"></div>
+
+      <div class="node action">
+        <span class="k">Adım 1</span>
+        <span class="t">Testi tekrarla + karaciğer dışını dışla</span>
+        <p>CK/aldolaz (kas), LDH/hemoliz, TSH; ALT/AST + GGT, ALP, bilirubin, INR, albümin, tam kan sayımı ile paterni belirle.</p>
+      </div>
+      <div class="connector"></div>
+
+      <div class="node decision">
+        <span class="k">Karar 1 — kritik</span>
+        <span class="t">Akut karaciğer yetmezliği bulgusu var mı?</span>
+        <p><b>INR ≥ 1.5–2</b> (K vitaminine yanıtsız), ensefalopati, hipoglisemi, hızlı yükselen bilirubin, ağır sentetik bozukluk.</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → ACİL</span>
+          <div class="node alarm">
+            <span class="k">Acil</span>
+            <span class="t">Nakil merkezine acil sevk</span>
+            <p>Pediatrik hepatoloji/yoğun bakım. Aynı anda tedavi edilebilir nedenler (asetaminofen → NAC, otoimmün, metabolik, HSV) araştırılır.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → planlı tetkik</span>
+          <div class="node action safe">
+            <span class="k">Devam</span>
+            <span class="t">Basamaklı ayaktan değerlendirme</span>
+            <p>Yükseklik derecesi ve riske göre 1. basamak testlere geç.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="connector"></div>
+      <div class="node action">
+        <span class="k">Adım 2 · 1. basamak (yaygın nedenler)</span>
+        <span class="t">Sık görülenleri tara</span>
+        <p><b>NAFLD</b> (obezite, USG), <b>viral</b> (HAV IgM, HBsAg/anti-HBc, anti-HCV, EBV/CMV), <b>ilaç/toksin</b> gözden geçir, <b>çölyak</b> (doku transglutaminaz IgA + total IgA).</p>
+      </div>
+      <div class="connector"></div>
+
+      <div class="node decision">
+        <span class="k">Karar 2</span>
+        <span class="t">Neden bulundu ve yükseklik geçici mi?</span>
+      </div>
+      <div class="branches">
+        <div class="branch no">
+          <span class="label">EVET → nedene yönelik + izlem</span>
+          <div class="node action safe">
+            <span class="k">Yönet</span>
+            <span class="t">Tedavi et, düzelmeyi doğrula</span>
+            <p>Örn. NAFLD'de yaşam tarzı; ilaç kesimi; enfeksiyon izlemi. Normale dönene dek ALT takip.</p>
+          </div>
+        </div>
+        <div class="branch yes">
+          <span class="label">HAYIR / kalıcı → 2. basamak</span>
+          <div class="node action">
+            <span class="k">Adım 3 · 2. basamak</span>
+            <span class="t">Nadir/tedavi edilebilir nedenler</span>
+            <p>Otoimmün hepatit (ANA, ASMA, anti-LKM-1, IgG), <b>Wilson</b> (seruloplazmin; &gt;3 yaş), <b>α1-antitripsin</b> düzeyi/fenotip, metabolik/endokrin tetkik.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="connector"></div>
+      <div class="node action">
+        <span class="k">Adım 4 · Görüntüleme</span>
+        <span class="t">Karaciğer USG (± Doppler)</span>
+        <p>Steatoz, hepatomegali, biliyer/parankimal patoloji, portal hipertansiyon bulguları.</p>
+      </div>
+      <div class="connector"></div>
+
+      <div class="node decision">
+        <span class="k">Karar 3</span>
+        <span class="t">Kapsamlı tetkike rağmen ≥ 6 ay kalıcı / açıklanamayan?</span>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → sevk / biyopsi</span>
+          <div class="node alarm">
+            <span class="k">İleri</span>
+            <span class="t">Pediatrik hepatolojiye yönlendir</span>
+            <p>Karaciğer biyopsisi ve genetik/metabolik ileri tetkik gerekebilir.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → izlem</span>
+          <div class="node action safe">
+            <span class="k">İzlem</span>
+            <span class="t">Periyodik ALT takibi</span>
+            <p>Hafif, düzelen, asemptomatik seyirde aralıklı kontrol yeterli olabilir.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. TETKİK TABLOSU -->
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik listesi</h2>
+    <div class="table-scroll">
+      <table>
+        <caption>Nedene yönelik laboratuvar / görüntüleme</caption>
+        <thead><tr><th>Basamak</th><th>Hedef</th><th>Testler</th></tr></thead>
+        <tbody>
+          <tr><td class="step">Temel</td><td>Hasar paterni + sentetik fonksiyon</td><td>ALT, AST, GGT, ALP, total/direkt bilirubin, <b>INR</b>, albümin, TKS, glukoz</td></tr>
+          <tr><td class="step">Dışlama</td><td>Karaciğer dışı kaynak</td><td>CK, aldolaz, LDH, TSH, (makro-AST düşün)</td></tr>
+          <tr><td class="step">1. basamak</td><td>NAFLD</td><td>Boy/kilo/VKİ, açlık glukoz/insülin, lipid, karaciğer USG</td></tr>
+          <tr><td class="step">1. basamak</td><td>Viral hepatit</td><td>HAV IgM, HBsAg + anti-HBc, anti-HCV, EBV/CMV serolojisi</td></tr>
+          <tr><td class="step">1. basamak</td><td>Çölyak</td><td>Doku transglutaminaz IgA + total IgA</td></tr>
+          <tr><td class="step">2. basamak</td><td>Otoimmün hepatit</td><td>ANA, ASMA, anti-LKM-1, IgG düzeyi</td></tr>
+          <tr><td class="step">2. basamak</td><td>Wilson (&gt;3 yaş)</td><td>Seruloplazmin, 24 saat idrar bakırı, göz muayenesi (KF halkası)</td></tr>
+          <tr><td class="step">2. basamak</td><td>α1-antitripsin eksikliği</td><td>α1-antitripsin düzeyi + fenotip/genotip</td></tr>
+          <tr><td class="step">2. basamak</td><td>Metabolik / endokrin</td><td>Yaşa göre metabolik tarama; tiroid; süt çocuğunda genişletilmiş panel</td></tr>
+          <tr><td class="step">3. basamak</td><td>Kalıcı, açıklanamayan</td><td>Pediatrik hepatoloji sevki, karaciğer biyopsisi, genetik test</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout" style="margin-top:16px;">
+      Tetkik derinliği <b>yükseklik derecesi, kalıcılık ve klinikle</b> orantılı olmalıdır: hafif, geçici, asemptomatik izole yükseklikte önce tekrar + NAFLD taraması; ağır/kalıcı yükseklikte tam panel eş zamanlı istenir.
+    </div>
+  </section>
+
+  <!-- 5. YAŞA ÖZGÜ -->
+  <section>
+    <h2><span class="n">05</span> Yaşa özgü ipuçları</h2>
+    <div class="grid two">
+      <div class="card">
+        <h3>Süt çocuğu (&lt; 1 yaş)</h3>
+        <ul class="clean">
+          <li>Kolestaz eşlik ediyorsa <b>biliyer atrezi</b> ivedi dışlanır (direkt bilirubin, USG, cerrahi aciliyet).</li>
+          <li><b>Metabolik/genetik</b> nedenler öne çıkar: galaktozemi, tirozinemi, mitokondriyal hastalık, safra asidi bozuklukları.</li>
+          <li>Enfeksiyon (TORCH, sepsis, idrar yolu enfeksiyonu) ve endokrin (hipotiroidi, hipopituitarizm).</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Büyük çocuk / ergen</h3>
+        <ul class="clean">
+          <li><b>NAFLD</b> en sık neden (obezite, metabolik sendrom).</li>
+          <li><b>Viral hepatit</b>, ilaç/toksin, ergende alkol/madde.</li>
+          <li><b>Wilson</b> ve <b>otoimmün hepatit</b> mutlaka düşünülür — tedavi edilebilir, gecikmemeli.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. ALARM -->
+  <section>
+    <h2><span class="n">06</span> Acil / alarm bulguları</h2>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span><b>Koagülopati</b>: INR ≥ 1.5–2, K vitaminine yanıtsız</span></div>
+      <div class="alarm-item"><span class="dot"></span><span><b>Ensefalopati</b>: bilinç/davranış değişikliği, irritabilite</span></div>
+      <div class="alarm-item"><span class="dot"></span><span><b>Hipoglisemi</b>, düşük albümin (sentetik yetmezlik)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Hızlı yükselen <b>sarılık</b> / direkt hiperbilirubinemi</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>ALT/AST <b>&gt; 1000 U/L</b> veya hızlı tırmanış</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Asetaminofen/toksin alımı öyküsü → <b>NAC</b> düşün</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Süt çocuğunda kolestaz → <b>biliyer atrezi</b> aciliyeti</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Portal hipertansiyon / assit / hepatosplenomegali</span></div>
+    </div>
+  </section>
+
+  <!-- 7. SEVK -->
+  <section>
+    <h2><span class="n">07</span> Pediatrik hepatolojiye ne zaman sevk?</h2>
+    <div class="card">
+      <div class="pill-row">
+        <span class="pill">Herhangi bir <b>akut yetmezlik</b> bulgusu (acil)</span>
+        <span class="pill">Transaminaz <b>&gt; 5× ULN</b> ve açıklanamayan</span>
+        <span class="pill">≥ 6 ay <b>kalıcı</b> yükseklik</span>
+        <span class="pill">Wilson / otoimmün / metabolik şüphe</span>
+        <span class="pill">Süt çocuğunda kolestaz</span>
+        <span class="pill">Biyopsi gerektiren durum</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="disclaimer">
+    <b>Uyarı:</b> Bu şema eğitim ve hızlı başvuru amaçlıdır; bireysel klinik karar, güncel kılavuzlar ve yerel protokollerin yerine geçmez. Referans aralıkları laboratuvara göre değişir; ULN değerlerini kendi laboratuvarınızla doğrulayın.
+  </div>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Vajro P, Maddaluno S, Veropalumbo C. Persistent hypertransaminasemia in asymptomatic children: a stepwise approach. <i>World J Gastroenterol.</i> 2013;19(18):2740–2751.</li>
+      <li>Vos MB, Abrams SH, Barlow SE, ve ark. NASPGHAN Clinical Practice Guideline for Pediatric NAFLD. <i>JPGN.</i> 2017;64(2):319–334.</li>
+      <li>Mieli-Vergani G, Vergani D, Baumann U, ve ark. Diagnosis and Management of Pediatric Autoimmune Liver Disease: ESPGHAN Position Statement. <i>JPGN.</i> 2018;66(2):345–360.</li>
+      <li>Socha P, Janczyk W, Dhawan A, ve ark. Wilson's Disease in Children: ESPGHAN Position Paper. <i>JPGN.</i> 2018;66(2):334–344.</li>
+    </ol>
+  </footer>
+
+</div>
