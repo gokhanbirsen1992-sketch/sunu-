@@ -1,0 +1,1297 @@
+<!doctype html><html lang="tr" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Çocuk Gastroenterolojisi Algoritma Kitapçığı</title><style>html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact;}</style><style>
+  :root {
+    --bg: #f6f8f8;
+    --surface: #ffffff;
+    --surface-2: #eef2f2;
+    --ink: #14201f;
+    --ink-soft: #4a5957;
+    --line: #d5dedd;
+    --line-strong: #b7c4c3;
+    --accent: #0f766e;
+    --accent-wash: #e6f1ef;
+    --alarm: #b91c1c;
+    --alarm-wash: #fbeaea;
+    --warn: #b45309;
+    --warn-wash: #fbf1e4;
+    --safe: #15803d;
+    --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px;
+    --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716;
+      --surface: #14201f;
+      --surface-2: #1a2827;
+      --ink: #e7eeed;
+      --ink-soft: #a3b2b0;
+      --line: #263635;
+      --line-strong: #354947;
+      --accent: #4cc4b6;
+      --accent-wash: #12312d;
+      --alarm: #f38b8b;
+      --alarm-wash: #34201f;
+      --warn: #e2a862;
+      --warn-wash: #322616;
+      --safe: #6dc98a;
+      --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  /* ---------- Header ---------- */
+  header.masthead {
+    border-left: 4px solid var(--accent);
+    padding: 4px 0 4px 18px;
+    margin-bottom: 28px;
+  }
+  .eyebrow {
+    font-size: .72rem; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--accent); font-weight: 700; margin: 0 0 6px;
+  }
+  h1 {
+    font-size: clamp(1.5rem, 3.4vw, 2.15rem);
+    line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em;
+  }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 62ch; font-size: .98rem; }
+  .meta {
+    margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px;
+  }
+  .tag {
+    font-size: .74rem; padding: 4px 10px; border-radius: 100px;
+    background: var(--accent-wash); color: var(--accent); font-weight: 600;
+    border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+  }
+
+  /* ---------- Section scaffolding ---------- */
+  section { margin-top: 34px; }
+  h2 {
+    font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em;
+    display: flex; align-items: baseline; gap: 10px;
+  }
+  h2 .n {
+    font-size: .78rem; font-weight: 700; color: var(--accent);
+    font-variant-numeric: tabular-nums;
+    border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+    border-radius: 6px; padding: 1px 7px; translate: 0 -2px;
+  }
+  .lede { color: var(--ink-soft); max-width: 68ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: 20px 22px;
+  }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+  .hl { color: var(--accent); font-weight: 700; }
+
+  /* ---------- Rome criteria callout ---------- */
+  .rome { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .rome { grid-template-columns: 1fr 1fr; } }
+  .rome .card h3 { margin: 0 0 4px; font-size: 1rem; }
+  .rome .age { font-size: .76rem; color: var(--ink-soft); margin: 0 0 12px; letter-spacing: .02em; }
+  .crit { counter-reset: c; margin: 0; padding: 0; list-style: none; }
+  .crit li {
+    position: relative; padding: 7px 0 7px 30px; border-top: 1px solid var(--line);
+    font-size: .92rem;
+  }
+  .crit li:first-child { border-top: none; }
+  .crit li::before {
+    counter-increment: c; content: counter(c);
+    position: absolute; left: 0; top: 7px;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: var(--accent-wash); color: var(--accent);
+    font-size: .72rem; font-weight: 700; display: grid; place-items: center;
+  }
+  .note-inline { font-size: .84rem; color: var(--ink-soft); margin-top: 12px; }
+
+  /* ---------- Flowchart ---------- */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node {
+    width: 100%; max-width: 640px; background: var(--surface);
+    border: 1px solid var(--line-strong); border-radius: var(--radius);
+    padding: 14px 18px; box-shadow: var(--shadow); position: relative;
+  }
+  .node .k {
+    font-size: .68rem; letter-spacing: .12em; text-transform: uppercase;
+    font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px;
+  }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision {
+    border-color: var(--warn); background: var(--warn-wash);
+    border-radius: 14px;
+  }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches {
+    width: 100%; max-width: 640px; display: grid; grid-template-columns: 1fr 1fr;
+    gap: 16px; position: relative;
+  }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label {
+    font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px;
+    margin-bottom: 8px;
+  }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* ---------- Tables ---------- */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; color: var(--accent); }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* ---------- Alarm list ---------- */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item {
+    display: flex; gap: 10px; align-items: flex-start;
+    background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent);
+    border-radius: 10px; padding: 10px 12px; font-size: .9rem;
+  }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  /* ---------- Callout ---------- */
+  .callout {
+    border-left: 4px solid var(--warn); background: var(--warn-wash);
+    padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px;
+  }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+
+  footer {
+    margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line);
+    font-size: .82rem; color: var(--ink-soft);
+  }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer {
+    margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong);
+    border-radius: 10px; font-size: .82rem; color: var(--ink-soft);
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<style>
+  @media print {
+    section { break-inside: auto !important; }
+    .node, .card, .band, .m, .alarm-item, .rome .card, .sev .band, .mech .m,
+    tr, .toc li, .urgent, .callout { break-inside: avoid; }
+    .branches { break-inside: avoid; }
+  }
+  .book-section { break-before: page; }
+  .cover { min-height: 94vh; display: flex; flex-direction: column; justify-content: center; max-width: var(--maxw); margin: 0 auto; padding: 40px 24px; }
+  .cover .brand { font-size: .74rem; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+  .cover h1 { font-size: clamp(2rem, 5vw, 3rem); line-height: 1.08; margin: 16px 0 0; letter-spacing: -.015em; max-width: 20ch; }
+  .cover .tagline { color: var(--ink-soft); font-size: 1.05rem; margin: 16px 0 0; max-width: 56ch; }
+  .cover .rule { height: 4px; width: 72px; background: var(--accent); border-radius: 2px; margin: 28px 0 0; }
+  .cover .foot { margin-top: 40px; font-size: .84rem; color: var(--ink-soft); display: flex; flex-wrap: wrap; gap: 6px 18px; }
+  .cover .foot b { color: var(--ink); font-weight: 600; }
+  .toc { max-width: var(--maxw); margin: 0 auto; padding: 40px 24px; }
+  .toc h2 { font-size: 1.4rem; margin: 0 0 22px; }
+  .toc ol { list-style: none; counter-reset: toc; margin: 0; padding: 0; }
+  .toc li { counter-increment: toc; display: grid; grid-template-columns: 44px 1fr; gap: 16px; align-items: baseline; padding: 16px 4px; border-top: 1px solid var(--line); }
+  .toc li:last-child { border-bottom: 1px solid var(--line); }
+  .toc .num { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); font-size: 1.1rem; }
+  .toc .ttl { font-weight: 600; font-size: 1.06rem; }
+  .toc .desc { color: var(--ink-soft); font-size: .9rem; margin-top: 2px; }
+  .toc .note { margin-top: 26px; font-size: .82rem; color: var(--ink-soft); border-left: 3px solid var(--warn); background: var(--warn-wash); padding: 12px 14px; border-radius: 0 8px 8px 0; }
+</style>
+</head><body>
+<div class="cover">
+  <div class="brand">Pediyatrik Gastroenteroloji · Klinik Karar Kitapçığı</div>
+  <h1>Çocuk Gastroenterolojisi Algoritma Kitapçığı</h1>
+  <p class="tagline">Sık karşılaşılan pediyatrik gastroenteroloji sorunlarında kanıta dayalı, baskıya uygun tanı ve tedavi karar akışları.</p>
+  <div class="rule"></div>
+  <div class="foot">
+    <span><b>4 algoritma</b></span><span><b>0–18 yaş</b></span>
+    <span>Rome IV · ESPGHAN / NASPGHAN</span><span>Sürüm 1 · 2026</span>
+  </div>
+</div>
+
+<div class="toc book-section">
+  <h2>İçindekiler</h2>
+  <ol>
+    <li><span class="num">01</span><span><div class="ttl">Fonksiyonel Kabızlık</div><div class="desc">Rome IV + ESPGHAN/NASPGHAN 2014 · tanı, disimpaksiyon, idame</div></span></li>
+    <li><span class="num">02</span><span><div class="ttl">Transaminaz Yüksekliği</div><div class="desc">İzole/kalıcı ALT-AST · basamaklı tetkik, akut yetmezlik</div></span></li>
+    <li><span class="num">03</span><span><div class="ttl">Kronik İshal</div><div class="desc">Ozmotik/sekretuar/inflamatuar · yaşa göre yaklaşım</div></span></li>
+    <li><span class="num">04</span><span><div class="ttl">Yenidoğan Kolestazı</div><div class="desc">Uzamış sarılık · biliyer atrezi aciliyeti</div></span></li>
+  </ol>
+  <p class="note"><b>Uyarı:</b> Bu kitapçık eğitim ve hızlı başvuru amaçlıdır; bireysel klinik karar, güncel kılavuzlar ve yerel protokollerin yerine geçmez. Doz ve referans aralıklarını uygulamadan önce doğrulayın.</p>
+</div>
+<div class="book-section">
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Çocuklarda Fonksiyonel Kabızlık — Tanı ve Tedavi Algoritması</h1>
+    <p class="sub">Rome IV tanı ölçütleri ve ESPGHAN/NASPGHAN 2014 kanıta dayalı kılavuzuna göre; birinci basamak ve pediatri pratiği için basamaklı yaklaşım.</p>
+    <div class="meta">
+      <span class="tag">Rome IV</span>
+      <span class="tag">ESPGHAN / NASPGHAN 2014</span>
+      <span class="tag">0–18 yaş</span>
+      <span class="tag">Fonksiyonel (organik olmayan) kabızlık</span>
+    </div>
+  </header>
+
+  <!-- 1. TANIM & TANI -->
+  <section>
+    <h2><span class="n">01</span> Tanı ölçütleri (Rome IV)</h2>
+    <p class="lede">Çocukların ~%95'inde kabızlık <b>fonksiyoneldir</b>. Tanı öncelikle klinik olup, iki ölçüt setinden en az <b>2 madde</b> ≥1 ay (≥4 yaş için ≥1 ay, çoğu semptom son 2 ayda) karşılanmalıdır.</p>
+
+    <div class="rome">
+      <div class="card">
+        <h3>0–4 yaş (bebek/erken çocukluk)</h3>
+        <p class="age">≥1 ay süreyle, aşağıdakilerden ≥2</p>
+        <ol class="crit">
+          <li>Haftada ≤2 defekasyon</li>
+          <li>Tuvalet eğitimi sonrası haftada ≥1 kirletme (enkoprezis)</li>
+          <li>Aşırı gaita tutma öyküsü</li>
+          <li>Ağrılı veya sert-sıkı dışkılama</li>
+          <li>Rektumda büyük gaita kitlesi</li>
+          <li>Tuvaleti tıkayan büyük çaplı dışkı</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h3>≥4 yaş (çocuk/ergen)</h3>
+        <p class="age">≥1 ay, İBS ölçütlerini karşılamayan, aşağıdakilerden ≥2</p>
+        <ol class="crit">
+          <li>Haftada ≤2 tuvalette defekasyon</li>
+          <li>Haftada ≥1 kirletme epizodu</li>
+          <li>Retansif postür / istemli gaita tutma öyküsü</li>
+          <li>Ağrılı veya sert dışkılama</li>
+          <li>Rektumda büyük gaita kitlesi</li>
+          <li>Tuvaleti tıkayan büyük çaplı dışkı</li>
+        </ol>
+      </div>
+    </div>
+    <p class="note-inline">Tanı için görüntüleme, laboratuvar veya kolonik geçiş çalışması <b>gerekmez</b>. Ayrıntılı öykü + fizik muayene (perianal/lomber-sakral bölge + tek seferlik rektal muayene endikeyse) çoğu vakada yeterlidir.</p>
+  </section>
+
+  <!-- 2. ANA ALGORİTMA -->
+  <section>
+    <h2><span class="n">02</span> Karar akışı</h2>
+    <p class="lede">Değerlendir → alarm bulgularını dışla → impaksiyonu boşalt → idame → izlem. Her basamakta ailenin eğitimi ve tuvalet rutini tedavinin temelidir.</p>
+
+    <div class="flow">
+      <div class="node start">
+        <span class="k">Başlangıç</span>
+        <span class="t">Kabızlık şikâyeti ile başvuru</span>
+        <p>Öykü: başlangıç yaşı, dışkı sıklığı/kıvamı (Bristol), ağrı, kanama, kirletme, tuvalet eğitimi, beslenme, ilaçlar, mekonyum çıkış zamanı, büyüme.</p>
+      </div>
+      <div class="connector"></div>
+
+      <div class="node decision">
+        <span class="k">Karar 1</span>
+        <span class="t">Alarm bulgusu / organik neden şüphesi var mı?</span>
+        <p>Bkz. bölüm 03. Mekonyumun >48 saatte çıkışı, kanlı dışkı (fissür yokken), büyüme geriliği, safralı kusma, karın distansiyonu, anormal nörolojik/sakral bulgu…</p>
+      </div>
+
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → organik değerlendirme</span>
+          <div class="node alarm">
+            <span class="k">Yönlendirme</span>
+            <span class="t">Hedefe yönelik tetkik + sevk</span>
+            <p>Hirschsprung, hipotiroidi, çölyak, anatomik/spinal anomali, inek sütü alerjisi vb. Pediatrik gastroenterolojiye yönlendir; ampirik idameyi geciktirme.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → fonksiyonel kabızlık</span>
+          <div class="node action">
+            <span class="k">Tanı</span>
+            <span class="t">Fonksiyonel kabızlık kabul et</span>
+            <p>Aileyi bilgilendir; tuvalet ve beslenme davranışlarını düzenle; tedaviye başla.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 2</span>
+        <span class="t">Fekal impaksiyon var mı?</span>
+        <p>Rektumda kitle, sık kirletme, taşkın (overflow) inkontinans, kısmi tıkanma. Muayene/öyküyle değerlendir.</p>
+      </div>
+
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">VAR → önce disimpaksiyon</span>
+          <div class="node action">
+            <span class="k">Basamak A</span>
+            <span class="t">Disimpaksiyon (boşaltma)</span>
+            <p><b>Oral PEG 1–1.5 g/kg/gün, 3–6 gün</b> (ilk basamak). Alternatif/başarısızlıkta lavman. İdameye ancak boşalma sağlanınca geç.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">YOK → doğrudan idame</span>
+          <div class="node action safe">
+            <span class="k">Basamak B</span>
+            <span class="t">İdame tedavisine başla</span>
+            <p>Boşaltma gerekmiyorsa idame ozmotik laksatifle başla.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="connector"></div>
+      <div class="node action safe">
+        <span class="k">Basamak C · Temel</span>
+        <span class="t">İdame tedavi — en az 2 ay</span>
+        <p><b>PEG 0.4 g/kg/gün</b> (birinci tercih), doz dışkıyı yumuşak tutacak şekilde titre edilir. + düzenli <b>tuvalet oturma rutini</b> (öğünlerden sonra 5–10 dk), pozitif pekiştirme, yeterli sıvı ve dengeli lif. Belirtiler <b>en az 1 ay tamamen düzeldikten sonra</b> ve tuvalet eğitimi tamamsa kademeli azalt.</p>
+      </div>
+
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 3</span>
+        <span class="t">4–8 haftada yeterli yanıt var mı?</span>
+      </div>
+
+      <div class="branches">
+        <div class="branch no">
+          <span class="label">YANIT VAR → sürdür + azalt</span>
+          <div class="node action safe">
+            <span class="k">İzlem</span>
+            <span class="t">Devam et, relapsı izle</span>
+            <p>Tedaviyi erken kesme; nüks sıktır. Kademeli doz azaltımı, aile eğitimini pekiştir.</p>
+          </div>
+        </div>
+        <div class="branch yes">
+          <span class="label">YANIT YOK → yeniden değerlendir</span>
+          <div class="node alarm">
+            <span class="k">Dirençli</span>
+            <span class="t">Uyum? doz? tanı? → sevk</span>
+            <p>İlaç uyumu ve dozu gözden geçir, ikinci ajan ekle (bkz. tablo). İnatçı vakada organik nedenleri yeniden ara ve <b>pediatrik gastroenterolojiye yönlendir</b>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. ALARM BULGULARI -->
+  <section>
+    <h2><span class="n">03</span> Alarm bulguları (organik neden düşündürenler)</h2>
+    <p class="lede">Bu bulgulardan herhangi biri varsa fonksiyonel kabızlık tanısı ertelenir; hedefe yönelik tetkik ve sevk gerekir.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Yaşamın ilk <b>1 ayında</b> başlayan kabızlık</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Mekonyumun <b>>48 saatte</b> çıkışı (Hirschsprung)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span><b>Büyüme geriliği</b> / kilo kaybı</span></div>
+      <div class="alarm-item"><span class="dot"></span><span><b>Safralı kusma</b>, ciddi karın distansiyonu</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Fissür olmadan <b>rektal kanama</b></span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ailede <b>Hirschsprung</b> öyküsü</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Anormal anüs pozisyonu / <b>anal ton</b>, gluteal asimetri</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Lombosakral bölgede kıllanma, gamze, sakral çukur → <b>spinal anomali</b></span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Alt ekstremitede <b>nörolojik defisit</b> / kremaster refleks kaybı</span></div>
+      <div class="alarm-item"><span class="dot"></span><span><b>Mesane disfonksiyonu</b>, sürekli idrar kaçırma</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Sistemik: ateş, <b>çölyak/hipotiroidi</b> bulguları, aşırı susama</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Cinsel istismar kaygısı / açıklanamayan bulgular</span></div>
+    </div>
+  </section>
+
+  <!-- 4. İLAÇ TABLOSU -->
+  <section>
+    <h2><span class="n">04</span> İlaç dozları</h2>
+    <p class="lede">Ozmotik laksatifler (özellikle PEG) hem boşaltma hem idamede birinci basamaktır. Dozlar yaklaşık olup çocuğa ve yanıta göre titre edilir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Disimpaksiyon (boşaltma) — kısa süreli</caption>
+        <thead><tr><th>İlaç</th><th>Doz</th><th>Süre / not</th></tr></thead>
+        <tbody>
+          <tr><td>PEG 3350/4000 <span style="color:var(--accent)">(1. tercih)</span></td><td class="dose">1–1.5 g/kg/gün</td><td>3–6 gün; sıvıyla; ayaktan uygulanabilir</td></tr>
+          <tr><td>Sodyum fosfat / salin lavman</td><td class="dose">Yaşa göre</td><td>PEG yoksa/yetersizse; süt çocuğunda dikkatli</td></tr>
+          <tr><td>Bisakodil (rektal) — seçili vaka</td><td class="dose">5–10 mg</td><td>Rutin ilk tercih değil</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-scroll" style="margin-top:16px;">
+      <table>
+        <caption>İdame tedavi — en az 2 ay</caption>
+        <thead><tr><th>İlaç</th><th>Başlangıç dozu</th><th>Not</th></tr></thead>
+        <tbody>
+          <tr><td>PEG 3350/4000 <span style="color:var(--accent)">(1. tercih)</span></td><td class="dose">0.4 g/kg/gün</td><td>Yumuşak dışkıya göre titre; her yaşta güvenli, palatabl</td></tr>
+          <tr><td>Laktuloz</td><td class="dose">1–2 g/kg/gün<br>(1–3 mL/kg)</td><td>&lt;6 ay / PEG uygun değilse tercih; gaz yapabilir</td></tr>
+          <tr><td>Sıvı parafin (mineral yağ)</td><td class="dose">1–3 mL/kg/gün</td><td>&gt;1 yaş; aspirasyon riski olanda kaçın</td></tr>
+          <tr><td>Magnezyum hidroksit</td><td class="dose">Yaşa göre</td><td>Alternatif ozmotik; böbrek yetmezliğinde dikkat</td></tr>
+          <tr><td>Bisakodil / senna <span style="color:var(--warn)">(ek uyarıcı)</span></td><td class="dose">Yaşa göre</td><td>Ozmotik yetersizse kısa süreli ekleme (kurtarma)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout" style="margin-top:16px;">
+      <b>Süt çocuğunda</b> (&lt;6 ay) laktuloz veya ozmotik ilk seçenektir; ayrıca laktuloz/sorbitol içeren meyve suları (kuru erik, armut, elma) faydalıdır. <b>İnek sütü proteini alerjisi</b> düşünülen dirençli vakalarda 2–4 haftalık eliminasyon denenebilir.
+    </div>
+  </section>
+
+  <!-- 5. DAVRANIŞ & DİYET -->
+  <section>
+    <h2><span class="n">05</span> Davranışsal ve beslenme desteği</h2>
+    <div class="grid two">
+      <div class="card">
+        <h3 style="margin:0 0 8px; font-size:1rem;">Tuvalet rutini &amp; davranış</h3>
+        <ul class="clean">
+          <li>Öğünlerden sonra günde 2–3 kez, <b>5–10 dk</b> tuvalette oturma (gastrokolik refleks).</li>
+          <li>Ayakların desteklendiği <b>uygun postür</b> (basamak/tabure).</li>
+          <li>Dışkı günlüğü ve <b>pozitif pekiştirme</b> (ödül/yıldız çizelgesi).</li>
+          <li>Cezalandırıcı tutumdan kaçın; tuvalet korkusunu azalt.</li>
+          <li>Aile eğitimi: kabızlık kronik seyreder, tedavi <b>aylar</b> sürer.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 style="margin:0 0 8px; font-size:1rem;">Beslenme</h3>
+        <ul class="clean">
+          <li><b>Yeterli sıvı</b> ve yaşa uygun dengeli <b>lif</b> alımı (normalin üstüne çıkarmak gerekmez).</li>
+          <li>Sorbitol içeren meyve suları (kuru erik, armut, elma) süt çocuğunda yardımcı.</li>
+          <li><b>Rutin olarak</b> prebiyotik/probiyotik önerilmez (yeterli kanıt yok).</li>
+          <li>Aşırı inek sütü tüketimini gözden geçir.</li>
+          <li>Diyet tek başına tedavi değildir — laksatifin yerini tutmaz.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout safe" style="margin-top:16px;">
+      <b>Tedavinin süresi:</b> İdame en az <b>2 ay</b> sürdürülür; belirtiler <b>en az 1 ay tam düzeldikten</b> ve tuvalet eğitimi tamamlandıktan sonra doz kademeli azaltılır. Erken kesme en sık nüks nedenidir.
+    </div>
+  </section>
+
+  <!-- 6. SEVK -->
+  <section>
+    <h2><span class="n">06</span> Pediatrik gastroenterolojiye ne zaman sevk?</h2>
+    <div class="card">
+      <div class="pill-row">
+        <span class="pill">Herhangi bir <b>alarm bulgusu</b></span>
+        <span class="pill">Optimal tedaviye rağmen <b>dirençli</b> seyir</span>
+        <span class="pill">Tanıda belirsizlik / organik şüphe</span>
+        <span class="pill">Hirschsprung şüphesi (mekonyum gecikmesi)</span>
+        <span class="pill">Ağır enkoprezis / psikososyal etki</span>
+        <span class="pill">Rektal prolapsus, anal patoloji</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="disclaimer">
+    <b>Uyarı:</b> Bu şema eğitim ve hızlı başvuru amaçlıdır; bireysel klinik karar, güncel kılavuzlar ve yerel protokollerin yerine geçmez. İlaç dozları uygulamadan önce doğrulanmalıdır. Yayımlanmış tam metin kılavuzlara başvurun.
+  </div>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Tabbers MM, DiLorenzo C, Berger MY, ve ark. Evaluation and Treatment of Functional Constipation in Infants and Children: Evidence-Based Recommendations From ESPGHAN and NASPGHAN. <i>JPGN.</i> 2014;58(2):258–274.</li>
+      <li>Hyams JS, Di Lorenzo C, Saps M, ve ark. Functional Disorders: Children and Adolescents (Rome IV). <i>Gastroenterology.</i> 2016;150(6):1456–1468.</li>
+      <li>Benninga MA, Faure C, Hyman PE, ve ark. Childhood Functional Gastrointestinal Disorders: Neonate/Toddler (Rome IV). <i>Gastroenterology.</i> 2016;150(6):1443–1455.</li>
+    </ol>
+  </footer>
+
+</div>
+
+</div>
+<div class="book-section">
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji / Hepatoloji · Klinik Karar Aracı</p>
+    <h1>Çocuklarda Transaminaz Yüksekliği — Değerlendirme Algoritması</h1>
+    <p class="sub">İzole veya kalıcı ALT/AST yüksekliğine basamaklı yaklaşım; önce doğrula ve karaciğer dışı nedenleri dışla, akut yetmezliği tanı, ardından yaygından nadire tetkik et.</p>
+    <div class="meta">
+      <span class="tag">ALT / AST</span>
+      <span class="tag">Basamaklı tetkik</span>
+      <span class="tag">0–18 yaş</span>
+      <span class="tag">Hipertransaminazemi</span>
+    </div>
+  </header>
+
+  <!-- 1. TANIM -->
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk doğrulama</h2>
+    <p class="lede"><b>ALT</b> karaciğere daha özgüdür; <b>AST</b> kas, eritrosit ve kalpte de bulunur. Tek bir yüksek değer üzerine geniş tetkik başlatmadan önce sonucu <b>tekrarlayın</b> ve karaciğer dışı kaynakları dışlayın.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Önce netleştir</h3>
+        <ul class="clean">
+          <li><b>Yaş/cinsiyete göre ULN</b> kullan — çocukta ALT üst sınırı erişkinden düşüktür (yaklaşık erkek ~25–30, kız ~22–25 U/L).</li>
+          <li>Hafif izole yükseklikte <b>2–4 hafta sonra tekrarla</b>; geçici yükseklik sık.</li>
+          <li>Öncesi hastalık, egzersiz, ilaç/bitkisel ürün, alkol (ergen) sorgula.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Karaciğer dışı kaynağı dışla</h3>
+        <ul class="clean">
+          <li><b>Kas:</b> AST&gt;ALT + CK/aldolaz yüksek → kas hastalığı (miyopati, egzersiz).</li>
+          <li><b>Hemoliz:</b> AST + LDH + indirekt bilirubin.</li>
+          <li><b>Makro-AST:</b> izole kalıcı AST yüksekliği, asemptomatik.</li>
+          <li><b>Tiroid</b> ve çölyak da transaminazı yükseltebilir.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="lede" style="margin-top:14px;">Karaciğer hasarını <b>GGT, ALP, bilirubin, INR, albümin</b> ile bütünle: sentetik fonksiyon (INR, albümin) ve kolestaz (GGT/ALP/bilirubin) paterni yönü belirler.</p>
+  </section>
+
+  <!-- 2. ŞİDDET -->
+  <section>
+    <h2><span class="n">02</span> Yükseklik derecesi (ULN katı)</h2>
+    <div class="sev">
+      <div class="band mild">
+        <div class="lvl">Hafif</div>
+        <div class="rng">&lt; 3× ULN</div>
+        <p>Sık ve çoğu geçici. Tekrarla; obezite/NAFLD, ilaç, geçirilmiş enfeksiyonu düşün.</p>
+      </div>
+      <div class="band mod">
+        <div class="lvl">Orta</div>
+        <div class="rng">3–15× ULN</div>
+        <p>Belirgin hepatosellüler hasar. Basamaklı tetkiki tamamla, nedeni araştır.</p>
+      </div>
+      <div class="band sev">
+        <div class="lvl">Ağır</div>
+        <div class="rng">&gt; 15× ULN veya &gt; 1000 U/L</div>
+        <p>Akut hepatit / toksik / iskemik / otoimmün. Sentetik fonksiyonu acil değerlendir.</p>
+      </div>
+    </div>
+    <p class="lede" style="margin-top:14px;">Değerin mutlak yüksekliği kadar <b>kalıcılığı</b> ve <b>sentetik bozulma</b> eşlik edip etmediği önemlidir.</p>
+  </section>
+
+  <!-- 3. AKIŞ -->
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">Doğrula → karaciğer dışını dışla → akut yetmezliği tanı → risk/öykü → basamaklı tetkik → tanı yoksa görüntüleme ve sevk.</p>
+
+    <div class="flow">
+      <div class="node start">
+        <span class="k">Başlangıç</span>
+        <span class="t">Yüksek ALT ve/veya AST saptandı</span>
+        <p>Öykü: semptom (sarılık, halsizlik, karın ağrısı, kaşıntı, koyu idrar), ilaç/toksin, aile öyküsü (Wilson, otoimmün, metabolik), obezite, seyahat/temas.</p>
+      </div>
+      <div class="connector"></div>
+
+      <div class="node action">
+        <span class="k">Adım 1</span>
+        <span class="t">Testi tekrarla + karaciğer dışını dışla</span>
+        <p>CK/aldolaz (kas), LDH/hemoliz, TSH; ALT/AST + GGT, ALP, bilirubin, INR, albümin, tam kan sayımı ile paterni belirle.</p>
+      </div>
+      <div class="connector"></div>
+
+      <div class="node decision">
+        <span class="k">Karar 1 — kritik</span>
+        <span class="t">Akut karaciğer yetmezliği bulgusu var mı?</span>
+        <p><b>INR ≥ 1.5–2</b> (K vitaminine yanıtsız), ensefalopati, hipoglisemi, hızlı yükselen bilirubin, ağır sentetik bozukluk.</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → ACİL</span>
+          <div class="node alarm">
+            <span class="k">Acil</span>
+            <span class="t">Nakil merkezine acil sevk</span>
+            <p>Pediatrik hepatoloji/yoğun bakım. Aynı anda tedavi edilebilir nedenler (asetaminofen → NAC, otoimmün, metabolik, HSV) araştırılır.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → planlı tetkik</span>
+          <div class="node action safe">
+            <span class="k">Devam</span>
+            <span class="t">Basamaklı ayaktan değerlendirme</span>
+            <p>Yükseklik derecesi ve riske göre 1. basamak testlere geç.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="connector"></div>
+      <div class="node action">
+        <span class="k">Adım 2 · 1. basamak (yaygın nedenler)</span>
+        <span class="t">Sık görülenleri tara</span>
+        <p><b>NAFLD</b> (obezite, USG), <b>viral</b> (HAV IgM, HBsAg/anti-HBc, anti-HCV, EBV/CMV), <b>ilaç/toksin</b> gözden geçir, <b>çölyak</b> (doku transglutaminaz IgA + total IgA).</p>
+      </div>
+      <div class="connector"></div>
+
+      <div class="node decision">
+        <span class="k">Karar 2</span>
+        <span class="t">Neden bulundu ve yükseklik geçici mi?</span>
+      </div>
+      <div class="branches">
+        <div class="branch no">
+          <span class="label">EVET → nedene yönelik + izlem</span>
+          <div class="node action safe">
+            <span class="k">Yönet</span>
+            <span class="t">Tedavi et, düzelmeyi doğrula</span>
+            <p>Örn. NAFLD'de yaşam tarzı; ilaç kesimi; enfeksiyon izlemi. Normale dönene dek ALT takip.</p>
+          </div>
+        </div>
+        <div class="branch yes">
+          <span class="label">HAYIR / kalıcı → 2. basamak</span>
+          <div class="node action">
+            <span class="k">Adım 3 · 2. basamak</span>
+            <span class="t">Nadir/tedavi edilebilir nedenler</span>
+            <p>Otoimmün hepatit (ANA, ASMA, anti-LKM-1, IgG), <b>Wilson</b> (seruloplazmin; &gt;3 yaş), <b>α1-antitripsin</b> düzeyi/fenotip, metabolik/endokrin tetkik.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="connector"></div>
+      <div class="node action">
+        <span class="k">Adım 4 · Görüntüleme</span>
+        <span class="t">Karaciğer USG (± Doppler)</span>
+        <p>Steatoz, hepatomegali, biliyer/parankimal patoloji, portal hipertansiyon bulguları.</p>
+      </div>
+      <div class="connector"></div>
+
+      <div class="node decision">
+        <span class="k">Karar 3</span>
+        <span class="t">Kapsamlı tetkike rağmen ≥ 6 ay kalıcı / açıklanamayan?</span>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → sevk / biyopsi</span>
+          <div class="node alarm">
+            <span class="k">İleri</span>
+            <span class="t">Pediatrik hepatolojiye yönlendir</span>
+            <p>Karaciğer biyopsisi ve genetik/metabolik ileri tetkik gerekebilir.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → izlem</span>
+          <div class="node action safe">
+            <span class="k">İzlem</span>
+            <span class="t">Periyodik ALT takibi</span>
+            <p>Hafif, düzelen, asemptomatik seyirde aralıklı kontrol yeterli olabilir.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. TETKİK TABLOSU -->
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik listesi</h2>
+    <div class="table-scroll">
+      <table>
+        <caption>Nedene yönelik laboratuvar / görüntüleme</caption>
+        <thead><tr><th>Basamak</th><th>Hedef</th><th>Testler</th></tr></thead>
+        <tbody>
+          <tr><td class="step">Temel</td><td>Hasar paterni + sentetik fonksiyon</td><td>ALT, AST, GGT, ALP, total/direkt bilirubin, <b>INR</b>, albümin, TKS, glukoz</td></tr>
+          <tr><td class="step">Dışlama</td><td>Karaciğer dışı kaynak</td><td>CK, aldolaz, LDH, TSH, (makro-AST düşün)</td></tr>
+          <tr><td class="step">1. basamak</td><td>NAFLD</td><td>Boy/kilo/VKİ, açlık glukoz/insülin, lipid, karaciğer USG</td></tr>
+          <tr><td class="step">1. basamak</td><td>Viral hepatit</td><td>HAV IgM, HBsAg + anti-HBc, anti-HCV, EBV/CMV serolojisi</td></tr>
+          <tr><td class="step">1. basamak</td><td>Çölyak</td><td>Doku transglutaminaz IgA + total IgA</td></tr>
+          <tr><td class="step">2. basamak</td><td>Otoimmün hepatit</td><td>ANA, ASMA, anti-LKM-1, IgG düzeyi</td></tr>
+          <tr><td class="step">2. basamak</td><td>Wilson (&gt;3 yaş)</td><td>Seruloplazmin, 24 saat idrar bakırı, göz muayenesi (KF halkası)</td></tr>
+          <tr><td class="step">2. basamak</td><td>α1-antitripsin eksikliği</td><td>α1-antitripsin düzeyi + fenotip/genotip</td></tr>
+          <tr><td class="step">2. basamak</td><td>Metabolik / endokrin</td><td>Yaşa göre metabolik tarama; tiroid; süt çocuğunda genişletilmiş panel</td></tr>
+          <tr><td class="step">3. basamak</td><td>Kalıcı, açıklanamayan</td><td>Pediatrik hepatoloji sevki, karaciğer biyopsisi, genetik test</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout" style="margin-top:16px;">
+      Tetkik derinliği <b>yükseklik derecesi, kalıcılık ve klinikle</b> orantılı olmalıdır: hafif, geçici, asemptomatik izole yükseklikte önce tekrar + NAFLD taraması; ağır/kalıcı yükseklikte tam panel eş zamanlı istenir.
+    </div>
+  </section>
+
+  <!-- 5. YAŞA ÖZGÜ -->
+  <section>
+    <h2><span class="n">05</span> Yaşa özgü ipuçları</h2>
+    <div class="grid two">
+      <div class="card">
+        <h3>Süt çocuğu (&lt; 1 yaş)</h3>
+        <ul class="clean">
+          <li>Kolestaz eşlik ediyorsa <b>biliyer atrezi</b> ivedi dışlanır (direkt bilirubin, USG, cerrahi aciliyet).</li>
+          <li><b>Metabolik/genetik</b> nedenler öne çıkar: galaktozemi, tirozinemi, mitokondriyal hastalık, safra asidi bozuklukları.</li>
+          <li>Enfeksiyon (TORCH, sepsis, idrar yolu enfeksiyonu) ve endokrin (hipotiroidi, hipopituitarizm).</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Büyük çocuk / ergen</h3>
+        <ul class="clean">
+          <li><b>NAFLD</b> en sık neden (obezite, metabolik sendrom).</li>
+          <li><b>Viral hepatit</b>, ilaç/toksin, ergende alkol/madde.</li>
+          <li><b>Wilson</b> ve <b>otoimmün hepatit</b> mutlaka düşünülür — tedavi edilebilir, gecikmemeli.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. ALARM -->
+  <section>
+    <h2><span class="n">06</span> Acil / alarm bulguları</h2>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span><b>Koagülopati</b>: INR ≥ 1.5–2, K vitaminine yanıtsız</span></div>
+      <div class="alarm-item"><span class="dot"></span><span><b>Ensefalopati</b>: bilinç/davranış değişikliği, irritabilite</span></div>
+      <div class="alarm-item"><span class="dot"></span><span><b>Hipoglisemi</b>, düşük albümin (sentetik yetmezlik)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Hızlı yükselen <b>sarılık</b> / direkt hiperbilirubinemi</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>ALT/AST <b>&gt; 1000 U/L</b> veya hızlı tırmanış</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Asetaminofen/toksin alımı öyküsü → <b>NAC</b> düşün</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Süt çocuğunda kolestaz → <b>biliyer atrezi</b> aciliyeti</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Portal hipertansiyon / assit / hepatosplenomegali</span></div>
+    </div>
+  </section>
+
+  <!-- 7. SEVK -->
+  <section>
+    <h2><span class="n">07</span> Pediatrik hepatolojiye ne zaman sevk?</h2>
+    <div class="card">
+      <div class="pill-row">
+        <span class="pill">Herhangi bir <b>akut yetmezlik</b> bulgusu (acil)</span>
+        <span class="pill">Transaminaz <b>&gt; 5× ULN</b> ve açıklanamayan</span>
+        <span class="pill">≥ 6 ay <b>kalıcı</b> yükseklik</span>
+        <span class="pill">Wilson / otoimmün / metabolik şüphe</span>
+        <span class="pill">Süt çocuğunda kolestaz</span>
+        <span class="pill">Biyopsi gerektiren durum</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="disclaimer">
+    <b>Uyarı:</b> Bu şema eğitim ve hızlı başvuru amaçlıdır; bireysel klinik karar, güncel kılavuzlar ve yerel protokollerin yerine geçmez. Referans aralıkları laboratuvara göre değişir; ULN değerlerini kendi laboratuvarınızla doğrulayın.
+  </div>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Vajro P, Maddaluno S, Veropalumbo C. Persistent hypertransaminasemia in asymptomatic children: a stepwise approach. <i>World J Gastroenterol.</i> 2013;19(18):2740–2751.</li>
+      <li>Vos MB, Abrams SH, Barlow SE, ve ark. NASPGHAN Clinical Practice Guideline for Pediatric NAFLD. <i>JPGN.</i> 2017;64(2):319–334.</li>
+      <li>Mieli-Vergani G, Vergani D, Baumann U, ve ark. Diagnosis and Management of Pediatric Autoimmune Liver Disease: ESPGHAN Position Statement. <i>JPGN.</i> 2018;66(2):345–360.</li>
+      <li>Socha P, Janczyk W, Dhawan A, ve ark. Wilson's Disease in Children: ESPGHAN Position Paper. <i>JPGN.</i> 2018;66(2):334–344.</li>
+    </ol>
+  </footer>
+
+</div>
+
+</div>
+<div class="book-section">
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Çocuklarda Kronik İshal — Değerlendirme Algoritması</h1>
+    <p class="sub">≥ 2–4 hafta süren ishalde yaşa ve fizyopatolojik mekanizmaya göre yaklaşım: önce büyümeyi ve alarm bulgularını değerlendir, ozmotik/sekretuar ayrımını yap, hedefe yönelik tetkik et.</p>
+    <div class="meta">
+      <span class="tag">Kronik ishal ≥ 2–4 hafta</span>
+      <span class="tag">Ozmotik / Sekretuar / İnflamatuar</span>
+      <span class="tag">0–18 yaş</span>
+      <span class="tag">Malabsorpsiyon</span>
+    </div>
+  </header>
+
+  <!-- 1. TANIM -->
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede"><b>Kronik ishal</b> = ≥ 14 gün (çoğu kaynakta ≥ 4 hafta) süren, dışkı sıklığı ve/veya su içeriğinde artış. İlk soru: <b>çocuk büyüyor mu?</b> Büyüme geriliği ve alarm bulguları organik/malabsorptif nedeni işaret eder.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öykü</h3>
+        <ul class="clean">
+          <li>Süre, başlangıç yaşı, sıklık, <b>dışkı özelliği</b> (sulu / yağlı / kanlı-mukuslu).</li>
+          <li>Beslenme: <b>aşırı meyve suyu/sorbitol</b>, yeni gıdalar, glüten, süt.</li>
+          <li>Gece ishali, karın ağrısı, kilo/iştah, ateş, döküntü, seyahat.</li>
+          <li>Antibiyotik öyküsü, aile öyküsü (çölyak, IBD, KF, immün yetmezlik).</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayene</h3>
+        <ul class="clean">
+          <li><b>Büyüme eğrisi</b> ve hidrasyon/ödem (protein kaybı).</li>
+          <li>Karın distansiyonu, kitle, perianal hastalık (fistül/fissür → IBD).</li>
+          <li>Çomak parmak, döküntü, aftöz lezyon, artrit (ekstraintestinal).</li>
+          <li>Cilt altı yağ, kas kütlesi (kronik malnütrisyon işaretleri).</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. MEKANİZMA -->
+  <section>
+    <h2><span class="n">02</span> Mekanizmaya göre sınıflama</h2>
+    <p class="lede">Fizyopatoloji tetkiki yönlendirir. Basit ipucu: <b>açlıkla düzelen</b> ishal ozmotik, <b>açlıkta süren</b> ishal sekretuardır.</p>
+    <div class="mech">
+      <div class="m osm">
+        <div class="h">Ozmotik</div>
+        <div class="cue">Açlıkla düzelir · dışkı pH &lt; 5.5, redüktan madde (+), ozmotik aralık ↑</div>
+        <p>Karbonhidrat malabsorpsiyonu (laktoz, sukraz-izomaltaz), aşırı meyve suyu/sorbitol, laksatif.</p>
+      </div>
+      <div class="m sec">
+        <div class="h">Sekretuar</div>
+        <div class="cue">Açlıkta sürer · bol sulu, ozmotik aralık düşük</div>
+        <p>Enfeksiyon toksinleri, konjenital diyareler, nöroendokrin tümör, safra asidi.</p>
+      </div>
+      <div class="m inf">
+        <div class="h">İnflamatuar</div>
+        <div class="cue">Kan/mukus · kalprotektin ↑, CRP/ESR ↑</div>
+        <p>İnflamatuar bağırsak hastalığı, alerjik kolit, invaziv/kronik enfeksiyon.</p>
+      </div>
+      <div class="m fat">
+        <div class="h">Yağ malabsorpsiyonu</div>
+        <div class="cue">Yağlı-kokulu dışkı · elastaz ↓, dışkı yağı ↑</div>
+        <p>Çölyak, kistik fibrozis / pankreas yetmezliği, kolestaz, kısa bağırsak.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. AKIŞ -->
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">Büyüme + alarm değerlendir → sağlıklı büyüyende sık iyi huylu nedenler → aksi halde mekanizmaya göre basamaklı tetkik → tanı yoksa sevk/endoskopi.</p>
+
+    <div class="flow">
+      <div class="node start">
+        <span class="k">Başlangıç</span>
+        <span class="t">≥ 2–4 hafta süren ishal</span>
+        <p>Öykü, beslenme, dışkı özelliği ve büyüme eğrisini değerlendir.</p>
+      </div>
+      <div class="connector"></div>
+
+      <div class="node decision">
+        <span class="k">Karar 1</span>
+        <span class="t">Büyüme geriliği veya alarm bulgusu var mı?</span>
+        <p>Kilo kaybı/duraklama, kanlı dışkı, gece ishali, dehidratasyon, ödem, ateş, perianal hastalık (bkz. bölüm 05).</p>
+      </div>
+      <div class="branches">
+        <div class="branch no">
+          <span class="label">HAYIR → sağlıklı büyüyor</span>
+          <div class="node action safe">
+            <span class="k">Sık iyi huylu nedenler</span>
+            <span class="t">Diyet öyküsünü gözden geçir</span>
+            <p><b>Toddler ishali</b> (kronik nonspesifik), aşırı meyve suyu/sorbitol, geçici post-enfeksiyöz laktoz intoleransı. Diyet düzenle + izle.</p>
+          </div>
+        </div>
+        <div class="branch yes">
+          <span class="label">EVET → organik tetkik</span>
+          <div class="node action">
+            <span class="k">Yönlendir</span>
+            <span class="t">Basamaklı tetkike geç</span>
+            <p>Dışkı özelliği ve mekanizmaya göre hedefe yönelik test iste.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="connector"></div>
+      <div class="node action">
+        <span class="k">Adım 1 · 1. basamak</span>
+        <span class="t">Dışkı + kan tetkikleri</span>
+        <p><b>Dışkı:</b> kültür, parazit/Giardia antijeni, gizli kan, <b>kalprotektin</b>, pH + redüktan madde, elastaz. <b>Kan:</b> TKS, CRP/ESR, elektrolit, albümin, <b>çölyak serolojisi</b> (doku transglutaminaz IgA + total IgA), TSH.</p>
+      </div>
+      <div class="connector"></div>
+
+      <div class="node decision">
+        <span class="k">Karar 2</span>
+        <span class="t">Yönlendirici bulgu var mı?</span>
+      </div>
+      <div class="branches">
+        <div class="branch no">
+          <span class="label">EVET → nedene yönelik</span>
+          <div class="node action safe">
+            <span class="k">Yönet</span>
+            <span class="t">Tanıya göre tedavi</span>
+            <p>Çölyak → glütensiz diyet; Giardia → tedavi; laktoz intoleransı → diyet; alerjik → eliminasyon. Yanıtı doğrula.</p>
+          </div>
+        </div>
+        <div class="branch yes">
+          <span class="label">HAYIR / kalıcı → 2. basamak</span>
+          <div class="node action">
+            <span class="k">Adım 2 · 2. basamak</span>
+            <span class="t">Genişletilmiş tetkik</span>
+            <p><b>Ter testi</b> (KF), immünglobulinler, IBD göstergeleri, endokrin/metabolik, gerekirse dışkı ozmotik aralığı ve nöroendokrin belirteçler.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 3</span>
+        <span class="t">Tanı hâlâ belirsiz / IBD veya konjenital şüphesi?</span>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → sevk / endoskopi</span>
+          <div class="node alarm">
+            <span class="k">İleri</span>
+            <span class="t">Pediatrik gastroenterolojiye yönlendir</span>
+            <p>Üst/alt endoskopi + biyopsi, görüntüleme; süt çocuğunda konjenital ishal için genetik tetkik.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → izlem</span>
+          <div class="node action safe">
+            <span class="k">İzlem</span>
+            <span class="t">Büyüme ve semptom takibi</span>
+            <p>Diyet ampirik denemesi + yakın izlem; kötüleşme/yeni alarm → yeniden değerlendir.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. TETKİK TABLOSU -->
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik listesi</h2>
+    <div class="table-scroll">
+      <table>
+        <caption>Hedefe yönelik laboratuvar / işlemler</caption>
+        <thead><tr><th>Basamak</th><th>Hedef</th><th>Testler</th></tr></thead>
+        <tbody>
+          <tr><td class="step">Dışkı</td><td>Enfeksiyon</td><td>Kültür, Giardia/Cryptosporidium antijeni, parazit yumurta, (C. difficile seçili)</td></tr>
+          <tr><td class="step">Dışkı</td><td>İnflamasyon</td><td>Fekal <b>kalprotektin</b>, gizli kan, lökosit</td></tr>
+          <tr><td class="step">Dışkı</td><td>Malabsorpsiyon tipi</td><td>pH + redüktan madde (ozmotik), dışkı elastazı (pankreas), dışkı yağı</td></tr>
+          <tr><td class="step">Kan</td><td>Genel + beslenme</td><td>TKS, CRP/ESR, elektrolit, albümin, demir, çinko, vitaminler</td></tr>
+          <tr><td class="step">Kan</td><td>Çölyak</td><td>Doku transglutaminaz IgA + total IgA</td></tr>
+          <tr><td class="step">Kan</td><td>Endokrin</td><td>TSH (± hipertiroidi taraması)</td></tr>
+          <tr><td class="step">2. basamak</td><td>Kistik fibrozis</td><td>Ter testi (± genetik)</td></tr>
+          <tr><td class="step">2. basamak</td><td>İmmün yetmezlik</td><td>İmmünglobulinler (IgG/A/M), lenfosit alt grupları</td></tr>
+          <tr><td class="step">3. basamak</td><td>IBD / mukozal</td><td>Üst + alt endoskopi ve biyopsi, görüntüleme (MR enterografi)</td></tr>
+          <tr><td class="step">3. basamak</td><td>Konjenital ishal (süt çocuğu)</td><td>Dışkı elektrolit/ozmotik aralık, genetik panel, nöroendokrin belirteçler</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout safe" style="margin-top:16px;">
+      <b>Toddler ishali</b> (6 ay–5 yaş, iyi büyüyen, ekstra tetkik gerektirmeyen): "4 F" düzenlemesi — aşırı <b>meyve suyu</b> (fruktoz/sorbitol) azalt, yeterli <b>yağ</b>, normal <b>lif</b>, aşırı <b>sıvı</b>yı sınırla. Genellikle 4 yaş civarı kendiliğinden geriler.
+    </div>
+  </section>
+
+  <!-- 5. ALARM -->
+  <section>
+    <h2><span class="n">05</span> Alarm bulguları (organik neden düşündürenler)</h2>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span><b>Büyüme geriliği</b> / kilo kaybı / duraklama</span></div>
+      <div class="alarm-item"><span class="dot"></span><span><b>Kanlı veya mukuslu</b> dışkı</span></div>
+      <div class="alarm-item"><span class="dot"></span><span><b>Gece ishali</b> (uykudan uyandıran)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Dehidratasyon, elektrolit bozukluğu</span></div>
+      <div class="alarm-item"><span class="dot"></span><span><b>Ödem</b> / hipoalbüminemi (protein kaybı)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Sürekli ateş, sistemik hastalık bulgusu</span></div>
+      <div class="alarm-item"><span class="dot"></span><span><b>Perianal hastalık</b> (fistül, fissür, apse) → IBD</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ekstraintestinal: artrit, döküntü, aftöz ülser, üveit</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Süt çocuğunda <b>doğumdan itibaren</b> ağır sulu ishal (konjenital)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Tekrarlayan/ağır enfeksiyon (immün yetmezlik)</span></div>
+    </div>
+  </section>
+
+  <!-- 6. YAŞA ÖZGÜ -->
+  <section>
+    <h2><span class="n">06</span> Yaşa özgü en sık nedenler</h2>
+    <div class="grid two">
+      <div class="card">
+        <h3>Süt çocuğu (&lt; 1 yaş)</h3>
+        <ul class="clean">
+          <li><b>İnek sütü/besin protein alerjisi</b>, post-enfeksiyöz ishal.</li>
+          <li>Doğumdan itibaren ağır sulu ishalde <b>konjenital ishaller</b> (mikrovillus inklüzyon, tufting, konjenital klor/sodyum ishali).</li>
+          <li><b>Kistik fibrozis</b>, primer immün yetmezlik.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Toddler / okul çağı / ergen</h3>
+        <ul class="clean">
+          <li><b>Toddler ishali</b> (kronik nonspesifik), post-enfeksiyöz laktoz intoleransı, Giardia.</li>
+          <li><b>Çölyak</b> hastalığı her yaşta düşünülmeli.</li>
+          <li>Okul çağı/ergende <b>IBD</b> (Crohn, ülseratif kolit) ve İBS.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. SEVK -->
+  <section>
+    <h2><span class="n">07</span> Pediatrik gastroenterolojiye ne zaman sevk?</h2>
+    <div class="card">
+      <div class="pill-row">
+        <span class="pill">Herhangi bir <b>alarm bulgusu</b></span>
+        <span class="pill"><b>Büyüme geriliği</b> / malnütrisyon</span>
+        <span class="pill">Kanlı ishal / <b>IBD</b> şüphesi</span>
+        <span class="pill">1. basamak tetkik tanısız + kalıcı</span>
+        <span class="pill">Süt çocuğunda <b>konjenital ishal</b> şüphesi</span>
+        <span class="pill">Endoskopi/biyopsi gerektiren durum</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="disclaimer">
+    <b>Uyarı:</b> Bu şema eğitim ve hızlı başvuru amaçlıdır; bireysel klinik karar, güncel kılavuzlar ve yerel protokollerin yerine geçmez. Tetkik seçimi çocuğun yaşı, büyümesi ve klinik gidişine göre bireyselleştirilmelidir.
+  </div>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Zella GC, Israel EJ. Chronic Diarrhea in Children. <i>Pediatr Rev.</i> 2012;33(5):207–218.</li>
+      <li>Guarino A, Lo Vecchio A, Berni Canani R. Chronic diarrhoea in children. <i>Best Pract Res Clin Gastroenterol.</i> 2012;26(5):649–661.</li>
+      <li>Thiagarajah JR, Kamin DS, Acra S, ve ark. Advances in Evaluation of Chronic Diarrhea in Infants. <i>Gastroenterology.</i> 2018;154(8):2045–2059.</li>
+      <li>Hill ID, Fasano A, Guandalini S, ve ark. NASPGHAN Clinical Report on Celiac Disease. <i>JPGN.</i> 2016;63(1):156–165.</li>
+    </ol>
+  </footer>
+
+</div>
+
+</div>
+<div class="book-section">
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji / Hepatoloji · Klinik Karar Aracı</p>
+    <h1>Yenidoğan Kolestazı ve Uzamış Sarılık — Değerlendirme Algoritması</h1>
+    <p class="sub">Direkt (konjuge) hiperbilirubinemi hiçbir zaman fizyolojik değildir. Amaç, tedavi edilebilir nedenleri ve özellikle <b>biliyer atreziyi</b> zaman kaybetmeden tanımaktır.</p>
+    <div class="meta">
+      <span class="tag">Direkt bilirubin &gt; 1.0 mg/dL</span>
+      <span class="tag">≥ 2 hafta uzamış sarılık</span>
+      <span class="tag">Biliyer atrezi aciliyeti</span>
+      <span class="tag">ESPGHAN / NASPGHAN 2017</span>
+    </div>
+    <div class="urgent">
+      <span class="ic">⏱</span>
+      <p><b>Zamana duyarlı:</b> Biliyer atrezide Kasai portoenterostomisi ne kadar erken (ideali <b>&lt; 45–60. gün</b>) yapılırsa sonuç o kadar iyidir. Kolestaz saptanan her bebek <b>ivedilikle</b> değerlendirilmeli ve pediatrik gastroenteroloji/hepatolojiye yönlendirilmelidir.</p>
+    </div>
+  </header>
+
+  <!-- 1. TANIM -->
+  <section>
+    <h2><span class="n">01</span> Tanım ve tarama eşiği</h2>
+    <p class="lede">Kolestaz = safra akımının bozulması; laboratuvarda <b>direkt/konjuge bilirubin yüksekliği</b> ile tanınır.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Ne zaman fraksiyone bilirubin?</h3>
+        <ul class="clean">
+          <li><b>≥ 2 haftadır sarı</b> olan her bebekte direkt bilirubin bakılır (sadece anne sütü sarılığı varsayılmaz).</li>
+          <li>İyi durumdaki tamamen anne sütü alan bebekte 3. haftaya dek izlenebilir; ancak <b>açolik dışkı / koyu idrar</b> varsa hemen ölçülür.</li>
+          <li><b>Direkt bilirubin &gt; 1.0 mg/dL</b> anormaldir (bazı tanımlarda total'in &gt;%20'si).</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>İlk üç ipucu</h3>
+        <ul class="clean">
+          <li><b>Dışkı rengi</b> — açık/kil rengi (açolik) dışkı obstrüksiyonu düşündürür (renk kartı ile izle).</li>
+          <li><b>İdrar rengi</b> — koyu/çay renkli idrar (konjuge bilirubin atılımı).</li>
+          <li><b>Hepatomegali</b> ve büyüme/beslenme durumu.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout alarm" style="margin-top:16px;">
+      <b>Altın kural:</b> Konjuge hiperbilirubinemi asla fizyolojik kabul edilmez — mutlaka araştırılır. Uzamış <b>indirekt</b> hiperbilirubinemi ise (anne sütü sarılığı, hemoliz, hipotiroidi) ayrı değerlendirilir.
+    </div>
+  </section>
+
+  <!-- 2. KATEGORİLER -->
+  <section>
+    <h2><span class="n">02</span> Ayırıcı tanı kategorileri</h2>
+    <div class="grid three">
+      <div class="card cat obs">
+        <div class="h">Obstrüktif / anatomik</div>
+        <ul class="clean">
+          <li><b>Biliyer atrezi</b> (en kritik)</li>
+          <li>Koledok kisti</li>
+          <li>Safra taşı / çamur, tıkaç</li>
+        </ul>
+      </div>
+      <div class="card cat hep">
+        <div class="h">Hepatosellüler</div>
+        <ul class="clean">
+          <li>Enfeksiyon (TORCH, İYE, sepsis)</li>
+          <li>Metabolik: galaktozemi, tirozinemi, α1-antitripsin</li>
+          <li>Endokrin: hipotiroidi, hipopituitarizm</li>
+          <li>İdiyopatik neonatal hepatit</li>
+        </ul>
+      </div>
+      <div class="card cat gen">
+        <div class="h">Genetik / kanaliküler</div>
+        <ul class="clean">
+          <li><b>Alagille</b> sendromu</li>
+          <li><b>PFIC</b> (progresif ailesel)</li>
+          <li>Safra asidi sentez defektleri</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. AKIŞ -->
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">Kolestazı doğrula → durumu stabilize et ve tedavi edilebilir acilleri (sepsis, galaktozemi, endokrin) dışla → biliyer atreziyi hızla değerlendir → nedene yönelik tetkik.</p>
+
+    <div class="flow">
+      <div class="node start">
+        <span class="k">Başlangıç</span>
+        <span class="t">≥ 2 hafta uzamış sarılık</span>
+        <p><b>Fraksiyone bilirubin</b> iste. Dışkı ve idrar rengini değerlendir.</p>
+      </div>
+      <div class="connector"></div>
+
+      <div class="node decision">
+        <span class="k">Karar 1</span>
+        <span class="t">Direkt bilirubin yüksek mi? (&gt; 1.0 mg/dL)</span>
+      </div>
+      <div class="branches">
+        <div class="branch no">
+          <span class="label">HAYIR (indirekt) → ayrı yol</span>
+          <div class="node action safe">
+            <span class="k">İndirekt</span>
+            <span class="t">Anne sütü sarılığı / hemoliz / tiroid</span>
+            <p>Hemoliz, hipotiroidi, anne sütü sarılığını değerlendir; kolestaz algoritmasından çık.</p>
+          </div>
+        </div>
+        <div class="branch yes">
+          <span class="label">EVET → KOLESTAZ</span>
+          <div class="node alarm">
+            <span class="k">Kolestaz doğrulandı</span>
+            <span class="t">İvedi değerlendirme başlat</span>
+            <p>Hepatoloji/GİS'e yönlendir; zaman biliyer atrezi lehine kritiktir.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="connector"></div>
+      <div class="node action">
+        <span class="k">Adım 1 · Acil dışlamalar</span>
+        <span class="t">Tedavi edilebilir/tehlikeli nedenleri hemen ele al</span>
+        <p><b>Sepsis / İYE</b> (kültür), <b>galaktozemi</b> (idrar redüktan madde, GALT — süt kes), <b>hipotiroidi/hipopituitarizm</b> (TSH, sT4, glukoz), <b>hipoglisemi</b>. K vitamini ile <b>kanama</b> riskini yönet.</p>
+      </div>
+      <div class="connector"></div>
+
+      <div class="node action">
+        <span class="k">Adım 2 · Temel tetkik + görüntüleme</span>
+        <span class="t">Karaciğer paneli ve USG</span>
+        <p>ALT, AST, <b>GGT</b>, ALP, total/direkt bilirubin, <b>INR/albümin</b> (sentetik fonksiyon), TKS. <b>Karaciğer USG</b> (açlık): safra kesesi yokluğu/küçüklüğü, <i>triangular cord</i> bulgusu, koledok kisti.</p>
+      </div>
+      <div class="connector"></div>
+
+      <div class="node decision">
+        <span class="k">Karar 2</span>
+        <span class="t">Biliyer atrezi düşündüren bulgu var mı?</span>
+        <p>Açolik dışkı, yüksek GGT, USG'de safra kesesi anomalisi / triangular cord.</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → cerrahi aciliyet</span>
+          <div class="node alarm">
+            <span class="k">İvedi</span>
+            <span class="t">Kolanjiyografi / cerrahi değerlendirme</span>
+            <p>İntraoperatif kolanjiyografi tanıyı doğrular; biliyer atrezide <b>Kasai portoenterostomisi</b> (ideali &lt; 45–60. gün).</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR / belirsiz → tetkiki genişlet</span>
+          <div class="node action">
+            <span class="k">Adım 3 · 2. basamak</span>
+            <span class="t">Metabolik / genetik / diğer</span>
+            <p>α1-antitripsin düzeyi/fenotip, tirozinemi (süksinilaseton), ter testi, TORCH; gerekirse <b>karaciğer biyopsisi</b> ve genetik panel (Alagille/PFIC).</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="connector"></div>
+      <div class="node action safe">
+        <span class="k">Adım 4 · Destek tedavi (paralel)</span>
+        <span class="t">Beslenme + yağda eriyen vitaminler</span>
+        <p><b>MCT içeren</b> mama ile beslenme desteği, <b>A-D-E-K vitamini</b> takviyesi ve düzeyi, kaşıntı/kolestaz için <b>ursodeoksikolik asit</b>; büyümeyi yakından izle.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. TETKİK TABLOSU -->
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik listesi</h2>
+    <div class="table-scroll">
+      <table>
+        <caption>Kolestaz nedenine yönelik tetkik</caption>
+        <thead><tr><th>Basamak</th><th>Hedef</th><th>Testler</th></tr></thead>
+        <tbody>
+          <tr><td class="step">Doğrula</td><td>Kolestaz + hasar/sentez</td><td>Fraksiyone bilirubin, ALT, AST, <b>GGT</b>, ALP, INR, albümin, TKS, glukoz</td></tr>
+          <tr><td class="step">Acil</td><td>Enfeksiyon</td><td>Kan + idrar kültürü, gerekirse TORCH serolojisi</td></tr>
+          <tr><td class="step">Acil</td><td>Galaktozemi</td><td>İdrar redüktan madde, GALT enzimi (süt kes)</td></tr>
+          <tr><td class="step">Acil</td><td>Endokrin</td><td>TSH, sT4, (hipopituitarizm: kortizol, glukoz)</td></tr>
+          <tr><td class="step">Görüntüleme</td><td>Anatomi</td><td>Karaciğer USG (safra kesesi, triangular cord, koledok kisti)</td></tr>
+          <tr><td class="step">2. basamak</td><td>α1-antitripsin eksikliği</td><td>Düzey + fenotip/genotip</td></tr>
+          <tr><td class="step">2. basamak</td><td>Tirozinemi tip 1</td><td>Kan/idrar süksinilaseton, aminoasitler</td></tr>
+          <tr><td class="step">2. basamak</td><td>Kistik fibrozis</td><td>Ter testi / genetik</td></tr>
+          <tr><td class="step">3. basamak</td><td>Biliyer atrezi doğrulama</td><td>İntraoperatif kolanjiyografi (± HIDA sintigrafi, biyopsi)</td></tr>
+          <tr><td class="step">3. basamak</td><td>Genetik kolestaz</td><td>Karaciğer biyopsisi, genetik panel (Alagille/JAG1, PFIC, safra asidi defektleri)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout" style="margin-top:16px;">
+      <b>GGT ipucu:</b> Biliyer atrezi ve çoğu obstrüktif nedende GGT <b>yüksektir</b>; PFIC tip 1–2 ve safra asidi sentez defektlerinde ise GGT <b>normal/düşük</b> olması ayırıcı tanıda yol göstericidir.
+    </div>
+  </section>
+
+  <!-- 5. ALARM -->
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar (ivedi değerlendirme)</h2>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span><b>Açolik / kil rengi dışkı</b> → obstrüksiyon, biliyer atrezi</span></div>
+      <div class="alarm-item"><span class="dot"></span><span><b>Koyu idrar</b> (konjuge bilirubin)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Direkt bilirubin yüksekliği + <b>hepatomegali</b></span></div>
+      <div class="alarm-item"><span class="dot"></span><span><b>Kanama</b> / kolay morarma (K vitamini eksikliği)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span><b>Kötü beslenme, letarji, kusma</b> → metabolik/sepsis</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Hipoglisemi, sentetik yetmezlik (INR ↑, albümin ↓)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Büyüme geriliği, dismorfik bulgu (Alagille)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kalp üfürümü / posterior embriyotokson (Alagille)</span></div>
+    </div>
+  </section>
+
+  <!-- 6. SEVK -->
+  <section>
+    <h2><span class="n">06</span> Sevk ilkesi</h2>
+    <div class="card">
+      <div class="pill-row">
+        <span class="pill"><b>Kolestaz saptanan her bebek</b> → ivedi hepatoloji/GİS</span>
+        <span class="pill">Açolik dışkı / BA şüphesi → <b>cerrahi</b> ile eş zamanlı</span>
+        <span class="pill">Sentetik yetmezlik → nakil merkezi</span>
+        <span class="pill">Metabolik acil (galaktozemi/tirozinemi)</span>
+      </div>
+      <p class="lede" style="margin:14px 0 0;">Tetkikler sevki <b>geciktirmemeli</b>; değerlendirme ve yönlendirme paralel yürütülür.</p>
+    </div>
+  </section>
+
+  <div class="disclaimer">
+    <b>Uyarı:</b> Bu şema eğitim ve hızlı başvuru amaçlıdır; bireysel klinik karar, güncel kılavuzlar ve yerel protokollerin yerine geçmez. Yenidoğan kolestazı zamana duyarlıdır — şüphede tetkiki ve sevki geciktirmeyin.
+  </div>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Fawaz R, Baumann U, Ekong U, ve ark. Guideline for the Evaluation of Cholestatic Jaundice in Infants: Joint Recommendations of NASPGHAN and ESPGHAN. <i>JPGN.</i> 2017;64(1):154–168.</li>
+      <li>Feldman AG, Sokol RJ. Neonatal Cholestasis: Emerging Molecular Diagnostics and Potential Novel Therapeutics. <i>Nat Rev Gastroenterol Hepatol.</i> 2019;16(6):346–360.</li>
+      <li>Götze T, Blessing H, Grillhösl C, ve ark. Neonatal Cholestasis — Differential Diagnoses, Current Diagnostic Procedures, and Treatment. <i>Front Pediatr.</i> 2015;3:43.</li>
+    </ol>
+  </footer>
+
+</div>
+
+</div></body></html>

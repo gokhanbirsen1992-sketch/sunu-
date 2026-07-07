@@ -1,0 +1,365 @@
+<title>Yenidoğan Kolestazı — Değerlendirme Algoritması</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  /* urgent banner */
+  .urgent { margin-top: 20px; display: flex; gap: 12px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 35%, transparent); border-left: 4px solid var(--alarm); border-radius: 0 12px 12px 0; padding: 14px 16px; }
+  .urgent .ic { font-weight: 800; color: var(--alarm); font-size: 1.1rem; line-height: 1.3; }
+  .urgent p { margin: 0; font-size: .9rem; }
+  .urgent b { color: var(--alarm); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* category cards */
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); }
+  .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) { .cat.gen { border-top-color: #b79cf5; } }
+
+  /* Flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* Tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 620px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji / Hepatoloji · Klinik Karar Aracı</p>
+    <h1>Yenidoğan Kolestazı ve Uzamış Sarılık — Değerlendirme Algoritması</h1>
+    <p class="sub">Direkt (konjuge) hiperbilirubinemi hiçbir zaman fizyolojik değildir. Amaç, tedavi edilebilir nedenleri ve özellikle <b>biliyer atreziyi</b> zaman kaybetmeden tanımaktır.</p>
+    <div class="meta">
+      <span class="tag">Direkt bilirubin &gt; 1.0 mg/dL</span>
+      <span class="tag">≥ 2 hafta uzamış sarılık</span>
+      <span class="tag">Biliyer atrezi aciliyeti</span>
+      <span class="tag">ESPGHAN / NASPGHAN 2017</span>
+    </div>
+    <div class="urgent">
+      <span class="ic">⏱</span>
+      <p><b>Zamana duyarlı:</b> Biliyer atrezide Kasai portoenterostomisi ne kadar erken (ideali <b>&lt; 45–60. gün</b>) yapılırsa sonuç o kadar iyidir. Kolestaz saptanan her bebek <b>ivedilikle</b> değerlendirilmeli ve pediatrik gastroenteroloji/hepatolojiye yönlendirilmelidir.</p>
+    </div>
+  </header>
+
+  <!-- 1. TANIM -->
+  <section>
+    <h2><span class="n">01</span> Tanım ve tarama eşiği</h2>
+    <p class="lede">Kolestaz = safra akımının bozulması; laboratuvarda <b>direkt/konjuge bilirubin yüksekliği</b> ile tanınır.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Ne zaman fraksiyone bilirubin?</h3>
+        <ul class="clean">
+          <li><b>≥ 2 haftadır sarı</b> olan her bebekte direkt bilirubin bakılır (sadece anne sütü sarılığı varsayılmaz).</li>
+          <li>İyi durumdaki tamamen anne sütü alan bebekte 3. haftaya dek izlenebilir; ancak <b>açolik dışkı / koyu idrar</b> varsa hemen ölçülür.</li>
+          <li><b>Direkt bilirubin &gt; 1.0 mg/dL</b> anormaldir (bazı tanımlarda total'in &gt;%20'si).</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>İlk üç ipucu</h3>
+        <ul class="clean">
+          <li><b>Dışkı rengi</b> — açık/kil rengi (açolik) dışkı obstrüksiyonu düşündürür (renk kartı ile izle).</li>
+          <li><b>İdrar rengi</b> — koyu/çay renkli idrar (konjuge bilirubin atılımı).</li>
+          <li><b>Hepatomegali</b> ve büyüme/beslenme durumu.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout alarm" style="margin-top:16px;">
+      <b>Altın kural:</b> Konjuge hiperbilirubinemi asla fizyolojik kabul edilmez — mutlaka araştırılır. Uzamış <b>indirekt</b> hiperbilirubinemi ise (anne sütü sarılığı, hemoliz, hipotiroidi) ayrı değerlendirilir.
+    </div>
+  </section>
+
+  <!-- 2. KATEGORİLER -->
+  <section>
+    <h2><span class="n">02</span> Ayırıcı tanı kategorileri</h2>
+    <div class="grid three">
+      <div class="card cat obs">
+        <div class="h">Obstrüktif / anatomik</div>
+        <ul class="clean">
+          <li><b>Biliyer atrezi</b> (en kritik)</li>
+          <li>Koledok kisti</li>
+          <li>Safra taşı / çamur, tıkaç</li>
+        </ul>
+      </div>
+      <div class="card cat hep">
+        <div class="h">Hepatosellüler</div>
+        <ul class="clean">
+          <li>Enfeksiyon (TORCH, İYE, sepsis)</li>
+          <li>Metabolik: galaktozemi, tirozinemi, α1-antitripsin</li>
+          <li>Endokrin: hipotiroidi, hipopituitarizm</li>
+          <li>İdiyopatik neonatal hepatit</li>
+        </ul>
+      </div>
+      <div class="card cat gen">
+        <div class="h">Genetik / kanaliküler</div>
+        <ul class="clean">
+          <li><b>Alagille</b> sendromu</li>
+          <li><b>PFIC</b> (progresif ailesel)</li>
+          <li>Safra asidi sentez defektleri</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. AKIŞ -->
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">Kolestazı doğrula → durumu stabilize et ve tedavi edilebilir acilleri (sepsis, galaktozemi, endokrin) dışla → biliyer atreziyi hızla değerlendir → nedene yönelik tetkik.</p>
+
+    <div class="flow">
+      <div class="node start">
+        <span class="k">Başlangıç</span>
+        <span class="t">≥ 2 hafta uzamış sarılık</span>
+        <p><b>Fraksiyone bilirubin</b> iste. Dışkı ve idrar rengini değerlendir.</p>
+      </div>
+      <div class="connector"></div>
+
+      <div class="node decision">
+        <span class="k">Karar 1</span>
+        <span class="t">Direkt bilirubin yüksek mi? (&gt; 1.0 mg/dL)</span>
+      </div>
+      <div class="branches">
+        <div class="branch no">
+          <span class="label">HAYIR (indirekt) → ayrı yol</span>
+          <div class="node action safe">
+            <span class="k">İndirekt</span>
+            <span class="t">Anne sütü sarılığı / hemoliz / tiroid</span>
+            <p>Hemoliz, hipotiroidi, anne sütü sarılığını değerlendir; kolestaz algoritmasından çık.</p>
+          </div>
+        </div>
+        <div class="branch yes">
+          <span class="label">EVET → KOLESTAZ</span>
+          <div class="node alarm">
+            <span class="k">Kolestaz doğrulandı</span>
+            <span class="t">İvedi değerlendirme başlat</span>
+            <p>Hepatoloji/GİS'e yönlendir; zaman biliyer atrezi lehine kritiktir.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="connector"></div>
+      <div class="node action">
+        <span class="k">Adım 1 · Acil dışlamalar</span>
+        <span class="t">Tedavi edilebilir/tehlikeli nedenleri hemen ele al</span>
+        <p><b>Sepsis / İYE</b> (kültür), <b>galaktozemi</b> (idrar redüktan madde, GALT — süt kes), <b>hipotiroidi/hipopituitarizm</b> (TSH, sT4, glukoz), <b>hipoglisemi</b>. K vitamini ile <b>kanama</b> riskini yönet.</p>
+      </div>
+      <div class="connector"></div>
+
+      <div class="node action">
+        <span class="k">Adım 2 · Temel tetkik + görüntüleme</span>
+        <span class="t">Karaciğer paneli ve USG</span>
+        <p>ALT, AST, <b>GGT</b>, ALP, total/direkt bilirubin, <b>INR/albümin</b> (sentetik fonksiyon), TKS. <b>Karaciğer USG</b> (açlık): safra kesesi yokluğu/küçüklüğü, <i>triangular cord</i> bulgusu, koledok kisti.</p>
+      </div>
+      <div class="connector"></div>
+
+      <div class="node decision">
+        <span class="k">Karar 2</span>
+        <span class="t">Biliyer atrezi düşündüren bulgu var mı?</span>
+        <p>Açolik dışkı, yüksek GGT, USG'de safra kesesi anomalisi / triangular cord.</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → cerrahi aciliyet</span>
+          <div class="node alarm">
+            <span class="k">İvedi</span>
+            <span class="t">Kolanjiyografi / cerrahi değerlendirme</span>
+            <p>İntraoperatif kolanjiyografi tanıyı doğrular; biliyer atrezide <b>Kasai portoenterostomisi</b> (ideali &lt; 45–60. gün).</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR / belirsiz → tetkiki genişlet</span>
+          <div class="node action">
+            <span class="k">Adım 3 · 2. basamak</span>
+            <span class="t">Metabolik / genetik / diğer</span>
+            <p>α1-antitripsin düzeyi/fenotip, tirozinemi (süksinilaseton), ter testi, TORCH; gerekirse <b>karaciğer biyopsisi</b> ve genetik panel (Alagille/PFIC).</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="connector"></div>
+      <div class="node action safe">
+        <span class="k">Adım 4 · Destek tedavi (paralel)</span>
+        <span class="t">Beslenme + yağda eriyen vitaminler</span>
+        <p><b>MCT içeren</b> mama ile beslenme desteği, <b>A-D-E-K vitamini</b> takviyesi ve düzeyi, kaşıntı/kolestaz için <b>ursodeoksikolik asit</b>; büyümeyi yakından izle.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. TETKİK TABLOSU -->
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik listesi</h2>
+    <div class="table-scroll">
+      <table>
+        <caption>Kolestaz nedenine yönelik tetkik</caption>
+        <thead><tr><th>Basamak</th><th>Hedef</th><th>Testler</th></tr></thead>
+        <tbody>
+          <tr><td class="step">Doğrula</td><td>Kolestaz + hasar/sentez</td><td>Fraksiyone bilirubin, ALT, AST, <b>GGT</b>, ALP, INR, albümin, TKS, glukoz</td></tr>
+          <tr><td class="step">Acil</td><td>Enfeksiyon</td><td>Kan + idrar kültürü, gerekirse TORCH serolojisi</td></tr>
+          <tr><td class="step">Acil</td><td>Galaktozemi</td><td>İdrar redüktan madde, GALT enzimi (süt kes)</td></tr>
+          <tr><td class="step">Acil</td><td>Endokrin</td><td>TSH, sT4, (hipopituitarizm: kortizol, glukoz)</td></tr>
+          <tr><td class="step">Görüntüleme</td><td>Anatomi</td><td>Karaciğer USG (safra kesesi, triangular cord, koledok kisti)</td></tr>
+          <tr><td class="step">2. basamak</td><td>α1-antitripsin eksikliği</td><td>Düzey + fenotip/genotip</td></tr>
+          <tr><td class="step">2. basamak</td><td>Tirozinemi tip 1</td><td>Kan/idrar süksinilaseton, aminoasitler</td></tr>
+          <tr><td class="step">2. basamak</td><td>Kistik fibrozis</td><td>Ter testi / genetik</td></tr>
+          <tr><td class="step">3. basamak</td><td>Biliyer atrezi doğrulama</td><td>İntraoperatif kolanjiyografi (± HIDA sintigrafi, biyopsi)</td></tr>
+          <tr><td class="step">3. basamak</td><td>Genetik kolestaz</td><td>Karaciğer biyopsisi, genetik panel (Alagille/JAG1, PFIC, safra asidi defektleri)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout" style="margin-top:16px;">
+      <b>GGT ipucu:</b> Biliyer atrezi ve çoğu obstrüktif nedende GGT <b>yüksektir</b>; PFIC tip 1–2 ve safra asidi sentez defektlerinde ise GGT <b>normal/düşük</b> olması ayırıcı tanıda yol göstericidir.
+    </div>
+  </section>
+
+  <!-- 5. ALARM -->
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar (ivedi değerlendirme)</h2>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span><b>Açolik / kil rengi dışkı</b> → obstrüksiyon, biliyer atrezi</span></div>
+      <div class="alarm-item"><span class="dot"></span><span><b>Koyu idrar</b> (konjuge bilirubin)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Direkt bilirubin yüksekliği + <b>hepatomegali</b></span></div>
+      <div class="alarm-item"><span class="dot"></span><span><b>Kanama</b> / kolay morarma (K vitamini eksikliği)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span><b>Kötü beslenme, letarji, kusma</b> → metabolik/sepsis</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Hipoglisemi, sentetik yetmezlik (INR ↑, albümin ↓)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Büyüme geriliği, dismorfik bulgu (Alagille)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kalp üfürümü / posterior embriyotokson (Alagille)</span></div>
+    </div>
+  </section>
+
+  <!-- 6. SEVK -->
+  <section>
+    <h2><span class="n">06</span> Sevk ilkesi</h2>
+    <div class="card">
+      <div class="pill-row">
+        <span class="pill"><b>Kolestaz saptanan her bebek</b> → ivedi hepatoloji/GİS</span>
+        <span class="pill">Açolik dışkı / BA şüphesi → <b>cerrahi</b> ile eş zamanlı</span>
+        <span class="pill">Sentetik yetmezlik → nakil merkezi</span>
+        <span class="pill">Metabolik acil (galaktozemi/tirozinemi)</span>
+      </div>
+      <p class="lede" style="margin:14px 0 0;">Tetkikler sevki <b>geciktirmemeli</b>; değerlendirme ve yönlendirme paralel yürütülür.</p>
+    </div>
+  </section>
+
+  <div class="disclaimer">
+    <b>Uyarı:</b> Bu şema eğitim ve hızlı başvuru amaçlıdır; bireysel klinik karar, güncel kılavuzlar ve yerel protokollerin yerine geçmez. Yenidoğan kolestazı zamana duyarlıdır — şüphede tetkiki ve sevki geciktirmeyin.
+  </div>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Fawaz R, Baumann U, Ekong U, ve ark. Guideline for the Evaluation of Cholestatic Jaundice in Infants: Joint Recommendations of NASPGHAN and ESPGHAN. <i>JPGN.</i> 2017;64(1):154–168.</li>
+      <li>Feldman AG, Sokol RJ. Neonatal Cholestasis: Emerging Molecular Diagnostics and Potential Novel Therapeutics. <i>Nat Rev Gastroenterol Hepatol.</i> 2019;16(6):346–360.</li>
+      <li>Götze T, Blessing H, Grillhösl C, ve ark. Neonatal Cholestasis — Differential Diagnoses, Current Diagnostic Procedures, and Treatment. <i>Front Pediatr.</i> 2015;3:43.</li>
+    </ol>
+  </footer>
+
+</div>
