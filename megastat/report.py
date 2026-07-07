@@ -77,6 +77,38 @@ def _anlamli_bulgular(sonuc: AnalysisResult) -> pd.DataFrame:
                     "FDR p": r["FDR p"],
                     "n": r["n"],
                 })
+    f = sonuc.formuller
+    if f is not None:
+        eg = f.egriler
+        if not eg.empty:
+            secim = eg[eg["gizli formül mü"].str.startswith("EVET")
+                       & (eg["FDR sonrası anlamlı"] == "EVET ✓")]
+            for _, r in secim.iterrows():
+                satirlar.append({
+                    "tür": "gizli formül",
+                    "bulgu": f"{r['bağımlı']} ← {r['yordayıcı']} ({r['en iyi model']})",
+                    "istatistik": (
+                        f"{r['denklem']} (düz. R²={r['en iyi düz. R²']:.3f}, "
+                        f"doğrusal ötesi kazanç={r['doğrusal ötesi kazanç']:.3f})"
+                    ),
+                    "ham p": r["model p"],
+                    "FDR p": r["FDR p"],
+                    "n": r["n"],
+                })
+        et = f.etkilesimler
+        if not et.empty and "FDR sonrası anlamlı" in et:
+            for _, r in et[et["FDR sonrası anlamlı"] == "EVET ✓"].iterrows():
+                satirlar.append({
+                    "tür": "etkileşim (moderasyon)",
+                    "bulgu": f"{r['bağımlı']} ← {r['X (yordayıcı)']} × {r['Z (moderatör)']}",
+                    "istatistik": (
+                        f"etkileşim B(std) = {r['etkileşim B (std)']:.3f}, "
+                        f"ΔR² = {r['ΔR² (etkileşim katkısı)']:.3f}; {r['yorum']}"
+                    ),
+                    "ham p": r["p"],
+                    "FDR p": r["FDR p"],
+                    "n": r["n"],
+                })
     tablo = pd.DataFrame(satirlar)
     if not tablo.empty:
         tablo = tablo.sort_values("FDR p").reset_index(drop=True)
@@ -130,6 +162,12 @@ def excel_raporu(sonuc: AnalysisResult) -> bytes:
                 ("Çoklu Regresyon", g2.coklu_regresyon),
                 ("Lojistik Regresyon", g2.lojistik),
                 ("ROC Analizi", g2.roc),
+            ]
+        f = sonuc.formuller
+        if f is not None:
+            sayfalar += [
+                ("Gizli Formüller (Eğri)", f.egriler),
+                ("Etkileşim (Moderasyon)", f.etkilesimler),
             ]
         for ad, tablo in sayfalar:
             if tablo.empty:
@@ -186,6 +224,9 @@ def metin_ozeti(sonuc: AnalysisResult, en_fazla_bulgu: int = 25) -> str:
         f"{o.get('çoklu regresyon modeli', 0)} çoklu regresyon, "
         f"{o.get('lojistik regresyon modeli', 0)} lojistik regresyon, "
         f"{o.get('ROC analizi', 0)} ROC, {o.get('uyum testi (kappa/McNemar)', 0)} uyum testi",
+        f"Gizli formül taraması: {o.get('eğri (formül) taraması', 0)} çiftte 7'şer model denendi → "
+        f"{o.get('belirgin gizli formül', 0)} belirgin doğrusal-olmayan formül; "
+        f"{o.get('etkileşim (moderasyon) modeli', 0)} etkileşim modeli",
         f"FDR düzeltmesi sonrası anlamlı bulgu: {o['FDR sonrası anlamlı bulgu']}",
         "",
     ]

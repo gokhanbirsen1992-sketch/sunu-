@@ -61,12 +61,14 @@ _SAYFA = """<!doctype html>
 <div class="kutu">
   <h1>📊 Mega<span>Stat</span></h1>
   <div class="kart">
-    <p>Veri dosyanızı seçin (<b>{uzantilar}</b>). Program <b>8 katmanlı tam analiz</b> yapar:</p>
+    <p>Veri dosyanızı seçin (<b>{uzantilar}</b>). Program <b>9 katmanlı tam analiz</b> yapar:</p>
     <ol style="font-size:.9rem; padding-left:20px; margin-top:4px">
       <li>Betimseller + 4 normallik testi</li>
       <li>Tüm klasik testler (t/ANOVA/Mann-Whitney/Kruskal/ki-kare/korelasyon) + FDR düzeltmesi</li>
       <li>Gelişmiş klasik: eşleştirilmiş t/Wilcoxon, Friedman, kappa/McNemar,
           Cronbach α + madde analizi, faktör analizi (KMO), çoklu &amp; lojistik regresyon, ROC</li>
+      <li>Gizli formüller: 7 aday eğri modeli → en iyisi <b>açık denklem</b> olarak
+          (örn. etki = 5.1 + 7.9·ln(doz)) + X×Z etkileşim (moderasyon) taraması</li>
       <li>Doğrusal-olmayan gizli ilişkiler (Karşılıklı Bilgi — Pearson'ın kaçırdıkları)</li>
       <li>Gradient Boosting ML: çok değişkenli öngörü + değişken önem sıralaması</li>
       <li>Kısmi korelasyon: sahte/aracılı ilişki ayıklama</li>
@@ -107,7 +109,7 @@ form.addEventListener("submit", async (e) => {{
       await bekle(3000);
       const sn = Math.round((Date.now() - basla) / 1000);
       btn.textContent = "Hesaplanıyor… " + sn + " sn";
-      alan.innerHTML = "<p>⏳ 8 katman hesaplanıyor… (" + sn +
+      alan.innerHTML = "<p>⏳ 9 katman hesaplanıyor… (" + sn +
         " sn) Büyük veride birkaç dakika sürebilir; sayfayı kapatmayın.</p>";
       let d;
       try {{

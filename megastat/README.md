@@ -1,21 +1,22 @@
-# 📊 MegaStat — 8 Katmanlı Sınırsız İstatistik + ML Keşif Motoru
+# 📊 MegaStat — 9 Katmanlı Sınırsız İstatistik + ML Keşif Motoru
 
-Veri dosyanızı verin (CSV / Excel / SPSS `.sav`), MegaStat **8 katmanlı tam analiz** yapsın.
+Veri dosyanızı verin (CSV / Excel / SPSS `.sav`), MegaStat **9 katmanlı tam analiz** yapsın.
 Literatür yok, makale yok, üretken yapay zekâ yok — saf, deterministik istatistik + makine
 öğrenmesi. PaperForge (`app/`) kodundan tamamen bağımsızdır.
 
-## 8 Katman
+## 9 Katman
 
 | # | Katman | Ne bulur |
 |---|---|---|
 | 1 | **Betimseller + normallik** | her değişkenin tam profili (20+ ölçü), Shapiro-Wilk / D'Agostino + Lilliefors + Anderson-Darling + Jarque-Bera |
 | 2 | **Klasik testler (sınırsız)** | tüm t/Welch/Mann-Whitney/ANOVA/Kruskal/ki-kare/Fisher/korelasyon çiftleri + etki büyüklükleri + Bonferroni/Holm/FDR |
 | 3 | **Gelişmiş klasik testler** | eşleştirilmiş t / Wilcoxon (ön-son test), Friedman + Kendall W, Cohen kappa + McNemar (uyum), **Cronbach α + McDonald ω** güvenilirlik + madde analizi, **faktör analizi** (KMO, Bartlett, varimax), **çoklu doğrusal regresyon** (β, VIF), **lojistik regresyon** (OR + %95 GA), **ROC** (AUC, Youden kesim, duyarlılık/özgüllük) |
-| 4 | **Doğrusal-olmayan gizli ilişkiler** | Karşılıklı Bilgi (Mutual Information): Pearson'ın düşük gösterdiği ama gerçekte güçlü (eğrisel/eşikli) bağlar |
-| 5 | **ML öngörü (Gradient Boosting)** | her değişkeni diğerlerinden tahmin eden çapraz-doğrulamalı model + permütasyon önem sıralaması: "X'i asıl ne belirliyor?" |
-| 6 | **Kısmi korelasyon** | üçüncü değişken kontrol edilince kaybolan **sahte/aracılı** ilişkiler ve güçlenen **baskılanmış** ilişkiler |
-| 7 | **Gizli alt gruplar + sıra dışı vakalar** | PCA + K-Means kümeleme (silhouette kaliteli), Isolation Forest ile çok değişkenli anomali tespiti |
-| 8 | **Risk skoru** | ikili sonuçlar (hasta/sağlam vb.) için çapraz-doğrulamalı risk modeli: AUC, risk belirleyicileri, en riskli vakalar |
+| 4 | **Gizli formüller + etkileşim** | her sayısal çift için 7 aday model (doğrusal/karesel/kübik/logaritmik/üstel/güç/ters) uydurulur, en iyisi **açık denklem** olarak yazılır (örn. `etki = 5.1 + 7.9·ln(doz)`); tüm üçlülerde **X×Z etkileşim (moderasyon)** taraması |
+| 5 | **Doğrusal-olmayan gizli ilişkiler** | Karşılıklı Bilgi (Mutual Information): Pearson'ın düşük gösterdiği ama gerçekte güçlü (eğrisel/eşikli) bağlar |
+| 6 | **ML öngörü (Gradient Boosting)** | her değişkeni diğerlerinden tahmin eden çapraz-doğrulamalı model + permütasyon önem sıralaması: "X'i asıl ne belirliyor?" |
+| 7 | **Kısmi korelasyon** | üçüncü değişken kontrol edilince kaybolan **sahte/aracılı** ilişkiler ve güçlenen **baskılanmış** ilişkiler |
+| 8 | **Gizli alt gruplar + sıra dışı vakalar** | PCA + K-Means kümeleme (silhouette kaliteli), Isolation Forest ile çok değişkenli anomali tespiti |
+| 9 | **Risk skoru** | ikili sonuçlar (hasta/sağlam vb.) için çapraz-doğrulamalı risk modeli: AUC, risk belirleyicileri, en riskli vakalar |
 
 Ayrıca: `TotalBilirubin↔İndirekBilirubin` gibi **apaçık/tanımsal korelasyonlar** (|r|≥0.95)
 otomatik ayıklanıp ayrı sayfaya konur — gerçek keşifleri boğmazlar.
@@ -100,7 +101,9 @@ başlatma komutu olarak `uvicorn megastat.web:app --host 0.0.0.0 --port $PORT` y
 12. **Güvenilirlik (Alfa-Omega)** + **Madde Analizi** — ölçek güvenilirliği
 13. **Faktör Analizi (KMO)** + **Faktör Yükleri** — AFA sonuçları
 14. **Çoklu Regresyon** / **Lojistik Regresyon** / **ROC Analizi**
-15. **Atlanan Testler** — örneklem yetersizliği vb. nedenlerle yapılamayanlar
+15. **Gizli Formüller (Eğri)** — çift başına 7 model, en iyisi açık denklem olarak
+16. **Etkileşim (Moderasyon)** — X×Z etkileşim modelleri, ΔR² ve FDR ile
+17. **Atlanan Testler** — örneklem yetersizliği vb. nedenlerle yapılamayanlar
 
 ## Güvenilirlik ilkeleri
 

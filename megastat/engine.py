@@ -53,6 +53,7 @@ class AnalysisResult:
     atlanan_testler: list[dict[str, str]]
     kesif: Any = None  # DiscoveryResult | None (ML/keşif katmanı)
     gelismis: Any = None  # AdvancedResult | None (güvenilirlik/faktör/regresyon/ROC katmanı)
+    formuller: Any = None  # FormulaResult | None (gizli formül + etkileşim katmanı)
     ozet: dict[str, Any] = field(default_factory=dict)
 
 
@@ -626,6 +627,14 @@ def analyze_dataframe(df: pd.DataFrame, kesif_yap: bool = True) -> AnalysisResul
     except Exception as exc:  # gelişmiş katman hatası klasik analizi durdurmasın
         atlanan_testler.append({"test": "gelişmiş katman (tümü)", "neden": f"hata: {exc}"})
 
+    formuller = None
+    try:
+        from megastat.formulas import formul_analizi
+
+        formuller = formul_analizi(df, sayisallar, kategorikler, atlanan_testler)
+    except Exception as exc:  # formül katmanı hatası klasik analizi durdurmasın
+        atlanan_testler.append({"test": "gizli formül katmanı (tümü)", "neden": f"hata: {exc}"})
+
     kesif = None
     if kesif_yap:
         try:
@@ -649,8 +658,12 @@ def analyze_dataframe(df: pd.DataFrame, kesif_yap: bool = True) -> AnalysisResul
             gelismis.coklu_regresyon, gelismis.lojistik, gelismis.roc,
         ]
         istatistik_sayisi += int(sum(t.size for t in gelismis_tablolar))
+    formul_tablolar = []
+    if formuller is not None:
+        formul_tablolar = [formuller.egriler, formuller.etkilesimler]
+        istatistik_sayisi += int(sum(t.size for t in formul_tablolar))
     anlamli = 0
-    for t in (korelasyon, gruplar, kat_iliski, posthoc, *gelismis_tablolar):
+    for t in (korelasyon, gruplar, kat_iliski, posthoc, *gelismis_tablolar, *formul_tablolar):
         if not t.empty and "FDR sonrası anlamlı" in t:
             anlamli += int((t["FDR sonrası anlamlı"] == "EVET ✓").sum())
 
@@ -678,6 +691,12 @@ def analyze_dataframe(df: pd.DataFrame, kesif_yap: bool = True) -> AnalysisResul
         ),
         "ROC analizi": int(len(gelismis.roc)) if gelismis else 0,
         "uyum testi (kappa/McNemar)": int(len(gelismis.uyum)) if gelismis else 0,
+        "eğri (formül) taraması": int(len(formuller.egriler)) if formuller else 0,
+        "belirgin gizli formül": (
+            int((formuller.egriler["gizli formül mü"].str.startswith("EVET")).sum())
+            if formuller is not None and not formuller.egriler.empty else 0
+        ),
+        "etkileşim (moderasyon) modeli": int(len(formuller.etkilesimler)) if formuller else 0,
         "hesaplanan istatistik (hücre) sayısı": istatistik_sayisi,
         "FDR sonrası anlamlı bulgu": anlamli,
         "atlanan test": len(atlanan_testler),
@@ -703,5 +722,6 @@ def analyze_dataframe(df: pd.DataFrame, kesif_yap: bool = True) -> AnalysisResul
         atlanan_testler=atlanan_testler,
         kesif=kesif,
         gelismis=gelismis,
+        formuller=formuller,
         ozet=ozet,
     )
