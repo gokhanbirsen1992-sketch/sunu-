@@ -17,6 +17,7 @@ from typing import Any, Callable, Optional
 import numpy as np
 import pandas as pd
 from scipy import stats
+from statsmodels.stats.diagnostic import lilliefors, normal_ad
 from statsmodels.stats.multitest import multipletests
 from statsmodels.stats.oneway import anova_oneway
 
@@ -51,6 +52,7 @@ class AnalysisResult:
     kategorik_iliskiler: pd.DataFrame
     atlanan_testler: list[dict[str, str]]
     kesif: Any = None  # DiscoveryResult | None (ML/keşif katmanı)
+    gelismis: Any = None  # AdvancedResult | None (güvenilirlik/faktör/regresyon/ROC katmanı)
     ozet: dict[str, Any] = field(default_factory=dict)
 
 
@@ -156,6 +158,9 @@ def betimsel_sayisal(df: pd.DataFrame, sayisallar: list[str]) -> pd.DataFrame:
         iqr = q3 - q1
         aykiri = int(np.sum((v < q1 - 3 * iqr) | (v > q3 + 3 * iqr))) if iqr > 0 else 0
         norm_ist, norm_p, norm_test = _normallik(v)
+        lf = _guvenli(lambda: {"p": float(lilliefors(v)[1])}) if n >= 4 else None
+        ad_test = _guvenli(lambda: {"p": float(normal_ad(v)[1])}) if n >= 8 else None
+        jb = _guvenli(lambda: {"p": float(stats.jarque_bera(v).pvalue)}) if n >= 10 else None
         satirlar.append({
             "değişken": ad,
             "n": n,
@@ -179,6 +184,9 @@ def betimsel_sayisal(df: pd.DataFrame, sayisallar: list[str]) -> pd.DataFrame:
             "normallik testi": norm_test,
             "normallik istatistiği": norm_ist,
             "normallik p": norm_p,
+            "Lilliefors (KS) p": lf["p"] if lf else np.nan,
+            "Anderson-Darling p": ad_test["p"] if ad_test else np.nan,
+            "Jarque-Bera p": jb["p"] if jb else np.nan,
             "normal dağılıyor mu": (
                 "evet" if (norm_p is not None and norm_p >= ALFA)
                 else "hayır" if norm_p is not None else "bilinmiyor"
@@ -610,6 +618,14 @@ def analyze_dataframe(df: pd.DataFrame, kesif_yap: bool = True) -> AnalysisResul
     gruplar, posthoc = grup_karsilastirmalari(df, kategorikler, sayisallar, atlanan_testler)
     kat_iliski = kategorik_iliskiler(df, kategorikler, atlanan_testler)
 
+    gelismis = None
+    try:
+        from megastat.advanced import gelismis_analiz
+
+        gelismis = gelismis_analiz(df, sayisallar, kategorikler, atlanan_testler)
+    except Exception as exc:  # gelişmiş katman hatası klasik analizi durdurmasın
+        atlanan_testler.append({"test": "gelişmiş katman (tümü)", "neden": f"hata: {exc}"})
+
     kesif = None
     if kesif_yap:
         try:
@@ -624,8 +640,17 @@ def analyze_dataframe(df: pd.DataFrame, kesif_yap: bool = True) -> AnalysisResul
     istatistik_sayisi = int(
         bet_say.size + bet_kat.size + korelasyon.size + gruplar.size + posthoc.size + kat_iliski.size
     )
+    gelismis_tablolar = []
+    if gelismis is not None:
+        gelismis_tablolar = [
+            gelismis.eslestirilmis, gelismis.friedman, gelismis.uyum,
+            gelismis.guvenilirlik, gelismis.madde_analizi,
+            gelismis.faktor_uygunluk, gelismis.faktor_yukler,
+            gelismis.coklu_regresyon, gelismis.lojistik, gelismis.roc,
+        ]
+        istatistik_sayisi += int(sum(t.size for t in gelismis_tablolar))
     anlamli = 0
-    for t in (korelasyon, gruplar, kat_iliski, posthoc):
+    for t in (korelasyon, gruplar, kat_iliski, posthoc, *gelismis_tablolar):
         if not t.empty and "FDR sonrası anlamlı" in t:
             anlamli += int((t["FDR sonrası anlamlı"] == "EVET ✓").sum())
 
@@ -640,6 +665,19 @@ def analyze_dataframe(df: pd.DataFrame, kesif_yap: bool = True) -> AnalysisResul
         "grup karşılaştırması": int(len(gruplar)),
         "post-hoc karşılaştırma": int(len(posthoc)),
         "kategorik ilişki testi": int(len(kat_iliski)),
+        "eşleştirilmiş test": int(len(gelismis.eslestirilmis)) if gelismis else 0,
+        "güvenilirlik analizi (ölçek)": int(len(gelismis.guvenilirlik)) if gelismis else 0,
+        "faktör analizi": int(len(gelismis.faktor_uygunluk)) if gelismis else 0,
+        "çoklu regresyon modeli": (
+            int(gelismis.coklu_regresyon["bağımlı değişken"].nunique())
+            if gelismis and not gelismis.coklu_regresyon.empty else 0
+        ),
+        "lojistik regresyon modeli": (
+            int(gelismis.lojistik["sonuç değişkeni"].nunique())
+            if gelismis and not gelismis.lojistik.empty else 0
+        ),
+        "ROC analizi": int(len(gelismis.roc)) if gelismis else 0,
+        "uyum testi (kappa/McNemar)": int(len(gelismis.uyum)) if gelismis else 0,
         "hesaplanan istatistik (hücre) sayısı": istatistik_sayisi,
         "FDR sonrası anlamlı bulgu": anlamli,
         "atlanan test": len(atlanan_testler),
@@ -664,5 +702,6 @@ def analyze_dataframe(df: pd.DataFrame, kesif_yap: bool = True) -> AnalysisResul
         kategorik_iliskiler=kat_iliski,
         atlanan_testler=atlanan_testler,
         kesif=kesif,
+        gelismis=gelismis,
         ozet=ozet,
     )

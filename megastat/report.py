@@ -46,6 +46,37 @@ def _anlamli_bulgular(sonuc: AnalysisResult) -> pd.DataFrame:
                 "FDR p": r["FDR p"],
                 "n": r["n"],
             })
+    g2 = sonuc.gelismis
+    if g2 is not None:
+        e = g2.eslestirilmis
+        if not e.empty and "FDR sonrası anlamlı" in e:
+            for _, r in e[e["FDR sonrası anlamlı"] == "EVET ✓"].iterrows():
+                satirlar.append({
+                    "tür": "eşleştirilmiş fark",
+                    "bulgu": f"{r['ölçüm 1']} vs {r['ölçüm 2']}",
+                    "istatistik": (
+                        f"{r['önerilen test']}; ort. fark = {r['ortalama fark']:.3f}, "
+                        f"Cohen d_z = {r['Cohen d_z']:.3f}"
+                    ),
+                    "ham p": r["önerilen test p"],
+                    "FDR p": r["FDR p"],
+                    "n": r["n (çift)"],
+                })
+        lo = g2.lojistik
+        if not lo.empty and "FDR sonrası anlamlı" in lo:
+            for _, r in lo[lo["FDR sonrası anlamlı"] == "EVET ✓"].iterrows():
+                satirlar.append({
+                    "tür": "lojistik yordayıcı",
+                    "bulgu": f"{r['sonuç değişkeni']}={r['olay (1) düzeyi']} ← {r['yordayıcı']}",
+                    "istatistik": (
+                        f"OR = {r['odds oranı (OR)']:.3f} "
+                        f"(%95 GA {r['OR %95 GA alt']:.3f}–{r['OR %95 GA üst']:.3f}), "
+                        f"model AUC = {r['model AUC']:.3f}"
+                    ),
+                    "ham p": r["p"],
+                    "FDR p": r["FDR p"],
+                    "n": r["n"],
+                })
     tablo = pd.DataFrame(satirlar)
     if not tablo.empty:
         tablo = tablo.sort_values("FDR p").reset_index(drop=True)
@@ -86,6 +117,20 @@ def excel_raporu(sonuc: AnalysisResult) -> bytes:
             ("Post-Hoc", sonuc.posthoc),
             ("Kategorik İlişkiler", sonuc.kategorik_iliskiler),
         ]
+        g2 = sonuc.gelismis
+        if g2 is not None:
+            sayfalar += [
+                ("Eşleştirilmiş Testler", g2.eslestirilmis),
+                ("Tekrarlı Ölçüm (Friedman)", g2.friedman),
+                ("Uyum (Kappa-McNemar)", g2.uyum),
+                ("Güvenilirlik (Alfa-Omega)", g2.guvenilirlik),
+                ("Madde Analizi", g2.madde_analizi),
+                ("Faktör Analizi (KMO)", g2.faktor_uygunluk),
+                ("Faktör Yükleri", g2.faktor_yukler),
+                ("Çoklu Regresyon", g2.coklu_regresyon),
+                ("Lojistik Regresyon", g2.lojistik),
+                ("ROC Analizi", g2.roc),
+            ]
         for ad, tablo in sayfalar:
             if tablo.empty:
                 pd.DataFrame([{"bilgi": "bu kategoride hesaplanacak test bulunamadı"}]).to_excel(
@@ -135,6 +180,12 @@ def metin_ozeti(sonuc: AnalysisResult, en_fazla_bulgu: int = 25) -> str:
         f"Çalıştırılan test grupları: {o['korelasyon çifti']} korelasyon çifti, "
         f"{o['grup karşılaştırması']} grup karşılaştırması, "
         f"{o['post-hoc karşılaştırma']} post-hoc, {o['kategorik ilişki testi']} kategorik ilişki",
+        f"Gelişmiş katman: {o.get('eşleştirilmiş test', 0)} eşleştirilmiş test, "
+        f"{o.get('güvenilirlik analizi (ölçek)', 0)} güvenilirlik (Cronbach α), "
+        f"{o.get('faktör analizi', 0)} faktör analizi, "
+        f"{o.get('çoklu regresyon modeli', 0)} çoklu regresyon, "
+        f"{o.get('lojistik regresyon modeli', 0)} lojistik regresyon, "
+        f"{o.get('ROC analizi', 0)} ROC, {o.get('uyum testi (kappa/McNemar)', 0)} uyum testi",
         f"FDR düzeltmesi sonrası anlamlı bulgu: {o['FDR sonrası anlamlı bulgu']}",
         "",
     ]
