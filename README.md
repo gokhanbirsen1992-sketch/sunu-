@@ -152,6 +152,12 @@ ile açtığınızda eklentiyi kurmanız önerilir; kurulduğunda şu 4 beceri k
 
 Ayrıca `/ars-full`, `/ars-outline`, `/ars-lit-review`, `/ars-reviewer` gibi slash komutları gelir.
 
+## Claude Code: BorsaMCP sunucusu
+
+Depo kökündeki `.mcp.json`, [BorsaMCP](https://borsamcp.fastmcp.app/mcp) MCP sunucusunu tanımlar
+(BIST/borsa verilerine erişim sağlayan araçlar). Depoyu Claude Code ile açtığınızda bu sunucunun
+araçları otomatik olarak kullanılabilir hale gelir; ayrıca kurulum gerekmez.
+
 ## Lisans
 
 MIT (uygulama kodu). Academic Research Skills eklentisi kendi deposunda CC-BY-NC 4.0 ile lisanslıdır.
