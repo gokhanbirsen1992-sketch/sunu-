@@ -47,6 +47,8 @@ class HakemGirdisi:
     stres_2x_getiri: float             # H3: 2× maliyette OOS toplam getiri
     stres_4x_getiri: float             # H3: 4× maliyette OOS toplam getiri
     deneme_sharpe_std: float | None = None  # H5: denemeler arası günlük Sharpe std (ampirik)
+    son24_getiri: float = 0.0          # H8: son 24 ayın OOS toplam getirisi
+    son24_bh_getiri: float = 0.0       # H8: aynı pencerede satın-al-tut getirisi
     ekler: dict = field(default_factory=dict)
 
 
@@ -157,6 +159,26 @@ def incele(g: HakemGirdisi) -> list[Elestiri]:
             "H7", "Düşüş koruması", "bilgi",
             f"Maks düşüş {dd_s:.0%} — satın-al-tut'un {dd_bh:.0%} düşüşüne karşı belirgin "
             "koruma (Hudson-Urquhart 2021 ile uyumlu).",
+        ))
+
+    # H8 — güncel rejim (son 24 ay): kural yakın geçmişte hem mutlak hem göreli
+    # zarar ediyorsa "kâğıt üstünde tarihi güzel" savunması yetmez. (Dürüstlük notu:
+    # yakın pencereye göre eleme, tazelik yanlılığı taşır — bu yüzden tek başına
+    # kabul kriteri değil, K6 ile birlikte değerlendirilir.)
+    if g.son24_getiri < 0 and g.son24_getiri < g.son24_bh_getiri:
+        e.append(Elestiri(
+            "H8", "Güncel rejim zayıflığı", "engel",
+            f"Son 24 ayda strateji {g.son24_getiri:.1%}, satın-al-tut "
+            f"{g.son24_bh_getiri:.1%} — kural güncel piyasa rejiminde hem mutlak hem "
+            "göreli kaybediyor (testere/whipsaw).",
+            {"eylem": "vol_filtre"},
+        ))
+    elif g.son24_getiri < g.son24_bh_getiri:
+        e.append(Elestiri(
+            "H8", "Güncel rejim", "uyari",
+            f"Son 24 ayda strateji {g.son24_getiri:.1%} < satın-al-tut "
+            f"{g.son24_bh_getiri:.1%}.",
+            {"eylem": "topluluk"},
         ))
 
     return e

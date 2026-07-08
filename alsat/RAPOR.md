@@ -77,6 +77,43 @@ geleneğinin kendisidir; bu çalışmanın katkısı kuralı *icat etmek* değil
 24 aday arasından **çoklu-test düzeltmeli, maliyetli, walk-forward** bir yarışmada
 hayatta kalanın bu olduğunu göstermektir.
 
+## Koşu 2 (2026-07-08) — kullanıcı geri bildirimi üzerine sertleştirilmiş kriterler
+
+Kullanıcı gözlemi: kural başka bir sembolde denendi ve "hep zararda" görünüyor
+(TradingView'da *Percent Profitable* ≈ %40). İki tespit:
+
+1. **%40 isabet oranı kırılım sistemlerinde normaldir** — çok sayıda küçük zarar,
+   az sayıda büyük trend kazancı. Karlılığın ölçüsü isabet oranı değil, tüm dönem
+   **net kârdır**. Yine de bu gözlem, doğrulamanın yalnızca BTC+ETH'de yapılmış
+   olmasının gerçek bir zayıflık olduğunu gösterdi.
+2. Bu koşuda döngü sertleştirildi: **H8 "güncel rejim" denetimi** (son 24 ayda hem
+   mutlak hem göreli kayıp → engel) ve **K6 kabul kriteri** (son 24 ayda mutlak
+   kazanç veya satın-al-tut'a üstünlük) eklendi; evren **5 sembole** çıkarıldı
+   (BTC, ETH, BNB, XRP, ADA).
+
+Sonuç (3 tur): Tur 1–2'de H8 uyarısı ve K4 düşüş kriteri takıldı; düzeltmeler
+(devir azaltma + topluluk adayları) sonrası Tur 3'te **6/6 kriterle KABUL** —
+final spek değişmedi: **Donchian 20/10**. Birleşik OOS (5 sembol, 2013–2026):
+Sharpe **1.76**, yıllık %138, maks düşüş -%65 (satın-al-tut: 1.36 / %126 / -%87);
+son 24 ay birleşik **+%26,1**.
+
+Sembol bazında (sabit spek, 20 bps):
+
+| Sembol | OOS Sharpe | İsabet | Son 24 ay (strateji / al-tut) |
+|---|---|---|---|
+| BTCUSDT | 1.53 | %54 | +%35,3 / +%10,9 |
+| ETHUSDT | 0.97 | %49 | -%19,2 / -%43,4 |
+| BNBUSDT | 1.15 | %50 | -%32,8 / +%6,8 |
+| XRPUSDT | 1.14 | %47 | +%238,4 / +%158,0 |
+| ADAUSDT | 1.02 | %48 | -%23,2 / -%49,1 |
+
+**Dürüst okuma:** kuralın gücü *portföy* düzeyindedir (5 sembol ortalaması son 24
+ayda +%26 iken BNB tek başına -%33). Tek sembolde, özellikle yatay piyasada, aylarca
+süren zarar serileri bu kuralın **beklenen** davranışıdır. Doğrulanmamış sembollerde
+(hisse, altın, küçük altcoinler) performans garanti edilmez. Ayrıca K6/H8'in yakın
+pencereye bakması tazelik yanlılığı taşır — bu yüzden K6 tek başına değil, 13 yıllık
+walk-forward kriterleriyle (K1–K5) birlikte aranır.
+
 ## Meta post-mortem (aracın kendisine uygulanan Reviewer 2)
 
 Döngünün ilk sürümünde iki kusur koşu sırasında yakalandı ve düzeltildi:

@@ -299,6 +299,13 @@ def calistir(seriler: dict[str, pd.Series], maliyet_bps: float = VARSAYILAN_MALI
             _, k_oos, _ = _prosedur_oos(dg, [komsu])
             komsu_sharpelar.append(olcutler.sharpe(_birlesik(k_oos)))
 
+        # Son 24 ay penceresi (H8 + K6): güncel rejim performansı
+        son24_esik = oos_net.index[-1] - pd.Timedelta(days=730)
+        son24 = oos_net.loc[oos_net.index >= son24_esik]
+        son24_bh = bh_net.loc[bh_net.index >= son24_esik]
+        son24_getiri = float((1 + son24).prod() - 1)
+        son24_bh_getiri = float((1 + son24_bh).prod() - 1)
+
         # DSR için denemeler arası günlük Sharpe std'si — aday tablosundan ampirik
         deneme_std = None
         if len(tablo) > 1:
@@ -313,6 +320,7 @@ def calistir(seriler: dict[str, pd.Series], maliyet_bps: float = VARSAYILAN_MALI
             stres_2x_getiri=float((1 + stres2).prod() - 1),
             stres_4x_getiri=float((1 + stres4).prod() - 1),
             deneme_sharpe_std=deneme_std,
+            son24_getiri=son24_getiri, son24_bh_getiri=son24_bh_getiri,
         )
         elestiriler = hakem.incele(girdi)
 
@@ -323,6 +331,8 @@ def calistir(seriler: dict[str, pd.Series], maliyet_bps: float = VARSAYILAN_MALI
         olc["is_sharpe"] = girdi.is_sharpe
         olc["stres_2x_getiri"] = girdi.stres_2x_getiri
         olc["sembol_sharpe"] = {s: olcutler.sharpe(n) for s, n in sembol_oos.items()}
+        olc["son24_getiri"] = son24_getiri
+        olc["son24_bh_getiri"] = son24_bh_getiri
 
         kabul_durumu = {
             "K1_oos_sharpe": olc["sharpe"] > 0.5 and all(
@@ -332,6 +342,8 @@ def calistir(seriler: dict[str, pd.Series], maliyet_bps: float = VARSAYILAN_MALI
             "K4_dusus": abs(olc["maks_dusus"]) < hakem.DUSUS_IYILESME_ORANI
                         * abs(bh_olc["maks_dusus"]),
             "K5_engel_yok": not hakem.engel_var(elestiriler),
+            # K6 güncel rejim: son 24 ayda mutlak kazanç YA DA satın-al-tut'tan iyi
+            "K6_son24ay": son24_getiri > 0 or son24_getiri >= son24_bh_getiri,
         }
         kabul = all(kabul_durumu.values())
 

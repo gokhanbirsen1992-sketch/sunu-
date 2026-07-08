@@ -28,17 +28,18 @@ ve `data/alsat_cache/` altına önbelleklenir. Çıktı: çok sayfalı Excel rap
    her yılın kuralı yalnız o yıldan önceki veriyle seçilir; sinyaller +1 gün gecikmeli,
    işlem maliyeti + kayma her pozisyon değişiminde düşülür. Raporlanan performans tek
    bir kuralın değil, **seçim prosedürünün** örneklem-dışı performansıdır.
-3. **Reviewer 2 (hakem.py)** — yedi deterministik düşmanca denetim:
+3. **Reviewer 2 (hakem.py)** — sekiz deterministik düşmanca denetim:
    H1 ileri-bakış/gecikme duyarlılığı, H2 parametre hassasiyeti, H3 maliyet stresi
    (2×/4×), H4 rejim/varlık sağlamlığı, H5 veri madenciliği (Deflated Sharpe Ratio),
-   H6 IS→OOS bozulması, H7 satın-al-tut kıyası.
+   H6 IS→OOS bozulması, H7 satın-al-tut kıyası, H8 güncel rejim (son 24 ay).
 4. **Post-mortem + düzeltme** — her eleştiri makine-eylemli bir öneri taşır
    (sadeleştir, devir azalt, volatilite filtresi, topluluk/ensemble, maliyet artır);
    öneriler bir sonraki turun aday üretimine uygulanır. Döngü durağanlaşırsa henüz
    denenmemiş düzeltmeye tırmanır, çare kalmadıysa erken ve gerekçeli durur.
-5. **Kabul kriterleri (K1–K5)** — OOS net Sharpe > 0.5 (her sembolde > 0), DSR ≥ 0.95,
+5. **Kabul kriterleri (K1–K6)** — OOS net Sharpe > 0.5 (her sembolde > 0), DSR ≥ 0.95,
    2× maliyette pozitif getiri, satın-al-tut'tan belirgin düşük maks düşüş, hakem
-   engeli olmaması. Sağlanamazsa en iyi aday **"kabul edilmedi"** etiketiyle raporlanır —
+   engeli olmaması, son 24 ayda mutlak kazanç veya satın-al-tut'a üstünlük.
+   Sağlanamazsa en iyi aday **"kabul edilmedi"** etiketiyle raporlanır —
    bu bir hata değil, dürüst bilimsel sonuçtur.
 
 ## Dosyalar

@@ -11,8 +11,11 @@ Kural (kapanış tabanlı, günlük mumlar, long/flat):
 Literatür: Brock-Lakonishok-LeBaron (1992) "trading range break"; Donchian kanalı;
 kripto kanıtı için Detzel ve ark. (2021), Hudson & Urquhart (2021).
 
-Walk-forward doğrulaması (BTCUSDT + ETHUSDT, 2013–2026 OOS, 20 bps maliyet):
-net Sharpe 1.64, yıllık ≈%99, maks düşüş -%65 (satın-al-tut: 1.21 / %90 / -%88).
+Walk-forward doğrulaması (BTC+ETH+BNB+XRP+ADA eşit ağırlıklı, 2013–2026 OOS,
+20 bps maliyet): net Sharpe 1.76, yıllık ≈%138, maks düşüş -%65 (satın-al-tut:
+1.36 / %126 / -%87). Sembol bazında OOS Sharpe 0.97–1.53; isabet oranı ~%47–54
+(kırılım sistemlerinde normaldir: çok küçük zarar, az büyük kazanç). Kuralın gücü
+portföy düzeyindedir — tek sembolde aylarca süren zarar serisi beklenen davranıştır.
 
 UYARILAR — bunlar pazarlama notu değil, sonucun parçasıdır:
 * Sinyal t günü KAPANIŞINDA üretilir ve en erken t+1'de uygulanabilir; aynı gün

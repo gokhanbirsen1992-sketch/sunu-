@@ -131,7 +131,7 @@ def test_dongu_kaydi_ve_rapor(seriler):
     assert 1 <= len(sonuc.turlar) <= 2
     for t in sonuc.turlar:
         assert set(t.kabul_durumu) == {"K1_oos_sharpe", "K2_dsr", "K3_maliyet_2x",
-                                       "K4_dusus", "K5_engel_yok"}
+                                       "K4_dusus", "K5_engel_yok", "K6_son24ay"}
         assert t.aday_tablosu is not None and len(t.aday_tablosu) == t.aday_sayisi
     xlsx = rapor.excel_raporu(sonuc)
     assert xlsx[:2] == b"PK" and len(xlsx) > 5000  # geçerli bir zip/xlsx

@@ -13,7 +13,8 @@ _K_ACIKLAMA = {
     "K2_dsr": "Deflated Sharpe Ratio ≥ 0.95 (kümülatif deneme düzeltmeli)",
     "K3_maliyet_2x": "2× işlem maliyetinde OOS toplam getiri > 0",
     "K4_dusus": "OOS maks düşüş, satın-al-tut düşüşünün %80'inden iyi",
-    "K5_engel_yok": "Hakem (H1–H7) engel düzeyinde eleştiri bırakmadı",
+    "K5_engel_yok": "Hakem (H1–H8) engel düzeyinde eleştiri bırakmadı",
+    "K6_son24ay": "Son 24 ayda mutlak kazanç veya satın-al-tut'a üstünlük",
 }
 
 
@@ -98,7 +99,7 @@ def metin_ozeti(sonuc: DonguSonucu) -> str:
         if t.eylemler:
             p.append(f"  → Post-mortem düzeltmeleri: {', '.join(t.eylemler)}")
         p.append(f"  Kabul: {'EVET' if t.kabul else 'hayır '}"
-                 f"({sum(t.kabul_durumu.values())}/5 kriter)")
+                 f"({sum(t.kabul_durumu.values())}/{len(t.kabul_durumu)} kriter)")
     p.append("\n" + "=" * 72)
     bh = sonuc.bh_olcutler
     p.append(f"Kıyas (satın-al-tut, aynı OOS dönemi): Sharpe {bh['sharpe']:.2f} | "
