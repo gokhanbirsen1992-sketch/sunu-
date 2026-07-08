@@ -53,6 +53,7 @@ ve `data/alsat_cache/` altına önbelleklenir. Çıktı: çok sayfalı Excel rap
 | `dongu.py` | Tur motoru: aday → sınama → hakem → post-mortem → düzeltme |
 | `rapor.py` | Çok sayfalı Excel + konsol özeti |
 | `final_indikator.py` | Kabul edilen kural, tek başına kopyalanabilir |
+| `pine/` | Final kuralın TradingView Pine Script (v6) çevirisi: indikatör + strateji |
 
 ## Uyarı
 

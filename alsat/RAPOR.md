@@ -66,6 +66,12 @@ Bağımsız kullanım: `alsat/final_indikator.py` (yalnız pandas/numpy;
 `al_sat_sinyali(kapanis)` ve `son_karar(kapanis)`). Bu dosya, döngünün raporladığı
 birleşik OOS Sharpe 1.64'ü bağımsız olarak yeniden üretir.
 
+**TradingView:** `alsat/pine/alsat_donchian_indikator.pine` (grafikte AL/SAT okları +
+uyarılar) ve `alsat/pine/alsat_donchian_strateji.pine` (TradingView backtest'i; emirler
+ertesi barın açılışında dolar — Python'daki +1 gün gecikmenin karşılığı). Pine Editor'e
+yapıştırıp **günlük (1D)** grafikte kullanın; strateji sürümündeki komisyon/kayma
+değerlerini kendi borsanıza göre ayarlayın.
+
 Kural yeni değildir — BLL (1992) "trading range break" kuralının ve Donchian/Turtle
 geleneğinin kendisidir; bu çalışmanın katkısı kuralı *icat etmek* değil, 8 aile ve
 24 aday arasından **çoklu-test düzeltmeli, maliyetli, walk-forward** bir yarışmada

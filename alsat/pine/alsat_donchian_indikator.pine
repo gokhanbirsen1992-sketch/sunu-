@@ -1,0 +1,48 @@
+// AlSat — Donchian Kırılımı AL/SAT İndikatörü (kapanış tabanlı, 20/10)
+//
+// Kaynak: alsat/RAPOR.md — Reviewer 2 döngüsünün 2. turda kabul ettiği kural.
+// Walk-forward OOS (BTCUSDT+ETHUSDT, 2013–2026, 20 bps maliyet): net Sharpe 1.64,
+// yıllık ≈%99, maks düşüş -%65 (satın-al-tut: 1.21 / %90 / -%88).
+//
+// Kural (GÜNLÜK grafik için tasarlandı, long/flat):
+//   AL  → kapanış, ÖNCEKİ 20 günün en yüksek KAPANIŞINI aşarsa
+//   SAT → kapanış, ÖNCEKİ 10 günün en düşük KAPANIŞININ altına inerse
+//   aksi hâlde pozisyon korunur.
+//
+// ÖNEMLİ: Sinyal bar kapanışında oluşur ve işlem ERTESİ GÜN yapılmalıdır
+// (backtest bu gecikmeyle doğrulandı; aynı-gün işlem Sharpe'ı yapay şişirir).
+// Bu bir araştırma çıktısıdır, yatırım tavsiyesi değildir.
+//@version=6
+indicator("AlSat Donchian 20/10 (kapanış tabanlı)", overlay = true)
+
+giris = input.int(20, "Giriş penceresi (gün)", minval = 2)
+cikis = input.int(10, "Çıkış penceresi (gün)", minval = 2)
+
+// Python eşleniği: kapanis.shift(1).rolling(n) → bugünkü kapanış kanala dahil edilmez
+ust = ta.highest(close[1], giris)
+alt = ta.lowest(close[1], cikis)
+
+var float pozisyon = 0.0
+pozisyon := close > ust ? 1.0 : close < alt ? 0.0 : pozisyon
+
+al  = pozisyon == 1.0 and pozisyon[1] == 0.0
+sat = pozisyon == 0.0 and pozisyon[1] == 1.0
+
+plot(ust, "Giriş kanalı (20g zirve)", color = color.new(color.teal, 40))
+plot(alt, "Çıkış kanalı (10g dip)", color = color.new(color.orange, 40))
+bgcolor(pozisyon == 1.0 ? color.new(color.teal, 92) : na, title = "Pozisyonda")
+
+plotshape(al,  "AL",  shape.triangleup,   location.belowbar, color.teal,
+          text = "AL",  textcolor = color.teal,   size = size.small)
+plotshape(sat, "SAT", shape.triangledown, location.abovebar, color.orange,
+          text = "SAT", textcolor = color.orange, size = size.small)
+
+alertcondition(al,  "AlSat: AL sinyali",
+               "AlSat Donchian 20/10: AL — {{ticker}} kapanışı 20 günlük zirveyi aştı. İşlem ertesi gün.")
+alertcondition(sat, "AlSat: SAT sinyali",
+               "AlSat Donchian 20/10: SAT — {{ticker}} kapanışı 10 günlük dibin altına indi. İşlem ertesi gün.")
+
+if barstate.islastconfirmedhistory and not timeframe.isdaily
+    label.new(bar_index, high, "Uyarı: kural GÜNLÜK (1D) grafik için doğrulandı",
+              style = label.style_label_down, color = color.new(color.red, 20),
+              textcolor = color.white)

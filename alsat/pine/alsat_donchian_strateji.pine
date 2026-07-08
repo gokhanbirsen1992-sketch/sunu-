@@ -1,0 +1,28 @@
+// AlSat — Donchian Kırılımı Stratejisi (kapanış tabanlı, 20/10) — backtest sürümü
+//
+// Kaynak: alsat/RAPOR.md. Emirler bar kapanışında verilir ve TradingView varsayılanıyla
+// (process_orders_on_close = false) ERTESİ BARIN AÇILIŞINDA dolar — Python
+// backtest'indeki +1 gün gecikmesinin (shift(1)) karşılığı.
+//
+// Maliyet: komisyon %0.1 (10 bps) tek yön + 5 tik kayma; Python koşusundaki toplam
+// 20 bps tek yön varsayımına yaklaşık denktir. Kendi borsanıza göre ayarlayın.
+// Bu bir araştırma çıktısıdır, yatırım tavsiyesi değildir.
+//@version=6
+strategy("AlSat Donchian 20/10 Strateji", overlay = true,
+         initial_capital = 10000, default_qty_type = strategy.percent_of_equity,
+         default_qty_value = 100, commission_type = strategy.commission.percent,
+         commission_value = 0.1, slippage = 5)
+
+giris = input.int(20, "Giriş penceresi (gün)", minval = 2)
+cikis = input.int(10, "Çıkış penceresi (gün)", minval = 2)
+
+ust = ta.highest(close[1], giris)   // önceki 'giris' günün en yüksek kapanışı
+alt = ta.lowest(close[1], cikis)    // önceki 'cikis' günün en düşük kapanışı
+
+if close > ust and strategy.position_size == 0
+    strategy.entry("AL", strategy.long)
+if close < alt and strategy.position_size > 0
+    strategy.close("AL", comment = "SAT")
+
+plot(ust, "Giriş kanalı", color = color.new(color.teal, 40))
+plot(alt, "Çıkış kanalı", color = color.new(color.orange, 40))
