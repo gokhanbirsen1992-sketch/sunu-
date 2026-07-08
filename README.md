@@ -5,6 +5,12 @@
 > formüller/açık denklemler, etkileşim-moderasyon, çoklu-test
 > düzeltmeleri) tek komutla hesaplayıp Excel raporu üretir: `python -m megastat veri.sav`
 
+> **📈 Al-sat indikatörü mü arıyorsunuz?** **[AlSat](alsat/README.md)**, literatürden
+> türetilmiş aday göstergeleri walk-forward backtest ile sınayıp **Reviewer 2** gibi
+> düşmanca denetleyen ve kabul kriterleri sağlanana kadar düzeltme döngüsü işleten
+> araştırma laboratuvarıdır: `python -m alsat`. Son koşunun raporu:
+> [alsat/RAPOR.md](alsat/RAPOR.md) (yatırım tavsiyesi değildir).
+
 # 📄 PaperForge — SPSS'ten Makaleye Otomatik Pipeline
 
 SPSS (.sav) verinizi yükleyin; **ajan orduları** sırasıyla veriyi temizlesin, doğru istatistiksel
