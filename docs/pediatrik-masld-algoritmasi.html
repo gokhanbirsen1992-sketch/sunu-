@@ -1,0 +1,334 @@
+<title>Pediyatrik MASLD — Tanı, Tedavi ve İzlem Algoritması</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity strip */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(3, 1fr); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+
+  /* Flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* Tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 620px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji / Hepatoloji · Klinik Karar Aracı</p>
+    <h1>Çocuklarda MASLD — Tanı, Tedavi ve İzlem Algoritması</h1>
+    <p class="sub">Metabolik disfonksiyonla ilişkili steatotik karaciğer hastalığı (eski adıyla NAFLD): obez/kilolu çocukta ALT ile tarama, dışlama temelli tanı, fibrozis değerlendirmesi ve yaşam tarzı öncelikli yönetim.</p>
+    <div class="meta">
+      <span class="tag">MASLD (eski NAFLD)</span>
+      <span class="tag">NASPGHAN 2017 tarama</span>
+      <span class="tag">Kardiyometabolik risk</span>
+      <span class="tag">Fibrozis odaklı izlem</span>
+    </div>
+  </header>
+
+  <!-- 1. TANIM -->
+  <section>
+    <h2><span class="n">01</span> Tanım ve terminoloji</h2>
+    <p class="lede"><b>MASLD</b>: hepatik steatoz (görüntüleme veya histolojide ≥%5) + en az bir <b>kardiyometabolik risk faktörü</b>, diğer steatoz nedenlerinin dışlanmasıyla. <b>MASH</b> = steatohepatit (enflamasyon + balonlaşma ± fibrozis). Çocukta en sık kronik karaciğer hastalığıdır ve obezite ile yakından ilişkilidir.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Kardiyometabolik ölçütler (≥1)</h3>
+        <ul class="clean">
+          <li>Yaşa/cinse göre yüksek <b>VKİ / bel çevresi</b> (santral obezite).</li>
+          <li><b>Bozulmuş glukoz</b> / insülin direnci / tip 2 diyabet.</li>
+          <li><b>Dislipidemi</b>: yüksek trigliserid, düşük HDL.</li>
+          <li>Yüksek kan basıncı.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Ayrımı yapılacaklar</h3>
+        <ul class="clean">
+          <li><b>MetALD:</b> MASLD + belirgin alkol tüketimi (ergen).</li>
+          <li>Steatozun diğer nedenleri: ilaç, hızlı kilo kaybı, hepatit C, endokrin.</li>
+          <li>Çocukta özellikle <b>tek gen / metabolik</b> nedenleri (Wilson, lizozomal asit lipaz eksikliği, α1-antitripsin) dışla.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. TARAMA -->
+  <section>
+    <h2><span class="n">02</span> Kimi, nasıl tara? (NASPGHAN)</h2>
+    <div class="grid two">
+      <div class="card">
+        <h3>Tarama endikasyonu</h3>
+        <ul class="clean">
+          <li><b>9–11 yaşından</b> itibaren <b>obez</b> (VKİ ≥%95) çocuklarda; <b>kilolu</b> (%85–95) + risk faktörü olanlarda.</li>
+          <li>Ek risk: santral obezite, insülin direnci, tip 2 diyabet/prediyabet, dislipidemi, OUA, ailede MASLD.</li>
+          <li>Tarama testi: <b>ALT</b> (± görüntüleme değil).</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>ALT eşikleri</h3>
+        <ul class="clean">
+          <li>Cinsiyete göre ULN: <b>erkek &gt;26, kız &gt;22 U/L</b> (SAFETY).</li>
+          <li>ALT sınırda ise 3–6 ay içinde tekrar; kalıcı yüksekse ileri değerlendirme.</li>
+          <li><b>ALT &gt; 2× ULN kalıcı</b> veya <b>&gt;80 U/L</b> → gecikmeden tam değerlendirme.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. AKIŞ -->
+  <section>
+    <h2><span class="n">03</span> Tanı ve yönetim akışı</h2>
+    <p class="lede">ALT ile tara → kalıcı yükseklikte diğer nedenleri dışla → steatoz + fibrozisi değerlendir → yaşam tarzı temelli yönet → yanıt ve fibrozisi izle.</p>
+
+    <div class="flow">
+      <div class="node start">
+        <span class="k">Başlangıç</span>
+        <span class="t">Riskli çocukta ALT yüksek</span>
+        <p>Obez/kilolu + kardiyometabolik risk. ALT kalıcı yüksek (bkz. eşikler).</p>
+      </div>
+      <div class="connector"></div>
+
+      <div class="node action">
+        <span class="k">Adım 1 · Dışlama</span>
+        <span class="t">Diğer karaciğer hastalıklarını dışla</span>
+        <p>Viral (HBV/HCV), <b>otoimmün hepatit</b> (ANA/ASMA/anti-LKM, IgG), <b>Wilson</b> (seruloplazmin), α1-antitripsin, çölyak, tiroid, ilaç. Uygunsa lizozomal asit lipaz.</p>
+      </div>
+      <div class="connector"></div>
+
+      <div class="node action">
+        <span class="k">Adım 2 · Değerlendirme</span>
+        <span class="t">Steatoz + kardiyometabolik + fibrozis</span>
+        <p>Karaciğer <b>USG</b> (steatoz; derece/fibroziste sınırlı), açlık glukoz/insülin (HOMA-IR), OGTT, lipid, kan basıncı. Fibrozis için <b>elastografi</b> (transient/MR) ve non-invaziv indeksler.</p>
+      </div>
+      <div class="connector"></div>
+
+      <div class="node decision">
+        <span class="k">Karar 1</span>
+        <span class="t">İleri fibrozis / tanı belirsizliği var mı?</span>
+        <p>Yüksek elastografi, ALT &gt;80 kalıcı, otoimmün/örtüşme şüphesi, splenomegali, sentetik bozukluk.</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → biyopsi düşün</span>
+          <div class="node action">
+            <span class="k">Histoloji</span>
+            <span class="t">Karaciğer biyopsisi</span>
+            <p>MASH/fibrozis derecesini belirlemek, tanı belirsizliğini çözmek ve farmakoterapi öncesi. Pediatrik patern (zon 1 ağırlıklı) değerlendirilir.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → klinik izlem</span>
+          <div class="node action safe">
+            <span class="k">İzlem</span>
+            <span class="t">Non-invaziv takip</span>
+            <p>Biyopsisiz; yaşam tarzı + ALT/elastografi ile izlem.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="connector"></div>
+      <div class="node action safe">
+        <span class="k">Adım 3 · Birinci basamak tedavi</span>
+        <span class="t">Yaşam tarzı — temel tedavi</span>
+        <p><b>Şekerli içecek/fruktozu azalt</b>, kalite odaklı beslenme, günlük <b>≥60 dk fiziksel aktivite</b>, ekran süresini sınırla. Hedef kademeli kilo kontrolü / VKİ z-skorunda azalma; aile temelli davranış programı.</p>
+      </div>
+      <div class="connector"></div>
+
+      <div class="node action">
+        <span class="k">Adım 4 · Komorbidite + seçili ilaç</span>
+        <span class="t">Eşlik edenleri tedavi et</span>
+        <p>Dislipidemi, tip 2 diyabet, hipertansiyon, OUA, PKOS yönetimi. <b>Biyopsi ile kanıtlanmış MASH'te E vitamini</b> seçili olguda düşünülebilir. Ağır obezite/komorbiditede bariatrik cerrahi ve GLP-1 agonistleri değerlendirilir.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. TEDAVİ -->
+  <section>
+    <h2><span class="n">04</span> Tedavi seçenekleri</h2>
+    <div class="table-scroll">
+      <table>
+        <caption>Basamak ve içerik</caption>
+        <thead><tr><th>Basamak</th><th>İçerik</th><th>Not</th></tr></thead>
+        <tbody>
+          <tr><td class="step">1 · Temel</td><td>Yaşam tarzı: diyet + aktivite + davranış</td><td>Tek kanıtlanmış temel; şekerli içecek/fruktoz kısıtlaması, VKİ z-skoru hedefi</td></tr>
+          <tr><td class="step">2 · Komorbidite</td><td>Dislipidemi, T2DM, HT, OUA, PKOS tedavisi</td><td>Kardiyometabolik riski bir bütün olarak yönet</td></tr>
+          <tr><td class="step">3 · Seçili ilaç</td><td>E vitamini (biyopsiyle kanıtlı MASH)</td><td>Rutin değil; seçili olguda histolojik iyileşme (TONIC)</td></tr>
+          <tr><td class="step">4 · İleri</td><td>GLP-1 agonisti; bariatrik/metabolik cerrahi</td><td>Ağır obezite/komorbidite; deneyimli merkez, çok disiplinli</td></tr>
+          <tr><td class="step">Genel</td><td>HAV/HBV aşısı, hepatotoksinden kaçınma, ergende alkolden kaçınma</td><td>Karaciğeri koruyucu önlemler</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout" style="margin-top:16px;">
+      <b>Metformin</b> MASLD histolojisini düzeltmede etkili bulunmamıştır (TONIC); yalnızca tip 2 diyabet/insülin direnci endikasyonuyla kullanılır. Çocukta MASLD için ruhsatlı spesifik ilaç yoktur — <b>yaşam tarzı esastır.</b>
+    </div>
+  </section>
+
+  <!-- 5. İZLEM -->
+  <section>
+    <h2><span class="n">05</span> İzlem çizelgesi</h2>
+    <div class="table-scroll">
+      <table>
+        <caption>Ne, ne zaman izlenir</caption>
+        <thead><tr><th>İzlem</th><th>Sıklık</th><th>Amaç</th></tr></thead>
+        <tbody>
+          <tr><td class="step">ALT + VKİ / VKİ z-skoru</td><td>Genelde 6 ayda bir (yanıta göre)</td><td>Hastalık aktivitesi + kilo yanıtı</td></tr>
+          <tr><td class="step">Kardiyometabolik panel</td><td>Yıllık (veya risk ile)</td><td>Açlık glukoz/HbA1c, lipid, kan basıncı</td></tr>
+          <tr><td class="step">Tip 2 diyabet taraması</td><td>Yıllık (yüksek riskte OGTT)</td><td>Prediyabet/diyabet erken yakalama</td></tr>
+          <tr><td class="step">Fibrozis (elastografi ± indeks)</td><td>Klinik gidişe göre periyodik</td><td>İlerlemeyi izlemek</td></tr>
+          <tr><td class="step">OUA / PKOS taraması</td><td>Semptom/klinikle</td><td>Eşlik eden durumları yönetmek</td></tr>
+          <tr><td class="step">İleri hastalıkta</td><td>Sirozda portal HT/varis, HCC sürveyansı</td><td>Komplikasyon izlemi</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout safe" style="margin-top:16px;">
+      <b>Yanıt ölçütü:</b> ALT normalleşmesi ve VKİ z-skorunda azalma iyi göstergelerdir. ~%5–10 kilo kaybı steatoz ve transaminazlarda belirgin düzelme sağlar.
+    </div>
+  </section>
+
+  <!-- 6. ALARM -->
+  <section>
+    <h2><span class="n">06</span> Dikkat / ileri hastalık işaretleri</h2>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>ALT <b>&gt; 80 U/L kalıcı</b> veya giderek artış</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>AST/ALT oranı yüksek, <b>trombositopeni</b> → ilerlemiş fibrozis</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Yüksek <b>elastografi</b> / non-invaziv fibrozis skoru</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Splenomegali, sentetik bozukluk (INR ↑, albümin ↓)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Otoimmün belirteç pozitifliği → <b>örtüşen OİH</b></span></div>
+      <div class="alarm-item"><span class="dot"></span><span><b>&lt; 3 yaş</b> / zayıf çocukta steatoz → metabolik hastalık ara</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Belirgin kilo kaybına rağmen kötüleşen enzimler</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Tip 2 diyabet / ağır dislipidemi eşlik etmesi</span></div>
+    </div>
+  </section>
+
+  <div class="disclaimer">
+    <b>Uyarı:</b> Bu şema eğitim ve hızlı başvuru amaçlıdır; bireysel klinik karar, güncel kılavuzlar ve yerel protokollerin yerine geçmez. ALT referans aralıklarını kendi laboratuvarınızla doğrulayın; farmakolojik/cerrahi kararları çok disiplinli değerlendirin.
+  </div>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Vos MB, Abrams SH, Barlow SE, ve ark. NASPGHAN Clinical Practice Guideline for the Diagnosis and Treatment of Nonalcoholic Fatty Liver Disease in Children. <i>JPGN.</i> 2017;64(2):319–334.</li>
+      <li>Lavine JE, Schwimmer JB, Van Natta ML, ve ark. Effect of Vitamin E or Metformin for Treatment of NAFLD in Children and Adolescents (TONIC). <i>JAMA.</i> 2011;305(16):1659–1668.</li>
+      <li>Rinella ME, Lazarus JV, Ratziu V, ve ark. A Multisociety Delphi Consensus on New Fatty Liver Disease Nomenclature (MASLD/MASH). <i>Hepatology.</i> 2023;78(6):1966–1986.</li>
+    </ol>
+  </footer>
+
+</div>
