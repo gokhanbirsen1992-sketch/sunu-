@@ -1,0 +1,26 @@
+// AlSat — EVRENSEL Strateji: Altın Kesişim (SMA 50/200) — backtest sürümü
+//
+// Kaynak: alsat/RAPOR.md Koşu 3. Her sembolde denemeden kullanmayın: bu strateji
+// tam da "kendi sembolünüzde tarihsel olarak nasıl çalışırdı" sorusunu Strategy
+// Tester ile yanıtlamanız içindir (ASELSAN dahil — TradingView verisiyle).
+// Emirler bar kapanışında verilir, ertesi barın açılışında dolar (+1 gün gecikme).
+// Komisyon %0.1 tek yön + 5 tik kayma — kendi aracı kurumunuza göre ayarlayın.
+// Bu bir araştırma çıktısıdır, yatırım tavsiyesi değildir.
+//@version=6
+strategy("AlSat Evrensel 50/200 Strateji", overlay = true,
+         initial_capital = 10000, default_qty_type = strategy.percent_of_equity,
+         default_qty_value = 100, commission_type = strategy.commission.percent,
+         commission_value = 0.1, slippage = 5)
+
+kisa = input.int(50,  "Kısa SMA (gün)", minval = 5)
+uzun = input.int(200, "Uzun SMA (gün)", minval = 20)
+
+pozisyon = ta.sma(close, kisa) > ta.sma(close, uzun)
+
+if pozisyon and strategy.position_size == 0
+    strategy.entry("AL", strategy.long)
+if not pozisyon and strategy.position_size > 0
+    strategy.close("AL", comment = "SAT")
+
+plot(ta.sma(close, kisa), "Kısa SMA", color = color.new(color.teal, 20))
+plot(ta.sma(close, uzun), "Uzun SMA", color = color.new(color.orange, 20), linewidth = 2)

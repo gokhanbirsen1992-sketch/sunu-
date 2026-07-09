@@ -1,0 +1,52 @@
+// AlSat — EVRENSEL AL/SAT İndikatörü: Altın Kesişim (SMA 50/200)
+//
+// Kaynak: alsat/RAPOR.md Koşu 3 — 10 literatür kuralı × 491 sembol (486 S&P 500
+// hissesi + 5 kripto) turnuvasında "her varlık sınıfında çalışma" ölçütünü en iyi
+// sağlayan kural. Hisselerde sembollerin %78'inde, kriptoda %100'ünde pozitif net
+// Sharpe; derin düşüşlerin çoğunu keser. Literatür: Faber (2007) uzun-pencere
+// trend kuralı; Brock-Lakonishok-LeBaron (1992) MA kesişimi; Hurst-Ooi-Pedersen
+// (2017) yüzyıllık kanıt.
+//
+// Kural (GÜNLÜK grafik, long/flat, her sembol tipinde):
+//   AL  → 50 günlük SMA, 200 günlük SMA'nın üzerine çıkarsa
+//   SAT → 50 günlük SMA, 200 günlük SMA'nın altına inerse
+//
+// Dürüst notlar:
+// * Güçlü boğa piyasasında satın-al-tut'u NADİREN geçer (2013-2018 hisselerde
+//   yalnız %15'inde geçti) — değeri getiriyi artırmak değil, ayı piyasası
+//   çöküşlerini sınırlamaktır.
+// * Sinyal bar kapanışında oluşur; işlem ertesi gün yapılmalıdır.
+// * Yalnız kripto kullanıyorsanız Donchian 20/10 sürümü tarihsel olarak daha güçlü.
+// * BIST dahil doğrulanmamış piyasalarda önce Strategy Tester ile kendiniz sınayın.
+//   Bu bir araştırma çıktısıdır, yatırım tavsiyesi değildir.
+//@version=6
+indicator("AlSat Evrensel — Altın Kesişim 50/200", overlay = true)
+
+kisa = input.int(50,  "Kısa SMA (gün)", minval = 5)
+uzun = input.int(200, "Uzun SMA (gün)", minval = 20)
+
+sma_k = ta.sma(close, kisa)
+sma_u = ta.sma(close, uzun)
+pozisyon = sma_k > sma_u
+
+al  = pozisyon and not pozisyon[1]
+sat = not pozisyon and pozisyon[1]
+
+plot(sma_k, "SMA 50",  color = color.new(color.teal, 20))
+plot(sma_u, "SMA 200", color = color.new(color.orange, 20), linewidth = 2)
+bgcolor(pozisyon ? color.new(color.teal, 92) : na, title = "Pozisyonda")
+
+plotshape(al,  "AL",  shape.triangleup,   location.belowbar, color.teal,
+          text = "AL",  textcolor = color.teal,   size = size.small)
+plotshape(sat, "SAT", shape.triangledown, location.abovebar, color.orange,
+          text = "SAT", textcolor = color.orange, size = size.small)
+
+alertcondition(al,  "AlSat Evrensel: AL",
+               "AlSat Evrensel 50/200: AL — {{ticker}} altın kesişim. İşlem ertesi gün.")
+alertcondition(sat, "AlSat Evrensel: SAT",
+               "AlSat Evrensel 50/200: SAT — {{ticker}} ölüm kesişimi. İşlem ertesi gün.")
+
+if barstate.islastconfirmedhistory and not timeframe.isdaily
+    label.new(bar_index, high, "Uyarı: kural GÜNLÜK (1D) grafik için doğrulandı",
+              style = label.style_label_down, color = color.new(color.red, 20),
+              textcolor = color.white)

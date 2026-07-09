@@ -191,3 +191,12 @@ def test_final_indikator(kapanis):
     pd.testing.assert_series_equal(poz.iloc[:1400], parcali, check_names=False)
     assert fi.son_karar(kapanis) in {"AL (yarın geçerli)", "SAT (yarın geçerli)",
                                      "BEKLE — pozisyonda kal", "BEKLE — nakitte kal"}
+
+
+def test_evrensel_indikator(kapanis):
+    from alsat import final_indikator as fi
+
+    poz = fi.evrensel_al_sat_sinyali(kapanis)
+    assert set(poz.dropna().unique()) <= {0.0, 1.0}
+    parcali = fi.evrensel_al_sat_sinyali(kapanis.iloc[:1500]).iloc[:1400]
+    pd.testing.assert_series_equal(poz.iloc[:1400], parcali, check_names=False)

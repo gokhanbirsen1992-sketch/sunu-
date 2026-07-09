@@ -49,6 +49,24 @@ def al_sat_sinyali(kapanis: pd.Series,
     return ham.ffill().fillna(0.0)
 
 
+def evrensel_al_sat_sinyali(kapanis: pd.Series, kisa: int = 50,
+                            uzun: int = 200) -> pd.Series:
+    """EVRENSEL MOD — altın kesişim (SMA 50/200): 1 = uzun, 0 = nakit.
+
+    Kripto + 486 S&P 500 hissesi üzerinde yapılan sınıflar-arası turnuvada
+    (bkz. RAPOR.md Koşu 3) "her sembolde çalışma" ölçütünü (en kötü sınıfın
+    medyan Sharpe'ı) en iyi sağlayan kural. Kaynak: Faber (2007) uzun-pencere
+    trend kuralları; Brock ve ark. (1992) MA kesişimi. Hisselerde %78, kriptoda
+    %100 sembolde pozitif net Sharpe üretti; buna karşılık boğa piyasasında
+    satın-al-tut'u nadiren geçer — gücü, derin düşüşleri sınırlamasındadır.
+    Kripto SADECE kullanılacaksa Donchian 20/10 (yukarıdaki kural) tercih edilir.
+    """
+    kapanis = kapanis.astype(float)
+    k = kapanis.rolling(kisa).mean()
+    u = kapanis.rolling(uzun).mean()
+    return (k > u).astype(float)
+
+
 def son_karar(kapanis: pd.Series) -> str:
     """İnsan-okur özet: serinin son günü için AL / SAT / BEKLE(pozisyonda) / BEKLE(nakitte)."""
     poz = al_sat_sinyali(kapanis)

@@ -75,6 +75,23 @@ yapılmış; aşağıdaki kaynakların tamamı gerçek, yayımlanmış çalışm
   momentum has (not) its moments"**)** → kripto momentumu ağır kuyruk çöküşlerine açık;
   **volatilite yönetimi** çöküşleri hafifletir. `vol_hedef` katmanının kriptoya uyarlanma gerekçesi.
 
+## 3b. Varlık sınıfları arası ("evrensel") trend takibi
+
+- **Faber, M. (2007).** "A Quantitative Approach to Tactical Asset Allocation."
+  *Journal of Wealth Management*, 9(4), 69–79.
+  → **10 aylık SMA** (≈ günlük 200 SMA) kuralının hisse, tahvil, emtia, gayrimenkul
+  ve döviz sınıflarının HEPSİNDE riske göre getiriyi iyileştirdiğini gösteren,
+  "tek kural her varlıkta" sorusunun en çok atıf alan cevabı. `fiyat_sma(200)` ve
+  evrensel mod bu makaleye dayanır.
+- **Wilcox, C. & Crittenden, E. (2005).** "Does Trend Following Work on Stocks?"
+  (Blackstar Funds teknik raporu.) → Tekil ABD hisselerinde uzun pencereli kırılım
+  kurallarının işlediğine dair geniş örneklemli uygulayıcı kanıtı; tekil hisselerde
+  KISA pencerelerin zayıflığını da belgeler.
+- **Hurst, B., Ooi, Y. H. & Pedersen, L. H. (2017).** "A Century of Evidence on
+  Trend-Following Investing." *Journal of Portfolio Management*, 44(1), 15–29.
+  → Trend takibinin 1880'den beri tüm büyük varlık sınıflarında pozitif getiri
+  ürettiğine dair yüzyıllık kanıt.
+
 ## 4. Backtest aşırı uyumu ve çoklu test (Reviewer 2'nin silahları)
 
 - **Bailey, D. H. & López de Prado, M. (2014).** "The Deflated Sharpe Ratio: Correcting for
