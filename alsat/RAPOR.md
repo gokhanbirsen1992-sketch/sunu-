@@ -166,6 +166,48 @@ seçim hafif çoklu-test etkisi taşır (10 deneme, tablo tam raporlandı); BIST
 doğrulanmadı; tekil hisse trend takibi portföy halinde (çok sembolde aynı anda)
 uygulandığında anlamlıdır, tek hissede varyans yüksektir.
 
+## Koşu 4 (2026-07-08) — Makine öğrenmesi yarışması: GBM vs basit kurallar
+
+Kullanıcı isteği: "tüm verileri çekip makine öğrenmesiyle mükemmel bir al-sat
+sinyali". Kuruldu ve aynı acımasız protokole sokuldu (`alsat/ogrenme.py`):
+
+- **Model:** Havuzlanmış HistGradientBoosting (Gu-Kelly-Xiu 2020 kurgusu) —
+  491 sembolün tüm gözlemleri tek modelde; 17 nedensel öznitelik (çoklu-ufuk
+  momentum, volatilite, RSI, MACD, SMA uzaklıkları, kanal konumu, düşüş durumu).
+- **Sızıntı korumaları:** etiket = gelecek 10 gün getirisinin işareti; eğitim/test
+  sınırında 2×ufuk arındırma tamponu (López de Prado 2018); yıllık yeniden eğitimli
+  walk-forward (2015→2026, eğitim 103k→501k gözlem); +1 gün gecikme; 20 bps maliyet;
+  hiperparametreler sabit (ayar taraması = ek çoklu-test olurdu, yapılmadı).
+- **Kıyas:** aynı sembol-günlerde Donchian 20/10, SMA 50/200 ve satın-al-tut.
+
+**Sonuç (medyan net Sharpe | pozitif sembol %):**
+
+| Yöntem | Hisseler (486) | Kripto (5) |
+|---|---|---|
+| ML (GBM) | **-0.26 \| %30** | 0.60 \| %100 |
+| Donchian 20/10 | 0.07 \| %54 | **1.40 \| %100** |
+| SMA 50/200 | **0.39 \| %78** | 0.83 \| %100 |
+| Satın-al-tut | 0.73 \| %93 | 1.18 \| %100 |
+
+NVDA: ML Sharpe 1.24 < altın kesişim 2.04 < al-tut 2.19.
+BTC: ML 0.93 < Donchian 1.77.
+
+**Post-mortem — ML neden kaybetti (bu bir uygulama hatası değil, bilinen sonuç):**
+1. **Devir maliyeti:** 10 günlük ufuk + 0.55 eşiği sık pozisyon değişimi üretir;
+   brüt tahmin gücünün tamamını 20 bps'lik maliyetler yer.
+2. **Sinyal/gürültü:** yalnız fiyat geçmişinden günlük yön tahmini, finansın en
+   düşük sinyal/gürültü problemidir; GBM'in kapasitesi gürültüyü ezberlemeye gider.
+3. **Literatürle tutarlı:** Gu-Kelly-Xiu'nun kazanımları ~900 öznitelik (temel
+   veriler, likidite) ve kesitsel long-short portföylerdedir — tekil sembolde
+   fiyat-tabanlı zamanlama bu sonuçların vaadi değildir.
+
+**Karar:** ML sinyali REDDEDİLDİ (Reviewer 2 K1/K5 başarısız — hisselerde medyan
+Sharpe negatif). Basit kuralların seçimi tembellik değil, deneysel sonuçtur.
+ML'in gerçekçi bir şansı olması için gerekenler: temel/alternatif veri
+öznitelikleri, çok sembollü kesitsel long-short kurgu ve düşük maliyetli
+altyapı — bunlar bu aracın (günlük tek-sembol al-sat sinyali) kapsamı dışındadır.
+Kod, isteyenin genişletebilmesi için `alsat/ogrenme.py`'de durur.
+
 ## Meta post-mortem (aracın kendisine uygulanan Reviewer 2)
 
 Döngünün ilk sürümünde iki kusur koşu sırasında yakalandı ve düzeltildi:

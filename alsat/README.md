@@ -54,6 +54,7 @@ ve `data/alsat_cache/` altına önbelleklenir. Çıktı: çok sayfalı Excel rap
 | `dongu.py` | Tur motoru: aday → sınama → hakem → post-mortem → düzeltme |
 | `rapor.py` | Çok sayfalı Excel + konsol özeti |
 | `final_indikator.py` | Kabul edilen kural, tek başına kopyalanabilir |
+| `ogrenme.py` | ML katmanı (havuzlanmış GBM, sızıntısız walk-forward) — Koşu 4'te basit kurallara yenildi, kayıt için durur |
 | `pine/` | TradingView Pine (v6): Donchian 20/10 (kripto) + Evrensel 50/200 (her sembol), indikatör + strateji |
 
 ## Uyarı

@@ -200,3 +200,29 @@ def test_evrensel_indikator(kapanis):
     assert set(poz.dropna().unique()) <= {0.0, 1.0}
     parcali = fi.evrensel_al_sat_sinyali(kapanis.iloc[:1500]).iloc[:1400]
     pd.testing.assert_series_equal(poz.iloc[:1400], parcali, check_names=False)
+
+
+# ── ML katmanı ────────────────────────────────────────────────────────────────
+
+def test_ml_oznitelikler_nedensel(kapanis):
+    """Öznitelikler geleceğe bakmamalı: seriyi kesmek geçmiş değerleri değiştirmez."""
+    from alsat import ogrenme
+
+    tam = ogrenme.oznitelikler(kapanis).iloc[:1400]
+    parcali = ogrenme.oznitelikler(kapanis.iloc[:1500]).iloc[:1400]
+    pd.testing.assert_frame_equal(tam, parcali)
+
+
+def test_ml_pozisyonlar_walk_forward(seriler):
+    """ML pozisyonları 0/1 olmalı ve yalnız eğitim geçmişi yeterli yıllarda üretilmeli."""
+    from alsat import ogrenme
+
+    poz = ogrenme.ml_pozisyonlar(seriler, gunluk=lambda *_: None)
+    for sembol, p in poz.items():
+        assert p.index.equals(seriler[sembol].index)
+        assert set(p.dropna().unique()) <= {0.0, 1.0}
+    # ilk 3 yıl (eğitim penceresi) tahminsiz kalmalı → pozisyon 0/NaN
+    ilk = min(s.index[0].year for s in seriler.values())
+    erken = pd.concat(poz.values())[
+        pd.concat([pd.Series(p.index.year, index=p.index) for p in poz.values()]) < ilk + 3]
+    assert (erken.fillna(0) == 0).all()

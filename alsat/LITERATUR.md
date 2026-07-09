@@ -92,6 +92,19 @@ yapılmış; aşağıdaki kaynakların tamamı gerçek, yayımlanmış çalışm
   → Trend takibinin 1880'den beri tüm büyük varlık sınıflarında pozitif getiri
   ürettiğine dair yüzyıllık kanıt.
 
+## 3c. Makine öğrenmesi ile fiyat tahmini
+
+- **Gu, S., Kelly, B. & Xiu, D. (2020).** "Empirical Asset Pricing via Machine
+  Learning." *Review of Financial Studies*, 33(5), 2223–2273.
+  → Modern standart: tüm hisselerin gözlemleri tek havuzda, ağaç toplulukları /
+  sinir ağları. ÖNEMLİ nüans: kazanımlar ~900 öznitelikle (temeller, likidite,
+  mikroyapı) ve **kesitsel long-short portföylerde** elde edilir; yalnız fiyat
+  geçmişiyle tekil sembol zamanlama bambaşka ve çok daha zor bir problemdir.
+- **López de Prado, M. (2018).** *Advances in Financial Machine Learning.* Wiley.
+  → Finansal ML'in neden genelde başarısız olduğunun el kitabı: etiket ufku kadar
+  **arındırma (purging)**, çoklu-test, backtest aşırı uyumu. `ogrenme.py`'nin
+  sızıntı korumaları buradan.
+
 ## 4. Backtest aşırı uyumu ve çoklu test (Reviewer 2'nin silahları)
 
 - **Bailey, D. H. & López de Prado, M. (2014).** "The Deflated Sharpe Ratio: Correcting for
