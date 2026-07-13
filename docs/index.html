@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Çocuk Gastroenterolojisi — Algoritma Kütüphanesi</title>
+<style>
+  :root {
+    --bg:#f6f8f8;--surface:#fff;--surface-2:#eef2f2;--ink:#14201f;--ink-soft:#4a5957;
+    --line:#d5dedd;--accent:#0f766e;--accent-wash:#e6f1ef;--warn:#b45309;--alarm:#b91c1c;
+    --shadow:0 1px 2px rgba(20,32,31,.06),0 8px 24px rgba(20,32,31,.05);
+    --sans:"Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",Arial,sans-serif;
+    --c-semptom:#b45309;--c-muayene:#0891b2;--c-lab:#2563eb;--c-goruntuleme:#7c3aed;--c-hastalik:#b91c1c;
+  }
+  @media (prefers-color-scheme:dark) {
+    :root {--bg:#0d1716;--surface:#14201f;--surface-2:#1a2827;--ink:#e7eeed;--ink-soft:#a3b2b0;
+      --line:#263635;--accent:#4cc4b6;--accent-wash:#12312d;--warn:#e2a862;--alarm:#f38b8b;
+      --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.4);
+      --c-semptom:#e2a862;--c-muayene:#38bdf8;--c-lab:#7da3f8;--c-goruntuleme:#b79cf5;--c-hastalik:#f38b8b;}
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 20px 64px}
+  header{border-left:4px solid var(--accent);padding:2px 0 2px 18px;margin-bottom:8px}
+  .eyebrow{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:700;margin:0 0 6px}
+  h1{font-size:clamp(1.5rem,3.4vw,2.1rem);margin:0;letter-spacing:-.01em}
+  .sub{color:var(--ink-soft);margin:8px 0 0;max-width:70ch;font-size:.96rem}
+  .toolbar{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);
+    backdrop-filter:blur(8px);padding:16px 0 12px;margin-top:14px;border-bottom:1px solid var(--line)}
+  .search{width:100%;font-size:1rem;padding:12px 16px;border:1px solid var(--line);border-radius:12px;
+    background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+  .search:focus{outline:2px solid var(--accent);outline-offset:1px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .chip{font:inherit;font-size:.84rem;padding:6px 13px;border-radius:100px;border:1px solid var(--line);
+    background:var(--surface);color:var(--ink-soft);cursor:pointer}
+  .chip.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .count{font-size:.82rem;color:var(--ink-soft);margin:14px 2px 8px;font-variant-numeric:tabular-nums}
+  .grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(270px,1fr))}
+  .algo{display:flex;flex-direction:column;gap:6px;text-decoration:none;color:inherit;background:var(--surface);
+    border:1px solid var(--line);border-radius:14px;padding:15px 17px;box-shadow:var(--shadow);
+    border-top:3px solid var(--tone,var(--accent));transition:transform .08s ease,box-shadow .12s ease}
+  .algo:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(20,32,31,.12)}
+  .algo:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .algo-cat{font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--tone,var(--accent))}
+  .algo-title{font-weight:600;font-size:1.02rem;letter-spacing:-.01em}
+  .algo-sub{font-size:.85rem;color:var(--ink-soft)}
+  .cat-semptom{--tone:var(--c-semptom)}.cat-muayene{--tone:var(--c-muayene)}
+  .cat-lab{--tone:var(--c-lab)}.cat-goruntuleme{--tone:var(--c-goruntuleme)}.cat-hastalik{--tone:var(--c-hastalik)}
+  .algo{--tone:var(--accent)}
+  .algo[data-cat=semptom]{--tone:var(--c-semptom)}.algo[data-cat=muayene]{--tone:var(--c-muayene)}
+  .algo[data-cat=lab]{--tone:var(--c-lab)}.algo[data-cat=goruntuleme]{--tone:var(--c-goruntuleme)}
+  .algo[data-cat=hastalik]{--tone:var(--c-hastalik)}
+  .empty{text-align:center;color:var(--ink-soft);padding:40px;display:none}
+  footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);font-size:.82rem;color:var(--ink-soft)}
+  footer a{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Klinik Karar Kütüphanesi</p>
+    <h1>Çocuk Gastroenterolojisi — Algoritma Kütüphanesi</h1>
+    <p class="sub">88 uzman-düzeyi tanı-tetkik-tedavi-izlem algoritması. Başlığa, belirtiye veya anahtar kelimeye göre arayın; karta tıklayıp ilgili algoritmayı açın.</p>
+  </header>
+  <div class="toolbar">
+    <input class="search" id="q" type="search" placeholder="Ara: reflü, kanama, ALT, kalprotektin, Wilson, pankreatit…" autocomplete="off" aria-label="Ara">
+    <div class="chips" id="chips"><button class="chip" data-filter="all">Tümü</button><button class="chip" data-filter="semptom">Semptomlar ve şikâyetler</button><button class="chip" data-filter="muayene">Muayene bulguları</button><button class="chip" data-filter="lab">Laboratuvar anormallikleri</button><button class="chip" data-filter="goruntuleme">Görüntüleme / endoskopi / patoloji</button><button class="chip" data-filter="hastalik">Hastalık / tanı temelli</button></div>
+  </div>
+  <div class="count" id="count"></div>
+  <div class="grid" id="grid">
+    <a class="algo" href="pediatrik-kabizlik-algoritmasi.html" data-cat="semptom" data-search="çocuklarda fonksiyonel kabızlık — tanı ve tedavi algoritması rome iv tanı ölçütleri ve espghan/naspghan 2014 kanıta dayalı kılavuzuna göre; birinci basamak ve pediatri pratiği için basamaklı yaklaşım. rome iv espghan / naspghan 2014 0–18 yaş fonksiyonel (organik olmayan) kabızlık">
+      <span class="algo-cat cat-semptom">Semptomlar</span>
+      <span class="algo-title">Çocuklarda Fonksiyonel Kabızlık — Tanı ve Tedavi Algoritması</span>
+      <span class="algo-sub">Rome IV tanı ölçütleri ve ESPGHAN/NASPGHAN 2014 kanıta dayalı kılavuzuna göre; birinci basamak ve pediatri pratiği için basamaklı yaklaşım.</span>
+    </a><a class="algo" href="pediatrik-kronik-ishal-algoritmasi.html" data-cat="semptom" data-search="çocuklarda kronik i̇shal — değerlendirme algoritması ≥ 2–4 hafta süren ishalde yaşa ve fizyopatolojik mekanizmaya göre yaklaşım: önce büyümeyi ve alarm bulgularını değerlendir, ozmotik/sekretuar ayrımını yap, hedefe yönelik tetkik et. kronik ishal ≥ 2–4 hafta ozmotik / sekretuar / i̇nflamatuar 0–18 yaş malabsorpsiyon">
+      <span class="algo-cat cat-semptom">Semptomlar</span>
+      <span class="algo-title">Çocuklarda Kronik İshal — Değerlendirme Algoritması</span>
+      <span class="algo-sub">≥ 2–4 hafta süren ishalde yaşa ve fizyopatolojik mekanizmaya göre yaklaşım: önce büyümeyi ve alarm bulgularını değerlendir, ozmotik/sekretuar ayrımını yap, hedefe yönelik tetkik et.</span>
+    </a><a class="algo" href="pediatrik-reflu-gorh-algoritmasi.html" data-cat="semptom" data-search="gastroözofageal reflü ve görh bebek regürjitasyonu (fizyolojik reflü) ile gastroözofageal reflü hastalığının (görh) ayırımı, kanıta dayalı basamaklı yaklaşım ve dozlu tedavi. naspghan/espghan 2018 ve rome iv temelli. naspghan/espghan 2018 rome iv i̇nek sütü eliminasyonu ppi/h2 dozları">
+      <span class="algo-cat cat-semptom">Semptomlar</span>
+      <span class="algo-title">Gastroözofageal Reflü ve GÖRH</span>
+      <span class="algo-sub">Bebek regürjitasyonu (fizyolojik reflü) ile gastroözofageal reflü hastalığının (GÖRH) ayırımı, kanıta dayalı basamaklı yaklaşım ve dozlu tedavi. NASPGHAN/ESPGHAN 2018 ve Rome IV temelli.</span>
+    </a><a class="algo" href="pediatrik-kusma-algoritmasi.html" data-cat="semptom" data-search="kusma (akut ve kronik) akut ve kronik/döngüsel kusmanın ayrımı, safralı ve kanlı kusmanın acil değerlendirmesi, cerrahi-metabolik-nörolojik acillerin dışlanması ve dozlu dehidratasyon yönetimi için basamaklı karar aracı. rome iv safralı kusma cerrahi acil dehidratasyon">
+      <span class="algo-cat cat-semptom">Semptomlar</span>
+      <span class="algo-title">Kusma (Akut ve Kronik)</span>
+      <span class="algo-sub">Akut ve kronik/döngüsel kusmanın ayrımı, safralı ve kanlı kusmanın acil değerlendirmesi, cerrahi-metabolik-nörolojik acillerin dışlanması ve dozlu dehidratasyon yönetimi için basamaklı karar aracı.</span>
+    </a><a class="algo" href="pediatrik-safrali-kusma-algoritmasi.html" data-cat="semptom" data-search="safralı kusma yenidoğan ve süt çocuğunda safralı (yeşil) kusma, aksi kanıtlanana dek malrotasyon ve midgut volvulusudur; zamana duyarlı bir cerrahi acildir. eş zamanlı resüsitasyon, ivedi üst gi̇s pasaj grafisi ve acil cerrahi konsültasyon esastır. malrotasyon-volvulus cerrahi acil üst gi̇s pasaj ladd prosedürü">
+      <span class="algo-cat cat-semptom">Semptomlar</span>
+      <span class="algo-title">Safralı Kusma</span>
+      <span class="algo-sub">Yenidoğan ve süt çocuğunda safralı (yeşil) kusma, aksi kanıtlanana dek malrotasyon ve midgut volvulusudur; zamana duyarlı bir cerrahi acildir. Eş zamanlı resüsitasyon, ivedi üst GİS pasaj grafisi ve acil cerrahi konsültasyon esastır.</span>
+    </a><a class="algo" href="pediatrik-siklik-kusma-algoritmasi.html" data-cat="semptom" data-search="siklik kusma sendromu stereotipik, ataklar halinde yineleyen şiddetli kusma ve bulantı ile seyreden, ataklar arasında tam iyileşme gösteren fonksiyonel bir bozukluk. tanı klinik ölçütlere (rome iv / naspghan) dayanır; yönetim atak kesici tedavi ve profilaksinin dengelenmesini gerektirir. rome iv migren spektrumu atak tedavisi profilaksi">
+      <span class="algo-cat cat-semptom">Semptomlar</span>
+      <span class="algo-title">Siklik Kusma Sendromu</span>
+      <span class="algo-sub">Stereotipik, ataklar halinde yineleyen şiddetli kusma ve bulantı ile seyreden, ataklar arasında tam iyileşme gösteren fonksiyonel bir bozukluk. Tanı klinik ölçütlere (Rome IV / NASPGHAN) dayanır; yönetim atak kesici tedavi ve profilaksinin dengelenmesini gerektirir.</span>
+    </a><a class="algo" href="pediatrik-ruminasyon-algoritmasi.html" data-cat="semptom" data-search="ruminasyon sendromu öğün sırasında/sonrasında ortaya çıkan efortsuz, öğürtüsüz regürjitasyonun tanısı; birinci basamak diyafragmatik solunum tedavisi ve görh/gastroparezi ayrımı için pratik karar yolu. rome iv diyafragmatik solunum hrim ayırıcı tanı">
+      <span class="algo-cat cat-semptom">Semptomlar</span>
+      <span class="algo-title">Ruminasyon Sendromu</span>
+      <span class="algo-sub">Öğün sırasında/sonrasında ortaya çıkan efortsuz, öğürtüsüz regürjitasyonun tanısı; birinci basamak diyafragmatik solunum tedavisi ve GÖRH/gastroparezi ayrımı için pratik karar yolu.</span>
+    </a><a class="algo" href="pediatrik-disfaji-odinofaji-algoritmasi.html" data-cat="semptom" data-search="disfaji ve odinofaji yutma güçlüğü (disfaji) ve ağrılı yutmanın (odinofaji) yaşa ve mekanizmaya göre ayırıcı tanısı; endoskopi/biyopsi, baryumlu özofagogram ve yüksek çözünürlüklü manometri temelli basamaklı yaklaşım ve dozlu tedavi. eoe, striktür, akalazya ve özofagus halkası odağında. eoe — espghan/eureos rome iv fonksiyonel disfaji hrm / chicago sınıflaması yaşa göre yaklaşım">
+      <span class="algo-cat cat-semptom">Semptomlar</span>
+      <span class="algo-title">Disfaji ve Odinofaji</span>
+      <span class="algo-sub">Yutma güçlüğü (disfaji) ve ağrılı yutmanın (odinofaji) yaşa ve mekanizmaya göre ayırıcı tanısı; endoskopi/biyopsi, baryumlu özofagogram ve yüksek çözünürlüklü manometri temelli basamaklı yaklaşım ve dozlu tedavi. EoE, striktür, akalazya ve özofagus halkası odağında.</span>
+    </a><a class="algo" href="pediatrik-fonksiyonel-dispepsi-algoritmasi.html" data-cat="semptom" data-search="fonksiyonel dispepsi rome iv temelli pozitif tanı, alarm bulgularının ayrımı ve alt tipe (pds/eps) yönelik dozlu tedavi ile izlem çerçevesi. hedef kitle: çocuk gastroenteroloji uzmanı. rome iv pds / eps h. pylori ppi · prokinetik">
+      <span class="algo-cat cat-semptom">Semptomlar</span>
+      <span class="algo-title">Fonksiyonel Dispepsi</span>
+      <span class="algo-sub">Rome IV temelli pozitif tanı, alarm bulgularının ayrımı ve alt tipe (PDS/EPS) yönelik dozlu tedavi ile izlem çerçevesi. Hedef kitle: çocuk gastroenteroloji uzmanı.</span>
+    </a><a class="algo" href="pediatrik-ibs-algoritmasi.html" data-cat="semptom" data-search="i̇rritabl bağırsak sendromu rome iv temelli pozitif tanı, bristol ile alt tip (ibs-c/d/m) ayrımı, alarm bulgularının taranması ve düşük fodmap–lif–antispazmodik ekseninde dozlu tedavi ile izlem çerçevesi. hedef kitle: çocuk gastroenteroloji uzmanı. rome iv ibs-c / d / m düşük fodmap alarm bulguları">
+      <span class="algo-cat cat-semptom">Semptomlar</span>
+      <span class="algo-title">İrritabl Bağırsak Sendromu</span>
+      <span class="algo-sub">Rome IV temelli pozitif tanı, Bristol ile alt tip (IBS-C/D/M) ayrımı, alarm bulgularının taranması ve düşük FODMAP–lif–antispazmodik ekseninde dozlu tedavi ile izlem çerçevesi. Hedef kitle: çocuk gastroenteroloji uzmanı.</span>
+    </a><a class="algo" href="pediatrik-abdominal-migren-algoritmasi.html" data-cat="semptom" data-search="abdominal migren rome iv temelli pozitif tanı, migren spektrumundaki yerinin tanınması, tetikleyici kaçınma ve dozlu profilaksi (siproheptadin, pizotifen, propranolol) ile izlem çerçevesi. hedef kitle: çocuk gastroenteroloji uzmanı. rome iv migren spektrumu tetikleyici kaçınma profilaksi">
+      <span class="algo-cat cat-semptom">Semptomlar</span>
+      <span class="algo-title">Abdominal Migren</span>
+      <span class="algo-sub">Rome IV temelli pozitif tanı, migren spektrumundaki yerinin tanınması, tetikleyici kaçınma ve dozlu profilaksi (siproheptadin, pizotifen, propranolol) ile izlem çerçevesi. Hedef kitle: çocuk gastroenteroloji uzmanı.</span>
+    </a><a class="algo" href="pediatrik-akut-karin-agrisi-algoritmasi.html" data-cat="semptom" data-search="akut karın ağrısı cerrahi karnı (apandisit, invajinasyon, midgut volvulus, over torsiyonu) hızlı tanımaya, alarm bulgularını ayırt etmeye, doğru görüntülemeyi seçmeye ve zamanında cerrahi konsültasyon vermeye yönelik karar aracı. hedef kitle: çocuk gastroenteroloji uzmanı. cerrahi karın alarm bulguları görüntüleme cerrahi konsültasyon">
+      <span class="algo-cat cat-semptom">Semptomlar</span>
+      <span class="algo-title">Akut Karın Ağrısı</span>
+      <span class="algo-sub">Cerrahi karnı (apandisit, invajinasyon, midgut volvulus, over torsiyonu) hızlı tanımaya, alarm bulgularını ayırt etmeye, doğru görüntülemeyi seçmeye ve zamanında cerrahi konsültasyon vermeye yönelik karar aracı. Hedef kitle: çocuk gastroenteroloji uzmanı.</span>
+    </a><a class="algo" href="pediatrik-kronik-karin-agrisi-algoritmasi.html" data-cat="semptom" data-search="kronik/fonksiyonel karın ağrısı rome iv temelli pozitif tanı yaklaşımı: fonksiyonel karın ağrısı bozukluklarının (fonksiyonel dispepsi, ibs, abdominal migren, fap-nos) ayrımı, alarm bulgularının taranması, sınırlı non-invaziv tetkik, biyopsikososyal yönetim ve gereksiz tetkikten kaçınma. hedef kitle: çocuk gastroenteroloji uzmanı. rome iv fap-nos alarm bulguları biyopsikososyal">
+      <span class="algo-cat cat-semptom">Semptomlar</span>
+      <span class="algo-title">Kronik/Fonksiyonel Karın Ağrısı</span>
+      <span class="algo-sub">Rome IV temelli pozitif tanı yaklaşımı: fonksiyonel karın ağrısı bozukluklarının (fonksiyonel dispepsi, IBS, abdominal migren, FAP-NOS) ayrımı, alarm bulgularının taranması, sınırlı non-invaziv tetkik, biyopsikososyal yönetim ve gereksiz tetkikten kaçınma. Hedef kitle: çocuk gastroenteroloji uzmanı.</span>
+    </a><a class="algo" href="pediatrik-karin-distansiyon-algoritmasi.html" data-cat="semptom" data-search="karın şişkinliği ve distansiyon subjektif şişkinlik ile objektif distansiyonun ayrımı; aerofaji, karbonhidrat malabsorpsiyonu/sibo, çölyak, asit, mekanik obstrüksiyon ve hirschsprung hastalığı arasında yapılandırılmış ayırıcı tanı, basamaklı tetkik ve dozlu tedavi. hedef kitle: çocuk gastroenteroloji uzmanı. rome iv malabsorpsiyon / sibo hirschsprung asit &amp;amp; obstrüksiyon">
+      <span class="algo-cat cat-semptom">Semptomlar</span>
+      <span class="algo-title">Karın Şişkinliği ve Distansiyon</span>
+      <span class="algo-sub">Subjektif şişkinlik ile objektif distansiyonun ayrımı; aerofaji, karbonhidrat malabsorpsiyonu/SIBO, çölyak, asit, mekanik obstrüksiyon ve Hirschsprung hastalığı arasında yapılandırılmış ayırıcı tanı, basamaklı tetkik ve dozlu tedavi. Hedef kitle: çocuk gastroenteroloji uzmanı.</span>
+    </a><a class="algo" href="pediatrik-akut-gastroenterit-algoritmasi.html" data-cat="semptom" data-search="akut gastroenterit ve dehidratasyon dehidratasyonu klinik ölçekle derecelendirmeye, oral rehidrasyon (ors) ile iv sıvı resüsitasyonu arasında seçim yapmaya, çinko-beslenme-probiyotik desteğini planlamaya ve antibiyotiği yalnızca kanıta dayalı endikasyonlarda vermeye yönelik dozlu karar aracı. hedef kitle: çocuk gastroenteroloji uzmanı. dehidratasyon derecelendirme ors · iv sıvı çinko · beslenme antibiyotik endikasyonu">
+      <span class="algo-cat cat-semptom">Semptomlar</span>
+      <span class="algo-title">Akut Gastroenterit ve Dehidratasyon</span>
+      <span class="algo-sub">Dehidratasyonu klinik ölçekle derecelendirmeye, oral rehidrasyon (ORS) ile IV sıvı resüsitasyonu arasında seçim yapmaya, çinko-beslenme-probiyotik desteğini planlamaya ve antibiyotiği yalnızca kanıta dayalı endikasyonlarda vermeye yönelik dozlu karar aracı. Hedef kitle: çocuk gastroenteroloji uzmanı.</span>
+    </a><a class="algo" href="pediatrik-dizanteri-algoritmasi.html" data-cat="semptom" data-search="dizanteri (kanlı-mukuslu i̇shal) i̇nvaziv kolitin ayırıcı tanısını, dışkı tetkik algoritmasını, ampirik antibiyotik endikasyonunu ve stec/hüs güvenlik durdurmasını yapılandıran karar aracı; enfeksiyöz dizanteriyi alerjik proktokolit ve i̇bh&#x27;den ayırmaya odaklanır. hedef kitle: çocuk gastroenteroloji uzmanı. i̇nvaziv kolit dışkı tetkik stec / hüs i̇bh-alerjik kolit ayrımı">
+      <span class="algo-cat cat-semptom">Semptomlar</span>
+      <span class="algo-title">Dizanteri (Kanlı-Mukuslu İshal)</span>
+      <span class="algo-sub">İnvaziv kolitin ayırıcı tanısını, dışkı tetkik algoritmasını, ampirik antibiyotik endikasyonunu ve STEC/HÜS güvenlik durdurmasını yapılandıran karar aracı; enfeksiyöz dizanteriyi alerjik proktokolit ve İBH&#x27;den ayırmaya odaklanır. Hedef kitle: çocuk gastroenteroloji uzmanı.</span>
+    </a><a class="algo" href="pediatrik-enkoprezis-algoritmasi.html" data-cat="semptom" data-search="enkoprezis / fekal i̇nkontinans fonksiyonel kabızlığa bağlı retansiyonel fekal inkontinansta impaksiyon boşaltımı, dozlu idame, tuvalet eğitimi ve psikososyal yönetimin basamaklı algoritması. rome iv fekal impaksiyon peg 3350 tuvalet eğitimi">
+      <span class="algo-cat cat-semptom">Semptomlar</span>
+      <span class="algo-title">Enkoprezis / Fekal İnkontinans</span>
+      <span class="algo-sub">Fonksiyonel kabızlığa bağlı retansiyonel fekal inkontinansta impaksiyon boşaltımı, dozlu idame, tuvalet eğitimi ve psikososyal yönetimin basamaklı algoritması.</span>
+    </a><a class="algo" href="pediatrik-alt-gis-kanamasi-algoritmasi.html" data-cat="semptom" data-search="alt gi̇s kanaması (hematokezya) treitz ligamenti distalinden kaynaklanan taze/koyu kırmızı rektal kanamada yaşa göre etiyolojiyi ayırt etmeye, hemodinamiyi güvenceye almaya, doğru tetkiki (kolonoskopi, meckel sintigrafisi) seçmeye ve dozlu tedaviye yönelik karar aracı. hedef kitle: çocuk gastroenteroloji uzmanı. hematokezya yaşa göre etiyoloji kolonoskopi meckel sintigrafisi">
+      <span class="algo-cat cat-semptom">Semptomlar</span>
+      <span class="algo-title">Alt GİS Kanaması (Hematokezya)</span>
+      <span class="algo-sub">Treitz ligamenti distalinden kaynaklanan taze/koyu kırmızı rektal kanamada yaşa göre etiyolojiyi ayırt etmeye, hemodinamiyi güvenceye almaya, doğru tetkiki (kolonoskopi, Meckel sintigrafisi) seçmeye ve dozlu tedaviye yönelik karar aracı. Hedef kitle: çocuk gastroenteroloji uzmanı.</span>
+    </a><a class="algo" href="pediatrik-ust-gis-kanamasi-algoritmasi.html" data-cat="semptom" data-search="üst gi̇s kanaması (hematemez–melena) treitz ligamenti proksimalinden kaynaklanan kanamada resüsitasyon, asit baskılama, varis kanamasında vazoaktif tedavi, endoskopi zamanlaması ve balon tamponadının dozlu ve basamaklı yönetimi. hematemez melena varis / non-varis acil endoskopi">
+      <span class="algo-cat cat-semptom">Semptomlar</span>
+      <span class="algo-title">Üst GİS Kanaması (Hematemez–Melena)</span>
+      <span class="algo-sub">Treitz ligamenti proksimalinden kaynaklanan kanamada resüsitasyon, asit baskılama, varis kanamasında vazoaktif tedavi, endoskopi zamanlaması ve balon tamponadının dozlu ve basamaklı yönetimi.</span>
+    </a><a class="algo" href="pediatrik-steatore-malabsorpsiyon-algoritmasi.html" data-cat="semptom" data-search="steatore ve malabsorpsiyon kronik ishal, yetersiz kilo alımı ve yağlı dışkı yakınmasında pankreatik, mukozal, biliyer ve lenfatik nedenleri ayırt eden; fekal elastaz, çölyak serolojisi ve dışkı yağı temelli hedefe yönelik tanısal akış. fekal elastaz-1 çölyak serolojisi dışkı yağı yağda eriyen vitaminler">
+      <span class="algo-cat cat-semptom">Semptomlar</span>
+      <span class="algo-title">Steatore ve Malabsorpsiyon</span>
+      <span class="algo-sub">Kronik ishal, yetersiz kilo alımı ve yağlı dışkı yakınmasında pankreatik, mukozal, biliyer ve lenfatik nedenleri ayırt eden; fekal elastaz, çölyak serolojisi ve dışkı yağı temelli hedefe yönelik tanısal akış.</span>
+    </a><a class="algo" href="pediatrik-buyume-geriligi-gis-algoritmasi.html" data-cat="semptom" data-search="büyüme geriliği / ftt (gi̇s) antropometrik olarak doğrulanmış büyüme geriliğinde (faltering growth / ftt) beslenme öyküsü temelli değerlendirme, çölyak–kistik fibrozis (kf)–ibd–kolestaz taraması, hesaplanmış yakalama-büyüme (catch-up) kalori artırımı ve yapılandırılmış izlem. hedef kitle: çocuk gastroenteroloji uzmanı. beslenme öyküsü çölyak / kf / ibd kolestaz taraması kalori artırımı">
+      <span class="algo-cat cat-semptom">Semptomlar</span>
+      <span class="algo-title">Büyüme Geriliği / FTT (GİS)</span>
+      <span class="algo-sub">Antropometrik olarak doğrulanmış büyüme geriliğinde (faltering growth / FTT) beslenme öyküsü temelli değerlendirme, çölyak–kistik fibrozis (KF)–IBD–kolestaz taraması, hesaplanmış yakalama-büyüme (catch-up) kalori artırımı ve yapılandırılmış izlem. Hedef kitle: çocuk gastroenteroloji uzmanı.</span>
+    </a><a class="algo" href="pediatrik-beslenme-reddi-algoritmasi.html" data-cat="semptom" data-search="beslenme reddi ve i̇ştahsızlık beslenme reddi ve iştahsızlığa pediatrik beslenme bozukluğu (pfd) çatısı altında dört alanlı (medikal, beslenme, oral-motor beceri, psikososyal) yaklaşım; oral-motor disfonksiyon, görh/eoe ve disfajinin ayrımı, dozlu tedavi ve multidisipliner izlem. arfid ve organik hastalık ayrımı odağında. pfd — goday 2019 (4 alan) arfid — dsm-5 görh / eoe — espghan/naspghan multidisipliner beslenme">
+      <span class="algo-cat cat-semptom">Semptomlar</span>
+      <span class="algo-title">Beslenme Reddi ve İştahsızlık</span>
+      <span class="algo-sub">Beslenme reddi ve iştahsızlığa Pediatrik Beslenme Bozukluğu (PFD) çatısı altında dört alanlı (medikal, beslenme, oral-motor beceri, psikososyal) yaklaşım; oral-motor disfonksiyon, GÖRH/EoE ve disfajinin ayrımı, dozlu tedavi ve multidisipliner izlem. ARFID ve organik hastalık ayrımı odağında.</span>
+    </a><a class="algo" href="pediatrik-infantil-kolik-algoritmasi.html" data-cat="semptom" data-search="i̇nfantil kolik rome iv temelli pozitif tanı, kırmızı bayrakların taranması, seçilmiş olguda inek sütü proteini eliminasyon denemesi, kanıta dayalı probiyotik ve her şeyden önce yapılandırılmış aile desteği ile gereksiz ilaçtan kaçınma çerçevesi. hedef kitle: çocuk gastroenteroloji uzmanı. rome iv i̇spa eliminasyon denemesi l. reuteri dsm 17938 aile desteği">
+      <span class="algo-cat cat-semptom">Semptomlar</span>
+      <span class="algo-title">İnfantil Kolik</span>
+      <span class="algo-sub">Rome IV temelli pozitif tanı, kırmızı bayrakların taranması, seçilmiş olguda inek sütü proteini eliminasyon denemesi, kanıta dayalı probiyotik ve her şeyden önce yapılandırılmış aile desteği ile gereksiz ilaçtan kaçınma çerçevesi. Hedef kitle: çocuk gastroenteroloji uzmanı.</span>
+    </a><a class="algo" href="pediatrik-malnutrisyon-refeeding-algoritmasi.html" data-cat="semptom" data-search="malnütrisyon ve refeeding sendromu pediyatrik malnütrisyonun antropometrik derecelendirmesi, refeeding sendromu riskinin aspen ölçütleriyle sınıflanması ve fosfat-potasyum-magnezyum izlemi altında kontrollü kalori artışı. hedef kitle: çocuk gastroenteroloji uzmanı. antropometri / z-skor refeeding riski fosfat / k / mg izlemi kalori artış hızı">
+      <span class="algo-cat cat-semptom">Semptomlar</span>
+      <span class="algo-title">Malnütrisyon ve Refeeding Sendromu</span>
+      <span class="algo-sub">Pediyatrik malnütrisyonun antropometrik derecelendirmesi, refeeding sendromu riskinin ASPEN ölçütleriyle sınıflanması ve fosfat-potasyum-magnezyum izlemi altında kontrollü kalori artışı. Hedef kitle: çocuk gastroenteroloji uzmanı.</span>
+    </a><a class="algo" href="pediatrik-sarilik-buyuk-cocuk-algoritmasi.html" data-cat="semptom" data-search="büyük çocukta sarılık süt çocukluğu dönemini geçmiş çocukta sarılığa yaklaşım: fraksiyone bilirubinle indirekt/direkt ayrımı, hemoliz ile karaciğer hastalığının ayrımı ve viral, otoimmün, wilson ile gilbert tanılarının hedefli tetkik ve dozlu tedaviyle yönetimi. hedef kitle: çocuk gastroenteroloji uzmanı. fraksiyone bilirubin hemoliz vs karaciğer wilson hastalığı gilbert sendromu">
+      <span class="algo-cat cat-semptom">Semptomlar</span>
+      <span class="algo-title">Büyük Çocukta Sarılık</span>
+      <span class="algo-sub">Süt çocukluğu dönemini geçmiş çocukta sarılığa yaklaşım: fraksiyone bilirubinle indirekt/direkt ayrımı, hemoliz ile karaciğer hastalığının ayrımı ve viral, otoimmün, Wilson ile Gilbert tanılarının hedefli tetkik ve dozlu tedaviyle yönetimi. Hedef kitle: çocuk gastroenteroloji uzmanı.</span>
+    </a><a class="algo" href="pediatrik-kolestatik-kasinti-algoritmasi.html" data-cat="semptom" data-search="kolestatik kaşıntı (pruritus) kolestaza bağlı, sıklıkla tedaviye dirençli ve yaşam kalitesini ağır bozan kaşıntıda altta yatan nedeni tanımlamaya, basamaklı antipruritik tedaviyi (udka, rifampisin, ibat inhibitörü, naltrekson, kolestiramin) dozlu uygulamaya ve dirençli olguyu yönetmeye yönelik karar aracı. hedef kitle: çocuk gastroenteroloji uzmanı. kolestaz pruritus ibat inhibitörü basamaklı tedavi">
+      <span class="algo-cat cat-semptom">Semptomlar</span>
+      <span class="algo-title">Kolestatik Kaşıntı (Pruritus)</span>
+      <span class="algo-sub">Kolestaza bağlı, sıklıkla tedaviye dirençli ve yaşam kalitesini ağır bozan kaşıntıda altta yatan nedeni tanımlamaya, basamaklı antipruritik tedaviyi (UDKA, rifampisin, IBAT inhibitörü, naltrekson, kolestiramin) dozlu uygulamaya ve dirençli olguyu yönetmeye yönelik karar aracı. Hedef kitle: çocuk gastroenteroloji uzmanı.</span>
+    </a><a class="algo" href="pediatrik-yabanci-cisim-algoritmasi.html" data-cat="semptom" data-search="yabancı cisim yutma yutulan yabancı cismin türü ve lokalizasyonuna göre risk katmanlaması; düğme pil ve çoklu mıknatısta acil endoskopi, keskin/uzun cisimlerde zamanlama, künt cisimlerde izlem vs çıkarma kararı. i̇ki düzlemli grafi temelli, dozlu mitigasyon ve komplikasyon izlemi. düğme pil — espghan/naspghan mıknatıs acil endoskopi lokalizasyon — iki düzlemli grafi i̇zlem vs çıkarma">
+      <span class="algo-cat cat-semptom">Semptomlar</span>
+      <span class="algo-title">Yabancı Cisim Yutma</span>
+      <span class="algo-sub">Yutulan yabancı cismin türü ve lokalizasyonuna göre risk katmanlaması; düğme pil ve çoklu mıknatısta acil endoskopi, keskin/uzun cisimlerde zamanlama, künt cisimlerde izlem vs çıkarma kararı. İki düzlemli grafi temelli, dozlu mitigasyon ve komplikasyon izlemi.</span>
+    </a><a class="algo" href="pediatrik-kostik-alim-algoritmasi.html" data-cat="semptom" data-search="kostik madde alımı kostik (alkali/asit) madde yutan çocukta ilk yaklaşım (kusturma ve nötralizasyon yok), semptom temelli triyaj, 12-48 saatte tanısal endoskopi ve zargar evrelemesine göre yönetim ile geç dönem striktür izlemi. alkali / asit zargar evreleme endoskopi 12-48 sa striktür i̇zlemi">
+      <span class="algo-cat cat-semptom">Semptomlar</span>
+      <span class="algo-title">Kostik Madde Alımı</span>
+      <span class="algo-sub">Kostik (alkali/asit) madde yutan çocukta ilk yaklaşım (kusturma ve nötralizasyon YOK), semptom temelli triyaj, 12-48 saatte tanısal endoskopi ve Zargar evrelemesine göre yönetim ile geç dönem striktür izlemi.</span>
+    </a><a class="algo" href="pediatrik-gogus-yanma-globus-algoritmasi.html" data-cat="semptom" data-search="pirozis, non-kardiyak göğüs ağrısı ve globus retrosternal yanma (pirozis), kardiyak dışı göğüs ağrısı ve boğazda takılma hissinin (globus) yaşa ve mekanizmaya göre ayrımı; ampirik ppi denemesi, eoe dışlama ve gerektiğinde ph-empedans/manometri temelli basamaklı yaklaşım ile rome iv fonksiyonel özofagus bozukluklarının dozlu yönetimi. rome iv — fonksiyonel özofagus ampirik ppi denemesi eoe dışlama ph-empedans / hrm">
+      <span class="algo-cat cat-semptom">Semptomlar</span>
+      <span class="algo-title">Pirozis, Non-kardiyak Göğüs Ağrısı ve Globus</span>
+      <span class="algo-sub">Retrosternal yanma (pirozis), kardiyak dışı göğüs ağrısı ve boğazda takılma hissinin (globus) yaşa ve mekanizmaya göre ayrımı; ampirik PPI denemesi, EoE dışlama ve gerektiğinde pH-empedans/manometri temelli basamaklı yaklaşım ile Rome IV fonksiyonel özofagus bozukluklarının dozlu yönetimi.</span>
+    </a><a class="algo" href="pediatrik-gegirme-hickirik-aerofaji-algoritmasi.html" data-cat="semptom" data-search="aşırı geğirme, aerofaji ve i̇natçı hıçkırık gastrik ve supragastrik geğirmenin ayrımı, aerofajinin klinik dağılımı ve inatçı hıçkırığın (singultus) etiyolojik tarama ile dozlu tedavisi için pratik karar yolu. rome iv supragastrik geğirme aerofaji singultus">
+      <span class="algo-cat cat-semptom">Semptomlar</span>
+      <span class="algo-title">Aşırı Geğirme, Aerofaji ve İnatçı Hıçkırık</span>
+      <span class="algo-sub">Gastrik ve supragastrik geğirmenin ayrımı, aerofajinin klinik dağılımı ve inatçı hıçkırığın (singultus) etiyolojik tarama ile dozlu tedavisi için pratik karar yolu.</span>
+    </a><a class="algo" href="pediatrik-splenomegali-algoritmasi.html" data-cat="muayene" data-search="çocuklarda splenomegali — değerlendirme algoritması palpabl/büyük dalağa yapılandırılmış yaklaşım: eşlik eden bulgu ve tam kan sayımı ile mekanizmayı ayır (enfeksiyöz, hematolojik, konjestif/portal, infiltratif, immün), hedefe yönelik tetkik et. splenomegali mekanizmaya göre ayrım 0–18 yaş portal hipertansiyon vurgusu">
+      <span class="algo-cat cat-muayene">Muayene bulguları</span>
+      <span class="algo-title">Çocuklarda Splenomegali — Değerlendirme Algoritması</span>
+      <span class="algo-sub">Palpabl/büyük dalağa yapılandırılmış yaklaşım: eşlik eden bulgu ve tam kan sayımı ile mekanizmayı ayır (enfeksiyöz, hematolojik, konjestif/portal, infiltratif, immün), hedefe yönelik tetkik et.</span>
+    </a><a class="algo" href="pediatrik-hepatomegali-algoritmasi.html" data-cat="muayene" data-search="çocuklarda hepatomegali — değerlendirme algoritması gerçek büyümeyi yalancı büyümeden ayır, mekanizmaya göre sınıfla (enflamasyon, depo/infiltrasyon, konjesyon, obstrüksiyon, tümör), metabolik acil ve tümörü zaman kaybetmeden tanı. karaciğer açıklığı (span) mekanizmaya göre ayrım 0–18 yaş afp + metabolik vurgu">
+      <span class="algo-cat cat-muayene">Muayene bulguları</span>
+      <span class="algo-title">Çocuklarda Hepatomegali — Değerlendirme Algoritması</span>
+      <span class="algo-sub">Gerçek büyümeyi yalancı büyümeden ayır, mekanizmaya göre sınıfla (enflamasyon, depo/infiltrasyon, konjesyon, obstrüksiyon, tümör), metabolik acil ve tümörü zaman kaybetmeden tanı.</span>
+    </a><a class="algo" href="pediatrik-hepatosplenomegali-algoritmasi.html" data-cat="muayene" data-search="hepatosplenomegali eş zamanlı karaciğer ve dalak büyümesinde; depo/metabolik, portal hipertansiyon-konjestif, enfeksiyöz, malign ve infiltratif nedenleri sistematik ayırmaya ve tks-periferik yayma, ultrasonografi ve hedefli tetkikle etiyolojiye ulaşmaya yönelik karar aracı. hedef kitle: çocuk gastroenteroloji uzmanı. depo/metabolik portal hipertansiyon malignite/hlh tks-yayma + usg">
+      <span class="algo-cat cat-muayene">Muayene bulguları</span>
+      <span class="algo-title">Hepatosplenomegali</span>
+      <span class="algo-sub">Eş zamanlı karaciğer ve dalak büyümesinde; depo/metabolik, portal hipertansiyon-konjestif, enfeksiyöz, malign ve infiltratif nedenleri sistematik ayırmaya ve TKS-periferik yayma, ultrasonografi ve hedefli tetkikle etiyolojiye ulaşmaya yönelik karar aracı. Hedef kitle: çocuk gastroenteroloji uzmanı.</span>
+    </a><a class="algo" href="pediatrik-asit-algoritmasi.html" data-cat="muayene" data-search="asit peritoneal sıvı birikiminin tanısal parasentez ve saag ile portal hipertansif (transuda) ve non-portal (eksuda) nedenlere ayrımı; spontan bakteriyel peritonit (sbp) tanı-tedavisi ve tuz kısıtlama, diüretik, albümin ile dozlu yönetim. hedef kitle: çocuk gastroenteroloji uzmanı. parasentez / saag sbp portal hipertansiyon diüretik / albümin">
+      <span class="algo-cat cat-muayene">Muayene bulguları</span>
+      <span class="algo-title">Asit</span>
+      <span class="algo-sub">Peritoneal sıvı birikiminin tanısal parasentez ve SAAG ile portal hipertansif (transuda) ve non-portal (eksuda) nedenlere ayrımı; spontan bakteriyel peritonit (SBP) tanı-tedavisi ve tuz kısıtlama, diüretik, albümin ile dozlu yönetim. Hedef kitle: çocuk gastroenteroloji uzmanı.</span>
+    </a><a class="algo" href="pediatrik-karin-kitlesi-algoritmasi.html" data-cat="muayene" data-search="karın kitlesi çocukta palpe edilen karın kitlesinde; nöroblastom, wilms tümörü, hepatoblastom, lenfoma ve non-neoplastik nedenleri yaş ve lokalizasyona göre ayırmaya, ultrasonografi ile başlayıp mr/bt ve tümör belirteçleriyle (afp, idrar katekolaminleri) etiyolojiye ulaşmaya yönelik karar aracı. hedef kitle: çocuk gastroenteroloji uzmanı. nöroblastom · wilms hepatoblastom · lenfoma usg → mr/bt afp + katekolamin">
+      <span class="algo-cat cat-muayene">Muayene bulguları</span>
+      <span class="algo-title">Karın Kitlesi</span>
+      <span class="algo-sub">Çocukta palpe edilen karın kitlesinde; nöroblastom, Wilms tümörü, hepatoblastom, lenfoma ve non-neoplastik nedenleri yaş ve lokalizasyona göre ayırmaya, ultrasonografi ile başlayıp MR/BT ve tümör belirteçleriyle (AFP, idrar katekolaminleri) etiyolojiye ulaşmaya yönelik karar aracı. Hedef kitle: çocuk gastroenteroloji uzmanı.</span>
+    </a><a class="algo" href="pediatrik-perianal-hastalik-algoritmasi.html" data-cat="muayene" data-search="perianal hastalık ve anal fissür tipik basit anal fissürün konservatif yönetimini; atipik/kompleks perianal hastalıkta (perianal crohn, immün yetmezlik, apse-fistül) muayene, basamaklı tetkik ve dozlu tedaviden ayırt eden karar algoritması. anal fissür perianal crohn apse-fistül i̇mmün yetmezlik">
+      <span class="algo-cat cat-muayene">Muayene bulguları</span>
+      <span class="algo-title">Perianal Hastalık ve Anal Fissür</span>
+      <span class="algo-sub">Tipik basit anal fissürün konservatif yönetimini; atipik/kompleks perianal hastalıkta (perianal Crohn, immün yetmezlik, apse-fistül) muayene, basamaklı tetkik ve dozlu tedaviden ayırt eden karar algoritması.</span>
+    </a><a class="algo" href="pediatrik-rektal-prolapsus-algoritmasi.html" data-cat="muayene" data-search="rektal prolapsus çocukta rektal prolapsus çoğunlukla iyi huyludur ve altta yatan bir nedenin belirtisidir; öncelik altta yatanı (kistik fibrozis, kronik kabızlık, parazit, malnütrisyon) araştırmak ve konservatif yönetimdir. kabızlık kistik fibrozis parazit konservatif yönetim">
+      <span class="algo-cat cat-muayene">Muayene bulguları</span>
+      <span class="algo-title">Rektal Prolapsus</span>
+      <span class="algo-sub">Çocukta rektal prolapsus çoğunlukla iyi huyludur ve altta yatan bir nedenin belirtisidir; öncelik altta yatanı (kistik fibrozis, kronik kabızlık, parazit, malnütrisyon) araştırmak ve konservatif yönetimdir.</span>
+    </a><a class="algo" href="pediatrik-aftoz-ekstraintestinal-algoritmasi.html" data-cat="muayene" data-search="aftöz ülser ve ekstraintestinal bulgular rekürren aftöz stomatitli çocukta artrit, eritema nodozum, üveit ve piyoderma gangrenozum gibi ekstraintestinal bulguların değerlendirilmesi; ibd ve çölyak taramasının basamaklandırılması ile dozlu tedavi. aftöz ülser ekstraintestinal bulgu ibd taraması çölyak">
+      <span class="algo-cat cat-muayene">Muayene bulguları</span>
+      <span class="algo-title">Aftöz Ülser ve Ekstraintestinal Bulgular</span>
+      <span class="algo-sub">Rekürren aftöz stomatitli çocukta artrit, eritema nodozum, üveit ve piyoderma gangrenozum gibi ekstraintestinal bulguların değerlendirilmesi; IBD ve çölyak taramasının basamaklandırılması ile dozlu tedavi.</span>
+    </a><a class="algo" href="pediatrik-transaminaz-yuksekligi-algoritmasi.html" data-cat="lab" data-search="çocuklarda transaminaz yüksekliği — değerlendirme algoritması i̇zole veya kalıcı alt/ast yüksekliğine basamaklı yaklaşım; önce doğrula ve karaciğer dışı nedenleri dışla, akut yetmezliği tanı, ardından yaygından nadire tetkik et. alt / ast basamaklı tetkik 0–18 yaş hipertransaminazemi">
+      <span class="algo-cat cat-lab">Laboratuvar anormallikleri</span>
+      <span class="algo-title">Çocuklarda Transaminaz Yüksekliği — Değerlendirme Algoritması</span>
+      <span class="algo-sub">İzole veya kalıcı ALT/AST yüksekliğine basamaklı yaklaşım; önce doğrula ve karaciğer dışı nedenleri dışla, akut yetmezliği tanı, ardından yaygından nadire tetkik et.</span>
+    </a><a class="algo" href="pediatrik-hiperbilirubinemi-algoritmasi.html" data-cat="lab" data-search="i̇zole hiperbilirubinemi diğer karaciğer testleri normalken yükselen bilirubine yaklaşım: fraksiyone bilirubinle unkonjuge/konjuge yol ayrımı, unkonjuge kolda gilbert ve hemoliz, konjuge kolda dubin-johnson/rotor ile kolestaz algoritmasının hedefli tetkik ve dozlu tedaviyle yönetimi. hedef kitle: çocuk gastroenteroloji uzmanı. fraksiyone bilirubin gilbert sendromu hemoliz kolestaz">
+      <span class="algo-cat cat-lab">Laboratuvar anormallikleri</span>
+      <span class="algo-title">İzole Hiperbilirubinemi</span>
+      <span class="algo-sub">Diğer karaciğer testleri normalken yükselen bilirubine yaklaşım: fraksiyone bilirubinle unkonjuge/konjuge yol ayrımı, unkonjuge kolda Gilbert ve hemoliz, konjuge kolda Dubin-Johnson/Rotor ile kolestaz algoritmasının hedefli tetkik ve dozlu tedaviyle yönetimi. Hedef kitle: çocuk gastroenteroloji uzmanı.</span>
+    </a><a class="algo" href="pediatrik-ggt-alp-yuksekligi-algoritmasi.html" data-cat="lab" data-search="i̇zole ggt / alp yüksekliği transaminaz ve bilirubin normalken saptanan izole alp veya ggt yüksekliğinde kemik-karaciğer kaynak ayrımı, yüksek/düşük ggt&#x27;li kolestazların (pfic dahil) ayırt edilmesi ve gereksiz tetkiki önleyecek basamaklı yaklaşım. kolestaz ggt / alp pfic kemik-karaciğer ayrımı">
+      <span class="algo-cat cat-lab">Laboratuvar anormallikleri</span>
+      <span class="algo-title">İzole GGT / ALP Yüksekliği</span>
+      <span class="algo-sub">Transaminaz ve bilirubin normalken saptanan izole ALP veya GGT yüksekliğinde kemik-karaciğer kaynak ayrımı, yüksek/düşük GGT&#x27;li kolestazların (PFIC dahil) ayırt edilmesi ve gereksiz tetkiki önleyecek basamaklı yaklaşım.</span>
+    </a><a class="algo" href="pediatrik-hipoalbuminemi-ple-algoritmasi.html" data-cat="lab" data-search="hipoalbüminemi / protein kaybettiren enteropati hipoalbüminemide üretim azlığı, renal kayıp ve dilüsyonu dışlayıp fekal alfa-1 antitripsin (a1at) klirensi ile protein kaybettiren enteropatiyi (ple) doğrulama; lenfanjiektazi, ibd ve kardiyak (fontan) mekanizmalarını ayırma ve dozlu tedavi. fekal a1at klirensi lenfanjiektazi ibd kardiyak / fontan">
+      <span class="algo-cat cat-lab">Laboratuvar anormallikleri</span>
+      <span class="algo-title">Hipoalbüminemi / Protein Kaybettiren Enteropati</span>
+      <span class="algo-sub">Hipoalbüminemide üretim azlığı, renal kayıp ve dilüsyonu dışlayıp fekal alfa-1 antitripsin (A1AT) klirensi ile protein kaybettiren enteropatiyi (PLE) doğrulama; lenfanjiektazi, IBD ve kardiyak (Fontan) mekanizmalarını ayırma ve dozlu tedavi.</span>
+    </a><a class="algo" href="pediatrik-koagulopati-inr-algoritmasi.html" data-cat="lab" data-search="koagülopati (uzun inr) uzamış inr/pt saptanan çocukta k vitamini bağımlı faktör eksikliği ile hepatik sentetik yetmezliği ayırt etmeye ve dozlu yönetime yönelik karar aracı. k vitamini yanıtı sentetik fonksiyon vkdb karaciğer yetmezliği">
+      <span class="algo-cat cat-lab">Laboratuvar anormallikleri</span>
+      <span class="algo-title">Koagülopati (Uzun INR)</span>
+      <span class="algo-sub">Uzamış INR/PT saptanan çocukta K vitamini bağımlı faktör eksikliği ile hepatik sentetik yetmezliği ayırt etmeye ve dozlu yönetime yönelik karar aracı.</span>
+    </a><a class="algo" href="pediatrik-hiperamonyemi-algoritmasi.html" data-cat="lab" data-search="hiperamonyemi yenidogan ve cocukta plazma amonyak yuksekliginin acil tanı ve yonetimi: proteinin kesilmesi, anabolizma icin yuksek kalorili dekstroz, amonyak temizleyici ilaclar, dogru kan alma teknigi ve diyalize kadar basamaklı yaklasim. metabolik acil ure siklusu amonyak temizleyici kan alma teknigi">
+      <span class="algo-cat cat-lab">Laboratuvar anormallikleri</span>
+      <span class="algo-title">Hiperamonyemi</span>
+      <span class="algo-sub">Yenidogan ve cocukta plazma amonyak yuksekliginin acil tanı ve yonetimi: proteinin kesilmesi, anabolizma icin yuksek kalorili dekstroz, amonyak temizleyici ilaclar, dogru kan alma teknigi ve diyalize kadar basamaklı yaklasim.</span>
+    </a><a class="algo" href="pediatrik-kalprotektin-yuksekligi-algoritmasi.html" data-cat="lab" data-search="fekal kalprotektin yüksekliği yükselmiş fekal kalprotektin (fkp) sonucunu yaşa ve klinik bağlama göre yorumlama, ibd ile enfeksiyöz/benign nedenleri ayırma, yanlış pozitif kaynakları eleme ve doğru olguyu doğru zamanda endoskopiye yönlendirmeye yönelik karar aracı. ibd vs enfeksiyon yanlış pozitif eşik yorumu endoskopi kararı">
+      <span class="algo-cat cat-lab">Laboratuvar anormallikleri</span>
+      <span class="algo-title">Fekal Kalprotektin Yüksekliği</span>
+      <span class="algo-sub">Yükselmiş fekal kalprotektin (FKP) sonucunu yaşa ve klinik bağlama göre yorumlama, IBD ile enfeksiyöz/benign nedenleri ayırma, yanlış pozitif kaynakları eleme ve doğru olguyu doğru zamanda endoskopiye yönlendirmeye yönelik karar aracı.</span>
+    </a><a class="algo" href="pediatrik-gis-demir-eksikligi-algoritmasi.html" data-cat="lab" data-search="gi̇s kaynaklı demir eksikliği anemisi demir eksikliği anemisinde beslenmesel (aşırı inek sütü) nedeni gizli/aşikâr gi̇s kan kaybından ve malabsorpsiyondan ayırmaya; çölyak, ibd, polip ve meckel divertikülü gibi organik kaynakları doğru olguda endoskopiyle araştırmaya ve dozlu demir tedavisini yönetmeye yönelik karar aracı. hedef kitle: çocuk gastroenteroloji uzmanı. çölyak &amp;amp; ibd meckel &amp;amp; polip endoskopi kararı dozlu demir tedavisi">
+      <span class="algo-cat cat-lab">Laboratuvar anormallikleri</span>
+      <span class="algo-title">GİS Kaynaklı Demir Eksikliği Anemisi</span>
+      <span class="algo-sub">Demir eksikliği anemisinde beslenmesel (aşırı inek sütü) nedeni gizli/aşikâr GİS kan kaybından ve malabsorpsiyondan ayırmaya; çölyak, IBD, polip ve Meckel divertikülü gibi organik kaynakları doğru olguda endoskopiyle araştırmaya ve dozlu demir tedavisini yönetmeye yönelik karar aracı. Hedef kitle: çocuk gastroenteroloji uzmanı.</span>
+    </a><a class="algo" href="pediatrik-colyak-seroloji-pozitif-algoritmasi.html" data-cat="lab" data-search="pozitif çölyak serolojisi pozitif doku transglutaminaz iga saptanan çocukta total iga ile testi doğrulamaya, espghan 2020 biyopsisiz tanı ölçütlerini (ttg-iga ≥10× üsn + ayrı örnekte pozitif ema) uygulamaya, biyopsi gerektiren olguyu ayırmaya ve glutensiz diyeti doğru zamanda — tanı kesinleştikten sonra — başlatmaya yönelik karar aracı. hedef kitle: çocuk gastroenteroloji uzmanı. ttg-iga + total iga espghan 2020 biyopsisiz tanı ema / hla gsd zamanlaması">
+      <span class="algo-cat cat-lab">Laboratuvar anormallikleri</span>
+      <span class="algo-title">Pozitif Çölyak Serolojisi</span>
+      <span class="algo-sub">Pozitif doku transglutaminaz IgA saptanan çocukta total IgA ile testi doğrulamaya, ESPGHAN 2020 biyopsisiz tanı ölçütlerini (tTG-IgA ≥10× ÜSN + ayrı örnekte pozitif EMA) uygulamaya, biyopsi gerektiren olguyu ayırmaya ve glutensiz diyeti doğru zamanda — tanı kesinleştikten sonra — başlatmaya yönelik karar aracı. Hedef kitle: çocuk gastroenteroloji uzmanı.</span>
+    </a><a class="algo" href="pediatrik-amilaz-lipaz-yuksekligi-algoritmasi.html" data-cat="lab" data-search="amilaz / lipaz yüksekliği yüksek pankreas enziminde akut pankreatiti tanı ölçütleriyle doğrulamaya, magnitüdün şiddetle eş anlamlı olmadığını hatırlayarak non-pankreatik nedenleri (tükürük kaynağı, makroamilazemi, azalmış klirens) ayırmaya ve doğrulanmış olguda sıvı–analjezi–erken beslenme temelli ilk yönetimi başlatmaya yönelik karar aracı. hedef kitle: çocuk gastroenteroloji uzmanı. akut pankreatit ≥3x uln kuralı lipaz &amp;gt; amilaz non-pankreatik nedenler">
+      <span class="algo-cat cat-lab">Laboratuvar anormallikleri</span>
+      <span class="algo-title">Amilaz / Lipaz Yüksekliği</span>
+      <span class="algo-sub">Yüksek pankreas enziminde akut pankreatiti tanı ölçütleriyle doğrulamaya, magnitüdün şiddetle eş anlamlı olmadığını hatırlayarak non-pankreatik nedenleri (tükürük kaynağı, makroamilazemi, azalmış klirens) ayırmaya ve doğrulanmış olguda sıvı–analjezi–erken beslenme temelli ilk yönetimi başlatmaya yönelik karar aracı. Hedef kitle: çocuk gastroenteroloji uzmanı.</span>
+    </a><a class="algo" href="pediatrik-fekal-elastaz-dusuk-algoritmasi.html" data-cat="lab" data-search="düşük fekal elastaz fekal elastaz-1 (fe-1) düşüklüğünde ekzokrin pankreas yetmezliğinin doğrulanması, etiyolojik ayrım (kf, shwachman-diamond ve diğerleri) ve dozlu pankreatik enzim replasman tedavisinin (pert) yönetimi. fekal elastaz-1 kistik fibrozis shwachman-diamond pert / vitamin">
+      <span class="algo-cat cat-lab">Laboratuvar anormallikleri</span>
+      <span class="algo-title">Düşük Fekal Elastaz</span>
+      <span class="algo-sub">Fekal elastaz-1 (FE-1) düşüklüğünde ekzokrin pankreas yetmezliğinin doğrulanması, etiyolojik ayrım (KF, Shwachman-Diamond ve diğerleri) ve dozlu pankreatik enzim replasman tedavisinin (PERT) yönetimi.</span>
+    </a><a class="algo" href="pediatrik-eozinofili-gis-algoritmasi.html" data-cat="lab" data-search="kan/doku eozinofilisi (eozinofilik gi̇s) periferik ve/veya gastrointestinal doku eozinofilisi saptanan çocukta sekonder nedenleri (parazit, ilaç, atopi, görh, i̇bh, primer immün yetmezlik, hes/malignite) dışlamaya; eozinofilik özofajit (eoe) ve non-eoe eozinofilik gi̇s hastalıklarını (egid) endoskopi/biyopsi eşikleriyle tanımaya; ppi, yutulan topikal steroid ve eliminasyon diyetini dozunda uygulamaya yönelik karar aracı. hedef kitle: çocuk gastroenteroloji uzmanı. sekonder eozinofili dışlama eoe ≥15 eoz/bba ppi · topikal steroid eliminasyon diyeti">
+      <span class="algo-cat cat-lab">Laboratuvar anormallikleri</span>
+      <span class="algo-title">Kan/Doku Eozinofilisi (Eozinofilik GİS)</span>
+      <span class="algo-sub">Periferik ve/veya gastrointestinal doku eozinofilisi saptanan çocukta sekonder nedenleri (parazit, ilaç, atopi, GÖRH, İBH, primer immün yetmezlik, HES/malignite) dışlamaya; eozinofilik özofajit (EoE) ve non-EoE eozinofilik GİS hastalıklarını (EGID) endoskopi/biyopsi eşikleriyle tanımaya; PPI, yutulan topikal steroid ve eliminasyon diyetini dozunda uygulamaya yönelik karar aracı. Hedef kitle: çocuk gastroenteroloji uzmanı.</span>
+    </a><a class="algo" href="pediatrik-vitamin-eksikligi-adek-algoritmasi.html" data-cat="lab" data-search="yağda eriyen vitamin (a/d/e/k) eksikliği kolestaz, ekzokrin pankreas yetmezliği ve ince bağırsak malabsorpsiyonu olan çocukta yağda eriyen vitamin (a/d/e/k) durumunu doğru belirteçlerle ölçme, dozlu replasman ve izlem için basamaklı karar aracı. kolestaz malabsorpsiyon dozlu replasman i̇zlem">
+      <span class="algo-cat cat-lab">Laboratuvar anormallikleri</span>
+      <span class="algo-title">Yağda Eriyen Vitamin (A/D/E/K) Eksikliği</span>
+      <span class="algo-sub">Kolestaz, ekzokrin pankreas yetmezliği ve ince bağırsak malabsorpsiyonu olan çocukta yağda eriyen vitamin (A/D/E/K) durumunu doğru belirteçlerle ölçme, dozlu replasman ve izlem için basamaklı karar aracı.</span>
+    </a><a class="algo" href="pediatrik-elektrolit-bozuklugu-gis-algoritmasi.html" data-cat="lab" data-search="gi̇s kaynaklı elektrolit bozuklukları üst gi̇s kayıplarının (pilor stenozu: hipokloremik hipokalemik metabolik alkaloz) ve alt gi̇s kayıplarının (ishalde hiperkloremik metabolik asidoz) tanınması, kantitatif sıvı-elektrolit düzeltmesi ve izlemi. pilor stenozu metabolik alkaloz i̇shal / asidoz sıvı-elektrolit">
+      <span class="algo-cat cat-lab">Laboratuvar anormallikleri</span>
+      <span class="algo-title">GİS Kaynaklı Elektrolit Bozuklukları</span>
+      <span class="algo-sub">Üst GİS kayıplarının (pilor stenozu: hipokloremik hipokalemik metabolik alkaloz) ve alt GİS kayıplarının (ishalde hiperkloremik metabolik asidoz) tanınması, kantitatif sıvı-elektrolit düzeltmesi ve izlemi.</span>
+    </a><a class="algo" href="pediatrik-diski-tetkik-anormallikleri-algoritmasi.html" data-cat="lab" data-search="dışkı tetkik anormallikleri karbonhidrat malabsorpsiyonu, ozmotik ve sekretuar ishal ayrımı ile steatore bulgularının basamaklı yorumu; laboratuvar sonucunu hastanın klinik ve beslenme öyküsüyle birleştiren pratik karar rehberi. karbonhidrat malabsorpsiyonu ozmotik vs sekretuar steatore dışkı yorumu">
+      <span class="algo-cat cat-lab">Laboratuvar anormallikleri</span>
+      <span class="algo-title">Dışkı Tetkik Anormallikleri</span>
+      <span class="algo-sub">Karbonhidrat malabsorpsiyonu, ozmotik ve sekretuar ishal ayrımı ile steatore bulgularının basamaklı yorumu; laboratuvar sonucunu hastanın klinik ve beslenme öyküsüyle birleştiren pratik karar rehberi.</span>
+    </a><a class="algo" href="pediatrik-kc-fokal-lezyon-algoritmasi.html" data-cat="goruntuleme" data-search="karaciğerde fokal lezyon/kitle çocukta insidental veya semptomatik saptanan fokal karaciğer lezyonunun sistematik değerlendirmesi: benign vasküler/hepatosellüler lezyonlardan (hemanjiyom, fnh, adenom) malign tümörlere (hepatoblastom, hcc) ayırıcı tanı, afp ve kesitsel görüntüleme temelli algoritma. afp kontrastlı mr hepatoblastom/hcc benign lezyon izlemi">
+      <span class="algo-cat cat-goruntuleme">Görüntüleme</span>
+      <span class="algo-title">Karaciğerde Fokal Lezyon/Kitle</span>
+      <span class="algo-sub">Çocukta insidental veya semptomatik saptanan fokal karaciğer lezyonunun sistematik değerlendirmesi: benign vasküler/hepatosellüler lezyonlardan (hemanjiyom, FNH, adenom) malign tümörlere (hepatoblastom, HCC) ayırıcı tanı, AFP ve kesitsel görüntüleme temelli algoritma.</span>
+    </a><a class="algo" href="pediatrik-safra-tasi-kolelitiazis-algoritmasi.html" data-cat="goruntuleme" data-search="safra kesesi taşı / çamur çocukta kolelitiazis ve biliyer çamurun risk temelli değerlendirmesi, ultrasonografik tanı, kolesistektomi endikasyonları ve ursodeoksikolik asit (udka) kullanımına yönelik basamaklı karar aracı. kolelitiazis biliyer çamur usg udka">
+      <span class="algo-cat cat-goruntuleme">Görüntüleme</span>
+      <span class="algo-title">Safra Kesesi Taşı / Çamur</span>
+      <span class="algo-sub">Çocukta kolelitiazis ve biliyer çamurun risk temelli değerlendirmesi, ultrasonografik tanı, kolesistektomi endikasyonları ve ursodeoksikolik asit (UDKA) kullanımına yönelik basamaklı karar aracı.</span>
+    </a><a class="algo" href="pediatrik-koledok-kisti-algoritmasi.html" data-cat="goruntuleme" data-search="koledok kisti / biliyer dilatasyon konjenital biliyer dilatasyonun (koledok kisti) çocuklarda tanısı, malignite riskinin değerlendirilmesi ve total kist eksizyonu + roux-en-y hepatikojejunostomi ile kesin yönetimine yönelik klinik karar aracı. biliyer dilatasyon todani sınıflaması malignite riski hepatikojejunostomi">
+      <span class="algo-cat cat-goruntuleme">Görüntüleme</span>
+      <span class="algo-title">Koledok Kisti / Biliyer Dilatasyon</span>
+      <span class="algo-sub">Konjenital biliyer dilatasyonun (koledok kisti) çocuklarda tanısı, malignite riskinin değerlendirilmesi ve total kist eksizyonu + Roux-en-Y hepatikojejunostomi ile kesin yönetimine yönelik klinik karar aracı.</span>
+    </a><a class="algo" href="pediatrik-portal-hipertansiyon-algoritmasi.html" data-cat="goruntuleme" data-search="portal ven trombozu / portal hipertansiyon çocuklarda prehepatik (ehpvo) ve intrahepatik portal hipertansiyonun ayrımı, varis izlemi, akut varis kanamasının yönetimi ve meso-rex baypasa dek uzanan basamaklı bir karar aracı. ehpvo varis kanaması endoskopik i̇zlem meso-rex">
+      <span class="algo-cat cat-goruntuleme">Görüntüleme</span>
+      <span class="algo-title">Portal Ven Trombozu / Portal Hipertansiyon</span>
+      <span class="algo-sub">Çocuklarda prehepatik (EHPVO) ve intrahepatik portal hipertansiyonun ayrımı, varis izlemi, akut varis kanamasının yönetimi ve Meso-Rex baypasa dek uzanan basamaklı bir karar aracı.</span>
+    </a><a class="algo" href="pediatrik-barsak-duvari-kalinlasmasi-algoritmasi.html" data-cat="goruntuleme" data-search="bağırsak duvarı kalınlaşması görüntülemede saptanan bağırsak duvarı kalınlaşmasının (&gt;3 mm ince bağırsak, &gt;4 mm kolon; distandü segmentte) yorumlanması, ayırıcı tanısı ve doza dayalı yönetimi için basamaklı karar aracı. ibd enfeksiyöz kolit hsp / vaskülit nötropenik tiflit">
+      <span class="algo-cat cat-goruntuleme">Görüntüleme</span>
+      <span class="algo-title">Bağırsak Duvarı Kalınlaşması</span>
+      <span class="algo-sub">Görüntülemede saptanan bağırsak duvarı kalınlaşmasının (&gt;3 mm ince bağırsak, &gt;4 mm kolon; distandü segmentte) yorumlanması, ayırıcı tanısı ve doza dayalı yönetimi için basamaklı karar aracı.</span>
+    </a><a class="algo" href="pediatrik-intususepsiyon-algoritmasi.html" data-cat="goruntuleme" data-search="i̇ntususepsiyon bebeklik döneminde en sık akut karın ve intestinal obstrüksiyon nedenlerinden biri olan invajinasyonun tanı, redüksiyon endikasyon/kontrendikasyonları ve patolojik başlangıç noktası yönetimi için basamaklı karar aracı. klasik triad usg hedef bulgusu redüksiyon patolojik lead point">
+      <span class="algo-cat cat-goruntuleme">Görüntüleme</span>
+      <span class="algo-title">İntususepsiyon</span>
+      <span class="algo-sub">Bebeklik döneminde en sık akut karın ve intestinal obstrüksiyon nedenlerinden biri olan invajinasyonun tanı, redüksiyon endikasyon/kontrendikasyonları ve patolojik başlangıç noktası yönetimi için basamaklı karar aracı.</span>
+    </a><a class="algo" href="pediatrik-malrotasyon-volvulus-algoritmasi.html" data-cat="goruntuleme" data-search="malrotasyon ve volvulus bilöz kusma ve akut karın bulgusu olan bebekte orta-barsak volvulusunu dışlamaya yönelik ivedi tanısal-cerrahi algoritma; whirlpool bulgusundan ladd prosedürüne. bilöz kusma whirlpool bulgusu ladd prosedürü cerrahi acil">
+      <span class="algo-cat cat-goruntuleme">Görüntüleme</span>
+      <span class="algo-title">Malrotasyon ve Volvulus</span>
+      <span class="algo-sub">Bilöz kusma ve akut karın bulgusu olan bebekte orta-barsak volvulusunu dışlamaya yönelik ivedi tanısal-cerrahi algoritma; whirlpool bulgusundan Ladd prosedürüne.</span>
+    </a><a class="algo" href="pediatrik-pilor-stenozu-algoritmasi.html" data-cat="goruntuleme" data-search="hipertrofik pilor stenozu pilor kas tabakasının hipertrofisine bağlı gastrik çıkış obstrüksiyonu; tipik olarak 2-8 haftalık infantta safrasız fışkırır tarzda kusma ile başvurur. usg ile tanı, sıvı-elektrolit düzeltmesi ve piloromiyotomi ekseninde yönetilir. i̇nfant usg tanısı hipokloremik alkaloz piloromiyotomi">
+      <span class="algo-cat cat-goruntuleme">Görüntüleme</span>
+      <span class="algo-title">Hipertrofik Pilor Stenozu</span>
+      <span class="algo-sub">Pilor kas tabakasının hipertrofisine bağlı gastrik çıkış obstrüksiyonu; tipik olarak 2-8 haftalık infantta safrasız fışkırır tarzda kusma ile başvurur. USG ile tanı, sıvı-elektrolit düzeltmesi ve piloromiyotomi ekseninde yönetilir.</span>
+    </a><a class="algo" href="pediatrik-apandisit-algoritmasi.html" data-cat="goruntuleme" data-search="apandisit çocukta akut karın ağrısında apandisit ön tanısı için skorlama, görüntüleme ve tedavi kararlarını basamaklandıran hızlı başvuru aracı. basit ve komplike apandisit ayrımı üzerine kuruludur. akut karın alvarado / pas usg / bt basit vs komplike">
+      <span class="algo-cat cat-goruntuleme">Görüntüleme</span>
+      <span class="algo-title">Apandisit</span>
+      <span class="algo-sub">Çocukta akut karın ağrısında apandisit ön tanısı için skorlama, görüntüleme ve tedavi kararlarını basamaklandıran hızlı başvuru aracı. Basit ve komplike apandisit ayrımı üzerine kuruludur.</span>
+    </a><a class="algo" href="pediatrik-ozofagus-varisi-algoritmasi.html" data-cat="goruntuleme" data-search="özofagus varisi portal hipertansiyonlu çocukta özofagus varislerinin endoskopik taranması, primer/sekonder profilaksisi ve akut varis kanamasının basamaklı yönetimi için karar aracı. portal hipertansiyon endoskopik bant ligasyonu nsbb akut varis kanaması">
+      <span class="algo-cat cat-goruntuleme">Görüntüleme</span>
+      <span class="algo-title">Özofagus Varisi</span>
+      <span class="algo-sub">Portal hipertansiyonlu çocukta özofagus varislerinin endoskopik taranması, primer/sekonder profilaksisi ve akut varis kanamasının basamaklı yönetimi için karar aracı.</span>
+    </a><a class="algo" href="pediatrik-eozinofilik-ozofajit-algoritmasi.html" data-cat="goruntuleme" data-search="eozinofilik özofajit kronik, immün/antijen aracılı özofagus hastalığında tanı doğrulama, ppi ve topikal steroidin dozlu kullanımı, eliminasyon diyeti ve dilatasyon kararlarını kapsayan basamaklı karar aracı. disfaji · i̇mpaksiyon özofagus ≥15 eoz/bba ppi · topikal steroid eliminasyon diyeti">
+      <span class="algo-cat cat-goruntuleme">Görüntüleme</span>
+      <span class="algo-title">Eozinofilik Özofajit</span>
+      <span class="algo-sub">Kronik, immün/antijen aracılı özofagus hastalığında tanı doğrulama, PPI ve topikal steroidin dozlu kullanımı, eliminasyon diyeti ve dilatasyon kararlarını kapsayan basamaklı karar aracı.</span>
+    </a><a class="algo" href="pediatrik-gastrit-ulser-hp-algoritmasi.html" data-cat="goruntuleme" data-search="gastrit, peptik ülser ve h. pylori çocuk ve ergende üst gastrointestinal semptomlarda endoskopik tanı, h. pylori eradikasyonu, nsai̇i̇ ilişkili ülser ve izlemin dozlu, kanıta dayalı karar çerçevesi. endoskopik tanı h. pylori eradikasyonu nsai̇i̇ ülser ppi dozları">
+      <span class="algo-cat cat-goruntuleme">Görüntüleme</span>
+      <span class="algo-title">Gastrit, Peptik Ülser ve H. pylori</span>
+      <span class="algo-sub">Çocuk ve ergende üst gastrointestinal semptomlarda endoskopik tanı, H. pylori eradikasyonu, NSAİİ ilişkili ülser ve izlemin dozlu, kanıta dayalı karar çerçevesi.</span>
+    </a><a class="algo" href="pediatrik-kolon-polip-algoritmasi.html" data-cat="goruntuleme" data-search="kolon polibi ve polipozis çocukta rektal kanama ve polipoid lezyonların değerlendirilmesi: soliter juvenil polipten kalıtsal polipozis sendromlarına tanı, polipektomi, genetik ve sürveyans yönetimi. juvenil polip jps / fap peutz-jeghers sürveyans &amp;amp; genetik">
+      <span class="algo-cat cat-goruntuleme">Görüntüleme</span>
+      <span class="algo-title">Kolon Polibi ve Polipozis</span>
+      <span class="algo-sub">Çocukta rektal kanama ve polipoid lezyonların değerlendirilmesi: soliter juvenil polipten kalıtsal polipozis sendromlarına tanı, polipektomi, genetik ve sürveyans yönetimi.</span>
+    </a><a class="algo" href="pediatrik-yenidogan-kolestazi-algoritmasi.html" data-cat="hastalik" data-search="yenidoğan kolestazı ve uzamış sarılık — değerlendirme algoritması direkt (konjuge) hiperbilirubinemi hiçbir zaman fizyolojik değildir. amaç, tedavi edilebilir nedenleri ve özellikle biliyer atreziyi zaman kaybetmeden tanımaktır. direkt bilirubin &amp;gt; 1.0 mg/dl ≥ 2 hafta uzamış sarılık biliyer atrezi aciliyeti espghan / naspghan 2017">
+      <span class="algo-cat cat-hastalik">Hastalık</span>
+      <span class="algo-title">Yenidoğan Kolestazı ve Uzamış Sarılık — Değerlendirme Algoritması</span>
+      <span class="algo-sub">Direkt (konjuge) hiperbilirubinemi hiçbir zaman fizyolojik değildir. Amaç, tedavi edilebilir nedenleri ve özellikle biliyer atreziyi zaman kaybetmeden tanımaktır.</span>
+    </a><a class="algo" href="pediatrik-ulseratif-kolit-algoritmasi.html" data-cat="hastalik" data-search="çocuklarda ülseratif kolit — tanı ve tedavi algoritması porto ölçütleriyle tanı, pucai ile şiddet sınıflaması ve ecco/espghan temelli basamaklı tıbbi tedavi; akut ağır kolitin ivedi yönetimi vurgulanır. porto ölçütleri pucai şiddet skoru ecco / espghan 2018 i̇nflamatuar bağırsak hastalığı">
+      <span class="algo-cat cat-hastalik">Hastalık</span>
+      <span class="algo-title">Çocuklarda Ülseratif Kolit — Tanı ve Tedavi Algoritması</span>
+      <span class="algo-sub">Porto ölçütleriyle tanı, PUCAI ile şiddet sınıflaması ve ECCO/ESPGHAN temelli basamaklı tıbbi tedavi; akut ağır kolitin ivedi yönetimi vurgulanır.</span>
+    </a><a class="algo" href="pediatrik-masld-algoritmasi.html" data-cat="hastalik" data-search="çocuklarda masld — tanı, tedavi ve i̇zlem algoritması metabolik disfonksiyonla ilişkili steatotik karaciğer hastalığı (eski adıyla nafld): obez/kilolu çocukta alt ile tarama, dışlama temelli tanı, fibrozis değerlendirmesi ve yaşam tarzı öncelikli yönetim. masld (eski nafld) naspghan 2017 tarama kardiyometabolik risk fibrozis odaklı izlem">
+      <span class="algo-cat cat-hastalik">Hastalık</span>
+      <span class="algo-title">Çocuklarda MASLD — Tanı, Tedavi ve İzlem Algoritması</span>
+      <span class="algo-sub">Metabolik disfonksiyonla ilişkili steatotik karaciğer hastalığı (eski adıyla NAFLD): obez/kilolu çocukta ALT ile tarama, dışlama temelli tanı, fibrozis değerlendirmesi ve yaşam tarzı öncelikli yönetim.</span>
+    </a><a class="algo" href="pediatrik-crohn-algoritmasi.html" data-cat="hastalik" data-search="crohn hastalığı çocuk ve ergende crohn hastalığının tanısı, remisyon indüksiyonu, idame tedavisi ve dozla desteklenmiş izlem ilkeleri. güncel espghan/ecco ve porto kriterlerine dayanır. een indüksiyon anti-tnf kalprotektin izlemi perianal hastalık">
+      <span class="algo-cat cat-hastalik">Hastalık</span>
+      <span class="algo-title">Crohn Hastalığı</span>
+      <span class="algo-sub">Çocuk ve ergende Crohn hastalığının tanısı, remisyon indüksiyonu, idame tedavisi ve dozla desteklenmiş izlem ilkeleri. Güncel ESPGHAN/ECCO ve porto kriterlerine dayanır.</span>
+    </a><a class="algo" href="pediatrik-colyak-hastaligi-algoritmasi.html" data-cat="hastalik" data-search="çölyak hastalığı genetik yatkın çocukta glutene bağlı immün-aracılı enteropatinin serolojik, biyopsisiz/biyopsili tanısı, glutensiz diyetle tedavisi ve yaşam boyu izlemi için basamaklı karar aracı. seroloji: anti-ttg iga biyopsisiz tanı glutensiz diyet hla-dq2/dq8">
+      <span class="algo-cat cat-hastalik">Hastalık</span>
+      <span class="algo-title">Çölyak Hastalığı</span>
+      <span class="algo-sub">Genetik yatkın çocukta glutene bağlı immün-aracılı enteropatinin serolojik, biyopsisiz/biyopsili tanısı, glutensiz diyetle tedavisi ve yaşam boyu izlemi için basamaklı karar aracı.</span>
+    </a><a class="algo" href="pediatrik-inek-sutu-alerjisi-algoritmasi.html" data-cat="hastalik" data-search="i̇nek sütü protein alerjisi ve fpies ige aracılı ve non-ige aracılı inek sütü protein alerjisi (i̇spa) ile besin proteini ilişkili enterokolit sendromunun (fpies) tanısı, eliminasyon-provokasyon temelli yönetimi ve akut atak protokolü. i̇spa fpies eliminasyon-provokasyon tolerans i̇zlemi">
+      <span class="algo-cat cat-hastalik">Hastalık</span>
+      <span class="algo-title">İnek Sütü Protein Alerjisi ve FPIES</span>
+      <span class="algo-sub">IgE aracılı ve non-IgE aracılı inek sütü protein alerjisi (İSPA) ile besin proteini ilişkili enterokolit sendromunun (FPIES) tanısı, eliminasyon-provokasyon temelli yönetimi ve akut atak protokolü.</span>
+    </a><a class="algo" href="pediatrik-otoimmun-hepatit-algoritmasi.html" data-cat="hastalik" data-search="otoimmün hepatit çocukluk çağı otoimmün hepatitinde otoantikor/igg temelli tanı, mrcp ile asc dışlaması ve dozlu immünsupresyon protokolü. tanı, tedavi ve remisyon izlemi için pratik karar aracı. otoantikor + igg prednizolon + azatiyoprin mrcp / asc biyopsi">
+      <span class="algo-cat cat-hastalik">Hastalık</span>
+      <span class="algo-title">Otoimmün Hepatit</span>
+      <span class="algo-sub">Çocukluk çağı otoimmün hepatitinde otoantikor/IgG temelli tanı, MRCP ile ASC dışlaması ve dozlu immünsupresyon protokolü. Tanı, tedavi ve remisyon izlemi için pratik karar aracı.</span>
+    </a><a class="algo" href="pediatrik-wilson-algoritmasi.html" data-cat="hastalik" data-search="wilson hastalığı otozomal resesif atp7b mutasyonuna bağlı bakır birikim hastalığında tanı, leipzig skorlaması ve dozlu şelasyon/çinko tedavisinin pratik algoritması. atp7b seruloplazmin leipzig skoru şelasyon">
+      <span class="algo-cat cat-hastalik">Hastalık</span>
+      <span class="algo-title">Wilson Hastalığı</span>
+      <span class="algo-sub">Otozomal resesif ATP7B mutasyonuna bağlı bakır birikim hastalığında tanı, Leipzig skorlaması ve dozlu şelasyon/çinko tedavisinin pratik algoritması.</span>
+    </a><a class="algo" href="pediatrik-alagille-pfic-algoritmasi.html" data-cat="hastalik" data-search="alagille, pfic ve safra asidi bozuklukları kronik kolestazlı çocukta tanısal ayrım, genetik doğrulama, kaşıntı ve ibat inhibitörü yönetimi, yağda eriyen vitamin/beslenme desteği ve nakil zamanlaması için basamaklı karar çerçevesi. kronik kolestaz kaşıntı yönetimi ibat inhibitörü genetik tanı">
+      <span class="algo-cat cat-hastalik">Hastalık</span>
+      <span class="algo-title">Alagille, PFIC ve Safra Asidi Bozuklukları</span>
+      <span class="algo-sub">Kronik kolestazlı çocukta tanısal ayrım, genetik doğrulama, kaşıntı ve IBAT inhibitörü yönetimi, yağda eriyen vitamin/beslenme desteği ve nakil zamanlaması için basamaklı karar çerçevesi.</span>
+    </a><a class="algo" href="pediatrik-palf-algoritmasi.html" data-cat="hastalik" data-search="akut karaciğer yetmezliği (palf) bilinen kronik karaciğer hastalığı olmayan çocukta, sarılık gerekmeden gelişen koagülopati ve hepatik ensefalopatiye dayalı hızlı tanı, etiyoloji odaklı tedavi ve nakil kararı algoritması. palf nac koagülopati nakil kriteri">
+      <span class="algo-cat cat-hastalik">Hastalık</span>
+      <span class="algo-title">Akut Karaciğer Yetmezliği (PALF)</span>
+      <span class="algo-sub">Bilinen kronik karaciğer hastalığı olmayan çocukta, sarılık gerekmeden gelişen koagülopati ve hepatik ensefalopatiye dayalı hızlı tanı, etiyoloji odaklı tedavi ve nakil kararı algoritması.</span>
+    </a><a class="algo" href="pediatrik-kronik-kc-siroz-algoritmasi.html" data-cat="hastalik" data-search="kronik karaciğer hastalığı ve siroz çocukta kronik karaciğer hastalığı ve sirozun komplikasyonlarına (portal hipertansiyon, asit, ensefalopati) yönelik dozlu tedavi, beslenme desteği, hcc sürveyansı ve nakil değerlendirmesini kapsayan basamaklı karar aracı. portal ht asit &amp;amp; he beslenme nakil">
+      <span class="algo-cat cat-hastalik">Hastalık</span>
+      <span class="algo-title">Kronik Karaciğer Hastalığı ve Siroz</span>
+      <span class="algo-sub">Çocukta kronik karaciğer hastalığı ve sirozun komplikasyonlarına (portal hipertansiyon, asit, ensefalopati) yönelik dozlu tedavi, beslenme desteği, HCC sürveyansı ve nakil değerlendirmesini kapsayan basamaklı karar aracı.</span>
+    </a><a class="algo" href="pediatrik-pankreatit-algoritmasi.html" data-cat="hastalik" data-search="akut ve rekürren/kronik pankreatit çocuklarda akut pankreatit (ap), akut rekürren pankreatit (arp) ve kronik pankreatitin (kp) tanı ölçütleri, erken agresif sıvı-beslenme yönetimi, etiyoloji araştırması ve uzun dönem izlem ilkeleri. akut pankreatit erken enteral beslenme etiyoloji taraması kronik izlem">
+      <span class="algo-cat cat-hastalik">Hastalık</span>
+      <span class="algo-title">Akut ve Rekürren/Kronik Pankreatit</span>
+      <span class="algo-sub">Çocuklarda akut pankreatit (AP), akut rekürren pankreatit (ARP) ve kronik pankreatitin (KP) tanı ölçütleri, erken agresif sıvı-beslenme yönetimi, etiyoloji araştırması ve uzun dönem izlem ilkeleri.</span>
+    </a><a class="algo" href="pediatrik-kistik-fibrozis-gis-algoritmasi.html" data-cat="hastalik" data-search="kistik fibrozis — gi̇s/pankreas kistik fibroziste pankreatik yetmezlik, yağda eriyen vitamin eksikliği, distal intestinal obstrüksiyon sendromu (di̇os) ve kf ilişkili karaciğer hastalığının tanı ve dozlu yönetimi. çocuk gastroenteroloji uzmanı için karar odaklı başvuru. pert / enzim yağda eriyen vitamin di̇os cfld">
+      <span class="algo-cat cat-hastalik">Hastalık</span>
+      <span class="algo-title">Kistik Fibrozis — GİS/Pankreas</span>
+      <span class="algo-sub">Kistik fibroziste pankreatik yetmezlik, yağda eriyen vitamin eksikliği, distal intestinal obstrüksiyon sendromu (DİOS) ve KF ilişkili karaciğer hastalığının tanı ve dozlu yönetimi. Çocuk gastroenteroloji uzmanı için karar odaklı başvuru.</span>
+    </a><a class="algo" href="pediatrik-kisa-barsak-sendromu-algoritmasi.html" data-cat="hastalik" data-search="kısa bağırsak sendromu / i̇ntestinal yetmezlik rezeksiyon sonrası malabsorptif intestinal yetmezliği olan çocukta enteral ilerleme, parenteral beslenme (pn) yönetimi, ifald önleme ve teduglutid kullanımını basamaklandıran multidisipliner karar aracı. enteral ilerleme pn / ifald teduglutid i̇ntestinal rehabilitasyon">
+      <span class="algo-cat cat-hastalik">Hastalık</span>
+      <span class="algo-title">Kısa Bağırsak Sendromu / İntestinal Yetmezlik</span>
+      <span class="algo-sub">Rezeksiyon sonrası malabsorptif intestinal yetmezliği olan çocukta enteral ilerleme, parenteral beslenme (PN) yönetimi, IFALD önleme ve teduglutid kullanımını basamaklandıran multidisipliner karar aracı.</span>
+    </a><a class="algo" href="pediatrik-hirschsprung-algoritmasi.html" data-cat="hastalik" data-search="hirschsprung hastalığı distal kolonda gangliyon hücrelerinin konjenital yokluğuna bağlı fonksiyonel obstrüksiyon; erken tanı ve enterokolit öngörüsü prognozu belirler. bu belge tanı doğrulama, cerrahi zamanlama ve haec yönetimi için basamaklı karar desteği sunar. aganglionoz rektal biyopsi haec pull-through">
+      <span class="algo-cat cat-hastalik">Hastalık</span>
+      <span class="algo-title">Hirschsprung Hastalığı</span>
+      <span class="algo-sub">Distal kolonda gangliyon hücrelerinin konjenital yokluğuna bağlı fonksiyonel obstrüksiyon; erken tanı ve enterokolit öngörüsü prognozu belirler. Bu belge tanı doğrulama, cerrahi zamanlama ve HAEC yönetimi için basamaklı karar desteği sunar.</span>
+    </a><a class="algo" href="pediatrik-konjenital-ishal-algoritmasi.html" data-cat="hastalik" data-search="konjenital i̇shaller yaşamın ilk günlerinde başlayan, sıklıkla ağır dehidratasyon ve elektrolit bozukluğu ile seyreden kalıtsal ishallerin tanısal ayrımı ve yönetimi. dışkı ozmotik aralığı ve genetik doğrulama merkezli bir yaklaşım. sekretuar vs ozmotik dışkı elektrolit/ozmotik aralık genetik tanı enteral/parenteral nutrisyon">
+      <span class="algo-cat cat-hastalik">Hastalık</span>
+      <span class="algo-title">Konjenital İshaller</span>
+      <span class="algo-sub">Yaşamın ilk günlerinde başlayan, sıklıkla ağır dehidratasyon ve elektrolit bozukluğu ile seyreden kalıtsal ishallerin tanısal ayrımı ve yönetimi. Dışkı ozmotik aralığı ve genetik doğrulama merkezli bir yaklaşım.</span>
+    </a><a class="algo" href="pediatrik-intestinal-lenfanjiektazi-algoritmasi.html" data-cat="hastalik" data-search="i̇ntestinal lenfanjiektazi i̇nce bağırsak lenfatiklerinin dilatasyonu ile lenfin lümene kaçtığı, protein kaybettiren enteropatinin başlıca çocukluk çağı nedenlerinden biridir. bu araç tanı, doğrulama ve diyet temelli tedavinin basamaklı yönetimini özetler. protein kaybettiren enteropati fekal a1at mct diyeti lenfopeni">
+      <span class="algo-cat cat-hastalik">Hastalık</span>
+      <span class="algo-title">İntestinal Lenfanjiektazi</span>
+      <span class="algo-sub">İnce bağırsak lenfatiklerinin dilatasyonu ile lenfin lümene kaçtığı, protein kaybettiren enteropatinin başlıca çocukluk çağı nedenlerinden biridir. Bu araç tanı, doğrulama ve diyet temelli tedavinin basamaklı yönetimini özetler.</span>
+    </a><a class="algo" href="pediatrik-ilac-hepatotoksisite-algoritmasi.html" data-cat="hastalik" data-search="i̇laç/toksik hepatotoksisite çocukta ilaca bağlı karaciğer hasarında hızlı sınıflama, asetaminofen nomogramına dayalı n-asetilsistein (nac) tedavisi, idiyosinkratik dili&#x27;de nedensellik değerlendirmesi ve akut karaciğer yetmezliği için erken triyaj. asetaminofen / nac i̇diyosinkratik dili akut kc yetmezliği rucam / r-oranı">
+      <span class="algo-cat cat-hastalik">Hastalık</span>
+      <span class="algo-title">İlaç/Toksik Hepatotoksisite</span>
+      <span class="algo-sub">Çocukta ilaca bağlı karaciğer hasarında hızlı sınıflama, asetaminofen nomogramına dayalı N-asetilsistein (NAC) tedavisi, idiyosinkratik DILI&#x27;de nedensellik değerlendirmesi ve akut karaciğer yetmezliği için erken triyaj.</span>
+    </a><a class="algo" href="pediatrik-ifald-algoritmasi.html" data-cat="hastalik" data-search="ifald (i̇ntestinal yetmezlik i̇lişkili kc hastalığı) uzun süreli parenteral beslenme (pn) alan intestinal yetmezlikli çocukta kolestaz/steatohepatit gelişiminin erken tanınması, lipid stratejisi, sepsis önleme ve enteral ilerleme ile geri döndürülmesine yönelik yapılandırılmış karar aracı. lipid yönetimi smof / balık yağı sepsis önleme (clabsi) enteral ilerleme">
+      <span class="algo-cat cat-hastalik">Hastalık</span>
+      <span class="algo-title">IFALD (İntestinal Yetmezlik İlişkili KC Hastalığı)</span>
+      <span class="algo-sub">Uzun süreli parenteral beslenme (PN) alan intestinal yetmezlikli çocukta kolestaz/steatohepatit gelişiminin erken tanınması, lipid stratejisi, sepsis önleme ve enteral ilerleme ile geri döndürülmesine yönelik yapılandırılmış karar aracı.</span>
+    </a><a class="algo" href="pediatrik-sibo-algoritmasi.html" data-cat="hastalik" data-search="i̇nce bağırsak bakteriyel aşırı çoğalması (sibo) dismotilite ve anatomik risk zemininde sibo&#x27;nun tanınması, nefes testiyle doğrulanması, hedefe yönelik antibiyotik döngüsü ve altta yatan nedenin yönetimine dair basamaklı karar aracı. dismotilite nefes testi antibiyotik döngüsü kısa barsak">
+      <span class="algo-cat cat-hastalik">Hastalık</span>
+      <span class="algo-title">İnce Bağırsak Bakteriyel Aşırı Çoğalması (SIBO)</span>
+      <span class="algo-sub">Dismotilite ve anatomik risk zemininde SIBO&#x27;nun tanınması, nefes testiyle doğrulanması, hedefe yönelik antibiyotik döngüsü ve altta yatan nedenin yönetimine dair basamaklı karar aracı.</span>
+    </a><a class="algo" href="pediatrik-laktoz-malabsorpsiyon-algoritmasi.html" data-cat="hastalik" data-search="laktoz / karbonhidrat malabsorpsiyonu çocuklarda laktoz ve diğer karbonhidratların malabsorpsiyonuna yaklaşım; nefes testi ve diyet denemesi ile tanı, laktaz ve diyet ile yönetim, altta yatan sekonder nedenin saptanıp tedavi edilmesi. laktoz intoleransı h2 nefes testi sekonder vs primer diyet + laktaz">
+      <span class="algo-cat cat-hastalik">Hastalık</span>
+      <span class="algo-title">Laktoz / Karbonhidrat Malabsorpsiyonu</span>
+      <span class="algo-sub">Çocuklarda laktoz ve diğer karbonhidratların malabsorpsiyonuna yaklaşım; nefes testi ve diyet denemesi ile tanı, laktaz ve diyet ile yönetim, altta yatan sekonder nedenin saptanıp tedavi edilmesi.</span>
+    </a><a class="algo" href="pediatrik-akalazya-algoritmasi.html" data-cat="hastalik" data-search="akalazya ve özofagus motilite bozuklukları çocukta ilerleyici disfaji, regurjitasyon ve kilo kaybında akalazyanın tanınması; baryum, yüksek çözünürlüklü manometri (hrm) ve pnömatik dilatasyon/poem/heller basamaklı yönetimi. akalazya hrm · chicago 4.0 disfaji poem/heller">
+      <span class="algo-cat cat-hastalik">Hastalık</span>
+      <span class="algo-title">Akalazya ve Özofagus Motilite Bozuklukları</span>
+      <span class="algo-sub">Çocukta ilerleyici disfaji, regurjitasyon ve kilo kaybında akalazyanın tanınması; baryum, yüksek çözünürlüklü manometri (HRM) ve pnömatik dilatasyon/POEM/Heller basamaklı yönetimi.</span>
+    </a>
+  </div>
+  <div class="empty" id="empty">Eşleşen algoritma yok — farklı bir kelime deneyin.</div>
+  <footer>
+    Tümü tek PDF: <a href="pediatrik-gastroenteroloji-algoritma-kitapcigi.pdf">algoritma kitaplığı (993 s.)</a> ·
+    Başvuru nedenleri yol haritası: <a href="pediatrik-gis-algoritma-yol-haritasi.html">dizin</a>.
+    Eğitim ve hızlı başvuru amaçlıdır; güncel kılavuz ve yerel protokollerin yerine geçmez.
+  </footer>
+</div>
+<script>
+  const grid=document.getElementById('grid'), q=document.getElementById('q'),
+        chips=document.getElementById('chips'), count=document.getElementById('count'),
+        empty=document.getElementById('empty'), cards=[...grid.children];
+  let filter='all';
+  function norm(s){return s.toLowerCase()
+    .replace(/ç/g,'c').replace(/ğ/g,'g').replace(/ı/g,'i').replace(/ö/g,'o').replace(/ş/g,'s').replace(/ü/g,'u');}
+  function apply(){
+    const term=norm(q.value.trim()); let n=0;
+    cards.forEach(c=>{
+      const okCat=filter==='all'||c.dataset.cat===filter;
+      const okTerm=!term||norm(c.dataset.search).includes(term);
+      const show=okCat&&okTerm; c.style.display=show?'':'none'; if(show)n++;
+    });
+    count.textContent=n+' algoritma'+(term||filter!=='all'?' (filtreli)':'');
+    empty.style.display=n?'none':'block';
+  }
+  q.addEventListener('input',apply);
+  chips.addEventListener('click',e=>{
+    const b=e.target.closest('.chip'); if(!b)return;
+    filter=b.dataset.filter;
+    [...chips.children].forEach(x=>x.classList.toggle('active',x===b));
+    apply();
+  });
+  chips.firstElementChild.classList.add('active');
+  apply();
+</script>
+</body>
+</html>
