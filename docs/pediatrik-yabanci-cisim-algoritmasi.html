@@ -1,0 +1,579 @@
+<title>Yabancı Cisim Yutma — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Yabancı Cisim Yutma</h1>
+    <p class="sub">Yutulan yabancı cismin türü ve lokalizasyonuna göre risk katmanlaması; düğme pil ve çoklu mıknatısta acil endoskopi, keskin/uzun cisimlerde zamanlama, künt cisimlerde izlem vs çıkarma kararı. İki düzlemli grafi temelli, dozlu mitigasyon ve komplikasyon izlemi.</p>
+    <div class="meta">
+      <span class="tag">Düğme pil — ESPGHAN/NASPGHAN</span>
+      <span class="tag">Mıknatıs acil endoskopi</span>
+      <span class="tag">Lokalizasyon — iki düzlemli grafi</span>
+      <span class="tag">İzlem vs çıkarma</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">Yabancı cisim yutma, çoğunlukla 6 ay–4 yaş arası çocukta görülen sık bir acildir; yutulan cisimlerin yaklaşık %80-90'ı komplikasyonsuz spontan geçer, %10-20'si endoskopik çıkarma, ~%1'i cerrahi gerektirir. İlk ve en kritik adım, "yüksek riskli" cismi (düğme pil, çoklu mıknatıs veya mıknatıs+metal, keskin/sivri cisim, uzun cisim, süperabsorban boncuk) hemen tanıyıp acil müdahaleyi gerektiren senaryoyu ayırmaktır. Karar; cismin türü, boyutu, sayısı, lokalizasyonu (özofagus/mide/ötesi) ve semptom varlığına dayanır.</p>
+    <div class="pill-row">
+      <span class="pill">Özofagus düğme pili = 2 saat içinde çıkar</span>
+      <span class="pill">Çoklu mıknatıs = acil</span>
+      <span class="pill">Keskin cisim özofagus/mide = acil</span>
+      <span class="pill">Künt-asemptomatik mide = izlem</span>
+      <span class="pill">Kusturma/körlemesine bujinaj YOK</span>
+    </div>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öykü</h3>
+        <ul class="clean">
+          <li>Ne yutuldu, kaç adet, boyut: pil çapı (≥20 mm CR2032 tipi lityum hücre yüksek risk), mıknatıs sayısı ve ek metal cisim, cismin uzunluğu ve keskinliği.</li>
+          <li>Yutma zamanı: özofagus düğme pilinde doku hasarı 2 saatte başlar; bal mitigasyonu için "son 12 saat" penceresi belirleyicidir.</li>
+          <li>Semptomlar: disfaji, odinofaji, salya yutamama/aşırı salivasyon, retrosternal ağrı, kusma, hematemez, karın ağrısı, ateş — mukozal hasar/perforasyon ipuçları.</li>
+          <li>Solunum bulguları: öksürük, stridor, hışıltı, boğulma hissi (hava yolu basısı veya aspirasyon).</li>
+          <li>Tanıksız yutma olasılığı, tekrarlayan yabancı cisim öyküsü, altta yatan özofagus patolojisi (EoE, striktür, ÖA onarımı, akalazya) ve nörogelişimsel durum.</li>
+          <li>Süperabsorban su boncuğu/oyuncak: başlangıçta küçük olup GİS'te genişleyerek obstrüksiyon yapabilir, radyolüsendir.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayene</h3>
+        <ul class="clean">
+          <li>Genel durum, hava yolu ve solunum güvenliği; stridor/retraksiyon acil hava yolu değerlendirmesi gerektirir.</li>
+          <li>Salya birikimi, salgıyı yutamama ve öğürme — tam/proksimal özofagus obstrüksiyonu işareti.</li>
+          <li>Boyun/göğüs: subkutan amfizem, boyun hassasiyeti, krepitasyon (perforasyon).</li>
+          <li>Karın muayenesi: distansiyon, hassasiyet, defans/rebound, barsak sesleri — mıknatıs ilişkili obstrüksiyon/perforasyon/peritonit taraması.</li>
+          <li>Orofarinks: cismin ağız/farinkste kalıp kalmadığı, mukozal yaralanma, kanama.</li>
+          <li>Ateş ve hemodinami: geç perforasyon/mediastinit veya aortoözofageal fistül açısından uyanık ol.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">Anahtar ilke: Özofagusta yerleşmiş bir düğme pil, semptom olsun olmasın ve son öğün zamanından bağımsız olarak 2 saat içinde çıkarılmalıdır; gecikme sıvılaşma nekrozu, perforasyon, trakeoözofageal veya aortoözofageal fistülle sonuçlanabilir. Kusturma ve körlemesine bujinaj/Foley kontrendikedir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Cisim kategorileri ve mekanizma</h2>
+    <p class="lede">Yönetim, yutulan cismin sınıfına göre değişir. Aşağıdaki altı kategori hem hasar mekanizmasını hem de aciliyet düzeyini belirler: düğme pil (elektrokimyasal hidroliz), mıknatıslar (bası nekrozu/fistül), keskin cisimler (perforasyon), künt cisimler (obstrüksiyon), uzun cisimler ve süperabsorbanlar, gıda bolusu (altta yatan özofagus hastalığı).</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">Düğme pil (button/coin cell)</div>
+        <ul>
+          <li>Mukozal temas noktasında lokal akım → hidroksil üretimi, alkali sıvılaşma nekrozu; hasar 2 saatte başlar.</li>
+          <li>Özofagusta = mutlak acil (çıkar &lt;2 saat). ≥20 mm lityum hücre &lt;5 yaş çocukta özofagusa takılmaya çok yatkın.</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">Mıknatıslar (özellikle neodmiyum)</div>
+        <ul>
+          <li>Tek mıknatıs + ek mıknatıs/metal yok → künt cisim gibi yönetilir.</li>
+          <li>Çoklu mıknatıs veya mıknatıs+metal: barsak duvarlarını sıkıştırıp bası nekrozu, fistül, perforasyon, obstrüksiyon, volvulus yapar → acil.</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">Keskin / sivri cisimler</div>
+        <ul>
+          <li>İğne, toplu iğne, kürdan, kılçık, cam, açılmış ataş; perforasyon riski %15-35'e ulaşır.</li>
+          <li>Özofagus, mide veya ulaşılabilir duodenumda → acil/ivedi endoskopik çıkarma.</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Künt cisimler (bozuk para, oyuncak)</div>
+        <ul>
+          <li>En sık yutulan; bozuk para tipiktir. Asemptomatik ve mideye geçmişse çoğu spontan atılır.</li>
+          <li>Özofagus bozuk parası: asemptomatikte kısa gözlem, aksi halde 24 saat içinde çıkarma.</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">Uzun cisimler ve süperabsorbanlar</div>
+        <ul>
+          <li>&gt;5 cm (süt çocuğu) / &gt;6 cm uzunluk pilor–duodenum kıvrımını geçemez → mideden çıkar.</li>
+          <li>Su boncuğu/süperabsorban polimer: GİS'te şişip obstrüksiyon yapar, radyolüsendir; küçük çocukta çıkarmaya eğilimli ol.</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">Gıda bolusu impaksiyonu</div>
+        <ul>
+          <li>Genellikle altta yatan özofagus hastalığını (EoE, striktür, halka) işaret eder.</li>
+          <li>Endoskopik çıkarmada mutlaka EoE için çok düzeyli biyopsi alınır; papain/et yumuşatıcı kullanılmaz.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout alarm">Düğme pil ve çoklu mıknatıs, "sessiz" olsalar bile en yüksek öncelikli iki senaryodur: pil elektrokimyasal yanık, mıknatıslar duvarlar arası bası nekrozu yapar. İkisinde de bekleme değil, lokalizasyon ve acil endoskopi/cerrahi planı esastır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">Akış, cismi iki düzlemli grafiyle lokalize edip önce yüksek riskli senaryoları (özofagus düğme pili, çoklu mıknatıs, özofagusta keskin cisim veya tam obstrüksiyon) dışlamak, ardından künt/asemptomatik cisimlerde izlem–çıkarma kararını vermek üzerine kurulur.</p>
+    <div class="flow">
+      <div class="node start">
+        <span class="k">Başlangıç</span>
+        <span class="t">Yabancı cisim yutma ile başvuru</span>
+        <p>Ne, kaç adet, boyut ve zaman; hava yolu ve semptom taraması. Kusturma yok, oral alım durdurulur.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node action">
+        <span class="k">Adım 1</span>
+        <span class="t">İki düzlemli grafi ile lokalizasyon</span>
+        <p>Boyun–göğüs–karın AP + lateral grafi. Pilde AP'de "çift halka/halo", lateralde "basamak (step-off)" işareti bozuk paradan ayırır; radyolüsen cisimde metal dedektör/BT düşün.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 1</span>
+        <span class="t">Düğme pil VEYA çoklu mıknatıs/mıknatıs+metal mı?</span>
+        <p>Özellikle özofagus yerleşimli pil ya da birden fazla mıknatıs saptandı mı?</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → En yüksek öncelik</span>
+          <div class="node alarm">
+            <span class="k">Alarm</span>
+            <span class="t">Acil endoskopik çıkarma</span>
+            <p>Özofagus pili &lt;2 saatte çıkar; ≥12 ay ve &lt;12 saat ise yolda/hazırlıkta bal mitigasyonu. Çoklu mıknatıs özofagus/mide/ulaşılabilir duodenumda → acil endoskopi; ulaşılamıyorsa cerrahi konsültasyon + seri grafi.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Diğer cisimler</span>
+          <div class="node action safe">
+            <span class="k">Adım 2</span>
+            <span class="t">Keskinlik ve obstrüksiyon değerlendir</span>
+            <p>Cismin keskin/sivri olup olmadığı ve tam özofagus obstrüksiyonu (salgı yutamama) sorgulanır.</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 2</span>
+        <span class="t">Özofagusta keskin cisim veya tam obstrüksiyon mu?</span>
+        <p>Keskin/sivri cisim (herhangi düzey özofagus/mide) ya da salgıyı yutamama var mı?</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Acil endoskopi</span>
+          <div class="node alarm">
+            <span class="k">Alarm</span>
+            <span class="t">İvedi terapötik endoskopi</span>
+            <p>Keskin cisim özofagus/mide/ulaşılabilir duodenumda acil çıkarılır (perforasyon riski %15-35). Tam obstrüksiyonda hava yolu korunarak acil endoskopi; gıda bolusunda EoE biyopsisi al.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Künt cisim yolu</span>
+          <div class="node action safe">
+            <span class="k">Adım 3</span>
+            <span class="t">Künt cismin düzeyini belirle</span>
+            <p>Cisim özofagusta mı, mide veya ötesinde mi; semptom var mı?</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 3</span>
+        <span class="t">Künt cisim özofagusta mı?</span>
+        <p>Bozuk para/oyuncak gibi künt cisim özofagusta takılı mı?</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → İvedi (24 saat)</span>
+          <div class="node action">
+            <span class="k">Adım 4a</span>
+            <span class="t">İzlem penceresi ± endoskopi</span>
+            <p>Asemptomatik distal bozuk parada 12-24 saat spontan geçiş için gözlem seçilebilir; semptomatikse veya geçmezse 24 saat içinde endoskopik çıkarma.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Mide/ötesi</span>
+          <div class="node action safe">
+            <span class="k">Adım 4b</span>
+            <span class="t">Yüksek riskli özellik taraması</span>
+            <p>Mide/bağırsaktaki cisimde uzunluk, çap, pil boyutu ve semptom değerlendirilir.</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 4</span>
+        <span class="t">Mide/bağırsakta yüksek riskli özellik var mı?</span>
+        <p>Uzunluk &gt;5-6 cm, çap &gt;2.5 cm, ≥20 mm pil (&lt;5 yaş) veya semptom/geçiş yokluğu var mı?</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Girişim</span>
+          <div class="node action">
+            <span class="k">Adım 5</span>
+            <span class="t">Endoskopik/cerrahi çıkarma</span>
+            <p>Uzun/geniş cisim mideden endoskopik çıkarılır. Büyük gastrik pil 48 saatte geçmezse veya semptom varsa çıkar; pilor ötesindeki keskin/mıknatısta seri grafi + cerrahi eşiği düşük.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → İzlem</span>
+          <div class="node action safe">
+            <span class="k">Sonlanım</span>
+            <span class="t">Ayaktan izlem + dışkı takibi</span>
+            <p>Asemptomatik künt mide cisminde evde gözlem; dışkıda cisim aranır, semptomda geri başvuru. Geçmezse 2-4 haftada kontrol grafi.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="callout safe">Zamanlama üçlemesi: ACİL (&lt;2 saat) — özofagus düğme pili, özofagusta keskin cisim, tam obstrüksiyon, ulaşılabilir çoklu mıknatıs. İVEDİ (&lt;24 saat) — özofagus künt cisim/gıda bolusu, mide keskin cismi, ≥6 cm uzun cisim, semptomatik/büyük gastrik pil. İZLEM — asemptomatik künt gastrik cisim.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Görüntülemenin amacı cismi tanımlamak, düğme pili bozuk paradan ayırmak ve lokalizasyonla aciliyeti belirlemektir. İki düzlemli (AP + lateral) grafi standarttır; lateral grafi pil basamak işaretini ve trakeal-özofageal ayrımı gösterir. Radyolüsen cisimlerde ek yöntemler gerekir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Yabancı cisim yutmada basamaklı tanısal yaklaşım</caption>
+        <thead>
+          <tr>
+            <th>Basamak / Test</th>
+            <th>Ne zaman</th>
+            <th>Amaç ve not</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">İki düzlemli radyografi (boyun–göğüs–karın)</td>
+            <td class="dose">AP + lateral, tüm olgular</td>
+            <td>İlk basamak. Metalik/radyoopak cismin türü, sayısı, düzeyi ve yönü belirlenir; hava/serbest hava ve subkutan amfizem taranır.</td>
+          </tr>
+          <tr>
+            <td class="step">Pil–bozuk para ayrımı (halo/step-off)</td>
+            <td class="dose">Yuvarlak metalik cisimde</td>
+            <td>AP'de çift halka/halo ve lateralde basamak (step-off) işareti düğme pili gösterir; ayrım hayat kurtarır, tereddütte pil kabul et.</td>
+          </tr>
+          <tr>
+            <td class="step">Çoklu mıknatıs sayımı</td>
+            <td>Mıknatıs şüphesi</td>
+            <td>Üst üste binmiş mıknatıslar tek kütle gibi görünebilir; farklı açı/düzlem ve seri grafi ile ayrı ayrı sayılır, ek metal aranır.</td>
+          </tr>
+          <tr>
+            <td class="step">El tipi metal dedektörü</td>
+            <td>Bilinen metalik künt cisim (bozuk para)</td>
+            <td>Radyasyonsuz lokalizasyon; asemptomatik gastrik bozuk parada tekrar grafi yerine izlemde kullanılabilir. Pil/mıknatıs ekartasyonu için grafi gerekir.</td>
+          </tr>
+          <tr>
+            <td class="step">Radyolüsen cisim değerlendirmesi</td>
+            <td>Plastik, cam, kılçık, ahşap, su boncuğu</td>
+            <td>Grafi normal ama öykü kuvvetli veya semptomatikse doğrudan endoskopi; gerekirse BT. Baryum aspirasyon/perforasyon riski ve endoskopi görüşünü bozacağından kaçınılır.</td>
+          </tr>
+          <tr>
+            <td class="step">Üst GİS endoskopisi (tanısal + terapötik)</td>
+            <td class="dose">Yüksek riskli / semptomatik / özofagus</td>
+            <td>Hem çıkarma hem mukozal hasar evrelemesi. Gıda bolusunda proksimal + distal ≥6 biyopsi ile EoE araştır.</td>
+          </tr>
+          <tr>
+            <td class="step">Seri radyografi ile geçiş takibi</td>
+            <td>Pilor ötesi keskin/mıknatıs; büyük gastrik pil</td>
+            <td>Keskin cisimde günlük; büyük gastrik pilde 48 saatte kontrol; ilerleme yoksa veya semptom varsa girişim.</td>
+          </tr>
+          <tr>
+            <td class="step">BT anjiyografi / kesitsel görüntüleme</td>
+            <td>Perforasyon/fistül şüphesi, pil sonrası ağır hasar</td>
+            <td>Mediastinit, aortoözofageal fistül şüphesinde; ağır özofagus pili hasarında damar komşuluğu değerlendirmesi ve cerrahi planlama.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">Yuvarlak metalik cisimde düğme pil ile bozuk parayı ayırmak için lateral grafi zorunludur; ayrım net değilse cisim düğme pil kabul edilip acil yönetilmelidir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdaki bulgular acil endoskopi/cerrahi ve yoğun izlem gerektirir; "spontan geçer" varsayımını geçersiz kılar.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Özofagusta düğme pili — semptom ve zamandan bağımsız 2 saat içinde çıkar.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Çoklu mıknatıs veya mıknatıs+metal cisim yutma.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Özofagusta keskin/sivri cisim veya salgıyı yutamama (tam obstrüksiyon).</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Solunum sıkıntısı, stridor, hışıltı — hava yolu basısı/aspirasyon.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Hematemez, melena veya masif kanama işareti (özellikle pil sonrası geç dönem).</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Boyun/göğüs krepitasyonu, subkutan amfizem, göğüs/sırt ağrısı (perforasyon/mediastinit).</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Karında distansiyon, defans, rebound, safralı kusma (mıknatıs ilişkili obstrüksiyon/peritonit).</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ateş, taşikardi, kötüleşen genel durum — geç komplikasyon.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Süperabsorban boncuk yutan küçük çocukta ilerleyici obstrüksiyon bulguları.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Pil çıkarıldıktan sonra bile 2-4 hafta içinde masif hematemez (aortoözofageal fistül).</span></div>
+    </div>
+    <div class="callout alarm">Kesin yasaklar: kusturma/ipeka, körlemesine bujinaj, deneyimsiz elde Foley kateter denemesi (pil/keskin/mıknatısta asla), papain-et yumuşatıcı (özofagus perforasyonu). Bunlar hasarı artırır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi — dozlu</h2>
+    <p class="lede">Definitif tedavi endoskopik/cerrahi çıkarmadır; medikal ajanlar sınırlı ve yardımcıdır. Düğme pil mitigasyonu (bal/sukralfat) endoskopiye köprüdür, onu geciktirmez. Gıda bolusunda farmakolojik gevşeticiler zayıf kanıtlıdır. Dozlar hastaya göre bireyselleştirilir.</p>
+    <div class="pill-row">
+      <span class="pill">Pil: bal → sukralfat → acil endoskopi</span>
+      <span class="pill">Çoklu mıknatıs: endoskopi/cerrahi</span>
+      <span class="pill">Keskin/uzun: endoskopik çıkarma</span>
+      <span class="pill">Künt-asemptomatik: izlem</span>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <caption>Yabancı cisim yönetiminde ajanlar/girişimler — doz ve zamanlama</caption>
+        <thead>
+          <tr>
+            <th>Ajan / Girişim</th>
+            <th>Doz (mg/kg + maksimum) / zamanlama</th>
+            <th>Not</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">Bal (düğme pil mitigasyonu)</td>
+            <td class="dose">10 mL PO, her 10 dakikada bir, en çok 6 doz</td>
+            <td>Yalnız ≥12 ay ve yutmadan sonraki ≤12 saatte; hastane öncesi/yolda. &lt;1 yaş botulizm riski nedeniyle verilmez. Endoskopiyi GECİKTİRMEZ, perforasyon/sepsis şüphesinde verilmez.</td>
+          </tr>
+          <tr>
+            <td class="step">Sukralfat süspansiyon (hastane içi mitigasyon)</td>
+            <td class="dose">10 mL (1 g/10 mL) PO, her 10 dakikada bir, en çok 3 doz</td>
+            <td>Hastanede bal yerine/ardından; aynı ≤12 saat, ≥12 ay penceresi. Amaç temas noktasında pH tamponlayıp alkali yanığı azaltmak.</td>
+          </tr>
+          <tr>
+            <td class="step">Acil endoskopik çıkarma — özofagus pili</td>
+            <td class="dose">&lt;2 saat (aç kalma beklenmeden)</td>
+            <td>Çıkarımda mukozal hasar evrelenir; hasar bölgesi 0.25% steril asetik asit veya serum fizyolojik ile yıkanır. NPO, yoğun izlem.</td>
+          </tr>
+          <tr>
+            <td class="step">Endoskopik/cerrahi — çoklu mıknatıs</td>
+            <td class="dose">Ulaşılabilir → acil endoskopi; ötesi → cerrahi konsültasyon</td>
+            <td>Özofagus/mide/proksimal duodenumda endoskopik; ulaşılamayan ve ilerlemeyen ya da obstrüksiyon/peritonit bulgusunda laparoskopi/laparotomi.</td>
+          </tr>
+          <tr>
+            <td class="step">Endoskopik çıkarma — keskin cisim</td>
+            <td class="dose">Özofagus/mide/ulaşılabilir duodenum: acil</td>
+            <td>Perforasyon riski %15-35; overtube/koruyucu başlık ile güvenli çıkarma. Pilor ötesinde günlük grafi, 3 günde ilerlemezse veya semptomda cerrahi.</td>
+          </tr>
+          <tr>
+            <td class="step">Endoskopik çıkarma — uzun/geniş cisim</td>
+            <td class="dose">Uzunluk &gt;5-6 cm veya çap &gt;2.5 cm: mideden çıkar</td>
+            <td>Pilor–duodenum kıvrımını geçemez; mide yerleşimliyken elektif-ivedi endoskopi ile alınır.</td>
+          </tr>
+          <tr>
+            <td class="step">Gastrik düğme pil yönetimi</td>
+            <td class="dose">Asemptomatik: izlem; ≥20 mm ve 48 saatte geçmezse çıkar</td>
+            <td>&lt;20 mm ve ≥5 yaş asemptomatik olguda 10-14 günde kontrol grafi; semptom veya birlikte mıknatıs varsa çıkar.</td>
+          </tr>
+          <tr>
+            <td class="step">Gıda bolusu — endoskopik çıkarma + biyopsi</td>
+            <td class="dose">Komplet obstrüksiyon: acil; değilse &lt;24 saat</td>
+            <td>Papain/et yumuşatıcı KULLANILMAZ. Çıkarma sırasında EoE için çok düzeyli biyopsi alınır.</td>
+          </tr>
+          <tr>
+            <td class="step">Glukagon (özofagus gıda bolusu — yardımcı)</td>
+            <td class="dose">0.02-0.03 mg/kg IV (tipik maks 0.5-1 mg)</td>
+            <td>Alt özofagus sfinkterini gevşetir; etkinlik zayıf, kusma yapabilir, endoskopiyi geciktirmemeli. Pil/keskin cisimde yeri yok.</td>
+          </tr>
+          <tr>
+            <td class="step">Asemptomatik künt gastrik cisim — izlem</td>
+            <td class="dose">Ayaktan; 2-4 haftada kontrol grafi</td>
+            <td>Dışkıda cisim takibi; geçmezse veya semptom gelişirse endoskopik çıkarma. Kabızlık önlemez, doğal geçiş beklenir.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">Bal ve sukralfat yalnızca köprüleme amaçlıdır; hiçbiri özofagus pilinde 2 saatlik acil endoskopi hedefini ertelemez. Perforasyon, sepsis şüphesi veya &lt;12 ay/&gt;12 saat durumunda mitigasyon verilmeden doğrudan endoskopiye geçilir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve yönetim ilkeleri</h2>
+    <p class="lede">Amaç, çıkarma sonrası erken ve GEÇ komplikasyonları yakalamak, izleme alınan cisimlerde güvenli geçişi doğrulamak ve aileyi net dönüş ölçütleriyle taburcu etmektir. Özellikle özofagus düğme pili, çıkarıldıktan sonra bile haftalarca izlenmelidir.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Yüksek riskli cisim sonrası izlem</h3>
+        <ul class="clean">
+          <li>Özofagus pili sonrası ağır hasarda NPO, yatış ve seri değerlendirme; gecikmiş perforasyon/fistül 2-4 hafta içinde bile ortaya çıkabilir.</li>
+          <li>Aortoözofageal fistül alarmı: taburculuk sonrası herhangi bir hematemez acil geri başvuru gerektirir; ailelere açıkça anlatılır.</li>
+          <li>Mıknatıs olgusunda çıkarma sonrası veya cerrahi sonrası obstrüksiyon/perforasyon açısından karın izlemi ve gerektiğinde tekrar görüntüleme.</li>
+          <li>Keskin cisim çıkarıldıysa mukozal hasar ve kanama; pilor ötesindeyse ilerleyene dek günlük grafi.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>İzleme alınan cisim ve taburculuk kuralları</h3>
+        <ul class="clean">
+          <li>Asemptomatik künt gastrik cisimde evde dışkı takibi; 2-4 haftada geçmezse kontrol grafi ve çıkarma.</li>
+          <li>Aileye kesin dönüş ölçütleri: kusma, karın ağrısı/şişkinlik, ateş, dışkıda kan, disfaji, solunum sıkıntısı.</li>
+          <li>Gıda bolusu sonrası EoE biyopsisi pozitifse PPI/topikal steroid/eliminasyon diyeti ile hastalığı yönet; nüksü önlemek için idame ve endoskopik izlem.</li>
+          <li>Önleme danışmanlığı: düğme pilli cihazların güvenli saklanması, mıknatıslı oyuncak/manyetik yapı taşlarından kaçınma, su boncuğu farkındalığı.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout safe">Devam ve geri çekilme kuralı: Özofagus pili düşük eşikle acil çıkarılır ve sonrasında komplikasyon riski geçene dek izlenir; künt asemptomatik gastrik cisimlerde ise girişim değil, net dönüş ölçütleriyle güvenli izlem esastır. Kararsız her yuvarlak metalik cisim pil kabul edilir.</div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Kramer RE, Lerner DG, Lin T, ve ark. Management of ingested foreign bodies in children: a clinical report of the NASPGHAN Endoscopy Committee. J Pediatr Gastroenterol Nutr. 2015;60(4):562-574.</li>
+      <li>Mubarak A, Benninga MA, Broekaert I, ve ark. Diagnosis, management, and prevention of button battery ingestion in childhood: A ESPGHAN position paper. J Pediatr Gastroenterol Nutr. 2021;73(1):129-136.</li>
+      <li>Thomson M, Tringali A, Dumonceau JM, ve ark. Paediatric gastrointestinal endoscopy: ESGE and ESPGHAN Guideline. J Pediatr Gastroenterol Nutr. 2017;64(1):133-153.</li>
+      <li>Anfang RR, Jatana KR, Linn RL, ve ark. pH-neutralizing esophageal irrigation as a novel mitigation strategy for button battery injury. Laryngoscope. 2019;129(1):49-57.</li>
+    </ol>
+  </footer>
+
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge çocuk gastroenteroloji uzmanları için klinik karar desteği amaçlıdır; hastaya özgü değerlendirmenin, güncel kılavuzların ve yerel ilaç ruhsat/dozaj bilgilerinin yerine geçmez. Dozlar ve zamanlama; hastanın yaşı, kilosu, cismin türü/boyutu ve komorbiditelerine göre bireyselleştirilmelidir.</div>
+</div>

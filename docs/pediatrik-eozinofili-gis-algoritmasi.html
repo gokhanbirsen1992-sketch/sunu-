@@ -1,0 +1,412 @@
+<title>Kan/Doku Eozinofilisi (Eozinofilik GİS) — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Kan/Doku Eozinofilisi (Eozinofilik GİS)</h1>
+    <p class="sub">Periferik ve/veya gastrointestinal doku eozinofilisi saptanan çocukta sekonder nedenleri (parazit, ilaç, atopi, GÖRH, İBH, primer immün yetmezlik, HES/malignite) dışlamaya; eozinofilik özofajit (EoE) ve non-EoE eozinofilik GİS hastalıklarını (EGID) endoskopi/biyopsi eşikleriyle tanımaya; PPI, yutulan topikal steroid ve eliminasyon diyetini dozunda uygulamaya yönelik karar aracı. Hedef kitle: çocuk gastroenteroloji uzmanı.</p>
+    <div class="meta">
+      <span class="tag">Sekonder eozinofili dışlama</span>
+      <span class="tag">EoE ≥15 eoz/BBA</span>
+      <span class="tag">PPI · topikal steroid</span>
+      <span class="tag">Eliminasyon diyeti</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">Eozinofili iki ayrı düzlemde değerlendirilir: <b>periferik kan eozinofilisi</b> ve <b>doku (GİS mukoza) eozinofilisi</b>. Kan eozinofilisi mutlak eozinofil sayısı (AEC = lökosit × %eozinofil) ile derecelendirilir: hafif 500-1500/µL, orta 1500-5000/µL, ağır &gt;5000/µL; en az bir ay arayla iki ölçümde AEC &gt;1500/µL veya belirgin doku infiltrasyonu <b>hipereozinofili</b> olarak adlandırılır. GİS'te doku eozinofilisi normalde özofagusta bulunmaz (özofagus mukozasında eozinofil <b>her zaman patolojiktir</b>), buna karşın mide/ince bağırsak/kolonda fizyolojik olarak değişken sayıda eozinofil vardır — bu nedenle non-EoE EGID tanısı bölgeye özgü eşiklere dayanır. Klinik görevin özü: (1) eozinofilinin <b>primer (eozinofilik GİS hastalığı)</b> mı yoksa <b>sekonder (başka bir hastalığa reaktif)</b> mı olduğunu ayırmak; (2) GİS semptomu olan çocukta uygun düzeylerden yeterli sayıda biyopsi alarak EoE ve non-EoE EGID'yi eşiklerle tanımlamak; (3) tedaviyi (PPI, yutulan topikal steroid, diyet) histolojik remisyon hedefine göre yönetmek. Kritik kavram: EoE artık "PPI'ye yanıtsızlık" ile tanımlanmaz — PPI bir tanı testi değil, <b>tedavi seçeneğidir</b> (AGREE 2018); tanı, özofagus disfonksiyon semptomu + biyopside pik ≥15 eoz/BBA + diğer nedenlerin dışlanmasına dayanır.</p>
+    <div class="pill-row">
+      <span class="pill">AEC = lökosit × %eozinofil</span>
+      <span class="pill">Hafif 0.5-1.5 · Orta 1.5-5 · Ağır &gt;5 (×10⁹/L)</span>
+      <span class="pill">Hipereozinofili: &gt;1500 ×2 / doku</span>
+      <span class="pill">Özofagusta eozinofil daima patolojik</span>
+      <span class="pill">EoE = semptom + ≥15 eoz/BBA + dışlama</span>
+      <span class="pill">PPI tanı testi değil, tedavidir</span>
+    </div>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öyküde sorgula</h3>
+        <ul class="clean">
+          <li>Özofageal disfonksiyon: disfaji, katı lokması takılması/impaksiyon, yavaş yeme, çiğneme-yutma ritüelleri, göğüs/epigastrik ağrı, kusma, reflü benzeri yakınmalar; küçük çocukta beslenme reddi, kusma, büyüme geriliği</li>
+          <li>Non-EoE EGID: kronik karın ağrısı, bulantı-kusma, erken doyma, ishal, protein kaybettiren enteropati (ödem), asit; kanlı dışkı ve süt çocuğunda alerjik proktokolit</li>
+          <li>Atopi yükü: astım, alerjik rinit, atopik dermatit, IgE aracılı besin alerjisi, mevsimsel alevlenme; ailede atopi/EoE öyküsü</li>
+          <li>Sekonder ipuçları: yakın zamanda başlanan <b>ilaçlar</b> (DRESS: antikonvülzan, sülfonamid, minosiklin), seyahat/kırsal maruziyet, çiğ et-toprak teması (<b>parazit</b>), gelişimsel gerilik/tekrarlayan enfeksiyon (primer immün yetmezlik)</li>
+          <li>Sistemik/kırmızı bayrak: kilo kaybı, gece terlemesi, ateş, döküntü, lenfadenopati, kanama, kemik ağrısı (malignite/HES); kardiyak-nörolojik semptomlar (organ hasarı)</li>
+          <li>Diyet öyküsü ve önceki PPI/steroid denemeleri, tetikleyici besinler, eliminasyon deneyimleri</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayenede değerlendir</h3>
+        <ul class="clean">
+          <li>Büyüme antropometrisi ve persentil seyri; boy hızı düşüşü/kilo kaybı (kronik EoE ve EGID'de beslenme yetersizliği)</li>
+          <li>Beslenme-hidrasyon: solukluk (anemi), ödem (hipoalbüminemi/protein kaybettiren enteropati), kas kütlesi kaybı</li>
+          <li>Batın: distansiyon, hassasiyet, hepatosplenomegali, asit (eozinofilik serozit), kitle</li>
+          <li>Atopik zemin: egzama, alerjik shiners, kronik rinit-astım bulguları</li>
+          <li>Cilt-lenfatik: yaygın döküntü + ateş + LAP (DRESS), yaygın LAP/organomegali (hematolojik hastalık), peteşi-purpura</li>
+          <li>Sistemik hipereozinofili organ hasarı: kardiyak üfürüm/yetmezlik bulgusu, nörolojik defisit, tromboembolik işaretler</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout"><b>Kavram:</b> "Eozinofili var" tanı değildir; önce sorulacak soru "bu primer eozinofilik bir GİS hastalığı mı, yoksa başka bir sürece reaktif sekonder eozinofili mi?" olmalıdır. Özofagus biyopsisinde eozinofil görülmesi her zaman anormaldir, ancak ≥15 eoz/BBA eşiği + özofageal disfonksiyon semptomu + diğer nedenlerin dışlanması olmadan "EoE" denmez.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Etiyoloji ve mekanizma</h2>
+    <p class="lede">Eozinofili primer eozinofilik GİS hastalıklarından (EoE ve non-EoE EGID) çok sayıda sekonder nedene kadar geniş bir yelpazede yer alır. Klinik yaklaşımın omurgası, tedaviye başlamadan önce sekonder ve sistemik nedenlerin dışlanmasıdır — çünkü tedavi (özellikle steroid), altta yatan paraziti, immün yetmezliği veya maligniteyi maskeleyebilir ya da kötüleştirebilir. Aşağıdaki kategoriler ayırıcı tanının çatısını oluşturur.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">Eozinofilik özofajit (EoE) — Th2 mekanizma</div>
+        <ul>
+          <li>Kronik, antijen (çoğunlukla besin) aracılı, Th2/IL-5/IL-13 baskın immün hastalık; özofagusa lokalize eozinofilik inflamasyon</li>
+          <li>Semptom (özofageal disfonksiyon) + pik <b>≥15 eoz/BBA</b> + diğer nedenlerin dışlanması ile tanı (AGREE 2018)</li>
+          <li>Tedavisiz seyirde fibrozis-striktür-lümen daralması; erkeklerde ve atopiklerde sık</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">Non-EoE EGID (gastrit/enterit/kolit)</div>
+        <ul>
+          <li>Eozinofilik gastrit, enterit, kolit; mukozal, muskuler veya seroz (asit) tutulum paternleri</li>
+          <li>Bölgeye özgü histolojik eşikler gerekir (özofagustan farklı; mide/bağırsakta bazal eozinofil vardır)</li>
+          <li>Süt çocuğunun besin proteini ilişkili alerjik proktokoliti bu spektrumun hafif ucudur</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">Sekonder — parazit ve enfeksiyon</div>
+        <ul>
+          <li>Helmintler: <b>Strongyloides</b> (immünsüpresyon öncesi mutlaka dışla), Toxocara, Ascaris, kancalı kurt, Trichinella, Schistosoma</li>
+          <li>Dışkı O&P (3 örnek) + serolojiler; eozinofili + GİS semptomu olan her çocukta önceliklidir</li>
+          <li>Steroidten önce Strongyloides dışlanması yaşamsaldır (hiperinfeksiyon riski)</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Sekonder — ilaç, atopi, GÖRH</div>
+        <ul>
+          <li>İlaç reaksiyonu/<b>DRESS</b>: antikonvülzanlar, sülfonamidler, minosiklin, allopurinol, NSAİİ; döküntü-ateş-LAP-eozinofili</li>
+          <li>IgE aracılı besin alerjisi, atopik hastalık yükü kan eozinofilisini yükseltir</li>
+          <li>GÖRH ve diğer özofajit nedenleri özofagusta düşük düzey eozinofili yapabilir; EoE ile ayrımı biyopsi düzeyi ve klinik bağlamla</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">Sekonder — İBH, bağ dokusu, immün yetmezlik</div>
+        <ul>
+          <li>İnflamatuvar bağırsak hastalığı (özellikle Crohn) doku eozinofilisiyle seyredebilir; kalprotektin/endoskopi ayırır</li>
+          <li>Bağ dokusu/vaskülit (EGPA), otoimmün enteropati</li>
+          <li>Primer immün yetmezlik: <b>IPEX</b>, Omenn, hiper-IgE (STAT3/DOCK8); erken başlangıç, ekzema, enteropati, enfeksiyon üçlüsü</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">Sistemik — HES, malignite, endokrin</div>
+        <ul>
+          <li>Hipereozinofilik sendrom (HES): AEC &gt;1500 kalıcı + organ hasarı; miyeloproliferatif (PDGFR/FGFR/JAK2), lenfositik veya idiyopatik</li>
+          <li>Malignite: lösemi, lenfoma (özellikle T-hücreli/Hodgkin) reaktif eozinofili yapar — kilo kaybı, LAP, sitopeni</li>
+          <li>Adrenal yetmezlik eozinofiliyi artırır; nadir konjenital immün-disregülasyon sendromları</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout"><b>Eşik kuralı:</b> Özofagus: pik <b>≥15 eoz/BBA</b> (~×400) EoE için gereklidir. Non-EoE EGID için önerilen eşikler bölgeye göredir — eozinofilik gastrit: ≥30 eoz/BBA (≥5 alanda); eozinofilik enterit (duodenum): ≥50-52 eoz/BBA; eozinofilik kolit: segmente göre değişir (sağ kolon normalde daha yüksek). Bu eşikler klinik bağlam ve sekonder nedenlerin dışlanmasıyla birlikte yorumlanır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">İlk çatal, tablonun periferik kan eozinofilisi ağırlıklı mı yoksa aktif GİS semptom/bulgusuyla mı seyrettiğidir; bu, sistemik/sekonder tarama ile endoskopik-histolojik değerlendirme yollarını ayırır. İkinci çatal, özofageal disfonksiyon semptomu ile birlikte biyopside pik ≥15 eoz/BBA saptanıp saptanmadığı ve diğer nedenlerin dışlanıp dışlanmadığıdır. Amaç: primer EoE/EGID'yi doğru tanımlamak, sekonder ve tehlikeli nedenleri (HES, malignite, immün yetmezlik, Strongyloides) atlamamak ve steroide başlamadan önce paraziti dışlamaktır.</p>
+    <div class="flow">
+      <div class="node start"><span class="k">Başlangıç</span><span class="t">Kan ve/veya doku eozinofilisi saptandı</span><p>AEC'yi hesapla ve derecelendir (hafif/orta/ağır). İlaç, seyahat/parazit, atopi ve sistemik (kilo kaybı, ateş, LAP) öyküsünü tara. Doku örneği varsa bölge ve pik eozinofil sayısını not et.</p></div>
+      <div class="connector"></div>
+      <div class="node action"><span class="k">Adım 1</span><span class="t">Kaynağı ve baskın tabloyu ayır</span><p>Tam kan sayımı-formül, dışkı O&amp;P + Strongyloides serolojisi, IgE, ilaç gözden geçirmesi; GİS semptomu varsa endoskopik yolu planla. Kalıcı/ağır eozinofilide organ hasarı taraması ekle.</p></div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 1</span><span class="t">Baskın tablo izole periferik eozinofili mi, aktif GİS semptomu/bulgusu mu?</span><p>İzole/ağır periferik eozinofili sistemik-hematolojik yolu; özofageal disfonksiyon veya kronik GİS semptomu ise endoskopik-histolojik yolu tetikler.</p></div>
+      <div class="branches">
+        <div class="branch no"><span class="label">İZOLE/AĞIR KAN EOZİNOFİLİSİ → Sistemik tarama</span><div class="node alarm"><span class="k">Dışla</span><span class="t">Sekonder + HES/malignite taraması</span><p>Parazit, ilaç (DRESS), atopi dışla; AEC &gt;1500 kalıcı ise organ hasarı (troponin/EKO, periferik yayma, LDH, triptaz, ferritin) + hematoloji değerlendirmesi. Organ hasarı/atipik hücre → HES/malignite yolunda ilerle.</p></div></div>
+        <div class="branch yes"><span class="label">GİS SEMPTOMU VAR → Endoskopi</span><div class="node action safe"><span class="k">İncele</span><span class="t">EGD ± kolonoskopi + çok düzeyli biyopsi</span><p>Sekonder nedenler (parazit, ilaç) dışlanırken üst endoskopi; özofagustan en az iki düzeyden ≥6 biyopsi, ayrıca mide-duodenum ve gerekirse kolon örneklemesi. Endoskopi normal görünse de biyopsi al.</p></div></div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 2</span><span class="t">Özofageal disfonksiyon semptomu + pik ≥15 eoz/BBA + diğer nedenler dışlandı mı?</span><p>EoE tanısının üç bileşeni. Diğer nedenler (parazit, ilaç, İBH, sistemik) dışlanmış olmalı; PPI yanıtı artık tanı ölçütü değildir (tedavi seçeneğidir).</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">EVET → EoE tanısı</span><div class="node action safe"><span class="k">Tanı</span><span class="t">EoE → tedaviyi başlat (PPI / topikal steroid / diyet)</span><p>Üç tedavi kolundan biriyle başla, hedef histolojik remisyon (&lt;15 eoz/BBA); 8-12 haftada endoskopi ile yeniden değerlendir. Striktür varsa dilatasyon eklenebilir.</p></div></div>
+        <div class="branch no"><span class="label">HAYIR → EoE dışı</span><div class="node action"><span class="k">Yeniden sınıfla</span><span class="t">Non-EoE EGID veya sekonder nedeni doğrula</span><p>Mide/bağırsak/kolon biyopsilerini bölgeye özgü eşiklerle değerlendir (EoG ≥30, duodenum ≥50 eoz/BBA); eşik altıysa parazit, İBH, ilaç, immün yetmezlik ve sistemik nedene yönel. Tanısız/atipik ise hematoloji ile birlikte HES/malignite dışla.</p></div></div>
+      </div>
+    </div>
+    <div class="callout"><b>Not:</b> Sistemik/yutulan steroide başlamadan önce <b>Strongyloides mutlaka dışlanmalıdır</b> (immünsüpresyon altında hiperinfeksiyon-dissemine hastalık riski). Kilo kaybı, ateş, LAP, sitopeni, atipik periferik hücreler veya organ hasarı bulguları varlığında endoskopiye odaklanmadan önce hematolojik-onkolojik değerlendirme önceliklidir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Tetkik, eozinofilinin derecesini ve baskın tabloyu belirlemekle başlar; sekonder ve tehlikeli nedenleri (parazit, ilaç, İBH, HES, malignite) dışlarken GİS semptomu olan çocukta çok düzeyli endoskopik biyopsiye ilerler. Histolojik eşikler bölgeye özgüdür ve klinik bağlamla yorumlanır.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Kan/doku eozinofilisinde kademeli değerlendirme</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Test</th><th>Amaç / not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Basamak 1 · Dereceyi belirle</td><td>Tam kan sayımı + periferik formül; AEC hesabı</td><td><span class="dose">Hafif 0.5-1.5 · Orta 1.5-5 · Ağır &gt;5 (×10⁹/L)</span>; &gt;1500 kalıcıysa hipereozinofili yolu</td></tr>
+          <tr><td class="step">Basamak 2 · Parazit dışla</td><td>Dışkı O&amp;P (3 örnek) + Strongyloides serolojisi (±Toxocara)</td><td><b>Steroidten önce zorunlu</b>; hiperinfeksiyon riski; kırsal/seyahat öyküsünde genişlet</td></tr>
+          <tr><td class="step">Basamak 3 · İlaç ve atopi</td><td>İlaç gözden geçirmesi (DRESS taraması), total/spesifik IgE, atopi öyküsü</td><td>Yeni başlanan antikonvülzan-sülfonamid-minosiklin sorgula; atopi kan eozinofilisini artırır</td></tr>
+          <tr><td class="step">Basamak 4 · Sistemik/inflamatuvar</td><td>CRP, sedim, albümin, fekal kalprotektin, TTG-IgA + total IgA, karaciğer-böbrek fonksiyon</td><td>İBH, protein kaybettiren enteropati, çölyak ve sistemik hastalık taraması</td></tr>
+          <tr><td class="step">Basamak 5 · Üst endoskopi + biyopsi</td><td>EGD; özofagustan <b>≥2 düzeyden en az 6 biyopsi</b> + mide + duodenum örnekleri</td><td><span class="dose">EoE: pik ≥15 eoz/BBA</span>; endoskopi normal görünse de biyopsi al; EREFS skorla</td></tr>
+          <tr><td class="step">Basamak 6 · Alt endoskopi (endike ise)</td><td>Kolonoskopi + segmental biyopsiler (ileum dahil)</td><td>İshal/kanlı dışkı/kolit şüphesinde; <span class="dose">EoG ≥30 · duodenum ≥50 eoz/BBA</span>, kolon segmente göre</td></tr>
+          <tr><td class="step">Basamak 7 · Hipereozinofili/organ hasarı</td><td>Troponin + EKO/EKG, periferik yayma, LDH, B12, triptaz, ferritin; hematoloji konsültasyonu</td><td>AEC &gt;1500 kalıcı veya organ bulgusu; PDGFRA/B, FGFR1, JAK2 füzyon/mutasyon taraması</td></tr>
+          <tr><td class="step">Ek · İmmün yetmezlik (seçili)</td><td>İmmünglobulinler, lenfosit alt grupları, gerektiğinde genetik (IPEX/FOXP3, STAT3, DOCK8)</td><td>Erken başlangıç, ekzema, kronik enfeksiyon, otoimmün enteropati üçlüsünde</td></tr>
+          <tr><td class="step">İzlem · Tedavi yanıtı</td><td>Tedavi/diyet değişikliğinden 8-12 hafta sonra kontrol endoskopi + biyopsi</td><td>Histolojik remisyon hedefi &lt;15 eoz/BBA; semptom ve EREFS ile birlikte değerlendir</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout"><b>Sıralama ilkesi:</b> Önce eozinofilinin derecesini belirle ve parazit-ilaç-sistemik nedeni dışla; GİS semptomu olan çocukta endoskopiyi normal görünümde bile biyopsiyle tamamla (özofagus için ≥2 düzey, ≥6 örnek). Kalıcı/ağır periferik eozinofili veya organ hasarı bulgusunda hematolojik-onkolojik değerlendirmeyi geciktirme.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdakiler; tablonun primer eozinofilik GİS hastalığından çok tehlikeli/sistemik bir sürece (HES, malignite, immün yetmezlik, dissemine parazit) işaret ettiğini veya acil müdahale gerektiğini düşündürür.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Ağır/kalıcı hipereozinofili (AEC &gt;5000 ×10⁹/L veya &gt;1500 iki ölçümde) — HES/hematolojik hastalık</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kardiyak tutulum: troponin yüksekliği, kalp yetmezliği-üfürüm, aritmi, tromboembolik olay (eozinofilik miyokardit — acil)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Nörolojik bulgu, açıklanamayan tromboemboli veya çok organ hasarı (sistemik eozinofilik hastalık)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Konstitüsyonel bulgular: kilo kaybı, gece terlemesi, uzamış ateş, yaygın lenfadenopati, organomegali (lenfoma/lösemi)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Sitopeniler, periferik yaymada atipik/blast hücreler, belirgin LDH yüksekliği</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Döküntü + ateş + LAP + transaminaz yüksekliği + eozinofili (DRESS) — ilacı kes, sistemik değerlendir</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Özofageal katı besin impaksiyonu/akut disfaji — acil endoskopik çıkarım; altta EoE araştır</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Protein kaybettiren enteropati: yaygın ödem, ağır hipoalbüminemi, asit (eozinofilik serozit)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Steroid planlanan çocukta dışlanmamış Strongyloides riski (kırsal/endemik maruziyet) — hiperinfeksiyon tehlikesi</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Erken başlangıç + tedaviye dirençli enteropati + ekzema + kronik enfeksiyon (IPEX/primer immün yetmezlik)</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi</h2>
+    <p class="lede">EoE tedavisinin üç ana kolu ("3 D") vardır: <b>Drug</b> (PPI, yutulan topikal kortikosteroid, biyolojik), <b>Diet</b> (eliminasyon) ve <b>Dilatasyon</b> (fibrostenotik striktür). Sekonder eozinofilide öncelik altta yatan nedenin (parazit tedavisi, ilaç kesilmesi, İBH tedavisi) yönetimidir; sistemik hipereozinofili/HES hematoloji ile ortak yürütülür. Aşağıdaki dozlar başlangıç değerleridir; ağırlık, yaş, yanıt ve histolojik remisyona (&lt;15 eoz/BBA) göre bireyselleştirilir. Tedavi/diyet değişikliğinden 8-12 hafta sonra kontrol endoskopi-biyopsi standarttır. EoE kroniktir; yanıt alınan kolda idame tedavisi gerekir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Eozinofilik GİS hastalığında tedavi ve dozlar</caption>
+        <thead>
+          <tr><th>Tedavi / ilaç</th><th>Doz</th><th>Not / izlem</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Proton pompa inhibitörü (PPI)</td><td class="dose">Omeprazol/esomeprazol 1-2 mg/kg/doz, günde 2 kez (maks 20-40 mg/doz)</td><td>Birinci basamak; ~%30-50 histolojik remisyon; 8-12 haftada biyopsiyle değerlendir, yanıt varsa en düşük etkili doza indir</td></tr>
+          <tr><td class="step">Yutulan flutikazon (topikal STC)</td><td class="dose">Ölçülü doz inhaler, yutularak: &lt;10 yaş 88-440 µg ×2/gün; adölesan 440-880 µg ×2/gün</td><td>Sprey ağza sıkılıp yutulur (inhale edilmez); sonrasında 30 dk yeme-içme yok; ağız kandidiyazı için ağzı çalkala/tara</td></tr>
+          <tr><td class="step">Yutulan budesonid (oral viskoz/orodispersibl)</td><td class="dose">&lt;10 yaş (veya &lt;150 cm) 1 mg/gün; ≥10 yaş 2 mg/gün — bölünmüş 2 doza; sükraloz/bal ile viskoz süspansiyon</td><td>Yüksek etkinlik; orodispersibl tablet erişilebilirse tercih; sonrasında 30 dk yeme-içme yok; oral kandidiyaz izle</td></tr>
+          <tr><td class="step">Eliminasyon diyeti — ampirik</td><td class="dose">Basamaklı: 2-besin (süt+buğday/gluten) → 4-besin → 6-besin (süt, buğday, yumurta, soya, fındık/sert kabuklu, balık-deniz ürünleri)</td><td>Her basamakta 8-12 hafta sonra endoskopi; remisyonda tek tek yeniden yükleyerek tetikleyiciyi bul; diyetisyen desteği zorunlu</td></tr>
+          <tr><td class="step">Eliminasyon diyeti — elementer</td><td class="dose">Aminoasit bazlı formül; oral kalori gereksiniminin tamamı (gerekirse enteral)</td><td>En yüksek remisyon oranı, ancak uygulama zor; ağır/çok tetikleyicili veya büyüme geriliği olan seçili olguda</td></tr>
+          <tr><td class="step">Tek-besin (süt) eliminasyonu</td><td class="dose">Yalnız inek sütü proteini eliminasyonu, 8-12 hafta</td><td>En sık tetikleyici süt; uyumu kolay basit başlangıç; yanıtsızsa basamaklı diyete geç</td></tr>
+          <tr><td class="step">Dupilumab (biyolojik, dirençli EoE)</td><td class="dose">Kilo bandına göre SC: ≥15-&lt;30 kg 200 mg/2 hafta; ≥30 kg 300 mg/2 hafta; ≥40 kg (adölesan) 300 mg/hafta (prospektüse göre)</td><td>≥1 yaş ve ≥15 kg onaylı; PPI/STC/diyete dirençli veya uygun olmayan olguda; anti-IL-4Rα</td></tr>
+          <tr><td class="step">Özofageal dilatasyon</td><td class="dose">Endoskopik dilatasyon (kademeli); tıbbi tedaviyle birlikte</td><td>Fibrostenotik striktür/dar lümende semptomatik rahatlama; inflamasyonu tedavi etmez, medikal tedaviye eklenir</td></tr>
+          <tr><td class="step">Sekonder eozinofili — nedene yönelik</td><td class="dose">Parazitte antihelmintik (ör. albendazol/ivermektin); DRESS'te ilacı kes ± sistemik steroid; İBH'de spesifik tedavi</td><td>Primer tedavi altta yatan nedendir; steroid öncesi Strongyloides dışla</td></tr>
+          <tr><td class="step">HES/sistemik (hematoloji ile)</td><td class="dose">Organ hasarında sistemik prednizolon 1-2 mg/kg/gün (maks 60 mg/gün); PDGFR+ ise imatinib</td><td>Kardiyak tutulumda acil; hedefe yönelik tedavi hematoloji-onkoloji ile ortak yürütülür</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout safe"><b>Yaklaşım:</b> EoE'de üç koldan (PPI, yutulan topikal steroid, eliminasyon diyeti) hasta/aile tercihi ve fenotipe göre birini seç; 8-12 haftada endoskopi-biyopsi ile histolojik remisyonu (&lt;15 eoz/BBA) doğrula; yanıt alınan kolda idameyi sürdür. Diyette tetikleyicileri yeniden yükleme ile bireyselleştir. Sekonder eozinofilide asıl tedavi altta yatan nedendir.</div>
+    <div class="callout alarm"><b>Dikkat:</b> Sistemik veya yutulan steroide başlamadan önce <b>Strongyloides</b> ve diğer parazitleri dışla (hiperinfeksiyon riski). Tedaviyi yalnızca semptomla değil, kontrol biyopsisiyle değerlendir — semptomatik düzelme histolojik remisyon anlamına gelmez. Ağır/kalıcı hipereozinofili veya organ hasarı varlığında endoskopiye odaklanmadan önce hematolojik-onkolojik değerlendirme yap; kardiyak tutulum acildir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve yönetim ilkeleri</h2>
+    <p class="lede">Yönetim; sekonder nedeni dışlamaya, primer EoE/EGID'yi histolojik olarak tanımlamaya, seçilen tedavi kolunda remisyonu belgelemeye ve kronik hastalıkta idame + büyüme-uyum izlemine dayanır. İzlemin omurgası; semptomların gerilemesi, kontrol biyopsisinde &lt;15 eoz/BBA remisyonu, büyümenin korunması ve komplikasyonların (striktür, beslenme yetersizliği) önlenmesidir.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>İzlem ve takip</h3>
+        <ul class="clean">
+          <li>Tedavi/diyet değişikliğinden 8-12 hafta sonra kontrol endoskopi + biyopsi; histolojik remisyon (&lt;15 eoz/BBA) hedefi</li>
+          <li>Semptom, EREFS endoskopik skoru ve histolojiyi birlikte değerlendir; semptomsuz aktif inflamasyon olabilir</li>
+          <li>Büyüme-persentil, beslenme durumu ve diyet altında mikronutriyent takibi (özellikle çok-besin eliminasyonunda kalsiyum/D vitamini, protein)</li>
+          <li>Eliminasyon diyetinde tek tek yeniden yükleme ile tetikleyici besinleri belirle; her yükleme sonrası endoskopik doğrulama</li>
+          <li>Yanıt alınan kolda idame tedavisi; en düşük etkili doza titrasyon, periyodik histolojik kontrol</li>
+          <li>Kalıcı/sistemik eozinofilide hematoloji ile ortak izlem; organ hasarı parametrelerinin (kardiyak) periyodik takibi</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Yönetim ve güvenlik ağı</h3>
+        <ul class="clean">
+          <li>Steroid öncesi parazit (Strongyloides) dışlanmasını her seferinde teyit et; immünsüpresyon güvenliğini gözet</li>
+          <li>EoE kroniktir: tedaviyi kesince nüks beklenir — aileyi idame gereği ve uzun süreli izlem konusunda bilgilendir</li>
+          <li>Striktür/dar lümen gelişiminde dilatasyon + medikal tedavi; fibrozisi önlemek için inflamasyonu remisyonda tut</li>
+          <li>Aileye yazılı uyarı: katı besin takılması/impaksiyon, ilerleyici disfaji, kilo kaybı, kanama, ödem, ateş-döküntü-LAP gelişiminde erken başvuru</li>
+          <li>Diyetisyen ve gerekirse alerji ile multidisipliner yönetim; atopik komorbiditelerin (astım, rinit, egzama) eş yönetimi</li>
+          <li>Geçiş bakımı: adölesandan erişkin gastroenteroloji izlemine yapılandırılmış devir; uyum ve yaşam kalitesi odaklı takip</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout safe">En iyi sonuç; eozinofiliyi primer/sekonder ekseninde doğru ayırmak, GİS semptomlu çocukta yeterli çok düzeyli biyopsiyle EoE/EGID'yi eşiklerle tanımlamak, seçilen tedavi kolunda remisyonu kontrol biyopsisiyle belgelemek, kronik hastalıkta idameyi ve büyümeyi izlemek ve sistemik/tehlikeli nedenleri (HES, malignite, immün yetmezlik, dissemine parazit) atlamayan bir güvenlik ağıyla elde edilir.</div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Dellon ES, Liacouras CA, Molina-Infante J, et al. Updated International Consensus Diagnostic Criteria for Eosinophilic Esophagitis: Proceedings of the AGREE Conference. Gastroenterology. 2018;155(4):1022-1033.</li>
+      <li>Hirano I, Chan ES, Rank MA, et al. AGA Institute and the Joint Task Force on Allergy-Immunology Practice Parameters Clinical Guidelines for the Management of Eosinophilic Esophagitis. Gastroenterology. 2020;158(6):1776-1786.</li>
+      <li>Papadopoulou A, Amil-Dias J, Auth MKH, et al. Joint ESPGHAN/NASPGHAN Guidelines on Childhood Eosinophilic Gastrointestinal Disorders Beyond Eosinophilic Esophagitis. J Pediatr Gastroenterol Nutr. 2024;78(1):122-152.</li>
+      <li>Shomron N, Valent P, Klion AD, et al. Contemporary Consensus on the Definition and Classification of Hypereosinophilic Syndromes and Eosinophilia. J Allergy Clin Immunol. 2012;130(3):607-612.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge uzman kullanıcıya yönelik bir klinik karar destek aracıdır; hastanın bireysel değerlendirmesi, güncel kılavuzlar ve yerel uygulamaların yerine geçmez. Histolojik eozinofil eşikleri örnekleme, alan sayımı ve kit/laboratuvar yöntemine; dozlar hastaya, ağırlığa, yaşa, organ fonksiyonlarına ve tedavi yanıtına göre teyit edilmelidir. Sistemik/yutulan steroide başlamadan önce parazit (Strongyloides) dışlanmalıdır.</div>
+</div>

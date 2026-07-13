@@ -1,0 +1,418 @@
+<title>Akut Karın Ağrısı — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Akut Karın Ağrısı</h1>
+    <p class="sub">Cerrahi karnı (apandisit, invajinasyon, midgut volvulus, over torsiyonu) hızlı tanımaya, alarm bulgularını ayırt etmeye, doğru görüntülemeyi seçmeye ve zamanında cerrahi konsültasyon vermeye yönelik karar aracı. Hedef kitle: çocuk gastroenteroloji uzmanı.</p>
+    <div class="meta">
+      <span class="tag">Cerrahi karın</span>
+      <span class="tag">Alarm bulguları</span>
+      <span class="tag">Görüntüleme</span>
+      <span class="tag">Cerrahi konsültasyon</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">Akut karın ağrısı, genellikle 7 günden kısa süren, yeni başlangıçlı karın ağrısıdır; kritik görev, acil cerrahi girişim gerektiren "cerrahi karnı" (apandisit, invajinasyon, malrotasyon-volvulus, over/testis torsiyonu, inkarsere herni, perforasyon) medikal taklitçilerden ayırmaktır. Yaş, ağrının paterni (ani-şiddetli vs. sinsi), lokalizasyon ve eşlik eden safralı kusma tanısal olasılığı belirler: infantta safralı kusma aksi kanıtlanana dek midgut volvulusudur; 3 ay-3 yaş arası paroksismal ağrı + kanlı-mukuslu gaita invajinasyonu, okul çağı-adölesanda göç eden sağ alt kadran ağrısı apandisiti, adölesan kızda ani unilateral pelvik ağrı over torsiyonunu düşündürür. Analjezi cerrahi karnı maskelemez; erken uygun analjezi verilmelidir.</p>
+    <div class="pill-row">
+      <span class="pill">Cerrahi karnı erken tanı</span>
+      <span class="pill">Safralı kusma = volvulus kanıtlanana dek</span>
+      <span class="pill">Yaşa özgü ayırıcı tanı</span>
+      <span class="pill">Analjezi tanıyı geciktirmez</span>
+    </div>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öyküde sorgula</h3>
+        <ul class="clean">
+          <li>Ağrı: başlangıç şekli (ani/kolik vs. sinsi), süre, göç (periumbilikal → sağ alt kadran = apandisit), şiddet, hareketle-öksürükle artış (periton irritasyonu)</li>
+          <li>Kusma: safralı mı (obstrüksiyon/volvulus), fekaloid mi; kusma ağrıdan önce mi sonra mı (kusma sonra başlarsa cerrahi lehine)</li>
+          <li>Gaita: kanlı-mukuslu ("çilek jölesi" — invajinasyon), ishal, akolik, gaz-gaita kesilmesi (obstrüksiyon)</li>
+          <li>İdrar: dizüri, hematüri, sıklık (üriner sistem); adölesan kızda son adet tarihi, cinsel aktivite, gebelik olasılığı</li>
+          <li>Sistemik: ateş, iştahsızlık, letarji, epizodik solukluk-çekilme atakları (invajinasyon)</li>
+          <li>Ek: travma, geçirilmiş batın cerrahisi (adezyon), bilinen orak hücre/İBH, ilaç, aşılanma; ekstraabdominal (boğaz, akciğer, testis) öykü</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayenede değerlendir</h3>
+        <ul class="clean">
+          <li>Genel/vital: hemodinami (taşikardi, hipotansiyon, kapiller dolum), ateş, dehidratasyon, toksik görünüm, ağrıyla kıvranma (kolik) vs. kıpırdayamama (peritonit)</li>
+          <li>Batın: distansiyon, defans-rebound-rijidite (peritonit), lokalize hassasiyet (McBurney), palpabl kitle (sağ üst kadran sosis kitle = invajinasyon), barsak sesleri</li>
+          <li>Özel bulgular: psoas/obturator/Rovsing (apandisit), sıçratma/topuk vurma ağrısı</li>
+          <li>Kasık ve genital: mutlaka muayene — inkarsere/strangüle herni, testis torsiyonu (akut skrotum), adneksiyal hassasiyet-kitle</li>
+          <li>Rektal (endikasyonla): kanama, kitle, hassasiyet</li>
+          <li>Ekstraabdominal: farenjit, alt lob pnömonisi, purpura (IgA vasküliti/HSP), ketotik nefes (DKA)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout alarm"><b>Kırmızı çizgi:</b> Peritonit bulgusu (yaygın defans-rebound, tahta karın), safralı kusma, hemodinamik bozukluk veya akut skrotum/adneksiyal torsiyon şüphesi varsa değerlendirme ve resüsitasyon ile <b>eşzamanlı acil cerrahi/üroloji-jinekoloji konsültasyonu</b> istenir; tetkik tamamlanması cerrahi çağrısını geciktirmemelidir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Etiyoloji ve mekanizma</h2>
+    <p class="lede">Akut karın ağrısının cerrahi nedenleri mekanizma ve yaşa göre ayrışır; her kategorinin karakteristik prezentasyonu ilk-basamak görüntülemeyi ve konsültasyon aciliyetini belirler.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">Akut apandisit</div>
+        <ul>
+          <li>En sık cerrahi neden; pik okul çağı-adölesan, &lt;5 yaşta atipik ve sık perforedir</li>
+          <li>Periumbilikal → sağ alt kadrana göçen ağrı, anoreksi, ateş, kusma</li>
+          <li>İlk görüntüleme USG (&gt;6 mm, komprese olmayan, apandikolit); şüpheli ise MR/BT</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">İnvajinasyon</div>
+        <ul>
+          <li>3 ay-3 yaş (pik 5-9 ay); çoğu ileokolik ve idiyopatik (lenfoid hiperplazi)</li>
+          <li>Paroksismal ağrı-çekilme atakları, "çilek jölesi" gaita, sosis kitle, letarji</li>
+          <li>USG "hedef/donut" işareti tanısal; tedavi hava/kontrast enema redüksiyonu</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">Malrotasyon + midgut volvulus</div>
+        <ul>
+          <li>En sık ilk ayda; her yaşta olabilir. Gerçek cerrahi acil</li>
+          <li>Safralı kusma ± ani şiddetli ağrı; erken batın normal olabilir (aldatıcı)</li>
+          <li>Üst GİS pasaj altın standart; USG'de "whirlpool"/SMA-SMV ters dönmesi; acil Ladd</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Over / adneksiyal torsiyon</div>
+        <ul>
+          <li>Adölesan kız (kist/kitle zemininde; menarş öncesi de olabilir)</li>
+          <li>Ani, şiddetli, unilateral pelvik ağrı; bulantı-kusma, adneksiyal hassasiyet-kitle</li>
+          <li>Renkli Doppler USG; akım korunabilir — normal Doppler torsiyonu DIŞLAMAZ; acil detorsiyon</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">Diğer cerrahi aciller</div>
+        <ul>
+          <li>İnkarsere/strangüle inguinal herni; testis torsiyonu (akut skrotum — batın ağrısıyla gelebilir)</li>
+          <li>Meckel divertikülü (ağrısız kanama ya da divertikülit/obstrüksiyon), obstrüksiyon (adezyon)</li>
+          <li>İçi boş organ perforasyonu → serbest hava, peritonit, septik şok</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">Cerrahi dışı (medikal) taklitçiler</div>
+        <ul>
+          <li>Gastroenterit, mezenterik lenfadenit, kabızlık, üriner enfeksiyon/taş</li>
+          <li>Ekstraabdominal: alt lob pnömonisi, streptokoksik farenjit, IgA vasküliti (HSP)</li>
+          <li>Metabolik/sistemik: diyabetik ketoasidoz, orak hücre krizi, FMF, HÜS</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout"><b>Yaş kuralı:</b> İnfantta safralı kusma → malrotasyon-volvulus; süt çocuğunda paroksismal ağrı + kanlı gaita → invajinasyon; okul çağı-adölesanda göçen sağ alt kadran ağrısı → apandisit; adölesan kızda ani pelvik ağrı → over torsiyonu / ektopik gebelik (gebelik testi zorunlu).</div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">İlk çatal hayatı tehdit eden cerrahi karın / şoktur; ikinci çatal, stabil çocukta hedefli görüntüleme ve klinik skorun cerrahi patolojiyi gösterip göstermediğidir.</p>
+    <div class="flow">
+      <div class="node start"><span class="k">Başlangıç</span><span class="t">Akut karın ağrısı (&lt;7 gün)</span><p>Yeni başlangıçlı, giderek artan veya paroksismal ağrı; hedef cerrahi karnı medikal nedenden ayırmak.</p></div>
+      <div class="connector"></div>
+      <div class="node action"><span class="k">Adım 1</span><span class="t">Stabilizasyon + odaklı öykü/muayene</span><p>ABC ve vital, ağrı paterni, safralı kusma sorgusu, kasık-genital-skrotum muayenesi; adölesan kızda gebelik testi, glukoz/ketoasidoz taraması; erken analjezi.</p></div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 1</span><span class="t">Cerrahi acil / peritonit / şok bulgusu var mı?</span><p>Yaygın defans-rebound-rijidite, safralı kusma, distansiyonla obstrüksiyon, hemodinamik bozukluk, akut skrotum veya adneksiyal torsiyon şüphesi.</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">EVET → Acil müdahale</span><div class="node alarm"><span class="k">Acil</span><span class="t">Resüsitasyon + hemen cerrahi/üroloji-jinekoloji konsültasyonu</span><p>NPO, geniş damar yolu, 20 mL/kg izotonik bolus, analjezi-antiemetik, gerekirse antibiyotik; görüntüleme resüsitasyonla eşzamanlı, konsültasyonu geciktirmeden.</p></div></div>
+        <div class="branch no"><span class="label">HAYIR → Stabil değerlendirme</span><div class="node action safe"><span class="k">Katmanla</span><span class="t">Yaşa göre risk + hedefli görüntüleme</span><p>Lab (tam kan, CRP, TİT, ±amilaz/lipaz), klinik skor (apandisitte PAS/Alvarado); ilk basamak USG. Tanı belirsizse gözlemde seri muayene.</p></div></div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 2</span><span class="t">Görüntüleme/klinik cerrahi patoloji gösteriyor mu?</span><p>USG'de apandisit, invajinasyon "hedef" işareti, adneksiyal torsiyon, whirlpool; ya da yüksek klinik skor / ilerleyen bulgular.</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">EVET → Tanıya yönelik</span><div class="node action safe"><span class="k">Girişim</span><span class="t">Cerrahi konsültasyon ve tedavi</span><p>Apandisit → cerrahi/antibiyotik; invajinasyon → hava-kontrast enema redüksiyonu (kontrendikasyon yoksa); volvulus → acil Ladd; over/testis torsiyonu → acil detorsiyon.</p></div></div>
+        <div class="branch no"><span class="label">HAYIR → Medikal neden / gözlem</span><div class="node action safe"><span class="k">Yönet</span><span class="t">Nedene yönelik tedavi + güvenlik ağı</span><p>Gastroenterit, kabızlık, ÜSYE/pnömoni, İYE gibi nedenleri tedavi et; belirsizse aktif gözlem ve 12-24 saatte tekrar değerlendirme, kötüleşmede yeniden görüntüle.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Tetkik klinik olasılığa göre kademeli ilerler; ultrasonografi çocukta ilk basamak modalitedir (radyasyonsuz), ileri görüntüleme (BT) tanı belirsiz veya komplike olgulara ayrılır. Hemodinamik olarak stabil olmayan cerrahi karın, tetkiki beklemeden konsültasyon ve resüsitasyon gerektirir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Akut karın ağrısında kademeli değerlendirme</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Test</th><th>Amaç / not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Basamak 1 · Yatak başı</td><td>Vital, kapiller glukoz + kan ketonu, adölesan kızda idrar/serum β-hCG, tam idrar tetkiki</td><td>Şok/DKA taraması; gebelik-ektopik ekartasyonu (görüntüleme öncesi zorunlu); İYE/taş, hematüri</td></tr>
+          <tr><td class="step">Basamak 2 · Kan</td><td>Tam kan sayımı, CRP, elektrolit-üre-kreatinin, KCFT, amilaz/lipaz, venöz kan gazı + laktat; endikasyonla grup-crossmatch</td><td>İnflamasyon (nötrofili+CRP apandisiti destekler ama normali dışlamaz), pankreatit, dehidratasyon-asidoz, sepsis; cerrahi öncesi hazırlık</td></tr>
+          <tr><td class="step">Basamak 3 · İlk görüntüleme</td><td>Abdomen/pelvis ultrasonografisi; şüphede renkli Doppler (over/testis)</td><td><span class="dose">İlk basamak modalite</span> — apandiks &gt;6 mm komprese olmaz, invajinasyon "hedef/donut", adneksiyal torsiyon, whirlpool; negatif USG apandisiti dışlamaz</td></tr>
+          <tr><td class="step">Basamak 4 · Direkt grafi</td><td>Ayakta/yan dekübit direkt batın grafisi</td><td>Serbest hava (perforasyon), hava-sıvı seviyeleri/obstrüksiyon, fekalit; sınırlı duyarlılık, seçili endikasyon</td></tr>
+          <tr><td class="step">Basamak 5 · Kontrast çalışma</td><td>Üst GİS pasaj grafisi (malrotasyon); hava veya suda çözünür kontrast enema (invajinasyon)</td><td>Bilious kusmada üst GİS altın standart; invajinasyonda enema hem tanısal hem tedavi edicidir (peritonit/perforasyon/şokta kontrendike)</td></tr>
+          <tr><td class="step">Basamak 6 · İleri görüntüleme</td><td>BT (İV kontrastlı) veya MR</td><td>USG belirsiz/komplike, apse/perforasyon, obez hasta; radyasyondan kaçınmak için mümkünse MR tercih; BT'yi tanıyı değiştirecekse kullan</td></tr>
+          <tr><td class="step">Seçili · Klinik skor</td><td>Pediatrik Apandisit Skoru (PAS) / Alvarado</td><td>Düşük skorda güvenli gözlem, yüksek skorda cerrahi; orta skorda görüntüleme ile stratifikasyon (tek başına tanı koydurmaz)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout"><b>Not:</b> Görüntülemesi negatif ama klinik şüphesi süren stabil çocukta en güvenli yaklaşım <b>aktif gözlem ve seri muayene</b>dir; erken evre apandisit ve invajinasyon başlangıçta USG'de görülmeyebilir, saatler içinde tekrar değerlendirme tanısal değeri artırır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdakilerden herhangi biri cerrahi karın veya hayatı tehdit eden neden lehinedir; hızlı görüntüleme ve eşzamanlı cerrahi/üroloji-jinekoloji konsültasyonunu gerektirir.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Safralı (yeşil) kusma — kanıtlanana dek malrotasyon-volvulus</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Peritonit: yaygın defans, rebound, tahta karın, hareketle-öksürükle artan ağrı</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Hemodinamik bozukluk / toksik görünüm / septik şok</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Distansiyon + gaz-gaita kesilmesi (obstrüksiyon)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Palpabl abdominal kitle (invajinasyonda sosis kitle)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Paroksismal ağrı + "çilek jölesi" / kanlı-mukuslu gaita + letarji</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Akut skrotum (testis torsiyonu) veya ani unilateral pelvik ağrı (over torsiyonu)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>İnkarsere/strangüle kasık-göbek fıtığı (indirgenemeyen, hassas kitle)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>GİS kanama: hematemez, melena, masif rektal kanama</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Adölesan kızda pozitif gebelik testi + pelvik ağrı (ektopik gebelik)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Şiddetli, ilerleyen, hareketsiz kalmaya zorlayan lokalize ağrı</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Geçirilmiş batın cerrahisi + obstrüksiyon bulgusu (adeziv ileus)</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi</h2>
+    <p class="lede">İlk yönetim tüm cerrahi karın şüphelerinde ortaktır: NPO, damar yolu, sıvı resüsitasyonu, analjezi-antiemetik ve endikasyonda antibiyotik; tanıya özgü kesin tedavi (enema redüksiyonu, apendektomi/antibiyotik, Ladd, detorsiyon) konsültanla birlikte planlanır. Erken analjezi tanısal değerlendirmeyi bozmaz ve verilmelidir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>İlk stabilizasyon ve semptomatik tedavi</caption>
+        <thead>
+          <tr><th>Basamak / ilaç</th><th>Doz</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">NPO + nazogastrik dekompresyon</td><td class="dose">—</td><td>Obstrüksiyon/safralı kusma/cerrahi şüphesinde; aspirasyonu ve distansiyonu azaltır</td></tr>
+          <tr><td class="step">İzotonik sıvı bolusu (SF veya RL)</td><td class="dose">20 mL/kg IV bolus; yanıta göre tekrarla (şokta hızlı)</td><td>İdame + defisit; idrar çıkışı ve perfüzyonu hedefle; hipoglisemi/DKA'da protokole göre düzelt</td></tr>
+          <tr><td class="step">Morfin (analjezi)</td><td class="dose">0,05-0,1 mg/kg/doz IV (maks 4-5 mg/doz)</td><td>Cerrahi karnı maskelemez; titre et. Alternatif: fentanil 1 mcg/kg (maks 50 mcg)</td></tr>
+          <tr><td class="step">Parasetamol (hafif-orta ağrı)</td><td class="dose">15 mg/kg/doz IV/PO (maks 1 g/doz, 4 g/gün)</td><td>Opioid gereksinimini azaltır; NSAİİ cerrahi/kanama riskinde temkinli</td></tr>
+          <tr><td class="step">Ondansetron (antiemetik)</td><td class="dose">0,15 mg/kg/doz IV (maks 8 mg/doz)</td><td>Kusma-dehidratasyonda; QT uzatan birliktelikte dikkat</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <caption>Tanıya özgü tedavi (cerrahi/girişimsel ekiple birlikte)</caption>
+        <thead>
+          <tr><th>Tanı</th><th>Tedavi / doz</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Komplike apandisit / perforasyon-peritonit</td><td class="dose">Piperasilin-tazobaktam 100 mg/kg/doz (piperasilin) IV q6-8s (maks 4 g/doz)</td><td>Geniş spektrum ampirik; alternatif seftriakson 50-75 mg/kg/gün (maks 2 g) + metronidazol 10 mg/kg/doz q8s (maks 500 mg/doz); cerrahi karar konsültanla</td></tr>
+          <tr><td class="step">Komplike olmayan apandisit</td><td class="dose">Perioperatif tek doz sefoksitin 40 mg/kg (maks 2 g) ± apendektomi</td><td>Laparoskopik apendektomi standart; seçili olguda cerrahla nonoperatif antibiyotik protokolü tartışılır</td></tr>
+          <tr><td class="step">İnvajinasyon</td><td class="dose">Hava enema redüksiyonu (basınç genelde ≤120 mmHg); en çok 3 deneme</td><td>Peritonit, perforasyon, şok veya patolojik lead point kontrendike ise cerrahi; başarılı redüksiyon sonrası gözlem (nüks riski)</td></tr>
+          <tr><td class="step">Malrotasyon + midgut volvulus</td><td class="dose">Acil Ladd prosedürü (cerrahi); resüsitasyon + geniş spektrum antibiyotik</td><td>Dakikalar önemlidir — barsak nekrozunu önlemek için gecikmeden ameliyathane</td></tr>
+          <tr><td class="step">Over / adneksiyal torsiyon</td><td class="dose">Acil laparoskopik detorsiyon (over koruyucu); analjezi</td><td>Normal Doppler torsiyonu dışlamaz; over kurtarma için ivedi jinekoloji konsültasyonu</td></tr>
+          <tr><td class="step">Testis torsiyonu / inkarsere herni</td><td class="dose">Acil cerrahi eksplorasyon-detorsiyon / herni onarımı</td><td>Testis torsiyonunda "altın 6 saat"; akut skrotumda beklemeden üroloji</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout safe"><b>Yaklaşım:</b> Cerrahi karın şüphesinde sıra — NPO, resüsitasyon ve analjezi ile <b>eşzamanlı</b> konsültasyon; görüntüleme tedaviyi geciktirmemeli. Antibiyotik yalnızca perforasyon/peritonit/sepsis veya planlı apendektomi perioperatifinde başlanır; basit gastroenteritte antibiyotik gereksizdir.</div>
+    <div class="callout">Tanısı netleşmemiş stabil çocukta ampirik antibiyotik ve gereksiz opioid yükünden kaçın; bunun yerine aktif gözlem, seri muayene ve gerektiğinde tekrar görüntüleme ile ilerle.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve yönetim ilkeleri</h2>
+    <p class="lede">Akut karın ağrısının önemli kısmı kendini sınırlayan medikal nedenlerdir; ancak erken evre cerrahi patoloji atlanabildiğinden yönetim, seri değerlendirme ve net güvenlik ağı üzerine kuruludur. Hedef: cerrahi karnı zamanında yakalamak, gereksiz radyasyon-cerrahiden kaçınmak ve taburculukta güvenli takip sağlamak.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Gözlem ve izlem</h3>
+        <ul class="clean">
+          <li>Tanı belirsizse aktif gözlem: 6-24 saatte bir seri karın muayenesi, vital ve ağrı seyri; kötüleşmede yeniden görüntüle</li>
+          <li>Başlangıçta USG negatif ama şüphe sürüyorsa tekrar USG / MR; erken apandisit ve invajinasyon geç görülebilir</li>
+          <li>Enema ile redükte invajinasyonda erken nüks açısından gözlem; oral tolerans ve kliniği izle</li>
+          <li>Postoperatif: ateş, ileus, yara-apse; komplike apandisitte antibiyotik süresi ve apse drenajı takibi</li>
+          <li>Medikal nedende (gastroenterit, kabızlık, İYE) nedene yönelik tedavi ve hidrasyon; yanıtı değerlendir</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Taburculuk ve güvenlik ağı</h3>
+        <ul class="clean">
+          <li>Taburculuk kriteri: iyi genel durum, oral tolerans, ağrı kontrolü, güvenilir bakım verici ve erişilebilir tekrar başvuru</li>
+          <li>Aileye yazılı uyarı: artan/lokalize ağrı, safralı-inatçı kusma, ateş, distansiyon, kanlı gaita, letarjide acil dönüş</li>
+          <li>Belirlenmiş erken tekrar değerlendirme (genellikle 12-24 saat) planla; "tanı konmadı" ≠ "sorun yok"</li>
+          <li>Tekrarlayan/atipik ataklarda Meckel, intermittan volvulus, İBH, üriner-jinekolojik nedenleri yeniden gözden geçir</li>
+          <li>Multidisipliner eşik düşük tut: çocuk cerrahisi, üroloji, jinekoloji ve radyoloji ile erken iletişim</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout safe">En güvenli sonuç; cerrahi karnı erken tanıyan yapılandırılmış değerlendirme, ilk basamakta USG'ye dayanan akılcı görüntüleme, zamanında konsültasyon ve belirsiz olguda seri muayene ile net güvenlik ağının birlikte uygulandığı bir planla elde edilir.</div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Reust CE, Williams A. Acute Abdominal Pain in Children. Am Fam Physician. 2016;93(10):830-836.</li>
+      <li>Di Saverio S, Podda M, De Simone B, et al. Diagnosis and treatment of acute appendicitis: 2020 update of the WSES Jerusalem guidelines. World J Emerg Surg. 2020;15(1):27.</li>
+      <li>Expert Panel on Pediatric Imaging; Koberlein GC, Trout AT, Rigsby CK, et al. ACR Appropriateness Criteria: Suspected Appendicitis—Child. J Am Coll Radiol. 2019;16(5S):S252-S263.</li>
+      <li>Hyams JS, Di Lorenzo C, Saps M, et al. Functional Disorders: Children and Adolescents (Rome IV). Gastroenterology. 2016;150(6):1456-1468.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge uzman kullanıcıya yönelik bir klinik karar destek aracıdır; hastanın bireysel değerlendirmesi, güncel kılavuzlar ve yerel uygulamaların yerine geçmez. Dozlar hastaya, ağırlığa, komorbiditeye ve ilaç etkileşimlerine göre teyit edilmelidir.</div>
+</div>

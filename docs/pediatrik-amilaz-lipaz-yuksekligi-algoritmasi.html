@@ -1,0 +1,408 @@
+<title>Amilaz / Lipaz Yüksekliği — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Amilaz / Lipaz Yüksekliği</h1>
+    <p class="sub">Yüksek pankreas enziminde akut pankreatiti tanı ölçütleriyle doğrulamaya, magnitüdün şiddetle eş anlamlı olmadığını hatırlayarak non-pankreatik nedenleri (tükürük kaynağı, makroamilazemi, azalmış klirens) ayırmaya ve doğrulanmış olguda sıvı–analjezi–erken beslenme temelli ilk yönetimi başlatmaya yönelik karar aracı. Hedef kitle: çocuk gastroenteroloji uzmanı.</p>
+    <div class="meta">
+      <span class="tag">Akut pankreatit</span>
+      <span class="tag">≥3x ULN kuralı</span>
+      <span class="tag">Lipaz &gt; amilaz</span>
+      <span class="tag">Non-pankreatik nedenler</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">Amilaz ve lipaz pankreas asiner hasarında serumda artar, ancak ikisi eşdeğer değildir: <b>lipaz akut pankreatit için hem daha duyarlı hem daha özgüldür</b> ve tanıda tercih edilen enzimdir; amilazın önemli kısmı pankreas-dışı (tükürük bezi, over, akciğer, ince bağırsak) kaynaklıdır ve yenidoğan–erken süt çocuğunda pankreatik amilaz henüz düşük olduğundan bu dönemde amilaz güvenilmez. Kinetik farklıdır: amilaz ağrıdan 6-12 saat sonra yükselir, ~48 saatte tepe yapar ve 3-5 günde normalleşir; lipaz 4-8 saatte yükselir, 24 saatte tepe yapar ve 8-14 gün yüksek kalır — bu yüzden geç başvuruda lipaz daha güvenilirdir. En kritik kavram şudur: <b>enzim yüksekliğinin derecesi pankreatitin şiddetiyle korele değildir</b>; çok yüksek değer ağır hastalık, hafif yükseklik hafif hastalık anlamına gelmez, seri enzim takibi de prognozu göstermez. İlk görev üç aşamalıdır: (1) yüksekliğin gerçek olduğunu ve paternini belirle — hem amilaz hem lipaz mı yüksek, yoksa <b>izole amilaz</b> mı (tükürük kaynağı veya makroamilazemi lehine); (2) çocuğun klinik tablosunu akut pankreatit <b>tanı ölçütleriyle</b> (aşağıda) karşılaştır; (3) tanı ölçütü karşılanmıyorsa non-pankreatik nedenlere (azalmış renal klirens, DKA, intraabdominal patoloji, makroenzim) yönel. Pankreatik amilaz izoenzimi ve lipaz birlikte değerlendirildiğinde ayrım netleşir.</p>
+    <div class="pill-row">
+      <span class="pill">Tanıda lipaz tercih edilir</span>
+      <span class="pill">Magnitüd ≠ şiddet</span>
+      <span class="pill">İzole amilaz → tükürük / makroamilazemi</span>
+      <span class="pill">AP tanısı 3 ölçütten 2'si</span>
+      <span class="pill">Enzim ≥3x ULN eşiği</span>
+    </div>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öyküde sorgula</h3>
+        <ul class="clean">
+          <li>Ağrı karakteri: epigastrik/üst karın, sırta yayılım, öne eğilmekle azalma, ani başlangıç; süre, ilişkili kusma; küçük çocukta ağrı atipik/lokalize olmayabilir</li>
+          <li>Tetikleyici: künt karın travması (bisiklet gidonu, istismar), yeni ilaç (valproat, L-asparaginaz, azatioprin/6-MP, steroid, sülfasalazin, furosemid, tetrasiklin), viral hastalık (kabakulak, EBV, koksaki)</li>
+          <li>Biliyer ipuçları: sarılık, koyu idrar, safra taşı/hemolitik hastalık öyküsü, kolik ağrı; obezite ve hızlı kilo değişimi (taş riski)</li>
+          <li>Metabolik: hipertrigliseridemi öyküsü, diyabet/DKA (bulantı-kusma-poliüri), hiperkalsemi; ailede pankreatit-transplant, tekrarlayan atak (kalıtsal pankreatit — PRSS1, SPINK1, CFTR, CTRC)</li>
+          <li>Sistemik: parotis şişliği/kabakulak (tükürük amilazı), böbrek yetmezliği (azalmış klirens), IBD/çölyak, DKA; alkol kullanımı (adölesan)</li>
+          <li>Yapısal/rekürren: daha önceki pankreatit atakları, pankreas divisum-koledok kisti-anüler pankreas bilinen anatomik anomali; kistik fibrozis tanısı</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayenede değerlendir</h3>
+        <ul class="clean">
+          <li>Genel durum ve hemodinami: taşikardi, hipotansiyon, kapiller dolum, dehidratasyon-şok bulguları (ağır AP habercisi)</li>
+          <li>Batın: epigastrik hassasiyet, distansiyon, defans-rebound (peritonit), azalmış barsak sesleri (ileus); kitle/psödokist</li>
+          <li>Solunum: takipne, hipoksi, plevral efüzyon-ARDS bulguları (sistemik ağır tutulum)</li>
+          <li>Sarılık/ikter (biliyer obstrüksiyon-kolanjit), ateş; parotis/submandibular bez şişliği (tükürük kaynağı)</li>
+          <li>Ağır seyir cilt bulguları (nadir): Cullen (periumbilikal) ve Grey-Turner (yan) ekimozu — hemorajik/nekrotizan pankreatit</li>
+          <li>Sistemik ipuçları: Kussmaul solunumu-aseton kokusu (DKA), ödem-üremi (böbrek yetmezliği), büyüme-beslenme durumu</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout"><b>Akut pankreatit tanı ölçütü (NASPGHAN/INSPPIRE):</b> Aşağıdaki 3 ölçütten en az 2'si → akut pankreatit. (1) AP ile uyumlu karın ağrısı; (2) serum amilaz ve/veya lipaz normalin üst sınırının (ULN) <b>≥3 katı</b>; (3) AP ile uyumlu görüntüleme bulgusu (USG/BT/MR). Tek başına enzim yüksekliği tanı koydurmaz — ağrı yoksa ve görüntüleme normalse hafif enzim yüksekliği çoğu kez non-pankreatiktir. <b>Akut rekürren pankreatit</b> = en az 2 ayrı AP atağı (arada tam iyileşme); <b>kronik pankreatit</b> = kalıcı yapısal/fonksiyonel hasar kanıtı.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Etiyoloji ve mekanizma</h2>
+    <p class="lede">Yorum, "bu yükseklik pankreastan mı geliyor?" sorusuyla başlar. Hem amilaz hem lipaz yüksekse ve klinik uyumluysa pankreatik kaynak öndedir; <b>izole amilaz</b> (lipaz normal) yüksekliği pankreas-dışı (tükürük, makroamilazemi) kaynağı düşündürür; enzimler orta düzeyde yüksek ama tanı ölçütü karşılanmıyorsa azalmış klirens, intraabdominal patoloji veya analitik neden aranır. Pankreatik kaynak doğrulandığında bir sonraki eksen etiyolojidir: biliyer/obstrüktif, ilaç, travma, metabolik, enfeksiyöz, sistemik ve genetik nedenler ayrı tedavi gerektirir; çocukta idiyopatik oran da yüksektir.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">Akut pankreatit — pankreatik kaynak</div>
+        <ul>
+          <li>Hem lipaz hem amilaz ≥3x ULN + uyumlu ağrı ± görüntüleme; tanı 3 ölçütten 2'si</li>
+          <li>Asiner hasar → enzim salınımı; magnitüd şiddeti göstermez</li>
+          <li>Görüntülemede ödem/peripankreatik sıvı, nekroz; erken USG sıklıkla normal olabilir</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">AP etiyolojisi — çocukta öncelikler</div>
+        <ul>
+          <li>Biliyer/obstrüktif: safra taşı-çamur, koledok kisti, pankreas divisum, anüler pankreas</li>
+          <li>Travma (künt-istismar), ilaç (valproat, L-asparaginaz, azatioprin/6-MP, steroid), sistemik hastalık (HÜS, SLE, sepsis)</li>
+          <li>Metabolik (hipertrigliseridemi &gt;1000 mg/dL, hiperkalsemi, DKA), enfeksiyon (kabakulak, EBV, koksaki), genetik (PRSS1, SPINK1, CFTR, CTRC), idiyopatik</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">İzole amilaz — tükürük / makro</div>
+        <ul>
+          <li>Tükürük bezi: kabakulak, sialadenit, travma; amilaz yüksek, lipaz normal</li>
+          <li>Makroamilazemi: amilaz–immünglobülin kompleksi; kalıcı, izole, selim; idrar amilazı düşük, amilaz/kreatinin klirens oranı düşük</li>
+          <li>Over/akciğer/tümör kaynaklı ektopik amilaz (nadir)</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">İntraabdominal / GİS kaynağı</div>
+        <ul>
+          <li>Bağırsak iskemisi-perforasyon, obstrüksiyon, apandisit, peritonit (amilaz ve lipaz birlikte artabilir)</li>
+          <li>Hepatobiliyer hastalık, çölyak/IBD, kolesistit; enzim yükseldiğinde AP taklidi</li>
+          <li>Yaklaşım: klinik + görüntüleme ile cerrahi/akut karın ayrımı önceliklidir</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">Azalmış klirens / sistemik</div>
+        <ul>
+          <li>Böbrek yetmezliği: hem amilaz hem lipaz azalmış renal klirensle yükselir (genelde &lt;3x ULN)</li>
+          <li>Diyabetik ketoasidoz: enzim yüksekliği sık, çoğu AP olmadan; klinik + görüntüleme ile ayır</li>
+          <li>Asidoz, makrofaj aktivasyonu, kritik hastalık; ilaç etkisi</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">Analitik / yorum tuzakları</div>
+        <ul>
+          <li>Makrolipazemi ve makroamilazemi — kalıcı, izole, selim yükseklik; klinikle uyumsuzsa akla getir</li>
+          <li>Yenidoğan/erken süt çocuğunda amilaz fizyolojik düşük — yorumda lipaza dayan</li>
+          <li>Hemoliz-lipemik örnek interferansı; ≥3x ULN eşiğini ve yaşa uygun referansı kullan</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout"><b>Patern kuralı:</b> Lipaz + amilaz birlikte yüksek + uyumlu klinik → pankreatik; tanı ölçütünü uygula. <b>İzole amilaz</b> (lipaz normal) → tükürük kaynağı veya makroamilazemi (idrar amilazı/klirens oranı ile doğrula). Her iki enzim hafif yüksek ama ağrı-görüntüleme yok → azalmış klirens (böbrek, DKA) veya intraabdominal/analitik neden. Pankreatik doğrulanınca etiyolojiyi (biliyer, ilaç, travma, metabolik, genetik) araştır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">İlk çatal, enzim yüksekliğinin akut pankreatit tanı ölçütünü karşılayıp karşılamadığıdır (3'ten 2 ölçüt); ölçüt karşılanıyorsa şiddet değerlendirmesi ve ilk yönetim eş zamanlı başlar. Karşılanmıyorsa ikinci çatal enzim paternidir: izole amilaz tükürük/makroamilazemiye, çift enzim yüksekliği azalmış klirens veya intraabdominal patolojiye yönlendirir. Akut karın (perforasyon-iskemi) ve biliyer obstrüksiyon/kolanjit her aşamada önceliklidir.</p>
+    <div class="flow">
+      <div class="node start"><span class="k">Başlangıç</span><span class="t">Amilaz ve/veya lipaz yüksekliği</span><p>Lipazı öncelikle değerlendir; enzimin ULN'nin kaç katı olduğunu, paterni (izole amilaz mı, her ikisi mi) ve klinik bağlamı (ağrı, travma, ilaç, DKA, böbrek) belirle. Magnitüdü şiddet göstergesi olarak kullanma.</p></div>
+      <div class="connector"></div>
+      <div class="node action"><span class="k">Adım 1</span><span class="t">Klinik + laboratuvarı tanı ölçütüyle eşle</span><p>Ağrı karakterini, enzimin ≥3x ULN olup olmadığını ve görüntüleme (öncelikle abdominal USG) bulgusunu birlikte değerlendir. Şiddet için hemodinami, solunum, mental durum, Ca, glukoz, BUN/kreatinin, Hct'yi kontrol et.</p></div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 1</span><span class="t">Akut pankreatit tanı ölçütü karşılanıyor mu (3'ten 2)?</span><p>(1) Uyumlu karın ağrısı, (2) amilaz ve/veya lipaz ≥3x ULN, (3) uyumlu görüntüleme — en az ikisi var mı?</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">EVET → Akut pankreatit</span><div class="node action"><span class="k">İlk yönetim</span><span class="t">Sıvı + analjezi + erken beslenme; şiddet + etiyoloji</span><p>Dengeli izotonik kristalloid (Ringer laktat tercih), yeterli analjezi ve <b>erken enteral/oral beslenme</b> (48-72 saat içinde) başlat. Şiddeti (organ yetmezliği-komplikasyon) seri izle; etiyolojiyi (biliyer USG, trigliserid, Ca, ilaç, travma) araştır.</p></div></div>
+        <div class="branch no"><span class="label">HAYIR → Non-pankreatik yol</span><div class="node action safe"><span class="k">Ayır</span><span class="t">Pankreas-dışı neden ve enzim paterni</span><p>Ağrı yok/atipik ve görüntüleme normalse pankreatik olmayabilir; enzim paternine göre ilerle. Akut karın (peritonit, iskemi) ekarte edilmediyse cerrahi değerlendirmeyi önceliklendir.</p></div></div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 2</span><span class="t">Yükseklik izole amilaz mı (lipaz normal)?</span><p>Enzim paterni kaynağı ayırır; kalıcı-izole selim yükseklikte makroenzim olasılığını değerlendir.</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">EVET → İzole amilaz</span><div class="node action safe"><span class="k">Selim kaynak</span><span class="t">Tükürük bezi / makroamilazemi</span><p>Parotis-submandibular muayene, kabakulak öyküsü; makroamilazemi için idrar amilazı ve amilaz/kreatinin klirens oranı (makroda düşük). Klinik uyumsuz-kalıcı yükseklikte ileri pankreatik tetkikten kaçın.</p></div></div>
+        <div class="branch no"><span class="label">HAYIR → Her iki enzim yüksek, AP değil</span><div class="node action"><span class="k">Sistemik / intraabdominal</span><span class="t">Klirens, DKA, karın patolojisi ara</span><p>BUN/kreatinin (böbrek yetmezliği), glukoz-keton-pH (DKA), görüntüleme ile intraabdominal patoloji (iskemi-perforasyon-obstrüksiyon) ve makrolipazemi olasılığını değerlendir; nedeni yönet.</p></div></div>
+      </div>
+    </div>
+    <div class="callout"><b>Not:</b> Amaç, izole enzim yüksekliğine bakıp "pankreatit" damgası vurmamak; tanıyı ölçütle (2/3) koymak, magnitüdü şiddet sanmamak ve non-pankreatik/analitik nedenleri gereksiz tetkik yığmadan ayırmaktır. Doğrulanmış akut pankreatitte ise ilk saatlerde sıvı-analjezi-erken beslenme üçlüsü ve ağır seyir işaretlerinin yakın izlemi belirleyicidir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Tetkik, tanı ölçütünü tamamlamak (enzim + görüntüleme) ve şiddeti ölçmekle başlar; akut pankreatit doğrulanınca etiyolojik çalışma (biliyer, metabolik, genetik) ve komplikasyon izlemine ilerler. Tanı ölçütü karşılanmayan hafif/izole yükseklikte hedef, kaynağı (tükürük, makroenzim, azalmış klirens) doğrulayıp ileri pankreatik görüntülemeden kaçınmaktır.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Amilaz / lipaz yüksekliğinde kademeli değerlendirme</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Test</th><th>Amaç / not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Basamak 1 · Enzim ve patern</td><td>Lipaz (öncelikli) ve amilaz; <span class="dose">≥3x ULN eşiği</span>, yaşa uygun referans; izole amilaz mı?</td><td>Lipaz daha duyarlı/özgül; magnitüdü şiddet göstergesi sayma; izole amilazda tükürük/makroamilazemi düşün</td></tr>
+          <tr><td class="step">Basamak 2 · Şiddet paneli</td><td>Tam kan-Hct, CRP, üre/kreatinin, glukoz, Ca-albümin (düzeltilmiş), Mg, elektrolit, AST/ALT/bilirubin, GGT/ALP, LDH, kan gazı</td><td>Hemokonsantrasyon, üremi, hipokalsemi, hiperglisemi ağır seyir işareti; biliyer AP için ALT/bilirubin yükselişi anlamlı</td></tr>
+          <tr><td class="step">Basamak 3 · İlk görüntüleme</td><td>Abdominal ultrasonografi (safra taşı-çamur, koledok, pankreas, sıvı); ayakta batın grafisi (perforasyon şüphesi)</td><td>İlk basamak USG (radyasyonsuz, biliyer neden); erken dönemde pankreas USG normal olabilir — tanıyı dışlamaz</td></tr>
+          <tr><td class="step">Basamak 4 · İleri görüntüleme</td><td>Kontrastlı BT (komplikasyon/nekroz kuşkusu, genelde 48-72 saat sonra); MR/MRCP (duktal anatomi, taş, divisum, koledok kisti)</td><td>BT'yi erken rutin çekme; nekroz/kolleksiyon ve kötüleşmede endike. MRCP anatomik/obstrüktif nedende değerli</td></tr>
+          <tr><td class="step">Basamak 5 · Etiyolojiye yönelik</td><td>Açlık trigliserid, Ca-PTH, viral seroloji (kabakulak, EBV), otoimmün (IgG4, otoantikor), ilaç gözden geçirme; makroamilazemide idrar amilazı + amilaz/kreatinin klirens oranı</td><td>Hipertrigliseridemi &gt;1000 mg/dL ve hiperkalsemi tedavi edilebilir nedenler; DKA'da glukoz-keton-pH; ilaç ilişkisini sorgula</td></tr>
+          <tr><td class="step">Basamak 6 · Rekürren/kronik</td><td>Genetik panel (PRSS1, SPINK1, CFTR, CTRC), ter testi; sekretin-uyarılı MRCP; EUS/ERCP (seçili obstrüktif olguda)</td><td>Akut rekürren (≥2 atak) veya kronik pankreatitte; ERCP terapötik endikasyonla (taş-darlık) saklanır</td></tr>
+          <tr><td class="step">Seçili · Ayırıcı doğrulama</td><td>Böbrek fonksiyonu (azalmış klirens), makrolipazemi kuşkusu; cerrahi konsültasyon (akut karın)</td><td>Klinikle uyumsuz kalıcı izole yükseklikte makroenzim; peritonit-iskemi kuşkusunda cerrahi öncelik</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout"><b>Sıralama ilkesi:</b> Tanıyı enzim + klinik + USG ile kur; kontrastlı BT'yi erken rutin değil, komplikasyon/kötüleşme için sakla. Biliyer neden USG ile taranır, obstrüktif-anatomik neden MRCP ile netleşir. İzole/hafif yükseklikte önce makroenzim ve azalmış klirensi dışla, gereksiz ileri görüntülemeden kaçın.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdakilerden herhangi biri ağır/orta-ağır akut pankreatiti, organ yetmezliğini veya cerrahi acili düşündürür; agresif sıvı desteği, yakın monitörizasyon (gerekirse yoğun bakım), erken görüntüleme ve cerrahi/girişimsel merkez iletişimini gerektirir.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Hemodinamik instabilite: taşikardi, hipotansiyon, uzamış kapiller dolum, şok (agresif sıvı resüsitasyonu)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Solunum yetmezliği: takipne, hipoksi, plevral efüzyon/ARDS (kalıcı organ yetmezliği = ağır AP)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Bilinç değişikliği, letarji; kalıcı (&gt;48 saat) tek/çoklu organ yetmezliği</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Hemokonsantrasyon (yüksek Hct), yükselen BUN/kreatinin, oligüri (renal tutulum, sıvı açığı)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Hipokalsemi (tetani, uzun QT), belirgin hiperglisemi, metabolik asidoz</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Peritonit bulguları: yaygın defans-rebound, distansiyon, akut karın (perforasyon-iskemi ekartasyonu)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Biliyer obstrüksiyon-kolanjit: sarılık + ateş + ağrı, yükselen bilirubin/GGT (girişim gerekebilir)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Cullen/Grey-Turner ekimozu, düşen hemoglobin (hemorajik/nekrotizan seyir)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Görüntülemede nekroz, geniş peripankreatik kolleksiyon, enfekte nekroz kuşkusu (ateş + kötüleşme)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kontrol altına alınamayan ağrı, inatçı kusma, oral beslenmeyi başaramama, kötüleşen klinik seyir</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi</h2>
+    <p class="lede">Doğrulanmış akut pankreatitin ilk yönetimi üç temel üzerine kuruludur: <b>erken hedefe yönelik sıvı resüsitasyonu</b> (dengeli izotonik kristalloid, Ringer laktat tercih), <b>yeterli analjezi</b> ve <b>erken enteral/oral beslenme</b> (ilk 48-72 saatte, tolere ediyorsa düşük yağlı normal diyet; uzamış açlık ve rutin TPN önerilmez). Rutin antibiyotik ve rutin proteaz inhibitörü <b>önerilmez</b>; antibiyotik yalnızca enfekte nekroz veya kolanjit gibi doğrulanmış/güçlü kuşkulu enfeksiyonda kullanılır. Etiyolojiye özgü tedavi (hipertrigliseridemide TG düşürme, biliyer taşta girişim, ilaç kesimi) paralel yürütülür. Non-pankreatik/izole yükseklikte (makroamilazemi, tükürük kaynağı, azalmış klirens) tedavi <b>gözlem ve nedeni yönetmektir</b>; enzim düşürmeye yönelik tedavi yoktur. Dozlar akut pankreatit ve destek tedavisi içindir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Akut pankreatit ilk yönetimi ve dozlar</caption>
+        <thead>
+          <tr><th>Durum / ilaç</th><th>Doz</th><th>Not / izlem</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Sıvı resüsitasyonu (kristalloid)</td><td class="dose">Ringer laktat/izotonik: dehidratasyon/şokta bolus 10-20 mL/kg, ardından idamenin 1.5-2 katı hızda infüzyon</td><td>Erken hedefe yönelik; idrar çıkışı (&gt;0.5-1 mL/kg/saat), kalp hızı, Hct, BUN ile titre et; aşırı yüklemeden kaçın</td></tr>
+          <tr><td class="step">Parasetamol (analjezi)</td><td class="dose">15 mg/kg/doz PO/IV her 6 saatte (maks 75 mg/kg/gün; tek doz maks 1000 mg, günlük maks 3-4 g)</td><td>İlk basamak analjezik; hafif-orta ağrıda; karaciğer fonksiyonuna dikkat</td></tr>
+          <tr><td class="step">Morfin (opioid analjezi)</td><td class="dose">0.05-0.1 mg/kg/doz IV her 2-4 saatte (tek doz maks 2-5 mg başlangıç); veya hasta kontrollü analjezi</td><td>Orta-şiddetli ağrıda; opioidler AP'de kontrendike değildir; solunum-sedasyon izlemi</td></tr>
+          <tr><td class="step">Fentanil (opioid, alternatif)</td><td class="dose">1-2 mcg/kg/doz IV (hemodinamik instabilite/renal yetmezlikte tercih)</td><td>Kısa etkili; titre edilebilir; monitörize ortamda</td></tr>
+          <tr><td class="step">Ondansetron (antiemetik)</td><td class="dose">0.15 mg/kg/doz IV her 8 saatte (maks 4-8 mg/doz)</td><td>Bulantı-kusma için; QT uzamasına dikkat (hipokalsemi ile birlikte)</td></tr>
+          <tr><td class="step">Erken enteral/oral beslenme</td><td class="dose">İlaç değil: 48-72 saat içinde başla; tolere ediyorsa düşük yağlı normal diyet, gerekirse NG/NJ enteral</td><td>Uzun açlık ve rutin TPN önerilmez; erken beslenme mukozayı korur, seyri iyileştirir</td></tr>
+          <tr><td class="step">Antibiyotik (yalnızca endikasyonla)</td><td class="dose">Rutin DEĞİL; enfekte nekroz/kolanjitte geniş spektrumlu (ör. meropenem 20 mg/kg/doz IV q8h, maks 1 g/doz)</td><td>Steril nekroz/profilakside verilmez; kültür-klinik enfeksiyon kanıtıyla başla</td></tr>
+          <tr><td class="step">Hipertrigliseridemik AP</td><td class="dose">TG &gt;1000 mg/dL: oral alımı kes, IV sıvı ± insülin infüzyonu (0.05-0.1 U/kg/saat, glukoz izlemi); dirençli-ağırda aferez</td><td>Hedef TG &lt;500 mg/dL; hipoglisemi-elektrolit izlemi; sonrasında lipid diyeti/fibrat değerlendir</td></tr>
+          <tr><td class="step">Biliyer taş / obstrüksiyon</td><td class="dose">İlaç değil: kolanjit veya kalıcı obstrüksiyonda ERCP; taşlı olguda kolesistektomi planı</td><td>Obstrüksiyon çözülmezse veya kolanjit varsa girişimsel; USG/MRCP ile doğrula</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout safe"><b>Yaklaşım:</b> Doğrulanmış AP'de ilk saatlerde dengeli kristalloidle hedefe yönelik sıvı, yeterli (gerekirse opioid) analjezi ve erken beslenmeyi üçlü paket olarak uygula; şiddeti seri izle. Etiyolojiye özgü (hipertrigliseridemi, biliyer, ilaç) tedaviyi paralel yürüt. Non-pankreatik/izole yükseklikte gözlem ve nedeni yönetmek yeterlidir — enzim düşürücü tedavi yoktur.</div>
+    <div class="callout alarm"><b>Dikkat:</b> Rutin antibiyotik ve rutin proteaz inhibitörü/oktreotid önerilmez; gereksiz uzamış açlık ve rutin TPN'den kaçının. Kontrastlı BT'yi erken rutin çekmeyin — komplikasyon/kötüleşmede endike. Enzim magnitüdünü şiddet göstergesi olarak kullanmayın; ağır seyir işaretleri (organ yetmezliği, hipokalsemi, hemokonsantrasyon) görülürse yoğun bakım ve cerrahi/girişimsel destek gerekir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve yönetim ilkeleri</h2>
+    <p class="lede">Yönetim, akut pankreatiti tanı ölçütüyle doğru koymaya, magnitüdü değil klinik-organ parametrelerini izleyerek şiddeti değerlendirmeye, erken destek üçlüsünü uygulamaya ve non-pankreatik/izole yükseklikte gereksiz tetkiki önlemeye dayanır. Rekürren atakta etiyolojik-genetik çalışma ve kronikleşme izlemi öne çıkar.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>İzlem ve takip</h3>
+        <ul class="clean">
+          <li>Şiddeti klinik-laboratuvarla seri izle (hemodinami, solunum, idrar çıkışı, Hct, BUN, Ca, glukoz); enzimi prognoz için tekrar tekrar isteme</li>
+          <li>Sıvı yanıtını hedefe yönelik titre et; aşırı yükleme ve yetersiz resüsitasyon arasında denge kur</li>
+          <li>Beslenme toleransını izle; erken oral/enteral beslenmeye geçişi hedefle, ağrı-kusma ile ilerlet</li>
+          <li>Komplikasyon takibi: psödokist, nekroz-enfekte nekroz, plevral efüzyon; kötüleşmede görüntülemeyi tekrarla</li>
+          <li>Etiyolojiye özgü sonuç izlemi: TG, Ca, ilaç ilişkisi, biliyer taş; taburculuk sonrası kontrol</li>
+          <li>İzole/makroenzim yüksekliğinde kalıcılığı belgele, klinik uyumu değerlendir, ileri pankreatik tetkikten kaçın</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Yönetim ve güvenlik ağı</h3>
+        <ul class="clean">
+          <li>Ağır/orta-ağır seyirde (organ yetmezliği, hemodinamik/solunumsal bozulma) erken yoğun bakım ve girişimsel/cerrahi ekip iş birliği</li>
+          <li>Etiyolojiye yönelik kesin tedaviyi zamanında uygula: biliyer taşta kolesistektomi/ERCP, hipertrigliseridemide lipid yönetimi, sorumlu ilacın kesimi</li>
+          <li>Akut rekürren pankreatitte (≥2 atak) genetik panel (PRSS1, SPINK1, CFTR, CTRC), anatomik değerlendirme (MRCP) ve aile danışmanlığı planla</li>
+          <li>Kronik pankreatit gelişiminde ekzokrin yetmezlik (pankreatik enzim replasmanı, yağda eriyen vitamin) ve endokrin (diyabet) izlemi</li>
+          <li>Aileye yazılı uyarı: şiddetli/artan karın ağrısı, inatçı kusma, ateş, sarılık, letarji, beslenememe durumunda acil dönüş</li>
+          <li>Non-pankreatik nedende (makroamilazemi, tükürük, azalmış klirens) tanıyı netleştir, gereksiz tekrarlayan enzim ve görüntülemeden kaçın</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout safe">En iyi sonuç; akut pankreatiti tanı ölçütüyle (3'ten 2) doğru koymak, enzim magnitüdünü şiddetle karıştırmamak, ilk saatlerde dengeli sıvı–analjezi–erken beslenme üçlüsünü uygulamak, ağır seyri organ parametreleriyle erken yakalamak ve non-pankreatik/izole yüksekliği gereksiz tetkik yığmadan yönetmekle elde edilir.</div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Abu-El-Haija M, Kumar S, Quiros JA, et al. Management of Acute Pancreatitis in the Pediatric Population: A Clinical Report From the NASPGHAN Pancreas Committee. J Pediatr Gastroenterol Nutr. 2018;66(1):159-176.</li>
+      <li>Abu-El-Haija M, Kumar S, Szabo F, et al. Classification of Acute Pancreatitis in the Pediatric Population: Clinical Report From the NASPGHAN Pancreas Committee. J Pediatr Gastroenterol Nutr. 2017;64(6):984-990.</li>
+      <li>Párniczky A, Abu-El-Haija M, Husain S, et al. EPC/HPSG evidence-based guidelines for the management of pediatric pancreatitis. Pancreatology. 2018;18(2):146-160.</li>
+      <li>Uc A, Husain SZ. Pancreatitis in Children. Gastroenterology. 2019;156(7):1969-1978.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge uzman kullanıcıya yönelik bir klinik karar destek aracıdır; hastanın bireysel değerlendirmesi, güncel kılavuzlar ve yerel uygulamaların yerine geçmez. Amilaz ve lipaz değerleri yaşa uygun referans aralığıyla ve ≥3x ULN eşiğiyle yorumlanmalı; enzim yüksekliğinin derecesi hastalık şiddetiyle eş tutulmamalı; dozlar hastaya, ağırlığa, komorbiditeye, böbrek-karaciğer fonksiyonuna ve ilaç etkileşimlerine göre teyit edilmelidir.</div>
+</div>

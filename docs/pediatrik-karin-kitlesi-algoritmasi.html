@@ -1,0 +1,409 @@
+<title>Karın Kitlesi — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Karın Kitlesi</h1>
+    <p class="sub">Çocukta palpe edilen karın kitlesinde; nöroblastom, Wilms tümörü, hepatoblastom, lenfoma ve non-neoplastik nedenleri yaş ve lokalizasyona göre ayırmaya, ultrasonografi ile başlayıp MR/BT ve tümör belirteçleriyle (AFP, idrar katekolaminleri) etiyolojiye ulaşmaya yönelik karar aracı. Hedef kitle: çocuk gastroenteroloji uzmanı.</p>
+    <div class="meta">
+      <span class="tag">Nöroblastom · Wilms</span>
+      <span class="tag">Hepatoblastom · lenfoma</span>
+      <span class="tag">USG → MR/BT</span>
+      <span class="tag">AFP + katekolamin</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">Karın kitlesi, batında palpasyon veya görüntülemeyle saptanan anormal kütledir; sıklıkla ebeveyn, rutin muayene ya da eşlik eden semptom (karın şişliği, ağrı, kusma, hematüri) sırasında fark edilir. İlk görev üç aşamalıdır: (1) kitleyi <b>doğrula ve yerelleştir</b> — dolu mesane, fekaloma, hepatosplenomegali ve normal aort pulsasyonu gibi yalancı kitleleri dışla; kadran, orta hattı geçip geçmediği (nöroblastom orta hattı geçer, Wilms genellikle geçmez), yüzey, kıvam, hareketlilik ve pulsasyonu tanımla. (2) <b>Yaş ve lokalizasyonla olasılığı daralt</b> — yenidoğanda kitlelerin çoğu renal ve benigndir (hidronefroz, multikistik displastik böbrek); süt çocuğu-oyun çağında nöroblastom, Wilms ve hepatoblastom öne çıkar; büyük çocukta lenfoma, germ hücreli tümör ve Wilms olasıdır. (3) <b>Sistemik ve acil bağlamı oku</b> — ateş, kilo kaybı, hipertansiyon, sitopeni-kanama, solunum sıkıntısı, spinal semptom, tümör lizis belirtileri. Her olguda ilk basamak <b>abdominal ultrasonografi</b>dir; ona TKS, tam biyokimya (KCFT, BUN/kreatinin, LDH, ürik asit) ve idrar tetkiki eşlik eder. Kitleye <b>doku tanısı öncesi biyopsi/aspirasyon</b> planlanırken (özellikle Wilms) rüptür ve evre yükseltme riski dikkate alınmalı; girişim onkoloji-cerrahi ile birlikte kurgulanmalıdır.</p>
+    <div class="pill-row">
+      <span class="pill">Önce yalancı kitleyi dışla (mesane-fekaloma)</span>
+      <span class="pill">USG ilk basamak</span>
+      <span class="pill">Yaş + lokalizasyon olasılığı belirler</span>
+      <span class="pill">Orta hattı geçme: nöroblastom</span>
+      <span class="pill">Wilms'te palpasyon-biyopsi dikkat</span>
+    </div>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öyküde sorgula</h3>
+        <ul class="clean">
+          <li>Başlangıç-seyir: kitlenin nasıl fark edildiği, büyüme hızı (hızlı büyüme → lenfoma/agresif tümör), süre; eşlik eden karın ağrısı-şişliği, erken doyma, kusma</li>
+          <li>Yaş: yenidoğan (renal-benign ağırlıklı), 0-5 yaş (nöroblastom-Wilms-hepatoblastom), &gt;5 yaş (lenfoma-germ hücreli); prematürite ve düşük doğum ağırlığı (hepatoblastom ilişkisi)</li>
+          <li>Sistemik-B semptom: ateş, gece terlemesi, kilo kaybı, iştahsızlık, solukluk-halsizlik, kemik ağrısı; ishal (VIP salgılayan nöroblastom)</li>
+          <li>Organa özgü ipuçları: hematüri-hipertansiyon (Wilms, renal), sarılık-akolik gaita (hepatobiliyer-koledok kisti), amenore-pelvik bası (over kitlesi), kabızlık (fekaloma-pelvik kitle)</li>
+          <li>Nörolojik-paraneoplastik: bacak güçsüzlüğü-idrar retansiyonu (paraspinal nöroblastom kord basısı), opsoklonus-miyoklonus, Horner, periorbital ekimoz (nöroblastom metastazı)</li>
+          <li>Aile-sendrom öyküsü: Beckwith-Wiedemann, WAGR/aniridi, hemihipertrofi (Wilms-hepatoblastom riski), Denys-Drash; konsanguinite, kardeş kanser öyküsü</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayenede değerlendir</h3>
+        <ul class="clean">
+          <li>Kitle karakteri: kadran-lokalizasyon, boyut, kıvam (sert-nodüler vs kistik-yumuşak), yüzey, hareketlilik, duyarlılık, orta hattı geçme; derin palpasyonda dikkatli ol (rüptür riski)</li>
+          <li>Yalancı kitle ayrımı: dolu mesane (perküsyon-mesane boşaltma sonrası tekrar muayene), fekaloma (sol alt kadran, endente edilebilir), hepatosplenomegali, aort anevrizması-pulsasyon</li>
+          <li>Vital-sistemik: kan basıncı (Wilms-nöroblastom-feokromositomada HT), ateş, solunum sıkıntısı-batın distansiyonu; büyüme-antropometri persentili</li>
+          <li>Renal-ürolojik: kostavertebral açı, varikosel (sol renal ven-VKİ tutulumu), genital muayene (testis-over-germ hücreli)</li>
+          <li>Nörolojik: alt ekstremite kas gücü, refleks, sfinkter tonusu, sırt hassasiyeti (dumbbell nöroblastom); göz — proptozis, ekimoz, opsoklonus</li>
+          <li>Deri-genel: solukluk, peteşi-purpura (kemik iliği infiltrasyonu), subkutan nodüller (bebek nöroblastom), lenfadenopati, hemihipertrofi-dismorfizm</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout alarm"><b>Kırmızı çizgi:</b> Hızla büyüyen batın kitlesi + solunum sıkıntısı/distansiyon, sitopeni, yaygın lenfadenopati ya da tümör lizis göstergeleri (yüksek LDH-ürik asit-fosfor, düşük kalsiyum, oligüri) varlığında Burkitt lenfoması/evre 4S nöroblastom gibi hızlı ilerleyen malignite düşünülmeli; ivedi görüntüleme, tümör lizis profilaksisi ve <b>ampirik steroid öncesi doku tanısının güvence altına alınması</b> gereklidir. Paraspinal kitlede yeni bacak güçsüzlüğü-idrar retansiyonu epidural kord basısıdır; nöroşirürji-onkoloji ile acil değerlendirilir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Etiyoloji ve mekanizma</h2>
+    <p class="lede">Pediatrik karın kitlesinin nedenleri köken organa göre altı ana kategoride toplanır. Ayrımın anahtarı: hastanın <b>yaşı</b>, kitlenin <b>lokalizasyonu ve orta hattı geçme özelliği</b>, USG'de solid/kistik yapı, eşlik eden hipertansiyon-hematüri-sarılık-nörolojik bulgu ve <b>tümör belirteçleri</b>dir (AFP → hepatoblastom/germ hücreli; idrar VMA-HVA → nöroblastom; LDH-ürik asit → lenfoma). USG ilk yönlendirici, kesitsel görüntüleme ve belirteçler doğrulayıcıdır.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">Nöroblastom (sempatik sinir sistemi)</div>
+        <ul>
+          <li>Adrenal medulla veya paraspinal sempatik zincir kaynaklı; süt çocuğu-erken çocukluk, en sık ekstrakraniyal solid tümör; sert, orta hattı geçen, düzensiz kitle</li>
+          <li>İdrar katekolamin metabolitleri (VMA/HVA) artışı, kalsifikasyon (USG/BT), MIBG tutulumu; evre 4S'te bebekte masif hepatomegali</li>
+          <li>İpuçları: periorbital ekimoz, Horner, opsoklonus-miyoklonus, sekretuar ishal (VIP), kord basısı; kemik-kemik iliği metastazı</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">Renal tümörler (Wilms ve diğerleri)</div>
+        <ul>
+          <li>Wilms (nefroblastom): 2-5 yaş piki, düz-genellikle orta hattı geçmeyen böbrek kitlesi; hematüri, hipertansiyon; Beckwith-Wiedemann/WAGR/hemihipertrofi ilişkisi</li>
+          <li>Konjenital mezoblastik nefroma (yenidoğan-en sık renal tümör), berrak hücreli sarkom, rabdoid tümör, renal hücreli karsinom (büyük çocuk)</li>
+          <li>İpuçları: AFP normal; VKİ/renal ven trombüsü (varikosel); bilateral tutulum ve nefrojenik artıklar sendromik risk</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">Hepatik tümörler</div>
+        <ul>
+          <li>Hepatoblastom: &lt;3 yaş, sağ lob ağırlıklı, <b>AFP belirgin yüksek</b>; prematürite ve Beckwith-Wiedemann ilişkisi; PRETEXT ile evrelenir</li>
+          <li>Hepatosellüler karsinom (büyük çocuk, altta kronik KC-tirozinemi), infantil hepatik hemanjiom (yenidoğan, yüksek debili kalp yetmezliği-hipotiroidi), mezenkimal hamartom</li>
+          <li>İpuçları: hepatomegali, AFP yorumu yaşa göre (yenidoğanda fizyolojik yüksek), Doppler ile vasküler lezyon ayrımı</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Lenfoma / gastrointestinal kitleler</div>
+        <ul>
+          <li>Burkitt (B hücreli NHL): ileoçekal-mezenter kitle, çok hızlı büyüme, tümör lizis riski; büyük çocukta invajinasyon başı olabilir; lenfoblastik-Hodgkin</li>
+          <li>Diğer GİS: apandiks-plastron/abse, Crohn flegmonu, intestinal duplikasyon kisti, gastrointestinal stromal tümör (nadir)</li>
+          <li>İpuçları: yaygın LAP, B semptomları, yüksek LDH-ürik asit, plevral-perikardiyal efüzyon; asit</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">Germ hücreli / gonadal-pelvik</div>
+        <ul>
+          <li>Over-testis-sakrokoksigeal-retroperitoneal teratom ve malign germ hücreli tümörler; over kitleleri (kist, teratom), torsiyon riski</li>
+          <li>Belirteç: AFP (yolk sak), β-hCG (koryokarsinom); benign kistik teratomda belirteç normal olabilir</li>
+          <li>İpuçları: pelvik bası-idrar retansiyonu, akut ağrı (torsiyon), erken puberte-virilizasyon; hidrometrokolpos (yenidoğan alt batın kitlesi)</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">Non-neoplastik / gelişimsel</div>
+        <ul>
+          <li>Renal: hidronefroz (UPJ darlığı — yenidoğanda en sık kitle), multikistik displastik böbrek, polikistik böbrek; dolu mesane (posterior üretral valv)</li>
+          <li>Hepatobiliyer-GİS: koledok kisti (sarılık-ağrı-kitle triadı), mezenter/omentum kisti, intestinal duplikasyon, fekaloma, apse; invajinasyon (sosis şekilli kitle)</li>
+          <li>İpuçları: kistik-USG'de sıvı içerikli, sistemik B semptomu yok; çoğu benign izlem/cerrahi ile yönetilir</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout"><b>Ayrım kuralı:</b> Orta hattı geçen, kalsifiye, katekolamin salgılayan kitle → nöroblastom; düz sınırlı, orta hattı geçmeyen, hematüri-HT ile giden böbrek kitlesi → Wilms; AFP belirgin yüksek karaciğer kitlesi → hepatoblastom; hızlı büyüyen mezenter/ileoçekal kitle + yüksek LDH → Burkitt lenfoması. Yenidoğanda kitlelerin çoğu renal ve benigndir (hidronefroz, MCDK); USG'de saf kistik yapı çoğunlukla benign süreci düşündürür.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">İlk çatal, kitle ile birlikte hayatı tehdit eden acilin (tümör lizis, solunum-vasküler bası, spinal kord basısı, kitle rüptürü-kanama, hipertansif kriz) hızla tanınmasıdır; ikinci çatal, USG'de kistik-benign lezyon ile solid tümörün ayrımı ve solid kitlede lokalizasyon-belirteç temelli tanısal yola girmektir. Wilms şüphesinde perkütan biyopsi ve agresif palpasyondan kaçınmak evrelemeyi korur.</p>
+    <div class="flow">
+      <div class="node start"><span class="k">Başlangıç</span><span class="t">Doğrulanmış karın kitlesi</span><p>Yalancı kitleyi (dolu mesane, fekaloma, organomegali) dışla; kadran, orta hattı geçme, kıvam ve sistemik bağlamı (HT, sitopeni, solunum, nörolojik bulgu) tanımla. Vitalleri ve kan basıncını değerlendir.</p></div>
+      <div class="connector"></div>
+      <div class="node action"><span class="k">Adım 1</span><span class="t">İlk basamak: abdominal USG + TKS + biyokimya (LDH, ürik asit, KCFT, kreatinin) + idrar</span><p>USG solid/kistik yapıyı, köken organı, kalsifikasyon ve damarsal tutulumu gösterir; laboratuvar tümör lizis, sitopeni ve organ fonksiyonunu tarar. Bu adım ilk yönü belirler.</p></div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 1</span><span class="t">Hayatı tehdit eden acil bulgu var mı?</span><p>Tümör lizis (LDH-ürik asit-fosfor ↑, oligüri), solunum sıkıntısı-mediastinal/vasküler bası, spinal kord basısı (bacak güçsüzlüğü-retansiyon), kitle rüptürü-kanama, hipertansif kriz veya hızlı klinik kötüleşme.</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">EVET → Acil stabilizasyon ve onkolojik acil yolu</span><div class="node alarm"><span class="k">Acil</span><span class="t">Stabilize et + acil kesitsel görüntüleme + doku tanısı planı</span><p>Hiperhidrasyon ve tümör lizis profilaksisi (rasburikaz/allopürinol), HT kontrolü, kord basısında acil MR ve nöroşirürji-onkoloji; kitle rüptüründe resüsitasyon-cerrahi. Ampirik steroidden önce doku/örnek güvence altına alınır.</p></div></div>
+        <div class="branch no"><span class="label">HAYIR → Stabil, sistematik değerlendirme</span><div class="node action safe"><span class="k">Devam</span><span class="t">USG paternine göre ayrım</span><p>Kistik-benign ile solid tümör ayrımını yap; solid kitlede lokalizasyon ve belirteç temelli tanısal çalışmaya geç.</p></div></div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 2</span><span class="t">USG'de kitle kistik/benign mi, solid tümör mü?</span><p>Saf kistik-sıvı içerikli lezyon (hidronefroz, over kisti, koledok kisti, duplikasyon) mı, yoksa solid-heterojen, kalsifiye veya damarsal invazyon gösteren kitle mi?</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">SOLİD → Tümör belirteçleri + MR/BT ile evreleme</span><div class="node action safe"><span class="k">Hedefle</span><span class="t">AFP, idrar VMA/HVA, β-hCG, LDH + kesitsel görüntüleme + doku tanısı</span><p>Lokalizasyona göre belirteç sırala: karaciğer/germ hücreli → AFP-βhCG, adrenal-paraspinal → idrar katekolaminleri-MIBG, mezenter → LDH-ürik asit. MR (tercih) veya kontrastlı BT ile evreleme; onkoloji-cerrahi ile biyopsi/rezeksiyon planı. Wilms şüphesinde perkütan biyopsiden kaçın.</p></div></div>
+        <div class="branch no"><span class="label">KİSTİK/BENİGN → Hedefli non-onkolojik yönetim</span><div class="node action safe"><span class="k">Yönet</span><span class="t">Lezyona özgü izlem/girişim</span><p>Hidronefrozda üroloji ve VCUG-DMSA, over kistinde izlem/torsiyon değerlendirmesi, koledok kistinde MRCP ve cerrahi, invajinasyonda redüksiyon, fekalomada disimpaksiyon. Atipik-büyüyen kistik lezyonda malign germ hücreli tümörü dışla (belirteç).</p></div></div>
+      </div>
+    </div>
+    <div class="callout"><b>Not:</b> Karın kitlesi bir bulgudur; tanı ve tedavi köken organ ve histolojiye özgüdür. USG + hedefli belirteçler (AFP, katekolamin, LDH) olguların çoğunu doğru hatta yönlendirir. Solid tümörde doku tanısı ve evreleme onkoloji-cerrahi eşliğinde yürütülür; Wilms'te preoperatif kemoterapi (SIOP yaklaşımı) veya öncelikli nefrektomi (COG) protokolüne göre girişim planlanır ve gereksiz manipülasyondan kaçınılır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Değerlendirme her olguda abdominal ultrasonografi ve temel laboratuvarla başlar; ardından USG paternine göre tümör belirteçleri, kesitsel görüntüleme (MR tercih) ve evreleme tetkiklerine dallanır ve doku tanısıyla doğrulanır. Testler klinik olasılık ve lokalizasyona göre hedeflenmeli, radyasyon yükü (BT) çocukta gerekçelendirilmelidir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Karın kitlesinde kademeli değerlendirme</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Test</th><th>Amaç / not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Basamak 1 · İlk basamak görüntüleme + temel labor</td><td><b>Abdominal ultrasonografi (Doppler dahil)</b>; TKS + periferik yayma, tam biyokimya (KCFT, BUN/kreatinin, elektrolit-Ca/P), <b>LDH, ürik asit</b>, tam idrar tetkiki, kan basıncı</td><td>Solid/kistik yapı, köken organ, kalsifikasyon ve damarsal tutulumu; sitopeni, tümör lizis ve organ fonksiyonunu tarar; <span class="dose">tüm olgularda ilk adım</span></td></tr>
+          <tr><td class="step">Basamak 2 · Tümör belirteçleri</td><td><b>AFP</b> (hepatoblastom-germ hücreli, yaşa göre yorumla), <b>β-hCG</b> (germ hücreli); <b>idrar VMA/HVA (katekolaminler)</b>, nöron-spesifik enolaz (NSE), ferritin (nöroblastom); LDH-ürik asit (lenfoma)</td><td>Lokalizasyona göre hedeflenir; belirteç yüksekliği tanı ve tedavi yanıtı izleminde referans; spot idrar katekolamini kreatinine oranlanır</td></tr>
+          <tr><td class="step">Basamak 3 · Kesitsel görüntüleme (evreleme-anatomi)</td><td>Kontrastlı <b>MR</b> (tercih; paraspinal-intraspinal uzanım, damar-organ ilişkisi) veya <b>kontrastlı BT</b>; koledok/biliyer kitlede MRCP</td><td>Rezektabilite, damarsal invazyon, komşu organ ilişkisi ve evreleme (PRETEXT-hepatoblastom, INRGSS-nöroblastom); MR radyasyon içermez</td></tr>
+          <tr><td class="step">Basamak 4 · Metastaz taraması / fonksiyonel görüntüleme</td><td>Toraks BT (akciğer metastazı — Wilms, hepatoblastom), <b>MIBG sintigrafisi</b> (nöroblastom), kemik iliği aspirasyon-biyopsi, gerektiğinde PET-BT (lenfoma)</td><td>Uzak yayılım ve evreleme; nöroblastomda MIBG + çift taraflı kemik iliği örneklemesi standarttır; <span class="dose">I-123 MIBG, ağırlığa göre aktivite</span></td></tr>
+          <tr><td class="step">Basamak 5 · Doku tanısı</td><td>Görüntüleme rehberliğinde <b>biyopsi</b> (Trucut/açık) veya primer cerrahi rezeksiyon; kemik iliği-BOS (lenfoma); histoloji + moleküler (MYCN amplifikasyonu, 1p/11q, histoloji-anaplazi)</td><td>Kesin tanı ve risk sınıflaması; <b>Wilms'te perkütan biyopsiden kaçın</b> (rüptür-evre yükseltme); biyopsi öncesi koagülasyon-belirteç değerlendir</td></tr>
+          <tr><td class="step">Basamak 6 · Sendrom-genetik ve destek değerlendirme</td><td>Beckwith-Wiedemann/WAGR/hemihipertrofi taraması, renal fonksiyon-GFR (nefrektomi öncesi), ekokardiyografi-işitme (kemoterapi öncesi bazal), tümör lizis panelinin serial izlemi</td><td>Sendromik olguda bilateral tümör-sürveyans; kardiyo/oto-toksik ajan öncesi organ fonksiyonu; predispozan sendromda kardeş-aile danışmanlığı</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout"><b>Sıralama ilkesi:</b> Ucuz-hızlı ve radyasyonsuz testler (USG, belirteçler, MR) öne alınmalı; BT metastaz taraması gerektiğinde gerekçelendirilmelidir. Onkolojik acil (tümör lizis, kord basısı) ekarte edilene dek tanısal örnekleme geciktirilmemeli; doku tanısı ve cerrahi girişim pediatrik onkoloji-cerrahi protokolü çerçevesinde, gereksiz manipülasyondan kaçınılarak planlanmalıdır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdakilerden herhangi biri altta yatan malign veya hızlı ilerleyen bir süreç lehinedir; ivedi görüntüleme, doku tanısının güvence altına alınması, onkolojik acil yönetimi ve pediatrik onkoloji-cerrahi ile koordinasyonu gerektirir.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Hızla büyüyen, sert, orta hattı geçen veya sabit kitle; batın distansiyonu + solunum sıkıntısı (agresif tümör, evre 4S nöroblastom)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Tümör lizis göstergeleri: yüksek LDH-ürik asit-potasyum-fosfor, düşük kalsiyum, oligüri-akut böbrek hasarı (Burkitt/yüksek hücre döngülü lenfoma)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Paraspinal kitle + alt ekstremite güçsüzlüğü, idrar-gaita retansiyonu, sırt ağrısı (epidural kord basısı — acil MR)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Hipertansiyon (Wilms, nöroblastom, feokromositoma) ve/veya makroskopik hematüri</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Sitopeni, periferik yaymada blast/lökoeritroblastik tablo, kemik ağrısı (kemik iliği infiltrasyonu-metastaz)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Periorbital ekimoz-proptozis, subkutan nodüller, opsoklonus-miyoklonus, sekretuar ishal (metastatik/paraneoplastik nöroblastom)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Karaciğer kitlesi + belirgin AFP yüksekliği (hepatoblastom); büyük çocukta kronik KC zemininde HCC</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ateş, gece terlemesi, kilo kaybı, yaygın lenfadenopati, plevral-perikardiyal efüzyon-asit (lenfoma B semptomları)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Akut şiddetli pelvik/karın ağrısı + adneksiyel kitle (over torsiyonu — cerrahi acil) veya kitle rüptürü-akut batın</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kitleyle birlikte hipoglisemi-hemihipertrofi-makroglossi (Beckwith-Wiedemann; Wilms-hepatoblastom sürveyansı gerekir)</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi</h2>
+    <p class="lede">Karın kitlesinin kendisi değil, altta yatan tanı tedavi edilir; malign tümörler pediatrik onkoloji-cerrahi tarafından risk grubuna göre protokolle (COG/SIOP) yönetilir. Çocuk gastroenteroloji pratiğinde öncelik: yaşamsal-onkolojik acillerin (tümör lizis, kord basısı, hipertansif kriz, kanama-torsiyon) dozlu stabilizasyonu ve doku tanısının tedavi öncesi güvence altına alınmasıdır. Aşağıdaki tablo başlangıç/destek tedavileri ve protokollerde kullanılan temsili ajanların dozlarını özetler; kemoterapi rejimleri güncel protokol ve risk grubuna göre teyit edilmelidir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Acil-destek ve etiyolojiye özgü dozlu tedaviler</caption>
+        <thead>
+          <tr><th>Durum / ilaç</th><th>Doz</th><th>Not / izlem</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Tümör lizis · Hiperhidrasyon</td><td class="dose">2500-3000 mL/m²/gün IV (%5 dekstroz), K/Ca eklenmeden başla</td><td>İdrar çıkışını &gt;100 mL/m²/saat tut; rutin alkalinizasyon önerilmez. Elektrolit-renal serial izlem</td></tr>
+          <tr><td class="step">Tümör lizis · Rasburikaz</td><td class="dose">0,2 mg/kg/gün IV (tek doz sıklıkla yeterli; yüksek riskte tekrar)</td><td>Yüksek ürik asit/yüksek risk lenfomada; G6PD eksikliğinde kontrendike. Numuneyi buzda taşı (yalancı düşük ürik asit)</td></tr>
+          <tr><td class="step">Tümör lizis · Allopürinol</td><td class="dose">10 mg/kg/gün, 2-3 doza böl (maks 300 mg/gün) PO/IV</td><td>Düşük-orta riskte profilaksi; rasburikaz alternatifi. Ksantin birikimi-renal izlem</td></tr>
+          <tr><td class="step">Hipertansif aciliyet · Nikardipin</td><td class="dose">0,5-1 mcg/kg/dk IV infüzyon, yanıta göre titre (maks ~4-5 mcg/kg/dk)</td><td>Wilms-nöroblastom HT'sinde; kademeli düşür. Feokromositoma/katekolamin fazlasında önce alfa-bloker</td></tr>
+          <tr><td class="step">Katekolamin fazlası · Fenoksibenzamin</td><td class="dose">0,2 mg/kg/gün başla, kademeli artır (maks ~1-2 mg/kg/gün, 2-3 doz)</td><td>Feokromositoma/salgılayan nöroblastomda cerrahi-öncesi alfa-blokaj; sonra gerekirse beta-bloker. Ortostatik hipotansiyon-taşikardi izlemi</td></tr>
+          <tr><td class="step">Kord basısı · Deksametazon</td><td class="dose">1-2 mg/kg IV yükleme, ardından bölünmüş doz; onkoloji ile</td><td>Epidural nöroblastom basısında ödemi azaltmak için; acil MR ve nöroşirürji-onkoloji. Doku tanısı planı unutulmamalı</td></tr>
+          <tr><td class="step">Ağrı · Morfin</td><td class="dose">0,05-0,1 mg/kg/doz IV (4 saatte bir); parasetamol 15 mg/kg/doz (maks 1 g)</td><td>Şiddetli tümör/torsiyon ağrısında titre; solunum-sedasyon izlemi. Basamaklı analjezi</td></tr>
+          <tr><td class="step">Wilms (SIOP preop) · Vinkristin + Daktinomisin</td><td class="dose">Vinkristin 1,5 mg/m²/doz IV (maks 2 mg); daktinomisin 45 mcg/kg/doz IV (maks 2,3 mg/m²)</td><td>Preoperatif kemoterapi (SIOP) veya öncelikli nefrektomi (COG); protokole göre. Nöropati-veno-oklüzif hastalık izlemi</td></tr>
+          <tr><td class="step">Hepatoblastom · Sisplatin temelli (PLADO benzeri)</td><td class="dose">Sisplatin 80 mg/m²/doz IV ± doksorubisin; protokol çerçevesinde</td><td>PRETEXT'e göre neoadjuvan; AFP ile yanıt izlemi. Oto/nefro/kardiyotoksisite bazal ve serial izlem</td></tr>
+          <tr><td class="step">Burkitt lenfoma · Siklofosfamid (indüksiyon bileşeni)</td><td class="dose">Protokolde bölünmüş doz (ör. COPADM); tümör lizis önlemleriyle birlikte</td><td>Çok hızlı yanıt ve yüksek lizis riski; hiperhidrasyon-rasburikaz zorunlu. Rejim onkoloji protokolüne göre</td></tr>
+          <tr><td class="step">Non-neoplastik · İnvajinasyon / fekaloma</td><td class="dose">Fekaloma: PEG-3350 1-1,5 g/kg/gün PO disimpaksiyon; invajinasyon: hidrostatik/pnömatik redüksiyon</td><td>İnvajinasyonda peritonit-perforasyon yoksa radyolojik redüksiyon; koledok kisti/duplikasyonda elektif cerrahi</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout safe"><b>Yaklaşım:</b> Önce yaşamsal-onkolojik acil stabilizasyonu (tümör lizis, kord basısı, HT, kanama-torsiyon), sonra doku tanısının güvence altına alınması, ardından risk grubuna göre etiyolojiye özgü tedavi. Wilms ve hepatoblastomda cerrahi rezeksiyon ve (neo)adjuvan kemoterapi; nöroblastomda risk grubuna göre izlem-cerrahi-kemoterapi ± MIBG/immünoterapi; Burkitt'te kısa yoğun kemoterapi tümör lizis önlemleriyle yürütülür. Non-neoplastik kistik lezyonların çoğu izlem veya elektif cerrahi ile yönetilir.</div>
+    <div class="callout alarm"><b>Dikkat:</b> Lenfoma/lösemi kuşkusunda doku tanısı alınmadan ampirik steroid başlanması tanıyı maskeler-geciktirir. Wilms'te agresif palpasyon ve perkütan biyopsi rüptür ve evre yükseltme riski taşır. Yüksek hücre döngülü kitlede kemoterapi öncesi tümör lizis için hiperhidrasyon-rasburikaz hazırlığı; katekolamin salgılayan tümörde cerrahi/anesteziden önce alfa-blokaj şarttır. Tüm dozlar ağırlık, yaş, organ fonksiyonu ve güncel protokole göre teyit edilmeli, kemoterapi pediatrik onkoloji ile yürütülmelidir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve yönetim ilkeleri</h2>
+    <p class="lede">Karın kitlesinde yönetim; tanısal süreci güvenle ve gecikmeden yürütmek, yaşamsal-onkolojik komplikasyonları (tümör lizis, kord basısı, hipertansif kriz, kanama-torsiyon) önlemek, etiyolojiye özgü tedaviyi başlatıp yanıtı görüntüleme ve tümör belirteçleriyle izlemek üzerine kuruludur. Hedef: doğru köken organ ve histolojik tanıya en kısa yoldan, kitleyi zedelemeden ulaşmaktır.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>İzlem ve takip</h3>
+        <ul class="clean">
+          <li>Tedavi yanıtını serial görüntüleme (USG/MR ile kitle boyutu) ve tümör belirteçleriyle (AFP yarı ömrü-hepatoblastom/germ hücreli, idrar katekolamini-nöroblastom, LDH-lenfoma) izle</li>
+          <li>Tanı-tedavi sürecinde TKS, elektrolit-Ca/P, ürik asit ve renal fonksiyonu yakın izle; tümör lizis penceresinde daha sık kontrol</li>
+          <li>Kemoterapi öncesi ve sırasında organ fonksiyonu: ekokardiyografi (antrasiklin), işitme-renal (sisplatin), GFR (nefrektomi sonrası tek böbrek) takibi</li>
+          <li>Nöroblastom-evre 4S ve düşük riskli tümörlerde gözlem stratejisi; sürveyans görüntüleme ve nörolojik-endokrin geç etki izlemi</li>
+          <li>Sendromik olguda (Beckwith-Wiedemann, WAGR, hemihipertrofi) Wilms-hepatoblastom için düzenli USG ± AFP sürveyansı</li>
+          <li>Büyüme-beslenme, geç etki (fertilite, büyüme, sekonder malignite) ve psikososyal-okul uyumu izlemi; kanser sağkalan takibi</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Yönetim ve güvenlik ağı</h3>
+        <ul class="clean">
+          <li>Solid tümörde tanı, evreleme ve tedaviyi pediatrik onkoloji-cerrahi ile koordine et; kitleye gereksiz manipülasyondan ve Wilms'te perkütan biyopsiden kaçın</li>
+          <li>Aileye yazılı uyarı: artan karın şişliği, şiddetli ağrı, kusma, solunum sıkıntısı, idrar yapamama/kanlı idrar, bacak güçsüzlüğü, yüksek ateş-solukluk gelişiminde acil dönüş</li>
+          <li>Onkolojik acillerde hazır protokol: tümör lizis (hidrasyon-rasburikaz), hipertansif kriz, kord basısı (acil MR), febril nötropeni yönetimi</li>
+          <li>Doku tanısı öncesi koagülasyon-trombosit düzeltmesi ve belirteç örneklemesi; ampirik immünsupresyon/steroidden önce malignite dışlaması</li>
+          <li>Non-neoplastik kistik lezyonlarda uygun uzmanlıkla (üroloji-cerrahi) izlem/elektif girişim planı; atipik büyüyen kistte germ hücreli tümörü dışla</li>
+          <li>Kanser predispozan sendromda aile-genetik danışmanlığı, kardeş taraması ve uzun süreli sürveyans; nadir tümörlerde referans merkez koordinasyonu</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout safe">En iyi sonuç; yalancı kitlenin dışlanması, USG ve hedefli belirteçlerle (AFP, idrar katekolaminleri, LDH) mekanizmanın hızlı sınıflanması, yaşamsal-onkolojik acillerin önceliklendirilmesi ve kitleyi zedelemeden alınan doku tanısı üzerine kurulan, pediatrik onkoloji-cerrahi ile yürütülen, serial izlemli yapılandırılmış bir planla elde edilir.</div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Pizzo PA, Poplack DG (eds). Principles and Practice of Pediatric Oncology. 8th ed. Wolters Kluwer; 2020 (nöroblastom, Wilms, hepatoblastom ve lenfoma bölümleri).</li>
+      <li>Brodeur GM, Pritchard-Jones K, et al. International Neuroblastoma Risk Group (INRG) Classification System and Staging (INRGSS). J Clin Oncol. 2009;27(2):289-297.</li>
+      <li>Czauderna P, Lopez-Terrada D, et al. Hepatoblastoma state of the art: pathology, genetics, risk stratification, and chemotherapy (SIOPEL/PRETEXT). Curr Opin Pediatr. 2014;26(1):19-28.</li>
+      <li>van den Heuvel-Eibrink MM, Hol JA, et al. Position paper: Rationale for the treatment of Wilms tumour in the UMBRELLA SIOP-RTSG 2016 protocol. Nat Rev Urol. 2017;14(12):743-752.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge uzman kullanıcıya yönelik bir klinik karar destek aracıdır; hastanın bireysel değerlendirmesi, güncel kılavuzlar ve yerel uygulamaların yerine geçmez. Pediatrik solid tümörlerin tanı-evreleme ve tedavisi pediatrik onkoloji-cerrahi protokolleri (COG/SIOP) çerçevesinde yürütülür. Dozlar hastaya, ağırlığa, yaşa, organ fonksiyonuna, protokole ve ilaç etkileşimlerine göre teyit edilmelidir; kemoterapötik ajanlar yalnızca ilgili uzman ekiplerce uygulanmalıdır.</div>
+</div>

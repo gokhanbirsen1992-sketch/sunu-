@@ -1,0 +1,539 @@
+<title>Steatore ve Malabsorpsiyon — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Steatore ve Malabsorpsiyon</h1>
+    <p class="sub">Kronik ishal, yetersiz kilo alımı ve yağlı dışkı yakınmasında pankreatik, mukozal, biliyer ve lenfatik nedenleri ayırt eden; fekal elastaz, çölyak serolojisi ve dışkı yağı temelli hedefe yönelik tanısal akış.</p>
+    <div class="meta">
+      <span class="tag">Fekal elastaz-1</span>
+      <span class="tag">Çölyak serolojisi</span>
+      <span class="tag">Dışkı yağı</span>
+      <span class="tag">Yağda eriyen vitaminler</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">Steatore, dışkıyla anormal yağ kaybıdır: 72 saatlik dışkı yağı emiliminin &lt;%93 (süt çocuğunda &lt;%85) olması ya da nicel dışkı yağının &gt;7 g/gün (süt çocuğunda diyetin &gt;%15'i) olması. Malabsorpsiyon, tek bir hastalık değil bir sendromdur; hedef, luminal (pankreas/safra) ile mukozal/post-mukozal nedenleri ayırt etmektir.</p>
+    <div class="callout">Klinik ipuçları: hacimli, açık renkli, parlak/yağlı, kötü kokulu ve suda yüzen dışkı; büyüme eğrisinde kırılma; abdominal distansiyon ve kas kitlesi kaybı. İzole yağ malabsorpsiyonu (pankreas/safra) genelde iştah korunurken kilo kaybı yapar; global malabsorpsiyon (çölyak, mukozal) ise ek olarak karbonhidrat/protein kaybı bulguları verir.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öykü — yönlendirici sorular</h3>
+        <ul class="clean">
+          <li>Başlangıç yaşı ve tetikleyici: doğumdan itibaren mi, gluten girişiyle mi (6-24 ay)?</li>
+          <li>Dışkı karakteri: yağlı/parlak mı, sulu mu, kanlı mı; suda yüzme ve tuvalete yapışma.</li>
+          <li>Solunum öyküsü: tekrarlayan pnömoni, kronik öksürük, mekonyum ileusu → kistik fibrozis (KF) lehine.</li>
+          <li>Tekrarlayan enfeksiyon + iskelet anomalisi → Shwachman-Diamond (nötropeni).</li>
+          <li>Beslenme: MCT içeriği, yağ kısıtlaması, formül türü; ödem/karın şişliği (protein kaybı).</li>
+          <li>Aile öyküsü: çölyak, KF, konsangüinite, kolestaz; ek otoimmün hastalık (Tip 1 DM, tiroidit).</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayene — hedefli bulgular</h3>
+        <ul class="clean">
+          <li>Antropometri: kilo/boy z-skoru, kilo/boy oranı, trisep cilt kıvrımı; büyüme hızı.</li>
+          <li>Beslenme: kas erimesi, gluteal yağ kaybı, karın distansiyonu (çölyak görünümü).</li>
+          <li>Yağda eriyen vitamin eksikliği: gece körlüğü (A), raşitizm bulguları (D), ataksi/derin duyu kaybı (E), ekimoz/kanama (K).</li>
+          <li>Ödem ve hipoproteinemi → lenfanjiektazi veya ağır enteropati.</li>
+          <li>Dermatit (akrodermatit — çinko), glossit, kaşektik görünüm.</li>
+          <li>Klubbing/solunum bulguları → KF; deri hiperpigmentasyonu/organomegali.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Etiyoloji ve mekanizma</h2>
+    <p class="lede">Yağ sindirim-emilim zincirinin hangi basamağının bozulduğu, tetkik seçimini doğrudan belirler: luminal sindirim (pankreas lipazı, safra tuzu misel oluşumu), mukozal emilim/işleme, lipoprotein taşınması, lenfatik drenaj ve post-mukozal nedenler.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">t1 · Luminal — pankreatik (lipaz)</div>
+        <ul>
+          <li>Kistik fibrozis (en sık; ekzokrin pankreas yetmezliği)</li>
+          <li>Shwachman-Diamond sendromu (nötropeni + metafizer displazi)</li>
+          <li>Kronik/herediter pankreatit, Pearson sendromu</li>
+          <li>Belirteç: fekal elastaz-1 düşük</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">t2 · Luminal — safra tuzu</div>
+        <ul>
+          <li>Kolestaz (biliyer atrezi, PFIC, Alagille)</li>
+          <li>Safra asidi sentez/taşıma defektleri</li>
+          <li>İleal rezeksiyon veya terminal ileum hastalığı (safra tuzu kaybı)</li>
+          <li>Belirteç: konjuge bilirubin/GGT, safra tuzu havuzu</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">t3 · Mukozal — enteropati</div>
+        <ul>
+          <li>Çölyak hastalığı (en sık mukozal neden)</li>
+          <li>Otoimmün enteropati, IPEX</li>
+          <li>Mikrovillus inklüzyon hastalığı, tufting enteropati</li>
+          <li>Belirteç: anti-tTG IgA + total IgA; duodenal biyopsi</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">t4 · Lipoprotein taşınması</div>
+        <ul>
+          <li>Abetalipoproteinemi (MTP defekti)</li>
+          <li>Şilomikron retansiyon hastalığı (Anderson)</li>
+          <li>Hipobetalipoproteinemi</li>
+          <li>Belirteç: akantositoz, çok düşük kolesterol/trigliserid, vit E düşük</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">t5 · Lenfatik</div>
+        <ul>
+          <li>Primer intestinal lenfanjiektazi</li>
+          <li>Sekonder (kardiyak/Fontan, konstriktif, malignite)</li>
+          <li>Protein kaybettiren enteropati eşlik eder</li>
+          <li>Belirteç: lenfopeni, hipoalbuminemi, düşük IgG, fekal alfa-1 antitripsin</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">t6 · Post-mukozal / diğer</div>
+        <ul>
+          <li>İnce bağırsak bakteriyel aşırı çoğalması (SIBO)</li>
+          <li>Kısa bağırsak sendromu, motilite bozuklukları</li>
+          <li>Crohn hastalığı (ince bağırsak tutulumu)</li>
+          <li>Belirteç: nefes testi (glukoz/laktuloz H2), kalprotektin, görüntüleme</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">Yağ malabsorpsiyonunu önce doğrula, ardından tek bir ucuz ve ayırıcı ilk basamak testle (fekal elastaz-1 + çölyak serolojisi) luminal-pankreatik ile mukozal yolu ayır. Elastaz düşükse pankreatik yolağa, serolojiler pozitifse çölyak yolağına, ikisi de normalse safra/lenfatik/post-mukozal değerlendirmeye geç.</p>
+    <div class="flow">
+      <div class="node start">
+        <span class="k">Başlangıç</span>
+        <span class="t">Kronik steatore + büyüme geriliği</span>
+        <p>Yağlı, hacimli dışkı ± yetersiz kilo alımı ile başvuran çocuk.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node action">
+        <span class="k">Adım 1</span>
+        <span class="t">Yağ malabsorpsiyonunu doğrula</span>
+        <p>Spot dışkı Sudan III boyası ve/veya asit steatokrit; belirsizse 72 saatlik nicel dışkı yağı (altın standart, standardize yağ diyeti ile).</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node action">
+        <span class="k">Adım 2</span>
+        <span class="t">İlk basamak paneli gönder</span>
+        <p>Fekal elastaz-1, anti-tTG IgA + total IgA, tam kan sayımı, albumin, INR ve yağda eriyen vitaminler (A, D, E) eş zamanlı.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 1</span>
+        <span class="t">Fekal elastaz-1 &lt;200 µg/g mü?</span>
+        <p>Düşük değer ekzokrin pankreas yetmezliğini gösterir (&lt;100 = ağır). Sulu dışkıda dilüsyona dikkat.</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Pankreatik yolak</span>
+          <div class="node alarm">
+            <span class="k">Pankreas yetmezliği</span>
+            <span class="t">Ter testi + KF genetiği</span>
+            <p>Ter klorürü ≥60 mmol/L KF tanısı; normalse Shwachman-Diamond (nötropeni, iskelet), kronik pankreatit araştır. PERT başla.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Karar 2</span>
+          <div class="node decision">
+            <span class="k">Karar 2</span>
+            <span class="t">Çölyak serolojisi pozitif mi?</span>
+            <p>Anti-tTG IgA yüksek (total IgA normalse) veya IgA eksikliğinde IgG-DGP/tTG pozitif.</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">Karar 2 EVET → Çölyak</span>
+          <div class="node action safe">
+            <span class="k">Çölyak yolağı</span>
+            <span class="t">ESPGHAN 2020 tanısı</span>
+            <p>Anti-tTG ≥10× ÜSN + EMA pozitif ise biyopsisiz tanı seçeneği; aksi halde duodenal biyopsi (Marsh). Glutensiz diyet.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">Karar 2 HAYIR → İleri değerlendirme</span>
+          <div class="node action">
+            <span class="k">Basamak 3-4</span>
+            <span class="t">Safra / lenfatik / mukozal</span>
+            <p>Kolestaz belirteçleri, fekal α1-antitripsin (protein kaybı), lipoprotein profili, SIBO nefes testi ve duodenal biyopsi ile nadir nedenleri ara.</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node alarm safe">
+        <span class="k">Sonuç</span>
+        <span class="t">Nedene yönelik tedavi + vitamin desteği</span>
+        <p>Her yolakta yağda eriyen vitamin eksikliğini tara ve replase et; büyümeyi ve laboratuvarı izle.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Ucuzdan pahalıya, ayırıcı gücü yüksek testlerden invaziv/özgün testlere doğru ilerle. Sonuçları klinikle birlikte yorumla; tek test dışlayıcı değildir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Steatore/malabsorpsiyonda kademeli tanısal yaklaşım</caption>
+        <thead>
+          <tr>
+            <th>Basamak</th>
+            <th>Test</th>
+            <th>Eşik / yorum</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">Basamak 1 — Doğrulama</td>
+            <td>Spot dışkı Sudan III boyası, asit steatokrit</td>
+            <td>Yağ globülleri (+); tarama amaçlı, ucuz. Steatokrit yükselmesi yağ kaybını destekler.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 1 — Nicel</td>
+            <td>72 saatlik nicel dışkı yağı (van de Kamer)</td>
+            <td class="dose">Emilim &lt;%93 (süt çoc. &lt;%85) veya &gt;7 g/gün patolojik. Altın standart.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 1 — Ayırıcı</td>
+            <td>Fekal elastaz-1 (FE-1)</td>
+            <td class="dose">&lt;200 µg/g yetmezlik; &lt;100 µg/g ağır. Sulu dışkıda yalancı düşük.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 1 — Çölyak</td>
+            <td>Anti-tTG IgA + total IgA (± EMA, DGP)</td>
+            <td>Glutenli diyette test et. IgA eksikliğinde IgG bazlı testler kullan.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 1 — Sonuç değerlendirme</td>
+            <td>Tam kan, albumin, INR, A/D/E vitaminleri, çinko</td>
+            <td>Sitopeni (Shwachman), hipoalbuminemi (protein kaybı), uzamış INR (K eksikliği).</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 2 — Pankreatik</td>
+            <td>Ter klorürü testi + KF gen paneli</td>
+            <td class="dose">Ter Cl− ≥60 mmol/L tanısal; 30-59 ara değer, gen analizi gerekir.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 2 — Mukozal</td>
+            <td>Üst GİS endoskopi + duodenal biyopsi</td>
+            <td>Marsh sınıflaması; villus atrofisi, otoimmün enteropati, mikrovillus hastalığı ayrımı.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 3 — Post-mukozal</td>
+            <td>SIBO nefes testi (glukoz/laktuloz H2), fekal kalprotektin</td>
+            <td>Aşırı çoğalma ve inflamatuvar bağırsak hastalığı ayrımı.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 3 — Protein kaybı</td>
+            <td>Fekal α1-antitripsin klirensi, IgG, lenfosit sayımı</td>
+            <td>Lenfanjiektazi/protein kaybettiren enteropati; kapsül endoskopi düşün.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 4 — Nadir</td>
+            <td>Lipoprotein profili, periferik yayma (akantosit)</td>
+            <td>Abetalipoproteinemi / şilomikron retansiyonunda çok düşük kolesterol-TG.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdaki bulgular hızlandırılmış tetkik, hastaneye yatış ve/veya acil replasman gerektirir.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Ağır büyüme geriliği / hızlı kilo kaybı ve kas erimesi (kaşeksi).</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Hipoalbuminemi + yaygın ödem / asit (protein kaybettiren enteropati).</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Uzamış INR / kanama-ekimoz (K vitamini eksikliği) — parenteral K gerektirir.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Gece körlüğü, kseroftalmi (ağır A vitamini eksikliği).</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Raşitizm, patolojik kırık, hipokalsemik tetani (D vitamini eksikliği).</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ataksi, periferik nöropati, arefleksi (E vitamini eksikliği).</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Tekrarlayan pnömoni + mekonyum ileus öyküsü (KF şüphesi).</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Nötropeni + tekrarlayan enfeksiyon (Shwachman-Diamond).</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kanlı ishal, ateş, gece terlemesi (IBD / enfeksiyöz-inflamatuvar süreç).</span></div>
+    </div>
+    <div class="callout alarm">Semptomatik yağda eriyen vitamin eksikliği (özellikle koagulopati ve nörolojik bulgular) tetkik sonuçlarını beklemeden replasman başlatmayı gerektirir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi</h2>
+    <p class="lede">Tedavi iki koldan yürür: altta yatan nedenin düzeltilmesi (PERT, glutensiz diyet, MCT temelli diyet, kolestaz yönetimi) ve yağda eriyen vitamin eksikliklerinin replasmanı. Dozlar hastanın yanıtı ve serum düzeylerine göre titre edilir.</p>
+    <div class="pill-row">
+      <span class="pill">Nedene yönelik</span>
+      <span class="pill">PERT</span>
+      <span class="pill">ADEK replasmanı</span>
+      <span class="pill">Beslenme desteği</span>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <caption>Steatore/malabsorpsiyonda dozlu tedavi</caption>
+        <thead>
+          <tr>
+            <th>İlaç / girişim</th>
+            <th>Doz (mg/kg veya IU) + maksimum</th>
+            <th>Not</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">Pankreatik enzim (PERT, lipaz)</td>
+            <td class="dose">Süt çocuğu: 2000-4000 lipaz Ü / 120 mL mama (veya emzirme). &gt;4 yaş: başlangıç 500 Ü/kg/öğün, maks 2500 lipaz Ü/kg/öğün ve 10.000 Ü/kg/gün</td>
+            <td>Öğünle birlikte, ara öğünde yarı doz. Yüksek doz aşımı fibrozan kolonopati riski.</td>
+          </tr>
+          <tr>
+            <td class="step">A vitamini</td>
+            <td class="dose">1500-10.000 IU/gün (KF: 5000-10.000 IU/gün); eksiklikte yükleme</td>
+            <td>Serum retinol ve RBP ile izle; aşırı dozdan kaçın (hepatotoksisite).</td>
+          </tr>
+          <tr>
+            <td class="step">D vitamini (kolekalsiferol)</td>
+            <td class="dose">400-2000 IU/gün; eksiklikte 2000-4000 IU/gün, maks tedaviye göre titre</td>
+            <td>25-OH-D hedefi &gt;30 ng/mL; kalsiyum-fosfor ve PTH izle.</td>
+          </tr>
+          <tr>
+            <td class="step">E vitamini (alfa-tokoferol)</td>
+            <td class="dose">Süt çocuğu 25-50 IU/gün; çocuk 5-10 IU/kg/gün (KF)</td>
+            <td>Abetalipoproteinemide çok yüksek doz gerekir (nörolojik korunma).</td>
+          </tr>
+          <tr>
+            <td class="step">K vitamini (fitomenadion)</td>
+            <td class="dose">İdame 2,5-5 mg PO, haftada 2-3 kez; akut koagulopatide 0,3 mg/kg IV/SC (maks 10 mg)</td>
+            <td>INR ile izle; kanamada parenteral yol tercih edilir.</td>
+          </tr>
+          <tr>
+            <td class="step">Ursodeoksikolik asit (kolestaz)</td>
+            <td class="dose">20-30 mg/kg/gün, 2-3 doza bölünmüş</td>
+            <td>Safra akımını artırır; kolestatik malabsorpsiyonda destekleyici.</td>
+          </tr>
+          <tr>
+            <td class="step">MCT temelli beslenme</td>
+            <td class="dose">Lenfanjiektazi/ağır kolestazda enerjinin büyük kısmı MCT'den; esansiyel yağ asidi ekle</td>
+            <td>MCT portal yolla emilir, lenfatik yükü azaltır; düşük uzun zincirli yağ.</td>
+          </tr>
+          <tr>
+            <td class="step">Çinko (eşlik eden eksiklikte)</td>
+            <td class="dose">1-2 mg/kg/gün elementer çinko</td>
+            <td>Akrodermatit, ishalin uzaması ve büyüme geriliğinde destekle.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout safe">Çölyakta tek etkin tedavi ömür boyu katı glutensiz diyettir; enzim veya vitamin tek başına yeterli değildir. KF'de PERT dozu klinik yanıt (dışkı sıklığı, kilo, steatore) ile titre edilir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve yönetim ilkeleri</h2>
+    <p class="lede">İzlem, büyümenin yakalanması, vitamin düzeylerinin normalleşmesi ve altta yatan hastalığın kontrolü üzerine kuruludur.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>İzlem parametreleri</h3>
+        <ul class="clean">
+          <li>Her vizitte antropometri (kilo, boy, z-skor) ve büyüme hızı.</li>
+          <li>Yağda eriyen vitaminler (A, D, E) ve INR: tanıda, 3-6 ay sonra, sonra yıllık.</li>
+          <li>Albumin, tam kan, ferritin, çinko; kemik sağlığı için 25-OH-D ve PTH.</li>
+          <li>Çölyakta anti-tTG ile diyet uyumunu izle (6-12 ayda düşüş beklenir).</li>
+          <li>KF'de dışkı sıklığı/karakteri ile PERT doz yanıtı; büyüme duraklarsa dozu gözden geçir.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Yönetim ilkeleri</h3>
+        <ul class="clean">
+          <li>Kırmızı bayrak (koagulopati, nörolojik) varsa laboratuvar beklemeden replase et.</li>
+          <li>Diyetisyen ile kalori-protein hedefi belirle; catch-up büyüme için enerji artışı.</li>
+          <li>Nedene yönelik tedaviye rağmen büyüme yakalanmıyorsa tanıyı ve uyumu yeniden değerlendir (yanlış tanı, birlikte SIBO, PERT yetersizliği).</li>
+          <li>PERT dozunu üst sınırın (2500 Ü/kg/öğün, 10.000 Ü/kg/gün) altında tut.</li>
+          <li>Yaşa uygun aşılama (KF'de solunum), kemik sağlığı ve psikososyal destek.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Husby S, Koletzko S, Korponay-Szabó I, ve ark. ESPGHAN Guidelines for Diagnosis of Coeliac Disease 2020. J Pediatr Gastroenterol Nutr. 2020;70(1):141-156.</li>
+      <li>Sullivan JS, Mascarenhas MR. Nutrition: Prevention and management of nutritional failure in cystic fibrosis. J Cyst Fibros. 2017;16(Suppl 2):S87-S93.</li>
+      <li>Turck D, Braegger CP, Colombo C, ve ark. ESPEN-ESPGHAN-ECFS guidelines on nutrition care for infants and children with cystic fibrosis. Clin Nutr. 2016;35(3):557-577.</li>
+      <li>Berni Canani R, Castaldo G, Bacchetta R, ve ark. Congenital diarrhoeal disorders: advances in this evolving web of inherited enteropathies. Nat Rev Gastroenterol Hepatol. 2015;12(5):293-302.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge pediatrik gastroenteroloji uzmanları için hazırlanmış bir klinik karar-destek aracıdır; bireysel hasta değerlendirmesinin, güncel kılavuzların ve klinik muhakemenin yerini almaz. Dozlar hastaya, kiloya ve laboratuvar yanıtına göre bireyselleştirilmeli ve yerel formüler ile doğrulanmalıdır.</div>
+</div>

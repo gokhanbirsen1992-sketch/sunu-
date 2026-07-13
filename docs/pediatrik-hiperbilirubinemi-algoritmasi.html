@@ -1,0 +1,410 @@
+<title>İzole Hiperbilirubinemi — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>İzole Hiperbilirubinemi</h1>
+    <p class="sub">Diğer karaciğer testleri normalken yükselen bilirubine yaklaşım: fraksiyone bilirubinle unkonjuge/konjuge yol ayrımı, unkonjuge kolda Gilbert ve hemoliz, konjuge kolda Dubin-Johnson/Rotor ile kolestaz algoritmasının hedefli tetkik ve dozlu tedaviyle yönetimi. Hedef kitle: çocuk gastroenteroloji uzmanı.</p>
+    <div class="meta">
+      <span class="tag">Fraksiyone bilirubin</span>
+      <span class="tag">Gilbert sendromu</span>
+      <span class="tag">Hemoliz</span>
+      <span class="tag">Kolestaz</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">İzole hiperbilirubinemi, serum bilirubinin yükselmesine karşın diğer karaciğer testlerinin (ALT, AST, ALP, GGT, albümin, INR) normal olmasıdır; yani hasarı gösteren enzim veya sentetik bozukluk yoktur. Bu tanım kritiktir çünkü ayırıcı tanıyı klasik "hepatit/kolestaz" tablosundan ayırıp benign kalıtsal bilirubin metabolizması bozukluklarına ve hemolize yönlendirir. İlk ve belirleyici adım <b>fraksiyone bilirubindir</b>: konjuge (direkt) bilirubin total bilirubinin &gt;%20'si veya mutlak &gt;1 mg/dL ise <b>konjuge hiperbilirubinemi</b> vardır; değilse <b>izole indirekt (unkonjuge) hiperbilirubinemi</b>. İndirekt kolda ayrım artmış üretim (hemoliz, ineffektif eritropoez, hematom rezorpsiyonu) ile bozulmuş alım/konjugasyon (Gilbert, Crigler-Najjar) arasındadır; enzimler normalken izole indirekt + normal hemogram büyük olasılıkla Gilbert'tir. Konjuge kolda enzimler gerçekten normalse benign herediter konjuge hiperbilirubinemi (Dubin-Johnson, Rotor) düşünülür; ancak konjuge bilirubin asla otomatik "normal varyant" sayılmaz — her olguda önce kolestaz/obstrüksiyon dışlanır. Klinik görev üç sorudur: (1) gerçekten izole mi (diğer KCFT normal mi); (2) indirekt mi konjuge mi; (3) hemoliz krizi, kernikterus riski (çok yüksek indirekt) ya da gizli kolestaz/obstrüksiyon gibi bir zemin var mı.</p>
+    <div class="pill-row">
+      <span class="pill">Önce diğer KCFT'yi doğrula (gerçekten izole mi?)</span>
+      <span class="pill">Sonra fraksiyone bilirubin</span>
+      <span class="pill">Direkt &gt;%20 veya &gt;1 mg/dL = konjuge</span>
+      <span class="pill">İndirekt + normal Hb + normal KCFT = Gilbert</span>
+      <span class="pill">Konjuge = daima kolestazı dışla</span>
+    </div>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öyküde sorgula</h3>
+        <ul class="clean">
+          <li>Sarılığın paterni: dalgalı-hafif mi, sabit mi; açlık, araya giren enfeksiyon, egzersiz, stres, uykusuzluk ile artış (Gilbert için tipik)</li>
+          <li>Hemoliz ipuçları: soluk-halsiz ataklar, koyu idrar (hemoglobinüri), bilinen hemoglobinopati/enzim eksikliği, splenektomi, safra taşı; tetikleyici (ilaç, fava, enfeksiyon — G6PD)</li>
+          <li>Aile öyküsü: tekrarlayan hafif sarılık, akrabalık, bilinen Gilbert/Crigler-Najjar/Dubin-Johnson/Rotor; herediter sferositoz, G6PD, talasemi taşıyıcılığı</li>
+          <li>Yenidoğan öyküsü: uzamış/ağır yenidoğan sarılığı, fototerapi-kan değişimi (Crigler-Najjar ipucu)</li>
+          <li>Kolestaz belirtileri (konjuge kol): kaşıntı, koyu idrar, açık-akolik gaita; karın ağrısı, ateş (kolanjit); kilo kaybı</li>
+          <li>Maruziyet: hemolize/bilirubin yükünü artıran ya da bilirubin atılımını bozan ilaçlar (rifampisin, atazanavir, bazı antibiyotikler), yeni ilaç başlanması; TPN, hepatotoksinler</li>
+          <li>Genel: gebelik/oral kontraseptif (Dubin-Johnson alevlenmesi), son enfeksiyon-ateş, egzersiz-oruç, büyüme-gelişme, ek sistemik hastalık</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayenede değerlendir</h3>
+        <ul class="clean">
+          <li>Sarılığın derecesi: skleral ikter, mukozalar; karotenemiden ayır (skleralar temiz, avuç/taban turuncu); kaşıntı izleri-ekskoriasyon (kolestaz)</li>
+          <li>Solukluk, taşikardi, splenomegali (hemoliz); büyüme-gelişme durumu</li>
+          <li>Karaciğer: boyut-kıvam; sertlik-nodülarite veya splenomegali izole hiperbilirubinemiye uymaz, kronik hastalık düşündürür (tanıyı yeniden sorgula)</li>
+          <li>İdrar-gaita rengi: koyu idrar + açık gaita = konjuge/kolestaz; berrak idrar + normal gaita = indirekt lehine</li>
+          <li>Kronik karaciğer/portal hipertansiyon bulguları (spider anjiyom, kaput meduza, asit): varlığı "izole" tanısını dışlar, kolestatik/hepatoselüler algoritmaya geçir</li>
+          <li>Sistemik enfeksiyon/sepsis bulguları (özellikle küçük çocukta konjuge hiperbilirubinemi sepsisin erken işareti olabilir)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout alarm"><b>Kırmızı çizgi:</b> Bilirubin yüksek ama transaminaz/ALP/GGT de yüksekse tablo <b>izole değildir</b>; hepatoselüler (ALT/AST baskın) veya kolestatik (ALP/GGT baskın) algoritmasına geçilir. Ayrıca izole indirekt hiperbilirubinemide <b>anemi + retikülositoz</b> varsa Gilbert'e atlamadan hemoliz araştırılmalı; konjuge hiperbilirubinemi ise küçük çocukta gizli obstrüksiyon veya sepsisin habercisi olabilir ve asla ertelenmez.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Etiyoloji ve mekanizma</h2>
+    <p class="lede">İzole hiperbilirubinemide çerçeve fraksiyone bilirubindir. İndirekt (unkonjuge) yükseklik ya artmış üretimi (hemoliz, ineffektif eritropoez, rezorpsiyon) ya da bozulmuş hepatik alım/konjugasyonu (Gilbert, Crigler-Najjar) gösterir. Konjuge (direkt) yükseklik enzimler normalken benign herediter atılım kusurlarını (Dubin-Johnson, Rotor) düşündürse de her konjuge olguda önce intrahepatik/ekstrahepatik kolestaz dışlanmalıdır. Aşağıdaki kategoriler hem ayırıcı tanıyı hem de tetkik sırasını belirler.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">İndirekt · Hemoliz (artmış üretim)</div>
+        <ul>
+          <li>Membranopati (herediter sferositoz), enzimopati (G6PD, piruvat kinaz), hemoglobinopati (orak hücre, talasemi), immün hemoliz, mikroanjiyopati</li>
+          <li>İzole indirekt bilirubin + anemi/retikülositoz; LDH yüksek, haptoglobin düşük, koyu idrar (hemoglobinüri), splenomegali, pigment safra taşı</li>
+          <li>KCFT normal; periferik yayma, retikülosit, direkt Coombs, hemoliz paneli ile araştır</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">İndirekt · Konjugasyon/alım kusuru (Gilbert / Crigler-Najjar)</div>
+        <ul>
+          <li>Gilbert: UGT1A1 promotor polimorfizmi (TA tekrar) ile azalmış konjugasyon; çok sık (%3-10), benign; açlık-enfeksiyon-stresle artan hafif dalgalı indirekt sarılık</li>
+          <li>Tanı klinik ve dışlama ile: normal Hb-retikülosit-yayma (hemoliz yok), normal KCFT, izole indirekt bilirubin (genelde &lt;5 mg/dL)</li>
+          <li>Crigler-Najjar: Tip I (UGT1A1 tam yokluğu, ağır kernikterus riski, fototerapi/nakil), Tip II (kısmi aktivite, fenobarbitale yanıt verir)</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">İndirekt · Diğer üretim/dolaşım nedenleri</div>
+        <ul>
+          <li>İneffektif eritropoez (talasemi, megaloblastik anemi, diseritropoetik anemi), büyük hematom-kanama rezorpsiyonu, tekrarlayan transfüzyon</li>
+          <li>Bilirubin yükünü/atılımını etkileyen ilaçlar (ör. rifampisin, atazanavir-indinavir — hepatik alım/UGT inhibisyonu)</li>
+          <li>Belirgin hemoliz olmadan da indirekt bilirubinde hafif artış; hemogram-retikülosit-yayma ile ayrılır</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Konjuge · Benign herediter (Dubin-Johnson / Rotor)</div>
+        <ul>
+          <li>Dubin-Johnson (MRP2/ABCC2): kanaliküler atılım kusuru; siyah pigmentli karaciğer, normal enzim/GGT, konjuge bilirubin yüksek; idrar koproporfirin I baskın (toplam normal)</li>
+          <li>Rotor (SLCO1B1/1B3): hepatik depolama/re-alım kusuru; normal renkli karaciğer; idrar total koproporfirin belirgin artmış (&gt;2,5 kat), izomer I payı orta</li>
+          <li>Her ikisi de benign, tedavi gerektirmez; enzimler normal olduğundan kolestazdan ayrılır</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">Konjuge · İntrahepatik kolestaz</div>
+        <ul>
+          <li>İlaç/TPN ilişkili kolestaz, sepsis-enfeksiyon ilişkili kolestaz, PFIC/BRIC spektrumu, sendromik (Alagille) ve metabolik nedenler</li>
+          <li>Genelde ALP/GGT yükselir (izole değildir); düşük-GGT'li kolestaz (PFIC1/2, safra asidi sentez defekti) ipucu olabilir</li>
+          <li>Kaşıntı, koyu idrar, açık gaita; yağda eriyen vitamin eksikliği; ilerlerse fibrozis</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">Konjuge · Ekstrahepatik/obstrüktif kolestaz</div>
+        <ul>
+          <li>Koledok kisti, koledokolitiazis, primer sklerozan kolanjit, parazit/kitle bası; süt çocuğunda biliyer atrezi (yaşa göre acil)</li>
+          <li>ALP-GGT baskın yükseklik + safra yolu dilatasyonu; kolanjit triadı (ateş + sağ üst kadran ağrısı + sarılık)</li>
+          <li>USG ile dilatasyon/taş/kist; gerekirse MRKP-kolanjiyografi; mekanik neden giderilir</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout"><b>Ayrım kuralı:</b> Fraksiyone bilirubin yolu ikiye böler. İndirekt baskınsa önce hemoliz (retikülosit, yayma, LDH, haptoglobin, Coombs) araştır; hemoliz yoksa ve KCFT normalse izole indirekt = büyük olasılıkla Gilbert. Konjuge baskınsa: enzim/GGT gerçekten normalse Dubin-Johnson/Rotor'u düşün ama önce görüntüleme ile kolestaz/obstrüksiyonu dışla; GGT/ALP yükselmişse tablo izole değildir, kolestaz algoritmasına geç.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">İlk çatal "gerçekten izole mi" (diğer KCFT normal mi) ve fraksiyone bilirubindir (indirekt mi konjuge mi). İndirekt kolda ikinci çatal hemoliz ile Gilbert arasındaki ayrım; konjuge kolda ise obstrüktif/kolestatik hastalık ile benign herediter (Dubin-Johnson/Rotor) arasındaki ayrımdır.</p>
+    <div class="flow">
+      <div class="node start"><span class="k">Başlangıç</span><span class="t">İzole hiperbilirubinemi</span><p>Gerçek sarılığı doğrula (karotenemiyi dışla). Total + fraksiyone bilirubin, ALT/AST/ALP/GGT, albümin, INR, tam kan sayımı + retikülosit iste. Diğer KCFT'nin normal olduğunu teyit et.</p></div>
+      <div class="connector"></div>
+      <div class="node action"><span class="k">Adım 1</span><span class="t">Fraksiyone bilirubin ile yolu belirle</span><p>Direkt bilirubin total &gt;%20 veya &gt;1 mg/dL ise konjuge; değilse izole indirekt hiperbilirubinemi. Bu ayrım tüm sonraki tetkiki yönlendirir.</p></div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 1</span><span class="t">Konjuge (direkt) bilirubin yüksek mi?</span><p>Direkt fraksiyon total bilirubinin &gt;%20'si veya mutlak &gt;1 mg/dL mi? Koyu idrar/açık gaita/kaşıntı konjuge yolu destekler.</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">EVET → Konjuge yol</span><div class="node action"><span class="k">Katmanla</span><span class="t">Kolestazı dışla, sonra benign herediteri düşün</span><p>ALP/GGT yükselmişse tablo izole değil → kolestaz algoritması (USG, MRKP). ALP/GGT gerçekten normalse ve görüntüleme temizse Dubin-Johnson/Rotor düşün (idrar koproporfirin paterni).</p></div></div>
+        <div class="branch no"><span class="label">HAYIR → İndirekt yol</span><div class="node action safe"><span class="k">Ayır</span><span class="t">Hemoliz mi, konjugasyon kusuru mu?</span><p>Retikülosit, periferik yayma, LDH, haptoglobin, direkt Coombs, idrar hemoglobini ile hemolizi araştır; KCFT normal olmalı.</p></div></div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 2</span><span class="t">Ciddi/aktif bir zemin var mı?</span><p>İndirekt yolda: anemi + retikülositoz + LDH yüksek/haptoglobin düşük (hemoliz) veya kernikterus riski (çok yüksek indirekt, süt çocuğu)? Konjuge yolda: safra yolu dilatasyonu/obstrüksiyon veya kolanjit-sepsis bulgusu?</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">EVET → Hedefli / acil müdahale</span><div class="node alarm"><span class="k">Müdahale</span><span class="t">Hemoliz/obstrüksiyon/kernikterus yönetimi</span><p>Hemolizde: tetikleyiciyi kaldır, altta yatan hastalığı tanımla-tedavi et, gerekirse transfüzyon + folik asit; çok yüksek indirekt/kernikterus riskinde fototerapi ± kan değişimi. Obstrüksiyonda: görüntüle, mekanik nedeni gider (ERKP/cerrahi), kolanjitte antibiyotik.</p></div></div>
+        <div class="branch no"><span class="label">HAYIR → Benign tanı</span><div class="node action safe"><span class="k">Tanı koy</span><span class="t">Gilbert veya Dubin-Johnson/Rotor</span><p>İndirekt, hemoliz yok, KCFT normal, bilirubin &lt;5 mg/dL → Gilbert: güvence, tedavi yok. Konjuge, enzim/görüntüleme normal, koproporfirin paterni uyumlu → Dubin-Johnson/Rotor: benign, tedavi yok.</p></div></div>
+      </div>
+    </div>
+    <div class="callout"><b>Not:</b> İzole indirekt hiperbilirubinemide anemi-retikülositoz yoksa, KCFT normalse ve bilirubin genelde &lt;5 mg/dL ise Gilbert klinik olarak tanınır; rutin UGT1A1 genotipi veya açlık/nikotinik asit provokasyon testi gerekmez (genotip yalnızca ilaç metabolizması/kemoterapi planı gibi seçili durumlarda). Konjuge hiperbilirubinemi ise asla normal varyant kabul edilmeden önce görüntülemeyle kolestaz/obstrüksiyon dışlanır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Tetkik, fraksiyone bilirubin ve tam KCFT ile "izole" olduğunu doğrulayarak başlar; sonra indirekt yolda hemoliz paneli, konjuge yolda görüntüleme ve benign herediter ayrımı (idrar koproporfirin) ile ilerler. Amaç hemoliz ve obstrüksiyon gibi eyleme geçilebilir nedenleri yakalayıp Gilbert ile Dubin-Johnson/Rotor'u gereksiz test yapmadan tanımaktır.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>İzole hiperbilirubinemide kademeli değerlendirme</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Test</th><th>Amaç / not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Basamak 1 · Fraksiyonasyon + KCFT</td><td>Total + direkt/indirekt bilirubin, ALT, AST, ALP, GGT, albümin, INR/PT</td><td>Önce "izole" olduğunu doğrula (enzimler normal); yolu belirle (indirekt/konjuge). Enzim yükselmişse hepatoselüler/kolestatik algoritmaya geç</td></tr>
+          <tr><td class="step">Basamak 2 · Hemoliz paneli (indirekt yol)</td><td>Tam kan sayımı + retikülosit, periferik yayma, LDH, haptoglobin, direkt Coombs, idrar analizi (hemoglobinüri)</td><td>Hemolizi doğrula/dışla; yayma morfolojisi (sferosit, orak, fragmante) tanıyı yönlendirir</td></tr>
+          <tr><td class="step">Basamak 3 · Hemoliz alt tiplemesi (endikasyonda)</td><td>G6PD aktivitesi, eritrosit membran/enzim testleri (EMA-bağlanma, osmotik frajilite), hemoglobin elektroforezi</td><td>Yayma/retikülosit hemoliz gösterdiyse etiyolojiyi netleştir; G6PD krizden birkaç hafta sonra tekrar bakılabilir</td></tr>
+          <tr><td class="step">Basamak 4 · Gilbert doğrulama (dışlama)</td><td>Klinik + normal Hb/retikülosit/yayma + normal KCFT + izole indirekt bilirubin; seçili olguda UGT1A1 genotip</td><td>Ek test gerekmez; genotip yalnızca ilaç toksisitesi öngörüsü (ör. irinotekan, atazanavir) veya belirsiz olgularda</td></tr>
+          <tr><td class="step">Basamak 5 · Konjuge yol · görüntüleme</td><td>Abdomen ultrasonografi (± Doppler); gerekiyorsa MRKP/kolanjiyografi</td><td>Safra yolu dilatasyonu, taş, koledok kisti, kitle; PSK kuşkusunda MRKP. Konjuge bilirubin önce görüntülemeyle değerlendirilir</td></tr>
+          <tr><td class="step">Basamak 6 · Benign herediter konjuge ayrımı</td><td>İdrar koproporfirin total ve izomer I/III oranı; (Dubin-Johnson'da BSP/HIDA paterni, gerekirse biyopsi)</td><td>Dubin-Johnson: total normal, izomer I baskın + siyah karaciğer; Rotor: total belirgin artmış. Enzim ve görüntüleme normalken tanısaldır; biyopsi çoğu olguda gerekmez</td></tr>
+          <tr><td class="step">Seçili · Kolestaz genişletme</td><td>Safra asitleri, GGT (düşük-GGT kolestaz için), metabolik-genetik paneller (PFIC/BRIC, Alagille), karaciğer biyopsisi</td><td>Konjuge + kolestaz bulgusu sürüyorsa; GGT düşük-normal kolestaz PFIC/safra asidi sentez defektine yönlendirir</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout"><b>Sıralama ilkesi:</b> Önce enzimlerle "izole" olduğunu doğrula. İndirekt + anemi/retikülositoz → hemoliz paneli → alt tipleme; indirekt + normal Hb + normal KCFT → Gilbert (ek test gereksiz). Konjuge → önce USG ile obstrüksiyonu dışla; enzim ve görüntüleme normalse idrar koproporfirini ile Dubin-Johnson/Rotor'u ayır. Gilbert ve Dubin-Johnson/Rotor benigndir; gereksiz invaziv tetkikten kaçın.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdakilerden herhangi biri "izole/benign" çerçevesini kırar ve aktif bir zemini (hemolitik kriz, kernikterus riski, obstrüksiyon-kolanjit-sepsis, gizli karaciğer hastalığı) düşündürür; hızlı tetkik ve uygun tedavinin başlanmasını gerektirir.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Transaminaz, ALP veya GGT yüksekliği (tablo izole değil — hepatoselüler/kolestatik algoritmaya geç)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Anemi + retikülositoz + LDH yüksek/haptoglobin düşük ile giden akut hemolitik kriz; ağır solukluk, taşikardi, hemoglobinüri</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Süt çocuğunda çok yüksek indirekt bilirubin ile kernikterus/bilirubin ensefalopatisi riski (letarji, hipotoni-hipertoni, tiz ağlama)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ağır yenidoğan sarılığı + fototerapi/kan değişimi öyküsü (Crigler-Najjar) veya fenobarbitale yanıt paterni</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Konjuge hiperbilirubinemi + safra yolu dilatasyonu/koledok kisti/taş (ekstrahepatik obstrüksiyon)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kolanjit triadı: ateş + sağ üst kadran ağrısı + sarılık; toksik görünüm (biliyer sepsis — acil)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Küçük çocukta konjuge hiperbilirubinemi + sistemik enfeksiyon/sepsis bulguları (kolestaz erken işaret olabilir)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kaşıntı, açık-akolik gaita, yağda eriyen vitamin eksikliği (ilerleyici kolestaz)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Hepatomegali-sertlik-nodülarite, splenomegali, portal hipertansiyon bulguları (izole tanısını dışlar — kronik karaciğer hastalığı)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kilo kaybı, gece terlemesi, palpabl kitle (malignite/infiltrasyon)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Yeni başlanan ilaçla ortaya çıkan yükseklik (rifampisin, atazanavir vb.) — ilaç ilişkili; kesildiğinde düzelmeli</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Bilirubinin izole indirekt beklenirken konjuge çıkması (Gilbert tanısını sorgula — kolestazı araştır)</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi</h2>
+    <p class="lede">İzole hiperbilirubineminin çoğu nedeni (Gilbert, Dubin-Johnson, Rotor) benigndir ve yalnızca güvence gerektirir; tedavi hemoliz, Crigler-Najjar, kernikterus riski ve altta yatan kolestaz/obstrüksiyon gibi seçili durumlara ayrılır. Dozlar hasta ağırlığına, böbrek-karaciğer fonksiyonuna ve güncel kılavuza göre teyit edilmelidir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Tanıya özgü tedavi ve dozlar</caption>
+        <thead>
+          <tr><th>Tanı / durum</th><th>Tedavi / doz</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Gilbert sendromu</td><td class="dose">İlaç gerekmez — güvence + uzun açlık/dehidratasyondan kaçınma</td><td>Benign; açlık-enfeksiyon-stresle geçici artar. Bilirubin/UGT1A1 yoluyla metabolize ilaçlarda (irinotekan, atazanavir) dikkat</td></tr>
+          <tr><td class="step">Dubin-Johnson / Rotor</td><td class="dose">Tedavi gerekmez — güvence</td><td>Benign, ömür boyu iyi seyir. Dubin-Johnson gebelik/oral kontraseptifle geçici artabilir; gereksiz invaziv tetkikten kaçın</td></tr>
+          <tr><td class="step">Crigler-Najjar Tip II</td><td class="dose">Fenobarbital 3-5 mg/kg/gün oral (UGT1A1 indüksiyonu)</td><td>Bilirubinde belirgin düşüş (&gt;%25) tanıyı destekler; sedasyona dikkat, dozu yanıta göre ayarla</td></tr>
+          <tr><td class="step">Crigler-Najjar Tip I</td><td class="dose">Yoğun fototerapi (günde 10-12 saat); acil düzeyde kan değişimi; kesin tedavi karaciğer nakli</td><td>Fenobarbitale yanıtsız; kernikterus riski yüksek. Kalsiyum fosfat/orlistat gibi bağlayıcılar destek; erken nakil değerlendirmesi</td></tr>
+          <tr><td class="step">Hemolitik anemi</td><td class="dose">Folik asit 1 mg/gün oral; tetikleyiciyi kaldır; semptomatik anemide eritrosit transfüzyonu 10-15 mL/kg</td><td>Altta yatana yönelik: G6PD'de oksidan kaçınma, sferositozda izlem/splenektomi (aşılama sonrası); pigment safra taşı takibi</td></tr>
+          <tr><td class="step">Kernikterus riski (çok yüksek indirekt)</td><td class="dose">Yoğun fototerapi; eşik aşımında kan değişimi (~2 kan hacmi, 160-170 mL/kg)</td><td>Özellikle süt çocuğu/yenidoğan devamında; nomogram/eşiklere göre; nörotoksisite bulgularını izle</td></tr>
+          <tr><td class="step">Kolestatik kaşıntı (konjuge yol)</td><td class="dose">Ursodeoksikolik asit 10-20 mg/kg/gün oral, 2-3 doza bölünmüş (bazı olgularda 30 mg/kg/gün)</td><td>Safra akışı ve kaşıntı için; ekstrahepatik obstrüksiyonda önce mekanik nedeni gider</td></tr>
+          <tr><td class="step">Dirençli kaşıntı — basamak tedavi</td><td class="dose">Rifampisin 5-10 mg/kg/gün oral (maks 600 mg/gün); alternatif naltrekson 0,25-0,5 mg/kg/gün ya da sertralin</td><td>Rifampisinde KCFT-kan sayımı izle; kolestiramin 240 mg/kg/gün (ilaçlardan 4 saat ayrı); ışık tedavisi/plazmaferez seçili olguda</td></tr>
+          <tr><td class="step">Ekstrahepatik obstrüksiyon (taş/kist)</td><td class="dose">Girişimsel/cerrahi tedavi (ERKP, koledok kisti eksizyonu); kolanjitte seftriakson 50-75 mg/kg/gün IV (maks 2 g/gün)</td><td>Mekanik neden giderilir; enfekte biliyer obstrüksiyon acildir</td></tr>
+          <tr><td class="step">Kolestazda destek</td><td class="dose">Yağda eriyen vitaminler: A 5.000-25.000 IU/gün, D 400-1.200 IU/gün (düzeye göre), E 15-25 IU/kg/gün, K 2,5-5 mg 2-7 gün/hafta</td><td>Uzamış kolestazda eksiklik sık; düzeyleri izleyip titre et; büyüme ve kemik sağlığını takip et</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout safe"><b>Yaklaşım:</b> Gilbert, Dubin-Johnson ve Rotor'da tek gereken güvencedir ve gereksiz tetkikten kaçınmaktır. Crigler-Najjar Tip II fenobarbitale dramatik yanıt verir; Tip I fototerapi + erken nakil gerektirir. Hemolizde etken ve tetikleyici yönetilir; konjuge yolda obstrüksiyon mekanik olarak giderilir.</div>
+    <div class="callout"><b>Kaçınılacaklar:</b> Konjuge hiperbilirubinemiyi görüntüleme yapmadan "benign herediter" kabul etmeyin; enzim yüksekliği varken "izole/Gilbert" tanısına atlamayın; hemoliz kanıtı varken Gilbert deyip geçmeyin; Gilbert/Dubin-Johnson/Rotor'da tanı için gereksiz karaciğer biyopsisinden ve provokasyon testlerinden kaçının.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve yönetim ilkeleri</h2>
+    <p class="lede">Yönetim mekanizmaya göre farklılaşır: benign kalıtsal nedenler (Gilbert, Dubin-Johnson, Rotor) yalnızca güvence ve gerektiğinde yeniden değerlendirme gerektirirken; hemoliz, Crigler-Najjar ve konjuge/kolestatik nedenler düzenli izlem, ilaç uyumu ve komplikasyon taramasını gerektirir. Hedef, benign varyantı gereksiz test yapmadan tanımak ve eyleme geçilebilir nedenleri (hemoliz, obstrüksiyon, kernikterus riski) zamanında yakalamaktır.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>İzlem ve takip</h3>
+        <ul class="clean">
+          <li>Gilbert/Dubin-Johnson/Rotor: rutin ek izlem gereksiz; ailenin ve hastanın benign doğal seyri anlaması sağlanır; yeni belirti (anemi, koyu idrar, enzim yüksekliği, kaşıntı) çıkarsa tanı yeniden değerlendirilir</li>
+          <li>Hemolitik hastalıkta Hb-retikülosit, pigment safra taşı taraması, folik asit desteği ve gerektiğinde splenektomi/aşılama takibi</li>
+          <li>Crigler-Najjar'da bilirubin düzeyi, fenobarbital/fototerapi yanıtı ve nörolojik durum; Tip I'de nakil planlaması ve bilirubin yükünün sıkı kontrolü</li>
+          <li>Konjuge/kolestatik nedende KCFT-bilirubin trendi, yağda eriyen vitamin düzeyleri, büyüme, kaşıntı kontrolü ve portal hipertansiyon izlemi</li>
+          <li>İlaç ilişkili hiperbilirubinemide sorumlu ilaç kesildiğinde/ayarlandığında düzelmenin doğrulanması</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Aile bilgilendirme ve güvenlik ağı</h3>
+        <ul class="clean">
+          <li>Gilbert/DJ/Rotor için yazılı güvence: benign, sarılığın açlık-enfeksiyon-stresle dalgalanabileceği, ek tetkik/tedavi gerekmediği; gerektiğinde okul/askerlik-iş raporu desteği</li>
+          <li>Gilbert'te ilaç uyarısı: UGT1A1 ile metabolize/bilirubin atılımını yarıştıran ilaçlarda (irinotekan, atazanavir) doz-toksisite riski; yeni ilaçta hekime danışma</li>
+          <li>Kırmızı bayrak eğitimi: artan-koyulaşan sarılık, koyu idrar-açık gaita, kaşıntı, solukluk-halsizlik (hemoliz), ateş + karın ağrısı (kolanjit), uykuya eğilim/beslenme bozukluğu (küçük çocukta) gelişiminde acil başvuru</li>
+          <li>Hemolitik hastalıkta tetikleyicilerden kaçınma (G6PD'de oksidan ilaç/fava), aile taraması ve genetik danışma</li>
+          <li>Konjuge/obstrüktif olguda girişimsel-cerrahi ekiple eş güdüm; benign herediter tanısı için invaziv işlemlere baştan başvurmama</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout safe">En güvenli sonuç; önce diğer karaciğer testleriyle tablonun gerçekten izole olduğunu doğrulayan, fraksiyone bilirubinle indirekt/konjuge yolu ayıran, indirekt kolda hemolizi Gilbert'ten, konjuge kolda kolestaz/obstrüksiyonu benign herediterden (Dubin-Johnson/Rotor) ayıran, benign varyantı gereksiz tetkik yapmadan tanıyan ve eyleme geçilebilir nedenleri zamanında dozlu tedaviyle yöneten yapılandırılmış bir yaklaşımla elde edilir.</div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Fawaz R, Baumann U, Ekong U, et al. Guideline for the Evaluation of Cholestatic Jaundice in Infants: Joint Recommendations of NASPGHAN and ESPGHAN. J Pediatr Gastroenterol Nutr. 2017;64(1):154-168.</li>
+      <li>Strassburg CP. Hyperbilirubinemia syndromes (Gilbert-Meulengracht, Crigler-Najjar, Dubin-Johnson, and Rotor syndrome). Best Pract Res Clin Gastroenterol. 2010;24(5):555-571.</li>
+      <li>Memon N, Weinberger BI, Hegyi T, Aleksunes LM. Inherited disorders of bilirubin clearance. Pediatr Res. 2016;79(3):378-386.</li>
+      <li>Fretzayas A, Moustaki M, Liapi O, Karpathios T. Gilbert syndrome. Eur J Pediatr. 2012;171(1):11-15.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge uzman kullanıcıya yönelik bir klinik karar destek aracıdır; hastanın bireysel değerlendirmesi, güncel kılavuzlar ve yerel uygulamaların yerine geçmez. Dozlar hastaya, ağırlığa, komorbiditeye, böbrek-karaciğer fonksiyonuna ve ilaç etkileşimlerine göre teyit edilmelidir.</div>
+</div>

@@ -1,0 +1,428 @@
+<title>Büyük Çocukta Sarılık — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Büyük Çocukta Sarılık</h1>
+    <p class="sub">Süt çocukluğu dönemini geçmiş çocukta sarılığa yaklaşım: fraksiyone bilirubinle indirekt/direkt ayrımı, hemoliz ile karaciğer hastalığının ayrımı ve viral, otoimmün, Wilson ile Gilbert tanılarının hedefli tetkik ve dozlu tedaviyle yönetimi. Hedef kitle: çocuk gastroenteroloji uzmanı.</p>
+    <div class="meta">
+      <span class="tag">Fraksiyone bilirubin</span>
+      <span class="tag">Hemoliz vs karaciğer</span>
+      <span class="tag">Wilson hastalığı</span>
+      <span class="tag">Gilbert sendromu</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">Sarılık, serum bilirubin düzeyinin yükselmesine bağlı deri, sklera ve mukozaların sarı renk almasıdır; klinik olarak genellikle total bilirubin &gt;2-3 mg/dL düzeyinde fark edilir ve önce sklera ile frenulumda belirir. Yenidoğan sarılığından farklı olarak süt çocukluğu dönemini geçmiş bir çocukta yeni ortaya çıkan sarılık her zaman patolojiktir ve ivedi değerlendirme gerektirir. İlk ve en belirleyici adım fraksiyone bilirubindir: konjuge (direkt) bilirubin total bilirubinin &gt;%20'si veya mutlak &gt;1 mg/dL ise <b>konjuge hiperbilirubinemi</b> vardır ve daima hepatobiliyer hastalık (hepatoselüler hasar ya da kolestaz) gösterir — asla normal kabul edilmez. İzole indirekt (unkonjuge) hiperbilirubinemide ise ayrım hemoliz (artmış üretim) ile bozulmuş konjugasyon-alım (Gilbert, Crigler-Najjar) arasındadır. Görünür sarılık ayrıca psödosarılık (karotenemi — skleralar temiz, avuç içi-tabanda turuncu renk) ve kızarıklıktan ayrılmalıdır. Klinik görev üç sorudur: (1) gerçek sarılık mı; (2) indirekt mi direkt mi; (3) akut karaciğer yetmezliği (koagülopati ± ensefalopati) ya da sepsis-hemolitik kriz gibi acil bir zemin var mı.</p>
+    <div class="pill-row">
+      <span class="pill">Süt çocukluğu sonrası sarılık = patolojik</span>
+      <span class="pill">Önce fraksiyone bilirubin</span>
+      <span class="pill">Direkt &gt;%20 veya &gt;1 mg/dL = hepatobiliyer</span>
+      <span class="pill">INR ölç — akut yetmezliği ekarte et</span>
+      <span class="pill">Koyu idrar/açık gaita = kolestaz</span>
+    </div>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öyküde sorgula</h3>
+        <ul class="clean">
+          <li>Sarılığın başlangıcı-seyri: akut mu sinsi mi; koyu (çay rengi) idrar ve açık-akolik gaita (konjuge hiperbilirubinemi/kolestaz), kaşıntı</li>
+          <li>Prodrom-viral bulgu: ateş, halsizlik, iştahsızlık, bulantı-kusma, sağ üst kadran ağrısı; ishal, döküntü, artralji</li>
+          <li>Hemoliz ipuçları: soluk-halsiz ataklar, koyu idrar (hemoglobinüri), bilinen hemoglobinopati/enzim eksikliği, aile öyküsü, splenektomi; tetikleyici (ilaç, fava, enfeksiyon — G6PD)</li>
+          <li>Gilbert paterni: açlık, araya giren enfeksiyon, egzersiz, stres veya uykusuzlukla ortaya çıkan hafif, dalgalı, izole indirekt sarılık; iyi genel durum</li>
+          <li>Nöropsikiyatrik/hepatik: davranış-okul başarısı değişimi, tremor-distoni-dizartri, düşen not (Wilson); kanama-morarma, karın şişliği (ilerlemiş hastalık)</li>
+          <li>Maruziyet: hepatotoksik ilaç-bitkisel ürün (parasetamol, antiepileptik, antitüberküloz, herbal), transfüzyon, kan-cinsel temas riski, seyahat-kontamine su/deniz ürünü (HAV/HEV), aşılama durumu</li>
+          <li>Aile öyküsü: Wilson/genetik karaciğer hastalığı, otoimmün hastalık, hemolitik anemi, tekrarlayan sarılık, akrabalık, açıklanamayan genç yaşta karaciğer nakli/ölüm</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayenede değerlendir</h3>
+        <ul class="clean">
+          <li>Sarılığın derecesi ve dağılımı: skleral ikter, mukozalar; karotenemiden (skleralar temiz) ayır; kaşıntı izleri-ekskoriasyon (kolestaz)</li>
+          <li>Karaciğer: boyut, kıvam (sertlik-nodülarite = kronik hastalık/siroz), hassasiyet (akut hepatit); dalak büyüklüğü (hemoliz, portal hipertansiyon)</li>
+          <li>Kronik karaciğer hastalığı-portal hipertansiyon bulguları: spider anjiyom, palmar eritem, kaput meduza, asit, çomak parmak, kas kaybı, testis atrofisi</li>
+          <li>Hemoliz bulguları: solukluk, taşikardi, splenomegali, safra taşı öyküsü; büyüme-gelişme</li>
+          <li>Wilson için nörolojik: tremor, distoni, dizartri, koordinasyon-yürüyüş, mikrografi; yarık lamba ile Kayser-Fleischer halkası (nörolojik tutulumda sık, izole karaciğerde olmayabilir)</li>
+          <li>Akut karaciğer yetmezliği bulguları: ensefalopati (uyku düzeni-bilinç değişimi, asteriksis), peteşi-ekimoz, mukozal kanama; hemodinami-sepsis bulguları</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout alarm"><b>Kırmızı çizgi:</b> Sarılıkla birlikte <b>koagülopati</b> (K vitaminine yanıtsız INR uzaması) ± ensefalopati varsa pediatrik akut karaciğer yetmezliği kabul edilir; INR ve amonyak bakılır, hepatotoksik ilaç kesilir, olası parasetamol toksisitesinde N-asetilsistein başlanır ve nakil merkezi ile eş zamanlı iletişim kurulur. Wilson, akut karaciğer yetmezliğinin geri döndürülemez ancak tedavi edilebilir bir nedenidir ve mutlaka dışlanmalıdır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Etiyoloji ve mekanizma</h2>
+    <p class="lede">Büyük çocukta sarılığın çerçevesi fraksiyone bilirubindir: izole indirekt (unkonjuge) hiperbilirubinemi ya artmış üretimi (hemoliz) ya da bozulmuş konjugasyonu (Gilbert, Crigler-Najjar) gösterir; konjuge (direkt) hiperbilirubinemi ise daima hepatoselüler hasar ya da kolestaz demektir. Aşağıdaki mekanizma kategorileri hem ayırıcı tanıyı hem de tetkik sırasını belirler.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">İndirekt · Hemoliz (artmış üretim)</div>
+        <ul>
+          <li>Membranopati (herediter sferositoz), enzimopati (G6PD, PK), hemoglobinopati (orak hücre, talasemi), immün hemoliz</li>
+          <li>İzole indirekt bilirubin + anemi/retikülositoz; LDH yüksek, haptoglobin düşük, koyu idrar (hemoglobinüri), splenomegali, safra taşı</li>
+          <li>KCFT normal; periferik yayma, retikülosit, Coombs, hemoliz paneli ile araştır</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">İndirekt · Konjugasyon kusuru (Gilbert / Crigler-Najjar)</div>
+        <ul>
+          <li>Gilbert: UGT1A1 promotor polimorfizmi ile azalmış aktivite; çok sık, benign; açlık-enfeksiyon-stresle artan hafif dalgalı indirekt sarılık</li>
+          <li>Tanı klinik ve dışlama ile: normal Hb-retikülosit-yayma (hemoliz yok), normal KCFT, izole indirekt bilirubin (genelde &lt;5 mg/dL)</li>
+          <li>Crigler-Najjar (nadir): Tip I ağır kernikterus riski, Tip II fenobarbitale yanıt verir; genelde erken tanınır</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">Direkt · Viral hepatit (hepatoselüler)</div>
+        <ul>
+          <li>Hepatit A/E (fekal-oral, akut, kendini sınırlar), B/C (parenteral-perinatal, kronikleşme riski), EBV/CMV; belirgin ALT/AST yüksekliği</li>
+          <li>Prodromdan sonra sarılık, koyu idrar, hepatomegali-hassasiyet; HAV sıklıkla en yaygın akut neden</li>
+          <li>Seroloji + NAT ile tanı; fulminan seyir açısından INR izle</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Direkt · Otoimmün karaciğer hastalığı</div>
+        <ul>
+          <li>Otoimmün hepatit Tip 1 (ANA/SMA) ve Tip 2 (anti-LKM1); otoimmün sklerozan kolanjit (ASC) örtüşmesi</li>
+          <li>Yüksek transaminaz + belirgin IgG yüksekliği + otoantikor; akut hepatitten kronik/sirotik prezentasyona dek geniş yelpaze, fulminan olabilir</li>
+          <li>Diğer otoimmün hastalık birlikteliği; tanı ve tedavi kararı için karaciğer biyopsisi</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">Direkt · Wilson ve metabolik</div>
+        <ul>
+          <li>Wilson hastalığı (ATP7B): 3 yaş üstü her açıklanamayan karaciğer hastalığında düşün; hepatit, siroz veya akut yetmezlik + nöropsikiyatrik bulgu</li>
+          <li>İpuçları: düşük seruloplazmin, artmış idrar bakırı, Kayser-Fleischer halkası; Coombs-negatif hemolitik anemi + düşük ALP + düşük ürik asit (akut yetmezlikte)</li>
+          <li>Diğer: ilaç/toksin hepatotoksisitesi, alfa-1 antitripsin eksikliği, MASLD, otoimmün olmayan metabolik nedenler</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">Direkt · Kolestatik / obstrüktif</div>
+        <ul>
+          <li>İntrahepatik: primer sklerozan kolanjit (İBH birlikteliği), ilaç ilişkili kolestaz, TPN ilişkili; ekstrahepatik: koledok kisti, koledokolitiazis, tümör bası</li>
+          <li>Kolestaz paterni: kaşıntı, açık gaita, koyu idrar; ALP ve GGT baskın yükseklik, direkt bilirubin yüksek</li>
+          <li>USG ile safra yolu dilatasyonu/taş/kist; gerekiyorsa MRKP-kolanjiyografi</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout"><b>Ayrım kuralı:</b> Fraksiyone bilirubin yolu ikiye böler. İndirekt baskınsa önce hemoliz (retikülosit, yayma, LDH, haptoglobin, Coombs) araştır; hemoliz yoksa ve KCFT normalse izole indirekt = büyük olasılıkla Gilbert. Direkt baskınsa enzim paterni yönlendirir: ALT/AST baskın = hepatoselüler (viral/otoimmün/Wilson/toksik), ALP-GGT baskın = kolestatik/obstrüktif (görüntüle).</div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">İlk çatal fraksiyone bilirubindir (indirekt mi, direkt mi); direkt yolda ikinci çatal akut karaciğer yetmezliği ile stabil hepatobiliyer hastalık, indirekt yolda ise hemoliz ile konjugasyon kusuru (Gilbert) arasındaki ayrımdır.</p>
+    <div class="flow">
+      <div class="node start"><span class="k">Başlangıç</span><span class="t">Büyük çocukta yeni sarılık</span><p>Gerçek sarılığı doğrula (karotenemiyi dışla); idrar-gaita rengini sorgula. Total + fraksiyone bilirubin, ALT/AST/ALP/GGT, albümin, INR, tam kan + retikülosit iste.</p></div>
+      <div class="connector"></div>
+      <div class="node action"><span class="k">Adım 1</span><span class="t">Fraksiyone bilirubin ile yolu belirle</span><p>Direkt bilirubin total &gt;%20 veya &gt;1 mg/dL ise konjuge hiperbilirubinemi (hepatobiliyer); değilse izole indirekt hiperbilirubinemi. Bu ayrım tüm sonraki tetkiki yönlendirir.</p></div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 1</span><span class="t">Konjuge (direkt) bilirubin yüksek mi?</span><p>Direkt fraksiyon total bilirubinin &gt;%20'si veya mutlak &gt;1 mg/dL mi? Koyu idrar/açık gaita/kaşıntı bu yolu destekler.</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">EVET → Hepatobiliyer yol</span><div class="node action"><span class="k">Katmanla</span><span class="t">Enzim paterni + INR/ensefalopati değerlendir</span><p>ALT/AST baskın = hepatoselüler (viral seroloji, otoimmün panel + IgG, Wilson taraması, ilaç); ALP/GGT baskın = kolestaz → USG. Her olguda INR ve mental durumla akut yetmezliği kontrol et.</p></div></div>
+        <div class="branch no"><span class="label">HAYIR → İndirekt yol</span><div class="node action safe"><span class="k">Ayır</span><span class="t">Hemoliz mi, konjugasyon kusuru mu?</span><p>Retikülosit, periferik yayma, LDH, haptoglobin, direkt Coombs, idrar hemoglobini ile hemolizi araştır; KCFT normal olmalı.</p></div></div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 2</span><span class="t">Akut karaciğer yetmezliği veya hemoliz kanıtı var mı?</span><p>Hepatobiliyer yolda: K vitaminine yanıtsız INR uzaması ± ensefalopati? İndirekt yolda: anemi + retikülositoz + LDH yüksek/haptoglobin düşük?</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">EVET → Acil / hedefli müdahale</span><div class="node alarm"><span class="k">Acil</span><span class="t">Karaciğer yetmezliği yönetimi ya da hemoliz tedavisi</span><p>Yetmezlikte: hepatotoksik ilacı kes, olası parasetamolde NAC, Wilson'ı acilen dışla, nakil merkeziyle iletişim, koagülopati-hipoglisemi-amonyak yönetimi. Hemolizde: tetikleyiciyi kaldır, altta yatan hemolitik hastalığı tanımla/tedavi et, gerektiğinde transfüzyon ve folik asit desteği.</p></div></div>
+        <div class="branch no"><span class="label">HAYIR → Stabil değerlendirme</span><div class="node action safe"><span class="k">Tanı koy</span><span class="t">Spesifik tanıya göre yönet</span><p>Hepatobiliyer stabil: viral (destek/antiviral), otoimmün (immünsupresyon), Wilson (şelasyon/çinko), kolestaz (görüntüleme + UDCA). İndirekt, hemoliz yok, KCFT normal: Gilbert — güvence ver, tedavi gerekmez.</p></div></div>
+      </div>
+    </div>
+    <div class="callout"><b>Not:</b> İzole indirekt hiperbilirubinemide anemi ve retikülositoz yoksa, KCFT normalse ve bilirubin genelde &lt;5 mg/dL ise Gilbert sendromu klinik olarak tanınır; rutin genetik test ya da provokasyon testi gerekmez. Buna karşın konjuge hiperbilirubinemi asla normal varyant değildir ve mutlaka araştırılır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Tetkik, fraksiyone bilirubin ve temel KCFT ile başlar; sonra indirekt yolda hemoliz paneli, direkt yolda enzim paternine göre viral-otoimmün-Wilson taraması ve görüntüleme ile ilerler. Wilson taraması 3 yaş üstü açıklanamayan tüm karaciğer hastalığında yapılmalıdır.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Büyük çocukta sarılıkta kademeli değerlendirme</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Test</th><th>Amaç / not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Basamak 1 · Fraksiyonasyon + KCFT</td><td>Total + direkt/indirekt bilirubin, ALT, AST, ALP, GGT, albümin, total protein, INR/PT</td><td>Yolu belirle (indirekt/direkt) ve paterni (hepatoselüler vs kolestatik) sınıfla; INR ve albümin ile sentetik fonksiyon-yetmezlik değerlendirmesi</td></tr>
+          <tr><td class="step">Basamak 2 · Hemoliz paneli (indirekt yol)</td><td>Tam kan sayımı + retikülosit, periferik yayma, LDH, haptoglobin, direkt Coombs, idrar analizi (hemoglobinüri)</td><td>Hemolizi doğrula/dışla; yayma morfolojisi (sferosit, orak, fragmante) tanıyı yönlendirir; gerekirse G6PD, eritrosit membran/enzim ve hemoglobin elektroforezi</td></tr>
+          <tr><td class="step">Basamak 3 · Viral seroloji (hepatoselüler)</td><td>Anti-HAV IgM, HBsAg + anti-HBc IgM, anti-HCV + HCV RNA, anti-HEV IgM; EBV/CMV serolojisi endikasyonda</td><td>Akut viral hepatiti tanımla; HAV en sık akut neden; B/C kronikleşme ve bulaş açısından önemli</td></tr>
+          <tr><td class="step">Basamak 4 · Otoimmün panel</td><td>IgG (kantitatif), ANA, anti-düz kas (SMA), anti-LKM1, anti-SLA; total IgG yüksekliği</td><td>Otoimmün hepatit Tip 1/2 için; belirgin IgG yüksekliği + otoantikor tanıyı destekler; ASC için sonraki kolanjiyografi</td></tr>
+          <tr><td class="step">Basamak 5 · Wilson taraması</td><td>Seruloplazmin, 24 saatlik idrar bakırı (± penisilamin sonrası), yarık lamba ile Kayser-Fleischer, serum bakırı; endikasyonda karaciğer bakır tayini + ATP7B genetik</td><td><span class="dose">3 yaş üstü açıklanamayan karaciğer hastalığında zorunlu</span> — düşük seruloplazmin ± artmış idrar bakırı; akut yetmezlikte düşük ALP/bilirubin oranı, Coombs-negatif hemoliz ipucu; tek test tanısal değil, kombine yorumla</td></tr>
+          <tr><td class="step">Basamak 6 · Görüntüleme (kolestatik yol)</td><td>Abdomen ultrasonografi (± Doppler); gerekiyorsa MRKP/kolanjiyografi</td><td>Safra yolu dilatasyonu, taş, koledok kisti, kitle; PSK-ASC kuşkusunda MRKP; karaciğer parankim-portal hipertansiyon değerlendirmesi</td></tr>
+          <tr><td class="step">Seçili · Doku ve genetik tanı</td><td>Karaciğer biyopsisi (histoloji + bakır kantitasyonu), alfa-1 antitripsin fenotip/düzey, metabolik-genetik paneller</td><td>Otoimmün hepatit ve Wilson tanısını doğrular; kronisite-fibrozis-siroz derecelendirmesi; tedaviye yön verir</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout"><b>Sıralama ilkesi:</b> Fraksiyonasyon her şeyden önce gelir. İndirekt + anemi/retikülositoz → hemoliz paneli; indirekt + normal Hb + normal KCFT → Gilbert (ek test gereksiz). Direkt + ALT/AST baskın → viral + otoimmün + Wilson taramasını birlikte iste (paralel), zaman kaybetme; direkt + ALP/GGT baskın → önce USG. Gecikmemesi gereken tek acil değerlendirme INR/ensefalopati ile akut karaciğer yetmezliğidir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdakilerden herhangi biri ivedi/ciddi bir zemin (akut karaciğer yetmezliği, Wilson, hemolitik kriz, obstrüksiyon-sepsis) lehinedir; hızlı tetkik, uygun tedavinin başlanması ve gerektiğinde nakil merkezi-yoğun bakım iletişimini gerektirir.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>K vitaminine yanıtsız INR uzaması ± ensefalopati (pediatrik akut karaciğer yetmezliği)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Hipoglisemi, dirençli laktik asidoz, hızlı yükselen amonyak</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Coombs-negatif hemolitik anemi + düşük ALP + düşük ürik asit (Wilson akut yetmezliği)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Nöropsikiyatrik bulgu (tremor, distoni, dizartri, davranış/okul başarısı değişimi) + Kayser-Fleischer halkası</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kronik karaciğer hastalığı/siroz bulguları: sert-nodüler karaciğer, asit, spider anjiyom, splenomegali, çomak parmak</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ekstrahepatik obstrüksiyon: belirgin ALP/GGT yüksekliği + safra yolu dilatasyonu + kolanjit (ateş + sağ üst kadran ağrısı + sarılık)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Mukozal kanama, peteşi-ekimoz, kolay morarma (koagülopati)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ağır solukluk, taşikardi, hemoglobinüri ile giden akut hemolitik kriz</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Hepatotoksik ilaç/parasetamol aşırı alımı veya bilinmeyen bitkisel/toksin maruziyeti</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Yüksek ateş + toksik görünüm + sarılık (sepsis, kolanjit, ağır sistemik enfeksiyon)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kilo kaybı, gece terlemesi, palpabl kitle (malignite/infiltrasyon)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Genç yaşta açıklanamayan karaciğer nakli/ölüm aile öyküsü veya akrabalık (metabolik hastalık)</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi</h2>
+    <p class="lede">Tedavi iki katmandır: (1) tüm ağır olgularda ortak olan stabilizasyon ve akut karaciğer yetmezliği yönetimi; (2) tanıya özgü kesin tedavi. Gilbert gibi benign nedenler yalnızca güvence gerektirirken; otoimmün hepatit immünsupresyon, Wilson bakır uzaklaştırma tedavisi, viral hepatit ise etkene göre destek veya antiviral gerektirir. Dozlar hasta ağırlığına, böbrek-karaciğer fonksiyonuna ve güncel kılavuza göre teyit edilmelidir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Genel stabilizasyon ve akut karaciğer yetmezliği desteği</caption>
+        <thead>
+          <tr><th>Basamak / ilaç</th><th>Doz</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">K vitamini (koagülopati)</td><td class="dose">2,5-10 mg IV/SC (yaş-ağırlığa göre); çocukta ~0,3 mg/kg (maks 10 mg)</td><td>INR uzamasında; yanıtsızlık karaciğer sentez yetmezliğini gösterir. Aktif kanamada taze donmuş plazma 10-15 mL/kg</td></tr>
+          <tr><td class="step">N-asetilsistein (parasetamol/akut yetmezlik)</td><td class="dose">150 mg/kg yükleme (60 dk, maks ~15 g), sonra 12,5 mg/kg/saat ×4 saat, ardından 6,25 mg/kg/saat idame</td><td>Parasetamol toksisitesinde erken; parasetamol dışı akut karaciğer yetmezliğinde de düşünülür</td></tr>
+          <tr><td class="step">Dekstroz (hipoglisemi)</td><td class="dose">%10 dekstroz 2-5 mL/kg IV bolus; sürekli infüzyonla öglisemiyi koru</td><td>Karaciğer yetmezliğinde hipoglisemi sık; kan şekerini yakın izle</td></tr>
+          <tr><td class="step">Laktuloz (ensefalopati)</td><td class="dose">0,3-0,4 mL/kg/doz oral, günde 2-3 kez amonyak/kıvamı hedefle (2-3 yumuşak dışkı/gün)</td><td>Hepatik ensefalopatide; protein kısıtlamasından kaçın, amonyağı izle</td></tr>
+          <tr><td class="step">Ursodeoksikolik asit (kolestaz/kaşıntı)</td><td class="dose">10-20 mg/kg/gün oral, 2-3 doza bölünmüş (bazı olgularda 30 mg/kg/gün)</td><td>Kolestatik kaşıntı ve safra akışı için; ekstrahepatik obstrüksiyonda önce mekanik nedeni gider</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <caption>Tanıya özgü tedavi</caption>
+        <thead>
+          <tr><th>Tanı</th><th>Tedavi / doz</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Gilbert sendromu</td><td class="dose">İlaç gerekmez — güvence + tetikleyicilerden (uzun açlık, dehidratasyon) kaçınma</td><td>Benign; açlık-enfeksiyon-stresle geçici artar. Bilirubin yoluyla atılan ilaçlarda (ör. irinotekan) dikkat</td></tr>
+          <tr><td class="step">Crigler-Najjar Tip II</td><td class="dose">Fenobarbital 3-5 mg/kg/gün oral (UGT1A1 indüksiyonu)</td><td>Bilirubinde belirgin düşüş tanıyı destekler; Tip I fenobarbitale yanıtsız, fototerapi + nakil gerektirir</td></tr>
+          <tr><td class="step">Hemolitik anemi</td><td class="dose">Folik asit 1 mg/gün oral; tetikleyiciyi kaldır; semptomatik anemide transfüzyon (10-15 mL/kg)</td><td>Altta yatan nedene yönelik (G6PD'de oksidan kaçınma, sferositozda izlem/splenektomi); pigment safra taşı takibi</td></tr>
+          <tr><td class="step">Akut viral hepatit A/E</td><td class="dose">Destekleyici; hepatotoksinlerden kaçınma, hidrasyon, INR izlemi</td><td>Genelde kendini sınırlar; fulminan seyir açısından uyanık ol; HAV/HBV aşılaması ve temaslı profilaksisi</td></tr>
+          <tr><td class="step">Kronik hepatit B</td><td class="dose">Endikasyonda entekavir (ağırlığa göre, ≥30 kg 0,5 mg/gün) veya tenofovir; uzman kararı</td><td>Tüm çocukta tedavi gerekmez; ALT-HBV DNA-histolojiye göre seç; nefro-kemik izlemi (tenofovir)</td></tr>
+          <tr><td class="step">Kronik hepatit C</td><td class="dose">Direkt etkili antiviraller (yaş/genotipe göre rejim, ör. sofosbuvir/velpatasvir)</td><td>≥3 yaş onaylı rejimlerle yüksek kür oranı; tedavi öncesi fibrozis değerlendirmesi</td></tr>
+          <tr><td class="step">Otoimmün hepatit — indüksiyon</td><td class="dose">Prednizolon/prednizon 1-2 mg/kg/gün oral (maks 60 mg/gün), transaminaz yanıtına göre haftalar içinde azalt</td><td>ESPGHAN ile uyumlu; yanıt izlemi transaminaz + IgG ile; sürekli düşük doz idame (2,5-5 mg/gün)</td></tr>
+          <tr><td class="step">Otoimmün hepatit — idame/steroid koruyucu</td><td class="dose">Azatiyoprin 0,5-2 mg/kg/gün oral (maks ~2 mg/kg); alternatif MMF</td><td>Genelde bilirubin düştükten sonra eklenir (hepatotoksisite karışmasını önlemek için); TPMT dikkat; budesonid siroz yoksa seçenek</td></tr>
+          <tr><td class="step">Wilson — şelasyon (başlangıç)</td><td class="dose">D-penisilamin 20 mg/kg/gün oral, 2-3 doza bölünmüş (250 mg katlarına yuvarla; düşük dozla başla, kademeli artır) + piridoksin 25 mg/gün</td><td>ESPGHAN/EASL; aç karına; idrar bakırı ile izle; nörolojik kötüleşme-yan etki riskinde trientine geç</td></tr>
+          <tr><td class="step">Wilson — alternatif/idame</td><td class="dose">Trientine 20 mg/kg/gün oral (2-3 doz); veya çinko — elementer çinko &lt;50 kg 25 mg ×3/gün, ≥50 kg 50 mg ×3/gün</td><td>Çinko idame/presemptomatikte; şelatör ile çinkoyu birlikte verirken zamanlamayı ayır; bakır-kısıtlı diyet</td></tr>
+          <tr><td class="step">Primer/otoimmün sklerozan kolanjit</td><td class="dose">Ursodeoksikolik asit 10-20 mg/kg/gün; ASC'de ek immünsupresyon (steroid ± azatiyoprin)</td><td>İBH birlikteliğini araştır; dominant darlıkta ERKP; kolanjit-obstrüksiyon yönetimi</td></tr>
+          <tr><td class="step">Ekstrahepatik obstrüksiyon (taş/kist)</td><td class="dose">Girişimsel/cerrahi tedavi (ERKP, koledok kisti eksizyonu); kolanjitte seftriakson 50-75 mg/kg/gün IV (maks 2 g/gün)</td><td>Mekanik neden giderilir; enfekte biliyer obstrüksiyon acildir</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout safe"><b>Yaklaşım:</b> Gilbert'te tek gereken güvencedir; otoimmün hepatitte erken steroid + steroid koruyucu ile remisyon hedeflenir; Wilson'da tedavi ömür boyudur ve ani kesilmesi ölümcül dekompansasyona yol açabilir. Akut karaciğer yetmezliğinde tanısal işlemleri beklemeden stabilizasyon ve nakil değerlendirmesi eş zamanlı yürütülür.</div>
+    <div class="callout"><b>Kaçınılacaklar:</b> Konjuge hiperbilirubinemiyi "hafif/geçici" sayıp izlemeye almayın; otoimmün hepatit ve Wilson için tanısal biyopsi öncesi gereksiz uzun steroid gecikmesinden ve Wilson'da başlangıç yüksek doz şelasyonun nörolojik kötüleşme riskinden kaçının; hepatotoksik ilaç ve gereksiz parasetamolü kesin.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve yönetim ilkeleri</h2>
+    <p class="lede">Yönetim, sarılığın altta yatan mekanizmasına göre farklılaşır: benign Gilbert yalnızca güvence ve gerektiğinde yeniden değerlendirme gerektirirken; otoimmün hepatit, Wilson ve kronik viral hepatit yaşam boyu izlem, ilaç uyumu ve komplikasyon taramasını gerektirir. Hedef, geri döndürülebilir ciddi nedenleri (Wilson, otoimmün, obstrüksiyon, akut yetmezlik) zamanında yakalamak ve kronik hastalıkta remisyon ile büyümeyi sürdürmektir.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>İzlem ve takip</h3>
+        <ul class="clean">
+          <li>Otoimmün hepatitte transaminaz + IgG ile remisyonu izle; doz azaltımını yanıta göre yap, nüksü erken yakala, büyüme ve steroid yan etkilerini takip et</li>
+          <li>Wilson'da idrar bakırı, serbest serum bakırı, KCFT ve ilaç uyumunu düzenli izle; tedaviyi asla kesme; kardeş-birinci derece akraba taraması yap</li>
+          <li>Kronik viral hepatitte periyodik ALT-viral yük, fibrozis değerlendirmesi ve HCC gözetimi (siroz/HBV'de USG ± AFP)</li>
+          <li>Hemolitik hastalıkta Hb-retikülosit, pigment safra taşı ve gerektiğinde splenektomi/aşılama takibi; folik asit desteği</li>
+          <li>Kolestatik hastalıkta yağda eriyen vitaminler (A, D, E, K), büyüme, kaşıntı kontrolü ve portal hipertansiyon izlemi</li>
+          <li>Gilbert'te ek izlem gereksiz; yeni belirti (anemi, koyu idrar, KCFT bozulması) çıkarsa tanıyı yeniden değerlendir</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Yönlendirme ve güvenlik ağı</h3>
+        <ul class="clean">
+          <li>Akut karaciğer yetmezliği bulgusu (INR uzaması, ensefalopati) gelişirse yoğun bakım + nakil merkezi ile eş zamanlı iletişim; zaman kaybetme</li>
+          <li>Aileye yazılı uyarı: artan sarılık, koyu idrar-açık gaita, uykuya eğilim-bilinç değişimi, morarma-kanama, şiddetli karın ağrısı, ateş gelişiminde acil dönüş</li>
+          <li>İlaç uyumu ve etkileşim eğitimi (özellikle Wilson ve immünsupresyon); tedaviyi kendiliğinden kesmemenin önemi</li>
+          <li>Aşılama: HAV/HBV bağışıklamasını tamamla; immünsupresyon öncesi aşı durumunu gözden geçir</li>
+          <li>Multidisipliner izlem: otoimmün-metabolik hastalıkta genetik danışma, PSK'de İBH taraması, obstrüksiyonda cerrahi/girişimsel radyoloji iş birliği</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout safe">En güvenli sonuç; fraksiyone bilirubinle doğru yolu belirleyen, hemoliz ile karaciğer hastalığını ayıran, 3 yaş üstü her açıklanamayan karaciğer hastalığında Wilson'ı dışlayan, tanıya özgü dozlu tedaviyi zamanında başlayan ve akut yetmezlik riskini sürekli gözeten yapılandırılmış bir yaklaşımla elde edilir.</div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Mieli-Vergani G, Vergani D, Baumann U, et al. Diagnosis and Management of Pediatric Autoimmune Liver Disease: ESPGHAN Hepatology Committee Position Statement. J Pediatr Gastroenterol Nutr. 2018;66(2):345-360.</li>
+      <li>Socha P, Janczyk W, Dhawan A, et al. Wilson's Disease in Children: A Position Paper by the ESPGHAN Hepatology Committee. J Pediatr Gastroenterol Nutr. 2018;66(2):334-344.</li>
+      <li>European Association for the Study of the Liver. EASL Clinical Practice Guidelines: Wilson's disease. J Hepatol. 2012;56(3):671-685.</li>
+      <li>Fawaz R, Baumann U, Ekong U, et al. Guideline for the Evaluation of Cholestatic Jaundice in Infants: Joint Recommendations of NASPGHAN and ESPGHAN. J Pediatr Gastroenterol Nutr. 2017;64(1):154-168.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge uzman kullanıcıya yönelik bir klinik karar destek aracıdır; hastanın bireysel değerlendirmesi, güncel kılavuzlar ve yerel uygulamaların yerine geçmez. Dozlar hastaya, ağırlığa, komorbiditeye, böbrek-karaciğer fonksiyonuna ve ilaç etkileşimlerine göre teyit edilmelidir.</div>
+</div>

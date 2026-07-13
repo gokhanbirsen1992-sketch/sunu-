@@ -1,0 +1,415 @@
+<title>Kostik Madde Alımı — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Kostik Madde Alımı</h1>
+    <p class="sub">Kostik (alkali/asit) madde yutan çocukta ilk yaklaşım (kusturma ve nötralizasyon YOK), semptom temelli triyaj, 12-48 saatte tanısal endoskopi ve Zargar evrelemesine göre yönetim ile geç dönem striktür izlemi.</p>
+    <div class="meta">
+      <span class="tag">Alkali / Asit</span>
+      <span class="tag">Zargar Evreleme</span>
+      <span class="tag">Endoskopi 12-48 sa</span>
+      <span class="tag">Striktür İzlemi</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve İlk Değerlendirme</h2>
+    <p class="lede">Kostik madde alımı; kuvvetli alkali (çamaşır suyu, fırın/lavabo açıcı, deterjan kapsülleri) veya asit (tuz ruhu, kireç/pas çözücü) içeren maddelerin özofagus ve mideye kimyasal yaralanma oluşturmasıdır. Alkaliler likefaksiyon nekrozu ile derin ve transmural, asitler koagülasyon nekrozu ile daha yüzeyel ama yaygın hasar yapar. İlk hedef hava yolu güvenliği (A-B-C) ve hasarı artıracak girişimlerden kaçınmaktır.</p>
+    <div class="callout alarm"><b>KESİNLİKLE YAPMA:</b> Kusturma (emezis) İNDÜKLEME — mukozayı ikinci kez kostiğe maruz bırakır ve aspirasyon riski yaratır. NÖTRALİZASYON (asit için baz, baz için asit, sirke, limon, karbonat) YAPMA — ekzotermik reaksiyonla ısı hasarını artırır. Aktif kömür VERME — endoskopik görüntüyü bozar ve etkisizdir. Kör nazogastrik lavaj/sonda İTME. Ağızdan sıvı yükleme yapma; hasta NPO tutulur.</p></div>
+    <div class="grid two">
+      <div class="card">
+        <h3>Odaklı Öykü</h3>
+        <ul class="clean">
+          <li>Madde türü ve ambalajı: ürün etiketi/pH bilgisi getirtin (alkali mi asit mi, konsantrasyon, jel/toz/sıvı, deterjan kapsülü?).</li>
+          <li>Alım zamanı, miktar (yudum/ağız dolusu), kaza mı kasıt mı (adölesanda özkıyım şüphesi).</li>
+          <li>Alım sonrası kusma, tükürük yutamama, ağlama, boğulma, göğüs/karın ağrısı.</li>
+          <li>Ses değişikliği, stridor, öksürük, nefes darlığı (larengeal/pulmoner tutulum).</li>
+          <li>Evde uygulanan girişim (kusturma, süt/su/nötralizan verilmesi) — komplikasyonu artırabilir.</li>
+          <li>Zehir Danışma Merkezi ile temas ve verilen ilk bilgi.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Odaklı Muayene</h3>
+        <ul class="clean">
+          <li>Hava yolu önceliği: stridor, ses kısıklığı, solunum sıkıntısı, hipoksi — üst hava yolu ödemi işareti.</li>
+          <li>Orofarenks: dudak/dil/damak yanıkları, ödem, beyaz plaklar, ülserasyon. <b>Oral lezyon YOKLUĞU özofagus hasarını DIŞLAMAZ.</b></li>
+          <li>Salya akması (drooling), disfaji, odinofaji, ağızdan sıvıyı yutamama — anlamlı özofagus hasarı öngörür.</li>
+          <li>Göğüs: retrosternal ağrı, subkutan amfizem (perforasyon/mediastinit).</li>
+          <li>Karın: defans, rijidite, yaygın hassasiyet (gastrik perforasyon/peritonit).</li>
+          <li>Vital bulgular, satürasyon, perfüzyon; ateş perforasyon/mediastinit habercisi olabilir.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Endoskopik Şiddet Sınıflaması (Zargar)</h2>
+    <p class="lede">Yaralanmanın derecesi 12-48 saatteki endoskopide Zargar sınıflamasıyla belirlenir; bu evre hem yönetimi hem striktür riskini öngörür. Aşağıda evreler dört klinik banda toplanmıştır.</p>
+    <div class="sev">
+      <div class="band mild">
+        <div class="lvl">Evre 0-1 · Hafif</div>
+        <div class="rng">Normal / hiperemi-ödem</div>
+        <p>Mukozada ödem ve hiperemi; ülser yok. Striktür riski ihmal edilebilir. Erken oral beslenmeye geçilir, kısa gözlem sonrası taburcu edilebilir.</p>
+      </div>
+      <div class="band mod">
+        <div class="lvl">Evre 2a · Orta</div>
+        <div class="rng">Yüzeyel ülser, eksuda</div>
+        <p>Yüzeyel ülserasyon, kanama, fibrin/eksuda; sirküler değil. Striktür riski düşük. PPI, analjezi, aşamalı beslenme; kortikosteroid endike değil.</p>
+      </div>
+      <div class="band sev">
+        <div class="lvl">Evre 2b-3a · Ağır</div>
+        <div class="rng">Derin/sirküler ülser, fokal nekroz</div>
+        <p>Derin veya sirkumferansiyel ülser (2b), fokal nekroz-koyu renk değişimi (3a). Yüksek striktür riski. NPO, IV PPI; seçilmiş 2b olguda yüksek doz steroid tartışılır; striktür izlemi zorunlu.</p>
+      </div>
+      <div class="band rem">
+        <div class="lvl">Evre 3b-4 · Kritik</div>
+        <div class="rng">Yaygın nekroz / perforasyon</div>
+        <p>Yaygın transmural nekroz (3b) veya perforasyon (4). Perforasyon, mediastinit, peritonit, yüksek mortalite. Cerrahi/torasik konsültasyon, YBÜ; endoskopik dilatasyon kontrendike, sık striktür ve özofajektomi gereksinimi.</p>
+      </div>
+    </div>
+    <div class="callout"><b>Not:</b> Alkali maddeler likefaksiyon nekrozu ile derin (evre 2b-3) hasar ve özofagus striktürüne, asitler koagülasyon nekrozu ile daha yüzeyel ama pilor/antrum darlığına eğilimlidir. Deterjan kapsülleri (likit pods) küçük çocukta ağır özofageal yanık ve solunum yolu tutulumu yapabilir.</p></div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar Akışı</h2>
+    <p class="lede">İlk basamak hava yolu ve zararlı girişimlerden kaçınmadır; ardından semptom/anlamlı alım varlığına göre 12-48 saatte endoskopi ve Zargar evresine göre yönetim belirlenir.</p>
+    <div class="flow">
+      <div class="node start">
+        <span class="k">Başlangıç</span>
+        <span class="t">Kostik madde alımı (şüpheli/kesin)</span>
+        <p>ABC değerlendir, monitörize et, satürasyon izle. Maddeyi/ambalajı tanımla (alkali/asit, pH, konsantrasyon). Zehir Danışma ile temas.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node action">
+        <span class="k">Adım 1</span>
+        <span class="t">İlk yaklaşım — zararlı girişim YOK</span>
+        <p>NPO. Kusturma YOK, nötralizasyon YOK, aktif kömür YOK, kör NG lavaj YOK. IV damar yolu, IV sıvı, analjezi, IV PPI başla; kirli giysileri çıkar, cilt/göz teması varsa bol suyla yıka.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 1</span>
+        <span class="t">Hava yolu tehdidi veya perforasyon bulgusu var mı?</span>
+        <p>Stridor, ilerleyici ses kısıklığı, solunum sıkıntısı, subkutan amfizem, göğüs/karında defans, şok?</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Acil / cerrahi kol</span>
+          <div class="node alarm">
+            <span class="k">Stabilizasyon + Görüntüleme</span>
+            <span class="t">Hava yolunu güvence altına al</span>
+            <p>Erken (gerekirse fiberoptik) entübasyon; direkt grafi + kontrastsız BT (mediasten/serbest hava). Torasik/genel cerrahi konsültasyonu, YBÜ. Erken endoskopi ertelenir; perforasyonda cerrahi.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Değerlendirme kolu</span>
+          <div class="node action safe">
+            <span class="k">Destek + Gözlem</span>
+            <span class="t">IV sıvı, PPI, analjezi</span>
+            <p>Stabil hastada semptom ve alım şiddetini değerlendir; laboratuvar ve akciğer grafisi al, endoskopi zamanlamasına karar ver.</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 2</span>
+        <span class="t">Semptomatik mi veya anlamlı alım mı?</span>
+        <p>Salya akması, disfaji/odinofaji, kusma, oral yanık, göğüs/karın ağrısı VEYA kasıtlı/kuvvetli konsantre madde alımı?</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Endoskopi endike</span>
+          <div class="node action">
+            <span class="k">Tanısal Endoskopi</span>
+            <span class="t">12-48 saatte, Zargar evrele</span>
+            <p>&lt;12 saatte hasar derinliği yetersiz görülür; &gt;48 saatte doku zayıflar ve perforasyon riski artar. Evreye göre yönetim: 0-2a hafif → erken beslenme; 2b-3 → NPO, izlem, seçilmiş steroid; 3b-4 → cerrahi/YBÜ.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Asemptomatik, kaza, minimal</span>
+          <div class="node action safe">
+            <span class="k">Gözlem</span>
+            <span class="t">Oral sıvı denemesi + 4-6 sa izlem</span>
+            <p>Tümüyle asemptomatik, oral alımı tolere eden, düşük riskli kaza alımında gözlem; semptom gelişirse endoskopiye yönlendir. Şüphede kalınırsa endoskopi lehine karar ver.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı Tetkik</h2>
+    <p class="lede">Tetkikler hava yolu ve perforasyonu dışlamaya, endoskopiye hazırlığa ve geç dönemde striktürü saptamaya yönelik basamaklandırılır.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Kostik madde alımında basamaklı tanısal yaklaşım</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Tetkik / Zamanlama</th><th>Amaç ve Not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Basamak 1 — Hava yolu / solunum</td><td>Klinik değerlendirme, satürasyon; gerekirse ORL/fiberoptik bakı</td><td>Larengeal ödem ve stridor önceliklidir; endoskopiden önce hava yolu güvenliği sağlanır.</td></tr>
+          <tr><td class="step">Basamak 2 — Laboratuvar</td><td>Tam kan, kan gazı-laktat, CRP, KCFT/böbrek, koagülasyon, grup-cross</td><td>Ağır asidoz, yükselen laktat/lökositoz ve düşük pH transmural nekroz/kötü prognozu düşündürür; genel anesteziye hazırlık.</td></tr>
+          <tr><td class="step">Basamak 3 — Direkt grafi</td><td>Ayakta akciğer + karın grafisi</td><td>Serbest hava, pnömomediastinum, plevral efüzyon (perforasyon). Aspirasyon/pnömoni değerlendirmesi.</td></tr>
+          <tr><td class="step">Basamak 4 — Endoskopi</td><td class="dose">Alımdan 12-48 saat sonra</td><td>Altın standart; Zargar evrelemesi yönetimi ve striktür riskini belirler. &lt;12 sa erken, &gt;48 sa perforasyon riski nedeniyle uygunsuz. Nekrozda skop ilerletme.</td></tr>
+          <tr><td class="step">Basamak 5 — BT (kontrastsız/toraks)</td><td>Perforasyon/nekroz şüphesinde veya ağır olguda</td><td>Transmural nekroz derinliği, mediastinit, kolleksiyon; cerrahi karar desteği. Endoskopinin güvenli olmadığı ağır olguda evrelemeye alternatif.</td></tr>
+          <tr><td class="step">Basamak 6 — Kontrastlı özofagogram</td><td class="dose">~3. hafta (ve semptom çıktıkça)</td><td>Suda çözünür kontrast/baryumla striktür saptama ve dilatasyon planlaması; disfaji geliştikçe tekrarlanır.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout"><b>İlke:</b> Endoskopi zamanlaması kritiktir: çok erken bakı hasar derinliğini olduğundan hafif gösterir, çok geç bakı iyileşmenin kırılgan fazında perforasyon riski taşır. İdeal pencere alımdan 12-48 saat sonrasıdır.</p></div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı Bayraklar</h2>
+    <p class="lede">Aşağıdaki bulgular ağır transmural yaralanma, perforasyon ve hava yolu tehdidini işaret eder; acil görüntüleme, cerrahi konsültasyon ve YBÜ eşiğini düşürür.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Stridor, ilerleyici ses kısıklığı, solunum sıkıntısı (larengeal ödem)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Sürekli salya akması ve tükürüğü yutamama (anlamlı özofagus hasarı)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Şiddetli retrosternal ağrı, subkutan amfizem, pnömomediastinum</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Karında defans/rijidite, yaygın hassasiyet (gastrik perforasyon-peritonit)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Hematemez, melena (mukozal derin ülser/kanama)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Metabolik asidoz, yükselen laktat, belirgin lökositoz</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ateş + taşikardi + kötüleşen genel durum (mediastinit/sepsis)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kuvvetli konsantre madde / kasıtlı (özkıyım) yüksek volüm alımı</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi (Dozlu)</h2>
+    <p class="lede">Temel tedavi destekleyicidir: hava yolu, NPO, IV sıvı, asit baskılama ve analjezi. Kortikosteroid yalnızca seçilmiş evre 2b olguda tartışmalıdır ve verildiğinde antibiyotikle birlikte kullanılır. Dozlar mg/kg ve maksimum değerle verilmiştir.</p>
+    <div class="callout"><b>İlke:</b> Antidot/nötralizan yoktur. Steroidin evre 2b özofagus yanığında striktürü önlemedeki yararı kanıt düzeyi düşük ve tartışmalıdır; evre 1-2a'da endike değildir, evre 3'te perforasyon riskini artırabileceğinden önerilmez.</p></div>
+    <div class="table-scroll">
+      <table>
+        <caption>Kostik madde alımında ilaç ve girişim dozları</caption>
+        <thead>
+          <tr><th>İlaç / Girişim</th><th>Doz (mg/kg + maksimum)</th><th>Açıklama</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">IV idame sıvı</td><td class="dose">Holliday-Segar; NPO sürecinde tam idame</td><td>Oral alım güvenli olana dek; elektrolit ve dengeyi izle.</td></tr>
+          <tr><td class="step">Pantoprazol / Esomeprazol (IV PPI)</td><td class="dose">1 mg/kg/gün IV, 1-2 dozda (maks 40 mg/gün)</td><td>Asit baskılama; ağır olguda 1 mg/kg 12 saatte bir (maks 40 mg/doz). Oral alımla oral PPI'ye geçiş.</td></tr>
+          <tr><td class="step">Parasetamol (analjezi)</td><td class="dose">10-15 mg/kg/doz IV/PO 6 saatte bir (maks 60 mg/kg/gün, 4 g/gün)</td><td>Hafif-orta ağrıda ilk basamak.</td></tr>
+          <tr><td class="step">Morfin (şiddetli ağrı)</td><td class="dose">0,05-0,1 mg/kg/doz IV (maks 4-5 mg/doz), titre et</td><td>Şiddetli odinofaji/ağrıda; solunum ve bilinç izlemi.</td></tr>
+          <tr><td class="step">Metilprednizolon (yalnız seçilmiş Evre 2b)</td><td class="dose">1 g/1,73 m²/gün IV × 3 gün (pulse; Usta protokolü)</td><td>Tartışmalı; yalnız derin/sirküler 2b yanıkta, antibiyotik altında. Evre 1-2a ve 3'te önerilmez.</td></tr>
+          <tr><td class="step">Ampisilin-sulbaktam (steroid/enf. eşliğinde)</td><td class="dose">100-200 mg/kg/gün IV, 4 dozda (maks 8 g/gün)</td><td>Steroid verilen olguda ve perforasyon/mediastinit şüphesinde; alternatif seftriakson 50-75 mg/kg/gün (maks 2 g/gün).</td></tr>
+          <tr><td class="step">Özofageal balon dilatasyon (striktür)</td><td class="dose">Genellikle alımdan &gt;3 hafta sonra, seri seanslar</td><td>Gelişen darlıkta; erken/agresif dilatasyon perforasyon riskini artırır. Kılavuz tel eşliğinde kademeli.</td></tr>
+          <tr><td class="step">Topikal Mitomisin-C (refrakter striktür)</td><td class="dose">Dilatasyon sonrası endoskopik uygulama (seçilmiş)</td><td>Tekrarlayan/refrakter darlıkta fibrozisi azaltmak için adjuvan; deneyimli merkezde.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout alarm"><b>Dikkat:</b> Perforasyon, transmural nekroz (evre 3b-4) veya mediastinit/peritonitte medikal tedavi yeterli değildir; acil cerrahi (özofajektomi/gastrektomi, drenaj) gerekebilir. Nazogastrik tüp yalnız endoskopi rehberliğinde ve ağır olguda lümen açıklığını korumak amacıyla düşünülmelidir; kör yerleştirmeden kaçının.</p></div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve Yönetim İlkeleri</h2>
+    <p class="lede">Amaç akut komplikasyonları erken saptamak, evre 2b-3 olguda özofagus striktürünü izleyip yönetmek ve uzun dönemde malignite riski açısından takip etmektir.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Akut İzlem (Evreye Göre)</h3>
+        <ul class="clean">
+          <li>Evre 0-2a: erken oral sıvı → yumuşak diyet; kısa gözlem sonrası taburcu, semptomla başvuru eğitimi.</li>
+          <li>Evre 2b-3a: NPO'yu uzat, IV PPI/sıvı; oral alımı kademeli aç; klinik kötüleşmede grafi/BT ile perforasyonu dışla.</li>
+          <li>Evre 3b-4: YBÜ, cerrahi izlem; enteral/parenteral beslenme desteği, gerekirse gastrostomi/jejunostomi.</li>
+          <li>Ağrı, ateş, drooling artışı, solunum sıkıntısı geliştiğinde ivedi yeniden değerlendirme.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Striktür ve Uzun Dönem</h3>
+        <ul class="clean">
+          <li>Disfaji/regurjitasyon 2-4. haftada beklenir; ~3. haftada kontrastlı özofagogram ile striktür taraması.</li>
+          <li>Striktürde kademeli endoskopik/balon dilatasyon programı; refrakterde mitomisin-C, stent veya cerrahi rekonstrüksiyon.</li>
+          <li>Beslenme ve büyüme takibi; ağır darlıkta geçici gastrostomi ile enteral destek.</li>
+          <li>Uzun dönem: kostik özofajit sonrası özofagus skuamöz hücreli karsinom riski onlarca yıl sonra artar; erişkin döneme uzanan endoskopik surveyans planla.</li>
+          <li>Kaza önleme: ürünlerin orijinal/çocuk kilitli kaplarda, erişilemez saklanması konusunda aile eğitimi; kasıtlı alımda psikiyatrik değerlendirme.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pill-row">
+      <span class="pill">Kusturma/nötralizasyon yok</span>
+      <span class="pill">Endoskopi 12-48 saat</span>
+      <span class="pill">Zargar evreleme</span>
+      <span class="pill">Kademeli dilatasyon</span>
+      <span class="pill">Uzun dönem malignite izlemi</span>
+    </div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Thomson M, Tringali A, Dumonceau JM, et al. Paediatric Gastrointestinal Endoscopy: ESPGHAN and ESGE Guidelines. J Pediatr Gastroenterol Nutr. 2017.</li>
+      <li>Kramer RE, Lerner DG, Lin T, et al. Management of Ingested Foreign Bodies in Children: NASPGHAN Endoscopy Committee Clinical Report. J Pediatr Gastroenterol Nutr. 2015.</li>
+      <li>Hoffman RS, Burns MM, Gosselin S. Ingestion of Caustic Substances. N Engl J Med. 2020.</li>
+      <li>Usta M, Erkan T, Cokugras FC, et al. High Doses of Methylprednisolone in the Management of Caustic Esophageal Burns in Children. Pediatrics. 2014.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge pediyatrik gastroenteroloji uzmanları için hazırlanmış bir klinik karar destek aracıdır; bireysel hasta değerlendirmesi, güncel kılavuzlar ve kurumsal protokollerin yerini tutmaz. Dozlar doğrulanmalı ve hasta bazında ayarlanmalıdır.</div>
+</div>

@@ -1,0 +1,623 @@
+<title>Pirozis, Non-kardiyak Göğüs Ağrısı ve Globus — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Pirozis, Non-kardiyak Göğüs Ağrısı ve Globus</h1>
+    <p class="sub">Retrosternal yanma (pirozis), kardiyak dışı göğüs ağrısı ve boğazda takılma hissinin (globus) yaşa ve mekanizmaya göre ayrımı; ampirik PPI denemesi, EoE dışlama ve gerektiğinde pH-empedans/manometri temelli basamaklı yaklaşım ile Rome IV fonksiyonel özofagus bozukluklarının dozlu yönetimi.</p>
+    <div class="meta">
+      <span class="tag">Rome IV — Fonksiyonel özofagus</span>
+      <span class="tag">Ampirik PPI denemesi</span>
+      <span class="tag">EoE dışlama</span>
+      <span class="tag">pH-empedans / HRM</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">Pirozis, ksifoidin arkasından boyuna doğru yayılabilen yanma hissidir ve tipik olarak asit reflüsüyle ilişkilidir. Non-kardiyak göğüs ağrısı (NKGA), kalp kaynağı dışlandıktan sonra kalan, yanma niteliğinde olmayan retrosternal ağrıdır ve çocukta en sık kas-iskelet veya özofagus kökenlidir. Globus ise boğazda ağrısız, öğünler arasında da süren yumru/takılma hissidir; disfaji veya odinofaji yoktur. Üçü de tanısal olarak GÖRH, EoE ve major motilite bozukluğunun dışlanmasını paylaşır; bu dışlama yapılmadan "fonksiyonel" etiketi konmaz.</p>
+    <div class="pill-row">
+      <span class="pill">Pirozis = retrosternal yanma</span>
+      <span class="pill">NKGA = kardiyak dışı, yanma-dışı ağrı</span>
+      <span class="pill">Globus = ağrısız boğaz takılması</span>
+      <span class="pill">Disfaji/odinofaji YOK → globus lehine</span>
+      <span class="pill">Ortak dışlama: GÖRH · EoE · motilite</span>
+    </div>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öykü</h3>
+        <ul class="clean">
+          <li>Semptom niteliği: yanma (pirozis/GÖRH) mı, baskı/sıkışma (kardiyak, kas-iskelet) mı, boğazda yumru (globus) mu; öğünle ve yatınca ilişkisi.</li>
+          <li>Eşlik eden bulgular: regürjitasyon, asit tadı, kronik öksürük, ses kısıklığı, disfaji/odinofaji (varsa globus tanısını dışlar, EoE/yapısal düşün).</li>
+          <li>Kardiyak alarm sorgusu: eforla artan ağrı, senkop/presenkop, çarpıntı, ani ölüm/kardiyomiyopati aile öyküsü, bilinen kalp hastalığı.</li>
+          <li>Atopi zemini: astım, alerjik rinit, egzama, besin alerjisi, ailede EoE — özellikle food impaction/katı disfaji eşliğinde EoE uyarısı.</li>
+          <li>Tetikleyiciler: kafein, çikolata, yağlı/asitli yiyecek, geç öğün, obezite, sigara/vaping; NSAİİ, doksisiklin, demir, KCl (pill özofajiti).</li>
+          <li>Psikososyal yük: anksiyete/depresyon, okul devamsızlığı, somatizasyon, yaşam kalitesi etkisi; semptomun günlük işlevi bozma derecesi.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayene</h3>
+        <ul class="clean">
+          <li>Antropometri ve büyüme eğrisi: kilo kaybı/durağanlık organik hastalık (EoE, striktür, İBH, malignite) için alarm.</li>
+          <li>Kardiyovasküler muayene: üfürüm, ritim, periferik nabızlar, kan basıncı; NKGA tanısı için kardiyak muayene ve gerekli EKG önce.</li>
+          <li>Göğüs duvarı: kostokondral hassasiyet, palpasyonla ağrının yeniden üretilmesi (Tietze/kostokondrit lehine, benign).</li>
+          <li>Orofarinks ve boyun: kitle, guatr, tonsil hipertrofisi, posterior faringeal bulgular; globusta yapısal lezyon taraması.</li>
+          <li>Karın: epigastrik hassasiyet, organomegali, kitle; dispepsi/GÖRH örtüşmesini değerlendir.</li>
+          <li>Genel: atopi bulguları (egzama), anemi solukluğu, diş erozyonu (kronik reflü), genel durum ve hidrasyon.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">Rome IV — Fonksiyonel pirozis, reflü aşırı duyarlılığı, fonksiyonel göğüs ağrısı ve globus, süregelen semptomlar (≥3 ay, en az 6 ay önce başlamış, haftada ≥1) yanında yapısal lezyon, GÖRH, EoE ve major motilite bozukluğunun objektif olarak dışlanmasıyla konur. Globus için ek koşul: disfaji/odinofaji yokluğu ve gastrik inlet patch/EoE dışlanması.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Etiyoloji ve mekanizma</h2>
+    <p class="lede">Bu üç semptom bir spektrumu paylaşır: gerçek asit reflüsüne bağlı GÖRH bir uçta, reflü olaylarına aşırı duyarlılık ortada, normal asit maruziyeti ve tetikleyicisiz semptom (fonksiyonel bozukluklar) diğer uçtadır. EoE ve motilite bozuklukları organik ayırıcılardır; NKGA'da ise özofagus-dışı (kas-iskelet, psikojen) nedenler ağırlıklıdır ve kardiyak neden mutlaka önce dışlanır.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">GÖRH — asit/nonasit reflü</div>
+        <ul>
+          <li>Patolojik özofagus asit maruziyeti (AET &gt;%6) veya erozif özofajit; tipik pirozis ve regürjitasyonun en sık organik nedeni.</li>
+          <li>Ekstraözofageal: kronik öksürük, larenjit, astım alevlenmesi; NKGA ve globusa da katkıda bulunabilir.</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">Reflü aşırı duyarlılığı</div>
+        <ul>
+          <li>Normal asit maruziyeti (AET &lt;%4) fakat semptomlar fizyolojik reflü olaylarıyla zamansal olarak ilişkili (pozitif SI/SAP).</li>
+          <li>PPI'ye kısmi yanıt olabilir; periferik/santral hipersensitivite mekanizması. Pirozis ve NKGA olarak sunulabilir.</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">Fonksiyonel pirozis / göğüs ağrısı</div>
+        <ul>
+          <li>Retrosternal yanma veya ağrı; normal endoskopi-biyopsi, normal asit maruziyeti ve reflüyle semptom ilişkisi YOK.</li>
+          <li>Özofageal hipersensitivite ve beyin-bağırsak ekseni disregülasyonu; anksiyete/somatizasyon ile örtüşme sık.</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Eozinofilik özofajit (EoE)</div>
+        <ul>
+          <li>PPI-yanıtsız pirozis/göğüs ağrısı, katı disfaji ve food impaction'da mutlak dışlanmalı; atopiyle güçlü birliktelik.</li>
+          <li>Tanı biyopsi ile: proksimal+distal ≥6 parça, ≥15 eos/BBA. Endoskopi makroskopik normal olabilir.</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">Motilite bozuklukları</div>
+        <ul>
+          <li>Akalazya, distal özofageal spazm, hiperkontraktil (jackhammer) özofagus; NKGA ve disfajiyle sunulur.</li>
+          <li>Yüksek çözünürlüklü manometri (Chicago v4.0) ile tanı; NKGA'da major motilite dışlanmalı.</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">Non-özofageal NKGA ve globus zemini</div>
+        <ul>
+          <li>Kas-iskelet (kostokondrit, Tietze, kas zorlanması) — çocukta NKGA'nın en sık nedeni; palpasyonla yeniden üretilir, benign.</li>
+          <li>Psikojen/anksiyete, hiperventilasyon; globusta ÜSYE sonrası, laringofaringeal reflü, üst özofagus sfinkter disfonksiyonu.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout safe">Ayırıcı ilke: Tipik pirozis + regürjitasyon → GÖRH yolu; yanma-dışı retrosternal ağrı → önce kardiyak ve kas-iskelet değerlendirmesi; ağrısız boğaz yumrusu + disfaji yokluğu → globus yolu. Üç yolda da PPI-yanıtsızlık EoE ve fonksiyonel bozukluk için ileri tetkik gerektirir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">İlk basamak alarm bulgularının ve göğüs ağrısında kardiyak nedenin dışlanmasıdır. Alarm yoksa, tipik pirozis/regürjitasyonda 4-8 haftalık ampirik PPI denemesi hem tedavi hem tanısal yönlendirme sağlar; yanıtsızlıkta EoE dışlama için biyopsili endoskopi, ardından PPI altında/sonrası pH-empedans ± manometri ile fonksiyonel bozukluk-reflü ayrımı yapılır.</p>
+    <div class="flow">
+      <div class="node start">
+        <span class="k">Başlangıç</span>
+        <span class="t">Pirozis / NKGA / globus ile başvuru</span>
+        <p>Öykü, muayene, yaş filtresi; semptom niteliği (yanma / ağrı / boğaz yumrusu) ve eşlik eden disfaji-odinofaji sorgusu.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node action">
+        <span class="k">Adım 1</span>
+        <span class="t">Alarm ve kardiyak tarama</span>
+        <p>Alarm bulguları (disfaji, kilo kaybı, kanama, ilerleyici semptom); göğüs ağrısında eforla ilişki/senkop/aile öyküsü → EKG ± kardiyoloji.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 1</span>
+        <span class="t">Alarm bulgusu veya kardiyak şüphe var mı?</span>
+        <p>Disfaji, odinofaji, kilo kaybı, GİS kanaması, kansızlık, eforla göğüs ağrısı/senkop, anormal EKG mevcut mu?</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Hedefli/acil değerlendirme</span>
+          <div class="node alarm">
+            <span class="k">Alarm</span>
+            <span class="t">Endoskopi+biyopsi ve/veya kardiyoloji</span>
+            <p>Disfaji/kanama/kilo kaybında biyopsili üst GİS endoskopisi; kardiyak şüphede kardiyoloji sevki, ampirik PPI ile gecikmeden.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Semptom yoluna gir</span>
+          <div class="node action safe">
+            <span class="k">Adım 2</span>
+            <span class="t">Baskın semptomu belirle</span>
+            <p>Tipik pirozis/regürjitasyon mu, yanma-dışı NKGA mı, ağrısız globus mu; kas-iskelet NKGA'da palpasyonla yeniden üretimi kontrol et.</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 2</span>
+        <span class="t">Tipik pirozis/regürjitasyon baskın mı?</span>
+        <p>Retrosternal yanma ± regürjitasyon önde ve alarm yok mu? (Ampirik PPI denemesi için uygun fenotip.)</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Ampirik PPI denemesi</span>
+          <div class="node action">
+            <span class="k">Adım 3a</span>
+            <span class="t">4-8 hafta PPI + yaşam tarzı</span>
+            <p>Standart doz PPI (kahvaltı öncesi 30-60 dk), kilo/öğün/tetikleyici düzenleme; yanıt semptomla değerlendirilir.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → NKGA / globus yolu</span>
+          <div class="node action safe">
+            <span class="k">Adım 3b</span>
+            <span class="t">Neden odaklı değerlendirme</span>
+            <p>NKGA'da kas-iskelet/psikojen neden + reflü katkısı; globusta KBB ile yapısal tarama ve laringofaringeal reflü sorgusu.</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 3</span>
+        <span class="t">Ampirik PPI'ye tam yanıt var mı?</span>
+        <p>4-8 haftada semptomlar belirgin geriledi mi? (Yanıt tanıyı kanıtlamaz ama yönlendirir.)</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → İdame ve azaltma</span>
+          <div class="node action safe">
+            <span class="k">Adım 4</span>
+            <span class="t">En düşük etkili doza indir</span>
+            <p>Yanıtta 8-12 haftada kademeli azaltma/kesme dene; nükste idame. Uzun süreli gereksinimde tanıyı yeniden sorgula.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → PPI-yanıtsız: ileri tetkik</span>
+          <div class="node action">
+            <span class="k">Adım 5</span>
+            <span class="t">Endoskopi + çok düzeyli biyopsi</span>
+            <p>Uyumu/dozu doğrula; EoE (≥15 eos/BBA), erozif özofajit ve yapısal lezyon için biyopsili endoskopi ilk adım.</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 4</span>
+        <span class="t">Endoskopi/biyopsi tanısal mı?</span>
+        <p>EoE, erozif özofajit veya yapısal lezyon (striktür, halka) saptandı mı?</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Tanıya yönelik tedavi</span>
+          <div class="node action">
+            <span class="k">Adım 6</span>
+            <span class="t">EoE / erozif GÖRH tedavisi</span>
+            <p>EoE'de PPI, yutulan topikal steroid veya eliminasyon diyeti; erozif özofajitte tam doz PPI ile iyileştirme ve idame.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Fonksiyonel ayrımı için fizyoloji</span>
+          <div class="node action safe">
+            <span class="k">Adım 7</span>
+            <span class="t">pH-empedans ± HRM</span>
+            <p>PPI-yanıtsız/atipik olguda: patolojik reflü (AET), reflü-semptom ilişkisi (SI/SAP) ve major motilite bozukluğu değerlendirilir.</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 5</span>
+        <span class="t">Fizyolojik test sonucu ne gösteriyor?</span>
+        <p>Patolojik asit maruziyeti mi, pozitif semptom ilişkili normal maruziyet mi, yoksa tümüyle normal mi?</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">Anormal AET / pozitif SI-SAP → organik-hipersensitivite</span>
+          <div class="node action">
+            <span class="k">Sonlanım A</span>
+            <span class="t">GÖRH / reflü aşırı duyarlılığı</span>
+            <p>Patolojik AET → GÖRH optimizasyonu (PPI ± alginat); normal AET + pozitif ilişki → reflü aşırı duyarlılığı: PPI + nöromodülatör.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">Normal AET + negatif ilişki → fonksiyonel</span>
+          <div class="node action safe">
+            <span class="k">Sonlanım B</span>
+            <span class="t">Fonksiyonel pirozis/göğüs ağrısı/globus (Rome IV)</span>
+            <p>Yapısal, EoE ve major motilite dışlanmış; güvence, nöromodülasyon ve biyopsikososyal yaklaşım (BDT, gerekirse konuşma terapisi).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="callout safe">Anahtar ilke: Ampirik PPI denemesi tipik pirozisli, alarmsız büyük çocuk/adölesanda uygundur; başarısızsa dozu/uyumu doğrula ve biyopsili endoskopi ile EoE'yi dışla. pH-empedans/manometri, fonksiyonel bozukluk ile gerçek reflü/motiliteyi ayırmak için ideal olarak PPI kesildikten sonra (tanısal amaçlı) veya sürerken (yeterli baskılamayı ölçmek için) yapılır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Tetkik semptom fenotipine göre yönlendirilir. Tipik pirozis alarmsızsa test öncesi ampirik PPI makuldür; PPI-yanıtsız, atipik veya alarmlı olguda biyopsili endoskopi önceliklidir. pH-empedans ve manometri, fonksiyonel bozuklukların Rome IV dışlama tanısı için ve refrakter olguları sınıflamak için ayrılır. Globusta yapısal dışlama için KBB muayenesi eşlik eder.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Pirozis / NKGA / globusta basamaklı tanısal yaklaşım ve endikasyonlar</caption>
+        <thead>
+          <tr>
+            <th>Basamak / Test</th>
+            <th>Ne zaman</th>
+            <th>Amaç ve not</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">Klinik değerlendirme + alarm/kardiyak tarama</td>
+            <td>Tüm olgular</td>
+            <td>Semptom fenotipi, alarm bulguları ve göğüs ağrısında kardiyak sorgu; kas-iskelet NKGA'da palpasyonla yeniden üretim benign ipucudur.</td>
+          </tr>
+          <tr>
+            <td class="step">EKG ± ekokardiyografi</td>
+            <td>Kardiyak şüpheli göğüs ağrısı</td>
+            <td>Eforla ağrı, senkop, çarpıntı, ailede ani ölüm/kardiyomiyopati veya patolojik muayenede; normalse özofageal/kas-iskelet yola geç.</td>
+          </tr>
+          <tr>
+            <td class="step">Ampirik PPI denemesi</td>
+            <td class="dose">Standart doz, 4-8 hafta</td>
+            <td>Tipik pirozisli, alarmsız büyük çocuk/adölesanda; tanısal-terapötik. Yanıt GÖRH'ü kanıtlamaz, yanıtsızlık ileri tetkik gerektirir.</td>
+          </tr>
+          <tr>
+            <td class="step">Üst GİS endoskopisi + çok düzeyli biyopsi</td>
+            <td class="dose">Proksimal + distal ≥6 parça</td>
+            <td>PPI-yanıtsız, alarmlı veya disfaji/odinofajili olguda ilk adım; EoE (≥15 eos/BBA), erozif özofajit, striktür-halka. Normal görünümde bile biyopsi (EoE gizlenebilir).</td>
+          </tr>
+          <tr>
+            <td class="step">pH-empedans (MII-pH) monitörizasyonu</td>
+            <td class="dose">AET %: &lt;4 normal · &gt;6 patolojik</td>
+            <td>Fonksiyonel-reflü ayrımı: asit maruziyet zamanı, reflü atak sayısı ve semptom ilişkisi. Fonksiyonel tanı için ideal olarak PPI kesilerek yapılır.</td>
+          </tr>
+          <tr>
+            <td class="step">Semptom ilişkisi analizi (SI / SAP)</td>
+            <td class="dose">SI ≥%50 · SAP ≥%95 pozitif</td>
+            <td>Reflü aşırı duyarlılığını (normal AET + pozitif ilişki) fonksiyonel pirozisten (negatif ilişki) ayırır; pH-empedans ile birlikte hesaplanır.</td>
+          </tr>
+          <tr>
+            <td class="step">Yüksek çözünürlüklü manometri (HRM)</td>
+            <td class="dose">Chicago sınıflaması v4.0</td>
+            <td>NKGA/disfaji eşliğinde veya endoskopi-pH normalken; akalazya, distal spazm, hiperkontraktil özofagus ve ÖGB çıkış obstrüksiyonunu dışlar/tanır.</td>
+          </tr>
+          <tr>
+            <td class="step">KBB / laringoskopi muayenesi</td>
+            <td>Globus, laringofaringeal semptom</td>
+            <td>Faringeal/laringeal yapısal lezyon, kitle, gastrik inlet patch ve laringofaringeal reflü bulgularını dışlar; globus dışlama tanısıdır.</td>
+          </tr>
+          <tr>
+            <td class="step">Baryumlu özofagogram</td>
+            <td>Seçilmiş olgular</td>
+            <td>Halka/web, striktür, dış bası ve akalazya ipuçları; disfaji-örtüşmesinde anatomik harita, ancak duyarlılığı düşüktür, biyopsinin yerini tutmaz.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">Fonksiyonel özofagus bozukluğu tanısı bir dışlama tanısıdır: normal endoskopi+biyopsi, normal asit maruziyeti (uygun semptom ilişkisi yorumuyla) ve major motilite bozukluğunun yokluğu gösterilmeden konmamalıdır. Test yükünü klinik olasılık ve alarm varlığına göre bireyselleştir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdaki bulgular fonksiyonel/benign varsayımını geçersiz kılar ve hedefli veya acil değerlendirme (endoskopi, kardiyoloji, görüntüleme) gerektirir.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Disfaji, odinofaji veya food impaction öyküsü (EoE/striktür/motilite — globusu dışlar).</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Açıklanamayan kilo kaybı, büyüme geriliği veya iştahsızlık.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>GİS kanaması: hematemez, melena, demir eksikliği anemisi.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Eforla ortaya çıkan/artan göğüs ağrısı, senkop-presenkop, çarpıntı.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ailede ani kardiyak ölüm, kardiyomiyopati veya bilinen kalp hastalığı.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Sürekli/ilerleyici, geceyi bölen ağrı veya uyandıran semptom.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Boyunda kitle, tek taraflı globus, ses kısıklığı veya ilerleyici bulgu.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Yüksek doz/uzamış PPI'ye tam yanıtsızlık veya erken ve tekrarlayan nüks.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kostik/kimyasal alım veya pill özofajiti kuşkusu (ilaç, dik olmadan/susuz alım).</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>İmmünsüpresyon zemininde odinofaji/ateş (enfeksiyöz özofajit).</span></div>
+    </div>
+    <div class="callout alarm">Göğüs ağrısında "non-kardiyak" etiketi ancak kardiyak neden aktif olarak dışlandıktan sonra kullanılır. Disfaji/odinofaji varlığı globus tanısını dışlar ve yapısal/EoE değerlendirmesini zorunlu kılar.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi — dozlu</h2>
+    <p class="lede">Tedavi fenotipe göre katmanlanır: GÖRH'de asit baskılama + yaşam tarzı; reflü aşırı duyarlılığında asit baskılama + nöromodülasyon; fonksiyonel bozukluklarda güvence, nöromodülasyon ve biyopsikososyal yaklaşım; EoE'de topikal steroid/PPI/diyet. Ampirik PPI denemesi standart dozda 4-8 hafta verilir ve yanıtta en düşük etkili doza indirilir. Dozlar yaş, kilo ve organ fonksiyonuna göre bireyselleştirilmelidir.</p>
+    <div class="pill-row">
+      <span class="pill">GÖRH: PPI ± alginat</span>
+      <span class="pill">Aşırı duyarlılık: PPI + nöromodülatör</span>
+      <span class="pill">Fonksiyonel: nöromodülasyon + BDT</span>
+      <span class="pill">EoE: PPI / topikal steroid / diyet</span>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <caption>Fenotipe yönelik tedavi — doz (mg/kg) ve maksimumlar</caption>
+        <thead>
+          <tr>
+            <th>Ajan / Girişim</th>
+            <th>Doz (mg/kg + maksimum)</th>
+            <th>Not</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">Omeprazol (ampirik PPI denemesi / GÖRH)</td>
+            <td class="dose">1-2 mg/kg/gün, tek/iki doz (maks 20-40 mg/gün)</td>
+            <td>Kahvaltıdan 30-60 dk önce; 4-8 hafta deneme. Yanıtta 8-12 haftada kademeli azaltma dene.</td>
+          </tr>
+          <tr>
+            <td class="step">Esomeprazol (alternatif PPI)</td>
+            <td class="dose">≥1 yaş 0.5-1 mg/kg/gün; adölesan 20-40 mg/gün (maks 40 mg/gün)</td>
+            <td>Refrakter/erozif olguda bölünmüş doz düşünülebilir; kilo-bazlı dozlama tercih edilir.</td>
+          </tr>
+          <tr>
+            <td class="step">Lansoprazol (alternatif PPI)</td>
+            <td class="dose">1-2 mg/kg/gün (maks 30 mg/gün)</td>
+            <td>Ağızda dağılan formülasyon küçük çocukta uyuma yardımcı; sabah aç karnına.</td>
+          </tr>
+          <tr>
+            <td class="step">Famotidin (H2 reseptör antagonisti)</td>
+            <td class="dose">0.5-1 mg/kg/doz, günde 2 (maks 40 mg/doz)</td>
+            <td>Hafif semptom veya PPI'ye ek gece kaçağı için; taşiflaksi nedeniyle idamede PPI'ye üstün değil. (Ranitidin NDMA nedeniyle kullanımdan kaldırıldı.)</td>
+          </tr>
+          <tr>
+            <td class="step">Sodyum aljinat (aljinat-antasit)</td>
+            <td class="dose">Öğün sonrası ve yatarken, yaşa/formülasyona göre</td>
+            <td>Postprandiyal reflü ve regürjitasyonda semptomatik; PPI'ye ekleme veya hafif olguda tek başına. Ampirik denemede yardımcı.</td>
+          </tr>
+          <tr>
+            <td class="step">Amitriptilin (nöromodülatör — TCA)</td>
+            <td class="dose">Yatarken 0.2-0.5 mg/kg/gün, titre (maks 25-50 mg/gün)</td>
+            <td>Fonksiyonel göğüs ağrısı, fonksiyonel pirozis, reflü aşırı duyarlılığı ve globusta viseral hipersensitiviteyi azaltır. Başlangıç düşük, EKG'de QT sorgusu.</td>
+          </tr>
+          <tr>
+            <td class="step">İmipramin (alternatif TCA)</td>
+            <td class="dose">Yatarken 0.5-1 mg/kg/gün, titre (maks 50 mg/gün)</td>
+            <td>Amitriptilin tolere edilemezse; benzer viseral analjezik etki. Antikolinerjik yan etki ve kardiyak izlem.</td>
+          </tr>
+          <tr>
+            <td class="step">SSRI (ör. sitalopram/fluoksetin)</td>
+            <td class="dose">Yaşa uygun psikiyatrik doz aralığında</td>
+            <td>Anksiyete/depresyon eşlik eden fonksiyonel NKGA/pirozis/globusta; ortak yönetimle başlanır, intihar riski açısından izlem.</td>
+          </tr>
+          <tr>
+            <td class="step">Gabapentin (nöromodülatör — globus/refrakter)</td>
+            <td class="dose">Titrasyonla 10-30 mg/kg/gün, 3 doz (maks ~ günde 900-1800 mg)</td>
+            <td>Refrakter globus ve nöropatik özofageal ağrıda seçilmiş olgularda; yavaş titrasyon, sedasyon izlemi.</td>
+          </tr>
+          <tr>
+            <td class="step">Yutulan topikal budesonid (EoE)</td>
+            <td class="dose">&lt;10 yaş 1 mg/gün; ≥10 yaş/adölesan 2 mg/gün (2 doza bölünmüş; maks 2 mg/gün)</td>
+            <td>EoE saptanırsa; viskoz süspansiyon yutulur, sonrası 30 dk yeme-içme yok. Oral kandidiazis izlemi.</td>
+          </tr>
+          <tr>
+            <td class="step">Eliminasyon diyeti (EoE)</td>
+            <td class="dose">1/2/4/6-besin veya aminoasit formül</td>
+            <td>EoE'de birinci basamak seçeneklerden biri; süt en sık tetikleyici. Her adımda biyopsi ile tetikleyici belirlenir.</td>
+          </tr>
+          <tr>
+            <td class="step">Biyopsikososyal / davranışsal tedavi</td>
+            <td class="dose">BDT, gevşeme, konuşma terapisi (globus)</td>
+            <td>Fonksiyonel bozuklukların temel taşı; hipnoterapi ve BDT viseral hipersensitiviteyi azaltır, globusta larengeal fonksiyon terapisi eklenir.</td>
+          </tr>
+          <tr>
+            <td class="step">Kas-iskelet NKGA yönetimi</td>
+            <td class="dose">İbuprofen 5-10 mg/kg/doz, 6-8 saatte (maks 40 mg/kg/gün, ≤600 mg/doz)</td>
+            <td>Kostokondrit/Tietze: güvence, kısa süreli NSAİİ ve aktivite düzenleme; palpasyonla yeniden üretilen ağrıda organik tetkik gereksiz.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">Reflü aşırı duyarlılığı ve fonksiyonel pirozis, PPI'ye kısmi/yanıtsızdır; bu olgularda dozu artırmak yerine tanıyı pH-empedans+semptom ilişkisiyle netleştirip nöromodülatör ve biyopsikososyal yaklaşıma geçmek doğru stratejidir. Uzun süreli yüksek doz PPI, tanı doğrulanmadan sürdürülmemelidir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve yönetim ilkeleri</h2>
+    <p class="lede">Amaç: organik hastalığı (GÖRH komplikasyonları, EoE fibrostenozu, motilite bozukluğu) zamanında yakalamak, gereksiz/uzamış asit baskılamayı sınırlamak ve fonksiyonel bozukluklarda işlevi ve yaşam kalitesini iyileştirmektir. İzlem yalnızca semptomla değil, PPI gereksinimi ve (EoE'de) histolojiyle yönlendirilir.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>GÖRH / EoE ve asit baskılama izlemi</h3>
+        <ul class="clean">
+          <li>PPI yanıtında 8-12 haftada kademeli azaltma/kesme dene; kronik ve tekrarlayan gereksinimde tanıyı endoskopi/pH-empedans ile yeniden değerlendir.</li>
+          <li>Erozif özofajitte iyileştirme dozunu tamamla, ardından idame; Barrett/striktür açısından yüksek riskli olguda endoskopik takip.</li>
+          <li>EoE saptandıysa indüksiyon sonrası kontrol biyopsi ile histolojik remisyon (&lt;15 eos/BBA); yanıtta idame ve atopinin ortak yönetimi.</li>
+          <li>Uzun süreli PPI yan etkilerini (enfeksiyon, kemik, mikrobesin) gözet; en düşük etkili dozda tut, gereksiz sürdürme.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Fonksiyonel bozukluk ve NKGA izlemi</h3>
+        <ul class="clean">
+          <li>Tanıyı pozitif çerçevele (beyin-bağırsak etkileşim bozukluğu); güvence, eğitim ve gerçekçi hedeflerle tedavi uyumunu artır.</li>
+          <li>Nöromodülatörü düşük dozdan titre et, 6-8 haftada yanıtı gözden geçir; yanıtta 6-12 ay sürdür, sonra kademeli azalt.</li>
+          <li>Anksiyete/depresyon ve okul devamsızlığında BDT/psikoloji ile ortak izlem; hipnoterapi ve globusta konuşma terapisini planla.</li>
+          <li>Kas-iskelet NKGA'da güvence ve kısa NSAİİ yeterli; alarm çıkmadıkça tekrarlayan görüntüleme/kardiyak testten kaçın.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout safe">Geri çekilme ve devam kuralı: Fonksiyonel özofagus bozuklukları kronik-dalgalanan seyreder; amaç semptomu tümüyle silmek değil işlevi korumaktır. Objektif değerlendirme (endoskopi/biyopsi, pH-empedans, manometri) yapılmadan "fonksiyonel" tanısı kesinleştirilmez ve yeni alarm bulgusunda tanı yeniden gözden geçirilir.</div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Aziz Q, Fass R, Gyawali CP, Miwa H, Pandolfino JE, Zerbib F. Functional Esophageal Disorders (Rome IV). Gastroenterology. 2016;150(6):1368-1379.</li>
+      <li>Rosen R, Vandenplas Y, Singendonk M, ve ark. Pediatric Gastroesophageal Reflux Clinical Practice Guidelines: Joint Recommendations of NASPGHAN and ESPGHAN. J Pediatr Gastroenterol Nutr. 2018;66(3):516-554.</li>
+      <li>Amil-Dias J, Oliva S, Papadopoulou A, ve ark. Diagnosis and management of eosinophilic esophagitis in children: An update from the ESPGHAN. J Pediatr Gastroenterol Nutr. 2024;79(2):394-437.</li>
+      <li>Yadlapati R, Gyawali CP, Pandolfino JE, ve ark. Lyon Consensus 2.0 for the diagnosis of gastroesophageal reflux disease. Gut / Am J Gastroenterol. 2024.</li>
+    </ol>
+  </footer>
+
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge çocuk gastroenteroloji uzmanları için klinik karar desteği amaçlıdır; hastaya özgü değerlendirmenin, güncel kılavuzların ve yerel ilaç ruhsat/dozaj bilgilerinin yerine geçmez. Dozlar hastanın yaşı, kilosu, böbrek/karaciğer fonksiyonu ve komorbiditelerine göre bireyselleştirilmelidir.</div>
+</div>

@@ -1,0 +1,500 @@
+<title>Ruminasyon Sendromu — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Ruminasyon Sendromu</h1>
+    <p class="sub">Öğün sırasında/sonrasında ortaya çıkan efortsuz, öğürtüsüz regürjitasyonun tanısı; birinci basamak diyafragmatik solunum tedavisi ve GÖRH/gastroparezi ayrımı için pratik karar yolu.</p>
+    <div class="meta">
+      <span class="tag">Rome IV</span>
+      <span class="tag">Diyafragmatik Solunum</span>
+      <span class="tag">HRIM</span>
+      <span class="tag">Ayırıcı Tanı</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve İlk Değerlendirme</h2>
+    <p class="lede">Ruminasyon sendromu; yeni yutulan gıdanın öğün sırasında veya kısa süre sonra, öğürtü (retching) veya öncü bulantı olmaksızın, efortsuz biçimde ağza geri gelmesi ve ardından yeniden çiğnenip yutulması ya da tükürülmesidir. Tanı esas olarak Rome IV klinik ölçütlerine dayanır; öykü ve muayene çoğu olguda yeterlidir.</p>
+    <div class="pill-row">
+      <span class="pill">Efortsuz regürjitasyon</span>
+      <span class="pill">Öğürtü YOK</span>
+      <span class="pill">Öncü bulantı YOK</span>
+      <span class="pill">Uykuda görülmez</span>
+      <span class="pill">Postprandiyal başlar</span>
+    </div>
+    <div class="grid two">
+      <div class="card">
+        <h3>Yönlendirici Öykü</h3>
+        <ul class="clean">
+          <li>Semptomların öğünle ilişkisi: ilk 10-15 dk içinde, gıda henüz asidik değilken başlar, gıda asitlendikçe (yaklaşık 20-30 dk) azalır.</li>
+          <li>Regürjite materyalin tadı acı/ekşi değil, taze gıda tadındadır; içerik yeniden çiğnenip yutulur veya tükürülür.</li>
+          <li>Öğürme, kusma çabası, kas gerginliği, karın ağrısı öncülü YOKtur; bilinçli olarak baskılanabilir.</li>
+          <li>Tetikleyici/öncül olay: geçirilmiş viral gastroenterit, GÖRH, cerrahi, psikososyal stres, okul kaygısı.</li>
+          <li>Komorbidite taraması: anksiyete/depresyon, yeme bozukluğu, nörogelişimsel bozukluk, fibromiyalji/fonksiyonel bozukluklar.</li>
+          <li>Süre: son 3 ayda mevcut, başlangıç en az 6 ay önce (adölesan Rome IV H2b).</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayene ve İlk Gözlem</h3>
+        <ul class="clean">
+          <li>Antropometri: kilo/boy persentili, büyüme eğrisi; kilo kaybı/duraklaması alarm bulgusudur.</li>
+          <li>Postprandiyal gözlem: kliniğte öğün sonrası ruminasyon epizodunun doğrudan izlenmesi tanısal değere sahiptir (sıklıkla karın duvarında hafif kasılma öncüsü).</li>
+          <li>Diş erozyonu, halitozis, ağız içi asit hasarı; dehidratasyon bulguları.</li>
+          <li>Karın muayenesi tipik olarak normaldir; distansiyon, kitle, organomegali organik zemini düşündürür.</li>
+          <li>Nörolojik muayene ve gelişimsel değerlendirme (özellikle infant ve nörolojik bozukluklu çocukta).</li>
+          <li>Alarm bulgusu taraması (bkz. Bölüm 05) her değerlendirmede zorunludur.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout"><b>Rome IV özeti:</b> Adölesanda (H2b) tekrarlayan regürjitasyon ile yeniden çiğneme/yutma-tükürme; öğün sonrası kısa sürede başlar, uykuda olmaz, öğürtü ile öncülenmez ve uygun değerlendirmeyle başka bir hastalıkla tam açıklanamaz. İnfant ruminasyonu (G6) için en az 2 ay süren, karın-diyafram-dil ko-kontraksiyonu ve GÖRH tedavisine yanıtsızlık gerekir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Mekanizma ve Patofizyoloji</h2>
+    <p class="lede">Ruminasyon, öğrenilmiş/istemsiz bir karın duvarı ve diyafram ko-kontraksiyonunun postprandiyal intragastrik basıncı artırarak alt özofageal sfinkter (AÖS) bariyerini aşması sonucu gastrik içeriğin retrograd hareketiyle oluşur. Tedavi hedefi bu döngüyü diyafragmatik solunumla kırmaktır.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">Postprandiyal İntragastrik Basınç Artışı</div>
+        <ul>
+          <li>İstemsiz karın duvarı kontraksiyonu ile intragastrik basınç &gt;25-30 mmHg'ye çıkar.</li>
+          <li>HRIM'de retrograd akıştan hemen önce görülen tetikleyici bulgu.</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">AÖS Bariyer Yetersizliği</div>
+        <ul>
+          <li>Geçici AÖS gevşemesi (tLESR) veya basınç gradyaniyle bariyerin aşılması.</li>
+          <li>Baklofenin etki hedefi: tLESR sıklığını azaltmak.</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">Karın-Diyafram Ko-kontraksiyonu</div>
+        <ul>
+          <li>Alışkanlık haline gelmiş, sıklıkla farkında olunmayan istemsiz kas paterni.</li>
+          <li>Diyafragmatik solunum bu paterni fizyolojik olarak inhibe eder.</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Öncül/Tetikleyici Olay</div>
+        <ul>
+          <li>Geçirilmiş GÖRH, viral gastroenterit, cerrahi, ağrılı GİS olayı.</li>
+          <li>Psikososyal stres, okul kaygısı, travmatik yaşantı.</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">Operant Pekiştirme</div>
+        <ul>
+          <li>Regürjitasyon geçici rahatlama sağlayarak davranışı pekiştirir.</li>
+          <li>Kronikleşme ve öğrenilmiş refleks döngüsü.</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">Komorbid/Kolaylaştırıcı Faktörler</div>
+        <ul>
+          <li>Anksiyete, depresyon, yeme bozukluğu, fonksiyonel karın ağrısı.</li>
+          <li>Nörogelişimsel bozukluk (infant ve ağır engelli çocukta insidans artışı).</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar Akışı</h2>
+    <p class="lede">Klinik tanıyı Rome IV ile koy; alarm/atipik bulgu varsa organik zemini dışla, yoksa doğrudan diyafragmatik solunum tedavisine başla ve yanıta göre basamaklandır.</p>
+    <div class="flow">
+      <div class="node start">
+        <span class="k">Başlangıç</span>
+        <span class="t">Postprandiyal efortsuz regürjitasyon</span>
+        <p>Öğün sırasında/sonrasında öğürtüsüz, öncü bulantısız, uykuda olmayan geri gelme öyküsü.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node action">
+        <span class="k">Adım 1</span>
+        <span class="t">Öykü + Rome IV + alarm taraması</span>
+        <p>Rome IV ölçütlerini uygula; postprandiyal klinik gözlem yap; kilo, büyüme ve alarm bulgularını tara.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 1</span>
+        <span class="t">Alarm bulgusu ya da atipik özellik var mı?</span>
+        <p>Kilo kaybı, disfaji, uykuda semptom, gerçek kusma/öğürtü, hematemez, gece ağrısı, anemi.</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Organik zemini dışla</span>
+          <div class="node alarm">
+            <span class="k">Alarm yolu</span>
+            <span class="t">Yapısal/motilite tetkiki</span>
+            <p>Üst GİS endoskopi + biyopsi, postprandiyal HRIM-impedans, gastrik boşalma sintigrafisi; GÖRH/gastroparezi/akalazya/eozinofilik özofajit ekarte edilir.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Klinik tanı</span>
+          <div class="node action safe">
+            <span class="k">Tanı</span>
+            <span class="t">Rome IV ile ruminasyon sendromu</span>
+            <p>İnvaziv tetkik gerekmez; tanısal şüphe sürerse postprandiyal HRIM ile doğrula (retrograd akış öncesi gastrik basınç artışı).</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node action">
+        <span class="k">Adım 2</span>
+        <span class="t">Diyafragmatik solunum eğitimi</span>
+        <p>Birinci basamak davranışsal tedavi: öğünlerde ve regürjitasyon hissedildiğinde yavaş diyafragmatik (abdominal) solunum ile ko-kontraksiyonu inhibe et.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 2</span>
+        <span class="t">4-6 haftada anlamlı yanıt var mı?</span>
+        <p>Epizod sıklığı, kilo trendi ve yaşam kalitesinde düzelme değerlendirilir.</p>
+      </div>
+      <div class="branches">
+        <div class="branch no">
+          <span class="label">HAYIR → Basamak yükselt</span>
+          <div class="node action">
+            <span class="k">Refrakter</span>
+            <span class="t">Biofeedback + baklofen</span>
+            <p>HRIM/EMG destekli biofeedback ile diyafragmatik solunumu pekiştir; dirençli olguda baklofen ekle, BDT/psikoterapi ve komorbiditeyi tedavi et.</p>
+          </div>
+        </div>
+        <div class="branch yes">
+          <span class="label">EVET → İdame</span>
+          <div class="node action safe">
+            <span class="k">İdame</span>
+            <span class="t">Pekiştirme ve izlem</span>
+            <p>Diyafragmatik solunumu günlük rutine yerleştir; tetikleyicileri yönet, nüksü izlemek için periyodik takip planla.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı Tetkik</h2>
+    <p class="lede">Tanı klinik olduğu için tetkik seçici uygulanır; ileri incelemeler öncelikle alarm/atipik bulgu varlığında veya ayırıcı tanı gerektiğinde yapılır.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Ruminasyon sendromunda basamaklı değerlendirme</caption>
+        <thead>
+          <tr>
+            <th>Basamak</th>
+            <th>İçerik / Endikasyon</th>
+            <th>Not</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">Basamak 1 — Klinik tanı</td>
+            <td>Rome IV ölçütleri + postprandiyal klinik gözlem</td>
+            <td>Alarm yoksa çoğu olguda tek başına yeterlidir.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 2 — Bazal laboratuvar</td>
+            <td>Tam kan, CRP/ESR, elektrolit, albümin, çölyak serolojisi (anti-tTG IgA + total IgA)</td>
+            <td>Kilo kaybı, malnütrisyon veya atipik seyirde; anemi/inflamasyon organik zemini düşündürür.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 3 — Üst GİS endoskopi + biyopsi</td>
+            <td>Alarm bulgusu, disfaji, kilo kaybı, refrakter seyir</td>
+            <td>Özofajit, eozinofilik özofajit, striktür, peptik hastalık ve mukozal patolojiyi dışlar.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 4 — HRIM-impedans (postprandiyal)</td>
+            <td>Standart öğün sonrası provokasyonla yüksek çözünürlüklü manometri-impedans</td>
+            <td>Doğrulayıcı altın standart: retrograd akış öncesi intragastrik basınç artışı (R dalgası, &gt;25-30 mmHg); supragastrik geğirme ve akalazyayı ayırır.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 5 — Gastrik boşalma sintigrafisi</td>
+            <td>Gastroparezi kliniği (erken doyma, şişkinlik, gerçek kusma) varlığında</td>
+            <td>Gecikmiş boşalma gastroparezi lehine; ruminasyonda boşalma tipik olarak normaldir.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 6 — 24 saat pH-impedans</td>
+            <td>GÖRH ile örtüşen/ayrım gereken olgular</td>
+            <td>Asit maruziyeti ve reflü-semptom ilişkisini niceler; ruminasyonda postprandiyal nonasidik retrograd bolus paterni görülür.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout safe"><b>Pratik nokta:</b> HRIM postprandiyal provokasyon, ruminasyonu GÖRH, supragastrik geğirme ve akalazyadan ayıran en özgül testtir; tanısal ikilem sürüyorsa invaziv tarama yerine önce bunu düşünün.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı Bayraklar</h2>
+    <p class="lede">Aşağıdaki bulgulardan herhangi biri, klinik ruminasyon tanısını sorgulatır ve organik zemin için ileri değerlendirme (endoskopi/HRIM/sintigrafi) gerektirir.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Kilo kaybı, büyüme duraklaması veya belirgin malnütrisyon</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Disfaji veya odinofaji</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Uyku sırasında regürjitasyon/semptom</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Gerçek kusma veya öğürtü (retching) ile öncülenme</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Hematemez, melena veya gizli kan pozitifliği</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Sürekli veya gece uyandıran karın ağrısı</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Demir eksikliği anemisi veya inflamasyon belirteçlerinde yükseklik</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Nörolojik bulgu, letarji veya akut/subakut başlangıç</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Safralı/fışkırır tarzda kusma (obstrüksiyon şüphesi)</span></div>
+    </div>
+    <div class="callout alarm"><b>Dikkat:</b> Öğürtü ile öncülenen, safralı veya gece görülen kusma ruminasyonla uyumlu DEĞİLdir; bu olgularda GÖRH komplikasyonu, gastroparezi, obstrüksiyon veya siklik kusma sendromu öncelikli düşünülmelidir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi</h2>
+    <p class="lede">Temel tedavi davranışsaldır: diyafragmatik solunum ruminasyona rakip yanıt oluşturarak karın-diyafram ko-kontraksiyonunu engeller. Refrakter olguda baklofen ve biofeedback eklenir; ilaçlar komorbid GÖRH/anksiyeteye yöneliktir. Dozlar mg/kg ve maksimumla verilmiştir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Ruminasyon sendromunda basamaklı tedavi ve dozlar</caption>
+        <thead>
+          <tr>
+            <th>Tedavi / İlaç</th>
+            <th>Doz / Uygulama</th>
+            <th>Açıklama</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">Diyafragmatik solunum (1. basamak)</td>
+            <td class="dose">Her öğünden sonra ve epizod hissinde 10-15 dk; günde 3-4 kez, 4-6 hafta</td>
+            <td>Yavaş abdominal solunum (yaklaşık 6-8/dk); karın kaslarını gevşetip ko-kontraksiyonu inhibe eder. En etkili ve ilk seçenek yöntemdir.</td>
+          </tr>
+          <tr>
+            <td class="step">Biofeedback / habit reversal</td>
+            <td class="dose">HRIM veya yüzeyel EMG eşliğinde, haftalık seanslar</td>
+            <td>Diyafragmatik solunumu görsel geri bildirimle pekiştirir; tek başına eğitime dirençli olguda tercih edilir.</td>
+          </tr>
+          <tr>
+            <td class="step">Baklofen (refrakter olgu)</td>
+            <td class="dose">Başlangıç 0,5 mg/kg/gün, 3 doza bölünmüş; titre ile artış (adölesanda 5-10 mg 3×/gün). Maks 60 mg/gün</td>
+            <td>tLESR sıklığını ve regürjitasyon epizodlarını azaltır. Yan etki: sedasyon, baş dönmesi; ani kesmeden kaçın (aşamalı azalt).</td>
+          </tr>
+          <tr>
+            <td class="step">Omeprazol (komorbid GÖRH)</td>
+            <td class="dose">1 mg/kg/gün, tek/iki doz; maks 20-40 mg/gün</td>
+            <td>Yalnızca eşlik eden erozif GÖRH/asit hasarında; ruminasyonun kendisini tedavi etmez, öncül reflüyü baskılar.</td>
+          </tr>
+          <tr>
+            <td class="step">Psikoterapi / BDT</td>
+            <td class="dose">Yapılandırılmış seanslar; komorbidite şiddetine göre</td>
+            <td>Anksiyete, depresyon veya yeme bozukluğu eşlik ediyorsa; stres yönetimi ve pekiştirme döngüsünü hedefler.</td>
+          </tr>
+          <tr>
+            <td class="step">Beslenme desteği</td>
+            <td class="dose">Diyetisyen izlemi; ağır kayıpta enteral destek</td>
+            <td>Kilo kaybı/malnütrisyonda kalori-protein optimizasyonu; nadiren geçici jejunal/gastrostomi beslenmesi gerekir.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout"><b>İlaç seçimi:</b> Ruminasyonun birincil tedavisi ilaç değil, diyafragmatik solunumdur. Baklofen yalnızca davranışsal tedaviye dirençli olguda, PPI ise yalnızca kanıtlanmış komorbid GÖRH varlığında eklenmelidir; ampirik uzun süreli PPI/prokinetik kullanımından kaçının.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve Yönetim İlkeleri</h2>
+    <p class="lede">İzlem; epizod sıklığı, büyüme/kilo trendi, komorbidite kontrolü ve nüks açısından planlanır. Aile ve okul eğitimi tedavi başarısının belirleyicisidir.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>İzlem Parametreleri</h3>
+        <ul class="clean">
+          <li>4-6 haftada ilk yanıt değerlendirmesi; ardından 3 ayda bir izlem.</li>
+          <li>Semptom günlüğü: epizod sayısı, öğünle ilişki, tetikleyiciler.</li>
+          <li>Büyüme eğrisi ve kilo trendi; malnütrisyon riskinde daha sık.</li>
+          <li>Diş/oral sağlık ve dehidratasyon açısından periyodik değerlendirme.</li>
+          <li>Baklofen kullanımında sedasyon, yan etki ve doz uyumu takibi.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Yönetim İlkeleri</h3>
+        <ul class="clean">
+          <li>Diyafragmatik solunumu günlük rutine yerleştir; öğün sonrası uygulamayı önceliklendir.</li>
+          <li>Aileyi ruminasyonun istemsiz/öğrenilmiş bir refleks olduğu konusunda eğit; suçlayıcı yaklaşımdan kaçın.</li>
+          <li>Komorbid anksiyete/yeme bozukluğunu eş zamanlı tedavi et.</li>
+          <li>Gereksiz tekrarlayan invaziv tetkik ve ampirik ilaçtan kaçın.</li>
+          <li>Refrakter/malnütrisyonlu olguda multidisipliner (GE, beslenme, psikoloji) yönetim.</li>
+          <li>Yanıt yoksa tanıyı yeniden gözden geçir; HRIM ile doğrula ve ayırıcıyı (gastroparezi/GÖRH) yeniden değerlendir.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Hyams JS, Di Lorenzo C, Saps M, ve ark. Childhood Functional Gastrointestinal Disorders: Child/Adolescent (Rome IV). Gastroenterology. 2016;150(6):1456-1468.</li>
+      <li>Benninga MA, Faure C, Hyman PE, ve ark. Childhood Functional Gastrointestinal Disorders: Neonate/Toddler (Rome IV, İnfant ruminasyonu G6). Gastroenterology. 2016;150(6):1443-1455.</li>
+      <li>Murray HB, Juarascio AS, Di Lorenzo C, ve ark. Diagnosis and Treatment of Rumination Syndrome: A Critical Review. Am J Gastroenterol. 2019;114(4):562-578.</li>
+      <li>Rosen R, Vandenplas Y, Singendonk M, ve ark. Pediatric Gastroesophageal Reflux Clinical Practice Guidelines: NASPGHAN-ESPGHAN Joint Recommendations. J Pediatr Gastroenterol Nutr. 2018;66(3):516-554.</li>
+    </ol>
+  </footer>
+
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge pediyatrik gastroenteroloji uzmanlarına yönelik bir klinik karar destek aracıdır; bireysel hasta değerlendirmesi, güncel kılavuzlar ve klinik yargının yerini almaz. Doz ve tedavi kararları hastanın yaşı, kilosu, komorbiditeleri ve yerel onaylar doğrultusunda teyit edilmelidir.</div>
+</div>

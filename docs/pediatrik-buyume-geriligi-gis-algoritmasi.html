@@ -1,0 +1,411 @@
+<title>Büyüme Geriliği / FTT (GİS) — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Büyüme Geriliği / FTT (GİS)</h1>
+    <p class="sub">Antropometrik olarak doğrulanmış büyüme geriliğinde (faltering growth / FTT) beslenme öyküsü temelli değerlendirme, çölyak–kistik fibrozis (KF)–IBD–kolestaz taraması, hesaplanmış yakalama-büyüme (catch-up) kalori artırımı ve yapılandırılmış izlem. Hedef kitle: çocuk gastroenteroloji uzmanı.</p>
+    <div class="meta">
+      <span class="tag">Beslenme öyküsü</span>
+      <span class="tag">Çölyak / KF / IBD</span>
+      <span class="tag">Kolestaz taraması</span>
+      <span class="tag">Kalori artırımı</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">Büyüme geriliği (faltering growth / FTT) bir tanı değil, yetersiz büyümenin antropometrik tanımıdır. WHO (&lt;2 yaş) veya CDC (≥2 yaş) eğrilerinde şu ölçütlerden biri değerlendirmeyi başlatır: yaşa göre ağırlık &lt;3. persentil (&lt;−2 SDS), boya göre ağırlık / BMI &lt;−2 SDS, veya seri ölçümlerde ağırlığın ≥2 major persentil bandını aşağı doğru geçmesi (kilo çaprazlaması). Boya göre ağırlığın önce, sonra boyun, en geç baş çevresinin etkilenmesi kronik enerji açığının klasik sıralamasıdır; izole boy geriliği veya baş çevresi önceliği farklı (endokrin/nörolojik) yolakları düşündürür. GİS uzmanının rolü organik malabsorpsiyon/kayıp nedenlerini pozitif olarak dışlamak veya doğrulamak ve enerji açığını hedefli biçimde kapatmaktır.</p>
+    <div class="pill-row">
+      <span class="pill">Yaşa göre ağırlık &lt;3. persentil (&lt;−2 SDS)</span>
+      <span class="pill">Boya göre ağırlık / BMI &lt;−2 SDS</span>
+      <span class="pill">≥2 major persentil bandını aşağı geçme</span>
+      <span class="pill">Doğru düzeltilmiş yaş + uygun eğri (WHO/CDC), prematüreyi düzelt</span>
+    </div>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öyküde sorgula</h3>
+        <ul class="clean">
+          <li>Ayrıntılı beslenme öyküsü: 24 saatlik geri çağırma + 3 günlük beslenme günlüğü; kalori/protein alımını gerçek gramaj üzerinden hesapla</li>
+          <li>Süt hazırlama: mama sulandırma oranı, ölçek hatası, kısıtlayıcı diyet, aşırı meyve suyu/su, öğün atlama, ekran-öğün örtüşmesi</li>
+          <li>Emme-yutma-oral faz: yorgunluk, öksürük/aspirasyon, oral aversiyon, tekstür reddi, öğün süresi &gt;30 dk, gaklama/GÖR</li>
+          <li>GİS kaybı belirteçleri: kronik/tekrarlayan ishal, yağlı-hacimli-kötü kokulu dışkı (steatore), kanlı-mukuslu dışkı, kusma</li>
+          <li>Sistemik ipucu: tekrarlayan solunum enfeksiyonu (KF), sarılık/akolik gaita/koyu idrar (kolestaz), aftöz ülser/perianal hastalık (IBD)</li>
+          <li>Glutene maruziyet zamanlaması ve çölyak/KF/IBD aile öyküsü; tuz kaybı, ısı intoleransı, terleme öyküsü</li>
+          <li>Perinatal/gelişim: doğum ağırlığı-GİS anomali, prematürite, gelişim basamakları; psikososyal-ihmal-gıda güvencesizliği</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayenede değerlendir</h3>
+        <ul class="clean">
+          <li>Seri antropometri: ağırlık, boy, baş çevresi (&lt;3 yaş) + boya göre ağırlık/BMI SDS; büyüme eğrisini kişisel olarak çiz</li>
+          <li>Beslenme durumu: subkutan yağ (gluteal/aksiller), kas kütlesi kaybı (temporal, quadriceps), ödem (kwashiorkor/PLE)</li>
+          <li>Karın: distansiyon, kas erimesi, organomegali; çölyakta abdominal distansiyon + gluteal atrofi</li>
+          <li>Kolestaz bulguları: sarılık, hepatomegali, kaşıntı izleri, akolik gaita; splenomegali (portal hipertansiyon)</li>
+          <li>Ekstraintestinal: dijital çomaklaşma-solunum bulgusu (KF), aftöz stomatit-perianal fistül (IBD), dermatit (çinko/çölyak)</li>
+          <li>Dismorfizm, gelişimsel gerilik, tuzlu ter (öpücükte tuz) — sendromik/metabolik/KF ipuçları</li>
+          <li>Amaç: refeeding riskini öngörmek için ağır malnütrisyonu derecelendirmek ve organik alarmları pozitif saptamak</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">İlk adım her zaman <b>enerji dengesinin</b> belgelenmesidir: alım yeterli mi (kalori/protein hesabı), emilim yeterli mi (malabsorpsiyon), kayıp veya ihtiyaç artmış mı? Olguların çoğunda birincil sorun yetersiz alımdır; ancak GİS uzmanına yönlendirilen hastada malabsorptif/kaybettiren neden olasılığı yüksektir ve hedefli tarama şarttır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Etiyoloji ve mekanizma</h2>
+    <p class="lede">Büyüme geriliği tek bir mekanizmayla açıklanmaz; enerji denklemini bozan altı yolak üzerinden sınıflamak hem tarama planını hem hedefli tedaviyi yönlendirir. GİS uzmanı özellikle malabsorpsiyon, kayıp ve kolestaz eksenlerini öne alır.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">Yetersiz enerji alımı</div>
+        <ul>
+          <li>Beslenme güçlüğü, oral aversiyon, mama sulandırma/ölçek hatası, kısıtlayıcı diyet, aşırı meyve suyu</li>
+          <li>GÖR ile beslenme reddi, disfaji, öğün süresinin uzaması; psikososyal ve gıda güvencesizliği</li>
+          <li>Hedef: kalori-yoğunlaştırma, beslenme davranışı, gerekirse enteral destek</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">İnce bağırsak malabsorpsiyonu</div>
+        <ul>
+          <li>Çölyak (villus atrofisi), giardiyaz, ince bağırsak bakteriyel aşırı çoğalması, kısa bağırsak</li>
+          <li>Otoimmün enteropati, konjenital ishaller; karbonhidrat/protein malabsorpsiyonu</li>
+          <li>Hedef: anti-tTG IgA + total IgA, gerekli olguda duodenal biyopsi; nedene yönelik tedavi</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">Ekzokrin pankreas yetmezliği / yağ malabsorpsiyonu</div>
+        <ul>
+          <li>Kistik fibrozis, Shwachman-Diamond, kronik pankreatit; steatore, yağda eriyen vitamin eksikliği</li>
+          <li>Fekal elastaz düşüklüğü; ter testi + genetik ile KF doğrulaması</li>
+          <li>Hedef: pankreatik enzim replasmanı (PERT) + yağda eriyen vitamin desteği</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Kolestaz / hepatobiliyer</div>
+        <ul>
+          <li>Safra akımı bozukluğu → intraluminal safra tuzu eksikliği → yağ ve A-D-E-K malabsorpsiyonu</li>
+          <li>Bilier atrezi, PFIC, Alagille, neonatal kolestaz; akolik gaita, koyu idrar, kaşıntı</li>
+          <li>Hedef: MCT ağırlıklı formül, yüksek doz yağda eriyen vitamin, kalori artırımı</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">İnflamasyon / artmış GİS kaybı</div>
+        <ul>
+          <li>IBD (Crohn/UK), protein kaybettiren enteropati, intestinal lenfanjiektazi, allerjik enteropati</li>
+          <li>Kronik inflamasyon + iştah baskılanması + katabolizma; hipoalbüminemi, ödem</li>
+          <li>Hedef: fekal kalprotektin, inflamatuar belirteç, endoskopi; eksklüzif enteral nütrisyon</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">Artmış ihtiyaç / kullanım defekti</div>
+        <ul>
+          <li>Kronik karaciğer/kalp/akciğer hastalığı, kronik enfeksiyon, malignite, hipertiroidi</li>
+          <li>Metabolik-genetik hastalık, endokrin (GH/tiroid) ve sendromik nedenlerle enerji kullanım bozukluğu</li>
+          <li>Hedef: yönlendiren bulguya göre hedefli tetkik ve enerji ihtiyacının yukarı revizyonu</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">İlk çatal, antropometrik doğrulama ve alarm bulgusudur; ikinci çatal, belgelenmiş enerji alımının yeterli olup olmadığıdır. Yeterli alıma rağmen büyüme yoksa malabsorpsiyon/kayıp; yetersiz alım varsa önce beslenme müdahalesi önceliklenir.</p>
+    <div class="flow">
+      <div class="node start"><span class="k">Başlangıç</span><span class="t">Antropometrik olarak doğrulanmış büyüme geriliği</span><p>Yaşa göre ağırlık &lt;−2 SDS, boya göre ağırlık/BMI &lt;−2 SDS veya ≥2 major bant çaprazlaması; ölçüm ve eğri (WHO/CDC, prematüre düzeltmesi) teyit edildi.</p></div>
+      <div class="connector"></div>
+      <div class="node action"><span class="k">Adım 1</span><span class="t">Beslenme öyküsü + kalori/protein hesabı + muayene</span><p>3 günlük beslenme günlüğü ile alım hesaplanır; oral faz, GİS kayıp belirteçleri, kolestaz/KF/IBD ipuçları ve malnütrisyon derecesi değerlendirilir.</p></div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 1</span><span class="t">Organik alarm bulgusu var mı?</span><p>Steatore, kanlı-mukuslu ishal, kolestaz (sarılık/akolik gaita), tekrarlayan pnömoni, hepatosplenomegali, ödem/hipoalbüminemi, safralı-inatçı kusma, perianal hastalık.</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">EVET → Organik nedeni hedefli dışla</span><div class="node alarm"><span class="k">Hedefli tetkik</span><span class="t">Çölyak + KF + IBD + kolestaz paneli</span><p>Anti-tTG IgA + total IgA, fekal elastaz + ter testi, fekal kalprotektin/CRP, KCFT + GGT + direkt bilirubin ± görüntüleme/endoskopi. Nedene özgü tedaviye geç.</p></div></div>
+        <div class="branch no"><span class="label">HAYIR → Enerji alımını belgele</span><div class="node action safe"><span class="k">Alım değerlendirmesi</span><span class="t">Kalori/protein yeterli mi?</span><p>Beslenme günlüğü üzerinden ölçülen alım ile yaşa göre gereksinim karşılaştırılır; ilk basamak sınırlı tarama (çölyak serolojisi, tam kan, ferritin) eklenir.</p></div></div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 2</span><span class="t">Yeterli alıma rağmen büyüme geriliği sürüyor mu?</span><p>Hesaplanmış kalori hedefine ulaşıldığı halde ağırlık artışı beklenenin altında mı? Malabsorpsiyon/kayıp belirteci ortaya çıktı mı?</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">EVET → Malabsorpsiyon/kayıp araştır</span><div class="node alarm"><span class="k">İleri tetkik</span><span class="t">Basamaklı malabsorpsiyon paneli + endoskopi</span><p>Çölyak serolojisi (+biyopsi), fekal elastaz/ter testi, kalprotektin, dışkı α1-antitripsin (PLE); yönlendiren bulguya göre üst/alt endoskopi ve biyopsi.</p></div></div>
+        <div class="branch no"><span class="label">HAYIR → Yetersiz alım baskın</span><div class="node action safe"><span class="k">Beslenme müdahalesi</span><span class="t">Hesaplanmış yakalama-büyüme kalorisi</span><p>Kalori-yoğunlaştırma + protein artırımı, beslenme davranış planı; yanıtsızlıkta enteral (NG) destek. Refeeding riskini değerlendirerek kademeli artır.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Tetkik alarm ve öyküyle yönlendirilir; asemptomatik yetersiz-alım baskın olguda geniş panel gerekmez. GİS uzmanına yönlendirilen büyüme geriliğinde çölyak, KF, IBD ve kolestaz taraması öncelikli hedeflerdir. İlk basamak testler tüm olgularda mantıklı; ileri basamaklar yönlendiren bulguya göre eklenir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Büyüme geriliğinde kademeli değerlendirme (GİS odaklı)</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Test</th><th>Amaç / eşik-not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Basamak 1 · Kan (temel)</td><td>Tam kan sayımı, ferritin/demir, CRP/ESR, üre-kreatinin-elektrolit, KCFT, albümin, TSH-sT4, venöz kan gazı</td><td>Anemi, inflamasyon, hipoalbüminemi (PLE/malnütrisyon), böbrek tübüler asidoz, tiroid; ağır olguda refeeding öncesi bazal</td></tr>
+          <tr><td class="step">Basamak 1 · Çölyak</td><td>Anti-tTG IgA + total serum IgA (glutenli beslenme sürerken)</td><td class="dose">Anti-tTG ≥10× ÜSN + anti-endomisyum (+) ise ESPGHAN biyopsisiz tanı seçeneği; IgA eksikse IgG-bazlı test (anti-DGP/tTG IgG)</td></tr>
+          <tr><td class="step">Basamak 2 · Gaita (malabsorpsiyon)</td><td>Fekal elastaz-1, fekal kalprotektin, dışkı yağ/steatore değerlendirmesi, Giardia antijeni, dışkı α1-antitripsin</td><td class="dose">Fekal elastaz &lt;200 µg/g pankreas yetmezliği (&lt;100 ağır); kalprotektin &gt;250 µg/g IBD lehine; α1-AT yüksek → protein kaybettiren enteropati</td></tr>
+          <tr><td class="step">Basamak 2 · Kistik fibrozis</td><td>Ter testi (ter klorür) ± CFTR gen analizi</td><td class="dose">Ter klorür ≥60 mmol/L tanısal; 30–59 mmol/L ara değer (genetik/tekrar); &lt;30 mmol/L düşük olasılık</td></tr>
+          <tr><td class="step">Basamak 2 · Kolestaz</td><td>Direkt (konjuge) bilirubin, GGT, safra asitleri, PT/INR (K vitamini), batın ultrasonografisi</td><td class="dose">Direkt bilirubin &gt;1 mg/dL veya &gt;%20 total → her zaman patolojik; yenidoğanda ivedi kolestaz araştırması (bilier atreziyi kaçırma)</td></tr>
+          <tr><td class="step">Basamak 3 · Mikronutriyan</td><td>25-OH D vitamini, çinko, A ve E vitamini, folat/B12, PT (K vitamini), kalsiyum-fosfor-magnezyum</td><td>Malabsorpsiyon/kolestazda yağda eriyen vitamin eksikliği; refeeding öncesi/sırasında P-K-Mg izlemi zorunlu</td></tr>
+          <tr><td class="step">Basamak 4 · Endoskopi / görüntüleme</td><td>Üst GİS endoskopi + duodenal biyopsi, ileokolonoskopi + biyopsi; MR enterografi</td><td>Çölyak doğrulaması (Marsh), IBD, eozinofilik/otoimmün enteropati; alarm veya yeterli alıma rağmen büyümeme durumunda</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout alarm"><b>Yenidoğan/süt çocuğunda kolestaz</b> (direkt bilirubin yüksekliği) acil bir bulgudur: bilier atrezinin Kasai operasyonu penceresi (&lt;60 gün) kaçırılmamalıdır. Aynı şekilde büyüme geriliği + tekrarlayan solunum enfeksiyonu veya steatore kombinasyonu aksi kanıtlanana dek kistik fibrozis olarak ele alınmalıdır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdakilerden herhangi biri basit yetersiz-alım tanısını sorgulatır ve organik malabsorpsiyon/kayıp/kolestaz için hedefli tetkiki gerektirir.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Yağlı, hacimli, kötü kokulu dışkı (steatore)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kronik/tekrarlayan ishal veya kanlı-mukuslu dışkı</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Sarılık, akolik gaita, koyu idrar (kolestaz)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Hepatomegali ve/veya splenomegali</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Tekrarlayan pnömoni / kronik öksürük (KF)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Safralı veya inatçı kusma</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ödem ve hipoalbüminemi (protein kaybettiren enteropati)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Perianal hastalık, aftöz ülser, ateş (IBD)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Dermatit / döküntü (çinko veya çölyak ilişkili)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>≥2 major persentil bandını hızlı aşağı çaprazlama</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Boy + kilo geriliğinin birlikte olması (kronik ağır açık)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Gelişimsel gerilik / dismorfik özellikler</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Yenidoğanda direkt bilirubin yüksekliği</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ağır malnütrisyon + refeeding sendromu riski (elektrolit bozukluğu)</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi</h2>
+    <p class="lede">Tedavinin iki ayağı vardır: altta yatan organik nedenin (çölyakta glutensiz diyet, KF'de PERT, IBD'de indüksiyon, kolestazda MCT + yağda eriyen vitamin) düzeltilmesi ve enerji açığının hesaplanmış yakalama-büyüme kalorisiyle kapatılması. Yakalama-büyüme için genellikle yaşa göre RDA'nın %120–150'si (ağır olguda %150–200) ve artmış protein (≈2–3 g/kg/gün) gerekir. Formül: <b>Yakalama kcal/kg/gün = [Boya göre ideal ağırlık için RDA (kcal/kg)] × [ideal ağırlık] ÷ [gerçek ağırlık]</b>. Ağır malnütride refeeding sendromundan kaçınmak için beslenme %50–75 hedefle başlatılıp fosfat-potasyum-magnezyum izlemiyle 3–5 günde artırılır.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Büyüme geriliğinde basamaklı ve dozlu beslenme-tedavi</caption>
+        <thead>
+          <tr><th>Basamak / ajan</th><th>Doz</th><th>Not / endikasyon</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Enerji hedefi (yakalama-büyüme)</td><td class="dose">RDA'nın %120–150'si (ağır: %150–200); protein ≈2–3 g/kg/gün</td><td>Yaşa göre değil boya göre ideal ağırlık üzerinden hesapla; hedef ağırlık artışı yaşa göre normalin 2–3 katı</td></tr>
+          <tr><td class="step">Kalori yoğunlaştırma (süt çocuğu)</td><td class="dose">Mama 0,67 → 0,8–1,0 kcal/mL (20 → 24–30 kcal/oz); konsantre et veya modül ekle</td><td>Renal solüt yükü ve osmolaliteyi izle; anne sütünü fortifiye et, sulandırma hatasını düzelt</td></tr>
+          <tr><td class="step">Modüler ek — karbonhidrat</td><td class="dose">Glukoz polimeri; hesaplanan açığa göre kademeli (≈4 kcal/g)</td><td>Osmotik ishal riskine karşı yavaş artır; ilk kalori-artırma seçeneği</td></tr>
+          <tr><td class="step">Modüler ek — yağ (MCT/LCT)</td><td class="dose">MCT veya bitkisel yağ (≈9 kcal/g); kolestaz/KF'de MCT ağırlıklı</td><td>Yüksek kalori yoğunluğu, düşük osmotik yük; kolestazda emilimi safradan bağımsız</td></tr>
+          <tr><td class="step">Enteral (NG/gastrostomi) destek</td><td class="dose">Oral hedefe ulaşılamıyorsa; gece siklik veya bolus + gündüz oral</td><td>Oral aversiyonu kötüleştirmemek için oral beslenmeyi koru; uzun sürede gastrostomi</td></tr>
+          <tr><td class="step">Pankreatik enzim (PERT) — KF/EPY</td><td class="dose">Süt çocuğu 2000–4000 lipaz Ü/120 mL veya emzik başına; &lt;4 yaş 1000 Ü/kg/öğün, &gt;4 yaş 500 Ü/kg/öğün. Maks 2500 Ü/kg/öğün veya 10.000 Ü/kg/gün (&lt;4000 Ü/g diyet yağı)</td><td>Öğün başında; fekal elastaz düşük/steatorede. Yüksek doz aşımında fibrozan kolonopati riski</td></tr>
+          <tr><td class="step">Yağda eriyen vitamin — kolestaz/KF</td><td class="dose">A 5000–10.000 IU/gün; D 400–1000 IU/gün (eksiklikte yüksek); E (TPGS) 15–25 IU/kg/gün; K 2,5–5 mg 2–7×/hafta</td><td>Kolestaz ve yağ malabsorpsiyonunda rutin; düzeyleri ve PT/INR'yi izleyerek titre et</td></tr>
+          <tr><td class="step">Çinko (dermatit/ishal ilişkili)</td><td class="dose">1 mg/kg/gün elementer çinko (maks ≈20–40 mg/gün)</td><td>Kronik ishal, malabsorpsiyon veya akrodermatit bulgusunda; iştaha da katkı</td></tr>
+          <tr><td class="step">Demir (eksiklik)</td><td class="dose">3–6 mg/kg/gün elementer demir, bölünmüş; C vitamini ile</td><td>Belgelenmiş demir eksikliği/anemide; aktif inflamasyonda enteral yanıt sınırlı olabilir</td></tr>
+          <tr><td class="step">D vitamini (rutin/eksiklik)</td><td class="dose">Sürdürme 400–600 IU/gün; eksiklikte 2000 IU/gün (kolestazda daha yüksek)</td><td>Kemik sağlığı; malabsorpsiyonda oral yanıt düşükse doz artır/parenteral düşün</td></tr>
+          <tr><td class="step">İştah açıcı — siproheptadin (seçili)</td><td class="dose">≈0,25 mg/kg/gün, bölünmüş (2–6 yaş 2 mg ×2–3; maks 12 mg/gün · 7–14 yaş 4 mg ×2–3; maks 16 mg/gün)</td><td>Organik neden dışlanmış, alım-baskın dirençli olguda adjuvan; sedasyon-kilo takibi</td></tr>
+          <tr><td class="step">Nedene özgü tedavi</td><td class="dose">Çölyak: ömür boyu glutensiz diyet · IBD: eksklüzif enteral nütrisyon/indüksiyon · Kolestaz: ursodeoksikolik asit 10–20 mg/kg/gün</td><td>Enerji artırımı ancak altta yatan neden tedavi edilirse kalıcı yakalama sağlar</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout safe"><b>Refeeding uyarısı:</b> Ağır malnütride (belirgin kilo kaybı, uzun açlık, düşük bazal fosfat) beslenmeye tam hedefle değil %50–75 ile başlayın, 3–5 günde kademeli artırın; tiamin verin ve fosfat-potasyum-magnezyumu ilk günlerde günlük izleyin. Yakalama-büyüme başlarken bu elektrolitler hızla düşebilir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve yönetim ilkeleri</h2>
+    <p class="lede">Amaç, ağırlık artış hızını yaşa göre beklenenin üzerine çıkarıp (yakalama-büyüme) persentil bandına dönmek, altta yatan nedeni tedavi etmek ve refeeding ile mikronutriyan eksikliklerini güvenle yönetmektir. İzlem çok disiplinli (diyetisyen, hemşire, gerekirse yeme-davranış ekibi) ve nesnel ağırlık verisine dayalıdır.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>İzlem</h3>
+        <ul class="clean">
+          <li>Ağırlığı ayaktan başlangıçta haftalık, yatarak günlük izle; boy/baş çevresini aylık, büyüme eğrisi üzerinde SDS ile takip et</li>
+          <li>Yakalama-büyüme yanıtını 2–4 haftada değerlendir; süt çocuğunda hedefe uygun günlük gram artışı, büyük çocukta persentil bandına dönüş</li>
+          <li>Diyetisyenle kalori/protein alımını yeniden hesapla; hedefe ulaşılamıyorsa yoğunluğu artır veya enteral desteğe geç</li>
+          <li>Refeeding döneminde fosfat-potasyum-magnezyum, ağır olguda ilk günler günlük; mikronutriyan düzeylerini (D, çinko, ferritin, yağda eriyen vitaminler) periyodik kontrol et</li>
+          <li>Nedene özgü izlem: çölyakta anti-tTG düşüşü + diyet uyumu, KF'de fekal elastaz/besin durumu, IBD'de kalprotektin/klinik, kolestazda bilirubin-GGT ve vitamin düzeyleri</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Dirençli / yanıtsız olguda</h3>
+        <ul class="clean">
+          <li>Alım gerçekten hedefe ulaşıyor mu? Beslenme günlüğünü ve uygulamayı yeniden doğrula (uyum, kusma, kayıp)</li>
+          <li>Gizli malabsorpsiyon/kaybı yeniden tara: çölyak biyopsisi, fekal elastaz/ter testi tekrarı, α1-antitripsin, endoskopi</li>
+          <li>Örtüşen nedenleri gözden geçir: GÖR, ineksütü protein allerjisi, SIBO, otoimmün enteropati</li>
+          <li>Enerji ihtiyacını yukarı revize et (kronik kalp/akciğer/karaciğer hastalığı, kronik enfeksiyon); endokrin-metabolik değerlendirme ekle</li>
+          <li>Beslenme davranışı ve psikososyal ekseni ele al; oral aversiyonda yeme-davranış ekibi, gıda güvencesizliğinde sosyal destek</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout safe">Kalıcı yakalama-büyüme için organik neden tedavisi ile hesaplanmış kalori artırımı birlikte yürütülmelidir; tek başına kalori artırımı malabsorptif/kaybettiren nedende yetersiz kalır. İzlemde ağırlık artış hızı, persentil bandına dönüş ve mikronutriyan güvenliği en güvenilir sonuç ölçütleridir.</div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Husby S, Koletzko S, Korponay-Szabó I, et al. European Society Paediatric Gastroenterology, Hepatology and Nutrition Guidelines for Diagnosing Coeliac Disease 2020. J Pediatr Gastroenterol Nutr. 2020;70(1):141-156.</li>
+      <li>Turck D, Braegger CP, Colombo C, et al. ESPEN-ESPGHAN-ECFS guidelines on nutrition care for infants, children, and adults with cystic fibrosis. Clin Nutr. 2016;35(3):557-577.</li>
+      <li>van Rheenen PF, Aloi M, Assa A, et al. The Medical Management of Paediatric Crohn's Disease: an ECCO-ESPGHAN Guideline Update. J Crohns Colitis. 2021;15(2):171-194.</li>
+      <li>Fawaz R, Baumann U, Ekong U, et al. Guideline for the Evaluation of Cholestatic Jaundice in Infants: Joint Recommendations of NASPGHAN and ESPGHAN. J Pediatr Gastroenterol Nutr. 2017;64(1):154-168.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge uzman kullanıcıya yönelik bir klinik karar destek aracıdır; hastanın bireysel değerlendirmesi, güncel kılavuzlar ve yerel uygulama koşullarının yerine geçmez. Dozlar hastaya, ağırlığa, komorbiditeye ve ilaç etkileşimlerine göre doğrulanmalıdır.</div>
+</div>

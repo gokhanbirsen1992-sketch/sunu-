@@ -1,0 +1,422 @@
+<title>Kolestatik Kaşıntı (Pruritus) — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Kolestatik Kaşıntı (Pruritus)</h1>
+    <p class="sub">Kolestaza bağlı, sıklıkla tedaviye dirençli ve yaşam kalitesini ağır bozan kaşıntıda altta yatan nedeni tanımlamaya, basamaklı antipruritik tedaviyi (UDKA, rifampisin, IBAT inhibitörü, naltrekson, kolestiramin) dozlu uygulamaya ve dirençli olguyu yönetmeye yönelik karar aracı. Hedef kitle: çocuk gastroenteroloji uzmanı.</p>
+    <div class="meta">
+      <span class="tag">Kolestaz</span>
+      <span class="tag">Pruritus</span>
+      <span class="tag">IBAT inhibitörü</span>
+      <span class="tag">Basamaklı tedavi</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">Kolestatik kaşıntı, safra akımının bozulması sonucu kanda biriken pruritojenlerin (safra asitleri, ototaksin–lizofosfatidik asit [LPA] aksı, endojen opioidler ve serotonin) neden olduğu, kronik kolestazın en yıpratıcı semptomudur. Klinik tabloyu bilirubin düzeyi belirlemez; ağır kaşıntı hafif sarılıklı çocukta bile görülebilir. İlk görev üç aşamalıdır: (1) kaşıntının gerçekten kolestatik olduğunu doğrula — konjuge (direkt) bilirubin ve serum total safra asidi yüksekliği ile kolestazı göster, atopik dermatit / kuru cilt / skabiyez / böbrek-tiroid kaynaklı kaşıntıyı ekarte et; (2) altta yatan kolestazın etiyolojisini belirle — özellikle süt çocuğunda akolik gaita + konjuge hiperbilirubinemi biliyer atreziyi düşündürür ve zamana duyarlıdır; (3) kaşıntının şiddetini ve yükünü ölç — ekskoriasyon-nodül, uyku bölünmesi, huzursuzluk, büyüme üzerine etki ve okul/oyun kaybı. Kaşıntı objektif ölçekle (ItchRO, çizik-kanama izleri, 5-D kaşıntı) izlenmeli; süt çocuğunda huzursuzluk ve uyku bozukluğu tek gösterge olabilir.</p>
+    <div class="pill-row">
+      <span class="pill">Konjuge bilirubin + total safra asidi</span>
+      <span class="pill">Akolik gaita = biliyer atrezi acili</span>
+      <span class="pill">Şiddeti objektif ölçekle izle</span>
+      <span class="pill">GGT düzeyi etiyolojiyi ayırır</span>
+      <span class="pill">Bilirubin ≠ kaşıntı şiddeti</span>
+    </div>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öyküde sorgula</h3>
+        <ul class="clean">
+          <li>Kaşıntının başlangıcı, süresi, günün hangi saatinde (kolestatik kaşıntı sıklıkla akşam-gece ağırlaşır), avuç içi-ayak tabanı tutulumu; yenidoğanda huzursuzluk ve uyku bölünmesi eşdeğeri</li>
+          <li>Gaita rengi (akolik/hipokolik → obstrüktif kolestaz), idrar koyuluğu, sarılığın seyri; yenidoğanda K vitamini profilaksisi</li>
+          <li>Beslenme ve büyüme: yağ malabsorpsiyonu-steatore, kilo alamama, iştahsızlık; yağda eriyen vitamin (A, D, E, K) eksikliği bulguları</li>
+          <li>Eşlik eden: kanama-morarma (K vitamini/koagülopati), gece körlüğü (A vit.), kemik ağrısı-kırık (D vit.), ataksi-nöropati (E vit.)</li>
+          <li>Sendromik ipuçları: konjenital kalp üfürümü, pek-tipik yüz, posterior embriyotokson, vertebra anomalisi (Alagille); tekrarlayan kolestaz atakları (BRIC); ailede kolestaz-transplant-konsanguinite (PFIC)</li>
+          <li>İlaç-parenteral beslenme öyküsü (TPN ilişkili kolestaz), enfeksiyon-sepsis, önceki cerrahi (Kasai, koledok kisti); mevcut antipruritik ilaç ve yanıtı</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayenede değerlendir</h3>
+        <ul class="clean">
+          <li>Cilt: yaygın ekskoriasyon, prurigo nodülleri, likenifikasyon, kanamalı çizikler; ksantom (özellikle Alagille'de diz-dirsek-avuç); sarılık derecesi</li>
+          <li>Kaşıntı yükünün objektif işaretleri: tırnak kısaltma-eldiven, uyku deprivasyonu bulguları, sekonder cilt enfeksiyonu (impetijinizasyon)</li>
+          <li>Büyüme antropometrisi ve persentil seyri; malnütrisyon-kas kaybı, subkutan yağ azalması</li>
+          <li>Batın: hepatomegali (kıvam-yüzey), splenomegali (portal hipertansiyon), asit, karın duvarı venöz dolgunluğu</li>
+          <li>Kronik karaciğer hastalığı-dekompansasyon: çomak parmak, palmar eritem, spider anjioma, ensefalopati, ödem</li>
+          <li>Sistemik/sendromik: kardiyak üfürüm ve dismorfik yüz (Alagille), posterior embriyotokson (göz muayenesi), nörolojik defisit (E vit.)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout alarm"><b>Kırmızı çizgi:</b> Süt çocuğunda <b>akolik gaita + konjuge hiperbilirubinemi</b> aksi kanıtlanana dek biliyer atrezidir; Kasai portoenterostomisinin başarısı yaşla hızla düşer (ideali &lt;45-60 gün). Kolestazlı bebekte K vitamini eksikliğine bağlı kanama (intrakraniyal dahil) hayatı tehdit eder — antipruritik tedaviden önce koagülasyon ve yağda eriyen vitamin durumu güvenceye alınmalıdır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Altta yatan kolestaz ve mekanizma</h2>
+    <p class="lede">Kaşıntı bir semptomdur; kalıcı çözüm altta yatan kolestazın tanımlanmasına ve mümkünse düzeltilmesine bağlıdır. Pruritojenler (safra asitleri, ototaksin–LPA, endojen opioidler, serotonin) enterohepatik dolaşımda birikir; IBAT (ileal safra asidi taşıyıcısı) inhibisyonu bu döngüyü kırarak yükü azaltır. GGT düzeyi ayırıcı tanının anahtarıdır: <b>düşük/normal GGT</b> (PFIC 1-2, safra asidi sentez defekti) ile <b>yüksek GGT</b> (biliyer atrezi, Alagille, PFIC 3, sklerozan kolanjit) kolestazı birbirinden keskin biçimde ayrılır.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">Biliyer obstrüksiyon (yüksek GGT)</div>
+        <ul>
+          <li>Biliyer atrezi (süt çocuğunda en kritik, zamana duyarlı), koledok kisti</li>
+          <li>Primer/sekonder sklerozan kolanjit, safra taşı-tıkanıklık</li>
+          <li>Akolik gaita, ekstrahepatik akım engeli; USG-MRCP-kolanjiyografi ile değerlendir</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">PFIC (progresif familyal kolestaz)</div>
+        <ul>
+          <li>PFIC 1 (ATP8B1) ve PFIC 2 (ABCB11/BSEP): <b>düşük GGT</b>, ağır dirençli kaşıntı</li>
+          <li>PFIC 3 (ABCB4/MDR3): <b>yüksek GGT</b>; PFIC 4-6 (TJP2, NR1H4/FXR, MYO5B)</li>
+          <li>IBAT inhibitörü ve biliyer diversiyonun en güçlü endikasyon alanı</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">Alagille sendromu</div>
+        <ul>
+          <li>JAG1 (sık) / NOTCH2 mutasyonu; safra kanalı yokluğu (duktopeni), yüksek GGT</li>
+          <li>Sıklıkla en şiddetli kaşıntı ve belirgin ksantom; kardiyak (periferik pulmoner stenoz), yüz, vertebra (kelebek), posterior embriyotokson</li>
+          <li>IBAT inhibitörü (maralixibat) onaylı ilk basamak antipruritik hedef</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Metabolik / yenidoğan kolestazı</div>
+        <ul>
+          <li>Alfa-1 antitripsin eksikliği, galaktozemi, tirozinemi, sitrin eksikliği</li>
+          <li>Safra asidi sentez defektleri (düşük GGT + düşük/normal safra asidi) — primer safra asidi tedavisine yanıtlı</li>
+          <li>Panhipopituitarizm, mitokondriyal hastalık, kistik fibrozis</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">TPN/bağırsak yetmezliği ilişkili</div>
+        <ul>
+          <li>Uzamış parenteral beslenme, kısa bağırsak sendromu, bakteriyel translokasyon-sepsis</li>
+          <li>Lipid formülasyonu (SMOF/balık yağı) optimizasyonu, enteral beslenmeye geçiş, sepsis kontrolü</li>
+          <li>Kaşıntı belirgin olmayabilir; kolestaz belirteçleri ve karaciğer hasarı izlenir</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">Diğer / geçici nedenler</div>
+        <ul>
+          <li>BRIC (benign rekürren intrahepatik kolestaz) — ataklar hâlinde kaşıntı</li>
+          <li>İlaca bağlı kolestaz, viral-kolestatik hepatit, gebelik-oral kontraseptif ilişkili (adölesan)</li>
+          <li>Otoimmün hepatit/overlap, infiltratif-neoplastik nedenler</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout"><b>GGT kuralı:</b> Düşük/normal GGT'li ağır kaşıntıda PFIC 1-2, safra asidi sentez defekti ve sitrin eksikliği öne çıkar; yüksek GGT'li kolestazda biliyer atrezi, Alagille, PFIC 3 ve sklerozan kolanjit düşünülür. Bu ayrım hem genetik-metabolik tetkiki hem de tedavi hedefini yönlendirir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">İlk çatal, süt çocuğunda zamana duyarlı obstrüktif kolestazın (biliyer atrezi) hızla dışlanması ve yağda eriyen vitamin-koagülasyon güvenliğidir; ikinci çatal, cerrahi/etiyolojiye özgü düzeltilebilir neden ile medikal antipruritik basamak tedavisi gerektiren kronik kolestaz arasındaki ayrımdır.</p>
+    <div class="flow">
+      <div class="node start"><span class="k">Başlangıç</span><span class="t">Kolestatik kaşıntı kuşkusu</span><p>Kaşıntı + kolestaz bulguları (sarılık, ekskoriasyon, uyku bölünmesi). Konjuge bilirubin ve serum total safra asidi ile kolestazı doğrula; non-kolestatik nedenleri (atopi, kuru cilt, üremi, tiroid) ayır.</p></div>
+      <div class="connector"></div>
+      <div class="node action"><span class="k">Adım 1</span><span class="t">Etiyoloji + güvenlik değerlendirmesi</span><p>Gaita rengi, GGT, KCFT, sentetik fonksiyon (INR, albümin), yağda eriyen vitamin durumu; hepatobiliyer USG. K vitamini eksikliği/koagülopatiyi düzelt, malnütrisyonu ve vitamin eksikliğini güvenceye al.</p></div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 1</span><span class="t">Zamana duyarlı obstrüksiyon veya özgün düzeltilebilir neden var mı?</span><p>Süt çocuğunda akolik gaita + konjuge hiperbilirubinemi (biliyer atrezi), koledok kisti, ekstrahepatik tıkanıklık ya da safra asidi sentez defekti gibi hedefe yönelik tedavisi olan durum.</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">EVET → Etiyolojiye özgü tedavi</span><div class="node alarm"><span class="k">Acil/Özgün</span><span class="t">Cerrahi veya spesifik tedavi + destek</span><p>Biliyer atrezide acil Kasai portoenterostomisi (ideali &lt;45-60 gün); koledok kistinde eksizyon; obstrüksiyonda dekompresyon; safra asidi sentez defektinde primer safra asidi replasmanı. Eş zamanlı antipruritik destek ve vitamin replasmanı.</p></div></div>
+        <div class="branch no"><span class="label">HAYIR → Kronik kolestaz yönetimi</span><div class="node action safe"><span class="k">Basamakla</span><span class="t">Medikal antipruritik merdivene başla</span><p>Kronik intrahepatik kolestazda (PFIC, Alagille, sklerozan kolanjit vb.) etiyolojiyi netleştirirken basamaklı antipruritik tedaviye geç; kaşıntı şiddetini objektif ölçekle izle.</p></div></div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 2</span><span class="t">Birinci basamak (UDKA + rifampisin) ile yeterli yanıt var mı?</span><p>Kaşıntı ölçeğinde belirgin düzelme, uykunun ve büyümenin geri kazanılması, ekskoriasyonların gerilemesi.</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">EVET → İdame ve izlem</span><div class="node action safe"><span class="k">Sürdür</span><span class="t">Etkili dozda idame + güvenlik izlemi</span><p>En düşük etkili dozda idame; rifampisin altında KCFT-hepatotoksisite ve kan sayımı izlemi; yağda eriyen vitamin ve büyüme takibi. Kaşıntı kontrolü stabilse basamak yükseltme gereksiz.</p></div></div>
+        <div class="branch no"><span class="label">HAYIR → Basamak yükselt</span><div class="node action safe"><span class="k">Yükselt</span><span class="t">IBAT inhibitörü / naltrekson / kolestiramin</span><p>Alagille-PFIC'te IBAT inhibitörü (maralixibat/odevixibat) öne alınır; alternatif/ek olarak naltrekson veya kolestiramin. Dirençli, tedaviye yanıtsız veya dekompanse olguda cerrahi biliyer diversiyon ya da karaciğer nakli değerlendirmesi.</p></div></div>
+      </div>
+    </div>
+    <div class="callout"><b>Not:</b> Antipruritik ilaçlar kaşıntıyı hafifletir ancak altta yatan kolestazı düzeltmez; PFIC ve Alagille gibi ilerleyici hastalıklarda IBAT inhibitörü ve gerektiğinde biliyer diversiyon, nakli geciktirebilir veya önleyebilir. Yanıt bireyseldir; ilaçlar sıralı denenir ve etkisizse kesilir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Tetkik, kolestazın doğrulanması ve şiddetin/komplikasyonların (koagülopati, vitamin eksikliği) belirlenmesiyle başlar; ardından GGT paternine göre görüntüleme, genetik-metabolik çalışma ve gerektiğinde biyopsi ile etiyolojiye ilerler. Süt çocuğunda biliyer atrezi zamana duyarlıdır ve öncelik alır.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Kolestatik kaşıntıda kademeli değerlendirme</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Test</th><th>Amaç / not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Basamak 1 · Kolestazı doğrula</td><td>Konjuge (direkt) bilirubin, total/direkt bilirubin oranı, serum total safra asidi, GGT, ALP, ALT/AST</td><td>Kolestazı kanıtla; <span class="dose">GGT düşük vs yüksek</span> ayrımı etiyolojiyi yönlendirir (PFIC 1-2/safra asidi defekti ↔ biliyer atrezi/Alagille/PFIC 3)</td></tr>
+          <tr><td class="step">Basamak 2 · Şiddet-güvenlik</td><td>INR-PT, albümin, glukoz, amonyak, tam kan sayımı; yağda eriyen vitaminler (A, D-25OH, E; K için INR)</td><td>Sentetik fonksiyon ve dekompansasyon; <b>koagülopati ve vitamin eksikliğini tedaviden önce düzelt</b>; kaşıntı şiddetini objektif ölçekle (ItchRO) kaydet</td></tr>
+          <tr><td class="step">Basamak 3 · Görüntüleme</td><td>Hepatobiliyer ultrasonografi; gerekirse MRCP; süt çocuğunda hepatobiliyer sintigrafi (HIDA)</td><td>Safra yolu dilatasyonu, koledok kisti, "triangular cord" (biliyer atrezi); MRCP ile duktal anatomi ve sklerozan kolanjit değerlendirmesi</td></tr>
+          <tr><td class="step">Basamak 4 · Etiyolojiye yönelik</td><td>Genetik panel (JAG1/NOTCH2, ATP8B1, ABCB11, ABCB4, TJP2 …), alfa-1 antitripsin fenotip/düzey, metabolik tarama (galaktozemi, tirozinemi-süksinilaseton), TORCH/viral, ter testi, göz muayenesi (embriyotokson)</td><td>GGT paternine göre daraltılmış istem; Alagille'de sistem tutulumu (eko, vertebra grafisi); safra asidi sentez defekti için idrar safra asidi analizi</td></tr>
+          <tr><td class="step">Basamak 5 · Karaciğer biyopsisi</td><td>Perkütan karaciğer biyopsisi (koagülopati düzeltildikten sonra); duktopeni, duktular proliferasyon, fibrozis</td><td>Tanı belirsizse ve biliyer atrezi-Alagille-PFIC ayrımı gerekiyorsa; immünhistokimya (BSEP, MDR3) tanıya katkı sağlar</td></tr>
+          <tr><td class="step">Seçili · İleri</td><td>Peroperatif kolanjiyografi (biliyer atrezi şüphesinde tanısal-kesin), idrar/serum safra asidi profili (FAB-MS), özelleşmiş genetik</td><td>Obstrüksiyon kesinleştirme ve Kasai kararı; safra asidi sentez defektinin doğrulanması ve hedefe yönelik tedavi planı</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout"><b>Sıralama ilkesi:</b> Süt çocuğunda kolestaz saptandığında biliyer atrezi ekartasyonu (USG-HIDA-gerekirse kolanjiyografi/biyopsi) hızla tamamlanır; kaşıntının medikal tedavisi bu değerlendirmeyi geciktirmemeli, ancak koagülopati ve vitamin eksikliği paralel biçimde düzeltilmelidir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdakilerden herhangi biri altta yatan ciddi/zamana duyarlı neden, dekompansasyon veya tedaviye dirençli ağır kaşıntı lehinedir; hızlı etiyolojik değerlendirme, güvenlik önlemleri ve gerektiğinde cerrahi/transplant merkezi iletişimini gerektirir.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Süt çocuğunda akolik/hipokolik gaita + konjuge hiperbilirubinemi (biliyer atrezi — Kasai için zamana duyarlı)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kanama-morarma, uzamış INR, K vitamini eksikliğine bağlı kanama (intrakraniyal kanama riski)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Sentetik fonksiyon bozukluğu: hipoalbüminemi, hipoglisemi, koagülopati, hiperamonyemi-ensefalopati</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Portal hipertansiyon bulguları: splenomegali, asit, varis kanaması, trombositopeni</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Büyüme geriliği, ağır malnütrisyon, ilerleyen yağda eriyen vitamin eksikliği (gece körlüğü, kırık, nöropati-ataksi)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Tedaviye dirençli, uykuyu ağır bozan, kendine zarar veren (derin ekskoriasyon-mutilasyon) kaşıntı</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Sekonder cilt enfeksiyonu-sepsis (impetijinize ekskoriasyonlar, ateş)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Rifampisin altında transaminaz-bilirubin yükselişi (ilaca bağlı hepatotoksisite)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ateş + kolanjit bulguları (Kasai sonrası veya sklerozan kolanjitte)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Sendromik ipuçları: kardiyak hastalık, dismorfik yüz, vertebra anomalisi (Alagille) — çok organlı izlem gereği</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi</h2>
+    <p class="lede">Tedavi üç katmanlıdır: (1) altta yatan kolestazın etiyolojiye özgü tedavisi (Kasai, koledok kist eksizyonu, primer safra asidi replasmanı, TPN-lipid optimizasyonu), (2) destek tedavisi (yağda eriyen vitamin replasmanı, K vitamini ile koagülopati düzeltimi, beslenme desteği, cilt bakımı-nemlendirme, sekonder enfeksiyon tedavisi) ve (3) basamaklı antipruritik ilaç merdiveni. Kaşıntı yanıtı bireyseldir; ilaçlar sıralı denenir, etkili en düşük dozda sürdürülür, yanıtsızsa kesilir. Alagille ve PFIC'te IBAT inhibitörleri onaylı, hedefe yönelik seçeneklerdir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Basamaklı antipruritik tedavi (dozlu)</caption>
+        <thead>
+          <tr><th>Basamak / ilaç</th><th>Doz</th><th>Not / izlem</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">1 · Ursodeoksikolik asit (UDKA)</td><td class="dose">10-20 mg/kg/gün, 2-3 doza bölünmüş (bazı olgularda 30 mg/kg/güne dek)</td><td>İlk basamak; safra akımını iyileştirir. PFIC 3 ve sklerozan kolanjitte özellikle yararlı. İyi tolere edilir; ishal olabilir</td></tr>
+          <tr><td class="step">2 · Rifampisin</td><td class="dose">Başlangıç 5 mg/kg/gün; yanıta göre 10 mg/kg/güne titre (maks 600 mg/gün), 1-2 doz</td><td>Güçlü antipruritik (PXR/CYP indüksiyonu). <b>Hepatotoksisite</b> ve kan sayımı için KCFT izlemi (başlangıç, 2-4 hafta, sonra periyodik); idrar-gözyaşı turuncu renk; güçlü CYP indükleyici — ilaç etkileşimi</td></tr>
+          <tr><td class="step">3 · IBAT inhibitörü — Maralixibat</td><td class="dose">Başlangıç 190 mcg/kg/gün tek doz, 1 hafta sonra 380 mcg/kg/güne çık (kahvaltıdan önce)</td><td>Alagille (≥3 ay) ve PFIC'te onaylı; enterohepatik safra asidi geri emilimini bloke eder. Yan etki: ishal, karın ağrısı; yağda eriyen vitamin ve KCFT izlemi</td></tr>
+          <tr><td class="step">3 · IBAT inhibitörü — Odevixibat</td><td class="dose">40 mcg/kg/gün tek doz (sabah); yanıtsızsa 120 mcg/kg/güne titre (maks 7200 mcg/gün)</td><td>PFIC (≥3 ay) ve Alagille'de onaylı alternatif IBAT inhibitörü. İshal-diyare ve safra asidi kaynaklı GİS yan etkisi; vitamin ve büyüme takibi</td></tr>
+          <tr><td class="step">4 · Naltrekson (opioid antagonisti)</td><td class="dose">Başlangıç 0,25 mg/kg/gün; kademeli 1 mg/kg/güne (bazı protokollerde 2 mg/kg/güne dek, maks ~50 mg/gün) titre</td><td>Endojen opioid aracılı kaşıntıya; <b>opioid çekilme benzeri reaksiyon</b> için düşük dozda başla-yavaş artır. İleri karaciğer yetmezliğinde dikkat; hepatotoksisite izlemi</td></tr>
+          <tr><td class="step">5 · Kolestiramin (safra asidi bağlayıcı)</td><td class="dose">240 mg/kg/gün, 2-3 doza bölünmüş (pratikte ~4-8 g/gün, maks ~16 g/gün)</td><td>Enterohepatik döngüyü keser. <b>Diğer ilaç ve yağda eriyen vitaminlerden 2-4 saat ayrı</b> ver (emilimi bozar); kabızlık, tat-uyum sorunu; UDKA/IBAT inhibitörünü bağlamamasına dikkat</td></tr>
+          <tr><td class="step">Ek · Sertralin (adjuvan)</td><td class="dose">1 mg/kg/gün başlangıç; yanıta göre titre (adölesanda ~50-100 mg/gün)</td><td>Dirençli kaşıntıda ek seçenek (SSRI); ruh hâli-uyku ve QT açısından izlem</td></tr>
+          <tr><td class="step">Ek · Antihistaminik (ör. hidroksizin)</td><td class="dose">0,5-1 mg/kg/doz, gece; sedasyon amaçlı sınırlı yarar</td><td>Kolestatik kaşıntıda mekanizmaya doğrudan etkisiz; yalnızca sedasyon-gece uykusu için yardımcı, ana tedavi değil</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <caption>Destek tedavisi ve yağda eriyen vitamin replasmanı</caption>
+        <thead>
+          <tr><th>Alan</th><th>Uygulama / doz</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">K vitamini</td><td class="dose">Koagülopatide 1-2 mg/kg IV/oral (maks 10 mg); INR uzamışsa tekrarla, gerekirse TDP 10-15 mL/kg</td><td>Kanama riski nedeniyle öncelikli; kolestazda emilim bozuk, düzenli izlem</td></tr>
+          <tr><td class="step">D vitamini</td><td class="dose">Kolestazda yüksek doz gerekebilir; 25-OH-D düzeyine göre titre (ör. 400-1000+ IU/gün, eksiklikte yükleme)</td><td>Kemik hastalığı-riketsi önlemi; kalsiyum-fosfor ve ALP izlemi</td></tr>
+          <tr><td class="step">A ve E vitamini</td><td class="dose">A: eksikliğe göre replasman (aşırı doz hepatotoksisitesinden kaçın); E: TPGS formu tercih, düzeye göre</td><td>E vitamini nöropati-ataksiyi önler; A vitamini düzeyi ve toksisite takibi</td></tr>
+          <tr><td class="step">Beslenme</td><td class="dose">Yüksek kalori (%125-150 RDA); MCT ağırlıklı formül-diyet</td><td>Yağ malabsorpsiyonunda MCT emilimi safra bağımsız; büyümeyi hedefle</td></tr>
+          <tr><td class="step">Cilt bakımı</td><td class="dose">Nemlendirici-emolyan, serin ortam, tırnak kısaltma; sekonder enfeksiyonda topikal/sistemik antibiyotik</td><td>Ekskoriasyon-enfeksiyonu azaltır; mekanik tedbir antipruritiğe eklenir</td></tr>
+          <tr><td class="step">Dirençli/dekompanse olgu</td><td class="dose">Cerrahi biliyer diversiyon (parsiyel eksternal/internal), nazobiliyer drenaj; endikasyonda karaciğer nakli</td><td>Medikal tedaviye dirençli ağır kaşıntı veya dekompansasyonda; MARS/plazmaferez seçili köprü tedavisi</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout safe"><b>Yaklaşım:</b> Sıra — önce altta yatan nedeni tedavi et ve güvenliği (K vitamini/koagülasyon, vitamin, beslenme) sağla; sonra UDKA → rifampisin → IBAT inhibitörü (Alagille/PFIC'te öne al) → naltrekson → kolestiramin basamaklarını sıralı dene. Etkili en düşük dozda sürdür, yanıtsız ilacı kes.</div>
+    <div class="callout alarm"><b>Dikkat:</b> Rifampisin hepatotoksik olabilir — düzenli KCFT izlemi şart; transaminaz/bilirubin yükselirse kes. Naltreksonu düşük dozda başla (çekilme reaksiyonu). Kolestiramin, UDKA-IBAT inhibitörü ve yağda eriyen vitaminleri bağlar; en az 2-4 saat ara ile ver.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve yönetim ilkeleri</h2>
+    <p class="lede">Kolestatik kaşıntı kronik ve dalgalı seyreder; yönetim, kaşıntı yükünü objektif izlemek, ilaç güvenliğini (özellikle rifampisin hepatotoksisitesi) sağlamak, yağda eriyen vitamin ve büyümeyi korumak ve ilerleyici hastalıkta zamanında cerrahi diversiyon/nakil kararına ulaşmak üzerine kuruludur. Hedef: uyku ve yaşam kalitesini geri kazandırırken karaciğer hastalığının progresyonunu ve komplikasyonlarını yönetmektir.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>İzlem ve takip</h3>
+        <ul class="clean">
+          <li>Kaşıntı şiddetini objektif ölçekle (ItchRO, çizik-uyku günlüğü) ve ekskoriasyon-nodül gerilemesiyle serial izle; tedavi yanıtını 2-4 haftada değerlendir</li>
+          <li>İlaç güvenliği: rifampisin altında başlangıç-2/4. hafta-periyodik KCFT ve kan sayımı; naltrekson-IBAT inhibitörü altında KCFT ve GİS yan etki takibi</li>
+          <li>Yağda eriyen vitamin (A, D-25OH, E, INR/K) düzeylerini periyodik ölç ve replasmanı titre et; kemik sağlığını (ALP, Ca-P) izle</li>
+          <li>Büyüme ve beslenme antropometrisi; malnütrisyonda yüksek kalori-MCT ile müdahale</li>
+          <li>Kolestaz belirteçleri (konjuge bilirubin, GGT, safra asidi) ve portal hipertansiyon-dekompansasyon bulgularını (splenomegali, asit, varis) izle</li>
+          <li>IBAT inhibitörü kullananlarda serum safra asidi ve yanıt; ilerleyici hastalıkta transplant/diversiyon zamanlamasını yeniden değerlendir</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Yönetim ve güvenlik ağı</h3>
+        <ul class="clean">
+          <li>Etiyolojiye özgü tedaviyi (Kasai, kist eksizyonu, primer safra asidi replasmanı, TPN-lipid optimizasyonu) antipruritik tedaviyle birlikte sürdür</li>
+          <li>Aileye yazılı uyarı: kanama-morarma, safralı/kanlı kusma, artan sarılık, ateş-kolanjit, letarji-ensefalopati, kontrolsüz kaşıntı-cilt enfeksiyonu gelişiminde acil dönüş</li>
+          <li>İlaç etkileşimlerini gözden geçir (rifampisin güçlü CYP indükleyici); kolestiramin zamanlamasını diğer ilaçlardan ayır</li>
+          <li>Dirençli ağır kaşıntı veya dekompansasyonda cerrahi biliyer diversiyon ve karaciğer nakli için transplant merkezine erken yönlendir</li>
+          <li>Alagille gibi çok organlı hastalıkta kardiyoloji, oftalmoloji, nefroloji ile ortak izlem; psikososyal destek ve uyku-yaşam kalitesi değerlendirmesi</li>
+          <li>Genetik tanı konan olguda aile danışmanlığı ve kardeş taraması planla</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout safe">En iyi sonuç; altta yatan kolestazın etiyolojiye özgü tedavisi, koagülopati-vitamin güvenliği, kaşıntının objektif izlemine dayalı basamaklı ve dozlu antipruritik tedavi (UDKA-rifampisin-IBAT inhibitörü-naltrekson-kolestiramin) ve ilerleyici hastalıkta zamanında cerrahi diversiyon/nakil kararının birlikte yürütüldüğü yapılandırılmış bir planla elde edilir.</div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Fawaz R, Baumann U, Ekong U, et al. Guideline for the Evaluation of Cholestatic Jaundice in Infants: Joint Recommendations of NASPGHAN and ESPGHAN. J Pediatr Gastroenterol Nutr. 2017;64(1):154-168.</li>
+      <li>Kamath BM, Abetz-Webb L, Kennedy C, et al; Pediatric cholestasis and pruritus management. Gonzales E, et al. Efficacy and safety of maralixibat in Alagille syndrome (ICONIC). Lancet. 2021;398(10311):1581-1592.</li>
+      <li>Thompson RJ, Arnell H, Artan R, et al. Odevixibat treatment in progressive familial intrahepatic cholestasis (PEDFIC 1): a randomised, placebo-controlled, phase 3 trial. Lancet Gastroenterol Hepatol. 2022;7(9):830-842.</li>
+      <li>Kamath BM, Stein P, Houwen RHJ, Verkade HJ. Management of pruritus in children with cholestatic liver disease: A review and expert perspective. Hepatol Commun. 2023;7 / EASL Clinical Practice Guidelines on the management of cholestatic liver diseases. J Hepatol. 2022;77(3):761-806.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge uzman kullanıcıya yönelik bir klinik karar destek aracıdır; hastanın bireysel değerlendirmesi, güncel kılavuzlar ve yerel uygulamaların yerine geçmez. Dozlar hastaya, ağırlığa, komorbiditeye, karaciğer fonksiyonuna ve ilaç etkileşimlerine göre teyit edilmelidir. IBAT inhibitörleri için ülke-onay ve reçeteleme koşulları değişkendir.</div>
+</div>

@@ -1,0 +1,600 @@
+<title>Beslenme Reddi ve İştahsızlık — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Beslenme Reddi ve İştahsızlık</h1>
+    <p class="sub">Beslenme reddi ve iştahsızlığa Pediatrik Beslenme Bozukluğu (PFD) çatısı altında dört alanlı (medikal, beslenme, oral-motor beceri, psikososyal) yaklaşım; oral-motor disfonksiyon, GÖRH/EoE ve disfajinin ayrımı, dozlu tedavi ve multidisipliner izlem. ARFID ve organik hastalık ayrımı odağında.</p>
+    <div class="meta">
+      <span class="tag">PFD — Goday 2019 (4 alan)</span>
+      <span class="tag">ARFID — DSM-5</span>
+      <span class="tag">GÖRH / EoE — ESPGHAN/NASPGHAN</span>
+      <span class="tag">Multidisipliner beslenme</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">Beslenme reddi, çocuğun sunulan besini almayı reddetmesi veya öğünü tolere edememesi; iştahsızlık ise açlık algısının/yeme isteğinin azalmasıdır. İkisi de bir semptomdur, tanı değildir. Güncel çatı Pediatrik Beslenme Bozukluğu (PFD): yaşa uygun oral alımın bozulması ile birlikte medikal, beslenme (nutrisyonel), oral-motor beceri ve psikososyal alanlardan en az birinde disfonksiyon. İlk görev, davranışsal/işlevsel bir zeminde mi yoksa altta yatan organik bir hastalık (GÖRH, EoE, disfaji/aspirasyon, anatomik/nöromusküler) zemininde mi olduğunu ayırmak ve büyüme riskini derecelendirmektir.</p>
+    <div class="pill-row">
+      <span class="pill">PFD = 4 alan: medikal · beslenme · beceri · psikososyal</span>
+      <span class="pill">Ağrılı yutma → öğrenilmiş red</span>
+      <span class="pill">Öksürük/ıslak ses → aspirasyon/disfaji</span>
+      <span class="pill">Seçicilik + kilo kaybı → ARFID</span>
+      <span class="pill">Toddler'da yavaşlama → fizyolojik olabilir</span>
+    </div>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öykü</h3>
+        <ul class="clean">
+          <li>Başlangıç ve seyir: doğumdan itibaren (konjenital/nöromusküler), prematürite ve YDYBÜ öyküsü, sonda/entübasyon (oral-aversif deneyim); ani başlangıç bir tetikleyici olayı (boğulma, kusma, zorla besleme) düşündürür.</li>
+          <li>Alım niteliği ve repertuar: sıvı-katı ilerletme, tekstüre özgü red, seçici yeme, gıda çeşidi (ARFID için &lt;20 gıda tipik), öğün süresi (&gt;30 dk uzamış öğün).</li>
+          <li>Beslenmeyle ilişkili bulgular: öksürük-boğulma-ıslak ses, kaviste boyun gerginliği (Sandifer), yutma sonrası irritabilite/ağlama, regürjitasyon-kusma, food impaction.</li>
+          <li>Ağrı/organik ipuçları: odinofaji, dispepsi, hematemez, kronik kabızlık, ishal/kanlı gaita (İMPA, çölyak, IBD), atopi (astım/egzama/besin alerjisi → EoE).</li>
+          <li>Sistemik: tekrarlayan solunum enfeksiyonu/pnömoni, kardiyak/solunumsal yorgunluk, ilaçlar (metilfenidat, topiramat), kronik hastalık, gelişimsel gerilik.</li>
+          <li>Psikososyal/etkileşim: zorla/baskıcı besleme, öğün çatışması, kaygı, aile beslenme davranışı, öğün ortamı ve ebeveyn algısı ("hiç yemiyor").</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayene</h3>
+        <ul class="clean">
+          <li>Antropometri ve büyüme eğrisi: kilo, boy, BKİ persantili ve trend; z-skor düşüşü, büyümede duraklama/kayma nutrisyonel riski ve organik yükü işaretler.</li>
+          <li>Beslenme gözlemi (mümkünse doğrudan): emme-yutma-solunum koordinasyonu, salya birikimi, öğün sırasında öksürük/desatürasyon, oral-motor beceri ve tekstür toleransı.</li>
+          <li>Orofasiyal: yarık damak/dudak, yüksek damak, tonsiller hipertrofi, aft/ülser, oral kandidiazis, diş çürüğü/erozyon, oral hipersensitivite.</li>
+          <li>Nörolojik: tonus, kraniyal sinirler, öğürme refleksi, bulbar bulgular; genel gelişim ve etkileşim değerlendirmesi.</li>
+          <li>Sistemik: dismorfizm/sendromik bulgu, kardiyak üfürüm-takipne, solunum (stridor/hışıltı), batın (distansiyon, fekal kitle), atopi/cilt bulguları.</li>
+          <li>Beslenme yetersizliği bulguları: kas kütlesi/deri altı yağ kaybı, ödem, mikrobesin eksikliği (çinko-demir) işaretleri, dehidratasyon.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">ARFID (DSM-5, Rome IV ile örtüşür): yeterli enerji/besin alımı sağlanamaması sonucu belirgin kilo kaybı/büyüme geriliği, mikrobesin eksikliği, enteral/oral takviye bağımlılığı veya psikososyal işlevsellikte bozulma; beden imajı bozukluğu ya da açlığı yadsıma YOKTUR. Alt tipler: düşük iştah/ilgi, duyusal temelli kaçınma, olumsuz sonuç korkusu (boğulma/kusma). Organik nedenler dışlanmadan ARFID tanısı verilmez.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Etiyoloji ve mekanizma</h2>
+    <p class="lede">Beslenme reddi/iştahsızlık nadiren tek nedenlidir; genellikle organik bir tetikleyici (ağrı, disfaji, reflü) öğrenilmiş kaçınma ve olumsuz beslenme etkileşimiyle birleşir. Mekanizmayı yaş filtresi ile birlikte değerlendirmek en olası tanıyı daraltır. Aşağıdaki kategoriler sıklıkla eş zamanlıdır ve dört PFD alanına eşlenir.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">Organik — üst GİS / mukozal</div>
+        <ul>
+          <li>GÖRH ve reflü özofajiti: ağrılı yutma → öğün ilişkili irritabilite, kavis-boyun gerginliği (Sandifer), beslenme reddi.</li>
+          <li>EoE: küçük çocukta beslenme reddi, kusma, büyüme geriliği ile atipik; büyük çocukta katı disfaji/food impaction. Atopi ile güçlü birliktelik (≥15 eos/BBA).</li>
+          <li>İnek sütü protein alerjisi (İMPA), enfeksiyöz/erozif özofajit.</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">Oral-motor / disfaji (beceri)</div>
+        <ul>
+          <li>Orofaringeal disfaji; emme-yutma-solunum koordinasyon bozukluğu (prematürite, nöromusküler hastalık, serebral palsi).</li>
+          <li>Aspirasyon/penetrasyon: öksürük, ıslak-boğuk ses, öğünde desatürasyon, tekrarlayan alt solunum yolu enfeksiyonu.</li>
+          <li>Tekstür ilerletememe, kıvama özgü red; oral duyusal işlemleme sorunu.</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">Anatomik / yapısal</div>
+        <ul>
+          <li>Yarık damak-dudak, laringeal yarık, larengomalazi, koanal atrezi, mikrognati/Pierre Robin.</li>
+          <li>Özofagus atrezisi/TÖF onarımı sonrası anastomoz darlığı, konjenital özofagus stenozu, vasküler halka dış bası.</li>
+          <li>Malrotasyon/kısmi obstrüksiyon, antral web (kusma-beslenme reddi ile).</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Sistemik / iştah kaybı</div>
+        <ul>
+          <li>Kronik hastalık: konjestif kalp yetmezliği, KBH, malignite, kistik fibrozis, IBD, kronik enfeksiyon/inflamasyon (artmış enerji tüketimi + iştah baskılanması).</li>
+          <li>Mikrobesin eksikliği (çinko, demir), kronik kabızlık, çölyak hastalığı.</li>
+          <li>İlaç etkisi (metilfenidat, topiramat, kemoterapi), metabolik/endokrin bozukluk.</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">Davranışsal / duyusal — ARFID</div>
+        <ul>
+          <li>Duyusal temelli seçicilik (doku/renk/koku), yeni gıda korkusu (neofobi), aşırı sınırlı repertuar.</li>
+          <li>Olumsuz sonuç korkusu: boğulma/kusma sonrası koşullu (öğrenilmiş) red, travmatik öğün deneyimi.</li>
+          <li>Düşük iştah/yeme ilgisizliği tipi; sonda beslenmesine bağımlılık ve oral-aversiyon.</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">Psikososyal + yaşa göre dağılım</div>
+        <ul>
+          <li>Etkileşim: zorla/baskıcı besleme, öğün çatışması, ebeveyn kaygısı, olumsuz öğün ortamı; nadiren ihmal/yoksunluk.</li>
+          <li>Süt çocuğu: emme-yutma disfonksiyonu, prematürite, GÖRH, İMPA, konjenital anomali.</li>
+          <li>Toddler: fizyolojik iştah azalması ve neofobi (normal), seçici yeme, demir/çinko eksikliği. Okul çağı/adölesan: ARFID, EoE, kronik hastalık, depresyon/kaygı.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">Toddler döneminde büyüme hızının yavaşlamasına bağlı fizyolojik iştah azalması ve neofobi normaldir; büyüme eğrisi korunuyor, gelişim normal ve kırmızı bayrak yoksa güvence ve ebeveyn eğitimi yeterlidir. Ayrım noktası büyümenin sürdürülüp sürdürülmediğidir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">İlk basamak disfaji/aspirasyon ve büyüme çöküşü gibi tehdit edici durumların dışlanmasıdır; ardından organik-mukozal hastalık (GÖRH/EoE), sistemik/nutrisyonel neden ve davranışsal (ARFID) zemin sırayla değerlendirilir. Amaç, düzeltilebilir organik nedeni tedavi ederken beslenmeyi güvence altına almak ve gerekli olguyu multidisipliner beslenme ekibine yönlendirmektir.</p>
+    <div class="flow">
+      <div class="node start">
+        <span class="k">Başlangıç</span>
+        <span class="t">Beslenme reddi / iştahsızlık ile başvuru</span>
+        <p>Öykü, muayene, doğrudan beslenme gözlemi; büyüme eğrisi, dört PFD alanı ve yaş filtresi ile ilk çerçeveleme.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node action">
+        <span class="k">Adım 1</span>
+        <span class="t">Dört alan + güvenlik taraması</span>
+        <p>Medikal-beslenme-beceri-psikososyal alanlar; antropometri/trend, hidrasyon ve kırmızı bayrak (disfaji, aspirasyon, büyüme çöküşü) değerlendirilir.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 1</span>
+        <span class="t">Disfaji/aspirasyon veya akut tehdit var mı?</span>
+        <p>Öğünde öksürük-boğulma, ıslak-boğuk ses, desatürasyon, tekrarlayan pnömoni, ağır dehidratasyon veya hızlı büyüme çöküşü var mı?</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Güvenli beslenme önceliği</span>
+          <div class="node alarm">
+            <span class="k">Alarm</span>
+            <span class="t">Yutma değerlendirmesi + hava yolu/anatomi</span>
+            <p>VFSS/FEES ile aspirasyon-faz güvenliği; kıvam uyarlaması, gerekiyorsa geçici enteral (NG) destek; anatomik/nöromusküler neden ve dehidratasyon eş zamanlı yönetilir.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Elektif ayrım</span>
+          <div class="node action safe">
+            <span class="k">Adım 2</span>
+            <span class="t">Organik hastalık ipuçlarını tara</span>
+            <p>Ağrılı yutma, kusma, dispepsi, hematemez, atopi, büyüme geriliği gibi organik-mukozal ipuçlarını değerlendir.</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 2</span>
+        <span class="t">GÖRH/EoE veya mukozal hastalık ipucu mu?</span>
+        <p>Ağrılı yutma, öğün ilişkili irritabilite, kusma-regürjitasyon, food impaction, atopi veya alarm bulgusu var mı?</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Mukozal tanı ve tedavi</span>
+          <div class="node action">
+            <span class="k">Adım 3a</span>
+            <span class="t">Üst GİS endoskopisi + çok düzeyli biyopsi</span>
+            <p>EoE (≥15 eos/BBA), reflü/erozif özofajit ve İMPA değerlendirilir; GÖRH/EoE'ye yönelik tedavi başlanır (bkz. Basamak 06).</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Sistemik/nutrisyonel tarama</span>
+          <div class="node action">
+            <span class="k">Adım 3b</span>
+            <span class="t">Düzeltilebilir sistemik nedeni ara</span>
+            <p>Tam kan-ferritin-çinko-CRP, çölyak serolojisi, kabızlık, kronik hastalık ve ilaç etkisi taranır; saptanan neden düzeltilir.</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 3</span>
+        <span class="t">Büyüme yetersiz / nutrisyonel risk var mı?</span>
+        <p>Kilo kaybı, z-skor düşüşü, büyümede duraklama veya mikrobesin eksikliği mevcut mu?</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Beslenme rehabilitasyonu</span>
+          <div class="node action">
+            <span class="k">Adım 4</span>
+            <span class="t">Enerji yoğunlaştırma + replasman ± destek</span>
+            <p>Kalori-yoğun beslenme, mikrobesin (çinko/demir) replasmanı, seçilmiş olguda iştah açıcı; hedefe ulaşılamıyorsa geçici enteral (NG/GT) destek.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Büyüme korunmuş</span>
+          <div class="node action safe">
+            <span class="k">Adım 5</span>
+            <span class="t">Beceri ve davranış paternini değerlendir</span>
+            <p>Oral-motor beceri normal mi, davranışsal/ARFID paterni mi? Beslenme etkileşimi ve öğün ortamı gözden geçirilir.</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 4</span>
+        <span class="t">Organik neden dışlandı, davranışsal/ARFID mı?</span>
+        <p>Medikal ve nutrisyonel neden düzeltildikten sonra kaçınma/seçicilik/düşük ilgi paterni sürüyor mu?</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Multidisipliner beslenme terapisi</span>
+          <div class="node action safe">
+            <span class="k">Sonlanım</span>
+            <span class="t">Davranışsal + oral-motor terapi ekibi</span>
+            <p>Beslenme terapisti/dil-konuşma, diyetisyen, psikoloji; kademeli maruz bırakma, olumlu öğün rutini. Zorla besleme yok. Gerekliyse ARFID için BDT.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Organik neden aktif</span>
+          <div class="node action">
+            <span class="k">Devam</span>
+            <span class="t">Nedene yönelik tedaviye devam</span>
+            <p>Saptanan GÖRH/EoE/disfaji/sistemik hastalığın tedavisi sürdürülür; yanıt ve büyüme ile yeniden değerlendirilir.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="callout safe">Anahtar ilke: Beslenme reddi çoğunlukla çok etkenlidir; organik tetikleyiciyi (ağrı, reflü, disfaji) tedavi etmek gerekli ama çoğu zaman tek başına yeterli değildir. Organik neden düzeltildikten sonra süren red, öğrenilmiş kaçınmayı ele alan multidisipliner beslenme terapisini gerektirir. Büyüme, tüm kararlarda önceliklidir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Tetkik klinik tabloya göre yönlendirilir: her olguda dört alan değerlendirmesi ve büyüme takibi; disfaji/aspirasyon şüphesinde yutma çalışması; GÖRH/EoE şüphesinde biyopsili endoskopi; büyüme geriliğinde hedefli laboratuvar. Aşırı tetkikten kaçınılır — davranışsal seçici yeme ve fizyolojik toddler iştahsızlığında geniş panel gereksizdir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Beslenme reddi/iştahsızlıkta basamaklı tanısal yaklaşım ve endikasyonlar</caption>
+        <thead>
+          <tr>
+            <th>Basamak / Test</th>
+            <th>Ne zaman</th>
+            <th>Amaç ve not</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">Klinik + dört alan değerlendirme</td>
+            <td>Tüm olgular</td>
+            <td>Medikal-beslenme-beceri-psikososyal ayrımı, yaş filtresi ve kırmızı bayrak taraması; doğrudan beslenme gözlemi tanı yolunu belirler.</td>
+          </tr>
+          <tr>
+            <td class="step">Antropometri + diyet günlüğü</td>
+            <td class="dose">Büyüme eğrisi + 3 günlük alım</td>
+            <td>Kilo/boy/BKİ persantili ve trend, z-skor; kalori-makro-mikrobesin yeterliliği. Nutrisyonel riski ve müdahale aciliyetini derecelendirir.</td>
+          </tr>
+          <tr>
+            <td class="step">Videofloroskopik yutma çalışması (VFSS) / FEES</td>
+            <td>Disfaji / aspirasyon şüphesi</td>
+            <td>Aspirasyon-penetrasyon ve faz güvenliği; kıvam ve pozisyon uyarlaması, güvenli oral beslenme kararı (özellikle nöromusküler/oral-motor olgular).</td>
+          </tr>
+          <tr>
+            <td class="step">Üst GİS endoskopisi + çok düzeyli biyopsi</td>
+            <td class="dose">Proksimal + distal ≥6 parça</td>
+            <td>GÖRH/EoE ve mukozal hastalık şüphesinde; EoE tanısı (≥15 eos/BBA), erozif/enfeksiyöz özofajit; EoE makroskopik normal olabilir, biyopsi zorunlu.</td>
+          </tr>
+          <tr>
+            <td class="step">Hedefli laboratuvar</td>
+            <td class="dose">Tam kan, ferritin, çinko, CRP, elektrolit, tTG-IgA + total IgA</td>
+            <td>Demir/çinko eksikliği, inflamasyon, çölyak; büyüme geriliği ve iştahsızlıkta düzeltilebilir nedenleri tarar. Endikasyona göre TFT, biyokimya.</td>
+          </tr>
+          <tr>
+            <td class="step">İMPA / besin alerjisi değerlendirmesi</td>
+            <td>Süt çocuğu, atopi, GİS bulguları</td>
+            <td>Eliminasyon-provokasyon (2-4 hafta ekstansif hidrolize/aminoasit formül); IgE aracılı şüphede sIgE/deri testi. EoE ile örtüşme akılda tutulur.</td>
+          </tr>
+          <tr>
+            <td class="step">Baryumlu özofagogram / üst GİS pasaj</td>
+            <td>Anatomik / motilite şüphesi</td>
+            <td>Vasküler halka, striktür, akalazya (kuş gagası), malrotasyon/obstrüksiyon; kusma-beslenme reddi olan seçilmiş olguda anatomiyi haritalar.</td>
+          </tr>
+          <tr>
+            <td class="step">pH-empedans (MII-pH)</td>
+            <td>Seçilmiş — GÖRH şüphesi</td>
+            <td>Semptom-reflü ilişkisi, PPI-yanıtsızlık ve non-asit reflü ayrımı; ampirik anti-reflü tedaviye yanıtsız beslenme reddinde.</td>
+          </tr>
+          <tr>
+            <td class="step">ARFID / psikososyal değerlendirme</td>
+            <td>Organik dışlandığında</td>
+            <td>Yapılandırılmış ARFID taraması, beslenme etkileşimi ve öğün gözlemi; oral-motor beceri (dil-konuşma) ve gelişimsel değerlendirme ile birlikte.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">Yaygın hata iki uçtadır: (1) alarm bulgusu olan çocukta organik nedeni araştırmamak, (2) büyümesi korunmuş, kırmızı bayrağı olmayan seçici yiyicide gereksiz geniş tetkik ve endoskopi yapmak. Tetkik yoğunluğu büyüme riski ve alarm bulgularıyla orantılı olmalıdır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdaki bulgular organik/tehdit edici bir zemini işaret eder; davranışsal/fonksiyonel varsayımı geçersiz kılar ve hızlandırılmış tanısal-girişimsel değerlendirme gerektirir.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Öğünde öksürük-boğulma, ıslak-boğuk ses, desatürasyon veya belgelenmiş aspirasyon.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Tekrarlayan alt solunum yolu enfeksiyonu / aspirasyon pnömonisi.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>İlerleyici kilo kaybı, büyümede duraklama veya z-skorda belirgin düşüş.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Disfaji + food impaction öyküsü, odinofaji (EoE/striktür).</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kusma (özellikle safralı), hematemez, melena veya GİS kanaması.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kronik ishal/kanlı gaita, karın distansiyonu (İMPA, çölyak, IBD, obstrüksiyon).</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Dehidratasyon, letarji veya enteral desteğe bağımlılık.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Yenidoğan/erken süt çocuğunda beslenmeyle mor olma, stridor (vasküler halka, laringeal yarık, atrezi).</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Nörolojik gerileme, gelişimsel regresyon veya yeni bulgu.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ateş, gece terlemesi, organomegali veya sistemik hastalık işaretleri.</span></div>
+    </div>
+    <div class="callout alarm">Aspirasyon riski ve ağır dehidratasyon/büyüme çöküşü acil durumlardır: güvenli beslenme yolu (kıvam uyarlaması, gerekirse geçici enteral destek) sağlanmadan oral zorlama sürdürülmez; anatomik/nöromusküler neden ve sıvı-elektrolit dengesi eş zamanlı ele alınır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi — dozlu</h2>
+    <p class="lede">Tedavi çok bileşenlidir: (1) altta yatan organik nedeni (GÖRH, EoE, İMPA, kabızlık, mikrobesin eksikliği) hedefe yönelik tedavi et; (2) beslenmeyi enerji-yoğunlaştırma ve gerektiğinde enteral destekle güvence altına al; (3) öğrenilmiş red ve seçiciliği multidisipliner beslenme/oral-motor terapisiyle ele al. İştah açıcı ilaçlar yalnızca düzeltilebilir neden dışlandıktan sonra ve büyüme riski varken, ek olarak kullanılır. Dozlar hastaya göre bireyselleştirilmelidir.</p>
+    <div class="pill-row">
+      <span class="pill">Organik: GÖRH/EoE/İMPA/kabızlık tedavisi</span>
+      <span class="pill">Nutrisyon: kalori-yoğunlaştırma ± enteral</span>
+      <span class="pill">Mikrobesin: çinko / demir replasmanı</span>
+      <span class="pill">Davranış: multidisipliner terapi</span>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <caption>Nedene yönelik ve destekleyici tedavi — doz (mg/kg) ve maksimumlar</caption>
+        <thead>
+          <tr>
+            <th>Ajan / Girişim</th>
+            <th>Doz (mg/kg + maksimum)</th>
+            <th>Not</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">Omeprazol (belgelenmiş GÖRH/özofajit)</td>
+            <td class="dose">1-2 mg/kg/gün (maks 40 mg/gün)</td>
+            <td>Yalnızca objektif reflü hastalığı/özofajit varlığında; 4-8 haftalık deneme sonrası yanıt değerlendir, uzun süreli gereksiz kullanımdan kaçın.</td>
+          </tr>
+          <tr>
+            <td class="step">Omeprazol (EoE, yüksek doz PPI)</td>
+            <td class="dose">1-2 mg/kg/gün, 2 doza bölünmüş (maks 40 mg/gün)</td>
+            <td>EoE birinci basamak; 8-12 hafta sonra biyopsi ile histolojik yanıt (&lt;15 eos/BBA) doğrulanır, yanıtta idame sürdürülür.</td>
+          </tr>
+          <tr>
+            <td class="step">Oral viskoz budesonid (EoE, yutulan)</td>
+            <td class="dose">&lt;10 yaş 1 mg/gün; ≥10 yaş 2 mg/gün (maks 2 mg/gün)</td>
+            <td>Kıvamlaştırıcı ile karıştırılıp yutulur; sonrası 30 dk yeme-içme yok. Oral kandidiazis açısından izle. Alternatif: yutulan flutikazon.</td>
+          </tr>
+          <tr>
+            <td class="step">Ekstansif hidrolize / aminoasit formül (İMPA)</td>
+            <td class="dose">Eliminasyon 2-4 hafta, sonra provokasyon</td>
+            <td>Süt proteini ilişkili beslenme reddinde; yanıtta eliminasyonu sürdür. Aminoasit formül, hidrolizata yanıtsız/ağır olguda.</td>
+          </tr>
+          <tr>
+            <td class="step">Kalori yoğunlaştırma</td>
+            <td class="dose">Formül 0.8-1.0 kcal/mL; hedef ~%25-50 artış</td>
+            <td>Diyetisyen eşliğinde küçük hacimde yüksek enerji; modüler eklenti (yağ/karbonhidrat), oral nutrisyonel destek. Aşırı sulandırmadan kaçın.</td>
+          </tr>
+          <tr>
+            <td class="step">Çinko (eksiklik replasmanı)</td>
+            <td class="dose">Elementer 1 mg/kg/gün (maks 20-40 mg/gün), 2-3 ay</td>
+            <td>Düşük çinko iştahsızlık ve büyüme geriliğine katkı yapar; replasman iştahı ve büyümeyi destekler.</td>
+          </tr>
+          <tr>
+            <td class="step">Elementer demir (eksiklik anemisi)</td>
+            <td class="dose">3-6 mg/kg/gün (maks 150-200 mg/gün)</td>
+            <td>Demir eksikliği iştahsızlık ve pika ile ilişkili; replasman ve diyet düzenlemesi. Ferritin ile izlem.</td>
+          </tr>
+          <tr>
+            <td class="step">Polietilen glikol 3350 (eşlik eden kabızlık)</td>
+            <td class="dose">İdame 0.4-0.8 g/kg/gün; disimpaksiyon 1-1.5 g/kg/gün</td>
+            <td>Kronik kabızlık iştahı ve alımı baskılar; düzenli boşaltma çoğu zaman iştahı ve öğün toleransını iyileştirir.</td>
+          </tr>
+          <tr>
+            <td class="step">Siproheptadin (iştah açıcı)</td>
+            <td class="dose">0.25 mg/kg/gün, 2-3 doza bölünmüş; 2-6 yaş maks 12 mg/gün, 7-14 yaş maks 16 mg/gün</td>
+            <td>Organik neden dışlanmış, büyüme riski olan olguda kısa süreli; sedasyon ve kilo alımı beklenir. Yanıt yoksa 4-8 haftada kes.</td>
+          </tr>
+          <tr>
+            <td class="step">Enteral tüp beslenme (NG / gastrostomi)</td>
+            <td class="dose">Geçici NG; kalıcı/uzun süreli GT</td>
+            <td>Güvenli oral alım sağlanamayan, ağır büyüme geriliği veya aspirasyon riski olan olguda; oral becerileri korumak için oral uyaran/terapiyi sürdür.</td>
+          </tr>
+          <tr>
+            <td class="step">Multidisipliner beslenme terapisi</td>
+            <td class="dose">Girişim — yapılandırılmış program</td>
+            <td>Dil-konuşma/oral-motor terapi, davranışsal beslenme, diyetisyen, psikoloji; kademeli maruz bırakma, olumlu öğün rutini, ebeveyn koçluğu.</td>
+          </tr>
+          <tr>
+            <td class="step">ARFID — bilişsel davranışçı tedavi (BDT-AR)</td>
+            <td class="dose">Girişim — yaşa uyarlanmış</td>
+            <td>Duyusal kaçınma ve korku temelli redde; aile temelli yaklaşım, kademeli gıda genişletme. Ağır olguda eşlik eden anksiyete tedavisi.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">Zorla besleme ve öğün baskısı beslenme reddini pekiştirir ve oral-aversiyonu derinleştirir; tedavinin temeli baskısız, olumlu ve öngörülebilir öğün rutinidir. İştah açıcı ve enteral destek yardımcıdır, davranışsal terapinin ve organik tedavinin yerine geçmez.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve yönetim ilkeleri</h2>
+    <p class="lede">Amaç: büyüme ve nutrisyonel durumu güvence altına almak, organik nedeni objektif olarak tedavi etmek (EoE'de histoloji, GÖRH'de semptom yanıtı) ve öğrenilmiş redi kalıcı olarak çözmektir. İzlem tek uzman değil, koordine bir ekip işidir; ebeveyn eğitimi ve öğün ortamı düzenlemesi her aşamada süreklidir.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Nutrisyonel ve medikal izlem</h3>
+        <ul class="clean">
+          <li>Büyüme eğrisi ve z-skoru düzenli izle; hedef yakalama büyümesi (catch-up) ve nutrisyonel parametrelerin normalizasyonu.</li>
+          <li>EoE'de indüksiyon sonrası 8-12 haftada kontrol endoskopi + biyopsi ile histolojik remisyon (&lt;15 eos/BBA); yanıtta idame sürdür.</li>
+          <li>GÖRH tedavisinde yanıt değerlendir ve gereksiz uzun PPI kullanımından kaçın; İMPA'da kademeli reintrodüksiyon planla.</li>
+          <li>Mikrobesin replasmanını laboratuvarla (ferritin, çinko) izle; enteral destekte oral becerileri koruyacak oral uyaranı sürdür ve azaltma (weaning) planı yap.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Beceri, davranış ve psikososyal izlem</h3>
+        <ul class="clean">
+          <li>Oral-motor beceriyi dil-konuşma/beslenme terapisti ile izle; tekstür ilerlemesi ve güvenli yutma hedeflenir.</li>
+          <li>Davranışsal programda kademeli gıda genişletme, repertuar artışı ve öğün süresi/çatışmasında azalma takip edilir.</li>
+          <li>Ebeveyn koçluğu: baskısız besleme, yapılandırılmış öğün-atıştırma düzeni, olumlu pekiştirme; kaygı ve öğün stresini azalt.</li>
+          <li>ARFID/anksiyete eşlikinde psikoloji-psikiyatri iş birliği; ağır/dirençli olguda beslenme programına yönlendir.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout safe">Geri çekilme ve devam kuralı: Organik hastalık (EoE, GÖRH, İMPA) objektif remisyon doğrulanmadan tedavi kesilmez; enteral destek ve iştah açıcı, büyüme ve oral alım güvenli biçimde sürdürülebilir hale gelince kademeli azaltılır. Davranışsal ilerleme yavaştır — süreklilik, tutarlılık ve multidisipliner koordinasyon başarının anahtarıdır.</div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Goday PS, Huh SY, Silverman A, ve ark. Pediatric Feeding Disorder: Consensus Definition and Conceptual Framework. J Pediatr Gastroenterol Nutr. 2019;68(1):124-129.</li>
+      <li>Rosen R, Vandenplas Y, Singendonk M, ve ark. Pediatric Gastroesophageal Reflux Clinical Practice Guidelines: Joint Recommendations of NASPGHAN and ESPGHAN. J Pediatr Gastroenterol Nutr. 2018;66(3):516-554.</li>
+      <li>Amil-Dias J, Oliva S, Papadopoulou A, ve ark. Diagnosis and management of eosinophilic esophagitis in children: An update from the ESPGHAN. J Pediatr Gastroenterol Nutr. 2024;79(2):394-437.</li>
+      <li>American Psychiatric Association. Avoidant/Restrictive Food Intake Disorder. DSM-5-TR. 2022; ve Zeevenhooven J, ve ark. Rome IV bebek/toddler fonksiyonel GİS bozuklukları. Gastroenterology. 2016;150(6):1443-1455.</li>
+    </ol>
+  </footer>
+
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge çocuk gastroenteroloji uzmanları için klinik karar desteği amaçlıdır; hastaya özgü değerlendirmenin, güncel kılavuzların ve yerel ilaç ruhsat/dozaj bilgilerinin yerine geçmez. Dozlar hastanın yaşı, kilosu, böbrek/karaciğer fonksiyonu ve komorbiditelerine göre bireyselleştirilmelidir.</div>
+</div>

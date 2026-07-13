@@ -1,0 +1,540 @@
+<title>Aftöz Ülser ve Ekstraintestinal Bulgular — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Aftöz Ülser ve Ekstraintestinal Bulgular</h1>
+    <p class="sub">Rekürren aftöz ülserlerin ekstraintestinal bulgularla (artrit, eritema nodozum, üveit, piyoderma gangrenozum) birlikteliğinde IBD, çölyak ve sistemik inflamatuar hastalıkları ayırt etmeye yönelik basamaklı karar aracı.</p>
+    <div class="meta">
+      <span class="tag">Aftöz stomatit</span>
+      <span class="tag">Ekstraintestinal bulgu</span>
+      <span class="tag">IBD taraması</span>
+      <span class="tag">Çölyak</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">Aftöz ülser; ağız mukozasında ağrılı, sınırları düzenli, fibrinöz tabanlı, tekrarlayan erozyonlardır. Yılda üçten fazla atak, geç iyileşme, majör (>10 mm) veya herpetiform lezyon ve özellikle ekstraintestinal bulgu eşliği; basit rekürren aftöz stomatitin ötesinde sistemik/inflamatuar bir zeminin (IBD, çölyak, Behçet, beslenme eksikliği, hematolojik hastalık) taranmasını gerektirir.</p>
+    <p>Rekürren aftöz stomatit üç fenotipte sınıflanır: minör (<10 mm, skarsız iyileşen), majör (>10 mm, skar bırakan, uzun süreli) ve herpetiform (çok sayıda küçük ülser). Ekstraintestinal bulgu varlığı ülserin "sekonder" olabileceğinin en önemli göstergesidir.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öykü — hedefli sorular</h3>
+        <ul class="clean">
+          <li>Atak sıklığı, süresi, ülser boyutu ve iyileşme paterni (skar var mı)</li>
+          <li>Kronik ishal, karın ağrısı, rektal kanama, perianal fistül/fissür/apse</li>
+          <li>Kilo kaybı, büyüme hızında yavaşlama, pubertal gecikme, ateş</li>
+          <li>Eklem ağrısı/şişliği, kırmızı-ağrılı göz, ışıktan rahatsızlık; bacakta ağrılı kırmızı nodüller; deri ülseri</li>
+          <li>Genital ülser, tekrarlayan ateş atakları (PFAPA/Behçet ipuçları)</li>
+          <li>Glutenle ilişki, ailede IBD/çölyak/otoimmün hastalık, ishal-kabızlık, demir eksikliği öyküsü</li>
+          <li>İlaç kullanımı (NSAİİ, nikorandil), tekrarlayan enfeksiyon (siklik nötropeni)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayene — sistematik bakı</h3>
+        <ul class="clean">
+          <li>Boy-kilo-VYA persentil ve büyüme eğrisi; Tanner evresi</li>
+          <li>Oral mukoza: ülser sayısı/lokalizasyonu, mukogingival "cobblestone", dudak şişliği (orofasiyal granülomatoz)</li>
+          <li>Batın: hassasiyet, kitle; perianal inspeksiyon (skin tag, fistül, fissür)</li>
+          <li>Eklemler: periferik artrit, aksiyel tutulum/sakroiliak hassasiyet, entesit</li>
+          <li>Deri: pretibial eritema nodozum, alt ekstremitede piyoderma gangrenozum ülseri, paterji</li>
+          <li>Göz: konjonktival kızarıklık; üveit için oftalmolojik değerlendirme gerektiren bulgular</li>
+          <li>Solukluk, glossit, angüler keilit (demir/B12/folat eksikliği)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">Ekstraintestinal bulgu + aftöz ülser birlikteliği, GİS semptomları hafif/silik olsa bile IBD ve çölyak taramasını zorunlu kılar; eritema nodozum ve periferik artrit sıklıkla hastalık aktivitesiyle paralel seyreder, üveit ve piyoderma gangrenozum ise aktiviteden bağımsız olabilir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Etiyoloji ve altta yatan mekanizmalar</h2>
+    <p class="lede">Aftöz ülser + ekstraintestinal bulgu tablosunda ayırıcı tanı, immün-inflamatuar zeminden beslenme eksikliğine kadar uzanır. Kategorilere göre hedefli tarama tanısal verimi artırır.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">Basit rekürren aftöz stomatit</div>
+        <ul>
+          <li>İdiyopatik, aileselligin sık olduğu izole tablo</li>
+          <li>Sistemik bulgu ve büyüme etkilenmesi yok</li>
+          <li>Ekstraintestinal bulgu yokluğunda dışlama tanısı</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">İnflamatuar barsak hastalığı</div>
+        <ul>
+          <li>Crohn: oral ülser, perianal hastalık, cobblestone mukoza</li>
+          <li>EIM: pauciartiküler artrit, eritema nodozum, üveit, piyoderma gangrenozum</li>
+          <li>Kalprotektin ve fekal inflamasyon belirteçleri yüksek</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">Çölyak hastalığı</div>
+        <ul>
+          <li>Aftöz stomatit ekstraintestinal prezentasyon olabilir</li>
+          <li>Demir eksikliği anemisi, boy kısalığı, transaminaz yüksekliği</li>
+          <li>Dermatitis herpetiformis, mine defektleri eşlik edebilir</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Behçet ve otoinflamatuar</div>
+        <ul>
+          <li>Oral + genital ülser, üveit, paterji, cilt lezyonu</li>
+          <li>PFAPA: periyodik ateş + aft + farenjit + adenit</li>
+          <li>Siklik ateş paterni ve atak süresi ayırıcıdır</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">Beslenme eksiklikleri</div>
+        <ul>
+          <li>Demir, B12, folat, çinko eksikliği aftöz ülseri tetikler</li>
+          <li>Glossit, angüler keilit, solukluk eşlik eder</li>
+          <li>Malabsorpsiyon (çölyak/IBD) sekonder olabilir</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">Hematolojik / immün</div>
+        <ul>
+          <li>Siklik nötropeni: ~21 günde bir ülser + ateş + enfeksiyon</li>
+          <li>Primer immün yetmezlik, HIV; ilaç ilişkili ülser</li>
+          <li>Nötrofil sayımı ve tekrarlayan enfeksiyon öyküsü yol gösterici</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">Ekstraintestinal bulgu eşliğindeki aftöz ülserde alarm bulgusu ve inflamasyon belirteçlerine göre dallandırılmış yaklaşım.</p>
+    <div class="flow">
+      <div class="node start">
+        <span class="k">Başlangıç</span>
+        <span class="t">Rekürren aftöz ülser + ekstraintestinal bulgu ile başvuru</span>
+        <p>Artrit, eritema nodozum, üveit veya piyoderma gangrenozumun aftöz stomatite eşlik ettiği çocuk.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node action">
+        <span class="k">Adım 1</span>
+        <span class="t">Ayrıntılı öykü + tam sistemik muayene + büyüme değerlendirmesi</span>
+        <p>Boy-kilo persentili, perianal inspeksiyon, eklem-deri-göz muayenesi; temel laboratuvar (tam kan, CRP, ESR, ferritin, albümin) ve fekal kalprotektin planla.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 1</span>
+        <span class="t">Alarm bulgusu var mı? (kilo kaybı, büyüme geriliği, kronik/kanlı ishal, perianal hastalık, üveit)</span>
+        <p>Sistemik/organik hastalığı işaret eden kırmızı bayrakların varlığı sorgulanır.</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → sistemik hastalık şüphesi</span>
+          <div class="node alarm">
+            <span class="k">Hızlandırılmış tetkik</span>
+            <span class="t">IBD/sistemik inflamatuar hastalık yolağı</span>
+            <p>Fekal kalprotektin, tam inflamasyon paneli, çölyak serolojisi; üst-alt GİS endoskopisi + biyopsi planla. Üveit varsa acil oftalmoloji, artrit varsa romatoloji ile eş zamanlı değerlendir.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → alarm yok</span>
+          <div class="node action safe">
+            <span class="k">Hedefli tarama</span>
+            <span class="t">Beslenme + çölyak taraması</span>
+            <p>Tam kan, ferritin, B12, folat, çinko, çölyak serolojisi (anti-tTG IgA + total IgA). Kalprotektin normalse ve serolojiler negatifse basit RAS lehine izlem.</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 2</span>
+        <span class="t">Fekal kalprotektin yüksek VEYA çölyak serolojisi pozitif mi?</span>
+        <p>İnflamasyon belirteci veya seroloji pozitifliği tanısal yolu belirler.</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → doku tanısı</span>
+          <div class="node alarm">
+            <span class="k">Endoskopi/biyopsi</span>
+            <span class="t">IBD veya çölyak doğrulaması</span>
+            <p>Kalprotektin yüksekse ileokolonoskopi + üst endoskopi (Crohn için özofagogastroduodenal biyopsi dahil); çölyak serolojisi pozitifse duodenal biyopsi ile Marsh evrelemesi ve tanı doğrulaması.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → belirteçler normal</span>
+          <div class="node action safe">
+            <span class="k">Eksiklik düzelt + izlem</span>
+            <span class="t">Beslenme eksikliği/basit RAS yönetimi</span>
+            <p>Saptanan demir/B12/folat/çinko eksikliğini replase et, topikal tedavi başla; ekstraintestinal bulgu için ilgili branşla ortak izlem. Belirteçler negatif kalır ve büyüme normalse 6-12 haftada yeniden değerlendir.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Öncelikle non-invaziv testler; alarm/pozitif belirteç varlığında endoskopik doku tanısına ilerle.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Aftöz ülser + ekstraintestinal bulguda kademeli tetkik planı</caption>
+        <thead>
+          <tr>
+            <th>Basamak</th>
+            <th>Test / eşik</th>
+            <th>Amaç ve yorum</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">Basamak 1 — Temel kan</td>
+            <td class="dose">Tam kan sayımı, CRP, ESR, albümin</td>
+            <td>Anemi, trombositoz, hipoalbüminemi ve akut faz yüksekliği inflamatuar zemini destekler; nötropeni siklik nötropeniyi düşündürür.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 1 — Beslenme paneli</td>
+            <td class="dose">Ferritin, serum demir/TDBK, B12, folat, çinko</td>
+            <td>Aftöz ülseri tetikleyen ve replasmanla iyileşen eksiklikleri saptar; demir eksikliği aynı zamanda çölyak/IBD işareti olabilir.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 2 — Fekal inflamasyon</td>
+            <td class="dose">Fekal kalprotektin (>50-250 µg/g)</td>
+            <td>Yüksek değer intestinal inflamasyonu gösterir ve endoskopi endikasyonunu güçlendirir; normal değer IBD olasılığını belirgin azaltır.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 2 — Çölyak serolojisi</td>
+            <td class="dose">Anti-tTG IgA + total IgA (IgA eksikse anti-tTG/DGP IgG)</td>
+            <td>Glutenli diyet altında bakılır; pozitiflik duodenal biyopsi/tanı algoritmasını başlatır.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 3 — Endoskopi</td>
+            <td class="dose">İleokolonoskopi + üst GİS endoskopisi + biyopsi</td>
+            <td>Kalprotektin yüksekse veya alarm varsa; Crohn için basamaklı biyopsi, çölyak doğrulaması için duodenal biyopsi (Marsh).</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 3 — İnce barsak görüntüleme</td>
+            <td class="dose">MR enterografi (± MR enteroklizis)</td>
+            <td>Crohn şüphesinde ince barsak tutulumu, striktür ve fistülün radyasyonsuz değerlendirmesi.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 3 — Branş konsültasyonu</td>
+            <td class="dose">Oftalmoloji (yarık lamba), romatoloji, dermatoloji</td>
+            <td>Üveit taraması, artrit/entesit değerlendirmesi ve piyoderma gangrenozum/eritema nodozum ayrımı için hedefli yönlendirme.</td>
+          </tr>
+          <tr>
+            <td class="step">Seçilmiş — Otoinflamatuar</td>
+            <td class="dose">Seri nötrofil sayımı (siklik nötropeni), Behçet için paterji/HLA-B51</td>
+            <td>Periyodik ateş + ülser tablosunda; oral+genital ülser ve üveitte Behçet, ~3 haftalık siklusta siklik nötropeni araştırılır.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pill-row">
+      <span class="pill">Çölyak serolojisi glutenli diyette</span>
+      <span class="pill">Total IgA'yı unutma</span>
+      <span class="pill">Kalprotektin normal ≠ IBD dışlandı (alarm varsa endoskopi)</span>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdaki bulguların herhangi biri, basit rekürren aftöz stomatit tanısını dışlar ve hızlandırılmış inflamatuar/sistemik hastalık değerlendirmesi gerektirir.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Kilo kaybı, büyüme hızında yavaşlama veya pubertal gecikme</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kronik ishal, gece semptomu, rektal kanama veya melena</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Perianal hastalık: fistül, fissür, apse, skin tag</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kırmızı-ağrılı göz, görme bulanıklığı, fotofobi (üveit)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Piyoderma gangrenozum ülseri veya yaygın eritema nodozum</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Persistan/inflamatuar artrit, sakroiliak/aksiyel ağrı, entesit</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Majör (>10 mm) veya skar bırakan, aylarca iyileşmeyen ülser</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Oral + genital ülser birlikteliği ve/veya paterji pozitifliği</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Periyodik ateş atakları ve tekrarlayan bakteriyel enfeksiyon (nötropeni)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Yüksek CRP/ESR, hipoalbüminemi, trombositoz veya dirençli demir eksikliği anemisi</span></div>
+    </div>
+    <div class="callout alarm">Üveit görme kaybı riski taşır: kırmızı-ağrılı göz veya fotofobide oftalmolojik değerlendirmeyi geciktirme. Piyoderma gangrenozum debridmanla kötüleşir (paterji); cerrahi manipülasyondan kaçınılmalıdır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi</h2>
+    <p class="lede">Tedavi iki kola ayrılır: (1) altta yatan hastalığın (IBD/çölyak/beslenme eksikliği) yönetimi, (2) aftöz ülser ve ekstraintestinal bulgunun semptomatik/aktif kontrolü. Dozlar yaklaşık olup ilaç etkileşimi ve organ fonksiyonuna göre bireyselleştirilmelidir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Aşamalı tedavi ve dozlama</caption>
+        <thead>
+          <tr>
+            <th>İlaç / girişim</th>
+            <th>Doz (mg/kg + maksimum)</th>
+            <th>Endikasyon / not</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">Topikal kortikosteroid</td>
+            <td class="dose">Triamsinolon asetonid %0.1 orabaz veya deksametazon gargara, günde 2-3 kez</td>
+            <td>Lokalize aftöz ülserde birinci basamak semptomatik tedavi; sistemik yükü yoktur.</td>
+          </tr>
+          <tr>
+            <td class="step">Oral demir replasmanı</td>
+            <td class="dose">Elementer demir 3-6 mg/kg/gün (maks 150-200 mg/gün), bölünmüş</td>
+            <td>Demir eksikliği saptanan hastada aftöz ülser ve anemiyi düzeltir; 3 ay sonra ferritin kontrolü.</td>
+          </tr>
+          <tr>
+            <td class="step">B12 / folat replasmanı</td>
+            <td class="dose">Folik asit 1 mg/gün PO; B12 eksikliğinde 1000 µg IM protokolü</td>
+            <td>Eksiklik varsa aftöz atak sıklığını azaltır; malabsorpsiyon zemininde parenteral tercih edilir.</td>
+          </tr>
+          <tr>
+            <td class="step">Kolşisin</td>
+            <td class="dose">0.5-1.8 mg/gün (yaklaşık 0.5 mg/gün başla; maks ~1.8 mg/gün), bölünmüş</td>
+            <td>Sık tekrarlayan aftöz ülser ve Behçet ilişkili mukokutanöz tutulumda; ishal doz kısıtlayıcı yan etkidir.</td>
+          </tr>
+          <tr>
+            <td class="step">Sistemik kortikosteroid</td>
+            <td class="dose">Prednizolon 1-2 mg/kg/gün (maks 40-60 mg/gün), azaltarak kes</td>
+            <td>Aktif IBD alevi, ağır eritema nodozum ve akut üveitte kısa süreli indüksiyon; idame için değil.</td>
+          </tr>
+          <tr>
+            <td class="step">Mesalazin (5-ASA)</td>
+            <td class="dose">50-80 mg/kg/gün (maks 4.8 g/gün), bölünmüş</td>
+            <td>Hafif-orta ülseratif kolitte indüksiyon/idame; hafif Crohn kolitinde sınırlı etki.</td>
+          </tr>
+          <tr>
+            <td class="step">Azatioprin</td>
+            <td class="dose">2-2.5 mg/kg/gün (TPMT/NUDT15'e göre ayarla)</td>
+            <td>IBD idame immünomodülasyonu; kemik iliği ve karaciğer izlemi gerekir, etki başlangıcı yavaştır.</td>
+          </tr>
+          <tr>
+            <td class="step">Metotreksat</td>
+            <td class="dose">10-15 mg/m²/hafta (maks ~25 mg/hafta) + folik asit</td>
+            <td>Crohn idamesi ve IBD ilişkili artritte; hepatotoksisite ve kan sayımı izlemi.</td>
+          </tr>
+          <tr>
+            <td class="step">İnfliximab (anti-TNF)</td>
+            <td class="dose">5 mg/kg IV; 0-2-6. hafta indüksiyon, sonra her 8 haftada bir</td>
+            <td>Orta-ağır/fistülize Crohn, piyoderma gangrenozum ve dirençli EIM'de; TB taraması zorunlu.</td>
+          </tr>
+          <tr>
+            <td class="step">Adalimumab (anti-TNF)</td>
+            <td class="dose">Ağırlığa göre subkutan (≥40 kg: 160/80/40 mg protokolü, sonra 40 mg 2 haftada bir)</td>
+            <td>Anti-TNF endikasyonlarında SC alternatif; üveit ve piyoderma gangrenozumda da etkilidir.</td>
+          </tr>
+          <tr>
+            <td class="step">Glutensiz diyet</td>
+            <td class="dose">Ömür boyu kesin gluten eliminasyonu (diyetisyen eşliğinde)</td>
+            <td>Biyopsi doğrulanmış çölyakta tek küratif yaklaşım; aftöz ülser ve EIM'i geriletir.</td>
+          </tr>
+          <tr>
+            <td class="step">Topikal steroid (göz)</td>
+            <td class="dose">Oftalmoloji yönetiminde topikal kortikosteroid + sikloplejik</td>
+            <td>Anterior üveitte oftalmolog tarafından; refrakter/panüveitte sistemik immünsupresyon/anti-TNF.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout safe">Eritema nodozum ve periferik artrit genellikle altta yatan IBD/hastalık aktivitesi kontrol edilince geriler; ayrı immünsupresyon çoğu kez gerekmez. Anti-TNF öncesi TB (IGRA/PPD), hepatit B ve aşılama durumu mutlaka değerlendirilmelidir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve yönetim ilkeleri</h2>
+    <p class="lede">Tanı doğrulandıktan sonra izlem, hem ülser/ekstraintestinal bulgunun seyrini hem de altta yatan hastalığın aktivitesini ve tedavi güvenliğini kapsar.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Aktivite ve klinik izlem</h3>
+        <ul class="clean">
+          <li>Her vizitte büyüme (boy-kilo-VYA persentili), Tanner evresi ve aktivite skorlaması</li>
+          <li>Fekal kalprotektin ile mukozal iyileşme takibi; tam kan, CRP/ESR, albümin izlemi</li>
+          <li>Aftöz ülser sıklığı ve süresi; ferritin/B12/folat/çinkonun periyodik kontrolü</li>
+          <li>Ekstraintestinal bulguların (eklem, deri, göz) seyri; üveitte planlı oftalmoloji takibi</li>
+          <li>Çölyakta anti-tTG'nin diyet uyumu göstergesi olarak izlenmesi</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Tedavi güvenliği ve destek</h3>
+        <ul class="clean">
+          <li>Tiyopurin/metotreksatta hemogram ve karaciğer enzim izlemi; TPMT/NUDT15 durumu</li>
+          <li>Anti-TNF öncesi TB/hepatit taraması, canlı aşı planlaması ve enfeksiyon uyanıklığı</li>
+          <li>Kortikosteroidde süre sınırlaması, kemik sağlığı ve büyüme etkisinin gözetimi</li>
+          <li>Beslenme desteği, D vitamini/kalsiyum, aşı takvimi güncelliği</li>
+          <li>Multidisipliner eş izlem: romatoloji, dermatoloji, oftalmoloji ve diyetisyen ile ortak plan</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">Hedef; sadece aftöz ülserin baskılanması değil, altta yatan hastalıkta klinik + biyokimyasal (ve mümkünse mukozal) remisyona ulaşmak, büyümeyi ve yaşam kalitesini korumaktır. Tedaviye yanıtsız veya alevlenen ekstraintestinal bulguda tanı ve tedavi basamağı yeniden gözden geçirilmelidir.</div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>van Rheenen PF, Aloi M, Assa A, et al. The Medical Management of Paediatric Crohn's Disease: an ECCO-ESPGHAN Guideline Update. J Crohns Colitis. 2021.</li>
+      <li>Turner D, Ruemmele FM, Orlanski-Meyer E, et al. Management of Paediatric Ulcerative Colitis (ECCO-ESPGHAN Guidelines), Parts 1-2. J Pediatr Gastroenterol Nutr. 2018.</li>
+      <li>Husby S, Koletzko S, Korponay-Szabó I, et al. ESPGHAN Guidelines for Diagnosis of Coeliac Disease 2020. J Pediatr Gastroenterol Nutr. 2020.</li>
+      <li>Rome Foundation. Rome IV Diagnostic Criteria for Functional Gastrointestinal Disorders (Childhood). 2016.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge pediyatrik gastroenteroloji uzmanları için hazırlanmış bir klinik karar destek aracıdır; hastaya özgü klinik yargının, güncel kılavuzların ve yerel protokollerin yerini almaz. Tüm ilaç dozları başlamadan önce ağırlık, organ fonksiyonu, etkileşim ve güncel monograflara göre doğrulanmalıdır.</div>
+</div>

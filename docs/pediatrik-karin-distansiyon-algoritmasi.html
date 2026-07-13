@@ -1,0 +1,419 @@
+<title>Karın Şişkinliği ve Distansiyon — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Karın Şişkinliği ve Distansiyon</h1>
+    <p class="sub">Subjektif şişkinlik ile objektif distansiyonun ayrımı; aerofaji, karbonhidrat malabsorpsiyonu/SIBO, çölyak, asit, mekanik obstrüksiyon ve Hirschsprung hastalığı arasında yapılandırılmış ayırıcı tanı, basamaklı tetkik ve dozlu tedavi. Hedef kitle: çocuk gastroenteroloji uzmanı.</p>
+    <div class="meta">
+      <span class="tag">Rome IV</span>
+      <span class="tag">Malabsorpsiyon / SIBO</span>
+      <span class="tag">Hirschsprung</span>
+      <span class="tag">Asit &amp; obstrüksiyon</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">Şişkinlik (bloating), karında dolgunluk/gaz sıkışması hissini tanımlayan subjektif bir semptomdur; distansiyon ise batın çevresinde ölçülebilir, objektif bir artıştır. İkisi örtüşebilir ancak ayırıcı tanıları farklı ağırlık taşır: izole subjektif şişkinlik daha çok fonksiyonel/aerofajik-malabsorptif zeminde görülürken, objektif ve özellikle ilerleyici distansiyon organik nedenlere (obstrüksiyon, asit, megakolon, kitle) daha yüksek olasılık verir. İlk görevi mekanizmayı öngörmek ve alarm bulgularını taramaktır: gaz mı (aerofaji, fermentasyon), sıvı mı (asit), katı-fekal yük mü (kabızlık/Hirschsprung), kitle mi yoksa mekanik tıkanıklık mı. Rome IV, alarm yokluğunda uygun değerlendirme sonrası fonksiyonel abdominal şişkinlik/distansiyonu pozitif klinik tanı olarak tanımlar ve sıklıkla IBS ile fonksiyonel dispepsi ile örtüşür.</p>
+    <div class="pill-row">
+      <span class="pill">Gaz — aerofaji, karbonhidrat malabsorpsiyonu, SIBO, fermentasyon</span>
+      <span class="pill">Sıvı — asit (portal HT, nefrotik, TBC/malignite, şilöz)</span>
+      <span class="pill">Katı/fekal — fonksiyonel kabızlık, Hirschsprung, CIPO</span>
+      <span class="pill">Mekanik/kitle — obstrüksiyon, organomegali, tümör, kist</span>
+    </div>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öyküde sorgula</h3>
+        <ul class="clean">
+          <li>Fenotip: subjektif şişkinlik mi objektif çevre artışı mı; günün seyri (sabah düz, akşama doğru ilerleyen distansiyon → aerofaji/fonksiyonel)</li>
+          <li>Başlangıç yaşı: neonatal başlangıç + gecikmiş mekonyum (&gt;48 saat) + kronik distansiyon-kabızlık → Hirschsprung uyarısı</li>
+          <li>Diyet ilişkisi: süt/laktoz, meyve suyu/fruktoz-sorbitol, aşırı FODMAP, şekersiz (sorbitol/ksilitol) ürünler; laktuloz kullanımı</li>
+          <li>Bağırsak alışkanlığı: obstipasyon, ağrılı-seyrek dışkı, ishal, steatore (yağlı-köpüklü-kötü kokulu dışkı)</li>
+          <li>Eşlik eden: safralı kusma (obstrüksiyon), kilo kaybı/büyüme duraklaması, ateş, ödem-sarılık-idrar köpüklenmesi (asit lehine)</li>
+          <li>Aerofaji ipuçları: hava yutma, sakız, gazlı içecek, hızlı yeme, nörogelişimsel bozukluk/otizm, noninvaziv ventilasyon</li>
+          <li>Aile/ilaç: çölyak, IBD, kronik karaciğer hastalığı; laktuloz/sorbitol içeren ilaçlar, antibiyotik sonrası SIBO</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayenede değerlendir</h3>
+        <ul class="clean">
+          <li>Batın çevresini ölç ve seri izle; distansiyon jeneralize mi (gaz/asit) yoksa lokalize mi (kitle/organomegali)</li>
+          <li>Perküsyon: yaygın timpanizm (gaz) vs açıklığa kayan matite/asit dalgası (sıvı) vs sabit matite (kitle/organomegali)</li>
+          <li>Palpasyon: sol alt kadran fekal kitle, hepatosplenomegali, kitle, hassasiyet/defans/rebound (obstrüksiyon-peritonit)</li>
+          <li>Oskültasyon: artmış-metalik/çınlayan sesler (mekanik obstrüksiyon) vs sessiz batın (ileus/psödoobstrüksiyon)</li>
+          <li>Rektal: Hirschsprung'da dar-boş rektum ve tuşe sonrası patlayıcı gaita/gaz çıkışı; fonksiyonel kabızlıkta dolu ampulla-fekalom</li>
+          <li>Anüs pozisyonu (anterior ektopi), sakral/spinal bulgular, büyüme persentilleri, ödem, sarılık, karın duvarı kollateral venleri</li>
+          <li>Amaç: gaz–sıvı–katı–kitle ayrımını yapıp alarm yokluğunda fonksiyonel/malabsorptif tanıyı desteklemek</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">Yatakbaşı ilk ayrım <b>perküsyondur</b>: yaygın timpanizm gaz (aerofaji/fermentasyon/obstrüksiyon), açıklığa kayan matite sıvı (asit), sabit-lokalize matite ise organomegali/kitleyi işaret eder. Batın çevresinin seri ölçümü subjektif şişkinliği objektif distansiyondan ayırır ve gereksiz görüntülemeyi azaltır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Etiyoloji ve mekanizma</h2>
+    <p class="lede">Şişkinlik-distansiyon tek nedenli değildir; luminal içerik (gaz/sıvı/katı), transit, karın duvarı-diyafram dinamiği ve viseral algının etkileşiminden doğar. Baskın mekanizmayı öngörmek hem tetkik seçimini hem de hedefe yönelik tedaviyi yönlendirir.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">Aerofaji ve artmış luminal gaz</div>
+        <ul>
+          <li>Hava yutma: hızlı yeme, sakız, gazlı içecek, nörogelişimsel bozukluk, noninvaziv ventilasyon</li>
+          <li>Sabah düz, gün içinde ilerleyen distansiyon; geğirme-flatulans; ADBG'de yaygın gastrointestinal hava</li>
+          <li>Hedef: davranışsal düzenleme, tetikleyici kaçınma, ergoterapi</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">Karbonhidrat malabsorpsiyonu ve fermentasyon</div>
+        <ul>
+          <li>Laktoz/fruktoz/sorbitol malabsorpsiyonu, aşırı FODMAP; disakkaridaz eksikliği, çölyak</li>
+          <li>İnce barsak bakteriyel aşırı çoğalması (SIBO): erken postprandiyal şişkinlik, ishal</li>
+          <li>Hedef: hedefli eliminasyon-reintrodüksiyon, nefes testi güdümlü tedavi</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">Motilite ve transit bozukluğu</div>
+        <ul>
+          <li>Fonksiyonel kabızlık + fekal yük (en sık organik-benzeri neden)</li>
+          <li>Hirschsprung, anal akalazi, kronik intestinal psödoobstrüksiyon (CIPO), nöropatik/miyopatik motilite bozukluğu</li>
+          <li>Uyarı: neonatal başlangıç, gecikmiş mekonyum, ağır distansiyon → Hirschsprung/CIPO</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Mekanik obstrüksiyon</div>
+        <ul>
+          <li>Malrotasyon/volvulus, invajinasyon, atrezi-stenoz, bant-yapışıklık, inkarsere herni, bezoar</li>
+          <li>İnflamatuar/neoplastik striktür; akut ilerleyici distansiyon + safralı kusma + obstipasyon</li>
+          <li>Hedef: acil görüntüleme + cerrahi; gecikme iskemi-perforasyon riski</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">Sıvı ve kitle birikimi</div>
+        <ul>
+          <li>Asit: portal hipertansiyon (SAAG ≥1,1 g/dL), nefrotik, protein kaybı, TBC/malignite, şilöz</li>
+          <li>Organomegali (hepatosplenomegali), over/mezenter kisti, koledok kisti, tümör kitlesi</li>
+          <li>Hedef: US ile doğrulama, tanısal parasentez, nedene yönelik tedavi</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">Fonksiyonel / viseral hipersensitivite</div>
+        <ul>
+          <li>Rome IV fonksiyonel abdominal şişkinlik/distansiyon; IBS ve fonksiyonel dispepsi örtüşmesi</li>
+          <li>Abdominofrenik dissinerji: diyaframın paradoks inişi + karın duvarının öne gevşemesi</li>
+          <li>Normal gaz hacmine artmış algı; alarm yok, büyüme normal → pozitif tanı</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">İlk çatal akut/ilerleyici obstrüksiyon veya asit-kitle alarmıdır; ikinci çatal neonatal başlangıç ile Hirschsprung şüphesi; üçüncü çatal ise sınırlı non-invaziv taramanın (çölyak serolojisi, kalprotektin, dışkı, nefes testi) sonucudur. Amaç, kırmızı bayrak yokluğunda pozitif fonksiyonel tanıya hızla ulaşıp tetkik yükünü azaltmaktır.</p>
+    <div class="flow">
+      <div class="node start"><span class="k">Başlangıç</span><span class="t">Kronik/tekrarlayan karın şişkinliği ve/veya distansiyon</span><p>Subjektif dolgunluk hissi ve/veya objektif batın çevresi artışı; işlevselliği etkiliyor veya ilerliyor.</p></div>
+      <div class="connector"></div>
+      <div class="node action"><span class="k">Adım 1</span><span class="t">Öykü + muayene + büyüme + şişkinlik (subjektif) ile distansiyon (objektif) ayrımı</span><p>Batın çevresi ölçümü; perküsyonla gaz–sıvı–katı–kitle ayrımı; diyet ilişkisi, bağırsak alışkanlığı, neonatal öykü ve rektal muayene.</p></div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 1</span><span class="t">Akut/ilerleyici obstrüksiyon veya asit/kitle alarmı var mı?</span><p>Safralı kusma, obstipasyon, akut ilerleyen gergin distansiyon, periton bulgusu; ya da açıklığa kayan matite, palpabl kitle, hepatosplenomegali, ödem/sarılık.</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">EVET → Acil/hedefli değerlendirme</span><div class="node alarm"><span class="k">Görüntüleme + müdahale</span><span class="t">ADBG/kontrastlı pasaj + batın US</span><p>Obstrüksiyon → cerrahi konsültasyon ve girişim; asit → tanısal parasentez (SAAG, hücre, kültür, sitoloji, trigliserid); kitle/organomegali → hedefli görüntüleme.</p></div></div>
+        <div class="branch no"><span class="label">HAYIR → Kronik değerlendirme yolu</span><div class="node action safe"><span class="k">Devam</span><span class="t">Kronik şişkinlik/distansiyon protokolü</span><p>Neonatal öykü ve motilite ipuçlarını değerlendir, ardından sınırlı non-invaziv taramaya geç.</p></div></div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 2</span><span class="t">Neonatal başlangıç / gecikmiş mekonyum (&gt;48 sa) / ağır kabızlık + distansiyon?</span><p>Hirschsprung veya kronik intestinal psödoobstrüksiyon şüphesi; boş-dar rektum, tuşe sonrası patlayıcı gaita çıkışı, enterokolit atakları.</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">EVET → Hirschsprung/motilite değerlendirmesi</span><div class="node alarm"><span class="k">Tanısal algoritma</span><span class="t">Kontrastlı kolon grafisi + anorektal manometri → rektal biyopsi</span><p>Geçiş zonu, RAİR yokluğu; kesin tanı rektal suction/tam kat biyopside ganglion yokluğu + asetilkolinesteraz artışı. CIPO düşünülürse antroduodenal manometri.</p></div></div>
+        <div class="branch no"><span class="label">HAYIR → Malabsorpsiyon/fonksiyonel tarama</span><div class="node action safe"><span class="k">Sınırlı test</span><span class="t">Non-invaziv panel</span><p>Çölyak serolojisi, fekal kalprotektin, dışkı incelemesi ve klinik yönelimle nefes testi; kapsamlı taramadan kaçın.</p></div></div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 3</span><span class="t">Non-invaziv tarama anormal mi?</span><p>Çölyak serolojisi pozitif, kalprotektin yüksek, dışkıda malabsorpsiyon/enfeksiyon bulgusu veya nefes testi SIBO/karbonhidrat malabsorpsiyonu lehine.</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">EVET → Hedefli tanı</span><div class="node alarm"><span class="k">İleri değerlendirme</span><span class="t">Çölyak / IBD / malabsorpsiyon / SIBO</span><p>Çölyak serolojisi pozitif → duodenal biyopsi (ESPGHAN 2020 kriterleri); kalprotektin yüksek → ileokolonoskopi + biyopsi; nefes testi güdümlü diyet/antibiyotik.</p></div></div>
+        <div class="branch no"><span class="label">HAYIR → Pozitif fonksiyonel tanı</span><div class="node action safe"><span class="k">Tanı</span><span class="t">Rome IV fonksiyonel abdominal şişkinlik/distansiyon (± IBS/dispepsi)</span><p>Biyopsikososyal açıklama ve güvence; diyet düzenlemesi, davranışsal tedavi, aerofaji yönetimi ve gerekirse dozlu farmakoterapi; 4 haftalık izlem.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Tetkik alarm ve baskın mekanizmaya göre kademelendirilir. Alarm yoksa sınırlı non-invaziv panel yeterlidir; görüntüleme, parasentez, motilite çalışmaları ve endoskopi hedefli endikasyona ayrılır. Hirschsprung şüphesinde tanısal zincir kontrast grafi → anorektal manometri → rektal biyopsi olarak ilerler.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Karın şişkinliği/distansiyonunda mekanizmaya yönelik kademeli değerlendirme</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Test</th><th>Amaç / not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Basamak 1 · Klinik</td><td>Batın çevresi seri ölçümü, büyüme persentilleri, perküsyon-rektal muayene</td><td>Subjektif şişkinlik ile objektif distansiyon ayrımı; gaz–sıvı–katı–kitle yönlendirmesi</td></tr>
+          <tr><td class="step">Basamak 1 · Kan</td><td>TKS, CRP/ESR, çölyak serolojisi (anti-tTG IgA + total IgA), KCFT, albümin, elektrolit, TSH</td><td>Anemi/inflamasyon, çölyak, hipoalbüminemi (asit/protein kaybı), motiliteyi etkileyen hipotiroidi</td></tr>
+          <tr><td class="step">Basamak 2 · Dışkı</td><td>Fekal kalprotektin; gaita pH/redüktan madde; fekal elastaz; Giardia antijeni; gizli kan</td><td class="dose">Kalprotektin &lt;50 µg/g IBD dışlar; gaita pH &lt;5,5 + redüktan madde karbonhidrat malabsorpsiyonu; elastaz &lt;200 µg/g pankreatik yetmezlik</td></tr>
+          <tr><td class="step">Basamak 2 · Nefes testi</td><td>Laktoz/fruktoz H2 nefes testi; glukoz veya laktuloz H2 nefes testi (SIBO)</td><td>Karbonhidrat malabsorpsiyonu ve SIBO ayrımı; diyet-semptom ilişkisini doğrular, öykü yönlendirir</td></tr>
+          <tr><td class="step">Basamak 3 · Görüntüleme</td><td>Ayakta direkt batın grafisi (ADBG); batın ultrasonografisi</td><td>ADBG: hava-sıvı seviyeleri (obstrüksiyon), fekal yük, dilate barsak. US: asit, organomegali, kitle, barsak duvar kalınlığı, invajinasyon</td></tr>
+          <tr><td class="step">Asit · hedefli</td><td>Tanısal parasentez: SAAG, hücre sayımı, kültür, sitoloji, trigliserid, protein</td><td class="dose">SAAG ≥1,1 g/dL portal hipertansif; &lt;1,1 g/dL eksüdatif (TBC/malignite/pankreatik); TG yüksekse şilöz asit</td></tr>
+          <tr><td class="step">Hirschsprung · hedefli</td><td>Kontrastlı kolon grafisi (geçiş zonu) → anorektal manometri (RAİR) → rektal suction/tam kat biyopsi</td><td>Kesin tanı biyopside ganglion hücre yokluğu + artmış asetilkolinesteraz; neonatal/erken çocuklukta manometri sınırlı olabilir</td></tr>
+          <tr><td class="step">Obstrüksiyon/malrotasyon · hedefli</td><td>Kontrastlı üst GİS pasaj grafisi; şüpheli akut karında BT</td><td>Malrotasyon-volvulus (duodenojejunal bileşke malpozisyonu), striktür, bant; cerrahi ile eş zamanlı değerlendir</td></tr>
+          <tr><td class="step">Basamak 4 · Endoskopi/motilite</td><td>Üst GİS endoskopi ± ileokolonoskopi + biyopsi; antroduodenal/kolonik manometri</td><td>Çölyak/IBD/eozinofilik hastalık doğrulaması; dirençli distansiyon-psödoobstrüksiyonda nöropatik/miyopatik ayrım</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout alarm"><b>SAAG ve neonatal öykü</b> ayırıcı tanıyı hızla daraltır: SAAG ≥1,1 g/dL portal hipertansif asidi işaret eder ve karaciğer değerlendirmesi gerektirir; gecikmiş mekonyum + kronik distansiyon Hirschsprung tanısal zincirini (kontrast grafi → manometri → rektal biyopsi) tetiklemelidir. Akut ilerleyici gergin distansiyon + safralı kusma cerrahi acildir; girişimi görüntüleme için geciktirmeyin.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdakilerden herhangi biri fonksiyonel tanıyı sorgulatır ve organik nedene (obstrüksiyon, asit, Hirschsprung, malabsorpsiyon, IBD, malignite) yönelik hedefli tetkiki zorunlu kılar.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Safralı veya inatçı kusma</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Akut, ilerleyici, gergin distansiyon + obstipasyon</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Periton bulgusu: defans, rebound, yaygın hassasiyet</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Neonatal başlangıç / gecikmiş mekonyum (&gt;48 saat)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Boş-dar rektum + tuşe sonrası patlayıcı gaita çıkışı</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ateş + distansiyon (enterokolit / peritonit şüphesi)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Açıklığa kayan matite / asit dalgası (asit)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Palpabl kitle veya hepatosplenomegali</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>İstemsiz kilo kaybı / büyüme duraklaması</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kronik ishal, steatore, GİS kanama</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ödem, sarılık, kollateral venler (portal HT/karaciğer hastalığı)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Anemi, hipoalbüminemi, yüksek inflamatuar belirteç</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi</h2>
+    <p class="lede">Tedavi ayırıcı tanıya göre nedene yöneliktir: obstrüksiyon ve Hirschsprung cerrahi, asit ise altta yatan hastalığın (portal hipertansiyon, nefrotik) yönetimidir. Fonksiyonel/malabsorptif zeminde diyet ve davranışsal düzenleme temel taştır; farmakoterapi baskın mekanizmaya göre eklenir ve her müdahale 4 haftalık deneme sonrası değerlendirilir. Fekal yük en sık düzeltilebilir nedendir ve önce disimpaksiyon-idame ile ele alınır.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Mekanizmaya göre dozlu tedavi (kilograma göre + maksimum doz)</caption>
+        <thead>
+          <tr><th>Basamak / ilaç</th><th>Doz</th><th>Not / endikasyon</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Nedene yönelik tedavi (tüm hastalar)</td><td class="dose">—</td><td>Obstrüksiyon/Hirschsprung → cerrahi; asit → altta yatan hastalık + tuz kısıtlama; çölyak → glutensiz diyet</td></tr>
+          <tr><td class="step">Fekal disimpaksiyon · PEG 3350 (makrogol)</td><td class="dose">1–1,5 g/kg/gün (maks 100 g/gün), 3–6 gün oral</td><td>Fekal yük kaynaklı distansiyonda önce disimpaksiyon; ESPGHAN/NASPGHAN birinci basamak</td></tr>
+          <tr><td class="step">İdame · PEG 3350</td><td class="dose">0,4 g/kg/gün başla (aralık 0,2–0,8; yanıta göre titrasyon)</td><td>Yumuşak günlük dışkı hedefi; en az 2 ay ve semptom düzeldikten sonra ≥1 ay sürdür</td></tr>
+          <tr><td class="step">Laktoz malabsorpsiyonu · laktozsuz diyet ± laktaz</td><td class="dose">Laktaz: süt ürünüyle 3000–9000 FCC ünite/öğün</td><td>Nefes testi/diyet yanıtı pozitifse; kalsiyum-D vitamini yeterliliğini koru</td></tr>
+          <tr><td class="step">Düşük FODMAP diyeti</td><td class="dose">2–6 hafta eliminasyon → yapılandırılmış reintrodüksiyon</td><td>Diyetisyen eşliğinde; gaz-şişkinlik baskın olguda. Uzamış tam kısıtlama ve büyüme etkisinden kaçın</td></tr>
+          <tr><td class="step">Simetikon (antiflatulan)</td><td class="dose">Süt çocuğu 20 mg, çocuk 40 mg, ergen 40–125 mg; öğün sonrası günde 4 (maks ~500 mg/gün)</td><td>Semptomatik; güvenli ama etkinlik kanıtı sınırlı, emilmez</td></tr>
+          <tr><td class="step">SIBO · Rifaksimin</td><td class="dose">Çocuk ~10–30 mg/kg/gün bölünmüş; ergen 200–550 mg günde 3, 7–14 gün</td><td>Nefes testi pozitif SIBO'da; emilmez, düşük sistemik yan etki. Pediyatrik doz standardizasyonu sınırlı</td></tr>
+          <tr><td class="step">SIBO · Metronidazol (alternatif)</td><td class="dose">20–30 mg/kg/gün bölünmüş (maks 1,5 g/gün), 7–10 gün</td><td>Rifaksimin yoksa; predispozan (motilite/anatomi) faktörü ele al, nüks sıktır</td></tr>
+          <tr><td class="step">Asit · Spironolakton</td><td class="dose">1–3 mg/kg/gün (maks 100–200 mg/gün); gerekirse furosemid 1–2 mg/kg/gün ekle</td><td>Portal hipertansif asitte tuz kısıtlaması ile; elektrolit-böbrek fonksiyonu izle</td></tr>
+          <tr><td class="step">Nane yağı (enterik kaplı)</td><td class="dose">&gt;8 yaş; &lt;45 kg 187 mg günde 3, ≥45 kg 187–374 mg günde 3 (maks ~6 kapsül/gün)</td><td>Fonksiyonel şişkinlik/IBS'de antispazmodik; öğünden önce bütün yutulur, reflü yan etkisine dikkat</td></tr>
+          <tr><td class="step">Probiyotik (adjuvan)</td><td class="dose">Lactobacillus rhamnosus GG 10⁹–10¹⁰ CFU/gün, 4 hafta</td><td>Şişkinlik-ağrı sıklığını azaltabilir; yanıt yoksa sürdürme</td></tr>
+          <tr><td class="step">Amitriptilin (dirençli fonksiyonel)</td><td class="dose">10 mg gece başla; 0,2–0,5 mg/kg gece (maks 25–50 mg/gece)</td><td>Viseral hipersensitivite baskınsa nöromodülatör; bazal EKG (QT), 4 haftada yeniden değerlendir</td></tr>
+          <tr><td class="step">Aerofaji · davranışsal</td><td class="dose">—</td><td>Hava yutmayı azalt: yeme hızı, sakız/gazlı içecek kaçınma; nörogelişimsel olguda ergoterapi/davranış desteği</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout safe"><b>Yaklaşım:</b> Önce düzeltilebilir organik nedeni (fekal yük, laktoz, SIBO, çölyak) hedefle; her müdahaleyi 4 hafta dene, yanıt yoksa baskın mekanizmayı yeniden değerlendir. Fonksiyonel şişkinlik/distansiyonda diyet ve davranışsal tedavi (aerofaji yönetimi, gerektiğinde diyaframatik solunum/biofeedback) farmakoterapiden önce gelir; nöromodülatörü dirençli, viseral hipersensitivite baskın olgulara ayır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve yönetim ilkeleri</h2>
+    <p class="lede">Hedef, altta yatan nedenin tedavisi ile birlikte semptom kontrolü, işlevsellik ve gereksiz tekrarlayan tetkikin önlenmesidir. Objektif distansiyonda organik neden izlemi; subjektif şişkinlikte biyopsikososyal yönetim ön plandadır.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>İzlem</h3>
+        <ul class="clean">
+          <li>Batın çevresi ve büyüme eğrisini seri izle; objektif distansiyonun ilerlemesi organik neden lehinedir ve yeniden değerlendirme gerektirir</li>
+          <li>Fekal yük tedavisinde yumuşak günlük dışkı hedefine ulaşana dek PEG idamesini titre et; erken kesme nüks nedenidir</li>
+          <li>Diyet müdahalelerinde (laktozsuz, düşük FODMAP) reintrodüksiyonu tamamla ve besin yeterliliğini koru</li>
+          <li>Her farmakolojik denemeyi 4 haftada değerlendir; yanıt varsa sürdür, yoksa mekanizmaya göre değiştir</li>
+          <li>Asit/portal hipertansiyon olgularında elektrolit, böbrek fonksiyonu ve karaciğer hastalığı seyrini izle</li>
+          <li>Yeni alarm bulgusu veya atipik seyirde tetkiki tekrarla; aksi halde gereksiz görüntüleme/endoskopiden kaçın</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Dirençli / kompleks olguda</h3>
+        <ul class="clean">
+          <li>Baskın mekanizmayı yeniden gözden geçir; örtüşen IBS/fonksiyonel dispepsi ve aerofajiyi ayır</li>
+          <li>Hirschsprung sonrası veya postoperatif olguda enterokolit, kalıcı obstrüktif semptom ve akalazi açısından değerlendir</li>
+          <li>Kronik intestinal psödoobstrüksiyon şüphesinde motilite çalışması, beslenme desteği ve prokinetik değerlendirmesi</li>
+          <li>Nüks eden SIBO'da altta yatan motilite/anatomik predispozanı ele al; abdominofrenik dissinerjide biofeedback</li>
+          <li>Multidisipliner destek: diyetisyen, cerrahi, psikoloji ve gerektiğinde motilite/hepatoloji ile birlikte yönet</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout safe">Farmakoterapi tek başına değil; nedene yönelik tedavi, diyet, davranışsal düzenleme ve sürekli terapötik ilişki içeren bütüncül bir plan içinde konumlanmalıdır. Objektif distansiyonda organik neden dışlanana dek uyanık kalın; subjektif şişkinlikte etkin güvence ve işlevselliğe odaklanma en kalıcı yararı sağlar.</div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Hyams JS, Di Lorenzo C, Saps M, Shulman RJ, Staiano A, van Tilburg M. Functional Disorders: Children and Adolescents (Rome IV). Gastroenterology. 2016;150(6):1456-1468.</li>
+      <li>Tabbers MM, DiLorenzo C, Berger MY, et al. Evaluation and treatment of functional constipation in infants and children: evidence-based recommendations from ESPGHAN and NASPGHAN. J Pediatr Gastroenterol Nutr. 2014;58(2):258-274.</li>
+      <li>Husby S, Koletzko S, Korponay-Szabó I, et al. European Society Paediatric Gastroenterology, Hepatology and Nutrition Guidelines for Diagnosing Coeliac Disease 2020. J Pediatr Gastroenterol Nutr. 2020;70(1):141-156.</li>
+      <li>Avelar Rodriguez D, Ryan PM, Toro Monjaraz EM, Ramirez Mayans JA, Quigley EM. Small Intestinal Bacterial Overgrowth in Children: A State-Of-The-Art Review. Front Pediatr. 2019;7:363.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge uzman kullanıcıya yönelik bir klinik karar destek aracıdır; hastanın bireysel değerlendirmesi, güncel kılavuzlar ve yerel uygulama koşullarının yerine geçmez. Dozlar hastaya, ağırlığa, komorbiditeye ve ilaç etkileşimlerine göre doğrulanmalıdır.</div>
+</div>

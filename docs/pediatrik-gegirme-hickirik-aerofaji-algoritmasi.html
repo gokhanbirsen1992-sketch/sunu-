@@ -1,0 +1,510 @@
+<title>Aşırı Geğirme, Aerofaji ve İnatçı Hıçkırık — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Aşırı Geğirme, Aerofaji ve İnatçı Hıçkırık</h1>
+    <p class="sub">Gastrik ve supragastrik geğirmenin ayrımı, aerofajinin klinik dağılımı ve inatçı hıçkırığın (singultus) etiyolojik tarama ile dozlu tedavisi için pratik karar yolu.</p>
+    <div class="meta">
+      <span class="tag">Rome IV</span>
+      <span class="tag">Supragastrik Geğirme</span>
+      <span class="tag">Aerofaji</span>
+      <span class="tag">Singultus</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve İlk Değerlendirme</h2>
+    <p class="lede">Geğirme, özofagogastrik bileşkeden havanın oral yolla dışarı atılmasıdır ve Rome IV iki alt tipi ayırır: <b>gastrik geğirme</b> (geçici AÖS gevşemesiyle mide havasının fizyolojik ventilasyonu) ve <b>supragastrik geğirme</b> (havanın özofagusa yutulup/emilip mideye ulaşmadan hemen geri atıldığı davranışsal olay). <b>Aerofaji</b>, aşırı hava yutmaya bağlı abdominal distansiyon, şişkinlik ve artmış flatulanstır. <b>İnatçı hıçkırık</b>, diyafram ve interkostal kasların ani istemsiz kontraksiyonu ile glottis kapanmasının 48 saatten uzun sürmesidir. Tanı öykü temellidir; bulguların çoğu klinik olarak ayrılabilir.</p>
+    <div class="pill-row">
+      <span class="pill">Gastrik = fizyolojik</span>
+      <span class="pill">Supragastrik = davranışsal</span>
+      <span class="pill">Uykuda görülmez</span>
+      <span class="pill">Aerofaji → distansiyon</span>
+      <span class="pill">Hıçkırık &gt;48 sa = inatçı</span>
+      <span class="pill">&gt;1-2 ay = refrakter</span>
+    </div>
+    <div class="grid two">
+      <div class="card">
+        <h3>Yönlendirici Öykü</h3>
+        <ul class="clean">
+          <li>Geğirme paterni: gün içinde tekrarlayan, sıklıkla dakikada birden fazla ardışık geğirme supragastrik lehine; öğünle ilişkili tek tük geğirme gastrik lehinedir.</li>
+          <li>Dikkat/konuşma sırasında artış, uykuda ve konuşurken kaybolma davranışsal (supragastrik) kökeni destekler.</li>
+          <li>Aerofaji ipuçları: gün boyu artan görünür karın distansiyonu, sabah düz-akşam şiş karın, hava yutma alışkanlığı, sakız/gazlı içecek/hızlı yeme.</li>
+          <li>Hıçkırık süresi ve seyri: &lt;48 sa (geçici), &gt;48 sa (inatçı), &gt;1-2 ay (refrakter); tetikleyici (öğün, GÖRH, ilaç, cerrahi, SSS olayı).</li>
+          <li>İlaç öyküsü: kortikosteroid (özellikle deksametazon), benzodiazepin, kemoterapi, opioid; metabolik zemin (üremi, elektrolit).</li>
+          <li>Komorbidite: anksiyete, nörogelişimsel bozukluk (aerofaji sıklığı artar), GÖRH, eozinofilik özofajit; psikososyal stres.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayene ve İlk Gözlem</h3>
+        <ul class="clean">
+          <li>Klinik gözlem: supragastrik geğirmede sık, gürültülü, iradeyle baskılanabilen ardışık geğirme; dikkat dağıldığında azalır.</li>
+          <li>Karın muayenesi: aerofajide timpanik distansiyon, artmış barsak sesleri; büyüme/kilo trendi değerlendir.</li>
+          <li>Antropometri ve büyüme eğrisi; kilo kaybı/duraklama alarm bulgusudur.</li>
+          <li>KBB/orofarinks: kronik hava yutma, tonsil hipertrofisi, geniz akıntısı, diş erozyonu-halitozis (eşlik eden GÖRH).</li>
+          <li>Nörolojik muayene (inatçı hıçkırıkta zorunlu): kafa çifti, serebellar bulgu, meningismus, bilinç; santral etiyolojiyi tarar.</li>
+          <li>Dehidratasyon, kilo kaybı, uyku bozukluğu ve beslenme yetersizliği (refrakter hıçkırıkta) açısından değerlendir.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout"><b>Rome IV özeti:</b> Aşırı geğirme bozukluğu (H2a), son 3 ayda haftada birkaç gün rahatsız edici geğirme ile tanımlanır; gastrik ve supragastrik alt tipleri klinik ve impedans ile ayrılır. Aerofaji, tekrarlayan hava yutmaya bağlı görünür distansiyonla karakterizedir. Hıçkırık ayrı bir motor fenomendir ve süresine göre sınıflanır (geçici / inatçı / refrakter).</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Etiyoloji ve Mekanizma</h2>
+    <p class="lede">Geğirme-aerofaji spektrumu (gastrik ventilasyon, davranışsal supragastrik geğirme, aşırı hava yutma) ile inatçı hıçkırığın refleks arkını (periferik-santral-metabolik/ilaç) ayrı ayrı ele almak, doğru tetkik ve tedavi seçimini belirler.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">Gastrik Geğirme (Fizyolojik)</div>
+        <ul>
+          <li>Yutulan mide havasının geçici AÖS gevşemesiyle (tLESR) retrograd ventilasyonu.</li>
+          <li>İmpedansta aboral→oral hava akışı, mideden köken alır; tedavi genellikle gerekmez.</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">Supragastrik Geğirme (Davranışsal)</div>
+        <ul>
+          <li>Hava, diyafram kontraksiyonu/farinks ile özofagusa çekilir veya itilir, mideye ulaşmadan hemen geri atılır.</li>
+          <li>İmpedansta hızlı oral→aboral→oral akış; dikkatle azalır, uykuda kaybolur. Hedef: davranışsal tedavi.</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">Aerofaji (Aşırı Hava Yutma)</div>
+        <ul>
+          <li>Hızlı yeme, sakız, gazlı içecek, ağızdan solunum, anksiyete; nörogelişimsel bozuklukta sık.</li>
+          <li>Progresif abdominal distansiyon, flatulans; nadiren ileus/volvulus riski.</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Hıçkırık — Periferik/Refleks</div>
+        <ul>
+          <li>Frenik/vagus/diyafram irritasyonu: GÖRH, özofajit, gastrik distansiyon, hava yutma.</li>
+          <li>Eozinofilik özofajit, subdiyafragmatik-torasik kitle, plevral irritasyon.</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">Hıçkırık — Santral (SSS)</div>
+        <ul>
+          <li>Beyin sapı/medüller merkez lezyonu: tümör, ensefalit, demiyelinizasyon, travma, hidrosefali.</li>
+          <li>Eşlik eden nörolojik bulgu görüntüleme (MR) endikasyonudur.</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">Hıçkırık — Metabolik/İlaç</div>
+        <ul>
+          <li>Üremi, hiponatremi, hipokalsemi, hipokalemi, hipokapni.</li>
+          <li>İlaç: deksametazon/kortikosteroid, benzodiazepin, opioid, kemoterapi.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar Akışı</h2>
+    <p class="lede">Önce baskın semptomu belirle (geğirme/distansiyon mı, hıçkırık mı) ve alarm bulgularını tara; alarm yoksa geğirmede gastrik-supragastrik ayrımı yap, hıçkırıkta süre ve etiyolojiye göre basamaklandır.</p>
+    <div class="flow">
+      <div class="node start">
+        <span class="k">Başlangıç</span>
+        <span class="t">Aşırı geğirme / karın distansiyonu / inatçı hıçkırık</span>
+        <p>Sık geğirme, ilerleyici şişkinlik veya 48 saati aşan hıçkırık ile başvuru.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node action">
+        <span class="k">Adım 1</span>
+        <span class="t">Öykü + muayene + alarm taraması</span>
+        <p>Semptom paterni, ilaç/metabolik zemin, nörolojik muayene ve büyüme değerlendirmesi; alarm bulgularını (Bölüm 05) tara.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 1</span>
+        <span class="t">Alarm bulgusu ya da organik/nörolojik işaret var mı?</span>
+        <p>Kilo kaybı, disfaji, gece semptomu, nörolojik bulgu, safralı kusma, hematemez, refrakter/&gt;1-2 ay hıçkırık.</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Organik/etiyolojik tetkik</span>
+          <div class="node alarm">
+            <span class="k">Alarm yolu</span>
+            <span class="t">Yapısal + metabolik + görüntüleme</span>
+            <p>Üst GİS endoskopi+biyopsi, elektrolit/üre/kalsiyum, göğüs grafisi; nörolojik bulgu veya refrakter hıçkırıkta beyin sapını içeren kraniyal MR.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Semptom tipine göre ayır</span>
+          <div class="node action safe">
+            <span class="k">Klinik yol</span>
+            <span class="t">Fonksiyonel spektrum</span>
+            <p>Geğirme/aerofaji için Rome IV; geçici/inatçı hıçkırık için ampirik yaklaşım. İnvaziv tetkiğe gerek yoktur.</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 2</span>
+        <span class="t">Baskın semptom hangisi?</span>
+        <p>Geğirme/distansiyon spektrumu mu, yoksa izole inatçı hıçkırık mı?</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">GEĞİRME/AEROFAJİ → Alt tipi belirle</span>
+          <div class="node action">
+            <span class="k">Geğirme yolu</span>
+            <span class="t">Gastrik vs supragastrik (impedans)</span>
+            <p>Ardışık/dikkatle azalan geğirme → supragastrik: davranışsal tedavi + logopedi. Öğünle ilişkili tek geğirme → gastrik: güvence + tetikleyici yönetimi. Aerofaji → hava yutma alışkanlığı + simetikon.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HIÇKIRIK → Süre/etiyoloji basamağı</span>
+          <div class="node action safe">
+            <span class="k">Hıçkırık yolu</span>
+            <span class="t">Tetikleyici düzelt → farmakoterapi</span>
+            <p>Düzeltilebilir nedeni (GÖRH, distansiyon, ilaç, elektrolit) gider; sürerse baklofen/gabapentin, dirençlide klorpromazin/metoklopramid ile basamaklandır.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı Tetkik</h2>
+    <p class="lede">Tanı büyük ölçüde klinik olduğundan tetkik seçicidir; ileri inceleme alarm/atipik bulgu, ayırıcı tanı gerekliliği veya refrakter hıçkırık durumunda yapılır.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Geğirme, aerofaji ve inatçı hıçkırıkta basamaklı değerlendirme</caption>
+        <thead>
+          <tr>
+            <th>Basamak</th>
+            <th>İçerik / Endikasyon</th>
+            <th>Not</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">Basamak 1 — Klinik tanı</td>
+            <td>Rome IV (H2a) + semptom gözlemi + ilaç/metabolik öykü</td>
+            <td>Alarm yoksa geğirme/aerofajide çoğunlukla tek başına yeterlidir; geçici hıçkırıkta tetikleyici düzeltilir.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 2 — Bazal laboratuvar</td>
+            <td>Elektrolit, üre/kreatinin, kalsiyum, magnezyum, tam kan; inatçı hıçkırıkta zorunlu</td>
+            <td>Üremi, hiponatremi, hipokalsemi/hipokalemi gibi düzeltilebilir metabolik nedenleri tarar.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 3 — Üst GİS endoskopi + biyopsi</td>
+            <td>Disfaji, kilo kaybı, GÖRH şüphesi, refrakter hıçkırık, eozinofilik özofajit dışlaması</td>
+            <td>Özofajit, EoE, striktür ve mukozal patolojiyi değerlendirir; frenik/vagal irritasyon kaynağını gösterir.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 4 — HRIM-impedans</td>
+            <td>Geğirmede gastrik-supragastrik ayrımı, refrakter olgu</td>
+            <td>Supragastrik geğirmede karakteristik hızlı oral→aboral→oral hava akışı; gastrik geğirmeyi ve ruminasyonu ayırır.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 5 — Görüntüleme (grafi/MR)</td>
+            <td>Ayakta direkt karın grafisi (aerofajide gaz dağılımı); nörolojik bulgu/refrakter hıçkırıkta beyin sapını içeren kraniyal MR, gerekirse toraks görüntüleme</td>
+            <td>Aerofajide masif gaz dilatasyonu/obstrüksiyonu; hıçkırıkta santral lezyon, kitle veya diyafram irritasyonunu araştırır.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 6 — 24 saat pH-impedans</td>
+            <td>GÖRH ile örtüşen geğirme veya GÖRH ilişkili hıçkırık</td>
+            <td>Asit maruziyeti ve semptom-reflü ilişkisini niceler; supragastrik geğirmenin reflü epizodlarını tetiklediği paterni gösterir.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout safe"><b>Pratik nokta:</b> Supragastrik geğirmeyi gastrik geğirme ve ruminasyondan ayıran en özgül test HRIM-impedanstır; ancak dikkatle azalan, uykuda kaybolan ardışık geğirme öyküsü çoğu olguda invaziv teste gerek kalmadan davranışsal tanıyı destekler.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı Bayraklar</h2>
+    <p class="lede">Aşağıdaki bulgulardan herhangi biri fonksiyonel tanıyı sorgulatır ve organik/nörolojik/metabolik zemin için ileri değerlendirme gerektirir.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Kilo kaybı, büyüme duraklaması veya beslenme yetersizliği</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Disfaji veya odinofaji</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Uyku sırasında süren geğirme/hıçkırık (davranışsal tanıya aykırı)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Nörolojik bulgu: baş ağrısı, kusma, ataksi, kafa çifti/serebellar defisit, bilinç değişikliği</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>1-2 ayı aşan refrakter hıçkırık veya hızla ilerleyen seyir</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Masif abdominal distansiyon, safralı kusma, obstrüksiyon/volvulus bulgusu</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Hematemez, melena veya demir eksikliği anemisi</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Metabolik ipucu: üremi, hiponatremi, hipokalsemi, hipokalemi</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Yeni başlayan/yüksek doz kortikosteroid veya diğer tetikleyici ilaç</span></div>
+    </div>
+    <div class="callout alarm"><b>Dikkat:</b> Uykuda süren veya nörolojik bulguyla birlikte olan inatçı hıçkırık asla fonksiyonel kabul edilmemelidir; beyin sapını içeren kraniyal MR ve metabolik tarama önceliklidir. Aerofajide masif gaz dilatasyonu ileus/volvulus açısından acil değerlendirme gerektirir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi</h2>
+    <p class="lede">Geğirme-aerofaji spektrumunun birincil tedavisi davranışsaldır (güvence, hava yutma alışkanlığının düzeltilmesi, diyafragmatik solunum ve logopedi); farmakoterapi refrakter supragastrik geğirme ve inatçı hıçkırık için kullanılır. Hıçkırıkta önce düzeltilebilir tetikleyici (GÖRH, distansiyon, ilaç, elektrolit) giderilir. Dozlar mg/kg ve maksimumla verilmiştir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Basamaklı tedavi ve dozlar</caption>
+        <thead>
+          <tr>
+            <th>Tedavi / İlaç</th>
+            <th>Doz / Uygulama</th>
+            <th>Açıklama</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">Davranışsal tedavi + logopedi (supragastrik geğirme, 1. basamak)</td>
+            <td class="dose">Diyafragmatik solunum + konuşma terapisi; günde 3-4 kısa seans, 4-6 hafta</td>
+            <td>Ardışık geğirmeye rakip yanıt oluşturur; ağız açık yavaş solunum ile hava yutma-atma döngüsü kırılır. En etkili ilk seçenektir.</td>
+          </tr>
+          <tr>
+            <td class="step">Aerofaji önlemleri</td>
+            <td class="dose">Yavaş yeme, sakız/pipet/gazlı içecek kesilmesi; öğün hijyeni</td>
+            <td>Hava yutma kaynaklarını azaltır; ağızdan solunum/adenotonsiller obstrüksiyon varsa KBB değerlendirmesi.</td>
+          </tr>
+          <tr>
+            <td class="step">Simetikon (semptomatik distansiyon)</td>
+            <td class="dose">Yaşa göre 20-40 mg, öğünlerde ve yatarken (maks ~240 mg/gün)</td>
+            <td>Gaz kabarcıklarını birleştirir; distansiyon/şişkinlik semptomunu hafifletir, sistemik emilmez.</td>
+          </tr>
+          <tr>
+            <td class="step">Baklofen (refrakter supragastrik geğirme / inatçı hıçkırık)</td>
+            <td class="dose">Başlangıç 0,5 mg/kg/gün, 3 doza bölünmüş; titre (adölesanda 5-10 mg 3×/gün). Maks 60 mg/gün</td>
+            <td>tLESR sıklığını ve geğirme/hıçkırık epizodlarını azaltır. Yan etki: sedasyon, baş dönmesi; ani kesmeden kaçın (aşamalı azalt).</td>
+          </tr>
+          <tr>
+            <td class="step">Gabapentin (inatçı hıçkırık)</td>
+            <td class="dose">Başlangıç 5 mg/kg/gün, 3 doza bölünmüş; titre 15-30 mg/kg/gün. Maks 300 mg/doz (900 mg/gün)</td>
+            <td>Diyafram nöromusküler eksitabilitesini baskılar; iyi tolere edilir, baklofene alternatif/ek olarak kullanılır.</td>
+          </tr>
+          <tr>
+            <td class="step">Metoklopramid (GÖRH/distansiyon ilişkili hıçkırık)</td>
+            <td class="dose">0,1-0,15 mg/kg/doz, günde 3 kez; maks 0,5 mg/kg/gün ve 10 mg/doz</td>
+            <td>Prokinetik; gastrik distansiyona bağlı frenik irritasyonu azaltır. Kısa süreli kullan (ekstrapiramidal/distoni riski).</td>
+          </tr>
+          <tr>
+            <td class="step">Klorpromazin (dirençli hıçkırık)</td>
+            <td class="dose">0,5 mg/kg/doz, 6-8 saatte bir PO/IV; maks: &lt;5 yaş 40 mg/gün, 5-12 yaş 75 mg/gün</td>
+            <td>Hıçkırık için klasik/onaylı ajan. Sedasyon, hipotansiyon, ekstrapiramidal etki; kısa süreli ve yakın izlemle kullan.</td>
+          </tr>
+          <tr>
+            <td class="step">Omeprazol (komorbid GÖRH)</td>
+            <td class="dose">1 mg/kg/gün, tek/iki doz; maks 20-40 mg/gün</td>
+            <td>GÖRH ilişkili hıçkırık/geğirmede öncül asit hasarını baskılar; fonksiyonel geğirmeyi tek başına tedavi etmez.</td>
+          </tr>
+          <tr>
+            <td class="step">BDT / psikoterapi</td>
+            <td class="dose">Yapılandırılmış seanslar; komorbidite şiddetine göre</td>
+            <td>Eşlik eden anksiyete/stres supragastrik geğirme ve aerofajiyi sürdürür; davranışsal tedaviyi güçlendirir.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout"><b>İlaç seçimi:</b> Geğirme/aerofajinin birincil tedavisi ilaç değil davranışsal müdahaledir; farmakoterapi yalnızca refrakter olguda eklenir. İnatçı hıçkırıkta önce düzeltilebilir neden giderilir; farmakolojik basamaklama genelde baklofen veya gabapentin ile başlar, dirençli olguda klorpromazin/metoklopramid eklenir. Ampirik uzun süreli PPI/prokinetik kullanımından kaçının.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve Yönetim İlkeleri</h2>
+    <p class="lede">İzlem; semptom sıklığı, tetikleyici kontrolü, büyüme/beslenme ve ilaç yan etkileri açısından planlanır. Aile ve okul eğitimi, davranışsal tedavinin başarısını belirler.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>İzlem Parametreleri</h3>
+        <ul class="clean">
+          <li>4-6 haftada ilk yanıt değerlendirmesi; ardından 3 ayda bir izlem.</li>
+          <li>Semptom günlüğü: geğirme/hıçkırık sıklığı, distansiyon paterni, tetikleyiciler.</li>
+          <li>Büyüme eğrisi, kilo ve beslenme durumu; refrakter hıçkırıkta uyku ve hidrasyon takibi.</li>
+          <li>Baklofen/gabapentin/klorpromazin kullananlarda sedasyon, ekstrapiramidal bulgu ve doz uyumu.</li>
+          <li>Metabolik zemin varsa elektrolit/üre kontrolü; GÖRH tedavisinde yanıt değerlendirmesi.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Yönetim İlkeleri</h3>
+        <ul class="clean">
+          <li>Supragastrik geğirme ve aerofajinin istemsiz/öğrenilmiş bir davranış olduğunu aileye açıkla; suçlayıcı yaklaşımdan kaçın.</li>
+          <li>Davranışsal tedavi ve logopediyi günlük rutine yerleştir; hava yutma tetikleyicilerini gider.</li>
+          <li>İnatçı hıçkırıkta düzeltilebilir nedeni (ilaç, elektrolit, GÖRH, distansiyon) her zaman önce ele al.</li>
+          <li>Komorbid anksiyete/stresi eş zamanlı tedavi et; gerekirse psikoloji ile birlikte yürüt.</li>
+          <li>Gereksiz tekrarlayan invaziv tetkik ve ampirik ilaçtan kaçın.</li>
+          <li>Refrakter/nörolojik bulgulu veya metabolik zeminli olguda multidisipliner (GE, nöroloji, beslenme, psikoloji) yönetim; yanıt yoksa tanıyı ve görüntülemeyi yeniden gözden geçir.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Hyams JS, Di Lorenzo C, Saps M, ve ark. Childhood Functional Gastrointestinal Disorders: Child/Adolescent (Rome IV; H2a Aerofaji ve Geğirme Bozukluğu). Gastroenterology. 2016;150(6):1456-1468.</li>
+      <li>Kessing BF, Bredenoord AJ, Smout AJPM. The Pathophysiology, Diagnosis and Treatment of Excessive Belching Symptoms. Am J Gastroenterol. 2014;109(8):1196-1203.</li>
+      <li>Polito NB, Fellows SE. Pharmacologic Interventions for Intractable and Persistent Hiccups: A Systematic Review. J Emerg Med. 2017;53(4):540-549.</li>
+      <li>Rosen R, Vandenplas Y, Singendonk M, ve ark. Pediatric Gastroesophageal Reflux Clinical Practice Guidelines: NASPGHAN-ESPGHAN Joint Recommendations. J Pediatr Gastroenterol Nutr. 2018;66(3):516-554.</li>
+    </ol>
+  </footer>
+
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge pediyatrik gastroenteroloji uzmanlarına yönelik bir klinik karar destek aracıdır; bireysel hasta değerlendirmesi, güncel kılavuzlar ve klinik yargının yerini almaz. Doz ve tedavi kararları hastanın yaşı, kilosu, komorbiditeleri ve yerel onaylar doğrultusunda teyit edilmelidir.</div>
+</div>

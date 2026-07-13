@@ -1,0 +1,424 @@
+<title>Dizanteri (Kanlı-Mukuslu İshal) — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Dizanteri (Kanlı-Mukuslu İshal)</h1>
+    <p class="sub">İnvaziv kolitin ayırıcı tanısını, dışkı tetkik algoritmasını, ampirik antibiyotik endikasyonunu ve STEC/HÜS güvenlik durdurmasını yapılandıran karar aracı; enfeksiyöz dizanteriyi alerjik proktokolit ve İBH'den ayırmaya odaklanır. Hedef kitle: çocuk gastroenteroloji uzmanı.</p>
+    <div class="meta">
+      <span class="tag">İnvaziv kolit</span>
+      <span class="tag">Dışkı tetkik</span>
+      <span class="tag">STEC / HÜS</span>
+      <span class="tag">İBH-alerjik kolit ayrımı</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">Dizanteri; kolonik mukozanın invaziv-inflamatuvar hasarına bağlı, dışkıda gözle görülür kan ve mukus ile seyreden, sık ve az miktarlı defekasyon, tenesmus ve karın krampı ile karakterli klinik tablodur. İlk görev üç ayrımı yapmaktır: (1) gerçek kanlı-mukuslu invaziv ishal mi, yoksa üst GİS kanamasının, yutulmuş kanın (anne memesi çatlağı, epistaksis), anal fissürün ya da gıda/ilaç kaynaklı yalancı kırmızılığın (pancar, jelatin, rifampin, sefdinir) taklidi mi; (2) akut (&lt;2 hafta) enfeksiyöz kolit mi, yoksa kronik/tekrarlayan zeminde İBH mi; (3) süt çocuğunda iyi görünümlü, izole kanlı-mukuslu gaita — inek sütü proteinine bağlı alerjik proktokolit mi. Kritik ilk kararlar hidrasyon durumunun derecelendirilmesi ve STEC (Shiga toksin üreten E. coli) olasılığının erkenden tanınmasıdır; çünkü STEC şüphesi antibiyotik ve antimotilite ilaçlarını kontrendike kılar (HÜS tetikleme riski).</p>
+    <div class="pill-row">
+      <span class="pill">Önce yalancı kanamayı dışla</span>
+      <span class="pill">Akut enfeksiyöz vs kronik İBH</span>
+      <span class="pill">Süt çocuğunda alerjik proktokolit</span>
+      <span class="pill">STEC → antibiyotik/antimotilite YOK</span>
+    </div>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öyküde sorgula</h3>
+        <ul class="clean">
+          <li>Dışkı: kanın niteliği (dışkıya karışık mı, üzerinde çizgi mi), mukus, hacim, sıklık, tenesmus; başlangıç ve süre (akut &lt;2 hafta vs. kronik/tekrarlayan)</li>
+          <li>Eşlik eden: ateş yüksekliği ve paterni, karın ağrısı-kramp, kusma (safralı mı), kilo kaybı, gece semptomları, büyüme duraklaması (İBH lehine)</li>
+          <li>Maruziyet: kreş, salgın teması, iyi pişmemiş kıyma/hamburger, çiğ süt, kümes-sürüngen teması (Salmonella), kontamine su, endemik bölge seyahati, yakın zamanda antibiyotik (C. difficile)</li>
+          <li>Yaş bağlamı: süt çocuğunda beslenme (inek sütü/formül, anne diyeti), iyi görünüm; süt çocuğunda paroksismal ağrı + "çilek jölesi" gaita (invajinasyon)</li>
+          <li>Konak: yaş &lt;3 ay, immünsüpresyon, orak hücre, hemolitik anemi, İBH öyküsü, aile öyküsü (İBH, çölyak)</li>
+          <li>Kırmızı bayrak taraması: idrar azalması, solukluk, peteşi-purpura, letarji (HÜS); artralji-purpurik döküntü (IgA vasküliti)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayenede değerlendir</h3>
+        <ul class="clean">
+          <li>Hidrasyon/hemodinami: taşikardi, kapiller dolum, göz-fontanel çöküklüğü, turgor, mukoza, idrar çıkışı; toksik görünüm ve şok bulguları</li>
+          <li>Ateş ve genel durum: yüksek ateş + tenesmus + toksisite (basilli dizanteri/şigelloz); afebril-subfebril belirgin kanlı ishal (STEC'i düşündürür)</li>
+          <li>Batın: yaygın hassasiyet-distansiyon, peritoneal irritasyon (toksik megakolon/perforasyon), sağ üst kadran sosis kitle (invajinasyon)</li>
+          <li>Perianal: fissür, fistül-şekil bozukluğu, deri lezyonu (Crohn lehine); anal ragad (yalancı kanama kaynağı)</li>
+          <li>Ekstraintestinal: solukluk-peteşi-ödem (HÜS), palpabl purpura-artrit (IgA vasküliti/HSP), aftöz stomatit-eritema nodozum-clubbing (İBH)</li>
+          <li>Büyüme: persantil kaybı, boy-kilo duraklaması (kronik/İBH)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout alarm"><b>Kırmızı çizgi:</b> Toksik görünüm, şok, peritonit, &lt;3 ay süt çocuğunda kanlı ishal veya HÜS bulgusu (oligüri, solukluk, peteşi) varsa değerlendirme resüsitasyonla eşzamanlı yürütülür. Kanlı ishalli her çocukta <b>STEC olasılığı dışlanana dek ampirik antibiyotik ve antimotilite ajanlarından kaçınılır.</b></div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Etiyoloji ve mekanizma</h2>
+    <p class="lede">Kanlı-mukuslu ishal esas olarak invaziv/inflamatuvar bir kolit tablosudur; etkenler mukozayı invaze eder veya sitotoksinle hasarlar, bu da kan, mukus ve dışkı lökositine yol açar. Kategori ayrımı hem tetkik seçimini hem de en kritik noktayı — antibiyotik verilip verilmeyeceğini — belirler.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">Shigella (basilli dizanteri)</div>
+        <ul>
+          <li>Klasik dizanteri etkeni; yüksek ateş, tenesmus, sık az hacimli kanlı-mukuslu gaita, toksisite; nöbet-ensefalopati yapabilir</li>
+          <li>Az inokulumla bulaşır (fekal-oral, kreş salgını); Shiga toksin üreten S. dysenteriae tip 1 HÜS yapabilir</li>
+          <li>Antibiyotik süreyi ve bulaşı azaltır — ampirik tedaviden en çok yarar gören etken</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">STEC / EHEC (O157:H7 ve diğerleri)</div>
+        <ul>
+          <li>Çoğu afebril-subfebril, belirgin kanlı ishal + şiddetli karın ağrısı; iyi pişmemiş kıyma, çiğ süt, temas</li>
+          <li>Shiga toksin (stx1/stx2) → tipik HÜS'ün başlıca nedeni (özellikle &lt;5 yaş)</li>
+          <li><b>Antibiyotik ve antimotilite HÜS riskini artırır — verilmez;</b> yönetim yalnızca destektir</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">Campylobacter · Salmonella · Yersinia</div>
+        <ul>
+          <li>Campylobacter: kanlı ishal + karın ağrısı; erken azitromisin süreyi kısaltır (Guillain-Barré ilişkisi)</li>
+          <li>Non-tifoidal Salmonella: genelde kendini sınırlar — rutin antibiyotik YOK; yalnız &lt;3 ay, immünsüpresyon, bakteriyemi riskinde tedavi</li>
+          <li>Yersinia: terminal ileit/psödoapandisit, mezenterik lenfadenit; apandisiti taklit eder</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Parazitik ve C. difficile</div>
+        <ul>
+          <li>Entamoeba histolytica: subakut kanlı-mukuslu ishal, endemik bölge/seyahat; amip antijeni/PCR E. dispar'dan ayırır</li>
+          <li>C. difficile: yakın antibiyotik kullanımı; &lt;1 yaşta asemptomatik taşıyıcılık sık — pozitif test dikkatle yorumlanır</li>
+          <li>Toksik megakolon riski; ağır olguda vankomisin</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">Alerjik (inek sütü) proktokolit</div>
+        <ul>
+          <li>Tipik süt çocuğu: iyi görünümlü, büyümesi normal, izole kan-mukus çizgili gaita; anne sütü veya formül alan bebek</li>
+          <li>İnek sütü proteini (± soya) tetikler; ateş-toksisite YOK, dehidratasyon beklenmez</li>
+          <li>Tanı diyet eliminasyonuna yanıtla konur; endoskopi genelde gerekmez</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">İBH ve cerrahi/vasküler nedenler</div>
+        <ul>
+          <li>İBH (ülseratif kolit/Crohn): kronik/tekrarlayan kanlı-mukuslu ishal, gece semptomu, kilo kaybı, büyüme duraklaması, ekstraintestinal bulgu</li>
+          <li>İnvajinasyon (3 ay-3 yaş, paroksismal ağrı + "çilek jölesi"), Meckel divertikülü (ağrısız masif kanama)</li>
+          <li>IgA vasküliti (HSP): palpabl purpura + artrit + karın ağrısı + kanlı gaita</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout"><b>Yaş kuralı:</b> Süt çocuğunda iyi görünümlü izole kanlı-mukuslu gaita → önce alerjik proktokolit; 3 ay-3 yaşta paroksismal ağrı + çilek jölesi gaita → invajinasyon; okul çağı-adölesanda kronik/tekrarlayan kanlı ishal + kilo kaybı → İBH; akut yüksek ateş + tenesmus + toksisite → şigelloz; afebril belirgin kanlı ishal + çiğ et teması → STEC (HÜS izle).</div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">İlk çatal toksik/dehidrate-şok tablosudur; ikinci ve en kritik çatal STEC olasılığıdır (antibiyotik durdurma noktası); üçüncü çatal, enfeksiyöz zemin dışlandığında alerjik proktokolit / İBH ayrımıdır.</p>
+    <div class="flow">
+      <div class="node start"><span class="k">Başlangıç</span><span class="t">Kanlı-mukuslu ishal (dizanteri)</span><p>Gerçek invaziv kolit mi doğrula — üst GİS kanaması, yutulmuş kan, anal fissür ve gıda/ilaç kaynaklı yalancı kırmızılığı dışla.</p></div>
+      <div class="connector"></div>
+      <div class="node action"><span class="k">Adım 1</span><span class="t">Hidrasyonu derecele + ORS ile stabilize et</span><p>Dehidratasyon derecesi ve vital; düşük ozmolariteli ORS başla, çinko ekle, beslenmeyi sürdür; öyküde ateş paterni, maruziyet (çiğ et, seyahat, antibiyotik), yaş ve konak riskini topla.</p></div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 1</span><span class="t">Toksik görünüm / şok / &lt;3 ay / immünsüpresyon var mı?</span><p>Septik-toksik tablo, ağır dehidratasyon-şok, süt çocuğu &lt;3 ay, immün yetmezlik veya ağır sistemik hastalık.</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">EVET → Yatış + ampirik tedavi</span><div class="node alarm"><span class="k">Acil</span><span class="t">Hastaneye yatır, IV resüsitasyon + kan+dışkı kültürü, ampirik parenteral seftriakson</span><p>İzotonik bolus, kültür sonrası ampirik seftriakson 50 mg/kg/gün (maks 2 g); STEC testini gönder ve HÜS için hemogram-şistosit-kreatinin izle.</p></div></div>
+        <div class="branch no"><span class="label">HAYIR → Ayaktan yönetim</span><div class="node action safe"><span class="k">Katmanla</span><span class="t">Dışkı panelini gönder, oral hidrasyonla izle</span><p>Dışkı kültürü + STEC (Shiga toksin/stx PCR) + inflamasyon belirteci; ampirik antibiyotiği STEC dışlanana ve endikasyon netleşene dek beklet.</p></div></div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 2</span><span class="t">STEC/EHEC olasılığı yüksek mi?</span><p>Afebril-subfebril belirgin kanlı ishal + şiddetli karın ağrısı, çiğ kıyma/çiğ süt teması veya salgın; &lt;5 yaş.</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">EVET → Güvenlik durdurması</span><div class="node alarm"><span class="k">Dur</span><span class="t">Yalnızca destek — ANTİBİYOTİK ve ANTİMOTİLİTE VERME</span><p>Antibiyotik ve loperamid HÜS riskini artırır; IV izotonik sıvı ile böbreği koru, seri tam kan-periferik yayma-üre/kreatinin ile HÜS izle.</p></div></div>
+        <div class="branch no"><span class="label">HAYIR → Şigelloz olası</span><div class="node action safe"><span class="k">Tedavi et</span><span class="t">Ampirik azitromisin + kültür</span><p>Yüksek ateş + tenesmus + toksisite basilli dizanteriyi (Shigella/Campylobacter) düşündürür; ampirik azitromisin başla, kültüre göre daralt.</p></div></div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 3</span><span class="t">Enfeksiyöz zemin dışlandı / süt çocuğu iyi görünümlü / kronik-tekrarlayan mı?</span><p>Kültür-panel negatif ve semptom süregen; ya da süt çocuğunda iyi görünümlü izole kanlı gaita; ya da &gt;2-4 hafta kronik/tekrarlayan tablo, kilo kaybı, büyüme duraklaması.</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">EVET → Non-enfeksiyöz araştır</span><div class="node action safe"><span class="k">Ayır</span><span class="t">Süt çocuğu → alerjik proktokolit; büyük çocuk → İBH işlemi</span><p>Süt çocuğunda inek sütü proteini eliminasyonu (yanıt tanısaldır); kronik/atipik olguda fekal kalprotektin, inflamasyon-anemi paneli ve ileokolonoskopi + biyopsi ile İBH değerlendir.</p></div></div>
+        <div class="branch no"><span class="label">HAYIR → Kendini sınırlayan kolit</span><div class="node action safe"><span class="k">İzle</span><span class="t">Destekleyici bakım + güvenlik ağı</span><p>Çoğu enfeksiyöz dizanteri kendini sınırlar; hidrasyon-çinko-beslenme sürdür, kötüleşme/HÜS bulgusu için net dönüş talimatı ver.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Tetkik dışkı mikrobiyolojisi ve inflamasyon belirteçleri üzerine kuruludur; kanlı ishalde STEC testi rutin olarak ilk basamak dışkı panelinin parçası olmalıdır (HÜS öngörüsü ve antibiyotik kararı için). Kronik/atipik olguda endoskopi İBH tanısını netleştirir; toksik/HÜS şüphesinde kan tetkiki paralel yürütülür.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Kanlı-mukuslu ishalde kademeli tetkik</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Test</th><th>Amaç / not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Basamak 1 · Yatak başı</td><td>Kanın makroskopik doğrulanması + gizli kan, hidrasyon-vital, kapiller glukoz, kilo/persantil</td><td>Yalancı kanamayı (gıda/ilaç, yutulmuş kan, fissür) dışla; dehidratasyon derecesi tedaviyi yönlendirir</td></tr>
+          <tr><td class="step">Basamak 2 · Dışkı mikrobiyolojisi</td><td>Dışkı kültürü (Salmonella, Shigella, Campylobacter, Yersinia) + <span class="dose">STEC testi: Shiga toksin EIA ve stx1/stx2 PCR, sorbitol-MacConkey (O157)</span>; ± multipleks GİS PCR paneli</td><td>Kanlı ishalde STEC testi zorunludur; kültür negatifse bile toksin/PCR ile STEC aranır. Panel pozitifliğini klinikle yorumla</td></tr>
+          <tr><td class="step">Basamak 3 · Dışkı inflamasyonu</td><td>Fekal lökosit/laktoferrin; fekal kalprotektin; risk varsa dışkı C. difficile toksin/GDH (± PCR)</td><td>İnvazivliği destekler; yüksek kalprotektin İBH'yi düşündürür (özgül değil). &lt;1 yaşta C. difficile taşıyıcılığı sıktır — pozitifliği dikkatle yorumla</td></tr>
+          <tr><td class="step">Basamak 4 · Parazit</td><td>Dışkıda E. histolytica antijeni/PCR; yumurta-parazit (3 örnek)</td><td>Endemik bölge/seyahat, subakut seyir; mikroskopi E. histolytica'yı apatojen E. dispar'dan ayıramaz — antijen/PCR gerekir</td></tr>
+          <tr><td class="step">Basamak 5 · Kan / HÜS izlemi</td><td>Tam kan + <span class="dose">periferik yayma (şistosit)</span>, üre-kreatinin, LDH, haptoglobin, elektrolit, CRP; ağır olguda kan kültürü</td><td>Anemi + trombositopeni + akut böbrek hasarı = HÜS; STEC pozitif/riskli olguda seri izle. CRP/anemi/trombositoz İBH aktivitesini destekler</td></tr>
+          <tr><td class="step">Basamak 6 · Endoskopi / görüntüleme</td><td>Kronik/İBH şüphesinde ileokolonoskopi + üst endoskopi ve biyopsi; invajinasyonda USG; Meckel için Tc-99m perteknetat sintigrafisi</td><td>Porto kriterlerine göre İBH tanısı için segmental biyopsi zorunlu; süt çocuğu alerjik proktokolitte endoskopi genelde gereksiz</td></tr>
+          <tr><td class="step">Seçili · İBH paneli</td><td>Tam kan, ESR/CRP, albümin, ferritin, çölyak serolojisi; gaita kalprotektin izlemi</td><td>Kronik kanlı ishalde beslenme-inflamasyon durumu; enfeksiyöz nedenler İBH tanısı öncesi dışlanır</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout"><b>Not:</b> Ampirik antibiyotik kararı verilmeden önce dışkı kültürü ve STEC testi <b>alınmış olmalıdır</b>; antibiyotik STEC dışlanmadan başlanırsa hem kültür verimini düşürür hem de STEC olgusunda HÜS riskini artırır. Kültür negatif ama klinik süregen/atipikse tetkik İBH ve parazit yönünde derinleştirilir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdakilerden herhangi biri hastaneye yatış, ivedi tetkik ve — HÜS/STEC dışında — hedefli tedavi gerektirir; STEC bulguları ise antibiyotik ve antimotiliteyi durdurur.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>HÜS üçlüsü: solukluk-anemi + peteşi/trombositopeni + oligüri/böbrek hasarı</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Afebril belirgin kanlı ishal + çiğ et/çiğ süt teması (STEC — antibiyotik/antimotilite VERME)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Toksik görünüm, yüksek ateş, letarji, nöbet-ensefalopati (ağır şigelloz)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ağır dehidratasyon / hipovolemik şok / idrar çıkışında azalma</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>&lt;3 ay süt çocuğunda kanlı ishal (invaziv bakteriyel enfeksiyon-bakteriyemi riski)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>İmmünsüpresyon, orak hücre veya bilinen İBH zemininde kanlı ishal</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Batın distansiyonu + peritonit bulgusu (toksik megakolon / perforasyon)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Paroksismal ağrı + "çilek jölesi" gaita + sosis kitle + letarji (invajinasyon)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Masif ağrısız rektal kanama (Meckel divertikülü)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Palpabl purpura + artrit + karın ağrısı (IgA vasküliti / HSP)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kronik/tekrarlayan kanlı ishal + kilo kaybı + gece semptomu + büyüme duraklaması (İBH)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Süt çocuğunda kötü görünüm, kilo kaybı, kanlı ishal (basit alerjik proktokolitle uyumsuz)</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi</h2>
+    <p class="lede">Tüm dizanteride temel yönetim hidrasyon (oral rehidratasyon), çinko takviyesi ve erken beslenmedir; antimotilite ajanları (loperamid) invaziv kolitte ve özellikle STEC'te kontrendikedir. Antibiyotik seçici bir kararla verilir: en çok yarar sağlanan şigellozda, ağır/sistemik olguda ve tanımlı etkende; STEC'te ise verilmez. Etkene özgü tedavi kültür/toksin sonucuna göre daraltılır.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Temel ve destekleyici tedavi</caption>
+        <thead>
+          <tr><th>Basamak / ilaç</th><th>Doz</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Oral rehidrasyon sıvısı (düşük ozmolariteli ORS)</td><td class="dose">Hafif-orta dehidratasyonda 50-100 mL/kg 4 saatte + devam eden kayıpları yerine koy</td><td>İlk basamak; tolere edemeyen/ağır dehidratasyonda IV izotonik (SF/RL) 20 mL/kg bolus, yanıta göre tekrarla</td></tr>
+          <tr><td class="step">Çinko takviyesi</td><td class="dose">&lt;6 ay 10 mg/gün; ≥6 ay 20 mg/gün, 10-14 gün</td><td>İshal süresini ve tekrarını azaltır (WHO); tüm akut ishalli süt çocuğu-çocukta önerilir</td></tr>
+          <tr><td class="step">Beslenmenin sürdürülmesi</td><td class="dose">—</td><td>Yaşa uygun beslenmeye erken dön; anne sütüne devam; laktozsuz/seyreltik diyet rutin gerekmez</td></tr>
+          <tr><td class="step">Ondansetron (eşlik eden kusmada)</td><td class="dose">0,15 mg/kg/doz PO/IV (maks 8 mg/doz)</td><td>Oral rehidrasyonu kolaylaştırır; QT uzatan ilaç birlikteliğinde dikkat</td></tr>
+          <tr><td class="step">Antimotilite (loperamid)</td><td class="dose">Verilmez (KONTRENDİKE)</td><td>İnvaziv/kanlı ishalde ve STEC'te toksik megakolon-HÜS riskini artırır; çocukta önerilmez</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <caption>Etkene özgü antimikrobiyal tedavi</caption>
+        <thead>
+          <tr><th>Etken</th><th>Tedavi / doz</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Shigella (şigelloz)</td><td class="dose">Azitromisin 12 mg/kg gün 1 (maks 500 mg), ardından 6 mg/kg/gün (maks 250 mg) gün 2-5; VEYA seftriakson 50 mg/kg/gün IV/IM (maks 2 g) 2-5 gün; VEYA siprofloksasin 20-30 mg/kg/gün 2 doz (maks 500 mg/doz) 3 gün</td><td>Ampirik tedaviden en çok yararlanan etken; direnç bölgeseldir, duyarlılığa göre daralt. Ağır/toksikte parenteral başla</td></tr>
+          <tr><td class="step">Campylobacter</td><td class="dose">Azitromisin 10 mg/kg/gün (maks 500 mg) 3 gün</td><td>İlk 3 gün içinde başlanırsa süreyi kısaltır; makrolid direnci düşük, florokinolon direnci yüksek olabilir</td></tr>
+          <tr><td class="step">Non-tifoidal Salmonella</td><td class="dose">Rutin antibiyotik YOK; endikasyonda seftriakson 50-75 mg/kg/gün (maks 2 g) VEYA azitromisin 10 mg/kg/gün (maks 500 mg)</td><td>Antibiyotik taşıyıcılığı uzatır; yalnız &lt;3 ay, immünsüpresyon, orak hücre, ağır hastalık/bakteriyemi riskinde tedavi et</td></tr>
+          <tr><td class="step">STEC / EHEC (O157:H7 vb.)</td><td class="dose">Antibiyotik ve antimotilite VERİLMEZ; yalnız destek + IV izotonik hidrasyon</td><td>Antibiyotik toksin salınımını artırıp HÜS riskini yükseltir; erken hacim genişletme böbreği korur, HÜS için seri izle</td></tr>
+          <tr><td class="step">Entamoeba histolytica</td><td class="dose">Metronidazol 35-50 mg/kg/gün 3 doz (maks 750 mg/doz) 7-10 gün, ardından luminal ajan paromomisin 25-35 mg/kg/gün 3 doz 7 gün</td><td>Doku amipsidini luminal ajan izler (kalıntı kist eradikasyonu); tinidazol alternatif</td></tr>
+          <tr><td class="step">Clostridioides difficile</td><td class="dose">Non-ağır: metronidazol PO 30 mg/kg/gün 3-4 doz (maks 500 mg/doz) 10 gün; ağır: vankomisin PO 40 mg/kg/gün 4 doz (maks 125 mg/doz) 10 gün</td><td>Mümkünse sorumlu antibiyotiği kes; &lt;1 yaşta taşıyıcılık nedeniyle tanıyı klinikle destekle</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout safe"><b>Alerjik proktokolit:</b> İyi görünümlü süt çocuğunda inek sütü proteini eliminasyonu tedavidir — anne sütü alan bebekte anneden inek sütü (± soya) çıkarılır; formül alanda aşırı hidrolize (gerekirse aminoasit bazlı) formüle geçilir. Yanıt genelde 2-4 haftada; kanama düzelir. Antibiyotik gereksizdir.</div>
+    <div class="callout"><b>İBH:</b> Kronik/tekrarlayan kanlı-mukuslu ishalde enfeksiyöz nedenler dışlanıp Porto kriterleriyle tanı doğrulandıktan sonra hastalık yaygınlığı ve şiddetine göre indüksiyon (ör. ülseratif kolitte 5-ASA ± steroid, uygun olguda eksklüzif enteral beslenme veya biyolojik) planlanır; ateş/kanlı ishalde önce süperenfeksiyon (C. difficile, CMV) ekarte edilir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve yönetim ilkeleri</h2>
+    <p class="lede">Enfeksiyöz dizanterinin çoğu kendini sınırlar; yönetim hidrasyonu korumak, STEC olgusunda HÜS'ü erken yakalamak ve enfeksiyöz olmayan (alerjik proktokolit, İBH) tabloları zamanında tanımak üzerine kuruludur. Hedef: gereksiz antibiyotikten kaçınırken tedavi gereken etkeni tedavi etmek ve güvenli takip sağlamak.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>İzlem ve HÜS gözetimi</h3>
+        <ul class="clean">
+          <li>STEC pozitif/şüpheli olguda ilk 7-10 gün HÜS açısından seri tam kan (trombosit), periferik yayma (şistosit), üre-kreatinin ve idrar çıkışı izle</li>
+          <li>Hidrasyonu koru; STEC'te erken IV izotonik sıvı böbreği korur (dehidrasyondan kaçın), antibiyotik-antimotilite verme</li>
+          <li>Kültüre göre ampirik tedaviyi daralt/durdur; Salmonella'da taşıyıcılığı uzatmamak için gereksiz antibiyotiği kes</li>
+          <li>Kültür-panel negatif ama semptom süregen/atipikse parazit ve İBH yönünde ilerle; alerjik proktokolitte eliminasyon yanıtını (2-4 hafta) değerlendir</li>
+          <li>Bulaş kontrolü: el hijyeni, kreş/okula dönüş kriterleri, gıda güvenliği eğitimi; bildirimi zorunlu etkenlerde ihbar</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Taburculuk ve güvenlik ağı</h3>
+        <ul class="clean">
+          <li>Taburculuk: oral tolerans, yeterli idrar çıkışı, kontrol altında hidrasyon ve güvenilir bakım verici</li>
+          <li>Aileye yazılı uyarı: idrar azalması, solukluk, peteşi-morarma, ödem, letarji (HÜS); inatçı kanama, yüksek ateş, karın şişmesi-şiddetli ağrıda acil dönüş</li>
+          <li>Süt çocuğu alerjik proktokolitte planlı yeniden yükleme (rechallenge) ile tanıyı doğrula ve tolerans gelişimini izle</li>
+          <li>İBH tanısı alan çocukta remisyon-idame, büyüme-beslenme ve kalprotektin ile aktivite takibi</li>
+          <li>Belirlenmiş erken tekrar değerlendirme planla; "kültür negatif" tanıyı sonlandırmaz — klinik seyir yönlendirir</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout safe">En güvenli sonuç; yalancı kanamayı dışlayan, dışkı panelini (STEC dahil) baştan gönderen, ampirik antibiyotiği yalnız endikasyonda ve STEC dışlandıktan sonra kullanan, HÜS'ü seri izlemle yakalayan ve enfeksiyöz olmayan nedenleri (alerjik proktokolit, İBH) zamanında ayıran yapılandırılmış bir planla elde edilir.</div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Shane AL, Mody RK, Crump JA, et al. 2017 IDSA Clinical Practice Guidelines for the Diagnosis and Management of Infectious Diarrhea. Clin Infect Dis. 2017;65(12):e45-e80.</li>
+      <li>Guarino A, Ashkenazi S, Gendrel D, et al. ESPGHAN/ESPID Evidence-Based Guidelines for the Management of Acute Gastroenteritis in Children in Europe: Update 2014. J Pediatr Gastroenterol Nutr. 2014;59(1):132-152.</li>
+      <li>Levine A, Koletzko S, Turner D, et al. ESPGHAN Revised Porto Criteria for the Diagnosis of Inflammatory Bowel Disease in Children and Adolescents. J Pediatr Gastroenterol Nutr. 2014;58(6):795-806.</li>
+      <li>Meyer R, Chebar Lozinsky A, Fleischer DM, et al. Diagnosis and management of Non-IgE gastrointestinal allergies in breastfed infants — an EAACI Position Paper. Allergy. 2020;75(1):14-32.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge uzman kullanıcıya yönelik bir klinik karar destek aracıdır; hastanın bireysel değerlendirmesi, güncel kılavuzlar ve yerel direnç/uygulama verilerinin yerine geçmez. Dozlar hastaya, ağırlığa, komorbiditeye, bölgesel duyarlılığa ve ilaç etkileşimlerine göre teyit edilmelidir.</div>
+</div>

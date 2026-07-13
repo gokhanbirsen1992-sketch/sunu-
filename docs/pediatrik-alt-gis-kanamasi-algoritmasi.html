@@ -1,0 +1,426 @@
+<title>Alt GİS Kanaması (Hematokezya) — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Alt GİS Kanaması (Hematokezya)</h1>
+    <p class="sub">Treitz ligamenti distalinden kaynaklanan taze/koyu kırmızı rektal kanamada yaşa göre etiyolojiyi ayırt etmeye, hemodinamiyi güvenceye almaya, doğru tetkiki (kolonoskopi, Meckel sintigrafisi) seçmeye ve dozlu tedaviye yönelik karar aracı. Hedef kitle: çocuk gastroenteroloji uzmanı.</p>
+    <div class="meta">
+      <span class="tag">Hematokezya</span>
+      <span class="tag">Yaşa göre etiyoloji</span>
+      <span class="tag">Kolonoskopi</span>
+      <span class="tag">Meckel sintigrafisi</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">Alt gastrointestinal sistem kanaması, Treitz ligamentinin distalinden kaynaklanan kanamadır ve tipik olarak hematokezya (dışkıyla karışık veya üzerini kaplayan taze/parlak kırmızı kan) ya da bordo renkli/koyu gaita şeklinde görülür; hızlı transitte ise proksimal kaynak dahi hematokezya yapabilir. İlk görev üç sorudur: (1) gerçekten kan mı — yalancı kanama (pancar, kırmızı gıda boyası, jelatin, bizmut, demir, rifampisin) ve yenidoğanda yutulmuş maternal kan (Apt-Downey testi) dışlanmalı; (2) hemodinami stabil mi — çocuk kan kaybını uzun süre kompanse eder, taşikardi ve dar nabız basıncı hipotansiyondan önce gelir; (3) kaynak alt GİS mi yoksa hızlı geçişli masif üst GİS mi (NG lavaj/aspirat ile ekarte edilir). Renk ve patern kabaca yol gösterir: formlu dışkıyı kaplayan çizik tarzı taze kan distal-anorektal (fissür), dışkıya karışmış kan kolonik, ağrısız masif bordo kanama Meckel divertikülü lehinedir. Yaş, hematokezyanın en güçlü ayırıcı tanı belirleyicisidir.</p>
+    <div class="pill-row">
+      <span class="pill">Önce yalancı kanamayı dışla</span>
+      <span class="pill">Apt testi (yenidoğan)</span>
+      <span class="pill">NG aspirat ile üst GİS ekarte</span>
+      <span class="pill">Yaşa göre ayırıcı tanı</span>
+      <span class="pill">Ağrısız masif kanama = Meckel</span>
+    </div>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öyküde sorgula</h3>
+        <ul class="clean">
+          <li>Kanın niteliği: parlak kırmızı çizik (perianal/fissür) mı, dışkıya karışmış mı, bordo/koyu mu, jöle kıvamında mukuslu mu ("çilek jölesi" — invajinasyon)</li>
+          <li>Miktar ve süre: tuvalet kağıdında iz mi, tuvaleti kızartan masif mi; akut tek atak mı tekrarlayan/kronik mi</li>
+          <li>Ağrı ilişkisi: defekasyonla ağrı-ıkınma (fissür/kabızlık), paroksismal ağrı-çekilme + solukluk (invajinasyon), tenezm-ishal (kolit), ağrısız kanama (polip, Meckel)</li>
+          <li>Eşlik eden: ateş, kanlı-mukuslu ishal (enfeksiyöz/İBH), kilo kaybı-büyüme geriliği-aftöz ülser-perianal hastalık (İBH), atopi-kusma-huzursuzluk (İSPA), döküntü-artralji-ödem (IgA vasküliti)</li>
+          <li>Beslenme ve süt çocuğu: inek sütü/soya maruziyeti, anne diyeti (anne sütü alan bebekte alerjik proktokolit), formül değişimi</li>
+          <li>Diğer: yenidoğanda K vitamini profilaksisi, kanama diyatezi-ilaç (NSAİİ, antikoagülan), yakın antibiyotik (C. difficile), aile öyküsü (polipozis, İBH, HÜS), seyahat</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayenede değerlendir</h3>
+        <ul class="clean">
+          <li>Hemodinami: kalp hızı, nabız basıncı, kapiller dolum, ortostatik değişim, soğuk-benekli cilt; taşikardi kompanse şokun erken ve tek bulgusu olabilir</li>
+          <li>Genel: solukluk, letarji, büyüme parametreleri (persentil kaybı İBH lehine), dehidratasyon</li>
+          <li>Batın: distansiyon, hassasiyet-defans, palpabl kitle (invajinasyonda sağ üst kadran sosis kitle), hepatosplenomegali, kitle</li>
+          <li>Perianal ve rektal muayene (zorunlu): fissür, perianal fistül-skin tag-abse (Crohn), hemoroid, prolabe polip; parmakla muayenede kitle, kan, gaita rengi</li>
+          <li>Cilt-eklem: palpabl purpura (alt ekstremite-kalça — IgA vasküliti/HSP), peteşi-ekimoz (koagülopati/HÜS), mukokütanöz pigmentasyon (Peutz-Jeghers), telanjiektazi</li>
+          <li>Ekstraabdominal: eklem şişliği, ödem (HSP/HÜS), oral aftlar</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout alarm"><b>Kırmızı çizgi:</b> Hemodinamik bozukluk (taşikardi, gecikmiş kapiller dolum, hipotansiyon), masif/devam eden kanama ya da toksik-distandü karın varsa; tanısal işlemi beklemeden <b>eş zamanlı resüsitasyon</b> (iki geniş damar yolu, izotonik bolus, çapraz karşılaştırma-transfüzyon hazırlığı) ve gerekiyorsa cerrahi/girişimsel radyoloji ile iletişim başlatılır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Yaşa göre etiyoloji ve mekanizma</h2>
+    <p class="lede">Hematokezyanın nedenleri yaşa göre keskin biçimde ayrışır; bu nedenle yaş, ilk-basamak tetkiki ve tedaviyi belirleyen ana çerçevedir. Çoğu neden benign ve kendini sınırlar (fissür, alerjik proktokolit, juvenil polip); klinisyenin görevi bu benign çoğunluğu, invajinasyon–Meckel–İBH–vaskülit gibi girişim gerektiren azınlıktan ayırmaktır.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">Anal fissür / perianal (her yaş, en sık)</div>
+        <ul>
+          <li>Kabızlık-sert dışkı zemininde; en sık hematokezya nedeni</li>
+          <li>Formlu dışkıyı kaplayan parlak kırmızı çizik, defekasyonla ağrı-ıkınma</li>
+          <li>Tanı muayene ile; atipik/çok sayıda-lateral fissür veya perianal hastalıkta Crohn düşün</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">İSPA / alerjik proktokolit (süt çocuğu)</div>
+        <ul>
+          <li>İnek sütü (± soya) proteinine non-IgE aracılı; sıklıkla anne sütü alan, iyi görünen 1-6 aylık bebek</li>
+          <li>Mukuslu, çizik tarzı kanlı dışkı; huzursuzluk olabilir, büyüme normal</li>
+          <li>Tanı diyet eliminasyonu ile klinik yanıt; genelde 1 yaşa dek tolerans gelişir</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">Juvenil polip (tipik 2-8 yaş)</div>
+        <ul>
+          <li>Çocukta en sık polip tipi; çoğu soliter, rektosigmoid yerleşimli, hamartomatöz</li>
+          <li>Ağrısız, aralıklı, dışkı yüzeyinde taze kanama; bazen prolabe olur</li>
+          <li>Kolonoskopik polipektomi hem tanısal hem tedavi edicidir; çok sayıda polip → polipozis sendromu değerlendirmesi</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Meckel divertikülü (tipik &lt;2 yaş)</div>
+        <ul>
+          <li>Ektopik gastrik mukoza asit salgısı ile komşu ileal ülser → kanama</li>
+          <li>Klasik olarak ağrısız, masif, bordo/kestane renkli kanama; anemiye yol açabilir</li>
+          <li>Tanı Tc-99m perteknetat (Meckel) sintigrafisi; kolonoskopi-endoskopi normaldir</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">İnvajinasyon ve enfeksiyöz kolit</div>
+        <ul>
+          <li>İnvajinasyon 3 ay-3 yaş: paroksismal ağrı-çekilme, "çilek jölesi" gaita, sosis kitle, letarji — cerrahi acil</li>
+          <li>Enfeksiyöz kolit (Salmonella, Shigella, Campylobacter, EHEC, C. difficile): ateş, tenezm, kanlı-mukuslu ishal</li>
+          <li>EHEC/STEC'te antibiyotikten kaçın (HÜS riski); dışkı kültürü/PCR ile ayır</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">İBH ve vaskülit / HÜS</div>
+        <ul>
+          <li>İBH (ülseratif kolit/Crohn): kronik kanlı ishal, tenezm, kilo kaybı, büyüme geriliği, perianal hastalık; okul çağı-adölesan</li>
+          <li>IgA vasküliti (HSP): palpabl purpura + karın ağrısı + hematokezya; invajinasyon (sıklıkla ileoileal) komplikasyonu</li>
+          <li>HÜS: EHEC sonrası kanlı ishal + mikroanjiyopatik anemi + trombositopeni + akut böbrek hasarı</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout"><b>Yaş kuralı:</b> Yenidoğanda yutulmuş maternal kan / NEK / K vitamini eksikliği / malrotasyon-volvulus; süt çocuğunda İSPA-alerjik proktokolit / anal fissür / invajinasyon; oyun-okul çağında juvenil polip / enfeksiyöz kolit / Meckel / HSP; adölesanda İBH / enfeksiyöz kolit / polip / hemoroid ön plandadır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">İlk çatal hemodinamik stabilite ve kanama miktarıdır; ikinci çatal, stabil çocukta yaşa ve klinik paterne göre benign anorektal nedenle daha ileri girişim gerektiren neden arasındaki ayrımdır.</p>
+    <div class="flow">
+      <div class="node start"><span class="k">Başlangıç</span><span class="t">Hematokezya / rektal kanama</span><p>Gerçek kanı doğrula (yalancı kanamayı ve yenidoğanda maternal kanı — Apt testi — dışla); miktarı, süreyi ve eşlik eden bulguları belirle.</p></div>
+      <div class="connector"></div>
+      <div class="node action"><span class="k">Adım 1</span><span class="t">Hemodinamik değerlendirme + odaklı öykü/muayene</span><p>Vital ve perfüzyon, perianal-rektal muayene, cilt (purpura), batın (kitle); tam kan, üre/kreatinin, INR, kan grubu-çapraz karşılaştırma. Masif/koyu kanamada NG aspirat ile üst GİS ekarte et.</p></div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 1</span><span class="t">Hemodinamik instabilite veya masif/devam eden kanama var mı?</span><p>Taşikardi-gecikmiş kapiller dolum-hipotansiyon, belirgin Hb düşüşü veya sürekli aktif kanama.</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">EVET → Acil müdahale</span><div class="node alarm"><span class="k">Acil</span><span class="t">Resüsitasyon + kaynak lokalizasyonu</span><p>İki damar yolu, 20 mL/kg izotonik bolus, restriktif eşikle eritrosit transfüzyonu, koagülopati düzeltimi; brisk üst GİS kuşkusunda PPI + endoskopi, aksi halde acil kolonoskopi/sintigrafi/anjiyografi ve cerrahi iletişim.</p></div></div>
+        <div class="branch no"><span class="label">HAYIR → Stabil değerlendirme</span><div class="node action safe"><span class="k">Katmanla</span><span class="t">Yaşa + kanama paternine göre sınıfla</span><p>Ağrı, dışkı niteliği, sistemik bulgu ve yaşa göre olası tanıyı daralt; benign anorektal neden ile ileri tetkik gerektiren neden ayrımını yap.</p></div></div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 2</span><span class="t">Klinik benign anorektal nedenle uyumlu mu?</span><p>Formlu dışkıyı kaplayan az miktar taze kan + fissür + kabızlık öyküsü; ya da süt çocuğunda iyi görünüm + mukuslu çizik kanama (alerjik proktokolit).</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">EVET → Nedene yönelik izlem</span><div class="node action safe"><span class="k">Yönet</span><span class="t">Ampirik tedavi + güvenlik ağı</span><p>Fissür/kabızlıkta dışkı yumuşatıcı ve perianal bakım; süt çocuğu alerjik proktokolitte inek sütü-soya eliminasyonu (anne diyeti / aşırı hidrolize-aminoasit formül). Yanıtsız veya kötüleşen olguyu yeniden değerlendir.</p></div></div>
+        <div class="branch no"><span class="label">HAYIR → Hedefli tetkik</span><div class="node action safe"><span class="k">Tetkik</span><span class="t">Klinik senaryoya göre görüntüleme/endoskopi</span><p>Paroksismal ağrı + jöle gaita → USG (invajinasyon); ağrısız masif kanama → Meckel sintigrafisi; ateş-kanlı ishal → dışkı kültür/toksin; kronik kanlı ishal-büyüme geriliği-inflamasyon → kolonoskopi (İBH); purpura → IgA vasküliti değerlendirmesi.</p></div></div>
+      </div>
+    </div>
+    <div class="callout"><b>Not:</b> Kolonoskopi hem ileri tanısal basamak hem de tedavi aracıdır (polipektomi, kanama kontrolü); ağrısız masif kanamada endoskopi-endoskopi arası normal kalırsa Meckel sintigrafisi öne alınır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Tetkik, hemodinamik stabilizasyon ve yalancı kanamanın dışlanmasıyla başlar; sonra klinik olasılığa göre hedefli görüntüleme ve endoskopi ile ilerler. Gereksiz radyasyondan kaçınmak için ultrasonografi ve sintigrafi, uygun senaryoda BT/anjiyografiden önce gelir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Alt GİS kanamasında kademeli değerlendirme</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Test</th><th>Amaç / not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Basamak 1 · Yatak başı</td><td>Vital + perfüzyon, perianal-rektal muayene, gaitada gizli kan; yenidoğanda Apt-Downey testi</td><td>Kompanse şoku (taşikardi) yakala; fissür-polip prolapsusunu gör; yenidoğanda yutulmuş maternal kanı ayır</td></tr>
+          <tr><td class="step">Basamak 2 · Kan</td><td>Tam kan sayımı, periferik yayma, üre/kreatinin, elektrolit, KCFT, INR-aPTT, CRP; kan grubu + çapraz karşılaştırma</td><td>Anemi derecesi ve kronisitesi, koagülopati; yayma + trombositopeni + üre yüksekliği → HÜS; üre/kreatinin oranı yüksekse üst GİS kaynağı düşün; transfüzyon hazırlığı</td></tr>
+          <tr><td class="step">Basamak 3 · Enfeksiyon-inflamasyon</td><td>Dışkı kültürü + Shiga toksin/EHEC, C. difficile toksini, viral panel; fekal kalprotektin</td><td>Ateş-kanlı ishalde etken; kalprotektin yüksekliği organik-inflamatuvar hastalık (İBH) lehine, fonksiyoneli dışlamaya yardımcı</td></tr>
+          <tr><td class="step">Basamak 4 · İlk görüntüleme</td><td>Abdomen ultrasonografisi (± Doppler)</td><td><span class="dose">İlk basamak, radyasyonsuz</span> — invajinasyonda "hedef/donut", barsak duvar kalınlaşması, kitle, serbest sıvı; ağrı-jöle gaita senaryosunda öncelikli</td></tr>
+          <tr><td class="step">Basamak 5 · Meckel sintigrafisi</td><td>Tc-99m perteknetat sintigrafisi; H2 blokeri/PPI ön tedavisi ile duyarlılık artırılır</td><td>Ağrısız masif/tekrarlayan kanamada ektopik gastrik mukozayı gösterir; endoskopilerin normal olduğu olgularda seçilir (bkz. Tedavi tablosu ön ilaç dozu)</td></tr>
+          <tr><td class="step">Basamak 6 · Endoskopi</td><td>Kolonoskopi (terminal ileuma dek) ± üst GİS endoskopisi; hazırlık ve sedasyonla</td><td>Polip (aynı seansta polipektomi), kolit-İBH (biyopsi ile histoloji), vasküler lezyon; kanama kaynağı ve mukozal patoloji için altın standart</td></tr>
+          <tr><td class="step">Seçili · Devam eden kanama</td><td>BT anjiyografi / kateter anjiyografi; işaretli eritrosit sintigrafisi; video kapsül endoskopi</td><td>Endoskopi-sintigrafi negatif obskur/masif kanamada kaynak lokalizasyonu; ince barsak kaynağı için kapsül (obstrüksiyon yoksa); aktif kanamada anjiyografik embolizasyon seçeneği</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout"><b>Sıralama ilkesi:</b> Klinik senaryo tetkiki yönlendirir — ağrı + jöle gaita önce USG; ateş + kanlı ishal önce dışkı çalışması; kronik kanlı ishal + inflamasyon önce kolonoskopi; ağrısız masif kanama endoskopiler normalse Meckel sintigrafisi. Rutin ampirik BT'den kaçın.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdakilerden herhangi biri ciddi/girişim gerektiren neden lehinedir; hızlı resüsitasyon, hedefli görüntüleme ve gerektiğinde acil cerrahi/girişimsel radyoloji-endoskopi iletişimini gerektirir.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Hemodinamik bozukluk: taşikardi, gecikmiş kapiller dolum, ortostatizm, hipotansiyon</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Masif veya devam eden kanama, hızlı Hb düşüşü, transfüzyon gereksinimi</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ağrısız, bol, bordo/kestane renkli kanama (Meckel divertikülü)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Paroksismal ağrı-çekilme + "çilek jölesi" gaita + letarji ± sosis kitle (invajinasyon)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Safralı kusma / distansiyon / peritonit bulgusu (obstrüksiyon-volvulus-perforasyon)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kanlı ishal + solukluk + azalmış idrar + peteşi (HÜS)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Palpabl purpura + karın ağrısı (IgA vasküliti; invajinasyon komplikasyonu)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kilo kaybı, büyüme geriliği, kronik kanlı ishal, perianal fistül-abse (İBH)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Yenidoğanda hematokezya + distansiyon/toksisite (NEK, malrotasyon-volvulus, Hirschsprung enterokoliti)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kanama diyatezi/koagülopati bulgusu, K vitamini profilaksisi alınmamış yenidoğan</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Mukokütanöz pigmentasyon veya güçlü polipozis/İBH aile öyküsü</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Yüksek ateş + toksik görünüm (invaziv bakteriyel kolit / sepsis)</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi</h2>
+    <p class="lede">Tedavi, hemodinamik stabilizasyon (tüm ciddi kanamalarda ortak) ve tanıya özgü kesin tedavi olarak iki katmandır. Stabil çocukta çoğu benign neden (fissür, alerjik proktokolit, juvenil polip) hedefe yönelik basit tedaviyle yönetilir; kanama miktarına göre restriktif transfüzyon stratejisi (stabil çocukta Hb eşiği yaklaşık 7 g/dL) benimsenir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>İlk stabilizasyon ve destek tedavisi</caption>
+        <thead>
+          <tr><th>Basamak / ilaç</th><th>Doz</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">İzotonik sıvı bolusu (SF veya RL)</td><td class="dose">20 mL/kg IV bolus; perfüzyon yanıtına göre tekrarla</td><td>İlk resüsitasyon; idrar çıkışı ve kapiller dolumu hedefle; kalıcı instabilitede kan ürünlerine geç</td></tr>
+          <tr><td class="step">Eritrosit süspansiyonu (transfüzyon)</td><td class="dose">10-15 mL/kg IV; stabil çocukta restriktif eşik (Hb ~7 g/dL)</td><td>Aktif/masif kanamada erken; masif kanamada eritrosit-plazma-trombosit dengeli replasman</td></tr>
+          <tr><td class="step">K vitamini (koagülopati/yenidoğan)</td><td class="dose">Yenidoğan: 1 mg IV/IM; çocukta 1-2 mg/kg (maks 10 mg)</td><td>K vitamini eksikliğine bağlı kanamada; INR uzamışsa ek olarak taze donmuş plazma 10-15 mL/kg</td></tr>
+          <tr><td class="step">Pantoprazol / omeprazol (üst GİS kuşkusu)</td><td class="dose">1 mg/kg/doz IV (maks 40 mg/doz), günde 1-2 kez</td><td>Masif/koyu kanamada brisk üst GİS kaynağı düşünülüyorsa; endoskopiye köprü</td></tr>
+          <tr><td class="step">Oktreotid (dirençli/varis dışı-varis kanaması)</td><td class="dose">1 mcg/kg IV bolus (maks 50 mcg), ardından 1-2 mcg/kg/saat infüzyon</td><td>Ağır, tedaviye dirençli kanamada splanknik akımı azaltır; seçili olgu, yoğun bakım ortamı</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <caption>Tanıya özgü tedavi</caption>
+        <thead>
+          <tr><th>Tanı</th><th>Tedavi / doz</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Anal fissür + kabızlık</td><td class="dose">Polietilen glikol (PEG 3350) idame 0,4-0,8 g/kg/gün (maks ~17 g/gün)</td><td>Dışkı yumuşatma + perianal bakım-sıcak oturma banyosu; dirençli fissürde topikal analjezik; çoğu fissür konservatifle iyileşir</td></tr>
+          <tr><td class="step">İSPA / alerjik proktokolit</td><td class="dose">İnek sütü (± soya) eliminasyonu; anne sütünde anne diyetinden çıkar, formülde aşırı hidrolize (yanıtsızsa aminoasit) formül</td><td>2-4 haftada kanama geriler; 9-12 aylıkta kademeli yeniden tanıtımla tolerans değerlendir; genelde 1 yaşa dek düzelir</td></tr>
+          <tr><td class="step">Juvenil polip</td><td class="dose">Kolonoskopik polipektomi (tanısal + tedavi edici)</td><td>Soliter poliplerde küratif; çok sayıda/ailede polipozisde histoloji ve sendrom taraması-genetik değerlendirme</td></tr>
+          <tr><td class="step">Meckel divertikülü</td><td class="dose">Sintigrafi öncesi H2 blokeri (ör. famotidin 0,5 mg/kg IV, maks 20 mg) veya PPI ile ön tedavi; tanı sonrası cerrahi eksizyon</td><td>Ön ilaç ektopik mukoza tutulumunu artırır; kanayan Meckel'de tedavi diverktikülektomi/segmenter rezeksiyon</td></tr>
+          <tr><td class="step">İnvajinasyon</td><td class="dose">Hava (veya suda çözünür kontrast) enema redüksiyonu; peritonit-perforasyon-şokta cerrahi</td><td>USG ile tanı; başarılı redüksiyon sonrası nüks açısından gözlem; patolojik lead point kuşkusunu değerlendir</td></tr>
+          <tr><td class="step">Enfeksiyöz kolit</td><td class="dose">Genelde destek; Shigella/ağır invaziv olguda seftriakson 50-75 mg/kg/gün IV (maks 2 g/gün)</td><td>EHEC/STEC'te antibiyotikten kaçın (HÜS riski); antimotilite ilaçları verme; hedefli tedavi etkene göre</td></tr>
+          <tr><td class="step">İBH — hafif-orta ülseratif kolit</td><td class="dose">Mesalazin (5-ASA) 60-80 mg/kg/gün oral (maks 4,8 g/gün) ± rektal 5-ASA</td><td>İndüksiyon + idame; ESPGHAN/ECCO ile uyumlu; topikal + oral kombinasyon distal hastalıkta etkinliği artırır</td></tr>
+          <tr><td class="step">İBH — orta-ağır indüksiyon</td><td class="dose">Prednizolon 1 mg/kg/gün oral (maks 40 mg/gün)</td><td>5-ASA yetersizse; steroide bağımlı/dirençlide tiyopürin veya biyolojik (infliksimab 5 mg/kg 0-2-6. hafta) ile idame; Crohn'da eksklüzif enteral beslenme birinci basamak indüksiyon</td></tr>
+          <tr><td class="step">İBH — akut şiddetli kolit (yatan hasta)</td><td class="dose">Metilprednizolon 1-1,5 mg/kg/gün IV (maks 60 mg/gün)</td><td>PUCAI ile izle; 3-5. günde yanıtsızsa ikinci basamak (infliksimab veya kalsinörin inhibitörü) / kolektomi kararı; VTE profilaksisi düşün</td></tr>
+          <tr><td class="step">IgA vasküliti (HSP)</td><td class="dose">Destek + analjezi; ağır GİS tutulumunda prednizolon 1-2 mg/kg/gün (maks 60 mg/gün)</td><td>İnvajinasyon (sıklıkla ileoileal) açısından uyanık ol; steroid karın ağrısını hafifletir ancak nüksü önlemez</td></tr>
+          <tr><td class="step">HÜS</td><td class="dose">Destekleyici: sıvı-elektrolit yönetimi, anemi/trombositopeni ve böbrek desteği; endikasyonda diyaliz</td><td>Antibiyotik ve antimotiliteden kaçın; nefroloji ile ortak izlem; atipik HÜS'te eculizumab değerlendir</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout safe"><b>Yaklaşım:</b> Ciddi kanamada sıra — resüsitasyon ve transfüzyon ile <b>eş zamanlı</b> kaynak lokalizasyonu; benign anorektal nedende basit hedefli tedavi ve güvenlik ağı yeterlidir. EHEC/STEC koliti ve HÜS'te antibiyotik ve antimotilite ilaçlarından <b>kaçının</b>.</div>
+    <div class="callout">Stabil, iyi görünen çocukta gereksiz transfüzyon, ampirik antibiyotik ve rutin BT'den kaçının; bunun yerine yaşa özgü hedefli tetkik, seri izlem ve net güvenlik ağı ile ilerleyin.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve yönetim ilkeleri</h2>
+    <p class="lede">Hematokezyanın büyük kısmı benign ve kendini sınırlar; yönetim, ciddi nedeni zamanında yakalamak, anemi ve tekrarlayan kanamayı izlemek ve etiyolojiye göre kesin tedaviyi tamamlamak üzerine kuruludur. Hedef: gereksiz girişimden kaçınırken atlanan Meckel, İBH veya polipozisi önlemektir.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>İzlem ve takip</h3>
+        <ul class="clean">
+          <li>Aktif/ciddi kanamada seri Hb-vital izlemi; restriktif transfüzyon eşiğine uy, hemodinamiyi hedefle</li>
+          <li>Alerjik proktokolitte 2-4 haftada kanama yanıtını değerlendir; 9-12 ayda kademeli yeniden tanıtımla tolerans testi</li>
+          <li>Fissür/kabızlıkta dışkı kıvamını PEG ile optimize et; yanıtsız/atipik fissürde Crohn açısından yeniden değerlendir</li>
+          <li>Polipektomi sonrası histolojiyi gözden geçir; çok sayıda polip/aile öyküsünde polipozis taraması ve gözlem kolonoskopisi planla</li>
+          <li>İBH'de PUCAI/PCDAI ve fekal kalprotektin ile aktiviteyi izle; idame tedavisi, büyüme ve ilaç yan etki takibi</li>
+          <li>Meckel/invajinasyon sonrası cerrahi/redüksiyon takibi; invajinasyonda erken nüks açısından gözlem</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Taburculuk ve güvenlik ağı</h3>
+        <ul class="clean">
+          <li>Taburculuk kriteri: hemodinamik stabilite, stabil Hb, oral tolerans, tanısı belirlenmiş/kontrol altında kanama, güvenilir bakım verici</li>
+          <li>Aileye yazılı uyarı: artan/masif kanama, solukluk-halsizlik, safralı kusma, şiddetli karın ağrısı, ateş, azalmış idrar/purpura gelişiminde acil dönüş</li>
+          <li>Belirlenmiş tekrar değerlendirme planla; "kanama durdu" ≠ "tanı kondu" — tekrarlayan ağrısız kanamada Meckel ve polipi yeniden düşün</li>
+          <li>HÜS/İBH/vaskülit kuşkusunda ilgili disiplinlerle (nefroloji, romatoloji, cerrahi) erken ortak izlem</li>
+          <li>Kronik/gizli kanamada demir eksikliği anemisini araştır ve oral demir replasmanı ile düzelt</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout safe">En güvenli sonuç; hemodinamiyi önceleyen, yaşa özgü etiyolojiyi temel alan akılcı tetkik (USG-sintigrafi-kolonoskopi), tanıya özgü dozlu tedavi ve belirsiz olguda seri izlem ile net güvenlik ağının birlikte uygulandığı yapılandırılmış bir planla elde edilir.</div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Romano C, Oliva S, Martellossi S, et al. Pediatric gastrointestinal bleeding: Perspectives from the Italian Society of Pediatric Gastroenterology, Hepatology and Nutrition. World J Gastroenterol. 2017;23(8):1328-1337.</li>
+      <li>Turner D, Ruemmele FM, Orlanski-Meyer E, et al. Management of Paediatric Ulcerative Colitis, Part 1: Ambulatory Care—An Evidence-based Guideline From ECCO and ESPGHAN. J Pediatr Gastroenterol Nutr. 2018;67(2):257-291.</li>
+      <li>Koletzko S, Niggemann B, Arato A, et al. Diagnostic Approach and Management of Cow's-Milk Protein Allergy in Infants and Children: ESPGHAN GI Committee Practical Guidelines. J Pediatr Gastroenterol Nutr. 2012;55(2):221-229.</li>
+      <li>Thomson M, Tringali A, Dumonceau JM, et al. Paediatric Gastrointestinal Endoscopy: ESPGHAN and ESGE Guidelines. J Pediatr Gastroenterol Nutr. 2017;64(1):133-153.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge uzman kullanıcıya yönelik bir klinik karar destek aracıdır; hastanın bireysel değerlendirmesi, güncel kılavuzlar ve yerel uygulamaların yerine geçmez. Dozlar hastaya, ağırlığa, komorbiditeye ve ilaç etkileşimlerine göre teyit edilmelidir.</div>
+</div>

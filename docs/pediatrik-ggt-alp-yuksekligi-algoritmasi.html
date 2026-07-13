@@ -1,0 +1,407 @@
+<title>İzole GGT / ALP Yüksekliği — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>İzole GGT / ALP Yüksekliği</h1>
+    <p class="sub">Transaminaz ve bilirubin normalken saptanan izole ALP veya GGT yüksekliğinde kemik–karaciğer kaynak ayrımını yapmaya, düşük/yüksek GGT'li kolestazları (PFIC dahil) ayırt etmeye ve gereksiz tetkiki önleyerek doğru olguyu kolestaz yoluna sokmaya yönelik karar aracı. Hedef kitle: çocuk gastroenteroloji uzmanı.</p>
+    <div class="meta">
+      <span class="tag">ALP izoenzim</span>
+      <span class="tag">GGT ayırıcı</span>
+      <span class="tag">Kolestaz</span>
+      <span class="tag">PFIC</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">Alkalen fosfataz (ALP) tek bir dokuya özgü değildir: serumdaki aktivitenin büyük kısmı çocukta kemik (osteoblast), karaciğer (kanaliküler/biliyer) ve daha az oranda bağırsak kaynağıdır; bu nedenle çocukta ALP yüksekliğinin çoğu <b>fizyolojik kemik büyümesine</b> bağlıdır ve süt çocukluğu ile puberte sıçraması dönemlerinde erişkin üst sınırının 2-3 katına ulaşması normaldir — yaşa/cinse özgü referans aralığı kullanılmadan yorum yapılamaz. GGT (gama-glutamil transferaz) ise <b>kemikte bulunmaz</b>; hepatobiliyer (ve renal-pankreatik) kökenlidir ve bu yüzden ALP yüksekliğinin kemik mi karaciğer mi kaynaklı olduğunu ayıran anahtar testtir. İlk görev üç aşamalıdır: (1) yüksekliğin gerçekten "izole" olduğunu doğrula — bilirubin (total/konjuge), ALT/AST, albümin, INR, total safra asidi normal mi; (2) ALP yüksekse kaynağı GGT (ve gerekirse ALP izoenzim/ısı fraksiyonu) ile kemik–karaciğer olarak ayır; (3) tabloyu klinik bağlama yerleştir — sağlıklı görünen, büyümesi iyi bir çocukta izole ve markantly yüksek ALP çoğu kez <b>süt çocukluğu/erken çocukluğun geçici hiperfosfatazemisi (THI)</b> gibi selim ve kendini sınırlayan bir durumdur. İzole GGT yüksekliği ayrı bir eksendir: enzim indüksiyonu (antiepileptik, rifampisin), obezite/MASLD, adölesanda alkol veya erken kolestaz düşündürür.</p>
+    <div class="pill-row">
+      <span class="pill">ALP'yi yaşa/cinse göre yorumla</span>
+      <span class="pill">GGT = kemik vs karaciğer ayırıcısı</span>
+      <span class="pill">THI: selim, kendini sınırlar</span>
+      <span class="pill">Kolestazda GGT düşük/yüksek ayrımı</span>
+      <span class="pill">İzole GGT → indüksiyon/MASLD düşün</span>
+    </div>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öyküde sorgula</h3>
+        <ul class="clean">
+          <li>Yaş ve büyüme dönemi (süt çocukluğu, puberte sıçraması → fizyolojik kemik ALP'si); büyüme hızı, boy-kilo persentil seyri</li>
+          <li>Yakın geçmiş enfeksiyon/viral hastalık veya gastroenterit öyküsü (THI ile ilişkili), semptomsuz-insidental saptanma</li>
+          <li>Kolestaz ipuçları: sarılık, akolik/hipokolik gaita, koyu idrar, kaşıntı, yağlı-kötü kokulu gaita (steatore), yağda eriyen vitamin eksikliği bulguları</li>
+          <li>İlaç öyküsü: antiepileptikler (fenitoin, fenobarbital, karbamazepin), rifampisin, TPN; adölesanda alkol kullanımı (izole GGT)</li>
+          <li>Beslenme-metabolik: obezite/kilo alımı (MASLD), D vitamini alımı-güneş, diyet; kemik ağrısı, deformite, kırık, iskelet semptomları (rikets/kemik hastalığı)</li>
+          <li>Sendromik-ailesel: konsanguinite, ailede kolestaz-transplant, kalp hastalığı-dismorfi (Alagille), tekrarlayan kolestaz atakları (BRIC/PFIC); önceki KCFT değerleri (kronik vs yeni)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayenede değerlendir</h3>
+        <ul class="clean">
+          <li>Genel durum: sağlıklı/hasta görünüm; büyüme antropometrisi ve persentil (izole selim yükseklikte çocuk tipik olarak iyi görünür)</li>
+          <li>Sarılık, skleral ikter; cilt: kaşıntı-ekskoriasyon, ksantom (Alagille), sekonder cilt enfeksiyonu</li>
+          <li>Batın: hepatomegali (kıvam-yüzey), splenomegali, asit, karın duvarı venöz dolgunluğu (portal hipertansiyon)</li>
+          <li>İskelet: kemik hassasiyeti, deformite, rikets bulguları (bilek genişlemesi, raşitik rozari, bacak eğriliği), kırık izi</li>
+          <li>Sendromik-sistemik: kardiyak üfürüm ve dismorfik yüz (Alagille), posterior embriyotokson, vertebra anomalisi</li>
+          <li>Kronik karaciğer hastalığı-dekompansasyon: çomak parmak, palmar eritem, spider anjioma, ödem-ensefalopati</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout"><b>Kavram:</b> İzole ALP yüksekliğinin ilk sorusu "kemik mi karaciğer mi?" — GGT normal + bilirubin/transaminaz normal + çocuk sağlıklı ise kaynak kemiktir (fizyolojik büyüme veya THI); GGT de yüksekse kaynak hepatobiliyerdir ve kolestaz yoluna girilir. İzole GGT yüksekliği (ALP normal) ise ayrı bir yol izler: önce enzim indüksiyonu, obezite/MASLD ve erken kolestaz araştırılır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Etiyoloji ve mekanizma</h2>
+    <p class="lede">Yorum, iki bağımsız enzimi doğru okumaya dayanır. ALP hem kemik hem karaciğer kaynaklı olabilir; kaynağı GGT (ve gerekirse ısıya duyarlı izoenzim/elektroforez) ayırır. GGT ise hepatobiliyer özgüldür ve indüksiyona çok duyarlıdır. Kolestaz doğrulandığında GGT düzeyi patogenezi ayırır: <b>düşük/normal GGT</b> kolestazlar (PFIC 1-2, safra asidi sentez defekti) kanaliküler taşıyıcı/sentez sorununu; <b>yüksek GGT</b> kolestazlar (biliyer atrezi, Alagille, PFIC 3, sklerozan kolanjit) duktal hasar/obstrüksiyonu gösterir.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">ALP — kemik kaynağı (GGT normal)</div>
+        <ul>
+          <li>Fizyolojik büyüme: süt çocukluğu ve puberte sıçraması; yaşa/cinse göre yüksek normal</li>
+          <li>Geçici hiperfosfatazemi (THI): genelde &lt;5 yaş, çok yüksek ALP (sıklıkla &gt;1000 U/L), selim, 1-4 ayda normalleşir</li>
+          <li>Rikets/osteomalazi (D vit. eksikliği), iyileşen kırık, kemik tümörü-metastaz, hiperparatiroidi</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">ALP — karaciğer kaynağı (GGT yüksek)</div>
+        <ul>
+          <li>Kolestaz: kanaliküler ALP artışı; eşlik eden GGT yüksekliği ile karaciğer kökeni doğrulanır</li>
+          <li>Biliyer obstrüksiyon-duktal hasar; infiltratif karaciğer hastalığı</li>
+          <li>Yaklaşım: kolestaz yolu (bilirubin fraksiyonu, safra asidi, USG, etiyoloji)</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">İzole GGT yüksekliği (ALP normal)</div>
+        <ul>
+          <li>Enzim indüksiyonu: antiepileptikler (fenitoin, fenobarbital, karbamazepin), rifampisin</li>
+          <li>Obezite / MASLD (metabolik ilişkili steatotik karaciğer hastalığı), insülin direnci</li>
+          <li>Adölesanda alkol; erken/hafif kolestaz; sık selim/insidental yükseklik</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Yüksek GGT'li kolestaz</div>
+        <ul>
+          <li>Biliyer atrezi (süt çocuğunda zamana duyarlı), koledok kisti, obstrüksiyon</li>
+          <li>Alagille sendromu (JAG1/NOTCH2, duktopeni), PFIC 3 (ABCB4/MDR3)</li>
+          <li>Primer/sekonder sklerozan kolanjit; safra taşı-tıkanıklık</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">Düşük/normal GGT'li kolestaz (PFIC)</div>
+        <ul>
+          <li>PFIC 1 (ATP8B1/FIC1), PFIC 2 (ABCB11/BSEP): düşük GGT + yüksek safra asidi</li>
+          <li>PFIC 4 (TJP2), PFIC 6 (MYO5B), ARC sendromu</li>
+          <li>Safra asidi sentez defektleri: düşük GGT + düşük/normal total safra asidi (ayırt edici)</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">Analitik / selim tuzaklar</div>
+        <ul>
+          <li>Makro-ALP (immünglobülin kompleksi) — kalıcı, izole, selim ALP yüksekliği</li>
+          <li>ALP izoenzim (ısı fraksiyonu, elektroforez): kemik ısıya duyarlı, karaciğer daha stabil</li>
+          <li>Not: hipofosfatazemi (ALP düşük) ayrı tablodur; izole yükseklikte laboratuvar-analitik hata da doğrulanmalı</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout"><b>GGT kuralı:</b> ALP yüksek + GGT normal → kemik kaynağı (fizyolojik/THI/rikets) düşün, çoğu selim. ALP yüksek + GGT yüksek → hepatobiliyer/kolestaz. Kolestaz doğrulandıysa: düşük/normal GGT (PFIC 1-2, safra asidi sentez defekti) ↔ yüksek GGT (biliyer atrezi, Alagille, PFIC 3, sklerozan kolanjit). İzole GGT yüksekliğinde (ALP normal) önce indüksiyon ve MASLD sorgulanır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">İlk çatal, yüksek olan enzimin ve eşlik eden kolestazın belirlenmesidir; ikinci çatal, kolestaz doğrulandığında GGT'nin düşük mü yüksek mi olduğudur — bu ayrım genetik/görüntüleme yolunu ve tedavi hedefini belirler. Süt çocuğunda zamana duyarlı biliyer atrezi her aşamada önceliklidir.</p>
+    <div class="flow">
+      <div class="node start"><span class="k">Başlangıç</span><span class="t">İzole ALP veya GGT yüksekliği</span><p>Bilirubin, ALT/AST, albümin, INR normalken saptanan yükseklik. Test tekrarı ile doğrula; ALP'yi yaşa/cinse özgü aralıkla, GGT'yi indüksiyon-obezite bağlamıyla değerlendir.</p></div>
+      <div class="connector"></div>
+      <div class="node action"><span class="k">Adım 1</span><span class="t">Panel tamamla ve kaynak belirle</span><p>Konjuge/total bilirubin, total safra asidi, GGT, ALT/AST; ALP yüksekse kaynak için GGT ± ALP izoenzim/ısı fraksiyonu. İlaç listesi (antiepileptik, rifampisin), büyüme ve klinik durumu gözden geçir.</p></div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 1</span><span class="t">Yükselen enzimin kaynağı hepatobiliyer mi (kolestaz var mı)?</span><p>ALP yüksekse: GGT de yüksek mi (karaciğer) yoksa normal mi (kemik)? İzole GGT yüksekse: eşlik eden kolestaz bulgusu (bilirubin, safra asidi) var mı?</p></div>
+      <div class="branches">
+        <div class="branch no"><span class="label">HAYIR → Kemik/selim kaynak</span><div class="node action safe"><span class="k">Gözlem</span><span class="t">Fizyolojik / THI / MASLD-indüksiyon yönet</span><p>ALP yüksek + GGT normal + sağlıklı çocuk: fizyolojik büyüme veya THI — tetkiki genişletmeden 1-4 ayda tekrarla. İzole GGT + kolestaz yok: obezite/MASLD ve indüksiyon (ilaç kesimi/yaşam tarzı) yönet, izle.</p></div></div>
+        <div class="branch yes"><span class="label">EVET → Kolestaz yolu</span><div class="node action"><span class="k">İlerle</span><span class="t">Kolestazı doğrula ve etiyolojiye gir</span><p>Konjuge hiperbilirubinemi ve/veya total safra asidi yüksekliği ile kolestazı doğrula; hepatobiliyer USG ve güvenlik (INR, yağda eriyen vitamin) değerlendirmesine geç.</p></div></div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 2</span><span class="t">Kolestazda GGT düşük/normal mi, yüksek mi?</span><p>Süt çocuğunda akolik gaita + konjuge hiperbilirubinemi biliyer atreziyi düşündürür ve önceliklidir. GGT paterni sonraki tetkiki yönlendirir.</p></div>
+      <div class="branches">
+        <div class="branch no"><span class="label">DÜŞÜK/NORMAL GGT → PFIC 1-2 / sentez defekti</span><div class="node action safe"><span class="k">Genetik-metabolik</span><span class="t">Düşük GGT'li kolestaz çalışması</span><p>PFIC 1 (ATP8B1), PFIC 2 (BSEP), TJP2/MYO5B ve safra asidi sentez defekti için idrar/serum safra asidi profili (FAB-MS) ve genetik panel. Total safra asidi düşükse sentez defektini öne al.</p></div></div>
+        <div class="branch yes"><span class="label">YÜKSEK GGT → Biliyer atrezi / Alagille / PFIC3 / SK</span><div class="node alarm"><span class="k">Zamana duyarlı</span><span class="t">Obstrüksiyon/duktopeni değerlendir</span><p>Süt çocuğunda biliyer atreziyi hızla ekarte et (USG-HIDA-gerekirse kolanjiyografi/biyopsi; Kasai için &lt;45-60 gün ideali). Alagille (JAG1/NOTCH2, sistem tutulumu), PFIC 3 (ABCB4) ve sklerozan kolanjit (MRCP) için çalış.</p></div></div>
+      </div>
+    </div>
+    <div class="callout"><b>Not:</b> İzole ALP/GGT yüksekliğinin büyük çoğunluğu çocukta selimdir; amaç, gereksiz görüntüleme-genetik testi savurmadan, kolestaz kanıtı olan azınlığı hızla ve doğru yola sokmaktır. Selim yükseklikte en güçlü araç, uygun aralıkla test tekrarı ve klinik izlemdir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Tetkik, yüksekliğin doğrulanması ve kaynağın (kemik vs karaciğer) ayrılmasıyla başlar; kolestaz kanıtlanırsa GGT paternine göre görüntüleme, genetik-metabolik çalışma ve gerektiğinde biyopsiye ilerler. Selim örüntülerde ileri tetkiki genişletmeden tekrar/izlem yeterlidir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>İzole GGT / ALP yüksekliğinde kademeli değerlendirme</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Test</th><th>Amaç / not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Basamak 1 · Doğrula ve panel</td><td>Test tekrarı; konjuge/total bilirubin, ALT/AST, GGT, ALP, total safra asidi, albümin, INR</td><td>Yüksekliğin kalıcı ve gerçekten izole olduğunu göster; <span class="dose">ALP'yi yaşa/cinse özgü aralıkla</span> yorumla</td></tr>
+          <tr><td class="step">Basamak 2 · Kaynak ayır (ALP)</td><td>GGT (kemik vs karaciğer); belirsizse ALP izoenzim (ısıya duyarlı fraksiyon / elektroforez); makro-ALP kuşkusu</td><td>GGT normal + sağlıklı çocuk → kemik (fizyolojik/THI); GGT yüksek → hepatobiliyer. THI'de tetkiki genişletme, tekrarla</td></tr>
+          <tr><td class="step">Basamak 3 · Kolestazı sınıfla (GGT)</td><td>Total safra asidi düzeyi; düşük/normal GGT ↔ yüksek GGT ayrımı; yağda eriyen vitamin (A, D-25OH, E; K için INR)</td><td><b>Koagülopati ve vitamin eksikliğini erken düzelt.</b> GGT paterni genetik/görüntüleme yolunu belirler</td></tr>
+          <tr><td class="step">Basamak 4 · Görüntüleme</td><td>Hepatobiliyer ultrasonografi; gerekirse MRCP; süt çocuğunda hepatobiliyer sintigrafi (HIDA)</td><td>Safra yolu dilatasyonu, koledok kisti, "triangular cord" (biliyer atrezi); MRCP ile sklerozan kolanjit-duktal anatomi</td></tr>
+          <tr><td class="step">Basamak 5 · Etiyolojiye yönelik</td><td>Genetik panel (ATP8B1, ABCB11, ABCB4, JAG1/NOTCH2, TJP2, MYO5B), idrar/serum safra asidi profili (FAB-MS), alfa-1 antitripsin, göz muayenesi (embriyotokson)</td><td>GGT paternine göre daraltılmış istem; düşük safra asidi + düşük GGT → sentez defekti; Alagille'de sistem taraması (eko, vertebra)</td></tr>
+          <tr><td class="step">Basamak 6 · Karaciğer biyopsisi</td><td>Perkütan biyopsi (koagülopati düzeltildikten sonra); duktopeni, duktular reaksiyon, fibrozis; immünhistokimya (BSEP, MDR3)</td><td>Tanı belirsizse ve biliyer atrezi-Alagille-PFIC ayrımı gerekiyorsa; MDR3/BSEP boyanması tanıya katkı</td></tr>
+          <tr><td class="step">Seçili · MASLD/metabolik</td><td>İzole GGT + obezitede: lipid, açlık glukoz-insülin/HOMA-IR, ALT, karaciğer USG (steatoz)</td><td>Metabolik ilişkili steatotik karaciğer hastalığı için; yaşam tarzı-kilo yönetimi ekseni</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout"><b>Sıralama ilkesi:</b> Süt çocuğunda kolestaz kanıtlandığında biliyer atrezi ekartasyonu (USG-HIDA-gerekirse kolanjiyografi/biyopsi) hızla tamamlanır. Selim ALP yüksekliğinde (GGT normal, çocuk sağlıklı) ileri görüntüleme-genetik gereksizdir; uygun aralıkla tekrar ve izlem esastır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdakilerden herhangi biri, izole yüksekliğin selim olmadığını; kolestaz, zamana duyarlı obstrüksiyon veya dekompansasyon bulunduğunu düşündürür ve hızlı etiyolojik değerlendirme, güvenlik önlemleri ve gerektiğinde cerrahi/transplant merkezi iletişimini gerektirir.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Süt çocuğunda akolik/hipokolik gaita + konjuge hiperbilirubinemi (biliyer atrezi — Kasai için zamana duyarlı)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>ALP yüksekliğine GGT yüksekliğinin eşlik etmesi (hepatobiliyer kaynak — kolestaz yolu)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Konjuge hiperbilirubinemi, total safra asidi yüksekliği veya klinik kolestaz (sarılık, kaşıntı, koyu idrar)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kanama-morarma, uzamış INR, K vitamini eksikliğine bağlı kanama (intrakraniyal kanama riski)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Sentetik fonksiyon bozukluğu: hipoalbüminemi, koagülopati, hipoglisemi, hiperamonyemi-ensefalopati</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Portal hipertansiyon: hepatosplenomegali, asit, varis kanaması, trombositopeni</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Büyüme geriliği, malnütrisyon, ilerleyen yağda eriyen vitamin eksikliği (gece körlüğü, kırık, nöropati-ataksi)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kemik ağrısı, deformite, patolojik kırık veya sistemik semptomla giden ALP yüksekliği (rikets/kemik hastalığı-malignite)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Sendromik ipuçları: kardiyak hastalık, dismorfik yüz, posterior embriyotokson, vertebra anomalisi (Alagille)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Yükseklik izlemle normalleşmiyor veya artıyorsa (THI'nin tersine kalıcılık — altta yatan hastalık lehine)</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi</h2>
+    <p class="lede">İzole ALP/GGT yüksekliğinin çoğu selimdir ve tedavi gerektirmez; yaklaşım etiyolojiye göredir. Kemik kaynaklı fizyolojik/THI yüksekliğinde tedavi <b>gözlemdir</b>; rikets varsa D vitamini replasmanı. İzole GGT'de indüksiyon yapan ilaç gözden geçirilir ve MASLD'de yaşam tarzı-kilo yönetimi uygulanır. Kolestaz doğrulandığında tedavi üç katmanlıdır: etiyolojiye özgü tedavi (Kasai, koledok kist eksizyonu, primer safra asidi replasmanı), destek (yağda eriyen vitamin, K vitamini ile koagülopati düzeltimi, beslenme) ve semptomatik/koruyucu tedavi (UDKA, kaşıntıda basamaklı antipruritik). Aşağıdaki dozlar kolestaz kanıtlanmış olguya yöneliktir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Duruma göre tedavi ve dozlar</caption>
+        <thead>
+          <tr><th>Durum / ilaç</th><th>Doz</th><th>Not / izlem</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">THI / fizyolojik kemik ALP'si</td><td class="dose">İlaç yok — gözlem</td><td>Tetkiki genişletme; 1-4 ay sonra ALP tekrarı ile normalleşmeyi göster; çocuk sağlıklı ve büyümesi iyi</td></tr>
+          <tr><td class="step">Rikets / D vitamini eksikliği</td><td class="dose">D vitamini eksiklikte yükleme (ör. 2000-6000 IU/gün 6-12 hafta veya stoss protokolü); ardından idame 400-1000 IU/gün</td><td>25-OH-D, Ca, P, PTH, ALP izlemi; kalsiyum desteği ile birlikte; ALP tedaviyle geriler</td></tr>
+          <tr><td class="step">İzole GGT — enzim indüksiyonu</td><td class="dose">İlaç yeniden değerlendir; gereksizse kes/değiştir</td><td>Antiepileptik/rifampisin kaynaklı ise semptom-hasar yoksa izlem; kolestaz bulgusu yoksa ileri tetkik gereksiz</td></tr>
+          <tr><td class="step">İzole GGT — MASLD/obezite</td><td class="dose">Yaşam tarzı: kilo yönetimi, beslenme-fiziksel aktivite</td><td>ALT-lipid-glukoz/insülin izlemi; ilaç değil yaşam tarzı ilk basamak; steatozu USG ile doğrula</td></tr>
+          <tr><td class="step">Ursodeoksikolik asit (UDKA)</td><td class="dose">10-20 mg/kg/gün, 2-3 doza bölünmüş</td><td>Kolestazda safra akımını iyileştirir (PFIC 3, sklerozan kolanjitte özellikle); iyi tolere edilir, ishal olabilir</td></tr>
+          <tr><td class="step">K vitamini (koagülopati)</td><td class="dose">1-2 mg/kg IV/oral (maks 10 mg); INR uzunsa tekrarla, gerekirse TDP 10-15 mL/kg</td><td>Kolestazda emilim bozuk; kanama riski nedeniyle öncelikli; INR izlemi</td></tr>
+          <tr><td class="step">Yağda eriyen vitamin (A, D, E)</td><td class="dose">Düzeye göre replasman; D: 25-OH-D'ye titre; E: TPGS formu tercih (aşırı A dozundan kaçın)</td><td>Kolestazda emilim bozuk; A, D-25OH, E ve INR periyodik izlemi; kemik ve nöropati önlemi</td></tr>
+          <tr><td class="step">Rifampisin (kolestatik kaşıntı)</td><td class="dose">Başlangıç 5 mg/kg/gün; yanıta göre 10 mg/kg/güne titre (maks 600 mg/gün)</td><td>Kaşıntı varsa; <b>hepatotoksisite</b> için KCFT izlemi (başlangıç-2/4. hafta-periyodik); güçlü CYP indükleyici</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout safe"><b>Yaklaşım:</b> Önce yüksekliğin selim mi (kemik/fizyolojik/THI, indüksiyon, MASLD) yoksa kolestaz mı olduğunu ayır. Selimse gözlem ve nedeni yönet. Kolestazsa güvenliği (K vitamini, koagülasyon, vitamin, beslenme) sağla; UDKA ekle; kaşıntı varsa basamaklı antipruritik tedaviye geç ve etiyolojiye özgü tedaviyi (Kasai, kist eksizyonu, primer safra asidi replasmanı) uygula.</div>
+    <div class="callout alarm"><b>Dikkat:</b> Selim örüntüde (izole ALP + normal GGT, sağlıklı çocuk) gereksiz görüntüleme-genetik testinden ve tedaviden kaçın. Rifampisin hepatotoksik olabilir — düzenli KCFT izlemi şart, transaminaz/bilirubin yükselirse kes. Süt çocuğunda kolestaz her zaman biliyer atreziyi zamana duyarlı biçimde dışlamayı gerektirir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve yönetim ilkeleri</h2>
+    <p class="lede">Yönetim, selim ve patolojik yükseklikleri ayırmaya, gereksiz tetkiki önlemeye ve kolestaz saptanan azınlıkta güvenlik (koagülopati, vitamin) ile etiyolojik ilerlemeyi zamanında sağlamaya dayanır. İzole ALP/GGT yüksekliğinde en güçlü araç, uygun aralıkla test tekrarı ve klinik izlemdir; kalıcılık veya kolestaz kanıtı yolu değiştirir.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>İzlem ve takip</h3>
+        <ul class="clean">
+          <li>Selim ALP yüksekliğinde (kemik kaynağı) 1-4 ayda ALP tekrarı ile normalleşmeyi belgele; THI'de tetkiki genişletmeden gözlem</li>
+          <li>İzole GGT'de nedeni yönet ve izle: indüksiyon yapan ilaç, obezite/MASLD (ALT-lipid-glukoz), kalıcılıkta erken kolestazı yeniden ara</li>
+          <li>Kolestaz saptananda: konjuge bilirubin, GGT, total safra asidi, sentetik fonksiyon (INR, albümin) ve yağda eriyen vitamin düzeylerini periyodik izle</li>
+          <li>Büyüme ve beslenme antropometrisi; malnütrisyonda yüksek kalori-MCT desteği; kemik sağlığı (D vit., Ca-P) takibi</li>
+          <li>UDKA/antipruritik altında KCFT ve yan etki; rifampisin altında hepatotoksisite izlemi</li>
+          <li>Portal hipertansiyon-dekompansasyon bulgularını (splenomegali, asit, varis, trombositopeni) serial değerlendir</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Yönetim ve güvenlik ağı</h3>
+        <ul class="clean">
+          <li>Etiyolojiye özgü tedaviyi (Kasai, koledok kist eksizyonu, primer safra asidi replasmanı, ilaç kesimi/yaşam tarzı) zamanında uygula</li>
+          <li>Aileye yazılı uyarı: sarılık artışı, akolik gaita, koyu idrar, kanama-morarma, ateş-kolanjit, letarji-ensefalopati, kontrolsüz kaşıntı gelişiminde acil dönüş</li>
+          <li>Gereksiz test savurganlığından kaçın: selim örüntüde ileri görüntüleme-genetik istemeden önce GGT ile kaynağı ve klinik durumu netleştir</li>
+          <li>Düşük GGT'li ilerleyici kolestazda (PFIC, sentez defekti) genetik tanı, aile danışmanlığı ve kardeş taraması planla</li>
+          <li>Yüksek GGT'li kolestazda biliyer atrezi/Alagille/sklerozan kolanjit ayrımını tamamla; dirençli-dekompanse olguda transplant merkezine erken yönlendir</li>
+          <li>Alagille gibi çok organlı hastalıkta kardiyoloji-oftalmoloji-nefroloji ile ortak izlem</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout safe">En iyi sonuç; ALP yüksekliğinde GGT ile kemik–karaciğer kaynağını doğru ayırmak, selim örüntüde (fizyolojik/THI) gereksiz tetkikten kaçınmak, kolestaz kanıtlanan olguda GGT paternine göre etiyolojiye hızlı ulaşmak ve koagülopati-vitamin güvenliği ile büyümeyi koruyan yapılandırılmış izlemle elde edilir.</div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Fawaz R, Baumann U, Ekong U, et al. Guideline for the Evaluation of Cholestatic Jaundice in Infants: Joint Recommendations of NASPGHAN and ESPGHAN. J Pediatr Gastroenterol Nutr. 2017;64(1):154-168.</li>
+      <li>European Association for the Study of the Liver. EASL Clinical Practice Guidelines on the management of cholestatic liver diseases. J Hepatol. 2022;77(3):761-806.</li>
+      <li>Vajro P, Maddaluno S, Veropalumbo C. Persistent hypertransaminasemia in asymptomatic children: a stepwise approach. World J Gastroenterol. 2013;19(18):2740-2751.</li>
+      <li>Bianchi L, Lari F, Gasbarrini A. Transient hyperphosphatasemia of infancy and early childhood: benign, self-limited elevation of alkaline phosphatase — review and clinical approach. Eur J Pediatr / ESPGHAN Hepatology Committee position on pediatric cholestasis. 2019.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge uzman kullanıcıya yönelik bir klinik karar destek aracıdır; hastanın bireysel değerlendirmesi, güncel kılavuzlar ve yerel uygulamaların yerine geçmez. ALP ve GGT değerleri mutlaka yaşa/cinse özgü referans aralıklarıyla yorumlanmalı; dozlar hastaya, ağırlığa, komorbiditeye, karaciğer fonksiyonuna ve ilaç etkileşimlerine göre teyit edilmelidir.</div>
+</div>

@@ -1,0 +1,408 @@
+<title>Yağda Eriyen Vitamin (A/D/E/K) Eksikliği — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Yağda Eriyen Vitamin (A/D/E/K) Eksikliği</h1>
+    <p class="sub">Kolestaz, ekzokrin pankreas yetmezliği ve ince bağırsak malabsorpsiyonu olan çocukta yağda eriyen vitamin (A/D/E/K) durumunu doğru belirteçlerle ölçmeye, semptomatik eksikliği (koagulopati, rikets, nöropati) erken tanımaya ve suda çözünür preparatlarla dozlu replasman yönetmeye yönelik karar aracı. Hedef kitle: çocuk gastroenteroloji uzmanı.</p>
+    <div class="meta">
+      <span class="tag">Kolestaz &amp; malabsorpsiyon</span>
+      <span class="tag">Düzey ölçümü</span>
+      <span class="tag">Dozlu replasman</span>
+      <span class="tag">İzlem</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">Yağda eriyen vitaminler (A, D, E, K) emilimi için <b>safra tuzuyla oluşan misel yapısı</b>, sağlam pankreatik lipaz aktivitesi ve normal ince bağırsak mukozasına gereksinir; bu basamaklardan herhangi biri bozulduğunda klinik veya subklinik eksiklik gelişir. Çocuk gastroenteroloğu için en yüksek riskli grup <b>kronik kolestaz</b> (biliyer atrezi, Alagille, PFIC, safra akımı azalması), <b>ekzokrin pankreas yetmezliği</b> (kistik fibrozis, Shwachman-Diamond), <b>ince bağırsak/mukozal hastalık</b> (çölyak, Crohn, kısa bağırsak sendromu, intestinal yetmezlik) ve <b>uzamış total parenteral beslenme</b> alan çocuklardır. Kolestazda özellik şudur: konjuge hiperbilirubinemi olan süt çocuğunda A/D/E/K eksikliği <b>kural</b> kabul edilmeli ve daha bulgu çıkmadan proflaktik replasman başlanmalıdır. Düzey ölçümünde her vitamin için doğru belirteç ve tuzak farklıdır: <b>A</b> için serum retinol ± retinol bağlayıcı protein (RBP) ve gerekirse relatif doz-yanıt (RDR) testi; <b>D</b> için 25-OH vitamin D (kalsiyum, fosfor, ALP, PTH ile birlikte); <b>E</b> için serum alfa-tokoferol <b>mutlaka total lipide oranlanarak</b> (kolestazda hiperlipidemi tokoferolü yanlış yükseltir); <b>K</b> için PT/INR ve daha duyarlı olan PIVKA-II (des-gama-karboksiprotrombin). İlk değerlendirmede üç soru yanıtlanır: (1) çocuk yağda eriyen vitamin eksikliği için yüksek riskli bir gruba mı giriyor (kolestaz/pankreas yetmezliği/mukozal hastalık); (2) semptomatik eksikliğe ait bir bulgu — kanama/kolay morarma (K), rikets/hipokalsemik nöbet (D), ataksi-periferik nöropati-oftalmopleji (E), gece körlüğü/kseroftalmi (A) — var mı; (3) laboratuvar düzeyleri eksikliği doğruluyor mu ve replasmana yanıt alınıyor mu. Eksikliklerin çoğu <b>uzun süre sessiz</b> kaldığından, riskli çocukta belirti beklemeden hem taramak hem de ampirik replasmana başlamak esastır.</p>
+    <div class="pill-row">
+      <span class="pill">Konjuge hiperbilirubinemi → A/D/E/K eksikliğini varsay</span>
+      <span class="pill">E: alfa-tokoferol / total lipid oranı ile yorumla</span>
+      <span class="pill">K: PT/INR + PIVKA-II (erken belirteç)</span>
+      <span class="pill">D: 25-OH-D + Ca/P/ALP/PTH</span>
+      <span class="pill">Kolestazda suda çözünür preparat tercih et</span>
+    </div>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öyküde sorgula</h3>
+        <ul class="clean">
+          <li><b>Altta yatan hastalık:</b> kronik kolestaz (biliyer atrezi, Alagille, PFIC, sklerozan kolanjit), kistik fibrozis/ekzokrin pankreas yetmezliği, kısa bağırsak/intestinal yetmezlik, çölyak, IBD, uzamış TPN, geçirilmiş karaciğer/bağırsak cerrahisi</li>
+          <li><b>Kanama-K:</b> uzamış/kolay morarma, mukozal-göbek-enjeksiyon yeri kanaması, melena/hematemez, intrakraniyal kanama öyküsü; yenidoğanda K profilaksisi yapıldı mı</li>
+          <li><b>Kemik-D:</b> kemik ağrısı, yürüme gecikmesi/deformite, kırık, hipokalsemik nöbet-tetani-kas krampı; güneş maruziyeti, süt/D alımı</li>
+          <li><b>Nörolojik-E:</b> denge bozukluğu-ataksi, beceriksizlik, güç kaybı, derin duyu/propriosepsiyon kaybı, göz hareketi kısıtlılığı; gelişim basamağı gerilemesi</li>
+          <li><b>Göz-A:</b> gece/loş ışıkta görme güçlüğü (niktalopi), göz kuruluğu, tekrarlayan enfeksiyon; büyümede duraksama</li>
+          <li><b>Beslenme ve ilaç:</b> yağ kısıtlaması-steatore-yağlı gaita, pankreas enzim replasmanı uyumu, kolestiramin/orlistat/mineral yağ, uzun süreli antikonvülzan (D metabolizması), vitamin/preparat uyumu ve formu (yağ mı suda çözünür mü)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayenede değerlendir</h3>
+        <ul class="clean">
+          <li>Büyüme antropometrisi ve persentil seyri; sarılık, kaşıntı-ekskoriasyon, ksantom, hepatosplenomegali (kronik kolestaz zemini)</li>
+          <li><b>K eksikliği:</b> ekimoz-peteşi-purpura, mukozal kanama, enjeksiyon/işlem yeri sızıntısı; ağır olguda nörolojik defisit (intrakraniyal kanama)</li>
+          <li><b>D eksikliği/rikets:</b> el-ayak bileğinde genişleme, raşitik rozari, kraniyotabes, bacak eğriliği (genu varum/valgum), diş çıkışında gecikme, Chvostek/Trousseau (hipokalsemi)</li>
+          <li><b>E eksikliği:</b> serebellar ataksi, hiporefleksi, propriosepsiyon-vibrasyon kaybı, oftalmopleji, kas güçsüzlüğü, pigmenter retinopati</li>
+          <li><b>A eksikliği:</b> konjonktiva kuruluğu, Bitot lekesi, korneal kseroz, foliküler hiperkeratoz</li>
+          <li>Eşlik eden malnütrisyon-sarkopeni bulguları, ödem (hipoalbüminemi), diğer eser element eksikliği işaretleri</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout"><b>Kavram:</b> Yağda eriyen vitamin eksikliği çoğunlukla bir belirti değil, altta yatan yağ malabsorpsiyonunun (kolestaz, pankreas yetmezliği, mukozal hastalık) bir sonucudur. Çocuk gastroenteroloğunun görevi riskli grubu tanımak, doğru belirteçle ölçmek ve suda çözünür formda dozlu replasmanı vermektir. Kolestazda düzey normalleşmesi tek başına güvence değildir; süregelen kolestaz oldukça izlem sürer.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Etiyoloji ve mekanizma</h2>
+    <p class="lede">Yağda eriyen vitamin eksikliği; luminal safra tuzu azlığı (kolestaz), lipaz azlığı (pankreas yetmezliği), mukozal emilim yüzeyi kaybı (çölyak/IBD/kısa bağırsak), yetersiz alım ve ilaç ilişkili emilim engeli ile nadir kalıtsal taşıma-metabolizma kusurlarından çıkar. Her mekanizma benzer klinik tabloya (koagulopati, rikets, nöropati, kseroftalmi) yol açsa da tedavi stratejisi altta yatan nedene ve emilim rezervine göre değişir; kolestazda emilim en ağır bozulduğu için suda çözünür preparat ve yüksek doz gerekir.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">Kronik kolestaz · Safra tuzu azlığı</div>
+        <ul>
+          <li>Biliyer atrezi, Alagille, PFIC, sklerozan kolanjit, koledok kisti: luminal safra tuzu düşük → <b>misel oluşumu bozuk</b>, en ağır A/D/E/K malabsorpsiyonu</li>
+          <li>Konjuge hiperbilirubinemili süt çocuğunda eksiklik kuraldır; kaşıntı, ksantom, büyüme geriliği eşlik eder</li>
+          <li>Standart yağ formundaki vitaminler emilmez → <b>suda çözünür preparat</b> ve yüksek doz zorunlu</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">Ekzokrin pankreas yetmezliği</div>
+        <ul>
+          <li>Kistik fibrozis, Shwachman-Diamond, kronik pankreatit: <b>lipaz eksikliği</b> → yağ ve yağda eriyen vitamin hidrolizi/emilimi bozuk (steatore)</li>
+          <li>Pankreas enzim replasman tedavisi (PERT) yetersiz/uyumsuzsa eksiklik derinleşir</li>
+          <li>KF'de rutin A/D/E/K takviyesi ve seri düzey takibi standart bakımdır</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">Mukozal / ince bağırsak hastalığı</div>
+        <ul>
+          <li>Çölyak (villus atrofisi), Crohn, kısa bağırsak sendromu, intestinal yetmezlik: <b>emilim yüzeyi kaybı</b> + terminal ileum rezeksiyonunda safra tuzu geri kazanımı bozuk</li>
+          <li>İleal rezeksiyon safra tuzu havuzunu tüketerek yağ malabsorpsiyonunu artırır (kolestazsız da)</li>
+          <li>Enteral tolere edilmeyende parenteral replasman gerekebilir</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Yetersiz alım / kısıtlı diyet</div>
+        <ul>
+          <li>Uzamış TPN'de yetersiz vitamin desteği, ağır beslenme reddi/kısıtlı diyet, yağdan çok fakir diyet, prematürite (düşük depo, hızlı büyüme)</li>
+          <li>Anne sütüyle beslenen süt çocuğunda <b>D ve K</b> alımı düşüktür → rutin profilaksi gerekir</li>
+          <li>Malnütrisyonda birden çok vitamin ve eser element eksikliği bir arada bulunur</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">İlaç ilişkili emilim engeli</div>
+        <ul>
+          <li>Kolestiramin/safra asidi bağlayıcıları ve orlistat yağda eriyen vitamin emilimini azaltır; mineral yağ (laksatif) benzer etki yapar</li>
+          <li>Uzun süreli antikonvülzan (fenobarbital, fenitoin, karbamazepin) <b>D metabolizmasını</b> hızlandırıp osteomalaziye yol açar</li>
+          <li>Geniş spektrumlu antibiyotik bağırsak K sentezini azaltarak K eksikliğine katkı yapar</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">Kalıtsal taşıma / metabolizma kusuru</div>
+        <ul>
+          <li>Abetalipoproteinemi / hipobetalipoproteinemi: şilomikron oluşamaz → ağır <b>E ve A</b> eksikliği, akantositoz, retinopati, nöropati</li>
+          <li>İzole E eksikliği ataksisi (AVED, alfa-TTP gen defekti): normal emilime rağmen ağır E eksikliği ve progresif ataksi</li>
+          <li>Nadir rikets formları (vitamin D-bağımlı rikets) ve konjenital K bağımlı faktör eksiklikleri ayırıcı tanıda akılda tutulur</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout"><b>Ayrım ipucu:</b> Tek bir vitamin eksikliği (izole ağır E ataksisi, izole rikets) kalıtsal taşıma/metabolizma kusurunu; birlikte A/D/E/K eksikliği ise yaygın yağ malabsorpsiyonunu (kolestaz, pankreas yetmezliği, mukozal hastalık) düşündürür. Kolestazda emilim en ağır bozulduğundan hem düzey hem replasman ihtiyacı en yüksektir ve suda çözünür preparat gerekir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">İlk çatal, çocuğun yağda eriyen vitamin eksikliği için yüksek riskli bir gruba (kolestaz, pankreas yetmezliği, mukozal hastalık) girip girmediğidir; ikinci çatal, semptomatik/acil eksiklik bulgusu (aktif kanama, hipokalsemik nöbet, ilerleyici nöropati) varlığıdır ve derhal tedaviyi öne alır; üçüncü çatal, süregelen kolestaz/malabsorpsiyon ve oral replasmana biyokimyasal yanıttır. Amaç, riskli çocukta belirti beklemeden proflaktik replasman verirken semptomatik eksikliği zamanında ve doğru yoldan (parenteral gerekiyorsa) tedavi etmektir.</p>
+    <div class="flow">
+      <div class="node start"><span class="k">Başlangıç</span><span class="t">Yağ malabsorpsiyonu riski olan çocuk (kolestaz / pankreas yetmezliği / mukozal hastalık)</span><p>Konjuge hiperbilirubinemi, steatore, kistik fibrozis, kısa bağırsak, çölyak/IBD ya da uzamış TPN. Bazal düzeyleri ölç: retinol/RBP, 25-OH-D + Ca/P/ALP/PTH, alfa-tokoferol/total lipid oranı, PT/INR + PIVKA-II.</p></div>
+      <div class="connector"></div>
+      <div class="node action"><span class="k">Adım 1</span><span class="t">Belirteçleri değerlendir + semptom taraması</span><p>Kanama/morarma (K), kemik deformitesi-tetani-nöbet (D), ataksi-nöropati (E), gece körlüğü-kseroftalmi (A) açısından muayene et. Kolestaz varsa düzeyleri beklemeden proflaktik replasmanı planla.</p></div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 1</span><span class="t">Semptomatik / acil eksiklik bulgusu var mı?</span><p>Aktif kanama ya da uzamış PT/INR (K), hipokalsemik nöbet-tetani ya da semptomatik rikets (D), ilerleyici ataksi-nöropati (E), kseroftalmi-korneal tutulum (A) mevcut mu?</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">EVET → Acil / hedefe yönelik tedavi</span><div class="node alarm"><span class="k">Tedavi et</span><span class="t">Parenteral / yüksek doz replasman + eksikliği gider</span><p>Kanama/uzamış INR'de <b>parenteral vitamin K1</b> (kanamada IV yavaş); tetani/hipokalside IV kalsiyum + yüksek doz D ve kalsiyum; kseroftalmide yüksek doz A; ağır E eksikliği/nöropatide yüksek doz suda çözünür E. Aynı anda diğer üç vitamini de replase et ve altta yatan nedeni ele al.</p></div></div>
+        <div class="branch no"><span class="label">HAYIR → Proflaktik / idame replasman</span><div class="node action safe"><span class="k">Başla</span><span class="t">Oral A/D/E/K takviyesi (kolestazda suda çözünür)</span><p>Riskli çocukta düzeyler sınırda/düşük olmasa bile proflaktik başla; kolestazda suda çözünür preparat ve yüksek doz kullan. 4-8 haftada düzeyleri yeniden ölç (Karar 2'ye geç).</p></div></div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 2</span><span class="t">Süregelen kolestaz/malabsorpsiyon ve replasmana yanıt nasıl?</span><p>4-8 hafta uygun oral replasmana rağmen düzeyler düşük kalıyor mu? Kolestaz/steatore devam ediyor mu? Emilim ağır bozuksa oral preparat yetersiz kalır.</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">EVET → Yanıtsız / ağır malabsorpsiyon</span><div class="node alarm"><span class="k">Yoğunlaştır</span><span class="t">Dozu artır / suda çözünüre geç / parenteral ver</span><p>Uyum ve preparat formunu (yağ → suda çözünür) gözden geçir; dozu titre et. Oral emilim yetmiyorsa parenteral vitamin (K, A, D, E) uygula. Pankreas yetmezliğinde PERT dozunu optimize et; kolestazın ilerlemesini değerlendir.</p></div></div>
+        <div class="branch no"><span class="label">HAYIR → Yeterli yanıt</span><div class="node action safe"><span class="k">Sürdür</span><span class="t">İdameyi sürdür ve periyodik izle</span><p>Düzeyler normalleştiyse idame dozla devam et; kolestaz sürdükçe replasmanı kesme. Büyüme, kemik sağlığı ve nörolojik durumu izle; her 3-6 ayda (ağırda daha sık) düzeyleri tekrarla.</p></div></div>
+      </div>
+    </div>
+    <div class="callout"><b>Not:</b> Konjuge hiperbilirubinemili süt çocuğunda replasmanı düzey sonucu için bekletme — eksiklik varsayımıyla derhal proflaktik başla. Aktif kanama ya da uzamış INR'de vitamin K'yı oral değil <b>parenteral</b> ver; süregelen kolestazda oral emilim güvenilmez olduğundan düzey yanıtına göre parenterale geçmekten çekinme.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Değerlendirme, her vitamin için doğru belirteci (ve tuzağını) kullanarak bazal düzey ölçümüyle başlar; ardından altta yatan malabsorpsiyon nedeni ortaya konur ve replasman başlandıktan sonra biyokimyasal yanıt izlenir. Kolestazda E düzeyini mutlaka total lipide oranla; K için PT/INR'ye ek olarak daha duyarlı PIVKA-II'yi düşün.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Yağda eriyen vitamin eksikliğinde kademeli değerlendirme ve düzey ölçümü</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Test</th><th>Amaç / yorum</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Basamak 1 · Riski tanı ve zemini ortaya koy</td><td>Konjuge/total bilirubin, GGT, ALP, albümin; steatore/yağlı gaita öyküsü; kistik fibrozis, kısa bağırsak, çölyak/IBD taraması</td><td>Konjuge hiperbilirubinemi, steatore veya bilinen malabsorpsiyon yüksek risk demektir; bu grupta belirteçleri beklemeden proflaksi düşünülür</td></tr>
+          <tr><td class="step">Basamak 2 · Vitamin K durumu</td><td>PT/INR, aPTT; mümkünse <b>PIVKA-II (des-gama-karboksiprotrombin)</b></td><td>Uzamış PT/INR K eksikliğini düşündürür (karaciğer sentez kusurundan ayır); <span class="dose">PIVKA-II erken/duyarlı belirteç</span>, INR normalken bile eksikliği gösterebilir</td></tr>
+          <tr><td class="step">Basamak 3 · Vitamin D ve kemik</td><td><b>25-OH vitamin D</b> + kalsiyum, fosfor, ALP, PTH; endike ise el-bilek grafisi</td><td><span class="dose">25-OH-D &lt;20 ng/mL (&lt;50 nmol/L) eksiklik; 20-30 yetersizlik</span>; yüksek ALP/PTH + düşük P riketsi destekler</td></tr>
+          <tr><td class="step">Basamak 4 · Vitamin E durumu</td><td>Serum alfa-tokoferol <b>+ total lipid (veya kolesterol+trigliserid)</b>; oran hesapla</td><td><span class="dose">Tokoferol/total lipid &lt;0.8 mg/g (süt çocuğunda &lt;0.6) eksiklik</span>; kolestazda hiperlipidemi tokoferolü yanlış yükselttiğinden mutlak değere güvenme</td></tr>
+          <tr><td class="step">Basamak 5 · Vitamin A durumu</td><td>Serum retinol ± retinol bağlayıcı protein (RBP); gerekirse <b>relatif doz-yanıt (RDR) testi</b></td><td><span class="dose">Retinol &lt;20 µg/dL (&lt;0.7 µmol/L) düşük depo</span>; RBP ve enfeksiyon/malnütrisyon retinolü etkiler; RDR karaciğer deposunu değerlendirir</td></tr>
+          <tr><td class="step">Basamak 6 · Nedene özgü ileri tetkik</td><td>Kistik fibrozis (ter testi/genetik), çölyak serolojisi (tTG-IgA + total IgA), fekal elastaz (pankreas), lipid profili/apolipoprotein (abetalipoproteinemi), alfa-TTP gen (AVED)</td><td>İzole ağır E/A eksikliği veya beklenmedik ağır eksiklikte kalıtsal neden ara; PERT uyumu ve dozunu gözden geçir</td></tr>
+          <tr><td class="step">İzlem · Replasman yanıtı</td><td>4-8 haftada ilgili düzeyleri ve INR/PIVKA-II'yi tekrarla; sonra 3-6 ayda seri takip</td><td>Düzey düzelmiyorsa uyum, preparat formu (suda çözünür), doz ve emilim ağırlığını yeniden değerlendir; gerekirse parenteral</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout"><b>Sıralama ilkesi:</b> Ölçüm belirteçleri tuzaklıdır — E'yi lipide oranla, A'yı enfeksiyon/RBP bağlamında, D'yi Ca/P/ALP/PTH ile birlikte, K'yı hem INR hem (varsa) PIVKA-II ile yorumla. Riskli çocukta düzey sonuçlarını beklemek proflaktik replasmanı geciktirmemeli; özellikle kolestazlı süt çocuğunda tedavi ampirik başlanır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdakilerden herhangi biri, eksikliğin artık subklinik olmadığını ve derhal (gerekirse parenteral) hedefe yönelik tedavi gerektiren <b>semptomatik/organ tehdit edici</b> eksikliği ya da gözden kaçan ağır malabsorpsiyonu düşündürür.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Aktif kanama, kolay morarma, mukozal/işlem yeri kanaması ya da uzamış PT/INR (vitamin K eksikliğine bağlı koagulopati)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Bilinen kolestaz/malabsorpsiyonlu süt çocuğunda ani nörolojik bozulma — geç başlangıçlı intrakraniyal kanama (K eksikliği acilidir)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Hipokalsemik nöbet, tetani, karpopedal spazm ya da semptomatik rikets/kemik deformitesi-kırık (D eksikliği)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>İlerleyici ataksi, derin duyu/propriosepsiyon kaybı, hiporefleksi, oftalmopleji ya da gelişim gerilemesi (E eksikliğine bağlı nöropati/nörodejenerasyon)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Gece körlüğü, göz kuruluğu, Bitot lekesi ya da korneal tutulum-kseroftalmi (A eksikliği; körlük riski)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Uygun oral replasmana rağmen düzeylerin düşük kalması ya da düzelmemesi (ağır malabsorpsiyon / uyum sorunu / yanlış preparat formu)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Konjuge hiperbilirubinemili süt çocuğunda henüz replasman başlanmamış olması (proflaksi gecikmesi)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Akantositoz + ağır E/A eksikliği + retinopati/nöropati (abetalipoproteinemi) ya da izole ağır E ataksisi (AVED) düşündüren tablo</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Büyüme geriliği/malnütrisyonun derinleşmesi, birden çok vitamin/eser element eksikliğinin bir arada bulunması</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi</h2>
+    <p class="lede">Tedavi iki koldan yürür: <b>eksik vitamini uygun doz ve formda replase etmek</b> ve <b>altta yatan malabsorpsiyon nedenini gidermek</b> (safra akımını artırma, PERT optimizasyonu, glutensiz diyet, kolestazın tedavisi). Kolestazda standart yağ formu emilmediğinden mümkünse <b>suda çözünür preparatlar</b> (ör. TPGS bazlı E, suda çözünür A/D/E/K karışımları) ve daha yüksek dozlar kullanılır. Doz aralıkları geniştir; ağırlığa, eksiklik derinliğine, kolestazın şiddetine ve biyokimyasal yanıta göre bireyselleştirilir ve düzeyle titre edilir. Aktif kanama ya da uzamış INR'de vitamin K <b>parenteral</b> verilir; oral emilim güvenilmez olduğunda diğer vitaminlerde de parenteral yola geçilir. A vitamininde toksisite riski nedeniyle yüksek dozda düzey izlemi şarttır.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Yağda eriyen vitamin replasmanı — dozlar (kolestaz/malabsorpsiyon; oral aksi belirtilmedikçe)</caption>
+        <thead>
+          <tr><th>Vitamin / durum</th><th>Doz</th><th>Not / izlem</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Vitamin A (retinol) — replasman</td><td class="dose">5.000-25.000 IU/gün PO (kolestazda yüksek uç; maks ~25.000 IU/gün idame)</td><td>Suda çözünür preparat tercih et; <b>toksisite riski</b> nedeniyle retinol düzeyini izle, aşırı doza kaçma; kseroftalmide kısa süreli yüksek doz kürü uygulanır</td></tr>
+          <tr><td class="step">Vitamin A — kseroftalmi (semptomatik)</td><td class="dose">WHO şeması: yaşa göre yüksek doz (ör. &gt;1 yaş 200.000 IU PO; 6-12 ay 100.000 IU) gün 1, 2 ve 2. haftada tekrar</td><td>Korneal tutulumda görme acili; ardından idame replasmana geç; doz yaşa/ağırlığa göre uyarlanır</td></tr>
+          <tr><td class="step">Vitamin D — kolestaz/malabsorpsiyon idamesi</td><td class="dose">Kolekalsiferol (D3) 400-2.000 IU/gün; kolestazda gereksinim RDA'nın 2-4 katına çıkar (dirençlide daha yüksek)</td><td>25-OH-D, Ca, P, ALP, PTH ile titre et; alternatif kalsifediol (25-OH-D3) <span class="dose">3-5 µg/kg/gün</span> ağır emilim kusurunda; kalsiyum alımını sağla</td></tr>
+          <tr><td class="step">Vitamin D — eksiklik yükleme (25-OH-D &lt;20 ng/mL)</td><td class="dose">Kolekalsiferol 2.000-4.000 IU/gün, 6-12 hafta (malabsorpsiyonda daha yüksek); sonra idame</td><td>Yüklemeden sonra düzeyi kontrol et; hedef 25-OH-D &ge;20-30 ng/mL; hiperkalsemi/hiperkalsiüri açısından izle</td></tr>
+          <tr><td class="step">Vitamin E — kolestaz/malabsorpsiyon</td><td class="dose">Suda çözünür d-alfa-tokoferil PEG-1000 süksinat (<b>TPGS</b>) 15-25 IU/kg/gün PO</td><td>Kolestazda standart tokoferolden çok daha iyi emilir; tokoferol/lipid oranı ile titre et; TPGS ayrıca diğer yağda eriyen vitaminlerin emilimini de artırır</td></tr>
+          <tr><td class="step">Vitamin E — abetalipoproteinemi / AVED</td><td class="dose">Çok yüksek doz alfa-tokoferol 50-100 IU/kg/gün (nörolojik hasarı önlemek için)</td><td>Emilim taşıma kusuruna rağmen yüksek dozla doku düzeyi sağlanır; erken ve ömür boyu tedavi nöropatiyi önler/durdurur</td></tr>
+          <tr><td class="step">Vitamin K — idame replasman</td><td class="dose">Vitamin K1 (fitomenadion) 2,5-5 mg/gün ya da haftada 2-3 kez PO (kolestazda üst doz)</td><td>PT/INR (± PIVKA-II) ile titre et; kronik kolestazda düzenli profilaksi standarttır</td></tr>
+          <tr><td class="step">Vitamin K — kanama / uzamış INR (acil)</td><td class="dose">Vitamin K1 <b>parenteral</b>: IV yavaş infüzyon (anafilaksi riskiyle) ya da SC; genellikle 1-2 (adölesanda 5-10) mg/doz; ciddi kanamada TDP/faktör konsantresi</td><td>Oral emilim güvenilmez olduğundan acilde parenteral; yanıtı INR ile 6-24 saatte değerlendir; kaynağı ve dozu tekrar gözden geçir</td></tr>
+          <tr><td class="step">Nedene özgü — pankreas yetmezliği</td><td class="dose">Pankreas enzim replasmanı (PERT) optimizasyonu + A/D/E/K takviyesi</td><td>Yetersiz PERT eksikliği sürdürür; KF'de rutin A/D/E/K desteği ve seri düzey takibi standarttır</td></tr>
+          <tr><td class="step">Nedene özgü — safra akımı ve kolestaz</td><td class="dose">Ursodeoksikolik asit ve altta yatan kolestazın tedavisi + suda çözünür A/D/E/K</td><td>Safra akımı arttıkça emilim düzelir; süregelen kolestazda replasmanı kesme, düzeyle izle</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout safe"><b>Yaklaşım:</b> Riskli çocukta (özellikle kolestaz) suda çözünür formda A/D/E/K'yı proflaktik başla, düzeyle titre et; TPGS bazlı E hem E emilimini hem diğer yağda eriyen vitaminlerin emilimini artırır. 4-8 haftada düzeyleri kontrol et; yanıt varsa idameyi kolestaz sürdükçe koru. Aktif kanama/uzamış INR'de vitamin K'yı parenteral ver, ardından oral idameye geç.</div>
+    <div class="callout alarm"><b>Dikkat:</b> Vitamin A'da <b>toksisite</b> (hepatotoksisite, psödotümör serebri, kemik) gerçek risktir — yüksek dozda retinol düzeyini izle ve gebe/gebe olabilecek adölesanda teratojeniteyi hatırla. Vitamin D yüklemesinde hiperkalsemi/hiperkalsiüriyi izle. IV vitamin K1 hızlı verilirse anafilaktoid reaksiyon yapabilir; yavaş infüze et. Kolestazda oral vitaminlerin (özellikle standart yağ formu) emilmediğini unutma — düzey düzelmiyorsa preparatı suda çözünüre çevir veya parenterale geç, "doz yetersiz" diye körlemesine artırma.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve yönetim ilkeleri</h2>
+    <p class="lede">Yönetim; riskli çocuğu tanımaya, doğru belirteçle (tuzaklarını bilerek) ölçmeye, kolestazda belirti beklemeden suda çözünür proflaktik replasman vermeye, semptomatik eksikliği (kanama, rikets, nöropati) hedefe yönelik ve gerekirse parenteral tedavi etmeye, düzeyle titre ederek altta yatan neden sürdükçe replasmanı korumaya dayanır. Biyokimyasal yanıt hem tedavinin hem uyumun aynasıdır.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>İzlem ve takip</h3>
+        <ul class="clean">
+          <li>Replasman başladıktan 4-8 hafta sonra ilgili düzeyleri (retinol, 25-OH-D + Ca/P/ALP/PTH, tokoferol/lipid oranı, PT/INR ± PIVKA-II) tekrarla; kararlıysa her 3-6 ayda izle (ağır kolestazda daha sık)</li>
+          <li>Düzey düzelmiyorsa sırayla: uyum → preparat formu (yağ mı suda çözünür mü) → doz → emilim ağırlığı/kolestaz ilerlemesi; gerekirse parenterale geç</li>
+          <li>Büyüme antropometrisi, nörolojik muayene (E), kemik sağlığı-deformite/kırık (D), görme (A) ve kanama bulgularını (K) periyodik değerlendir</li>
+          <li>Vitamin A yüksek dozunda toksisite (retinol düzeyi, karaciğer, psödotümör serebri) ve D yüklemesinde hiperkalsemi/hiperkalsiüri izle</li>
+          <li>Nedene özgü izlem: PERT uyumu/dozu (pankreas), safra akımı ve kolestaz seyri (karaciğer), glutensiz diyet (çölyak), TPN vitamin içeriği (intestinal yetmezlik)</li>
+          <li>Kolestaz/malabsorpsiyon sürdükçe replasmanı kesme; düzeyler normalleşse bile idameye devam et</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Yönetim ve güvenlik ağı</h3>
+        <ul class="clean">
+          <li>Konjuge hiperbilirubinemili süt çocuğunda A/D/E/K proflaksisini düzey sonucu için bekletme; erken başla</li>
+          <li>Aileye yazılı uyarı: kanama/kolay morarma-koyu dışkı, kusma/uyanıklık değişikliği (intrakraniyal kanama), tetani/nöbet, denge bozukluğu-yürüyüş değişikliği, gece görme güçlüğü gelişince acil başvuru</li>
+          <li>Uyumu destekle: preparat formu ve zamanlaması (yağ içeren öğünle), sıvı formda dozlama, çoklu vitamin karışımı seçenekleri, ilaç etkileşimleri (kolestiramin/orlistat ile ayrı saat)</li>
+          <li>Ağır/yanıtsız veya izole eksiklikte kalıtsal nedeni (abetalipoproteinemi, AVED, D-bağımlı rikets) düşün ve ileri tetkik planla</li>
+          <li>Vitamin K'yı acil koagulopatide oral değil parenteral ver; ciddi kanamada TDP/faktör konsantresini geciktirme</li>
+          <li>Multidisipliner bakımı koordine et (KF, intestinal yetmezlik, kolestaz ekipleri); test ve replasmanı altta yatan hastalığın izlem planına entegre et</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout safe">En iyi sonuç; riskli çocuğu erken tanımak, her vitamini doğru belirteçle (E'yi lipide oranlayarak, K'yı PIVKA-II ile, D'yi kemik paneliyle) ölçmek, kolestazda suda çözünür formda proflaktik ve dozlu replasman vermek, semptomatik eksikliği zamanında ve gerekirse parenteral tedavi etmek, düzeyle titre ederek altta yatan nedeni (safra akımı, PERT, glutensiz diyet, kolestaz tedavisi) ele alan yapılandırılmış izlemle elde edilir.</div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Fawaz R, Baumann U, Ekong U, et al. Guideline for the Evaluation of Cholestatic Jaundice in Infants: Joint Recommendations of NASPGHAN and ESPGHAN. J Pediatr Gastroenterol Nutr. 2017;64(1):154-168.</li>
+      <li>Feranchak AP, Ramirez RO, Sokol RJ. Medical and nutritional management of cholestasis in infants and children. In: Suchy FJ, Sokol RJ, Balistreri WF, eds. Liver Disease in Children. 5th ed. Cambridge University Press; 2021.</li>
+      <li>Turck D, Braegger CP, Colombo C, et al. ESPEN-ESPGHAN-ECFS guidelines on nutrition care for infants, children, and adults with cystic fibrosis. Clin Nutr. 2016;35(3):557-577.</li>
+      <li>Munns CF, Shaw N, Kiely M, et al. Global Consensus Recommendations on Prevention and Management of Nutritional Rickets. J Clin Endocrinol Metab. 2016;101(2):394-415.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge uzman kullanıcıya yönelik bir klinik karar destek aracıdır; hastanın bireysel değerlendirmesi, güncel kılavuzlar ve yerel uygulamaların yerine geçmez. Yağda eriyen vitamin düzeyleri belirteç tuzaklarıyla (E'de lipid, A'da RBP/enfeksiyon, D'de kemik paneli) birlikte yorumlanmalı; replasman dozları ağırlığa, eksiklik derinliğine, kolestazın şiddetine ve biyokimyasal yanıta göre bireyselleştirilmeli, vitamin A toksisitesi ve vitamin D hiperkalsemisi açısından izlenmelidir. Aktif kanama/uzamış INR'de vitamin K parenteral verilmelidir.</div>
+</div>

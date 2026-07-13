@@ -1,0 +1,593 @@
+<title>Disfaji ve Odinofaji — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Disfaji ve Odinofaji</h1>
+    <p class="sub">Yutma güçlüğü (disfaji) ve ağrılı yutmanın (odinofaji) yaşa ve mekanizmaya göre ayırıcı tanısı; endoskopi/biyopsi, baryumlu özofagogram ve yüksek çözünürlüklü manometri temelli basamaklı yaklaşım ve dozlu tedavi. EoE, striktür, akalazya ve özofagus halkası odağında.</p>
+    <div class="meta">
+      <span class="tag">EoE — ESPGHAN/EUREOS</span>
+      <span class="tag">Rome IV fonksiyonel disfaji</span>
+      <span class="tag">HRM / Chicago sınıflaması</span>
+      <span class="tag">Yaşa göre yaklaşım</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">Disfaji, lokmanın ağızdan mideye geçişinde algılanan güçlüktür; odinofaji ise yutma sırasında ağrıdır. İlk ayrım orofaringeal (transfer) disfaji ile özofageal disfaji arasındadır: orofaringeal disfaji öksürük, boğulma, nazal regürjitasyon ve aspirasyonla; özofageal disfaji ise göğüste takılma hissi, food impaction ve regürjitasyonla seyreder. Bu ayrım öykü ve muayene ile büyük ölçüde yapılır ve tetkik yolunu belirler.</p>
+    <div class="pill-row">
+      <span class="pill">Orofaringeal = transfer bozukluğu</span>
+      <span class="pill">Özofageal = taşıma bozukluğu</span>
+      <span class="pill">Katı-baskın → mekanik/yapısal</span>
+      <span class="pill">Katı+sıvı → motilite</span>
+      <span class="pill">Odinofaji → inflamatuar/enfeksiyöz</span>
+    </div>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öykü</h3>
+        <ul class="clean">
+          <li>Başlangıç yaşı ve seyir: doğumdan itibaren (konjenital anomali, nöromusküler) mi, ilerleyici (striktür, akalazya) mi, aralıklı (halka, EoE) mi.</li>
+          <li>Lokma niteliği: yalnız katıda mı (mekanik obstrüksiyon), hem katı hem sıvıda mı (motilite bozukluğu) güçlük.</li>
+          <li>Yeme davranışı adaptasyonları: yavaş yeme, aşırı çiğneme, bol su ile yutma, belirli kıvamlardan kaçınma, food impaction öyküsü (EoE için tipik).</li>
+          <li>Odinofaji varlığı, ilaç alımı (doksisiklin, NSAİİ, demir, potasyum, bifosfonat — pill özofajiti), kostik/yabancı cisim alımı.</li>
+          <li>Atopi zemini: astım, alerjik rinit, egzama, besin alerjisi, ailede EoE (EoE ile güçlü birliktelik).</li>
+          <li>İmmün durum, kemoterapi/steroid, HIV; kilo kaybı, büyüme, aspirasyon/pnömoni öyküsü ve nörogelişimsel durum.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayene</h3>
+        <ul class="clean">
+          <li>Antropometri ve büyüme eğrisi: kilo kaybı/durağanlık kronik obstrüksiyon veya motilite hastalığının erken göstergesi.</li>
+          <li>Orofarinks ve dişler: tonsil hipertrofisi, yarık damak, aft/ülser, oral kandidiazis, diş erozyonu.</li>
+          <li>Nörolojik muayene: kraniyal sinirler, öğürme refleksi, tonus, bulbar bulgular (orofaringeal disfaji için).</li>
+          <li>Yutma gözlemi: salya birikimi, ıslak-boğuk ses, yutma sonrası öksürük, beslenme sırasında desatürasyon.</li>
+          <li>Solunum: stridor, hışıltı, tekrarlayan aspirasyon işaretleri (vasküler halka, laringeal yarık).</li>
+          <li>Cilt/atopi bulguları; boyunda kitle/guatr; genel durum ve hidrasyon.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">Rome IV — Fonksiyonel disfaji: retrosternal takılma/geçiş güçlüğü hissi olup yapısal lezyon, GÖRH ve EoE dışlandığında ve major motilite bozukluğu (akalazya, obstrüktif spazm) bulunmadığında konur; tanı ancak endoskopi + biyopsi ve gerektiğinde manometri normal olduğunda dışlama ile verilir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Etiyoloji ve mekanizma</h2>
+    <p class="lede">Disfaji, orofaringeal (transfer) ve özofageal (mekanik veya nöromusküler) olarak ayrılır; odinofaji genellikle mukozal inflamasyon/enfeksiyona işaret eder. Yaş, en olası tanıyı belirlemede güçlü bir filtredir: yenidoğan/süt çocuğunda konjenital ve nöromusküler nedenler, okul çağı ve adölesanda EoE ve akalazya öne çıkar.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">Orofaringeal (transfer)</div>
+        <ul>
+          <li>Nöromusküler: serebral palsi, bulbar/kranial sinir hastalığı, miyopati, prematürite.</li>
+          <li>Yapısal: yarık damak, larengomalazi, laringeal yarık, tonsiller hipertrofi.</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">Mekanik / yapısal (özofageal)</div>
+        <ul>
+          <li>Peptik striktür, kostik striktür, anastomoz darlığı (ÖA onarımı sonrası), konjenital özofagus stenozu.</li>
+          <li>Schatzki halkası, özofagus webi, vasküler halka/pulmoner sling dış bası, yabancı cisim.</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">Eozinofilik özofajit (EoE)</div>
+        <ul>
+          <li>Büyük çocuk/adölesanda kronik katı disfaji ve food impaction'ın en sık nedeni; atopi ile güçlü birliktelik.</li>
+          <li>Küçük çocukta beslenme reddi, kusma, büyüme geriliği ile atipik; tanı biyopsi ile (≥15 eos/BBA).</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Motilite bozuklukları</div>
+        <ul>
+          <li>Akalazya (özofagogastrik bileşke gevşeme yetmezliği + aperistalsis); hem katı hem sıvı disfaji, regürjitasyon, kilo kaybı.</li>
+          <li>Özofageal spazm, hiperkontraktil özofagus, sistemik skleroz ilişkili motilite.</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">Odinofaji — inflamatuar/enfeksiyöz</div>
+        <ul>
+          <li>Erozif/peptik özofajit, ilaç (pill) özofajiti (doksisiklin, NSAİİ, demir, KCl, bifosfonat).</li>
+          <li>Enfeksiyöz: Candida, HSV, CMV (özellikle immünsüprese); kostik/kimyasal yanık.</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">Yaşa göre dağılım</div>
+        <ul>
+          <li>Yenidoğan/süt çocuğu: konjenital (atrezi/stenoz, halka), nöromusküler, vasküler bası.</li>
+          <li>Okul çağı/adölesan: EoE, akalazya, peptik/kostik striktür, pill/enfeksiyöz özofajit.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">İlk basamak akut/tehdit edici durumun (tam obstrüksiyon–food impaction, aşırı salivasyon, solunum sıkıntısı, kostik alım) dışlanmasıdır; ardından orofaringeal–özofageal ayrımı yapılır ve özofageal disfajide üst GİS endoskopisi + çok düzeyli biyopsi ilk tanısal adımdır.</p>
+    <div class="flow">
+      <div class="node start">
+        <span class="k">Başlangıç</span>
+        <span class="t">Disfaji / odinofaji ile başvuru</span>
+        <p>Öykü, muayene, yaş filtresi ve orofaringeal–özofageal ayrımı; katı/sıvı paterni ve odinofaji sorgusu.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node action">
+        <span class="k">Adım 1</span>
+        <span class="t">Akut tehdit taraması</span>
+        <p>Tam obstrüksiyon/food impaction, ağızdan salgı yutamama, solunum sıkıntısı, akut kostik/yabancı cisim alımı değerlendirilir.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 1</span>
+        <span class="t">Akut/acil bulgu var mı?</span>
+        <p>Food impaction, aşırı salivasyon, hava yolu tehdidi veya kostik alım mevcut mu?</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Acil müdahale</span>
+          <div class="node alarm">
+            <span class="k">Alarm</span>
+            <span class="t">Acil endoskopi + hava yolu güvenliği</span>
+            <p>Food impaction'da acil terapötik endoskopi (impaksiyon sonrası EoE için biyopsi al); kostikte erken endoskopi ve destek; körlemesine bujinaj/kusturma yok.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Elektif değerlendirme</span>
+          <div class="node action safe">
+            <span class="k">Adım 2</span>
+            <span class="t">Orofaringeal mi, özofageal mi?</span>
+            <p>Orofaringeal ipuçlarında (aspirasyon, nazal kaçış) VFSS/FEES ± nöroloji; özofageal disfajide özofagus yoluna geç.</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 2</span>
+        <span class="t">Odinofaji baskın / immünsüpresyon mu?</span>
+        <p>Ağrılı yutma önde ve ilaç öyküsü ya da immün yetmezlik/enfeksiyon ipucu var mı?</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → İnflamatuar/enfeksiyöz özofajit</span>
+          <div class="node action">
+            <span class="k">Adım 3a</span>
+            <span class="t">Endoskopi + kültür/PCR, hedefli tedavi</span>
+            <p>Candida/HSV/CMV için biyopsi-kültür-viral PCR; pill özofajitinde sorumlu ilacı kes ve destek; ampirik antifungal seçilmiş olguda.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Kronik/ilerleyici disfaji</span>
+          <div class="node action">
+            <span class="k">Adım 3b</span>
+            <span class="t">Üst GİS endoskopisi + çok düzeyli biyopsi</span>
+            <p>Proksimal ve distalden ≥6 biyopsi; EoE (≥15 eos/BBA), striktür, halka, web ve mukozal hastalık değerlendirilir.</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 3</span>
+        <span class="t">Biyopsi/endoskopi tanısal mı?</span>
+        <p>EoE veya belirgin yapısal lezyon (striktür, halka, web) saptandı mı?</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Tanıya yönelik tedavi</span>
+          <div class="node action">
+            <span class="k">Adım 4</span>
+            <span class="t">EoE tedavisi / dilatasyon</span>
+            <p>EoE'de PPI, topikal steroid veya eliminasyon diyeti; darlıkta kontrollü endoskopik dilatasyon ve altta yatan nedenin tedavisi.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Motilite şüphesi</span>
+          <div class="node action safe">
+            <span class="k">Adım 5</span>
+            <span class="t">Baryumlu özofagogram + HRM</span>
+            <p>Kuş gagası/aperistalsis akalazyayı düşündürür; yüksek çözünürlüklü manometri ile Chicago sınıflaması ve alt tip belirlenir.</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 4</span>
+        <span class="t">Manometri akalazya/major motilite bozukluğu mu?</span>
+        <p>ÖGB gevşeme yetmezliği + aperistalsis (akalazya) doğrulandı mı?</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Akalazya yönetimi</span>
+          <div class="node alarm">
+            <span class="k">Girişim</span>
+            <span class="t">Pnömatik dilatasyon / Heller / POEM</span>
+            <p>Alt tipe göre girişimsel tedavi; köprüleme için nifedipin/botulinum toksin. İzlemde beslenme ve büyüme takibi.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Normal tetkik</span>
+          <div class="node action safe">
+            <span class="k">Sonlanım</span>
+            <span class="t">Fonksiyonel disfaji (Rome IV)</span>
+            <p>Yapısal, EoE ve major motilite dışlanmışsa güvence, yeme davranışı düzenleme ve gerektiğinde nöromodülasyon.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="callout safe">Anahtar ilke: Kronik/ilerleyici özofageal disfajide biyopsili endoskopi ilk tanısal adımdır; food impaction'dan sonra bile EoE'yi dışlamak için biyopsi mutlaka alınır. Baryum ve manometri, endoskopi normal veya motilite şüphesi olduğunda tamamlayıcıdır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Test seçimi disfajinin tipine göre yönlendirilir: özofageal disfajide biyopsili endoskopi öncelikli; orofaringeal disfajide videofloroskopik yutma çalışması; motilite şüphesinde manometri. Baryumlu özofagogram anatomik lezyonları ve akalazyayı gösterir, dilatasyon planına rehberlik eder.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Disfaji/odinofajide basamaklı tanısal yaklaşım ve endikasyonlar</caption>
+        <thead>
+          <tr>
+            <th>Basamak / Test</th>
+            <th>Ne zaman</th>
+            <th>Amaç ve not</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">Klinik değerlendirme</td>
+            <td>Tüm olgular</td>
+            <td>Orofaringeal–özofageal ayrımı, katı/sıvı paterni, odinofaji, yaş filtresi ve kırmızı bayrak taraması; tanı yolunu belirler.</td>
+          </tr>
+          <tr>
+            <td class="step">Üst GİS endoskopisi + çok düzeyli biyopsi</td>
+            <td class="dose">Proksimal + distal ≥6 parça</td>
+            <td>Özofageal disfajide ilk adım; EoE tanısı (≥15 eos/BBA), erozif/enfeksiyöz özofajit, striktür-halka-web ve normal görünümde bile biyopsi (EoE makroskopik normal olabilir).</td>
+          </tr>
+          <tr>
+            <td class="step">Baryumlu özofagogram</td>
+            <td>Anatomi / motilite ön değerlendirme</td>
+            <td>Halka (Schatzki), web, striktür uzunluğu, vasküler bası ve akalazya (kuş gagası, dilate özofagus); dilatasyon planına ve cerrahi haritalamaya yardımcı.</td>
+          </tr>
+          <tr>
+            <td class="step">Yüksek çözünürlüklü manometri (HRM)</td>
+            <td class="dose">Chicago sınıflaması v4.0</td>
+            <td>Endoskopi/biyopsi normal + süregelen disfajide; akalazya alt tipleri (I-II-III), ÖGB çıkış obstrüksiyonu, aperistalsis ve spazm ayrımı.</td>
+          </tr>
+          <tr>
+            <td class="step">Videofloroskopik yutma çalışması (VFSS) / FEES</td>
+            <td>Orofaringeal disfaji</td>
+            <td>Aspirasyon, penetrasyon ve faz güvenliği; kıvam uyarlaması ve beslenme güvenliği kararı için (nöromusküler olgularda).</td>
+          </tr>
+          <tr>
+            <td class="step">Enfeksiyöz/pill özofajit incelemesi</td>
+            <td>Odinofaji baskın</td>
+            <td>Biyopsi + fungal/viral (HSV, CMV) histoloji-kültür-PCR; ilaç ve kostik alım öyküsü sorgulanır; immünsüpresyonda eşik düşük.</td>
+          </tr>
+          <tr>
+            <td class="step">pH-empedans (MII-pH)</td>
+            <td>Seçilmiş olgular</td>
+            <td>PPI-yanıtsız EoE ayrımı, reflü ilişkili özofajit/darlık ve motilite-reflü örtüşmesinde; tanı yolunu netleştirir.</td>
+          </tr>
+          <tr>
+            <td class="step">EndoFLIP / kesitsel görüntüleme</td>
+            <td>İleri/seçilmiş olgular</td>
+            <td>EndoFLIP ÖGB distensibilitesini ölçer (akalazya/EoE'de daralma); BT/MR anjiyo vasküler halka ve dış bası şüphesinde.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">Food impaction ile başvuran her çocukta impaksiyon giderildikten sonra EoE için biyopsi alınmalıdır; yalnızca cisme müdahale edip biyopsi almamak en sık gözden kaçan hatadır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdaki bulgular acil veya hızlandırılmış girişimsel/tanısal değerlendirme gerektirir; fonksiyonel/benign disfaji varsayımını geçersiz kılar.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Tam obstrüksiyon / food impaction: salgıyı yutamama, aşırı salivasyon.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Solunum sıkıntısı, stridor, beslenmede desatürasyon veya akut aspirasyon.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kostik/kimyasal madde alımı öyküsü (oral yanık olmasa bile).</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>İlerleyici disfaji + belirgin kilo kaybı / büyüme geriliği.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Hem katı hem sıvıya disfaji + regürjitasyon (akalazya).</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Hematemez, melena veya belirgin odinofaji + ateş.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Yenidoğan/erken süt çocuğunda beslenmeyle öksürük-mor olma (vasküler halka, laringeal yarık, atrezi).</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Tekrarlayan aspirasyon pnömonisi.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>İmmünsüpresyon zemininde yeni başlayan odinofaji.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Boyunda kitle, ses değişikliği veya ilerleyici nörolojik bulgu.</span></div>
+    </div>
+    <div class="callout alarm">Food impaction ve kostik alım acil durumlardır: körlemesine bujinaj, kusturma veya beklemeci tutum yerine hava yolu güvenliği sağlanarak zamanında endoskopi planlanır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi — dozlu</h2>
+    <p class="lede">Tedavi altta yatan nedene göre şekillenir. EoE'de üç birinci basamak seçenek vardır: PPI, yutulan topikal kortikosteroid ve eliminasyon diyeti; darlıkta endoskopik dilatasyon eklenir. Akalazyada girişimsel tedavi (pnömatik dilatasyon, Heller miyotomi, POEM) esastır. Odinofajide enfeksiyöz/ilaç etkeni hedeflenir. Dozlar hastaya göre bireyselleştirilmelidir.</p>
+    <div class="pill-row">
+      <span class="pill">EoE: PPI / topikal steroid / diyet</span>
+      <span class="pill">Striktür: dilatasyon + neden tedavisi</span>
+      <span class="pill">Akalazya: PD / Heller / POEM</span>
+      <span class="pill">Odinofaji: etkene yönelik</span>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <caption>Nedene yönelik tedavi — doz (mg/kg) ve maksimumlar</caption>
+        <thead>
+          <tr>
+            <th>Ajan / Girişim</th>
+            <th>Doz (mg/kg + maksimum)</th>
+            <th>Not</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">Omeprazol (EoE, yüksek doz PPI)</td>
+            <td class="dose">1-2 mg/kg/gün, 2 doza bölünmüş (maks 40 mg/gün)</td>
+            <td>EoE birinci basamak; 8-12 hafta sonra biyopsi ile histolojik yanıt (&lt;15 eos/BBA) değerlendirilir.</td>
+          </tr>
+          <tr>
+            <td class="step">Esomeprazol (EoE, alternatif PPI)</td>
+            <td class="dose">1 mg/kg/doz, günde 2 (maks 40 mg/gün)</td>
+            <td>PPI-yanıtlı özofageal eozinofili EoE spektrumunda kabul edilir; yanıtta idame ile relaps önlenir.</td>
+          </tr>
+          <tr>
+            <td class="step">Oral viskoz budesonid (yutulan)</td>
+            <td class="dose">&lt;10 yaş 1 mg/gün; ≥10 yaş/adölesan 2 mg/gün (2 doza bölünmüş; maks 2 mg/gün)</td>
+            <td>Sükraloz/kıvamlaştırıcı ile karıştırılıp yutulur; sonrasında 30 dk yeme-içme yok. Oral kandidiazis açısından izle.</td>
+          </tr>
+          <tr>
+            <td class="step">Yutulan flutikazon (ölçülü doz, boşluğa sıkıp yutma)</td>
+            <td class="dose">&lt;10 yaş 88-440 mcg/gün; ≥10 yaş 440-880 mcg/gün (2-4 doza bölünmüş)</td>
+            <td>Spacer/ağızlıksız, dil üstüne sıkılıp yutulur; sonrası 30 dk yeme-içme ve ağız durulama yok.</td>
+          </tr>
+          <tr>
+            <td class="step">Budesonid orodispersibl tablet</td>
+            <td class="dose">Adölesan: 1 mg, günde 2 (maks 2 mg/gün)</td>
+            <td>Onaylı formülasyon (uygun yaş/kilo); indüksiyon 6-12 hafta, yanıtta idame düşük doz.</td>
+          </tr>
+          <tr>
+            <td class="step">Eliminasyon diyeti (empirik)</td>
+            <td class="dose">1/2/4/6-besin veya aminoasit formül</td>
+            <td>Basamaklı (step-up) eliminasyon; süt en sık tetikleyici. Aminoasit bazlı formül en yüksek etkinlik, uyum düşük.</td>
+          </tr>
+          <tr>
+            <td class="step">Endoskopik özofagus dilatasyonu</td>
+            <td class="dose">Girişim — kademeli/kontrollü</td>
+            <td>EoE/peptik/kostik striktür ve halkada; EoE'de mukozal yırtılma beklenir, medikal tedaviyle birlikte kademeli genişletme.</td>
+          </tr>
+          <tr>
+            <td class="step">Flukonazol (Candida özofajiti)</td>
+            <td class="dose">6 mg/kg (1. gün yükleme), sonra 3 mg/kg/gün (maks 400 mg/gün)</td>
+            <td>14-21 gün; oral alım güçse başlangıçta IV. Dirençli/ağır olguda ekinokandin.</td>
+          </tr>
+          <tr>
+            <td class="step">Asiklovir (HSV özofajiti)</td>
+            <td class="dose">IV 5-10 mg/kg/doz, 8 saatte bir (7-14 gün)</td>
+            <td>İmmünsüpresede IV tercih; oral alabilen immünkompetanda oral geçiş. Böbrek fonksiyonuna göre ayarla.</td>
+          </tr>
+          <tr>
+            <td class="step">Gansiklovir (CMV özofajiti)</td>
+            <td class="dose">IV 5 mg/kg/doz, günde 2 (indüksiyon)</td>
+            <td>Genellikle immünsüprese hasta; nötropeni açısından izlem, ardından idame/oral valgansiklovir.</td>
+          </tr>
+          <tr>
+            <td class="step">Pill özofajiti yönetimi</td>
+            <td class="dose">Sorumlu ilacı kes + destek</td>
+            <td>Bol su ile ve dik pozisyonda ilaç alımı önerisi; kısa süreli sukralfat/analjezi ile semptomatik iyileşme.</td>
+          </tr>
+          <tr>
+            <td class="step">Akalazya — köprüleme (nifedipin)</td>
+            <td class="dose">0.3-0.5 mg/kg/gün, yemek öncesi (maks 30 mg/gün)</td>
+            <td>Geçici; girişim öncesi/beklerken. Botulinum toksin enjeksiyonu da geçici seçenektir.</td>
+          </tr>
+          <tr>
+            <td class="step">Akalazya — girişimsel tedavi</td>
+            <td class="dose">Pnömatik dilatasyon / Heller miyotomi / POEM</td>
+            <td>Kalıcı tedavi; alt tip ve merkez deneyimine göre seçim. Sonrası GÖRH ve semptom izlemi.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">EoE'de birinci basamak PPI, topikal steroid ve eliminasyon diyeti benzer etkinliktedir; seçim hastanın tercihine, uyuma ve fenotipe göre yapılır. İndüksiyon sonrası histolojik yanıt endoskopi + biyopsi ile doğrulanır ve yanıt varsa idame sürdürülür (EoE kronik-relapsing seyreder).</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve yönetim ilkeleri</h2>
+    <p class="lede">Amaç: acil komplikasyonları (impaksiyon, aspirasyon) önlemek, EoE'de histolojik remisyonu ve fibrostenozu, akalazyada semptom kontrolü ve beslenmeyi izlemektir. İzlem klinik semptomla sınırlı kalmaz; özellikle EoE'de histoloji rehberdir.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>EoE ve mukozal hastalık izlemi</h3>
+        <ul class="clean">
+          <li>İndüksiyon sonrası 8-12 haftada kontrol endoskopi + biyopsi ile histolojik remisyon (&lt;15 eos/BBA) doğrula.</li>
+          <li>Yanıtta idame tedavisi sürdür; semptomlar histolojiyle her zaman uyuşmaz ("asemptomatik aktif hastalık").</li>
+          <li>Eliminasyon diyetinde besinleri kademeli reintrodüksiyon + her adımda biyopsi ile tetikleyiciyi belirle.</li>
+          <li>Fibrostenoz/darlık gelişimini izle; dilatasyonu medikal tedaviyle birlikte planla, atopiyi ortak yönet.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Yapısal / motilite hastalığı izlemi</h3>
+        <ul class="clean">
+          <li>Striktürde neden tedavisi (PPI, EoE tedavisi) + dilatasyon; rekürren darlıkta tekrar değerlendirme.</li>
+          <li>Akalazyada girişim sonrası semptom, kilo/büyüme ve reflü/özofajit gelişimini izle; Eckardt benzeri semptom skoru takibi.</li>
+          <li>Orofaringeal disfajide VFSS ile kıvam/pozisyon uyarlaması, aspirasyon önlemi ve beslenme ekibi ile ortak izlem.</li>
+          <li>Vasküler halka/konjenital lezyonda cerrahi sonrası büyüme ve rezidü semptom takibi.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout safe">Geri çekilme ve devam kuralı: EoE ve akalazya kronik hastalıklardır; semptom düzelse bile objektif remisyon (histoloji/manometri-klinik) doğrulanmadan tedavi kesilmez. Fonksiyonel disfaji tanısı ancak yapısal, EoE ve major motilite bozukluğu dışlandığında konur.</div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Amil-Dias J, Oliva S, Papadopoulou A, ve ark. Diagnosis and management of eosinophilic esophagitis in children: An update from the ESPGHAN. J Pediatr Gastroenterol Nutr. 2024;79(2):394-437.</li>
+      <li>Lucendo AJ, Molina-Infante J, Arias Á, ve ark. Guidelines on eosinophilic esophagitis: evidence-based statements and recommendations for diagnosis and management in children and adults (UEG/EAACI/ESPGHAN/EUREOS). United European Gastroenterol J. 2017;5(3):335-358.</li>
+      <li>Dellon ES, Liacouras CA, Molina-Infante J, ve ark. Updated International Consensus Diagnostic Criteria for Eosinophilic Esophagitis: Proceedings of the AGREE Conference. Gastroenterology. 2018;155(4):1022-1033.</li>
+      <li>Aziz Q, Fass R, Gyawali CP, ve ark. Functional Esophageal Disorders (Rome IV). Gastroenterology. 2016;150(6):1368-1379.</li>
+    </ol>
+  </footer>
+
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge çocuk gastroenteroloji uzmanları için klinik karar desteği amaçlıdır; hastaya özgü değerlendirmenin, güncel kılavuzların ve yerel ilaç ruhsat/dozaj bilgilerinin yerine geçmez. Dozlar hastanın yaşı, kilosu, böbrek/karaciğer fonksiyonu ve komorbiditelerine göre bireyselleştirilmelidir.</div>
+</div>

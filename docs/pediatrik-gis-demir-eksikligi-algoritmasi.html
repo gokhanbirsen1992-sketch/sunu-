@@ -1,0 +1,410 @@
+<title>GİS Kaynaklı Demir Eksikliği Anemisi — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>GİS Kaynaklı Demir Eksikliği Anemisi</h1>
+    <p class="sub">Demir eksikliği anemisinde beslenmesel (aşırı inek sütü) nedeni gizli/aşikâr GİS kan kaybından ve malabsorpsiyondan ayırmaya; çölyak, IBD, polip ve Meckel divertikülü gibi organik kaynakları doğru olguda endoskopiyle araştırmaya ve dozlu demir tedavisini yönetmeye yönelik karar aracı. Hedef kitle: çocuk gastroenteroloji uzmanı.</p>
+    <div class="meta">
+      <span class="tag">Çölyak &amp; IBD</span>
+      <span class="tag">Meckel &amp; polip</span>
+      <span class="tag">Endoskopi kararı</span>
+      <span class="tag">Dozlu demir tedavisi</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">Demir eksikliği anemisi (DEA), vücut demir depolarının tükenmesiyle eritropoezin kısıtlandığı <b>mikrositer-hipokrom</b> anemidir; tanı, yaşa göre düşük hemoglobin (WHO: 6 ay-5 yaş &lt;11 g/dL, 5-11 yaş &lt;11.5, 12-14 yaş &lt;12) ile birlikte demir eksikliğinin gösterilmesine dayanır. Demir eksikliğinin en özgül göstergesi <b>düşük ferritin</b>dir (&lt;15 µg/L; enflamasyon/enfeksiyon varlığında ferritin akut faz reaktanı olarak yükseldiğinden eşik &lt;30-50 µg/L'ye çekilir ve CRP ile birlikte yorumlanır); destekleyici bulgular düşük transferrin satürasyonu (&lt;%16), yüksek RDW, düşük MCV/MCH, düşük retikülosit hemoglobini (CHr/RET-He) ve yüksek çözünür transferrin reseptörüdür. Çocukluk çağında en sık neden <b>beslenmesel</b> (yetersiz alım + aşırı inek sütü) olsa da, çocuk gastroenteroloğunun asıl görevi bu tabloyu <b>gizli/aşikâr GİS kan kaybı</b> (polip, Meckel, IBD, özofajit) ve <b>malabsorpsiyon</b> (çölyak, IBD) gibi organik nedenlerden ayırmaktır. İlk değerlendirmede üç soru yanıtlanır: (1) anemi gerçekten demir eksikliğine mi bağlı (ferritin/TSAT ile doğrula, talasemi taşıyıcılığı ve kronik hastalık anemisini ayır); (2) beslenmesel açıklama yeterli mi, yoksa GİS kan kaybı/malabsorpsiyon ipuçları var mı (gaitada gizli kan, çölyak serolojisi); (3) kırmızı bayrak var mı — çünkü <b>aşikâr kanama, ağır/dirençli anemi ya da alarm bulgusu</b> beslenmesel neden olsa bile GİS araştırmasını (endoskopi/Meckel sintigrafisi) öne alır. Demir tedavisine yanıtsızlık ya da tedavi kesilince hızlı nüks, süregelen GİS kaybı veya emilim kusuru lehine güçlü bir ipucudur.</p>
+    <div class="pill-row">
+      <span class="pill">Ferritin &lt;15 µg/L: demir eksikliği (enflamasyonda &lt;30-50)</span>
+      <span class="pill">TSAT &lt;%16, yüksek RDW, düşük MCV/MCH</span>
+      <span class="pill">CHr/RET-He düşük: erken, güvenilir belirteç</span>
+      <span class="pill">Aşırı inek sütü: &gt;500-700 mL/gün</span>
+      <span class="pill">Yanıtsız DEA → GİS kaynağı ara</span>
+    </div>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öyküde sorgula</h3>
+        <ul class="clean">
+          <li><b>Beslenme:</b> günlük inek sütü hacmi (&gt;500-700 mL riskli), erken/aşırı süt geçişi, çay tüketimi (tanen), et/demirden zengin gıda azlığı, pika-pagofaji; süt çocuğunda erken inek sütü başlanması</li>
+          <li><b>GİS kan kaybı:</b> melena/hematokezya, dışkıya bulaşmış kan-mukus, tekrarlayan ağrısız rektal kanama (juvenil polip/Meckel), hematemez-kahve telvesi, epigastrik ağrı-reflü (özofajit, H. pylori)</li>
+          <li><b>Malabsorpsiyon/IBD:</b> kronik ishal, karın ağrısı, kilo kaybı-boy hızı duraksaması, steatore, çölyak/ IBD aile öyküsü; kanlı ishal, gece semptomu, perianal hastalık</li>
+          <li>Süt çocuğunda inek sütü protein enteropatisi (kanlı-mukuslu gaita), NSAİİ kullanımı, kanama-pıhtılaşma öyküsü</li>
+          <li>Menstrüel kayıp (adölesan kızda), sürekli/tekrarlayan burun kanaması, hemoglobinopati/aile öyküsü, konsanguinite</li>
+          <li>Tedavi yanıtı: önceki demir tedavisine yanıt, kesildikten sonra nüks hızı (süregelen kayıp/malabsorpsiyon ipucu)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayenede değerlendir</h3>
+        <ul class="clean">
+          <li>Solukluk (konjonktiva, avuç içi, tırnak yatağı), taşikardi, üfürüm; ağır/dekompanse anemi bulguları (dispne, halsizlik)</li>
+          <li>Büyüme antropometrisi ve persentil seyri, Tanner evresi; boy hızı düşüşü organik hastalık/malabsorpsiyon lehine</li>
+          <li>Demir eksikliği stigmatları: koilonişi, anguler keilit, glossit, mavimsi sklera, saç-tırnak değişiklikleri</li>
+          <li><b>Perianal muayene</b> (Crohn): skin tag, fissür, fistül, apse; parmakla rektal muayene ve dışkıda gizli kan</li>
+          <li>Batın: hassasiyet, kitle (sağ alt kadran inflamatuvar kitle — Crohn), organomegali; ekstraintestinal bulgu (aft, eritema nodozum, artrit)</li>
+          <li>Cilt: peteşi/purpura (IgA vasküliti — GİS kanama), telanjiektazi (HHT), kanama diyatezi işaretleri</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout"><b>Kavram:</b> "DEA" bir tanı değil, bir sonuçtur; çocuk gastroenteroloğunun görevi demir eksikliğini doğruladıktan sonra kaynağı belirlemektir — beslenmesel (aşırı süt/yetersiz alım), gizli/aşikâr GİS kan kaybı (polip, Meckel, IBD, özofajit) ve malabsorpsiyon (çölyak, IBD) ayrımı. Ferritin daima CRP ile yorumlanır; enflamasyonda normal ferritin demir eksikliğini dışlamaz.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Etiyoloji ve mekanizma</h2>
+    <p class="lede">GİS kaynaklı DEA üç mekanizmadan çıkar: <b>yetersiz alım/emilim engeli</b> (beslenmesel, çölyak), <b>kronik gizli/aşikâr kan kaybı</b> (polip, Meckel, IBD, özofajit) ve <b>enflamasyona bağlı emilim baskılanması</b> (IBD'de hepsidin artışı — hem demir kaybı hem emilim kusuru bir arada). Ayırıcı tanının anahtarı; beslenme öyküsü, gaitada gizli kan, çölyak serolojisi ve enflamasyon belirteçleridir. Beslenmesel neden çocuklukta en sık olsa da, aşikâr kanama ya da yanıtsız/dirençli DEA organik kaynağı zorunlu kılar.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">Beslenmesel · Aşırı inek sütü</div>
+        <ul>
+          <li>Günde &gt;500-700 mL inek sütü: hem demirden fakir hem de <b>okült GİS kan kaybına</b> ve emilim baskılanmasına yol açar (süt çocuğu)</li>
+          <li>Erken/aşırı inek sütü geçişi, et-demir alımının azlığı, çay (tanen) ile emilim inhibisyonu, pika/pagofaji</li>
+          <li>Klasik profil: iyi görünümlü ancak soluk, aşırı süt içen, 9-24 ay süt çocuğu; kan kaybı ipucu yoksa beslenmesel yönet</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">Çölyak hastalığı</div>
+        <ul>
+          <li>Proksimal ince bağırsak villus atrofisi → <b>demir malabsorpsiyonu</b>; DEA sıklıkla çölyağın tek/ilk bulgusu olabilir</li>
+          <li>Oral demire yanıtsız/dirençli DEA'da mutlaka tara: tTG-IgA + total IgA (IgA eksikse IgG bazlı: DGP-IgG/tTG-IgG)</li>
+          <li>Glutensiz diyetle demir emilimi düzelir; folat-B12 eksikliği de eşlik edebilir</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">Enflamatuvar bağırsak hastalığı</div>
+        <ul>
+          <li>Crohn/ülseratif kolit: <b>kronik mukozal kan kaybı + hepsidin aracılı emilim baskılanması</b> (karma DEA + kronik hastalık anemisi)</li>
+          <li>Kanlı ishal, kilo/boy kaybı, perianal hastalık, yüksek CRP/ESH, trombositoz, hipoalbüminemi, yüksek fekal kalprotektin</li>
+          <li>Oral demir intoleransı/emilim kusuru sıktır → sıklıkla <b>IV demir</b> gerekir</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Kolonik/juvenil polip</div>
+        <ul>
+          <li>Ağrısız, tekrarlayan taze rektal kanama; juvenil polip okült kayıpla DEA yapabilir (en sık 2-8 yaş)</li>
+          <li>Çoğunlukla soliter, rektosigmoid; kolonoskopik <b>polipektomi</b> hem tanısal hem tedavi edicidir</li>
+          <li>Çok sayıda polip/aile öyküsü → juvenil polipozis, PJS, FAP gibi sendromları değerlendir</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">Meckel divertikülü</div>
+        <ul>
+          <li>Ektopik <b>mide mukozası</b> asit salgısıyla komşu ileal ülserasyon → ağrısız, bazen masif alt GİS kanama; okült kayıpla DEA</li>
+          <li>Tipik profil: 2 yaş altı, ağrısız hematokezya; endoskopi negatif kalabilir</li>
+          <li>Tanı: <b>Tc-99m perteknetat (Meckel) sintigrafisi</b>; tedavi cerrahi rezeksiyon</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">Diğer GİS kaynakları</div>
+        <ul>
+          <li>Üst GİS: reflü özofajiti, <b>H. pylori</b> gastriti/ülser, peptik ülser, varis; eozinofilik özofajit</li>
+          <li>İnek sütü protein enteropatisi/koliti (süt çocuğu), NSAİİ enteropatisi, vasküler malformasyon (HHT, anjiodisplazi), Dieulafoy</li>
+          <li>Nadir: kancalı kurt (endemik bölge), IgA vasküliti bağırsak tutulumu, GİS lenfoma/tümör</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout"><b>Ayrım ipucu:</b> Beslenmesel DEA'da öykü tipik (aşırı süt, yetersiz alım) ve kan kaybı ipucu yoktur → beslenme düzeltmesi + oral demir yeterlidir. Buna karşılık <b>aşikâr/tekrarlayan kanama, oral demire yanıtsızlık, malabsorpsiyon işaretleri veya alarm bulgusu</b> organik kaynağı gösterir ve endoskopi/Meckel sintigrafisi/çölyak taramasını zorunlu kılar.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">İlk çatal, anemin gerçekten demir eksikliğine bağlı olup olmadığı (ferritin/TSAT ile doğrulama); ikinci çatal, aşikâr GİS kanama ya da kırmızı bayrak varlığı (endoskopi/sintigrafiyi öne alır); üçüncü çatal, beslenmesel açıklamanın yeterliliği ve oral demir tedavisine yanıttır. Amaç, beslenmesel çoğunluğu gereksiz endoskopiden korurken organik kaynaklı azınlığı zamanında araştırmaktır.</p>
+    <div class="flow">
+      <div class="node start"><span class="k">Başlangıç</span><span class="t">Mikrositer anemi / demir eksikliği anemisi saptandı</span><p>Ferritin (CRP ile), TSAT, MCV/MCH, RDW, retikülosit He ile demir eksikliğini doğrula; talasemi taşıyıcılığı ve kronik hastalık anemisini ayır. Yaşa göre Hb eşiğini kullan.</p></div>
+      <div class="connector"></div>
+      <div class="node action"><span class="k">Adım 1</span><span class="t">Beslenme öyküsü + gizli kan + çölyak taraması</span><p>İnek sütü hacmi ve demir alımını sorgula; gaitada gizli kan (FOBT/FIT); çölyak serolojisi (tTG-IgA + total IgA). Menstrüel kayıp, NSAİİ ve kanama öyküsünü değerlendir.</p></div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 1</span><span class="t">Aşikâr GİS kanama ya da kırmızı bayrak var mı?</span><p>Melena/hematemez/tekrarlayan hematokezya, ağır/dirençli anemi (Hb belirgin düşük), kilo-boy kaybı, kanlı ishal, pozitif gizli kan veya belirgin malabsorpsiyon bulgusu mevcut mu?</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">EVET → Kaynağı araştır</span><div class="node alarm"><span class="k">Tanısal</span><span class="t">Endoskopi ± Meckel sintigrafisi</span><p>Üst GİS bulgusunda özofagogastroduodenoskopi; alt GİS kanama/pozitif gizli kanda ileokolonoskopi (biyopsili). Kanama var ama endoskopi negatifse ve profil uygunsa <b>Tc-99m perteknetat (Meckel) sintigrafisi</b>; ikisi de negatifse kapsül/MR enterografi ile ince bağırsağı değerlendir.</p></div></div>
+        <div class="branch no"><span class="label">HAYIR → Beslenmesel yol</span><div class="node action safe"><span class="k">Tedavi et</span><span class="t">Beslenme düzeltme + oral demir dene</span><p>İnek sütünü &lt;500 mL/güne indir, demirden zengin diyet; oral elemental demir 3-6 mg/kg/gün başla. 2-4 haftada retikülosit/Hb yanıtını değerlendir (Karar 2'ye geç).</p></div></div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 2</span><span class="t">Uygun oral demir tedavisine yeterli yanıt var mı?</span><p>Uyumlu 4 hafta oral demir sonrası Hb &ge;1 g/dL arttı mı? Yanıt yoksa: uyumsuzluk, süregelen GİS kaybı, malabsorpsiyon (çölyak/IBD) veya yanlış tanıyı düşün.</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">EVET → Beslenmesel DEA doğrulandı</span><div class="node action safe"><span class="k">Sürdür</span><span class="t">Depoları doldur, izle</span><p>Hb normale geldikten sonra <b>2-3 ay daha</b> demiri sürdürerek depoları doldur; beslenme danışmanlığı ver. Kesince nüks olursa süregelen kayıp/malabsorpsiyon açısından yeniden araştır.</p></div></div>
+        <div class="branch no"><span class="label">HAYIR → Dirençli/yanıtsız DEA</span><div class="node alarm"><span class="k">İleri değerlendir</span><span class="t">Malabsorpsiyon ve GİS kaynağını araştır</span><p>Uyumu ve preparatı gözden geçir; çölyak serolojisi + total IgA, fekal kalprotektin, CRP/ESH. Çölyak şüphesi veya kalprotektin yüksekse üst GİS endoskopisi (duodenal biyopsi) ± ileokolonoskopi. Emilim/oral intolerans varsa <b>IV demire</b> geç.</p></div></div>
+      </div>
+    </div>
+    <div class="callout"><b>Not:</b> Aşikâr kanama ya da kırmızı bayrak, beslenmesel açıklama mevcut olsa bile endoskopi/sintigrafi kararını öne alır. Buna karşılık tipik beslenmesel profilde (aşırı süt, kan kaybı ipucu yok) makul yaklaşım, önce beslenme düzeltmesi + oral demir denemesi ve yanıtı 2-4 haftada belgelemektir; yanıtsızlık organik araştırmayı tetikler.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Tetkik, demir eksikliğinin doğrulanması ve ayırıcı hemogram değerlendirmesiyle başlar; beslenmesel neden dışlanamıyorsa ya da yanıt alınamıyorsa gizli kan, çölyak ve enflamasyon taranır; aşikâr kanama/kırmızı bayrak veya yanıtsızlık endoskopi ve seçilmiş olguda Meckel sintigrafisi/ince bağırsak görüntülemesine ilerletir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>GİS kaynaklı DEA'da kademeli değerlendirme</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Test</th><th>Amaç / not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Basamak 1 · Anemiyi ve demir eksikliğini doğrula</td><td>Tam kan + periferik yayma, retikülosit ve retikülosit Hb (CHr/RET-He), ferritin + CRP, TSAT, MCV/MCH/RDW</td><td><span class="dose">Ferritin &lt;15 µg/L (enflamasyonda &lt;30-50); TSAT &lt;%16</span>; RDW yüksek + Mentzer &gt;13 DEA lehine, talasemi taşıyıcılığını ayır</td></tr>
+          <tr><td class="step">Basamak 2 · Kan kaybını ve çölyağı tara</td><td>Gaitada gizli kan (FIT/FOBT ×3); <b>çölyak serolojisi: tTG-IgA + total IgA</b> (IgA eksikse DGP-IgG/tTG-IgG)</td><td>Pozitif gizli kan organik kaynağa yönlendirir; çölyak, dirençli/yanıtsız DEA'nın gözden kaçan sık nedeni</td></tr>
+          <tr><td class="step">Basamak 3 · Enflamasyon ve ek eksiklikler</td><td>CRP/ESH, albümin, fekal kalprotektin; folat, B12; H. pylori (endike ise dışkı antijeni)</td><td>Yüksek kalprotektin/CRP + trombositoz-hipoalbüminemi IBD'yi düşündürür; karma anemi için B12/folat</td></tr>
+          <tr><td class="step">Basamak 4 · Üst GİS endoskopisi</td><td>Özofagogastroduodenoskopi + <b>duodenal biyopsi</b> (çölyak) ± H. pylori biyopsisi</td><td>Üst GİS semptomu, pozitif çölyak serolojisi veya üst kaynak şüphesinde; özofajit/ülser/villus atrofisini gösterir</td></tr>
+          <tr><td class="step">Basamak 5 · İleokolonoskopi</td><td>Segmental biyopsili tam ileokolonoskopi; görülen polipe <b>polipektomi</b></td><td>Alt GİS kanama, pozitif gizli kan, IBD şüphesinde; juvenil polip hem tanı hem tedavi (polipektomi)</td></tr>
+          <tr><td class="step">Basamak 6 · İnce bağırsak / Meckel</td><td><b>Tc-99m perteknetat (Meckel) sintigrafisi</b>; ince bağırsak için kapsül endoskopi veya MR enterografi</td><td>Endoskopi negatif ama süren okült/aşikâr kayıpta; ağrısız kanamalı küçük çocukta önce Meckel sintigrafisi</td></tr>
+          <tr><td class="step">İzlem · Tedavi yanıtı</td><td>2-4 haftada retikülosit/Hb; depolar için ferritin ve tam kan seri takip</td><td>Uygun oral demirle Hb &ge;1 g/dL artmıyorsa uyum/kayıp/malabsorpsiyonu araştır (Karar 2)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout"><b>Sıralama ilkesi:</b> Aşikâr kanamada tanı gecikmeden endoskopiye; ağrısız kanamalı küçük çocukta profil uygunsa erkenden Meckel sintigrafisine gidilir. Tipik beslenmesel profilde ise ileri tetkiki savurmadan önce beslenme düzeltmesi + oral demir denenir; yanıtsızlıkta çölyak/IBD ve endoskopi devreye girer.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdakilerden herhangi biri, DEA'nın salt beslenmesel olmadığını; organik bir GİS kaynağının bulunduğunu düşündürür ve endoskopi/Meckel sintigrafisi ile hızlı değerlendirmeyi gerektirir.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Aşikâr GİS kanama: hematemez/kahve telvesi, melena, tekrarlayan hematokezya (Meckel, polip, ülser, varis)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ağır ya da hızlı ilerleyen anemi; hemodinamik bozukluk, transfüzyon gerektiren düşük Hb</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Uygun oral demir tedavisine yanıtsızlık ya da kesilince hızlı nüks (süregelen kayıp / malabsorpsiyon)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kilo kaybı, büyüme/boy hızı duraksaması, gecikmiş puberte; kronik ishal-steatore (malabsorpsiyon/IBD)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kanlı-mukuslu ishal, gece semptomları, perianal hastalık; yüksek CRP/ESH-kalprotektin, trombositoz, hipoalbüminemi (IBD)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Pozitif çölyak serolojisi ya da tipik malabsorpsiyon profili (dirençli DEA)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ağrısız tekrarlayan rektal kanama (juvenil polip); ailede polipozis/IBD/çölyak öyküsü</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Beslenmesel açıklamanın yetersizliği (aşırı süt/yetersiz alım öyküsü yok) ile birlikte demir eksikliği</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kanama diyatezi, telanjiektazi (HHT), purpura (IgA vasküliti); NSAİİ kullanımı</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Karın kitlesi, organomegali ya da sistemik bulgu (ateş, gece terlemesi) eşliği</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi</h2>
+    <p class="lede">Tedavi iki koldan yürür: <b>demir depolarını doldurmak</b> ve <b>altta yatan GİS nedenini gidermek</b>. Çoğu olguda birinci basamak <b>oral demir</b>dir; elemental demir üzerinden dozlanır (ferröz sülfat ~%20, glukonat ~%12, fumarat ~%33 elemental içerir). Emilimi artırmak için aç karnına ya da C vitamini ile verilir; süt-çay-antasitle birlikte alınmaz. Yeni kanıtlar, günde tek doz ya da <b>gün aşırı</b> dozlamanın hepsidin dalgalanmasını azaltıp fraksiyonel emilimi ve toleransı iyileştirdiğini destekler. IV demir; oral intolerans/yanıtsızlık, ağır malabsorpsiyon (çölyak/IBD), aktif IBD ve süregelen kayıp için ayrılır. Nedene özgü tedavi (glutensiz diyet, polipektomi, Meckel rezeksiyonu, IBD tedavisi, H. pylori eradikasyonu, süt kısıtlaması) şarttır. Dozlar ağırlık, tolerans ve yanıta göre bireyselleştirilir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>DEA'da demir tedavisi ve nedene özgü yönetim — dozlar</caption>
+        <thead>
+          <tr><th>Durum / ilaç</th><th>Doz</th><th>Not / izlem</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Oral demir (birinci basamak)</td><td class="dose">Elemental demir 3-6 mg/kg/gün, tek veya gün aşırı doz (maks ~150-200 mg/gün elemental)</td><td>Aç karnına/C vitamini ile; süt-çay-antasit ile alma; gün aşırı doz emilimi/toleransı artırabilir; GİS yan etkilerinde doz-zamanı ayarla</td></tr>
+          <tr><td class="step">Oral preparat seçimi</td><td class="dose">Ferröz sülfat, ferröz fumarat veya glukonat (elemental içeriğe göre hesapla); alternatif ferrik maltol</td><td>Tümü elemental demir üzerinden dozlanır; sıvı formda diş boyanmasını önle; kabızlık-bulantı sık</td></tr>
+          <tr><td class="step">IV ferrik karboksimaltoz (FCM)</td><td class="dose">15 mg/kg tek infüzyon (maks 750-1000 mg/doz); gerekirse hesaplanan açığa göre tekrar</td><td>Oral intolerans/yanıtsızlık, ağır malabsorpsiyon, aktif IBD; hipofosfatemiyi izle; hızlı depo doldurma; genellikle &ge;1 yaş</td></tr>
+          <tr><td class="step">IV demir sükroz (alternatif)</td><td class="dose">5-7 mg/kg/doz (maks 200 mg/doz), toplam açığa dek bölünmüş seanslar</td><td>Küçük çocukta/FCM uygun değilse; toplam demir açığı Ganzoni ile hesaplanabilir; infüzyon reaksiyonunu izle</td></tr>
+          <tr><td class="step">Aşırı inek sütü / beslenmesel</td><td class="dose">İnek sütünü &lt;500 mL/güne indir; demirden zengin diyet + oral demir</td><td>Okült kaybı ve emilim baskısını azaltır; 12 ay altında inek sütünden kaçın; diyet danışmanlığı</td></tr>
+          <tr><td class="step">Çölyak hastalığı</td><td class="dose">Ömür boyu glutensiz diyet + oral demir (emilim düzelene dek)</td><td>Glutensiz diyetle demir emilimi düzelir; ağır/dirençli olguda IV demir; folat-B12 eksikliğini de tara</td></tr>
+          <tr><td class="step">Kolonik/juvenil polip</td><td class="dose">Kolonoskopik polipektomi (tanısal-tedavi edici) + demir replasmanı</td><td>Kanama kaynağını ortadan kaldırır; histoloji al; multipl polip/aile öyküsünde polipozis sendromunu araştır</td></tr>
+          <tr><td class="step">Meckel divertikülü</td><td class="dose">Cerrahi rezeksiyon + demir replasmanı</td><td>Tc-99m sintigrafisiyle doğrula; ektopik mide mukozalı divertikül kanamasının kesin tedavisi</td></tr>
+          <tr><td class="step">IBD kaynaklı anemi</td><td class="dose">IBD tedavisi (indüksiyon-idame) + tercihen IV demir (aktif hastalıkta)</td><td>Enflamasyonda oral emilim baskılı ve tolerans düşük; hastalık kontrolü anemiyi de düzeltir; seri ferritin/Hb</td></tr>
+          <tr><td class="step">H. pylori / peptik hastalık</td><td class="dose">Eradikasyon tedavisi (PPI + iki antibiyotik, 14 gün) + demir; asit-baskılama (özofajit)</td><td>Dirençli DEA'da H. pylori araştır; eradikasyon demir emilimini ve anemiyi düzeltebilir</td></tr>
+          <tr><td class="step">Transfüzyon (yalnız seçili)</td><td class="dose">Eritrosit süspansiyonu, semptomatik/ağır anemide (ör. Hb &lt;6-7 g/dL + semptom) küçük hacim-yavaş</td><td>Rutin değil; hemodinamik bozukluk/aktif ciddi kanamada; volüm yükü ve hızlı düzeltme riskine dikkat</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout safe"><b>Yaklaşım:</b> Çoğu olguda oral demir (3-6 mg/kg/gün elemental, gün aşırı doz seçeneğiyle) + beslenme düzeltmesi yeterlidir; 2-4 haftada retikülosit/Hb yanıtını doğrula. Yanıt varsa depoları doldurmak için normalleşmeden sonra 2-3 ay daha sürdür. Oral intolerans/yanıtsızlık, ağır malabsorpsiyon veya aktif IBD'de IV demire (FCM 15 mg/kg) geç ve altta yatan nedeni (çölyak, polip, Meckel, IBD, H. pylori) mutlaka tedavi et.</div>
+    <div class="callout alarm"><b>Dikkat:</b> Oral demire yanıtsızlığı "tedavi başarısızlığı" diye geçme — önce uyum ve alım tekniğini (aç karın, süt/çayla alım), sonra süregelen GİS kaybı ve malabsorpsiyonu (çölyak/IBD) araştır. Ferritini enflamasyonda tek başına yorumlama (CRP ile birlikte). IV FCM sonrası hipofosfatemi gelişebilir; tekrarlayan uygulamada fosfatı izle. Aşikâr kanamalı çocukta demiri başlatırken kaynak araştırmasını (endoskopi/Meckel sintigrafisi) erteleme.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve yönetim ilkeleri</h2>
+    <p class="lede">Yönetim; demir eksikliğini doğrulayıp kaynağı ayırmaya, beslenmesel çoğunluğu oral demir + diyetle tedavi edip yanıtı belgelemeye, yanıtsız/aşikâr kanamalı olguda organik kaynağı (çölyak, IBD, polip, Meckel) zamanında araştırmaya ve depoları tam doldurup nüksü önlemeye dayanır. Tedavi yanıtı hem tanının hem uyumun aynasıdır.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>İzlem ve takip</h3>
+        <ul class="clean">
+          <li>Oral demir başladıktan 2-4 hafta sonra retikülosit/Hb yanıtını değerlendir; Hb'de &ge;1 g/dL artış tedavinin ve tanının doğrulayıcısıdır</li>
+          <li>Hb normale geldikten sonra <b>2-3 ay daha</b> demiri sürdürerek ferritinle depoları doldur; erken kesme nüks nedenidir</li>
+          <li>Yanıt yoksa: uyum ve alım tekniği, süregelen GİS kaybı, malabsorpsiyon (çölyak/IBD) ve yanlış tanıyı (talasemi) sırayla ele al</li>
+          <li>Nedene özgü izlem: polipektomi sonrası kanama kontrolü, Meckel rezeksiyonu sonrası düzelme, IBD'de hastalık aktivitesi ve seri ferritin/Hb</li>
+          <li>IV demir sonrası fosfat (FCM'de hipofosfatemi) ve yanıt için Hb/ferritin; ferritini daima CRP ile birlikte yorumla</li>
+          <li>Beslenme: inek sütünü &lt;500 mL/gün, demirden zengin gıda ve C vitamini; çölyakta glutensiz diyet uyumu</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Yönetim ve güvenlik ağı</h3>
+        <ul class="clean">
+          <li>Aşikâr kanama/kırmızı bayrak varlığında endoskopi ± Meckel sintigrafisini geciktirme; tipik beslenmesel profilde gereksiz invaziv tetkikten kaçın</li>
+          <li>Dirençli/yanıtsız DEA'yı organik kaynağa götüren bir uyarı işareti kabul et; çölyak ve IBD'yi mutlaka dışla</li>
+          <li>Aileye yazılı uyarı: dışkıda/kusmukta kan, koyu-siyah dışkı, artan solukluk-halsizlik, kilo kaybı, kanlı ishal gelişiminde erken dönüş</li>
+          <li>Uyumu destekle: doz zamanlaması (aç karın/gün aşırı), yan etki yönetimi, süt-çay etkileşimini anlat; sıvı formda diş bakımı</li>
+          <li>Multipl polip/erken başlangıçlı organik hastalıkta polipozis-sendrom ve genetik değerlendirmeyi planla</li>
+          <li>Test-savurganlığından kaçın: beslenmesel profilde önce tedavi denemesi; kaynak araştırmasını yanıt ve kırmızı bayrağa göre yönlendir</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout safe">En iyi sonuç; demir eksikliğini ferritin/TSAT ile doğrulamak (CRP eşliğinde), beslenmesel ile organik kaynağı öykü-gizli kan-çölyak serolojisiyle ayırmak, aşikâr kanama/yanıtsızlıkta endoskopi ve Meckel sintigrafisini zamanında yapmak, uygun demir replasmanıyla (oral 3-6 mg/kg/gün ya da IV FCM) depoları tam doldurmak ve altta yatan nedeni (çölyak, polip, Meckel, IBD, H. pylori) kesin tedavi eden yapılandırılmış izlemle elde edilir.</div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Goddard AF, James MW, McIntyre AS, Scott BB; British Society of Gastroenterology. Guidelines for the management of iron deficiency anaemia. Gut. 2011;60(10):1309-1316.</li>
+      <li>Dignass AU, Gasche C, Bettenworth D, et al. European Consensus on the Diagnosis and Management of Iron Deficiency and Anaemia in Inflammatory Bowel Diseases (ECCO). J Crohns Colitis. 2015;9(3):211-222.</li>
+      <li>Husby S, Koletzko S, Korponay-Szabó I, et al. ESPGHAN Guidelines for Diagnosing Coeliac Disease 2020. J Pediatr Gastroenterol Nutr. 2020;70(1):141-156.</li>
+      <li>Mattiello V, Schmugge M, Hengartner H, et al. Diagnosis and management of iron deficiency in children with or without anemia: consensus recommendations of the SPOG Pediatric Hematology Working Group. Eur J Pediatr. 2020;179(4):527-545.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge uzman kullanıcıya yönelik bir klinik karar destek aracıdır; hastanın bireysel değerlendirmesi, güncel kılavuzlar ve yerel uygulamaların yerine geçmez. Ferritin ve demir belirteçleri enflamasyon (CRP) bağlamında yorumlanmalı; demir dozları ağırlığa, tolerans ve yanıta, IV demir kararları ise endikasyon ve güvenlik izlemine (ör. hipofosfatemi) göre teyit edilmelidir.</div>
+</div>

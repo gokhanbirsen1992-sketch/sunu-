@@ -1,0 +1,430 @@
+<title>Malnütrisyon ve Refeeding Sendromu — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Malnütrisyon ve Refeeding Sendromu</h1>
+    <p class="sub">Pediyatrik malnütrisyonun antropometrik derecelendirmesi, refeeding sendromu riskinin ASPEN ölçütleriyle sınıflanması ve fosfat-potasyum-magnezyum izlemi altında kontrollü kalori artışı. Hedef kitle: çocuk gastroenteroloji uzmanı.</p>
+    <div class="meta">
+      <span class="tag">Antropometri / z-skor</span>
+      <span class="tag">Refeeding riski</span>
+      <span class="tag">Fosfat / K / Mg izlemi</span>
+      <span class="tag">Kalori artış hızı</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">Pediyatrik malnütrisyon (ASPEN 2013), enerji/protein alımı ile gereksinim arasındaki dengesizliğin antropometrik ve/veya klinik olarak kümülatif etkisidir; tek ölçümde z-skor veya seri ölçümde büyüme hızı düşüşü ile derecelendirilir. Refeeding sendromu (ASPEN 2020), uzamış açlık veya ağır malnütrisyon sonrası beslenmenin yeniden başlaması/artırılmasıyla ortaya çıkan; insülin artışına bağlı hücre içine hızlı fosfat-potasyum-magnezyum kayması, sıvı retansiyonu ve tiamin tüketimiyle karakterli, hayatı tehdit eden metabolik tablodur. Tanımsal biyokimyasal işaret ilk 5 günde fosfat, potasyum ve/veya magnezyumdan en az birinin düşmesidir. GİS uzmanının rolü malnütrisyonu nesnel biçimde derecelendirmek, refeeding riskini beslenme başlamadan önce öngörmek ve elektrolit izlemi altında kalori artışını güvenle yönetmektir.</p>
+    <div class="pill-row">
+      <span class="pill">BMI/boya göre ağırlık z-skoru −1 ila −1,9 (hafif) · −2 ila −2,9 (orta) · ≤−3 (ağır)</span>
+      <span class="pill">MUAC (üst orta kol çevresi) &lt;115 mm = ağır (6–59 ay)</span>
+      <span class="pill">Kilo çaprazlaması: seri ölçümde büyüme hızının z-skor düşüşü</span>
+      <span class="pill">Refeeding: ilk 5 günde P/K/Mg düşüşü (ASPEN 2020)</span>
+    </div>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öyküde sorgula</h3>
+        <ul class="clean">
+          <li>Açlık/yetersiz alım süresi: son 5–7 gün ve üzeri düşük/yok alım refeeding riskinin en güçlü belirtecidir</li>
+          <li>Akut kilo kaybı hızı: 1 ayda ≥%5 veya 3 ayda ≥%7,5 kayıp; başlangıç ağırlığına göre yüzde hesapla</li>
+          <li>Kalori/protein alımının nesnelleştirilmesi: 24 saatlik geri çağırma + 3 günlük beslenme günlüğü, gerçek gramaj üzerinden</li>
+          <li>Yüksek risk zemini: anoreksiya nervoza, kısa bağırsak/kısıtlayıcı diyet, kronik ishal/kusma, onkolojik hastalık, uzamış açlık/postop, yoğun bakım</li>
+          <li>Kayıp/artmış ihtiyaç: kronik ishal, protein kaybettiren enteropati, malabsorpsiyon, kronik enfeksiyon/inflamasyon</li>
+          <li>İlaç ve zemin: diüretik, insülin, kemoterapi, önceden düşük P/K/Mg; alkol/diyabet (adölesan)</li>
+          <li>Sıvı-tuz dengesi: son idrar çıkışı, susuzluk, ödem öyküsü; kardiyak/renal komorbidite</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayenede değerlendir</h3>
+        <ul class="clean">
+          <li>Seri antropometri: ağırlık, boy, baş çevresi (&lt;3 yaş) + boya göre ağırlık/BMI z-skoru; MUAC ölç ve büyüme eğrisini kişisel çiz</li>
+          <li>Beslenme durumu göstergeleri: subkutan yağ kaybı (gluteal/aksiller), kas erimesi (temporal, quadriceps), turgor</li>
+          <li>Ödem: bilateral pretibial/pedal ödem (kwashiorkor tipi ağır malnütrisyon) — z-skor yalancı normal olabilir</li>
+          <li>Kardiyovasküler: taşikardi/bradikardi, hipotansiyon, ritim; refeedingde kalp yetmezliği/aritmi riski</li>
+          <li>Nörolojik: konfüzyon, parestezi, tetani, güçsüzlük (hipofosfatemi/hipomagnezemi), nistagmus/oftalmopleji (tiamin)</li>
+          <li>Hidrasyon: dehidratasyon mu, aşırı yüklenme mi; refeedingde sıvı retansiyonuna dikkat</li>
+          <li>Amaç: malnütrisyon derecesini belirlemek ve refeeding sendromu için yüksek riskli hastayı beslenme öncesi ayırmak</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">İlk adım her zaman <b>iki eksenin ayrı belgelenmesidir</b>: (1) malnütrisyonun antropometrik derecesi (z-skor/MUAC/kilo kaybı hızı) ve (2) refeeding riski (açlık süresi + bazal P/K/Mg). Yüksek riskli hastada beslenme başlamadan önce tiamin verilmeli ve bazal elektrolitler alınmalıdır; kalori hedefine tam hızda başlamak refeeding sendromunu tetikler.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Şiddet sınıflaması ve refeeding mekanizması</h2>
+    <p class="lede">İki paralel sınıflama tedaviyi yönlendirir: malnütrisyonun antropometrik derecesi (aşağıda bantlar) beslenme yoğunluğu ve izlemi belirlerken; refeeding sendromunun mekanizması ve risk basamakları (mekanizma kartları) kalori başlangıç düzeyini ve elektrolit izlem sıklığını belirler.</p>
+    <div class="sev">
+      <div class="band mild">
+        <div class="lvl">Hafif malnütrisyon</div>
+        <div class="rng">z-skor −1 ila −1,9</div>
+        <p>BMI/boya göre ağırlık z-skoru −1 ila −1,9; büyüme hızı z-skoru −1 düşüş. Refeeding riski düşük; standart kalori artışı ve rutin izlem yeterlidir.</p>
+      </div>
+      <div class="band mod">
+        <div class="lvl">Orta malnütrisyon</div>
+        <div class="rng">z-skor −2 ila −2,9</div>
+        <p>z-skor −2 ila −2,9; MUAC 115–125 mm. Refeeding riski orta; beslenmeyi hedefin altında başlat, P/K/Mg izle. Açlık süresi uzunsa yüksek risk gibi ele al.</p>
+      </div>
+      <div class="band sev">
+        <div class="lvl">Ağır malnütrisyon</div>
+        <div class="rng">z-skor ≤−3 · MUAC &lt;115 mm · ödem</div>
+        <p>z-skor ≤−3, MUAC &lt;115 mm veya bilateral ödem (WHO ağır akut malnütrisyon). Refeeding için otomatik yüksek risk; kalori 25–50 (ağırda 10 kcal/kg) ile başla, yakın izlem.</p>
+      </div>
+      <div class="band rem">
+        <div class="lvl">Refeeding riski (biyokimyasal)</div>
+        <div class="rng">Bazal P/K/Mg düşük</div>
+        <p>Beslenme öncesi hipofosfatemi/hipopotasemi/hipomagnezemi tek başına yüksek risk göstergesidir; önce elektrolitleri düzelt, sonra veya eşzamanlı düşük kaloriyle beslenmeye başla.</p>
+      </div>
+    </div>
+    <p class="lede">Refeeding sendromu patofizyolojisi ve risk basamakları:</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">Metabolik anahtar: katabolizmadan anabolizmaya geçiş</div>
+        <ul>
+          <li>Açlıkta yağ/protein katabolizması, hücre içi elektrolit ve tiamin tükenmesi (serum değerleri yalancı normal olabilir)</li>
+          <li>Karbonhidrat verilince insülin fırlar → glukoz, fosfat, potasyum, magnezyum hızla hücre içine girer</li>
+          <li>Hedef: karbonhidrat yükünü sınırla, kaloriyi kademeli artır</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">Hipofosfatemi — merkezi bulgu</div>
+        <ul>
+          <li>ATP ve 2,3-DPG üretimi çöker; kas güçsüzlüğü, solunum yetmezliği, hemoliz, rabdomiyoliz, aritmi</li>
+          <li>Refeeding sendromunun tanımlayıcı ve en sık ölümcül elektrolit bozukluğudur</li>
+          <li>Hedef: bazal + günlük fosfat izlemi, erken replasman</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">Hipopotasemi ve hipomagnezemi</div>
+        <ul>
+          <li>Hücre içine kayma → kardiyak aritmi (uzun QT, torsades), kas güçsüzlüğü, ileus</li>
+          <li>Hipomagnezemi refrakter hipopotasemi ve hipokalsemiye yol açar; düzeltilmeden K normale gelmez</li>
+          <li>Hedef: eş zamanlı K ve Mg izlemi/replasmanı</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Tiamin (B1) eksikliği</div>
+        <ul>
+          <li>Karbonhidrat metabolizması tiamini tüketir; eksiklikte Wernicke ensefalopatisi / laktik asidoz</li>
+          <li>Beslenmeden ÖNCE ve ilk günlerde ampirik tiamin şarttır</li>
+          <li>Hedef: glukoz vermeden önce tiamin uygula</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">Sıvı-sodyum retansiyonu</div>
+        <ul>
+          <li>İnsülin renal sodyum-su tutulumunu artırır → volüm yükü, konjestif kalp yetmezliği, ödem</li>
+          <li>Atrofik miyokard artmış yükü kaldıramaz; ani kardiyak dekompansasyon</li>
+          <li>Hedef: sıvı ve sodyumu kısıtla, ağırlık/denge takibi</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">Risk basamakları (ASPEN 2020 uyarlaması)</div>
+        <ul>
+          <li>Yüksek risk (≥1): ≥%7,5 kilo kaybı, &gt;5–7 gün az/yok alım, beslenme öncesi düşük P/K/Mg, ağır malnütrisyon (z ≤−3 / MUAC &lt;115 mm)</li>
+          <li>Orta risk (≥2): ~%5 kilo kaybı, 5–6 gün az alım, hafif P/K/Mg düşüklüğü</li>
+          <li>Hedef: risk düzeyi başlangıç kalorisini ve izlem sıklığını belirler</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">İlk çatal, malnütrisyonun derecelendirilmesi ve refeeding riskinin beslenme başlamadan önce sınıflanmasıdır. Yüksek risk varsa düşük kaloriyle, tiamin desteğiyle ve yoğun elektrolit izlemiyle başlanır; beslenme sırasında P/K/Mg düşüşü gelişirse artış durdurulur/yavaşlatılır ve replasman yapılır.</p>
+    <div class="flow">
+      <div class="node start"><span class="k">Başlangıç</span><span class="t">Antropometrik olarak doğrulanmış malnütrisyon</span><p>z-skor ≤−2 (veya seri düşüş), MUAC düşüklüğü ya da bilateral ödem; ölçüm ve uygun eğri (WHO/CDC, prematüre düzeltmesi) teyit edildi.</p></div>
+      <div class="connector"></div>
+      <div class="node action"><span class="k">Adım 1</span><span class="t">Dereceleme + açlık öyküsü + bazal P/K/Mg</span><p>Malnütrisyon derecesi (z-skor/MUAC/kilo kaybı hızı) ve refeeding zemini (alım süresi, bazal fosfat-potasyum-magnezyum, EKG) belirlenir.</p></div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 1</span><span class="t">Yüksek refeeding riski var mı?</span><p>≥%7,5 kilo kaybı, &gt;5–7 gün az/yok alım, beslenme öncesi düşük P/K/Mg, ağır malnütrisyon (z ≤−3 / MUAC &lt;115 mm) ölçütlerinden ≥1'i mevcut mu?</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">EVET → Düşük kalori + tiamin + yoğun izlem</span><div class="node alarm"><span class="k">Korumalı başlangıç</span><span class="t">Hedefin %25–50'si (ağırda 10 kcal/kg), tiamin önce</span><p>Beslenmeden önce tiamin ver; kaloriyi hedefin %25–50'si (en ağır olguda 5–10 kcal/kg/gün) ile başlat; P/K/Mg'yi ilk 3–5 gün en az 12–24 saatte bir izle; sıvı/sodyum kısıtla.</p></div></div>
+        <div class="branch no"><span class="label">HAYIR → Standart başlangıç</span><div class="node action safe"><span class="k">Kademeli beslenme</span><span class="t">Hedefin %50–75'i, rutin izlem</span><p>Beslenmeyi hedefin %50–75'i ile başlat, günlük klinik ve ilk günlerde elektrolit kontrolü ile 3–5 günde hedefe çıkar.</p></div></div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 2</span><span class="t">Beslenme sonrası P/K/Mg düşüyor mu?</span><p>İlk 5 günde fosfat, potasyum veya magnezyumda %10–20 (hafif), %20–30 (orta) ya da &gt;%30/organ disfonksiyonu (ağır) düşüş var mı?</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">EVET → Refeeding sendromu: artışı durdur, replase et</span><div class="node alarm"><span class="k">Aktif refeeding</span><span class="t">Kaloriyi sabitle/azalt + agresif elektrolit replasmanı</span><p>Kalori artışını durdur veya azalt (ağır düşüşte %50 azalt/kes); fosfat-potasyum-magnezyumu replase et; tiamini sürdür; EKG/monitör; düzeldikçe yavaş yeniden artır.</p></div></div>
+        <div class="branch no"><span class="label">HAYIR → Güvenli ilerleme</span><div class="node action safe"><span class="k">Kalori artışı</span><span class="t">Her 1–2 günde ~%25 artırarak hedefe</span><p>Elektrolitler stabil ise kaloriyi her 1–2 günde ~%25 (10–25 kcal/kg) artırarak 3–7 günde tam hedefe ulaş; yakalama-büyümeye geç.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Ağır malnütride ve refeeding riskinde tetkik beslenme öncesi bazal değer ve seri izlem üzerine kuruludur. Serum elektrolitleri açlıkta yalancı normal olabileceğinden düşük değer değil, beslenme sonrası düşüş eğilimi izlenir. İlk basamak testler tüm riskli olgularda; ileri basamaklar altta yatan nedene ve komplikasyona göre eklenir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Malnütrisyon ve refeeding riskinde kademeli değerlendirme</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Test</th><th>Amaç / eşik-not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Basamak 1 · Elektrolit paneli (bazal)</td><td>Fosfor, potasyum, magnezyum, sodyum, kalsiyum, üre-kreatinin, glukoz</td><td class="dose">Beslenme başlamadan bazal alın; refeeding izleminin çekirdeği fosfat-potasyum-magnezyumdur, ilk 3–5 gün en az 12–24 saatte bir tekrar</td></tr>
+          <tr><td class="step">Basamak 1 · Genel metabolik</td><td>Tam kan sayımı, KCFT, albümin, CRP, TSH-sT4, venöz kan gazı/laktat</td><td>Anemi, hipoalbüminemi, inflamasyon, tiamin eksikliğine bağlı laktik asidoz; ağır malnütride bazal organ fonksiyonu</td></tr>
+          <tr><td class="step">Basamak 1 · Kardiyak</td><td>EKG (QT, ritim) ± kardiyak monitör; ağırda ekokardiyografi</td><td class="dose">Hipofosfatemi/hipopotasemi/hipomagnezemi aritmi ve uzun QT yapar; ağır olguda atrofik miyokard — sıvı yükünü izle</td></tr>
+          <tr><td class="step">Basamak 2 · Mikronutriyan</td><td>Tiamin (mümkünse), 25-OH D vitamini, çinko, folat/B12, ferritin</td><td>Uzamış malnütrisyonda çoklu eksiklik; tiamin sonucu beklenmeden ampirik replase edilir</td></tr>
+          <tr><td class="step">Basamak 2 · Altta yatan neden</td><td>Anti-tTG IgA + total IgA, fekal elastaz, fekal kalprotektin, dışkı α1-antitripsin</td><td class="dose">Malabsorpsiyon/kayıp taraması: çölyak, ekzokrin pankreas yetmezliği, IBD, protein kaybettiren enteropati</td></tr>
+          <tr><td class="step">Basamak 3 · Seri izlem</td><td>Günlük ağırlık, sıvı giriş-çıkış dengesi, günlük P/K/Mg (riskli olguda), klinik nörolojik-kardiyak muayene</td><td class="dose">Refeeding sendromu tanımı ilk 5 günde P/K/Mg düşüşüdür; ağırlık artışı &gt;0,5 kg/gün sıvı retansiyonunu düşündürür</td></tr>
+          <tr><td class="step">Basamak 4 · İleri değerlendirme</td><td>Endoskopi/biyopsi, görüntüleme; endokrin/metabolik konsültasyon</td><td>Yeterli alıma rağmen büyümeme veya alarm bulgusunda; sendromik/kronik hastalık şüphesinde</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout alarm"><b>Beslenmeye başlamadan önce bazal fosfat-potasyum-magnezyum alınmalıdır.</b> Açlıkta bu değerler normal görünse bile intrasellüler depo tükenmiştir; asıl tehlike beslenme sonrası ilk 72 saatte hızlı düşüştür. Bazal değer düşükse önce (veya eş zamanlı) düzelt, kaloriyi düşük tut.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdakilerden herhangi biri yüksek refeeding riskini veya gelişmekte olan refeeding sendromunu gösterir; kalori artışının durdurulmasını, agresif elektrolit replasmanını ve monitörizasyonu gerektirir.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Beslenme öncesi düşük fosfat, potasyum veya magnezyum</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Beslenme sonrası ilk 5 günde P/K/Mg'de hızlı düşüş</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>&gt;5–7 gün az/yok kalori alımı (uzamış açlık)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>1 ayda ≥%5 veya 3 ayda ≥%7,5 istemsiz kilo kaybı</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>z-skor ≤−3, MUAC &lt;115 mm veya bilateral ödem</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Aritmi, uzun QT, taşikardi/bradikardi (kardiyak monitör)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kas güçsüzlüğü, parestezi, tetani, solunum yetmezliği</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Konfüzyon, nistagmus, oftalmopleji (Wernicke/tiamin)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Açıklanamayan laktik asidoz</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ani ağırlık artışı, ödem, sıvı yüklenmesi, kalp yetmezliği</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Refrakter hipopotasemi (düzelmeyen — hipomagnezemi zemini)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Anoreksiya nervoza, kısa bağırsak, onkolojik/kritik hasta zemini</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi</h2>
+    <p class="lede">Tedavinin çekirdeği kalori artış hızının kontrolü ve fosfat-potasyum-magnezyumun proaktif replasmanıdır. Yüksek riskli hastada beslenmeden önce tiamin verilir; kalori hedefin %25–50'si (en ağır olguda 5–10 kcal/kg/gün) ile başlar, elektrolitler stabil kaldıkça her 1–2 günde ~%25 artırılarak 3–7 günde hedefe ulaşılır. Karbonhidrat yükü sınırlanır, sıvı ve sodyum kısıtlanır. Elektrolitler eşik altına düşerse artış durdurulur/geri alınır ve replase edilir. Aşağıdaki dozlar pediyatrik aralıklardır; hastaya, renal fonksiyona ve infüzyon güvenliğine göre doğrulanmalıdır.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Refeeding sendromu önleme ve tedavisinde dozlu yaklaşım</caption>
+        <thead>
+          <tr><th>Basamak / ajan</th><th>Doz</th><th>Not / endikasyon</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Kalori başlangıcı — yüksek risk</td><td class="dose">Hedefin %25–50'si; en ağır olguda 5–10 kcal/kg/gün</td><td>Karbonhidratı sınırla; elektrolitler stabilse her 1–2 günde ~%25 artır, 5–7 günde tam hedefe ulaş</td></tr>
+          <tr><td class="step">Kalori başlangıcı — düşük risk</td><td class="dose">Hedefin %50–75'i; 3–5 günde tam hedefe</td><td>Rutin izlem; hedefe ulaşınca yakalama-büyüme kalorisine geç (RDA'nın %120–150'si)</td></tr>
+          <tr><td class="step">Tiamin (B1) — profilaktik</td><td class="dose">2 mg/kg/gün IV/PO (maks 100–200 mg/gün); glukozdan ÖNCE, 5–7 gün (veya daha uzun) sürdür</td><td>Beslenmeye başlamadan uygulanır; Wernicke şüphesinde yüksek doz (ör. 100–200 mg IV, 2–3×/gün)</td></tr>
+          <tr><td class="step">Fosfat replasmanı (IV)</td><td class="dose">Hafif-orta: 0,16–0,24 mmol/kg; ağır: 0,25–0,5 mmol/kg, 4–6 saatte infüzyon (maks ~0,5 mmol/kg/doz)</td><td>Sodyum veya potasyum fosfat; hızlı infüzyonda hipokalsemi/aritmi riski. Hafifte oral fosfat tercih edilebilir</td></tr>
+          <tr><td class="step">Potasyum replasmanı</td><td class="dose">Oral 1–4 mmol/kg/gün bölünmüş; IV 0,5–1 mmol/kg/doz (maks 40 mmol), 1–2 saatte, maks infüzyon 0,5 mmol/kg/saat</td><td>IV potasyumda kardiyak monitör; periferik yol maks 0,2 mmol/kg/saat / 40 mmol/L konsantrasyon</td></tr>
+          <tr><td class="step">Magnezyum replasmanı</td><td class="dose">MgSO4 25–50 mg/kg/doz (0,1–0,2 mmol/kg), 2–4 saatte IV (maks 2 g/doz); oral idame</td><td>Hipomagnezemi düzeltilmeden refrakter hipopotasemi/hipokalsemi devam eder; birlikte replase et</td></tr>
+          <tr><td class="step">Sıvı ve sodyum</td><td class="dose">Sodyumu kısıtla (&lt;1 mmol/kg/gün başlangıçta); sıvıyı idamede tut, aşırı yüklemeden kaçın</td><td>İnsülin ilişkili sodyum-su retansiyonu ve atrofik miyokard nedeniyle kardiyak yüklenmeyi önle</td></tr>
+          <tr><td class="step">Multivitamin / iz element</td><td class="dose">Yaşa uygun multivitamin + çinko 1 mg/kg/gün (maks ~20 mg/gün), D vitamini eksiklikte</td><td>Uzamış malnütrisyonda çoklu mikronutriyan eksikliği; beslenmenin ilk gününden itibaren</td></tr>
+          <tr><td class="step">Aktif refeeding sendromunda</td><td class="dose">Kaloriyi sabitle veya %50 azalt/kes; elektrolitleri agresif replase et; düzeldikçe yeniden yavaş artır</td><td>Ağır düşüş (&gt;%30) veya organ disfonksiyonunda monitörize et; kardiyak/nörolojik komplikasyonu tedavi et</td></tr>
+          <tr><td class="step">Enteral / parenteral yol</td><td class="dose">Mümkünse enteral (oral/NG); parenteral gerekiyorsa aynı kademeli kalori-elektrolit ilkeleri geçerli</td><td>Enteral yol daha güvenli ve fizyolojik; parenteralde karbonhidrat/dekstroz yükü refeeding riskini artırır</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout safe"><b>Altın kural:</b> Refeeding sendromu düşük kaloriyle başlayıp yavaş artırarak ve elektrolitleri proaktif replase ederek <b>önlenir</b>; elektrolit eşik altına indiğinde beslenmeyi kesmek yerine kaloriyi sabitleyip elektroliti düzeltmek esastır. Fosfat düşüklüğü beslenmeyi durdurma değil, replasman endikasyonudur.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve yönetim ilkeleri</h2>
+    <p class="lede">Amaç, refeeding sendromunu önleyerek güvenli kalori artışını sağlamak, elektrolit ve mikronutriyan eksikliklerini düzeltmek ve ardından yakalama-büyümeye geçmektir. İzlem çok disiplinlidir (diyetisyen, hemşire, gerekirse kardiyoloji/yoğun bakım) ve nesnel ağırlık, sıvı dengesi ve seri elektrolit verisine dayanır.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>İzlem</h3>
+        <ul class="clean">
+          <li>Fosfat-potasyum-magnezyumu yüksek riskte ilk 3–5 gün en az 12–24 saatte bir; stabil olunca sıklığı azalt</li>
+          <li>Günlük ağırlık ve sıvı giriş-çıkış dengesi; ani ağırlık artışı (&gt;0,5 kg/gün) sıvı retansiyonu lehine</li>
+          <li>İlk günlerde kardiyak monitör/EKG (aritmi, QT); nörolojik muayene (Wernicke, tetani, güçsüzlük)</li>
+          <li>Kalori artışını elektrolit stabilitesine bağla: eşik altı düşüşte artışı durdur, replase et, sonra yavaş ilerle</li>
+          <li>Tiamin ve multivitamini ilk 5–7 gün sürdür; mikronutriyan (D, çinko, ferritin) düzeylerini periyodik kontrol et</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Stabilizasyon sonrası / yakalama-büyüme</h3>
+        <ul class="clean">
+          <li>Elektrolitler ve klinik stabil olunca kaloriyi yakalama-büyüme hedefine çıkar (RDA'nın %120–150'si, protein ~2–3 g/kg/gün)</li>
+          <li>Altta yatan nedeni tedavi et: çölyakta glutensiz diyet, IBD'de indüksiyon, malabsorpsiyonda nedene özgü tedavi</li>
+          <li>Ağırlık artış hızını 1–2 haftada değerlendir; hedefe ulaşılamıyorsa yoğunluğu artır veya enteral desteğe geç</li>
+          <li>Anoreksiya nervoza/beslenme davranışı zemininde çok disiplinli (psikiyatri, diyetisyen) izlem</li>
+          <li>Taburculukta ailenin elektrolit/beslenme takibi ve tekrar başvuru ölçütleri konusunda eğitimi</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout safe">Refeeding sendromunun en güvenilir sonuç ölçütü, elektrolitler stabil kalırken kalorinin kademeli olarak tam hedefe ulaştırılmasıdır. Elektrolit izlemi olmadan hızlı kalori artırımı — özellikle ağır malnütride — hayatı tehdit eder; ancak aşırı temkinli, uzamış düşük kalori de iyileşmeyi geciktirir. Denge, günlük P/K/Mg verisiyle yönetilir.</div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>da Silva JSV, Seres DS, Sabino K, et al. ASPEN Consensus Recommendations for Refeeding Syndrome. Nutr Clin Pract. 2020;35(2):178-195.</li>
+      <li>Mehta NM, Corkins MR, Lyman B, et al. Defining Pediatric Malnutrition: A Paradigm Shift Toward Etiology-Related Definitions. JPEN J Parenter Enteral Nutr. 2013;37(4):460-481.</li>
+      <li>World Health Organization. Guideline: Updates on the Management of Severe Acute Malnutrition in Infants and Children. Geneva: WHO; 2013.</li>
+      <li>National Institute for Health and Care Excellence (NICE). Nutrition Support for Adults and Children: Refeeding Syndrome Risk (CG32). 2006 (updated).</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge uzman kullanıcıya yönelik bir klinik karar destek aracıdır; hastanın bireysel değerlendirmesi, güncel kılavuzlar ve yerel uygulama koşullarının yerine geçmez. Dozlar hastaya, ağırlığa, renal fonksiyona, komorbiditeye ve ilaç etkileşimlerine göre doğrulanmalıdır.</div>
+</div>

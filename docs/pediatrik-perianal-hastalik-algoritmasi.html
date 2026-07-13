@@ -1,0 +1,543 @@
+<title>Perianal Hastalık ve Anal Fissür — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Perianal Hastalık ve Anal Fissür</h1>
+    <p class="sub">Tipik basit anal fissürün konservatif yönetimini; atipik/kompleks perianal hastalıkta (perianal Crohn, immün yetmezlik, apse-fistül) muayene, basamaklı tetkik ve dozlu tedaviden ayırt eden karar algoritması.</p>
+    <div class="meta">
+      <span class="tag">Anal fissür</span>
+      <span class="tag">Perianal Crohn</span>
+      <span class="tag">Apse-fistül</span>
+      <span class="tag">İmmün yetmezlik</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">Anal fissür, anal kanal anodermindeki lineer yırtıktır ve süt çocuğu/çocukta ağrılı taze rektal kanamanın en sık nedenidir; tipik olgu tek, orta hat (posterior veya anterior) yerleşimli olup sert dışkı-kabızlık ile ilişkilidir. "Perianal hastalık" ise fissürün yanı sıra perianal apse, fistül-in-ano, cilt etiketleri (skin tag), perianal dermatit, rektal prolapsus ve hemoroidi kapsayan bir şemsiye terimdir. Kritik klinik görev, kendini sınırlayan basit fissürü; altta perianal Crohn hastalığı, immün yetmezlik (KGH, nötropeni, lösemi, HIV) veya istismarı düşündüren atipik/kompleks tabloden ayırmaktır. Lateral, çoklu, derin veya ağrısız fissür; ödematöz "fil kulağı" etiketleri; fistül ağzı ve tekrarlayan apse basit fissür tanısını dışlar.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öykü</h3>
+        <ul class="clean">
+          <li>Ağrı-defekasyon ilişkisi, taze kanamanın niteliği (dışkı yüzeyinde/tuvalet kağıdında damlama), akıntı, şişlik, kaşıntı</li>
+          <li>Dışkı sıklığı-kıvamı (Bristol), kabızlık, retansiyon postürü, ağrılı defekasyondan kaçınma davranışı</li>
+          <li>Semptom süresi ve tekrarı; iyileşmeyen/nükseden fissür veya apse öyküsü</li>
+          <li>Sistemik/GİS: kilo kaybı, büyüme duraklaması, kronik ishal, mukuslu-kanlı dışkı, karın ağrısı, aftöz ülser, artralji (Crohn ipuçları)</li>
+          <li>Enfeksiyon eğilimi: tekrarlayan cilt/derin doku apsesi, geç düşen göbek kordonu, ateşli nötropeni öyküsü (immün yetmezlik)</li>
+          <li>Kolay morarma, solukluk, kemik ağrısı, ateş (lösemi); psikososyal öykü ve istismar açısından uyumsuzluk</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Fizik muayene</h3>
+        <ul class="clean">
+          <li>Pozisyon: lateral dekübit veya prone diz-göğüs; nazik gluteal separasyon ile anal kanalın görsel muayenesi</li>
+          <li>Fissür karakterizasyonu: yer (orta hat vs. lateral/çoklu), derinlik, sentinel etiket, ağrı; tipik fissür posterior orta hatta</li>
+          <li>Perianal inspeksiyon: ödematöz-mor cilt etiketleri, fistül ağzı, indürasyon, fluktuan apse, eritem, anal stenoz</li>
+          <li>Perianal streptokok: keskin sınırlı parlak kırmızı eritem, fissür, kaşıntı-ağrı</li>
+          <li>Ekstraintestinal Crohn taraması, büyüme parametreleri, oral aftöz ülser</li>
+          <li>Dijital rektal muayene akut ağrılı fissürde ertelenir; gerekirse anestezi altında muayene (EUA) planla</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">Basit fissür klinik tanıdır ve ek tetkik gerektirmez; atipik lokalizasyon (lateral/çoklu), ağrısızlık, indürasyon veya eşlik eden fistül/apse, tanıyı "perianal Crohn / immün yetmezlik" yönüne kaydırır ve hedefli inceleme gerektirir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Etiyoloji ve mekanizma</h2>
+    <p class="lede">Perianal bulgunun kaynağını sınıflamak tedavi yolunu belirler: en sık senaryo kabızlığa bağlı basit fissür olsa da, atipik/kompleks tabloda inflamatuar, enfeksiyöz ve immün nedenler dışlanmalıdır.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">Basit / tipik anal fissür (en sık)</div>
+        <ul>
+          <li>Sert dışkı + kabızlık → anoderm yırtığı</li>
+          <li>Orta hat (posterior &gt; anterior), tek, ağrılı, taze kan</li>
+          <li>İnternal sfinkter hipertonisi ve iskemi ile kronikleşme</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">Perianal Crohn hastalığı</div>
+        <ul>
+          <li>Lateral/çoklu, derin, sıklıkla ağrısız fissür</li>
+          <li>Ödematöz "fil kulağı" cilt etiketleri, fistül, apse, anal stenoz</li>
+          <li>Sistemik/GİS bulgu ve büyüme geriliği eşlik eder</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">Perianal apse / fistül-in-ano</div>
+        <ul>
+          <li>Kriptoglandüler kaynak; süt çocuğunda (&lt;2 yaş, erkek) sık</li>
+          <li>İnfantil olguların çoğu benign, sıklıkla kendini sınırlar</li>
+          <li>Tekrarlayan/kompleks fistül → Crohn veya immün yetmezlik uyarısı</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">İmmün yetmezlik</div>
+        <ul>
+          <li>Kronik granülomatöz hastalık (KGH), ağır konjenital/siklik nötropeni</li>
+          <li>Lösemi/nötropeni, HIV, immünsupresyon</li>
+          <li>Atipik, tekrarlayan, iyileşmeyen apse/ülser</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">Enfeksiyöz / dermatolojik</div>
+        <ul>
+          <li>Perianal streptokok dermatiti (A grubu strep)</li>
+          <li>Kandida/dermatit, molluscum, kondiloma</li>
+          <li>Liken sklerozus, psöriazis</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">Diğer / kırmızı bayrak</div>
+        <ul>
+          <li>Rektal prolapsus (kistik fibrozis dışla)</li>
+          <li>Hemoroid nadir → portal hipertansiyon araştır</li>
+          <li>Cinsel istismar: açıklanamayan/atipik travma, davranışsal ipuçları</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">İlk kritik ayrım, bulgunun tipik basit fissür mü yoksa atipik/kompleks perianal hastalık mı olduğudur; tipik olgu doğrudan konservatif tedaviye girerken, atipik özellik apse drenajı ve Crohn/immün yetmezlik taramasını tetikler.</p>
+    <div class="flow">
+      <div class="node start">
+        <span class="k">Başlangıç</span>
+        <span class="t">Perianal ağrı, kanama, şişlik veya akıntı ile başvuru</span>
+        <p>Öykü + hedefli perianal inspeksiyonla tipik/atipik ayrımını yap.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node action">
+        <span class="k">Adım 1</span>
+        <span class="t">Perianal muayene ve karakterizasyon</span>
+        <p>Fissür yeri-derinliği, cilt etiketi, fistül ağzı, fluktuasyon, indürasyon; ağrılı olguda gerekirse EUA planla.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 1</span>
+        <span class="t">Tipik basit fissür mü?</span>
+        <p>Tek, orta hat, ağrılı fissür + kabızlık/sert dışkı; atipik özellik ve alarm yok.</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → basit fissür yolu</span>
+          <div class="node action safe">
+            <span class="k">Konservatif tedavi</span>
+            <span class="t">Kabızlık tedavisi + sitz banyosu + topikal bariyer/anestezik</span>
+            <p>PEG 3350 ile yumuşak dışkı sağla; 6-8 haftada çoğu fissür iyileşir. İyileşmezse Karar 3'e geç.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → atipik / kompleks</span>
+          <div class="node decision">
+            <span class="k">Karar 2</span>
+            <span class="t">Fluktuan apse / aktif enfeksiyon var mı?</span>
+            <p>Ağrılı, eritemli, fluktuan kitle veya pürülan akıntı.</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">APSE VAR → drenaj</span>
+          <div class="node alarm">
+            <span class="k">İnsizyon-drenaj + neden ara</span>
+            <span class="t">İ&amp;D; tekrarlayan/atipik apsede immün yetmezlik ve Crohn tara</span>
+            <p>İnfantil basit apse sıklıkla benign; tekrarlayan/kompleks apsede TKS-yayma, DHR/NBT, kalprotektin iste.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">APSE YOK → sistemik tarama</span>
+          <div class="node action">
+            <span class="k">Crohn / immün yetmezlik taraması</span>
+            <span class="t">Fekal kalprotektin, CRP-ESH, TKS-yayma, ileokolonoskopi</span>
+            <p>Lateral/çoklu fissür, etiket, fistül veya sistemik bulguda hedefli tetkik başlat.</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 3</span>
+        <span class="t">Crohn veya immün yetmezlik doğrulandı mı?</span>
+        <p>Kolonoskopi/histoloji, MRG fistül haritası, immün tetkik sonuçları.</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → hastalığa yönelik tedavi</span>
+          <div class="node alarm">
+            <span class="k">Hedefli, multidisipliner</span>
+            <span class="t">Anti-TNF ± antibiyotik ± seton; immün yetmezlikte etkene yönelik</span>
+            <p>Perianal fistülizan Crohn'da infliksimab + cerrahi seton; gastroenteroloji-cerrahi-immünoloji ortak yönetimi.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → idiyopatik/refrakter fissür</span>
+          <div class="node action safe">
+            <span class="k">Kronik fissür basamağı</span>
+            <span class="t">Topikal GTN veya kalsiyum kanal blokeri; dirençlide botulinum</span>
+            <p>Yeterli osmotik laksatif + topikal kimyasal sfinkterotomi; yanıtsızlıkta botulinum toksin, seçili olguda cerrahi.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Tipik basit fissür klinik tanıdır ve tetkik gerektirmez; incelemeler atipik lokalizasyon, tekrarlayan/kompleks apse-fistül, sistemik bulgu veya konservatif tedaviye direnç varlığında basamaklı istenir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Perianal hastalık / anal fissürde basamaklı tetkik yaklaşımı</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Endikasyon / eşik</th><th>Yorum</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">Klinik değerlendirme + inspeksiyon</td>
+            <td>Tüm olgular</td>
+            <td>Tipik basit fissürde ek tetkik gereksiz; atipik özellik varlığında ilerle</td>
+          </tr>
+          <tr>
+            <td class="step">Perianal sürüntü kültürü</td>
+            <td>Keskin sınırlı parlak eritem, dirençli perianal dermatit</td>
+            <td>A grubu beta-hemolitik streptokok; hızlı antijen testi de kullanılabilir</td>
+          </tr>
+          <tr>
+            <td class="step">Tam kan sayımı + periferik yayma</td>
+            <td>Tekrarlayan/atipik apse, solukluk, morarma, ateş</td>
+            <td>Nötropeni ve lösemi taraması; blast/sitopeni araştır</td>
+          </tr>
+          <tr>
+            <td class="step">İnflamatuar belirteçler + fekal kalprotektin</td>
+            <td>Lateral/çoklu fissür, etiket, fistül, sistemik/GİS bulgu</td>
+            <td>CRP, ESH, albümin; yüksek kalprotektin Crohn için ileokolonoskopiyi tetikler</td>
+          </tr>
+          <tr>
+            <td class="step">İleokolonoskopi + biyopsi</td>
+            <td>Perianal Crohn şüphesi</td>
+            <td>Tanısal altın standart; üst endoskopi ile birlikte tam değerlendirme</td>
+          </tr>
+          <tr>
+            <td class="step">Pelvik MRG</td>
+            <td>Fistülizan perianal hastalık, kompleks/tekrarlayan fistül</td>
+            <td>Fistül trakt haritalaması ve apse tespiti; tedaviyi ve cerrahiyi yönlendirir</td>
+          </tr>
+          <tr>
+            <td class="step">Anestezi altında muayene (EUA)</td>
+            <td>Ağrılı/kompleks perianal hastalık, seton planı</td>
+            <td>Tanı + drenaj/seton; MRG ile tamamlayıcı, cerrahi ile ortak</td>
+          </tr>
+          <tr>
+            <td class="step">İmmün tetkik</td>
+            <td>Tekrarlayan/iyileşmeyen atipik apse-fistül, erken başlangıç</td>
+            <td>DHR/NBT testi (KGH), immünglobulinler, lenfosit alt grupları, HIV serolojisi</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdaki bulgular basit fissür tanısını dışlar ve perianal Crohn, immün yetmezlik, malignite veya istismar yönünde hedefli inceleme gerektirir.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Lateral, çoklu, derin veya ağrısız fissür (orta hat dışı yerleşim)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ödematöz-mor "fil kulağı" cilt etiketleri, fistül ağzı, indürasyon, anal stenoz</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Tekrarlayan veya iyileşmeyen perianal apse; kompleks fistül-in-ano</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Sistemik/GİS: kilo kaybı, büyüme duraklaması, kronik ishal, mukuslu-kanlı dışkı, aftöz ülser (Crohn)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Tekrarlayan cilt/derin doku enfeksiyonu, geç kordon düşmesi, ateşli nötropeni öyküsü (immün yetmezlik/KGH)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Solukluk, kolay morarma, peteşi, hepatosplenomegali (lösemi)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Fissür yokluğunda tekrarlayan rektal kanama veya hemoroid → portal hipertansiyon</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Açıklanamayan/atipik anal travma, öykü uyumsuzluğu, davranışsal ipuçları → istismar değerlendirmesi</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi (dozlu)</h2>
+    <p class="lede">Basit fissürde temel: kabızlığı çözerek yumuşak-ağrısız dışkılama sağlamak (osmotik laksatif), sitz banyosu, topikal bariyer/anestezik. Kronikleşen fissürde topikal kimyasal sfinkterotomi (GTN veya kalsiyum kanal blokeri), dirençlide botulinum toksin. Perianal apsede insizyon-drenaj; perianal Crohn ve immün yetmezlikte etkene yönelik sistemik tedavi ve cerrahi ile birlikte yürütülür.</p>
+    <div class="callout safe">Önce kabızlığı çöz: fissürlerin çoğu, sert dışkı döngüsü kırılıp yumuşak dışkılama sağlandığında konservatif tedaviyle 6-8 haftada iyileşir. Ailenin ağrı-tutma kısır döngüsünü ve düzenli laksatif kullanımını anlaması esastır.</div>
+    <div class="table-scroll">
+      <table>
+        <caption>Anal fissür ve perianal hastalıkta basamaklı farmakoterapi</caption>
+        <thead>
+          <tr><th>İlaç / basamak</th><th>Doz</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">PEG 3350 — osmotik laksatif (idame)</td>
+            <td class="dose">0.4-0.8 g/kg/gün (maks ~17 g/gün)</td>
+            <td>Birinci basamak; günde 1 yumuşak dışkı hedefi, fissür iyileşene dek sürdür</td>
+          </tr>
+          <tr>
+            <td class="step">Laktuloz — osmotik alternatif</td>
+            <td class="dose">1-2 g/kg/gün (1-3 mL/kg/gün), 1-2 doza böl</td>
+            <td>PEG yok/&lt;1 yaş; osmotik, güvenli fakat gaz-kramp</td>
+          </tr>
+          <tr>
+            <td class="step">Sitz banyosu + bariyer/anestezik</td>
+            <td class="dose">Ilık su 10-15 dk, günde 2-3 kez; topikal %2 lidokain, ince tabaka</td>
+            <td>Sfinkter spazmını gevşetir, ağrıyı azaltır; çinko oksit bariyer krem</td>
+          </tr>
+          <tr>
+            <td class="step">Topikal gliseril trinitrat (GTN) %0.2 — kronik fissür</td>
+            <td class="dose">Perianal ince tabaka, günde 2 kez, 6-8 hafta</td>
+            <td>Kimyasal sfinkterotomi; başlıca yan etki baş ağrısı, çocukta dikkatli titre</td>
+          </tr>
+          <tr>
+            <td class="step">Topikal diltiazem %2 — kronik fissür (KKB)</td>
+            <td class="dose">Perianal günde 2 kez, 6-8 hafta</td>
+            <td>GTN'ye alternatif; baş ağrısı daha az, iyi tolere edilir</td>
+          </tr>
+          <tr>
+            <td class="step">Botulinum toksin A — dirençli kronik fissür</td>
+            <td class="dose">İnternal sfinktere ~ 0.5-1 Ü/kg (tipik toplam ~20 Ü civarı), tek uygulama</td>
+            <td>Topikale yanıtsız olguda; geçici sfinkter relaksasyonu, EUA altında</td>
+          </tr>
+          <tr>
+            <td class="step">Amoksisilin-klavulanat — enfekte/selülitli apse</td>
+            <td class="dose">40-50 mg/kg/gün (amoksisilin), 2-3 doz (maks 1750 mg amoks/gün)</td>
+            <td>Sistemik bulgu/immünsupresyonda drenaja ek; basit infantil apsede rutin gereksiz</td>
+          </tr>
+          <tr>
+            <td class="step">Metronidazol — perianal Crohn / apse</td>
+            <td class="dose">15-20 mg/kg/gün, 3 doz (maks 1-1.5 g/gün)</td>
+            <td>Perianal fistülizan Crohn'da antibiyotik idamesi; sıklıkla siprofloksasin ile</td>
+          </tr>
+          <tr>
+            <td class="step">Siprofloksasin — perianal Crohn</td>
+            <td class="dose">20-30 mg/kg/gün, 2 doz (maks 1.5 g/gün)</td>
+            <td>Metronidazol ile kombine; fistül drenajını azaltır, anti-TNF köprüsü</td>
+          </tr>
+          <tr>
+            <td class="step">İnfliksimab — perianal fistülizan Crohn (birinci basamak)</td>
+            <td class="dose">5 mg/kg IV, 0-2-6. hafta indüksiyon, sonra 8 haftada bir; perianalde doz yoğunlaştırma (10 mg/kg / kısa aralık)</td>
+            <td>Fistülizan hastalıkta anti-TNF esas; seton drenajı + terapötik ilaç düzeyi izlemi ile</td>
+          </tr>
+          <tr>
+            <td class="step">Azatioprin — immünomodülatör (adjuvan)</td>
+            <td class="dose">2-2.5 mg/kg/gün, tek doz</td>
+            <td>Anti-TNF idamesinde immünojenisiteyi azaltmak için; TPMT/NUDT15 dikkate al</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pill-row">
+      <span class="pill">Kabızlık tedavisi / yumuşak dışkı</span>
+      <span class="pill">Sitz banyosu</span>
+      <span class="pill">Lif + sıvı optimizasyonu</span>
+      <span class="pill">Seton drenajı (fistül)</span>
+      <span class="pill">Multidisipliner (GE-cerrahi-immünoloji)</span>
+    </div>
+    <div class="callout alarm">Perianal fistülizan Crohn ve immün yetmezlik ilişkili tekrarlayan apse-fistül; tek başına ilaç veya tek başına cerrahi ile değil, kombine medikal-cerrahi (seton drenajı + anti-TNF) ve etkene yönelik immünolojik yönetimle ele alınmalıdır. İnfantil basit fissür/apsede agresif cerrahiden kaçınılır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve yönetim ilkeleri</h2>
+    <p class="lede">Basit fissür yönetiminin başarısı, kabızlığın yeterli süreyle kontrol altında tutulmasına bağlıdır; kompleks perianal hastalıkta izlem, altta yatan tanı (Crohn/immün yetmezlik) çerçevesinde ve multidisipliner yürütülür.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Basit fissür izlemi</h3>
+        <ul class="clean">
+          <li>2-4 haftada kontrol; hedef günde 1 ağrısız, yumuşak (Bristol 4-5) dışkı</li>
+          <li>Laksatifi fissür iyileştikten sonra da erken kesmeden sürdür; nüksü önlemek için kademeli azalt</li>
+          <li>6-8 haftada iyileşmeyen fissürde tanıyı yeniden değerlendir ve kronik fissür basamağına/atipik nedenlere geç</li>
+          <li>Aile eğitimi: ağrı-tutma döngüsü, sitz banyosu, düzenli laksatif; cezalandırmadan kaçınma</li>
+          <li>Perianal streptokokta antibiyotik sonrası eritem ve semptom gerilemesini doğrula</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Kompleks perianal hastalık izlemi</h3>
+        <ul class="clean">
+          <li>Perianal Crohn'da klinik yanıt + MRG ile fistül iyileşmesini izle; anti-TNF terapötik ilaç düzeyi/antikor takibi</li>
+          <li>Seton'un kontrollü drenajı ve zamanında çıkarımı; cerrahi ile ortak karar</li>
+          <li>İmmün yetmezlikte etkene yönelik tedavi ve enfeksiyon profilaksisi; immünoloji eş yönetimi</li>
+          <li>Tekrarlayan/atipik apsede altta yatan tanıyı (KGH, nötropeni) mutlaka dışla ve düzenli hematolojik izlem</li>
+          <li>Büyüme, beslenme ve yaşam kalitesi izlemi; psikososyal destek</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">Yanıtsız veya nükseden perianal hastalıkta önce en sık düzeltilebilir nedenleri değerlendir: yetersiz kabızlık kontrolü ve tedavi uyumsuzluğu. Bunlar giderildiği hâlde iyileşme yoksa perianal Crohn ve immün yetmezliği yeniden gözden geçir.</div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>van Rheenen PF, Aloi M, Assa A, et al. The Medical Management of Paediatric Crohn's Disease: an ECCO-ESPGHAN Guideline Update. J Crohns Colitis. 2021;15(2):171-194.</li>
+      <li>Gecse KB, Bemelman W, Kamm MA, et al. A global consensus on the classification, diagnosis and multidisciplinary treatment of perianal fistulising Crohn's disease. Gut. 2014;63(9):1381-1392.</li>
+      <li>Tabbers MM, DiLorenzo C, Berger MY, et al. Evaluation and Treatment of Functional Constipation in Infants and Children: ESPGHAN/NASPGHAN Evidence-Based Recommendations. J Pediatr Gastroenterol Nutr. 2014;58(2):258-274.</li>
+      <li>Hyams JS, Di Lorenzo C, Saps M, et al. Childhood Functional Gastrointestinal Disorders: Child/Adolescent (Rome IV). Gastroenterology. 2016;150(6):1456-1468.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge pediatrik gastroenteroloji uzmanına yönelik klinik karar desteği amaçlıdır; hastaya özgü değerlendirmenin, güncel kılavuzların ve klinik muhakemenin yerini tutmaz. Dozlar ve endikasyonlar uygulama öncesi kaynaklardan ve yerel formülerden doğrulanmalıdır.</div>
+</div>

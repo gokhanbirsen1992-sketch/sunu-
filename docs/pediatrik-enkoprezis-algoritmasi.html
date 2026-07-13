@@ -1,0 +1,516 @@
+<title>Enkoprezis / Fekal İnkontinans — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Enkoprezis / Fekal İnkontinans</h1>
+    <p class="sub">Fonksiyonel kabızlığa bağlı retansiyonel fekal inkontinansta impaksiyon boşaltımı, dozlu idame, tuvalet eğitimi ve psikososyal yönetimin basamaklı algoritması.</p>
+    <div class="meta">
+      <span class="tag">Rome IV</span>
+      <span class="tag">Fekal impaksiyon</span>
+      <span class="tag">PEG 3350</span>
+      <span class="tag">Tuvalet eğitimi</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">Enkoprezis, gelişimsel olarak tuvalet kontrolü beklenen yaştaki (>=4 yaş) çocukta uygunsuz yerlere yineleyen dışkı kaçırmasıdır. Olguların ~%80-95'i retansiyonel (fonksiyonel kabızlık + rektal impaksiyon + taşma inkontinansı) kökenlidir; retansiyonel olmayan (non-retentif) alt tip normal kolon transiti ve impaksiyon yokluğu ile ayrılır. Rome IV'e göre fonksiyonel kabızlık tanısı için >=1 ay boyunca >=2 kriter (haftada <=2 dışkılama, haftada >=1 inkontinans epizodu, retansiyon postürü, ağrılı/sert dışkı, geniş çaplı dışkı, rektal fekal kitle) gereklidir.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öykü</h3>
+        <ul class="clean">
+          <li>Dışkılama sıklığı, kıvamı (Bristol), çap; retansiyon postürü, kaçırma paterni (gündüz/gece, sürekli sızma vs. tam boşaltım)</li>
+          <li>Semptom başlangıç yaşı, tuvalet eğitimi öyküsü, ağrılı defekasyon/anal fissür, dışkı tutma davranışı</li>
+          <li>Mekonyum pasajı zamanı (>48 sa Hirschsprung şüphesi), diyet-lif-sıvı alımı, kilo-boy seyri</li>
+          <li>İlaç (opioid, antikolinerjik), idrar inkontinansı/tekrarlayan İYE, psikososyal stresörler, aile öyküsü</li>
+          <li>Alarm sorgusu: kanlı dışkı, kilo kaybı, kusma, karın distansiyonu, ateş</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Fizik muayene</h3>
+        <ul class="clean">
+          <li>Karın palpasyonu: sol alt kadran/suprapubik fekal kitle; distansiyon</li>
+          <li>Perianal inspeksiyon: fissür, anal pozisyon (anterior anüs), dermatit, dışkı bulaşı</li>
+          <li>Lumbosakral bölge: kıllanma, gamze, kitle, gluteal yarık asimetrisi (spinal disrafizm)</li>
+          <li>Nörolojik: alt ekstremite tonus/refleks, kremaster ve anal ("wink") refleks, yürüyüş</li>
+          <li>Rektal tuşe (seçili olgu): sfinkter tonusu, ampullada dışkı; Hirschsprung'da boş/dar rektum + patlayıcı boşalma</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">Non-retentif fekal inkontinans tanısı ancak impaksiyon dışlandıktan sonra konur; çoğu "kaçıran" çocukta altta yatan neden aşırı dolu rektumdan taşmadır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Etiyoloji ve mekanizma</h2>
+    <p class="lede">Kaçırma davranışının kaynağını ayırt etmek tedaviyi belirler: retansiyonel taşma en sık senaryodur, ancak organik ve non-retentif nedenler dışlanmalıdır.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">Retansiyonel / taşma (en sık)</div>
+        <ul>
+          <li>Ağrılı defekasyon -> tutma -> rektal distansiyon -> duyu azalması</li>
+          <li>İmpakte kitle çevresinden sıvı dışkı sızması</li>
+          <li>Kısır döngü: rektal dilatasyon ve akkomodasyon</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">Non-retentif inkontinans</div>
+        <ul>
+          <li>Kabızlık/impaksiyon YOK, normal transit</li>
+          <li>Sıklıkla davranışsal/emosyonel bileşen</li>
+          <li>Tanı Rome IV ile; laksatif yanıtsız</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">Anatomik / anorektal</div>
+        <ul>
+          <li>Anterior yerleşimli anüs, anal stenoz</li>
+          <li>Anorektal malformasyon postop</li>
+          <li>Perianal fissür kaynaklı ağrı-tutma</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Nörojenik</div>
+        <ul>
+          <li>Spinal disrafizm / gergin kord, sakral agenezi</li>
+          <li>Serebral palsi, myelomeningosel</li>
+          <li>Sfinkter/pelvik taban innervasyon defekti</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">Motilite / enterik nöropati</div>
+        <ul>
+          <li>Hirschsprung hastalığı (kısa/ultrakısa segment)</li>
+          <li>Kolonik inersi, kronik intestinal psödoobstrüksiyon</li>
+          <li>Mekonyum pasaj gecikmesi öyküsü</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">Metabolik / sistemik</div>
+        <ul>
+          <li>Hipotiroidi, hiperkalsemi, çölyak</li>
+          <li>Kistik fibrozis, DM</li>
+          <li>Kurşun intoksikasyonu, inek sütü proteini ilişkili</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">İlk kritik ayrım, palpabl/görüntülemeyle doğrulanan fekal impaksiyon varlığıdır; disimpaksiyon yapılmadan başlatılan idame tedavisi başarısızlıkla sonuçlanır.</p>
+    <div class="flow">
+      <div class="node start">
+        <span class="k">Başlangıç</span>
+        <span class="t">>=4 yaş çocukta yineleyen dışkı kaçırma</span>
+        <p>Öykü + muayene ile retansiyonel/organik/non-retentif ayrımı yap.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node action">
+        <span class="k">Adım 1</span>
+        <span class="t">Alarm bulgularını tara</span>
+        <p>Bölüm 05 kırmızı bayrakları değerlendir.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 1</span>
+        <span class="t">Alarm bulgusu var mı?</span>
+        <p>Organik hastalık işaretleri.</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → organik yönelim</span>
+          <div class="node alarm">
+            <span class="k">Hedefli tetkik</span>
+            <span class="t">Nedene yönelik incelemeyi başlat</span>
+            <p>Hirschsprung şüphesinde rektal biyopsi + anorektal manometri; spinal bulguda lumbosakral MRG; sistemik tarama (TSH, Ca, çölyak).</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → fonksiyonel yol</span>
+          <div class="node decision">
+            <span class="k">Karar 2</span>
+            <span class="t">Fekal impaksiyon var mı?</span>
+            <p>Palpabl abdominal/rektal kitle veya karın grafisinde belirgin dışkı yükü.</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">İMPAKSİYON VAR → önce boşalt</span>
+          <div class="node action">
+            <span class="k">Disimpaksiyon</span>
+            <span class="t">Oral PEG 3350 1-1.5 g/kg/gün, 3-6 gün</span>
+            <p>Başarısız/tolere edilemezse rektal enema. Boşalma doğrulandıktan sonra idameye geç.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">İMPAKSİYON YOK → doğrudan idame</span>
+          <div class="node action safe">
+            <span class="k">İdame</span>
+            <span class="t">PEG 3350 0.4-0.8 g/kg/gün + tuvalet eğitimi</span>
+            <p>Yumuşak günlük dışkı hedefi; en az 2 ay ve son normalleşmeden >=1 ay sonrasına dek sürdür, kademeli azalt.</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 3</span>
+        <span class="t">Yeterli laksatif + davranışsal tedaviye yanıt var mı?</span>
+        <p>2-4 haftada dışkılama düzeni ve kaçırma değerlendir.</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → sürdür ve azalt</span>
+          <div class="node action safe">
+            <span class="k">İzlem</span>
+            <span class="t">Doz titrasyonu, relaps önleme</span>
+            <p>Bölüm 07 ilkeleri; erken kesme relaps riskini artırır.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → dirençli olgu</span>
+          <div class="node alarm">
+            <span class="k">Yeniden değerlendir</span>
+            <span class="t">Uyum, doz yetersizliği, organik neden</span>
+            <p>Kolon transit çalışması, anorektal manometri; adjuvan laksatif ekle; psikoloji desteği; refrakter olguda pelvik taban biofeedback / antegrad enema (ACE) düşün.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Tipik fonksiyonel olguda tanı klinik olup rutin laboratuvar/radyoloji gereksizdir; tetkikler alarm bulgusu, atipik seyir veya tedavi direnci varlığında basamaklı istenir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Enkoprezis/fekal inkontinansta basamaklı tetkik yaklaşımı</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Endikasyon / eşik</th><th>Yorum</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">Klinik değerlendirme</td>
+            <td>Tüm olgular</td>
+            <td>Rome IV kriterleri + muayene; tipik fonksiyonel olguda ek tetkik gerekmez</td>
+          </tr>
+          <tr>
+            <td class="step">Ayakta direkt karın grafisi</td>
+            <td>Rektal muayene yapılamayan/güvenilmeyen olguda impaksiyon şüphesi</td>
+            <td>Rutin değil; fekal yükü destekler ama tek başına tanısal değil</td>
+          </tr>
+          <tr>
+            <td class="step">Sistemik laboratuvar</td>
+            <td>Büyüme geriliği, dirençli veya atipik seyir</td>
+            <td>TSH-sT4, Ca, çölyak serolojisi (doku transglutaminaz IgA + total IgA)</td>
+          </tr>
+          <tr>
+            <td class="step">Kolon transit çalışması</td>
+            <td>Retentif/non-retentif ayrımı belirsiz; tedaviye dirençli</td>
+            <td>Radyoopak markör ile; kolonik inersi vs. hızlı transit ayrımı</td>
+          </tr>
+          <tr>
+            <td class="step">Anorektal manometri</td>
+            <td>Hirschsprung şüphesi, rektoanal inhibitör refleks (RAIR) değerlendirmesi</td>
+            <td>RAIR yokluğu Hirschsprung düşündürür; biofeedback adayını belirler</td>
+          </tr>
+          <tr>
+            <td class="step">Rektal emme biyopsisi</td>
+            <td>Manometride RAIR yok / güçlü Hirschsprung şüphesi (mekonyum gecikmesi, erken başlangıç)</td>
+            <td>Aganglionoz için altın standart; asetilkolinesteraz boyaması</td>
+          </tr>
+          <tr>
+            <td class="step">Lumbosakral spinal MRG</td>
+            <td>Nörolojik bulgu, sakral gamze/kıllanma, anormal anal tonus</td>
+            <td>Gergin kord / spinal disrafizm dışlanması</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdaki bulgular organik etiyoloji lehinedir ve fonksiyonel tedaviye başlamadan hedefli inceleme gerektirir.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Mekonyum pasajının >48 saat gecikmesi veya yenidoğan döneminde başlangıç</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Büyüme geriliği, kilo kaybı, ateş, safralı kusma</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Karın distansiyonu + patlayıcı boşalma (Hirschsprung/enterokolit)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Rektal kanama (fissür yokluğunda), kronik ishal</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Lumbosakral gamze, kıllanma, kitle veya gluteal asimetri</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Anormal anal tonus/pozisyon, yokluk anal veya kremaster refleksi</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Alt ekstremite güçsüzlük, DTR değişikliği, mesane disfonksiyonu</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ekstraintestinal ipuçları: perianal fistül, aftöz ülser, artralji (IBD)</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi (dozlu)</h2>
+    <p class="lede">Dört basamak: (1) aile eğitimi/demistifikasyon, (2) fekal disimpaksiyon, (3) rekürrensi önleyen idame laksatif, (4) tuvalet eğitimi ve davranışsal destek. Oral PEG 3350 hem disimpaksiyon hem idamede birinci basamaktır.</p>
+    <div class="callout safe">Önce boşalt, sonra idame et: impakte rektum boşaltılmadan başlanan idame laksatif taşma inkontinansını geçici olarak kötüleştirebilir. Aileyi kaçırmanın istemli olmadığı ve cezanın kontrendike olduğu konusunda bilgilendir.</div>
+    <div class="table-scroll">
+      <table>
+        <caption>Fekal impaksiyon boşaltımı ve idame farmakoterapisi</caption>
+        <thead>
+          <tr><th>İlaç / basamak</th><th>Doz</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">PEG 3350 — oral disimpaksiyon</td>
+            <td class="dose">1-1.5 g/kg/gün, 3-6 gün (maks 100 g/gün)</td>
+            <td>Birinci basamak boşaltım; sıvıya karıştır, bölünmüş dozlarda</td>
+          </tr>
+          <tr>
+            <td class="step">Sodyum fosfat / mineral yağ enema — rektal disimpaksiyon</td>
+            <td class="dose">1 kez/gün, 3-6 gün (yaşa göre pediatrik hacim)</td>
+            <td>Oral tolere edilemezse; &lt;2 yaş ve renal yetmezlikte fosfat enema kontrendike</td>
+          </tr>
+          <tr>
+            <td class="step">PEG 3350 — idame</td>
+            <td class="dose">Başlangıç 0.4 g/kg/gün; titre 0.2-0.8 g/kg/gün</td>
+            <td>Birinci basamak idame; günde 1 yumuşak dışkı hedefi</td>
+          </tr>
+          <tr>
+            <td class="step">Laktuloz — idame alternatifi</td>
+            <td class="dose">1-2 g/kg/gün (1-3 mL/kg/gün), 1-2 doza böl</td>
+            <td>PEG yoksa/&lt;1 yaş; osmotik, güvenli fakat gaz-kramp</td>
+          </tr>
+          <tr>
+            <td class="step">Senna — uyarıcı (2. basamak)</td>
+            <td class="dose">2-6 yaş: 2.5-5 mg/gün; 6-12 yaş: 7.5-10 mg/gün</td>
+            <td>İdameye ek/kurtarma; kısa-orta süre</td>
+          </tr>
+          <tr>
+            <td class="step">Bisakodil — uyarıcı (2. basamak)</td>
+            <td class="dose">3-10 yaş: 5 mg/gün; &gt;10 yaş: 5-10 mg/gün PO/PR</td>
+            <td>Yetersiz yanıtta osmotik laksatife eklenir</td>
+          </tr>
+          <tr>
+            <td class="step">Mineral yağ (sıvı parafin) — oral</td>
+            <td class="dose">1-3 mL/kg/gün (maks ~90 mL/gün)</td>
+            <td>Aspirasyon riski nedeniyle &lt;1 yaş ve nörolojik disfajide kaçın</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pill-row">
+      <span class="pill">Aile eğitimi / demistifikasyon</span>
+      <span class="pill">Yemek sonrası tuvalet oturuşu</span>
+      <span class="pill">Ayak desteği + doğru postür</span>
+      <span class="pill">Dışkı-ödül çizelgesi</span>
+      <span class="pill">Lif + sıvı optimizasyonu</span>
+    </div>
+    <div class="callout alarm">Refrakter olguda (uyum + yeterli dozda yanıtsız) pelvik taban disfonksiyonu için biofeedback, dirençli seçilmiş olgularda antegrad kontinans enema (ACE/Malone) ve psikiyatri/psikoloji ortak yönetimi değerlendirilir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve yönetim ilkeleri</h2>
+    <p class="lede">Enkoprezis kronik seyirli ve relaps eğilimlidir; başarı, yeterli süre ve dozla idamenin sürdürülmesine ve tuvalet rutininin oturmasına bağlıdır.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>İzlem takvimi ve hedefler</h3>
+        <ul class="clean">
+          <li>Disimpaksiyon sonrası 1-2 hafta içinde erken kontrol; ardından 4-8 haftada bir</li>
+          <li>Hedef: günde 1 ağrısız, yumuşak (Bristol 4-5) dışkı; kaçırma epizodlarının kaybolması</li>
+          <li>Dışkı günlüğü/çizelge ile sıklık, kıvam ve kaçırma takibi</li>
+          <li>İdameyi en az 2 ay ve semptom düzelmesinden sonra >=1 ay sürdür; tuvalet eğitimi tamamlanana dek erken kesme</li>
+          <li>Doz azaltımı kademeli; relapsta önceki etkili doza dön</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Davranışsal ve psikososyal</h3>
+        <ul class="clean">
+          <li>Yapılandırılmış tuvalet oturuşu: öğün sonrası 5-10 dk, gün 2-3 kez, ayak desteğiyle</li>
+          <li>Cezalandırma yerine olumlu pekiştirme; suçlamayı önle</li>
+          <li>Okul ortamına uyum (tuvalet erişimi, mahremiyet), öğretmen bilgilendirme</li>
+          <li>Eşlik eden anksiyete/DEHB/davranış sorunlarında psikoloji-psikiyatri iş birliği</li>
+          <li>Aileye kronik seyri ve relaps olasılığını anlat; uzun izlem beklentisi oluştur</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">Yanıtsızlıkta önce en sık nedeni dışla: yetersiz doz ve tedavi uyumsuzluğu. Bunlar giderildiği hâlde yanıt yoksa organik neden ve pelvik taban disfonksiyonunu yeniden değerlendir.</div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Hyams JS, Di Lorenzo C, Saps M, et al. Childhood Functional Gastrointestinal Disorders: Child/Adolescent (Rome IV). Gastroenterology. 2016;150(6):1456-1468.</li>
+      <li>Tabbers MM, DiLorenzo C, Berger MY, et al. Evaluation and Treatment of Functional Constipation in Infants and Children: ESPGHAN/NASPGHAN Evidence-Based Recommendations. J Pediatr Gastroenterol Nutr. 2014;58(2):258-274.</li>
+      <li>Koppen IJN, Lammers LA, Benninga MA, Tabbers MM. Management of Functional Constipation in Children: Therapy in Practice. Paediatr Drugs. 2015;17(5):349-360.</li>
+      <li>Rajindrajith S, Devanarayana NM, Benninga MA. Fecal Incontinence in Children: Epidemiology, Pathophysiology, Evaluation and Management. J Pediatr Gastroenterol Nutr. 2020;71(5):561-570.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge pediatrik gastroenteroloji uzmanına yönelik klinik karar desteği amaçlıdır; hastaya özgü değerlendirmenin, güncel kılavuzların ve klinik muhakemenin yerini tutmaz. Dozlar ve endikasyonlar uygulama öncesi kaynaklardan ve yerel formülerden doğrulanmalıdır.</div>
+</div>

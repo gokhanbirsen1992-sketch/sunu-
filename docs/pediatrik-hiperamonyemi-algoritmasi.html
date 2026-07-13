@@ -1,0 +1,419 @@
+<title>Hiperamonyemi — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Hiperamonyemi</h1>
+    <p class="sub">Plazma amonyak yüksekliği saptanan çocukta doğru kan alma tekniğini, üre siklusu defekti–organik asidemi–yağ asidi oksidasyon defekti–karaciğer yetmezliği ayrımını ve dozlu acil yönetimi (protein kes, dekstroz, amonyak temizleyici, diyaliz) yönlendiren karar aracı. Hedef kitle: çocuk gastroenteroloji uzmanı.</p>
+    <div class="meta">
+      <span class="tag">Metabolik acil</span>
+      <span class="tag">Amonyak temizleyici</span>
+      <span class="tag">Üre siklusu</span>
+      <span class="tag">Kan alma tekniği</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">Amonyak, protein ve aminoasit katabolizmasının nörotoksik ara ürünüdür ve normalde karaciğerdeki üre siklusu ile üreye çevrilerek atılır. Plazma amonyağı yenidoğanda genelde &lt;100-110 µmol/L, süt çocuğu ve daha büyük çocukta &lt;50 µmol/L kabul edilir; bu eşiklerin belirgin üzeri "hiperamonyemi"dir. Amonyak <b>zamana bağlı, geri döndürülebilir ancak birikirse kalıcı</b> bir beyin hasarı yapar: astrositlerde glutamin birikimi sitotoksik ödeme, kusma-letarji-hipotoni-konvülziyon-koma ve solunum merkezi uyarımı ile <b>solunumsal alkaloza</b> yol açar. Bu nedenle hiperamonyemi, tanı netleşmeden yönetilmesi gereken bir <b>metabolik acildir</b>: her saatlik gecikme nörolojik sekel ve mortaliteyi artırır. İlk görev üç aşamalıdır. (1) Değeri <b>doğru teknikle doğrula</b> — amonyak preanalitik hataya son derece duyarlıdır: turnike ile staz, yumruk sıkma, hemoliz, oda sıcaklığında bekleme ve plazmanın geç ayrılması değeri yalancı yükseltir; bu yüzden serbest akan (turnikesiz/kısa turnikeli) örnek, buz üzerinde hızlı transport ve 15-30 dakika içinde santrifüj/çalışma şarttır. (2) <b>Semptomatik mi</b> belirle — bilinç değişikliği, beslenme reddi/kusma, takipne (alkaloz), hipotoni; yenidoğanda "sepsis gibi" kötüleşen tablo. (3) <b>Mekanizmayı ayırt et</b> — eş zamanlı kan gazı, glukoz, laktat, keton, plazma aminoasit, idrar organik asit ve açilkarnitin profili al; asidoz+ketozis organik asidemiyi, solunumsal alkaloz+normal glukoz üre siklusu defektini, hipoketotik hipoglisemi yağ asidi oksidasyon defektini düşündürür. Yaş kritik ipucudur: ilk günlerde iyi bir aradan sonra "sepsis gibi" bozulan yenidoğan aksi ispat edilene dek <b>doğuştan metabolizma hastalığıdır</b>.</p>
+    <div class="pill-row">
+      <span class="pill">Yenidoğan normal &lt;100-110 µmol/L; çocuk &lt;50 µmol/L</span>
+      <span class="pill">&gt;150 µmol/L (yenidoğan) semptomatik olabilir</span>
+      <span class="pill">&gt;200 µmol/L belirgin risk</span>
+      <span class="pill">&gt;400-500 µmol/L diyaliz eşiği</span>
+      <span class="pill">Serbest akan örnek · buzda · &lt;30 dk analiz</span>
+    </div>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öyküde sorgula</h3>
+        <ul class="clean">
+          <li>Yaş ve başlangıç: yenidoğanda semptomsuz aralık sonrası ani kötüleşme (beslenme reddi, letarji, takipne, konvülziyon); büyük çocukta protein yükü/açlık/enfeksiyon ile tetiklenen tekrarlayan atak</li>
+          <li>Tetikleyici: araya giren enfeksiyon, uzamış açlık, cerrahi/anestezi, yüksek protein alımı, doğum sonrası katabolik dönem, kortikosteroid; kız çocuğunda menstrüasyon/gebelik-lohusalık (OTK taşıyıcı)</li>
+          <li>Beslenme-davranış: protein itmesi/istememe (self-restriksiyon), episodik kusma, davranış-bilinç dalgalanması, migren benzeri ataklar</li>
+          <li>İlaç/toksin: <b>valproat</b>, topiramat, yüksek doz asparaginaz/5-FU, glisin (TUR sıvısı), salisilat; total parenteral beslenme; üreaz üreten bakteriyel enfeksiyon/idrar retansiyonu</li>
+          <li>Karaciğer: bilinen kronik karaciğer hastalığı, akut karaciğer yetmezliği, portosistemik şant (konjenital/Abernethy, TIPS sonrası), GİS kanaması</li>
+          <li>Aile öyküsü: konsanguinite, açıklanamayan yenidoğan/bebek ölümü, erkek kardeş kaybı (X'e bağlı OTK), tekrarlayan ensefalopati/Reye benzeri tablo, protein intoleransı</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayenede değerlendir</h3>
+        <ul class="clean">
+          <li>Nörolojik: bilinç düzeyi (letarji-koma), tonus (yenidoğanda hipotoni, ilerledikçe posturing), konvülziyon, bıngıldak dolgunluğu-beyin ödemi bulguları, pupil-beyin sapı refleksleri</li>
+          <li>Solunum: hiperamonyeminin erken bulgusu <b>takipne/hiperpne</b> (solunumsal alkaloz); ilerlerse apne-solunum yetmezliği</li>
+          <li>Beslenme-GİS: kusma, beslenme reddi, dehidratasyon; hepatomegali (organik asidemi, FAO defekti, glikojen depo)</li>
+          <li>Karaciğer/portal hipertansiyon: ikter, splenomegali, asit, karın duvarı venleri (portosistemik şant/karaciğer yetmezliği düşün)</li>
+          <li>Deri-koku: alopesi-dermatit (biotin/multiple karboksilaz), kendine özgü koku (IVA'da "terli ayak", MSUD'da akçaağaç şurubu), açilkarnitin bulguları</li>
+          <li>Genel: sepsis benzeri kötü görünüm, ısı düzensizliği, dolaşım bozukluğu; büyüme-baş çevresi</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout"><b>Kavram:</b> Hiperamonyeminin ilk sorusu "primer üre siklusu defekti mi, sekonder (organik asidemi / FAO / karaciğer / ilaç) mi?" Ayrımın anahtarı eş zamanlı kan gazı ve rutin metabolik örnektir: <b>asidoz + anyon açığı + ketozis → organik asidemi</b>; <b>solunumsal alkaloz + normal glukoz + normal asit-baz → üre siklusu defekti</b>; <b>hipoketotik hipoglisemi → yağ asidi oksidasyon defekti</b>. Tanı beklenmez — semptomatik hiperamonyemide tedavi ilk örnekle eş zamanlı başlar.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Etiyoloji ve mekanizma</h2>
+    <p class="lede">Hiperamonyemi tek bir hastalık değil, amonyak üretimi ile detoksifikasyonu (üre siklusu) arasındaki dengenin bozulduğu ortak bir tablodur. Mekanizma, üre siklusunun doğrudan defektini (primer) diğer nedenlerden (sekonder: üre siklusunu inhibe eden metabolitler, karaciğer yetmezliği, şant, ilaç) ayırmaya dayanır; ayrım eş zamanlı asit-baz, glukoz, keton, aminoasit ve organik asit paterniyle yapılır.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">Üre siklusu defektleri (primer)</div>
+        <ul>
+          <li>OTK (X'e bağlı, en sık), CPS1, NAGS, ASS (sitrüllinemi), ASL (argininosüksinik asidüri), arginaz eksikliği</li>
+          <li>Patern: <b>solunumsal alkaloz</b>, normal glukoz-laktat, ketozis yok; plazma sitrülin (proksimal defektte düşük, distalde yüksek) ve idrar orotik asit ayırıcı</li>
+          <li>OTK/CPS1'de orotik asit ayrımı: OTK'de yüksek, CPS1/NAGS'de düşük-normal</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">Organik asidemiler</div>
+        <ul>
+          <li>Metilmalonik (MMA), propionik (PA), izovalerik asidemi; propionil-KoA birikimi NAGS'yi inhibe ederek sekonder üre siklusu bloğu yapar</li>
+          <li>Patern: <b>yüksek anyon açıklı metabolik asidoz + ketozis</b>, laktat/keton yüksek, sitopeni, hipoglisemi olabilir</li>
+          <li>İdrar organik asit ve açilkarnitin tanısal; karglumik asit ve karnitin tedaviye eklenir</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">Yağ asidi oksidasyon defektleri</div>
+        <ul>
+          <li>MCAD, VLCAD, LCHAD/TFP, karnitin siklusu defektleri; açlık/katabolizmada enerji üretimi bozulur</li>
+          <li>Patern: <b>hipoketotik hipoglisemi</b>, kardiyomiyopati/aritmi, rabdomiyoliz, hepatomegali, karaciğer disfonksiyonu</li>
+          <li>Açilkarnitin profili tanısal; uzun zincirli yağ kısıtlanır, glukoz verilir</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Karaciğer yetmezliği / şant</div>
+        <ul>
+          <li>Akut karaciğer yetmezliği (viral, metabolik, otoimmün, toksik) ve dekompanse kronik karaciğer hastalığı; sentetik-detoksifikasyon kaybı</li>
+          <li>Konjenital portosistemik şant (Abernethy), TIPS, portal hipertansiyon: amonyak karaciğeri baypas eder</li>
+          <li>Patern: KCFT bozuk, INR uzun, bilirubin yüksek; hepatik ensefalopati; şantta KCFT normal olabilir</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">İlaç / toksik / iyatrojenik</div>
+        <ul>
+          <li><b>Valproat</b> (CPS1 inhibisyonu, karnitin tüketimi); asparaginaz, 5-FU, topiramat, salisilat; TUR sonrası glisin</li>
+          <li>Total parenteral beslenme, aşırı protein yükü, masif GİS kanaması (bağırsakta amonyak üretimi)</li>
+          <li>Latent OTK taşıyıcısını ilk kez ortaya çıkarabilir → altta yatan üre siklusu defektini araştır</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">Yenidoğana özgü / diğer</div>
+        <ul>
+          <li>Yenidoğanın geçici hiperamonyemisi (THAN): sıklıkla prematüre, respiratuvar distres; çok yüksek amonyak, üre siklusu enzimleri normal, tekrarlamaz</li>
+          <li>Üreaz üreten bakteri enfeksiyonu (idrar retansiyonu/staz), lizinürik protein intoleransı, HHH sendromu, piruvat karboksilaz eksikliği</li>
+          <li>Perinatal asfiksi, ağır sepsis, doğum stresine bağlı katabolizma</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout"><b>Ayrım kuralı:</b> <b>Asidoz + ketozis + anyon açığı</b> → organik asidemi (idrar organik asit, açilkarnitin). <b>Solunumsal alkaloz + normal glukoz</b> → üre siklusu defekti (plazma sitrülin ± idrar orotik asit ile alt tipi belirle). <b>Hipoketotik hipoglisemi</b> → yağ asidi oksidasyon defekti. <b>KCFT/INR bozuk</b> → karaciğer yetmezliği/şant. Valproat/ilaç öyküsü sekonder nedeni düşündürse de latent üre siklusu defektini araştırmayı gerektirir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">Akış, doğrulanmış hiperamonyemide tanıyı beklemeden acil önlemleri (protein kes, yüksek dekstroz, amonyak temizleyici hazırla) başlatır; eş zamanlı alınan metabolik örnek mekanizmayı çözer. İlk çatal asit-baz/ketozis (organik asidemi mi), ikinci çatal glukoz/keton (yağ asidi oksidasyon defekti mi), sonuncu çatal amonyak düzeyi ve tedaviye yanıt (diyaliz gerekli mi) üzerinedir.</p>
+    <div class="flow">
+      <div class="node start"><span class="k">Başlangıç</span><span class="t">Plazma amonyak yüksek saptandı</span><p>Değeri doğru teknikle doğrula: serbest akan/turnikesiz örnek, buz üzerinde hızlı transport, &lt;30 dk santrifüj/analiz, hemolizsiz. Eş zamanlı örnekle: kan gazı, glukoz, laktat, keton, elektrolit-anyon açığı, KCFT-INR, plazma aminoasit, idrar organik asit, açilkarnitin, amonyak tekrarı.</p></div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 0</span><span class="t">Semptomatik veya ağır yükseklik var mı?</span><p>Ensefalopati/bilinç değişikliği, takipne, yenidoğanda &gt;150 µmol/L, çocukta &gt;100 µmol/L semptomlu, ya da hızla yükselen değer.</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">EVET → Metabolik acil başlat</span><div class="node alarm"><span class="k">Acil</span><span class="t">Protein kes, dekstroz, temizleyici</span><p>Tüm protein/enteral beslenmeyi durdur. <b>D10 (± D12,5) IV, GİR 8-10 mg/kg/dk</b> ile katabolizmayı bası; kalori için IV lipid (FAO şüphesi yoksa). Amonyak temizleyici (Na benzoat ± Na fenilasetat) + arginin HCl yükleme dozunu hazırla; damar yolu/santral, yoğun bakım ve metabolizma-diyaliz ekibini eş zamanlı devreye al.</p></div></div>
+        <div class="branch no"><span class="label">HAYIR → Doğrula ve izle</span><div class="node action safe"><span class="k">Devam</span><span class="t">Preanalitik hatayı dışla, tekrarla</span><p>Hafif/sınırda ve asemptomatikse doğru teknikle tekrar örnekle; yalancı yüksekliği (staz, hemoliz, geç santrifüj) ekarte et. Yükseklik doğrulanırsa akışa gir; klinik kötüleşmede acil kola geç.</p></div></div>
+      </div>
+      <div class="connector"></div>
+      <div class="node action"><span class="k">Adım 1</span><span class="t">Metabolik örneği yorumla</span><p>Eş zamanlı alınan kan gazı, glukoz, keton, laktat, aminoasit ve organik asit ile mekanizmayı çöz. Tedaviyi bu sonuçları beklemeden sürdür; sonuçlar geldikçe hedefe yönelik ajanları ekle.</p></div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 1</span><span class="t">Yüksek anyon açıklı metabolik asidoz + ketozis var mı?</span><p>Anyon açığı yüksek asidoz, ketonemi/ketonüri, laktat yüksekliği organik asidemiyi düşündürür.</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">EVET → Organik asidemi kolu</span><div class="node action"><span class="k">Hedefe yönelik</span><span class="t">Karglumik asit + karnitin ekle</span><p>Organik asidemi olası: <b>karglumik asit</b> (NAGS'yi baypas eder) ve <b>L-karnitin</b> ekle; MMA'da hidroksikobalamin, multiple karboksilazda biotin. Genel temizleyici + dekstroz sürer; asidozu ve sıvıyı düzelt. İdrar organik asit/açilkarnitin ile alt tipi doğrula.</p></div></div>
+        <div class="branch no"><span class="label">HAYIR → Glukoza bak</span><div class="node decision"><span class="k">Karar 2</span><span class="t">Hipoketotik hipoglisemi var mı?</span><p>Düşük glukoz + orantısız düşük keton yağ asidi oksidasyon defektini gösterir.</p></div></div>
+      </div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">HİPOKETOTİK HİPOGLİSEMİ → FAO defekti</span><div class="node action"><span class="k">FAO kolu</span><span class="t">Glukoz+, uzun zincirli yağ kısıtla</span><p>Yağ asidi oksidasyon defekti: yüksek GİR ile glukoz sağla, <b>uzun zincirli yağ/IV lipidi kısıtla</b>, kardiyak izlem (kardiyomiyopati/aritmi). Açilkarnitin ile doğrula; karnitin kullanımı tartışmalı — metabolizma ekibiyle karar ver.</p></div></div>
+        <div class="branch no"><span class="label">ALKALOZ / NORMAL GLUKOZ → Üre siklusu defekti</span><div class="node action"><span class="k">ÜSD kolu</span><span class="t">Arginin + benzoat/fenilasetat</span><p>Solunumsal alkaloz, normal glukoz, ketozis yok → üre siklusu defekti olası: <b>arginin HCl</b> + <b>Na benzoat/Na fenilasetat</b> yükleme, ardından idame infüzyonu. Plazma sitrülin ve idrar orotik asit ile alt tipi belirle; arginaz eksikliğinde argininden kaçın.</p></div></div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 3</span><span class="t">Amonyak &gt;400-500 µmol/L, koma veya medikal tedaviye yanıtsız mı?</span><p>Çok yüksek/hızla yükselen amonyak, ensefalopati-koma ya da birkaç saatlik agresif medikal tedaviye rağmen düşmeyen değer.</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">EVET → Ekstrakorporeal temizleme</span><div class="node alarm"><span class="k">Diyaliz</span><span class="t">Hemodiyaliz/CVVHDF başlat</span><p>En etkili yöntem <b>hemodiyaliz</b> (yenidoğanda gerektiğinde CVVHDF); peritoneal diyaliz ve kan değişimi yetersizdir. Medikal tedaviyi (temizleyici + dekstroz) kesme; diyalizle eş zamanlı sürdür. Beyin ödemi ve nörolojik izlem; transplant değerlendirmesini gündeme al.</p></div></div>
+        <div class="branch no"><span class="label">HAYIR → Medikal tedaviye devam</span><div class="node action safe"><span class="k">İzle</span><span class="t">Saatlik amonyak ile titre et</span><p>Amonyağı 2-4 saatte bir izle; düşme sürüyorsa medikal tedaviye devam. Yükselme/plato veya klinik kötüleşmede diyaliz eşiğine geç. Amonyak güvenli düzeye inince protein ve enerjiyi yeniden yapılandır.</p></div></div>
+      </div>
+    </div>
+    <div class="callout"><b>Not:</b> Diyaliz "başarısız medikal tedavi" beklenerek geciktirilmemeli; çok yüksek değer, koma ya da hızlı yükseliş varsa diyaliz erken planlanır. Ancak diyaliz medikal tedavinin yerini almaz — temizleyici, arginin ve yüksek dekstroz diyaliz boyunca sürdürülür. Undiferansiye acil neonatal hiperamonyemide arginin + benzoat/fenilasetat + karglumik asit birlikte, tanı netleşene dek geniş kapsamlı verilebilir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Tetkik, değerin doğru teknikle doğrulanması ve preanalitik hatanın dışlanmasıyla başlar (amonyak en sık yalancı yüksek çıkan testlerden biridir); ardından eş zamanlı asit-baz/glukoz/keton paterni, ayırıcı metabolik testler (plazma aminoasit, idrar organik asit, açilkarnitin, orotik asit) ve etiyolojiye yönelik değerlendirme (karaciğer, şant görüntüleme) ile ilerlenir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Hiperamonyemide kademeli değerlendirme</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Test / işlem</th><th>Amaç / not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Basamak 1 · Doğru örnekleme</td><td class="dose">Serbest akan (turnikesiz/kısa turnikeli) venöz veya arteriyel kan; EDTA/heparinli tüpe; hemen buz üzerinde laboratuvara; &lt;15-30 dk santrifüj ve analiz</td><td>Staz, yumruk sıkma, hemoliz, oda ısısında bekleme ve geç santrifüj değeri yalancı yükseltir; şüpheli yükseklikte teknik hatayı dışlayıp tekrarla</td></tr>
+          <tr><td class="step">Basamak 2 · Eş zamanlı acil panel</td><td>Kan gazı (asit-baz), glukoz, laktat, keton (kan/idrar), elektrolit + anyon açığı, tam kan sayımı, KCFT, INR, üre-kreatinin</td><td>Mekanizma çatalları: asidoz+ketozis (organik asidemi), alkaloz+normal glukoz (ÜSD), hipoketotik hipoglisemi (FAO), KCFT/INR bozuk (karaciğer)</td></tr>
+          <tr><td class="step">Basamak 3 · Ayırıcı metabolik testler</td><td>Plazma kantitatif aminoasit (sitrülin, arginin, glutamin), idrar organik asit, plazma açilkarnitin profili, idrar orotik asit</td><td>Sitrülin ile ÜSD alt tipi; orotik asit ile OTK–CPS1/NAGS ayrımı; organik asit/açilkarnitin ile organik asidemi ve FAO tanısı</td></tr>
+          <tr><td class="step">Basamak 4 · Karaciğer / şant değerlendirmesi</td><td>ALT/AST, bilirubin, albümin, INR; hepatobiliyer USG + Doppler (portosistemik/Abernethy şantı), gerekirse BT/MR anjiyo</td><td>Amonyak yüksekliği KCFT bozukluğuyla uyumsuzsa konjenital portosistemik şantı ve akut karaciğer yetmezliğini araştır</td></tr>
+          <tr><td class="step">Basamak 5 · Nörolojik durum</td><td>Bilinç-nörolojik muayene tekrarı; konvülziyonda EEG; beyin ödemi/durum bozulmasında kranial görüntüleme</td><td>Amonyak nörotoksisitesi ve beyin ödemini izle; tedaviye yanıt saatlik amonyak ile birlikte klinik olarak değerlendirilir</td></tr>
+          <tr><td class="step">Basamak 6 · Etiyoloji / tetikleyici</td><td>İlaç düzeyi (valproat, salisilat), enfeksiyon taraması, üreaz üreten bakteri/idrar staz sorgusu; enzim/moleküler doğrulama (ÜSD gen paneli, deri fibroblast)</td><td>Sekonder nedeni belgele; latent üre siklusu defektini dışlama; kesin tanı ve genetik danışma için doğrulayıcı testler</td></tr>
+          <tr><td class="step">Seçili · İzlem tekrarı</td><td>Tedavi altında 2-4 saatte bir plazma amonyak; asit-baz, glukoz, elektrolit, laktat serial</td><td>Yanıtı ve diyaliz eşiğini yönlendirir; her tekrarda aynı doğru örnekleme tekniği uygulanmalı</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout"><b>Sıralama ilkesi:</b> Amonyak preanalitik hataya çok duyarlıdır — yüksek bir değer klinik bağlamla uyumsuzsa önce tekniği (staz, hemoliz, geç santrifüj) sorgula, ama semptomatik hastada doğrulamayı beklerken tedaviyi geciktirme. Ayırıcı metabolik örnekleri (aminoasit, organik asit, açilkarnitin) <b>tedaviden önce ve akut fazda</b> al; tedavi başladıktan sonra paternler değişebilir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdakilerden herhangi biri, hiperamonyeminin acil yoğun bakım yönetimi, agresif medikal tedavi ve erken diyaliz kararı gerektirdiğini gösterir; gecikmeden protein kesme, yüksek dekstroz, temizleyici ve metabolizma-diyaliz ekibi iletişimini başlatın.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Ensefalopati/bilinç değişikliği, konvülziyon, koma veya beyin ödemi bulguları (posturing, bıngıldak dolgunluğu, pupil değişikliği)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Yenidoğanda semptomsuz aralık sonrası "sepsis gibi" ani kötüleşme (beslenme reddi, letarji, takipne, hipotoni)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Amonyak &gt;400-500 µmol/L, hızla yükselen değer veya birkaç saatlik agresif medikal tedaviye yanıtsızlık → diyaliz</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Açıklanamayan takipne/solunumsal alkaloz (üre siklusu defektinin erken ve kolay atlanan bulgusu)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Yüksek anyon açıklı metabolik asidoz + ketozis + hiperamonyemi (organik asidemi krizi)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Hipoketotik hipoglisemi + kardiyomiyopati/aritmi + hiperamonyemi (yağ asidi oksidasyon defekti)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>KCFT ile orantısız amonyak yüksekliği → konjenital portosistemik şant (Abernethy) veya karaciğer yetmezliği</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Valproat/ilaç başlangıcı ile ortaya çıkan ensefalopati-hiperamonyemi (latent OTK'yi düşündürür)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Aile öyküsünde açıklanamayan yenidoğan/erkek bebek ölümü, tekrarlayan Reye benzeri atak veya protein intoleransı</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Katabolik tetikleyici (enfeksiyon, açlık, cerrahi, GİS kanaması) zemininde tekrarlayan bilinç bulanıklığı-kusma atakları</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi</h2>
+    <p class="lede">Tedavinin iki hedefi vardır: amonyak <b>üretimini durdurmak</b> (protein kes, yüksek dekstroz ± lipid ile katabolizmayı baskıla) ve <b>atılımını artırmak</b> (alternatif yol ilaçları = amonyak temizleyiciler, gerektiğinde diyaliz). Tanı beklenmeden, semptomatik hiperamonyemide dekstroz ve temizleyici hemen başlatılır. Dozlar undiferansiye acil (özellikle neonatal) protokolüne göre verilmiştir; alt tip belirlenince disorder-özgü ayarlanır. Yükleme dozları <b>D10 içinde 90-120 dakikada</b> infüze edilir; santral yol ve kardiyak monitorizasyon önerilir. Arginin arginaz eksikliğinde kullanılmaz; benzoat/fenilasetat toksisitesi (hipokalemi, alkaloz, aşırı doz) izlenir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Hiperamonyemide acil tedavi ve dozlar (undiferansiye/neonatal protokol; alt tipe göre ayarla)</caption>
+        <thead>
+          <tr><th>Basamak / ilaç</th><th>Doz</th><th>Not / izlem</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Protein kesme</td><td class="dose">Tüm enteral/parenteral proteini durdur (24-48 saati aşmadan); amonyak güvenli düzeye inince 0,5 g/kg/gün ile yeniden başla</td><td>Uzamış protein kesme kendisi katabolizmayı artırır; 24-48 saat içinde esansiyel aminoasitle yeniden yapılandır</td></tr>
+          <tr><td class="step">Dekstroz (anabolizma)</td><td class="dose">D10 (gerekirse D12,5) IV, <b>GİR 8-10 mg/kg/dk</b>; hiperglisemide insülin 0,05 IU/kg/sa ile destekle</td><td>Katabolizmayı baskılamanın temeli; santral yol tercih; glukoz-elektrolit takibi</td></tr>
+          <tr><td class="step">IV lipid (kalori)</td><td class="dose">1-2 g/kg/gün (FAO defekti şüphesi yoksa)</td><td>Ek kalori ile anabolizmayı destekle; yağ asidi oksidasyon defekti şüphesinde uzun zincirli lipidi kısıtla</td></tr>
+          <tr><td class="step">Na benzoat + Na fenilasetat (temizleyici)</td><td class="dose">Her biri <b>250 mg/kg</b> yükleme (D10 içinde 90-120 dk), ardından <b>250 mg/kg/gün</b> idame infüzyon. Kombine preparat: &lt;20 kg 2,5 mL/kg; ≥20 kg 55 mL/m²</td><td>Alternatif atılım yolu; hipokalemi, metabolik alkaloz, aşırı doz-nörotoksisite riski — düzeyi/klinik izle; santralden ver</td></tr>
+          <tr><td class="step">Arginin HCl</td><td class="dose">Undiferansiye: <b>200 mg/kg</b> yükleme + 200 mg/kg/gün; ASS/ASL (sitrüllinemi/argininosüksinik): 400-600 mg/kg</td><td>Üre siklusunu besler; <b>arginaz eksikliğinde verme</b>. Hızlı infüzyonda hipotansiyon; klorür yükü ile asidoz izlemi</td></tr>
+          <tr><td class="step">Karglumik asit (karbamilglutamat)</td><td class="dose">100-250 mg/kg/gün, bölünmüş; NAGS eksikliği ve organik asidemide (PA/MMA)</td><td>NAGS'yi baypas ederek CPS1'i aktive eder; organik asidemide sekonder üre siklusu bloğunu açar</td></tr>
+          <tr><td class="step">L-karnitin</td><td class="dose">100 mg/kg/gün IV (organik asidemi); valproat ilişkilide 100 mg/kg/gün</td><td>Organik asit atılımını destekler; FAO defektinde kullanım tartışmalı — metabolizma ekibiyle karar ver</td></tr>
+          <tr><td class="step">Kofaktörler</td><td class="dose">Hidroksikobalamin (B12) 1 mg IM/IV (MMA); biotin 10-20 mg (multiple karboksilaz); riboflavin seçili FAO'da</td><td>Vitamin duyarlı alt tiplerde ampirik; tanı doğrulanana dek düşük risk-yüksek fayda</td></tr>
+          <tr><td class="step">Sodyum fenilbutirat (oral idame)</td><td class="dose">250-500 mg/kg/gün (ya da 9,9-13 g/m²/gün), öğünlere bölünmüş</td><td>Akut faz düzeldikten sonra kronik temizleyici; GİS intoleransı, koku, elektrolit izlemi</td></tr>
+          <tr><td class="step">Ekstrakorporeal temizleme</td><td class="dose">Hemodiyaliz (en etkili) veya CVVHDF; amonyak &gt;400-500 µmol/L, koma veya medikal tedaviye yanıtsızlık</td><td>Peritoneal diyaliz/kan değişimi yetersiz; diyaliz sırasında medikal tedavi sürer; rebound için diyaliz sonrası izlem</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout safe"><b>Yaklaşım:</b> Semptomatik hiperamonyemide vakit kaybetmeden proteini kes, <b>D10 GİR 8-10 mg/kg/dk</b> ile katabolizmayı baskıla ve temizleyici (Na benzoat/fenilasetat) + arginin yüklemesini başlat; asidoz+ketozis varsa karglumik asit ve karnitin ekle. Amonyak &gt;400-500 µmol/L, koma veya yanıtsızlıkta diyalizi geciktirme ve medikal tedaviyi diyalizle birlikte sürdür.</div>
+    <div class="callout alarm"><b>Dikkat:</b> Arginin, arginaz eksikliğinde kontrendikedir; benzoat/fenilasetat yükleme dozunun tekrarı ve aşırı dozu (hipokalemi, alkaloz, letarji) tehlikelidir — düzeyi ve elektroliti izleyin. Protein kesmeyi 24-48 saatten uzun sürdürmeyin; uzamış açlık katabolizmayı ve amonyağı artırır. Amonyak düşmüş görünse bile diyaliz/temizleyici kesildikten sonra <b>rebound</b> için izlem gerekir; her amonyak ölçümü aynı doğru örnekleme tekniğiyle alınmalıdır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve yönetim ilkeleri</h2>
+    <p class="lede">Yönetim; mekanizmayı (üre siklusu / organik asidemi / FAO / karaciğer-şant / ilaç) doğru ayırmaya, amonyağı saatlik izleyerek diyaliz eşiğini kaçırmamaya, katabolizmayı güvenle kırıp proteini zamanında yeniden yapılandırmaya ve nörolojik sonucu korumaya dayanır. Akut kriz atlatıldıktan sonra kronik idame ve genetik danışma planlanır.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>İzlem ve takip</h3>
+        <ul class="clean">
+          <li>Tedavi altında 2-4 saatte bir plazma amonyak (aynı doğru teknik); yanıt yoksa/plato veya yükselişte diyaliz eşiğine geç</li>
+          <li>Asit-baz, glukoz, elektrolit (hipokalemi-alkaloz temizleyiciye bağlı), laktat ve nörolojik muayeneyi serial izle</li>
+          <li>Amonyak güvenli düzeye inince proteini 0,5 g/kg/gün ile başlat, tolere ettikçe artır; esansiyel aminoasit desteği planla</li>
+          <li>Ayırıcı sonuçları (aminoasit, organik asit, açilkarnitin, orotik asit) topla ve tedaviyi alt tipe göre daralt</li>
+          <li>Karaciğer/şant şüphesinde Doppler USG ve gerekli ise anjiyografik görüntüleme; portosistemik şantta girişimsel/cerrahi kapatmayı değerlendir</li>
+          <li>Diyaliz/temizleyici kesildikten sonra rebound için izlemi sürdür; nörolojik gelişim ve baş çevresi takibi</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Yönetim ve güvenlik ağı</h3>
+        <ul class="clean">
+          <li>Metabolizma ve pediatrik yoğun bakım-diyaliz ekibini ilk saatte devreye al; ağır/yanıtsız olguda transplant değerlendirmesini gündeme getir</li>
+          <li>Kesin tanı sonrası bireysel protein kısıtlı diyet, disorder-özgü kronik temizleyici (fenilbutirat) ve kofaktör; diyetisyen ile enerji-protein dengesini kur</li>
+          <li>Aileye yazılı "hasta günü/kriz planı": enfeksiyon-açlık-cerrahi durumunda protein azalt, yüksek karbonhidratlı sıvı ver ve amonyak için acil başvur</li>
+          <li>Tetikleyicileri yönet: enfeksiyonu erken tedavi et, uzun açlıktan kaçın, valproat gibi ilaçlardan kaçın/kullanılıyorsa gözden geçir</li>
+          <li>Genetik danışma ve aile taraması (X'e bağlı OTK taşıyıcı anne/kız kardeş); yenidoğan tarama sonuçlarını ilişkilendir</li>
+          <li>Nörolojik sekel için gelişimsel izlem ve rehabilitasyon; tekrarlayan atakları kayıt altına alarak yönetimi bireyselleştir</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout safe">En iyi sonuç; doğru örnekleme tekniğiyle hiperamonyemiyi hızlı doğrulamak, tanıyı beklemeden protein kesip yüksek dekstroz ve amonyak temizleyiciyi başlatmak, eş zamanlı metabolik örnekle mekanizmayı ayırmak, çok yüksek/yanıtsız değerde diyalizi geciktirmemek ve kriz sonrası bireysel diyet-idame ile genetik danışmayı yapılandırmakla elde edilir.</div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Häberle J, Burlina A, Chakrapani A, et al. Suggested guidelines for the diagnosis and management of urea cycle disorders: First revision. J Inherit Metab Dis. 2019;42(6):1192-1230.</li>
+      <li>Baumgartner MR, Hörster F, Dionisi-Vici C, et al. Proposed guidelines for the diagnosis and management of methylmalonic and propionic acidemia. Orphanet J Rare Dis. 2014;9:130.</li>
+      <li>Savy N, Brossier D, Brunel-Guitton C, et al. Acute pediatric hyperammonemia: current diagnosis and management strategies. Hepat Med (Auckl). 2018;10:105-115.</li>
+      <li>Ah Mew N, Simpson KL, Gropman AL, et al. Urea Cycle Disorders Overview. GeneReviews. Seattle: University of Washington; 2003 (güncellenmiş baskı).</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge uzman kullanıcıya yönelik bir klinik karar destek aracıdır; hastanın bireysel değerlendirmesi, güncel kılavuzlar ve yerel uygulamaların yerine geçmez. Amonyak değerleri laboratuvar-yöntem ve yaşa göre yorumlanmalı, doğru örnekleme tekniğiyle alınmalı; dozlar hastaya, ağırlığa, yaşa, altta yatan tanıya ve organ fonksiyonlarına göre metabolizma uzmanı ile birlikte teyit edilmelidir.</div>
+</div>

@@ -1,0 +1,415 @@
+<title>Abdominal Migren — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Abdominal Migren</h1>
+    <p class="sub">Rome IV temelli pozitif tanı, migren spektrumundaki yerinin tanınması, tetikleyici kaçınma ve dozlu profilaksi (siproheptadin, pizotifen, propranolol) ile izlem çerçevesi. Hedef kitle: çocuk gastroenteroloji uzmanı.</p>
+    <div class="meta">
+      <span class="tag">Rome IV</span>
+      <span class="tag">Migren spektrumu</span>
+      <span class="tag">Tetikleyici kaçınma</span>
+      <span class="tag">Profilaksi</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">Abdominal migren (AM), Rome IV'te tekrarlayan karın ağrısı bozuklukları arasında yer alan; paroksismal, stereotipik, şiddetli ve engelleyici periumbilikal/orta hat/diffüz karın ağrısı atakları ile giden bir bozulmuş beyin-bağırsak etkileşimidir. Ataklar en az 1 saat sürer, haftalar-aylarca süren tam sağlıklı dönemlerle ayrılır ve anoreksi, bulantı, kusma, baş ağrısı, fotofobi veya solukluktan en az ikisi eşlik eder. Tanı için ölçütler ≥2 kez ve son 6 ayda karşılanmalıdır. Pik yaş 4-10 (ortalama ~7); erişkin migren için güçlü bir öncüdür ve olguların önemli kısmında ailede migren öyküsü vardır.</p>
+    <div class="pill-row">
+      <span class="pill">Paroksismal + stereotipik ataklar</span>
+      <span class="pill">Ataklar arası tam iyilik</span>
+      <span class="pill">ICHD-3: migrenle ilişkili epizodik sendrom</span>
+      <span class="pill">Ailede migren öyküsü sık</span>
+    </div>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öyküde sorgula</h3>
+        <ul class="clean">
+          <li>Atak paterni: başlangıç-süre (≥1 saat), lokalizasyon (orta hat/periumbilikal), şiddet ve engelleyicilik (okulu/aktiviteyi kesme)</li>
+          <li>Stereotipi: her atağın birbirinin aynı olması; ataklar arası tam asemptomatik dönem</li>
+          <li>Eşlik eden bulgular: anoreksi, bulantı, kusma, baş ağrısı, fotofobi, solukluk (≥2 gerekli)</li>
+          <li>Tetikleyiciler: stres/heyecan, açlık-öğün atlama, uyku bozukluğu, seyahat/hareket, çikolata-peynir-narenciye, kafein, MSG/nitrit, parlak-titreşen ışık</li>
+          <li>Aile öyküsü: migren, taşıt tutması; kişisel öykü: infantil kolik, siklik kusma sendromu, benign paroksismal vertigo</li>
+          <li>Alarm taraması: kilo kaybı, gece uyandıran/lokalize ağrı, safralı kusma, kanama, büyüme duraklaması</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayenede değerlendir</h3>
+        <ul class="clean">
+          <li>Atak dışı muayene tipik olarak tamamen normaldir (bu, tanıyı destekleyen bir bulgudur)</li>
+          <li>Büyüme: boy-kilo persentilleri ve boy hızı; duraklama alarm bulgusudur</li>
+          <li>Karın: organomegali, kitle, lokalize/rebound hassasiyet, distansiyon organik hastalık lehinedir</li>
+          <li>Atak sırasında görülürse: solukluk, halsizlik, bazen düşük ateşsiz otonom bulgular; cerrahi karın dışlanmalı</li>
+          <li>Perianal/rektal: fissür, fistül, gizli kan (IBD ipuçları); ekstraintestinal: artrit, aftöz lezyon</li>
+          <li>Nörolojik: baş ağrısı baskınsa fokal defisit/papilödem taraması</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">Alarm bulgusu yoksa ve ataklar arası çocuk tamamen iyiyse AM, dışlama tanısı değil <b>pozitif klinik tanı</b> olarak konur; kapsamlı invaziv tetkik rutin olarak gerekmez.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Etiyoloji ve mekanizma</h2>
+    <p class="lede">AM, migrenle paylaşılan nörobiyoloji zemininde gelişen bir beyin-bağırsak ekseni bozukluğudur. Baskın mekanizmayı öngörmek profilaktik ajan seçimini (serotonerjik antagonist mi, beta-bloker mi) ve tetikleyici danışmanlığını yönlendirir.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">Migren biyolojisi ile örtüşme</div>
+        <ul>
+          <li>AM, migren spektrumunun bir parçası (ICHD-3 epizodik sendrom)</li>
+          <li>Çocuklukta AM, erişkin migren için güçlü öngördürücü</li>
+          <li>Aynı profilaktiklere yanıt (antiserotonerjik, beta-bloker)</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">Serotonerjik (5-HT) disregülasyon</div>
+        <ul>
+          <li>5-HT aracılı visseral hipersensitivite ve motilite değişimi</li>
+          <li>Bulantı-kusma ve ağrı algısında rol</li>
+          <li>Hedef: pizotifen, siproheptadin (5-HT2 antagonisti)</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">Otonom / vazomotor disregülasyon</div>
+        <ul>
+          <li>Solukluk, anoreksi, halsizlik gibi otonom eşlikçiler</li>
+          <li>HPA ekseni ve sempatovagal dengesizlik</li>
+          <li>Hedef: beta-adrenerjik modülasyon (propranolol)</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Genetik yatkınlık</div>
+        <ul>
+          <li>Ailede migren öyküsü olguların çoğunda mevcut</li>
+          <li>Poligenik yatkınlık; taşıt tutması birlikteliği</li>
+          <li>Aile öyküsü tanıyı destekler, tetkik ihtiyacını azaltır</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">Tetikleyiciler ve çevresel etmenler</div>
+        <ul>
+          <li>Stres/heyecan, açlık-öğün atlama, uyku düzensizliği</li>
+          <li>Amin içeren gıdalar, kafein, MSG/nitrit, parlak ışık, seyahat</li>
+          <li>Hedef: sistematik tetikleyici günlüğü ve kaçınma</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">Nöroinflamasyon / bağırsak duyarlılığı</div>
+        <ul>
+          <li>Trigeminovasküler yolak ve santral duyarlılaşma</li>
+          <li>Visseral afferentlerde eşik düşüklüğü</li>
+          <li>Hedef: nöromodülatör (amitriptilin) seçili olguda</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">İlk çatal alarm bulgusudur; ikinci çatal Rome IV ölçütlerinin (stereotipik atak, ≥2 otonom eşlikçi, ataklar arası tam iyilik) karşılanmasıdır.</p>
+    <div class="flow">
+      <div class="node start"><span class="k">Başlangıç</span><span class="t">Paroksismal, şiddetli karın ağrısı atakları</span><p>≥1 saat süren, orta hat/periumbilikal, engelleyici ataklar; ataklar arası tam sağlıklı dönem.</p></div>
+      <div class="connector"></div>
+      <div class="node action"><span class="k">Adım 1</span><span class="t">Öykü + muayene + büyüme</span><p>Atak paterni ve stereotipisi, eşlik eden otonom semptomlar (≥2), tetikleyiciler, migren aile öyküsü; persentil ve boy hızı, karın ve nörolojik muayene.</p></div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 1</span><span class="t">Alarm bulgusu var mı?</span><p>Kilo kaybı, büyüme duraklaması, safralı/inatçı kusma, GİS kanama, gece uyandıran veya lokalize ağrı, ateş, organomegali.</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">EVET → Organik hastalığı dışla</span><div class="node alarm"><span class="k">Hedefli tetkik</span><span class="t">Görüntüleme ± cerrahi/endoskopi</span><p>Batın USG, gerekirse üst GİS pasaj (malrotasyon/intermittan volvulus), amilaz/lipaz, üriner sistem; atipik/baş ağrısı baskınsa nörogörüntüleme.</p></div></div>
+        <div class="branch no"><span class="label">HAYIR → Non-invaziv değerlendirme</span><div class="node action safe"><span class="k">Basamaklı tarama</span><span class="t">Sınırlı ilk-basamak test</span><p>Tam kan, CRP/sedim, KCFT, çölyak serolojisi, tam idrar, gaita kalprotektin; tümü normalse organik olasılık düşüktür.</p></div></div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 2</span><span class="t">Rome IV karşılandı mı?</span><p>≥2 stereotipik atak, son 6 ay, ≥2 otonom eşlikçi, ataklar arası tam iyilik; semptomlar başka bir durumla açıklanamıyor.</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">EVET → Pozitif tanı</span><div class="node action safe"><span class="k">Tanı</span><span class="t">Abdominal migren</span><p>Tetikleyici kaçınma + atak tedavisi (dinlenme, hidrasyon, analjezi/antiemetik). Sık/engelleyici ataklarda profilaksi başla, 8-12 haftada yanıt değerlendir.</p></div></div>
+        <div class="branch no"><span class="label">HAYIR → Yeniden değerlendir</span><div class="node alarm"><span class="k">Ayırıcı tanı</span><span class="t">Alternatif tanı ara</span><p>İntermittan obstrüksiyon, rekürren pankreatit, üriner sistem, IBD, herediter anjioödem, FMF, metabolik (porfiri, mitokondriyal); hedefli inceleme.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Alarm bulgusu yoksa tetkik kademeli ve sınırlı tutulur; görüntüleme ve invaziv inceleme atipik, dirençli veya alarmlı olgulara ayrılır. Mümkünse bir atak, hem cerrahi karnı dışlamak hem de ataklar arası normalliği belgelemek için değerlendirilir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Alarm bulgusuz tekrarlayan atak paterninde kademeli değerlendirme</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Test</th><th>Amaç / not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Basamak 1 · Kan</td><td>Tam kan sayımı, CRP/ESR, KCFT, amilaz/lipaz, çölyak serolojisi (anti-tTG IgA + total IgA), üre/kreatinin, glukoz, elektrolit</td><td>Anemi, inflamasyon, pankreatit, çölyak taraması; atak sırasında pankreatit ayrımı için amilaz/lipaz değerli</td></tr>
+          <tr><td class="step">Basamak 2 · İdrar/Gaita</td><td>Tam idrar tetkiki ± idrar kültürü, gaita gizli kan, fekal kalprotektin</td><td>Üriner enfeksiyon/taş ve IBD ayrımı; kalprotektin yüksekse endoskopiye yönlendirir</td></tr>
+          <tr><td class="step">Basamak 3 · Görüntüleme</td><td>Batın ultrasonografisi (tercihen atak sırasında ve dışında)</td><td>Üreteropelvik bileşke obstrüksiyonu, safra/pankreas patolojisi, kitle, invajinasyon değerlendirmesi</td></tr>
+          <tr><td class="step">Basamak 4 · Seçili GİS</td><td>Üst GİS pasaj grafisi; endikasyonla üst GİS endoskopi</td><td>Malrotasyon/intermittan volvulus şüphesi veya dispeptik/alarm bulgusu; rutin değil</td></tr>
+          <tr><td class="step">Seçili · Nörolojik</td><td>Beyin MR</td><td>Baş ağrısı baskın, fokal nörolojik bulgu, atipik/ilerleyici seyir; rutin değil</td></tr>
+          <tr><td class="step">Seçili · Metabolik/İmmün</td><td>İdrar porfobilinojen (akut porfiri), amonyak/laktat (mitokondriyal), C1-esteraz inhibitörü/C4 (herediter anjioödem), FMF (MEFV) genetiği</td><td>Ataklar atipikse veya ailesel/etnik risk varsa hedefli; standart panelde değil</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout alarm"><b>Cerrahi karın uyarısı:</b> Şiddetli, safralı kusma ve distansiyonla giden atakta <b>malrotasyon-intermittan volvulus</b> ve invajinasyon acilen dışlanmalıdır; bu senaryoda görüntüleme (USG/üst GİS pasaj) ve cerrahi değerlendirme profilaksiden önce gelir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdakilerden herhangi biri abdominal migren tanısını sorgulatır ve hedefli tetkik ile organik/cerrahi hastalık dışlamasını gerektirir.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>İstemsiz kilo kaybı</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Doğrusal büyümede duraklama / boy hızında yavaşlama</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Safralı veya inatçı kusma</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>GİS kanama: hematemez, melena, hematokezya</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Umbilikustan uzak, lokalize veya persistan (ataklar arası devam eden) ağrı</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Gece uyandıran ağrı</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ataklar arasında tam iyileşmenin olmaması</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Karın distansiyonu, kitle, organomegali</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Açıklanamayan ateş</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Fokal nörolojik bulgu / papilödem</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Artrit, perianal hastalık, gecikmiş puberte</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>IBD, çölyak veya rekürren pankreatit aile öyküsü</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi</h2>
+    <p class="lede">Yönetim üç ayaklıdır: (1) eğitim ve güvence, (2) tetikleyici kaçınma, (3) atak tedavisi ve seçili olguda profilaksi. Profilaksi endikasyonu; atakların sık (genellikle ayda ≥1-2), engelleyici ve yaşam kalitesini/okul devamını bozacak şiddette olmasıdır. Profilaktik ajanlar en az 8-12 hafta denenip yanıta göre sürdürülür veya değiştirilir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Atak (akut) tedavisi</caption>
+        <thead>
+          <tr><th>Basamak / ilaç</th><th>Doz</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Non-farmakolojik (tüm ataklar)</td><td class="dose">—</td><td>Karanlık-sessiz ortamda dinlenme/uyku, oral hidrasyon; erken tetikleyici uzaklaştırma; çoğu atak destekleyici bakımla geriler</td></tr>
+          <tr><td class="step">İbuprofen (analjezi)</td><td class="dose">7,5-10 mg/kg/doz (maks 400-600 mg/doz)</td><td>Atak başında erken ver; gerekirse 6-8 saatte bir. GİS/renal kontrendikasyonları gözet</td></tr>
+          <tr><td class="step">Ondansetron (antiemetik)</td><td class="dose">0,15 mg/kg/doz (maks 8 mg/doz)</td><td>Belirgin bulantı-kusmada; QT uzatan ilaç birlikteliğinde dikkat</td></tr>
+          <tr><td class="step">İntranazal sumatriptan (seçili adölesan)</td><td class="dose">10 mg (20-39 kg) veya 20 mg (≥40 kg) intranazal (maks 20 mg/doz)</td><td>Migren biyolojisi zeminine dayanan dirençli/şiddetli ataklarda; kardiyovasküler kontrendikasyonları dışla</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <caption>Profilaksi — sık/engelleyici ataklarda (tekli ajan, 8-12 hafta dene)</caption>
+        <thead>
+          <tr><th>İlaç</th><th>Doz</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Pizotifen (5-HT2 antagonisti)</td><td class="dose">0,5 mg gece başla; titre 0,5 mg × 2-3 doz (maks ~1,5 mg/gün)</td><td>Pediatrik AM'de plasebo kontrollü RCT ile atak sıklığını azalttığı gösterilen ajan; iştah artışı ve sedasyon açısından izle</td></tr>
+          <tr><td class="step">Siproheptadin (5-HT/histamin antagonisti)</td><td class="dose">0,25-0,5 mg/kg/gün, 2-3 doz (maks ~0,5 mg/kg/gün; küçük çocukta ~12 mg/gün, büyükte ~16 mg/gün)</td><td>Özellikle küçük çocuklarda tercih; sedasyon ve iştah artışı beklenir</td></tr>
+          <tr><td class="step">Propranolol (beta-bloker)</td><td class="dose">0,5-1 mg/kg/gün başla, 2-3 doz; titre (maks ~2-4 mg/kg/gün veya 120 mg/gün)</td><td>Astım, AV blok, semptomatik bradikardi/hipotansiyonda KONTRENDİKE; diyabette hipoglisemiyi maskeler</td></tr>
+          <tr><td class="step">Amitriptilin (nöromodülatör, alternatif)</td><td class="dose">0,25-0,5 mg/kg gece başla; titre (maks ~25-50 mg gece)</td><td>Dirençli/eşlik eden baş ağrısı-anksiyetede; bazal EKG (QT), kademeli titrasyon</td></tr>
+          <tr><td class="step">Flunarizin (kalsiyum kanal blokeri, alternatif)</td><td class="dose">5 mg/gün (&lt;40 kg) veya 10 mg/gün, gece</td><td>Migren profilaksisi seçeneği; sedasyon, kilo alımı, ekstrapiramidal etkiler izlenir</td></tr>
+          <tr><td class="step">Topiramat (alternatif)</td><td class="dose">1-2 mg/kg/gün, 2 doz, yavaş titrasyon (maks ~100 mg/gün)</td><td>Dirençli olguda; kognitif etki, kilo kaybı, nefrolitiazis ve parestezi izlenir</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout safe"><b>Yaklaşım:</b> Profilakside ajan yaşa ve komorbiditeye göre seçilir: küçük çocukta siproheptadin, en güçlü pediatrik kanıt için pizotifen, aura/otonom baskın veya baş ağrısı örtüşen olguda propranolol. Tek ajanla 8-12 hafta yanıt yoksa mekanizmaya göre değiştir; kombinasyondan kaçın. Atak sıklığı azaldıysa 4-6 ay sonra kademeli azaltmayı planla.</div>
+    <div class="callout">Tetikleyici kaçınma tedavinin köşe taşıdır: düzenli öğün (açlıktan kaçınma), düzenli-yeterli uyku, stres yönetimi, kafein/amin içeren gıda (çikolata, olgun peynir, narenciye) ve MSG/nitrit kısıtı; ekranların ve titreşen ışığın azaltılması. Tetikleyici günlüğü bireysel örüntüyü ortaya koyar.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve yönetim ilkeleri</h2>
+    <p class="lede">AM epizodik ve genellikle kendini sınırlayan bir seyir gösterir; birçok çocukta ataklar yıllar içinde azalır, ancak önemli bir kısmında ileride tipik migren gelişir. Hedef: atak yükünü azaltmak, işlevselliği ve okul devamını korumak, gereksiz tekrarlayan tetkiki önlemek.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>İzlem</h3>
+        <ul class="clean">
+          <li>Pozitif tanıyı biyopsikososyal açıklama ve güvence ile pekiştir; tekrarlayan invaziv tetkikten kaçın</li>
+          <li>Atak günlüğü: sıklık, süre, şiddet, tetikleyici, atak tedavisine yanıt</li>
+          <li>Profilaksiyi 8-12 haftada değerlendir; yanıt varsa 4-6 ay sürdür, sonra kademeli azalt</li>
+          <li>Büyüme eğrisini her vizitte izle; yeni alarm bulgusu veya paternde değişiklikte yeniden değerlendir</li>
+          <li>Erişkin migren riski açısından aileyi bilgilendir; ataklar arası tam iyilik beklentisini teyit et</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Dirençli / atipik olguda</h3>
+        <ul class="clean">
+          <li>Tanıyı ve ataklar arası normalliği yeniden gözden geçir; alternatif tanıları (obstrüksiyon, pankreatit, FMF, porfiri) ele al</li>
+          <li>Profilaktik ajanı mekanizmaya göre değiştir (ör. siproheptadin/pizotifen → propranolol → nöromodülatör)</li>
+          <li>Komorbiditeleri yönet: anksiyete/depresyon, uyku bozukluğu, taşıt tutması, otonom disfonksiyon</li>
+          <li>Davranışsal tedaviye yönlendir: BDT, gevşeme/biofeedback, tetikleyici yönetimi</li>
+          <li>Okul devamsızlığı ve aile beklentilerini yönet; multidisipliner (nöroloji, psikoloji) destek</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout safe">En tutarlı sonuç; etkili güvence, sistematik tetikleyici kaçınma ve endikasyonu doğru konmuş profilaksinin birlikte kullanıldığı biyopsikososyal bir planla elde edilir. Farmakoterapi tek başına değil, bu çerçeve içinde konumlandırılmalıdır.</div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Hyams JS, Di Lorenzo C, Saps M, et al. Functional Disorders: Children and Adolescents (Rome IV). Gastroenterology. 2016;150(6):1456-1468.</li>
+      <li>Angus-Leppan H, Saatci D, Sutcliffe A, Guiloff RJ. Abdominal migraine. BMJ. 2018;360:k179.</li>
+      <li>Headache Classification Committee of the International Headache Society (IHS). The International Classification of Headache Disorders, 3rd edition (ICHD-3): episodic syndromes that may be associated with migraine. Cephalalgia. 2018;38(1):1-211.</li>
+      <li>Symon DNK, Russell G. Double blind placebo controlled trial of pizotifen syrup in the treatment of abdominal migraine. Arch Dis Child. 1995;72(1):48-50.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge uzman kullanıcıya yönelik bir klinik karar destek aracıdır; hastanın bireysel değerlendirmesi, güncel kılavuzlar ve yerel uygulamaların yerine geçmez. Dozlar hastaya, ağırlığa, komorbiditeye ve ilaç etkileşimlerine göre teyit edilmelidir.</div>
+</div>

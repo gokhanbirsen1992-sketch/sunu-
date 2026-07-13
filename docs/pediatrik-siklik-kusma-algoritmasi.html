@@ -1,0 +1,566 @@
+<title>Siklik Kusma Sendromu — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Siklik Kusma Sendromu</h1>
+    <p class="sub">Stereotipik, ataklar halinde yineleyen şiddetli kusma ve bulantı ile seyreden, ataklar arasında tam iyileşme gösteren fonksiyonel bir bozukluk. Tanı klinik ölçütlere (Rome IV / NASPGHAN) dayanır; yönetim atak kesici tedavi ve profilaksinin dengelenmesini gerektirir.</p>
+    <div class="meta">
+      <span class="tag">Rome IV</span>
+      <span class="tag">Migren spektrumu</span>
+      <span class="tag">Atak tedavisi</span>
+      <span class="tag">Profilaksi</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">CVS; ani başlangıçlı, saatler-günler süren, aynı hastada birbirine benzeyen (stereotipik) yoğun kusma ataklarıyla karakterizedir. Ataklar arasında hasta tamamen normale döner. Tanı bir dışlama tanısı olmakla birlikte pozitif klinik ölçütlere dayanır; kırmızı bayrak yoksa aşırı tetkikten kaçınılmalıdır.</p>
+
+    <div class="callout">
+      <b>Rome IV tanı ölçütleri (çocuk/ergen):</b> Son 6 ayda &ge;2 kez, ani başlangıçlı ve saatlerce-günlerce süren, stereotipik ve şiddetli kusma/bulantı atağı; ataklar en az 1 hafta arayla; ataklar arasında haftalar-aylar süren tam sağlık dönemi; ve tabloyu açıklayan başka bir hastalık bulunmaması. (Emetik faz sırasında kusma tipik olarak saatte &ge;4 kez.)
+    </div>
+
+    <div class="grid two">
+      <div class="card">
+        <h3>Öykü — yönlendirici sorular</h3>
+        <ul class="clean">
+          <li>Atak paterni: sıklık, süre, günün saati (klasik olarak gece yarısı-sabah erken başlangıç)</li>
+          <li>Stereotipi: her atağın başlangıç, semptom ve süre açısından benzerliği</li>
+          <li>Prodrom: solukluk, letarji, bulantı, karın ağrısı, fotofobi</li>
+          <li>Tetikleyiciler: psikolojik stres/heyecan, enfeksiyon, açlık, uyku yoksunluğu, menstruasyon, belirli besinler</li>
+          <li>Migren öyküsü/aile öyküsü (birinci derece), taşıt tutması, anksiyete</li>
+          <li>Ataklar arası tam iyileşme olup olmadığı; kilo alımı ve büyüme</li>
+          <li>Kanabinoid kullanımı (ergen) ve semptomu sıcak duşla hafifletme davranışı</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Fizik muayene — atak ve ara dönem</h3>
+        <ul class="clean">
+          <li>Hidrasyon/perfüzyon, ortostatik bulgular, kilo (dehidratasyon derecesi)</li>
+          <li>Karın: yaygın hassasiyet, defans, distansiyon; safralı kusma varlığı</li>
+          <li>Nörolojik: bilinç durumu, göz hareketleri, papilödem, asimetri, yürüyüş</li>
+          <li>Büyüme eğrisi ve ara dönem tam normal muayene (patern lehine)</li>
+          <li>Dismorfik bulgu, hepatomegali, gelişme geriliği (metabolik ipuçları)</li>
+          <li>Diş minesinde erozyon (kronik kusma göstergesi)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pill-row">
+      <span class="pill">4 faz: ara dönem</span>
+      <span class="pill">prodrom</span>
+      <span class="pill">emetik faz</span>
+      <span class="pill">iyileşme</span>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Etiyoloji ve patofizyoloji</h2>
+    <p class="lede">CVS multifaktöriyeldir; migren biyolojisi, mitokondriyal enerji metabolizması, otonom disregülasyon ve beyin-bağırsak ekseninin stres yanıtı bir araya gelir. Bu mekanizmalar hem tetikleyicileri hem de profilaktik ilaç seçimini açıklar.</p>
+
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">Migren biyolojisi / genetik yatkınlık</div>
+        <ul>
+          <li>Kişisel/aile migren öyküsü yüksek (birinci derece akrabalarda belirgin)</li>
+          <li>Zamanla migren baş ağrısına evrilebilir</li>
+          <li>Triptan yanıtı ve antimigren profilaksi etkinliği bu bağı destekler</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">Mitokondriyal disfonksiyon</div>
+        <ul>
+          <li>Maternal kalıtım paterni; enerji metabolizması hassasiyeti</li>
+          <li>Açlık, stres, enfeksiyon gibi enerji talebi artışıyla tetiklenme</li>
+          <li>Kofaktör desteği (L-karnitin, koenzim Q10, riboflavin) mantığının temeli</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">Otonom disfonksiyon</div>
+        <ul>
+          <li>Sempatik aşırı aktivite: solukluk, terleme, taşikardi, hipertansiyon</li>
+          <li>Gastrointestinal dismotilite ve gecikmiş mide boşalması ilişkisi</li>
+          <li>Ortostatik intolerans/POTS birlikteliği görülebilir</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">HPA ekseni ve stres yanıtı</div>
+        <ul>
+          <li>Kortikotropin salgılatıcı faktör (CRF) aracılı stres devresi aktivasyonu</li>
+          <li>Hem olumlu (heyecan, tatil) hem olumsuz stresle tetiklenme</li>
+          <li>Emetik fazda ACTH/ADH yüksekliği tarif edilmiştir</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">Tetikleyiciler</div>
+        <ul>
+          <li>Psikolojik stres/heyecan, uyku yoksunluğu, yorgunluk</li>
+          <li>Enfeksiyon (özellikle sinüzit), açlık, menstruasyon</li>
+          <li>Besinler: çikolata, peynir, MSG; yüksek proteinli öğün metabolik ipucu</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">Komorbiditeler</div>
+        <ul>
+          <li>Anksiyete, taşıt tutması, fonksiyonel karın ağrısı</li>
+          <li>Ergende kronik kanabinoid kullanımı (ayırıcı tanı: kanabinoid hiperemezisi)</li>
+          <li>Atak yönetiminde eşlik eden durumların da ele alınması gerekir</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">Stereotipik yineleyen kusma atağıyla başvuran çocukta, önce kırmızı bayrak taraması yapılır; alarm bulgusu varsa hedefli görüntüleme/metabolik tetkik, yoksa klinik tanı ve tedaviye geçilir.</p>
+
+    <div class="flow">
+      <div class="node start">
+        <span class="k">Başlangıç</span>
+        <span class="t">Yineleyen şiddetli kusma atağı</span>
+        <p>Ataklar halinde, ani başlangıçlı, saatte &ge;4 kez kusma; ataklar arası tam iyileşme öyküsü.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node action">
+        <span class="k">Adım 1</span>
+        <span class="t">Patern ve stereotipi değerlendir</span>
+        <p>Rome IV ölçütlerini uygula; atakların birbirine benzerliğini, sıklığını (son 6 ayda &ge;2) ve ara dönem sağlığını doğrula.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 1</span>
+        <span class="t">Kırmızı bayrak var mı?</span>
+        <p>Safralı kusma, şiddetli/lokalize karın ağrısı, anormal nörolojik muayene, açlık/proteinle tetiklenme, giderek kötüleşen veya süreklileşen patern?</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Hedefli tetkik</span>
+          <div class="node alarm">
+            <span class="k">Alarm yolu</span>
+            <span class="t">Görüntüleme + metabolik/nörolojik tarama</span>
+            <p>Malrotasyon için üst GİS pasaj grafisi; nöroloji şüphesinde beyin MR; atak sırasında metabolik panel (amonyak, laktat, kan gazı, idrar organik asitler, plazma aminoasitler, açilkarnitin).</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Klinik tanı</span>
+          <div class="node action safe">
+            <span class="k">Güvenli yol</span>
+            <span class="t">CVS tanısı + tedavi planı</span>
+            <p>Rome IV/NASPGHAN ölçütleri karşılanıyorsa CVS tanısı konur. Atak kesici tedavi, tetikleyici yönetimi ve atak sıklığına göre profilaksi başlanır.</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 2</span>
+        <span class="t">Atak sıklığı/şiddeti profilaksi gerektiriyor mu?</span>
+        <p>Ayda &ge;1 atak, uzun/şiddetli ataklar, sık hastane yatışı veya belirgin okul/yaşam kaybı?</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Profilaksi başla</span>
+          <div class="node action">
+            <span class="k">Profilaksi</span>
+            <span class="t">Yaşa göre ilaç seçimi</span>
+            <p>&lt;5 yaş: siproheptadin (1. seçenek). &ge;5 yaş: amitriptilin (1. seçenek). Her iki grupta propranolol alternatif; kofaktör desteği eklenebilir.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → İzlem</span>
+          <div class="node action safe">
+            <span class="k">İzlem</span>
+            <span class="t">Tetikleyici kontrolü + atak kesici plan</span>
+            <p>Yaşam tarzı düzenlemesi, tetikleyicilerden kaçınma ve evde/erken atak kesici plan; sıklık artarsa profilaksiye geç.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Tipik patern ve normal ara dönem muayenesi olan hastada tetkik sınırlı tutulur. Kırmızı bayrak varlığında ise metabolik ve görüntüleme incelemeleri atak sırasında (tanısal verim için) hedefli olarak yapılır.</p>
+
+    <div class="table-scroll">
+      <table>
+        <caption>CVS'de basamaklı değerlendirme</caption>
+        <thead>
+          <tr>
+            <th>Basamak</th>
+            <th>İnceleme</th>
+            <th>Gerekçe / not</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">Basamak 1 — Tümünde</td>
+            <td>Üst GİS pasaj grafisi (mide-ince bağırsak)</td>
+            <td>Malrotasyon/intermitan volvulusu dışlamak için; özellikle safralı kusma veya şiddetli karın ağrısı varsa öncelikli.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 1 — Atak sırasında</td>
+            <td>Elektrolit, glukoz, üre/kreatinin, kan gazı</td>
+            <td>Dehidratasyon, hipokloremik metabolik alkaloz, ketoz ve hipoglisemiyi gösterir; sıvı planını yönlendirir.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 2 — Alarm varsa</td>
+            <td>Amonyak, laktat, plazma aminoasitler, idrar organik asitler, açilkarnitin profili</td>
+            <td>Yağ asidi oksidasyon defekti, üre siklus bozukluğu, organik asidemi dışlaması; örnekler atak sırasında (semptomatikken) alınmalı.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 2 — Nöro şüphe</td>
+            <td>Beyin MR (± venografi)</td>
+            <td>Papilödem, anormal nörolojik muayene, sabah kusması + baş ağrısı, en kötü atakta değişen patern; posterior fossa kitlesi/hidrosefali dışlaması.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 3 — Seçilmiş</td>
+            <td>Abdominal USG, üst GİS endoskopi</td>
+            <td>Hepatobiliyer/pankreatik patoloji, obstrüksiyon veya peptik/eozinofilik hastalık şüphesinde.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 3 — Seçilmiş</td>
+            <td>Mide boşalma sintigrafisi, otonom testler</td>
+            <td>Dismotilite/gastroparezi veya ortostatik intolerans (POTS) birlikteliği düşünülüyorsa.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout safe">
+      <b>İpucu:</b> Metabolik örneklerin tanısal verimi ataksız dönemde düşüktür; ailelere "atak başında ilk idrar ve kan örneği" için önceden yönerge verilmesi verimliliği artırır.
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdaki bulgular basit CVS paterniyle uyumsuzdur ve organik/metabolik/nörolojik zemin araştırmasını zorunlu kılar.</p>
+
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Safralı (yeşil) kusma</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Şiddetli veya lokalize/sağ alt kadran karın ağrısı, defans</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Hematemez veya ilerleyici kilo kaybı, büyüme geriliği</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Açlık, araya giren hastalık veya yüksek proteinli öğünle tetiklenme</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Anormal nörolojik muayene: bilinç bozukluğu, papilödem, ataksi, asimetri</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Şiddetli baş ağrısı ile birlikte sabah kusması</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Giderek şiddetlenen ataklar veya süreklileşen/kronik kusmaya dönüşüm</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Stereotipi kaybı (atakların birbirinden farklılaşması)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Metabolik dekompansasyon: laktik asidoz, hiperamonyemi, hipoglisemi</span></div>
+    </div>
+
+    <div class="callout alarm">
+      <b>Acil eylem:</b> Safralı kusma + karın ağrısında cerrahi karın (malrotasyon/volvulus) dışlanana kadar acil görüntüleme; metabolik dekompansasyon bulgusunda dekstrozlu sıvı ile hızlı anabolik destek ve metabolik örnekleme geciktirilmemeli.
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi (dozlu)</h2>
+    <p class="lede">Tedavi iki koldan yürür: (1) atak kesici/destekleyici tedavi (erken müdahale, antiemetik, dekstrozlu sıvı, sedasyon) ve (2) atak sıklığı yüksek hastada profilaksi. İlaç seçimi yaşa göre kademelenir.</p>
+
+    <h3>Atak (abortif ve destekleyici) tedavi</h3>
+    <div class="table-scroll">
+      <table>
+        <caption>Emetik faz tedavisi</caption>
+        <thead>
+          <tr>
+            <th>İlaç / girişim</th>
+            <th>Doz</th>
+            <th>Not</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">Ondansetron (antiemetik, 1. sıra)</td>
+            <td class="dose">0,3-0,4 mg/kg/doz IV veya ODT, 6-8 saatte bir (maks 16 mg/doz)</td>
+            <td>Güçlü antiemetik; QT uzamasına dikkat, gerekiyorsa EKG. Erken uygulama atağı kısaltabilir.</td>
+          </tr>
+          <tr>
+            <td class="step">IV sıvı (dekstrozlu)</td>
+            <td class="dose">%10 dekstroz + %0,45-0,9 NaCl; idamenin ~1,5 katı hızda</td>
+            <td>Dekstroz katabolizmayı durdurur (atağı kısaltır); potasyum eklenir. İlk açık, ketozu kırmak için önemli.</td>
+          </tr>
+          <tr>
+            <td class="step">Lorazepam (sedatif/antiemetik)</td>
+            <td class="dose">0,05-0,1 mg/kg/doz IV, 6 saatte bir (maks 2-4 mg/doz)</td>
+            <td>Bulantı ve ajitasyonu baskılar, "uyutarak" atağı sonlandırır; solunum açısından izlem.</td>
+          </tr>
+          <tr>
+            <td class="step">Difenhidramin</td>
+            <td class="dose">1-1,25 mg/kg/doz IV, 6 saatte bir (maks 50 mg/doz)</td>
+            <td>Antiemetik + sedasyon; ondansetronla kombine edilebilir.</td>
+          </tr>
+          <tr>
+            <td class="step">Sumatriptan (abortif, migren tipi)</td>
+            <td class="dose">Nazal 20 mg (&gt;40 kg / &ge;12 yaş); SC 3-6 mg seçilmiş olguda</td>
+            <td>Prodromda erken verilirse etkili; koroner/serebrovasküler kontrendikasyonlara dikkat.</td>
+          </tr>
+          <tr>
+            <td class="step">Destek</td>
+            <td class="dose">Sessiz-loş oda, uyaran kısıtlama; PPI (mukozayı korumak için)</td>
+            <td>Aspirasyon ve dehidratasyon önlemi; şiddetli kusmada mukozal koruma amacıyla PPI.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Profilaktik tedavi</h3>
+    <div class="table-scroll">
+      <table>
+        <caption>Yaşa göre profilaksi (NASPGHAN)</caption>
+        <thead>
+          <tr>
+            <th>İlaç</th>
+            <th>Doz</th>
+            <th>Yaş / not</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">Siproheptadin (1. seçenek, küçük yaş)</td>
+            <td class="dose">0,25-0,5 mg/kg/gün, 2-3 doza bölünmüş (maks ~12 mg/gün)</td>
+            <td>&lt;5 yaş 1. seçenek. Yan etki: iştah artışı, sedasyon, kilo alımı.</td>
+          </tr>
+          <tr>
+            <td class="step">Amitriptilin (1. seçenek, büyük yaş)</td>
+            <td class="dose">Başlangıç 0,25-0,5 mg/kg gece; haftalık artışla 1-1,5 mg/kg/güne titre (maks ~1,5 mg/kg/gün)</td>
+            <td>&ge;5 yaş 1. seçenek. Başlamadan önce ve titrasyonda EKG (QTc). Yan etki: sedasyon, kabızlık, kilo.</td>
+          </tr>
+          <tr>
+            <td class="step">Propranolol (alternatif, her yaş)</td>
+            <td class="dose">0,25-1 mg/kg/gün, 2-3 doza bölünmüş (pratikte 10-20 mg günde 2-3 kez)</td>
+            <td>2. seçenek. Nabız &lt;60/dk veya astım/hipotansiyonda kes/kaçın; ani kesme yapılmaz.</td>
+          </tr>
+          <tr>
+            <td class="step">L-karnitin (kofaktör)</td>
+            <td class="dose">50-100 mg/kg/gün, 2-3 doza bölünmüş (maks ~3 g/gün)</td>
+            <td>Mitokondriyal destek; tek başına veya koenzim Q10 ile kombine.</td>
+          </tr>
+          <tr>
+            <td class="step">Koenzim Q10 (kofaktör)</td>
+            <td class="dose">~10 mg/kg/gün, 2-3 doza bölünmüş</td>
+            <td>Mitokondriyal destek; iyi tolere edilir, ilaçla kombine edilebilir.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <b>İlke:</b> Profilaktik etki genellikle 6-8 haftada değerlendirilir; yeterli doz ve süreye ulaşılmadan başarısızlık kararı verilmez. Etkili tedavi &ge;6-12 ay sürdürülür, sonra yavaş azaltılır. Amitriptilin ve ondansetron QT uzatabildiğinden birlikte kullanımda EKG izlemi önerilir.
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve yönetim ilkeleri</h2>
+    <p class="lede">Amaç atak sıklığını ve şiddetini azaltmak, hastane yatışlarını önlemek ve okul/yaşam kaybını en aza indirmektir. Ailenin eğitimi ve yazılı atak planı tedavinin merkezindedir.</p>
+
+    <div class="grid two">
+      <div class="card">
+        <h3>Tetikleyici ve yaşam tarzı yönetimi</h3>
+        <ul class="clean">
+          <li>Düzenli uyku, öğün atlamama (özellikle uzun açlık ve gece açlığından kaçınma)</li>
+          <li>Prodromda ara öğün/karbonhidrat; enfeksiyon ve sinüzitin erken tedavisi</li>
+          <li>Stres yönetimi, anksiyete için bilişsel-davranışçı destek</li>
+          <li>Tetikleyici günlüğü ve besin ilişkisinin izlenmesi</li>
+          <li>Ergende kanabinoid kullanımının sorgulanması ve kesilmesi</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>İzlem ve güvenlik</h3>
+        <ul class="clean">
+          <li>Yazılı bireysel atak planı: evde erken antiemetik + ne zaman acile başvuru</li>
+          <li>Profilakside yanıt değerlendirmesi (atak sıklığı/şiddeti/süresi) 6-8 haftada</li>
+          <li>Amitriptilin/propranolol için EKG ve nabız-tansiyon izlemi</li>
+          <li>Diş sağlığı (mine erozyonu), büyüme ve kilo takibi</li>
+          <li>Paterni değişen veya kırmızı bayrak gelişen hastada tetkiki yenile</li>
+          <li>Migren komorbiditesi ve psikososyal destek için multidisipliner yaklaşım</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout safe">
+      <b>Başarı ölçütü:</b> Atakların &ge;%50 azalması, hastane yatışının önlenmesi ve okula devamın sağlanması; iyi kontrol sonrası profilaksinin kademeli azaltılması.
+    </div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Li BUK, Lefevre F, Chelimsky GG, ve ark. North American Society for Pediatric Gastroenterology, Hepatology, and Nutrition Consensus Statement on the Diagnosis and Management of Cyclic Vomiting Syndrome. J Pediatr Gastroenterol Nutr. 2008;47(3):379-393.</li>
+      <li>Hyams JS, Di Lorenzo C, Saps M, ve ark. Childhood Functional Gastrointestinal Disorders: Child/Adolescent (Rome IV). Gastroenterology. 2016;150(6):1456-1468.</li>
+      <li>Raucci U, Borrelli O, Di Nardo G, ve ark. Cyclic Vomiting Syndrome in Children. Front Neurol. 2020;11:583425.</li>
+      <li>Venkatesan T, Levinthal DJ, Li BUK, ve ark. Guidelines on management of cyclic vomiting syndrome in adults by the ANMS and the CVSA. Neurogastroenterol Motil. 2019;31(Suppl 2):e13604.</li>
+    </ol>
+  </footer>
+
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge pediatrik gastroenteroloji uzmanları için hazırlanmış bir klinik karar destek aracıdır; hastanın bireysel değerlendirmesinin, güncel kılavuzların ve yerel protokollerin yerini almaz. Dozlar doğrulanmalı, kontrendikasyonlar ve etkileşimler hasta bazında gözden geçirilmelidir.</div>
+</div>

@@ -1,0 +1,396 @@
+<title>Akut Gastroenterit ve Dehidratasyon — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Akut Gastroenterit ve Dehidratasyon</h1>
+    <p class="sub">Dehidratasyonu klinik ölçekle derecelendirmeye, oral rehidrasyon (ORS) ile IV sıvı resüsitasyonu arasında seçim yapmaya, çinko-beslenme-probiyotik desteğini planlamaya ve antibiyotiği yalnızca kanıta dayalı endikasyonlarda vermeye yönelik dozlu karar aracı. Hedef kitle: çocuk gastroenteroloji uzmanı.</p>
+    <div class="meta">
+      <span class="tag">Dehidratasyon derecelendirme</span>
+      <span class="tag">ORS · IV sıvı</span>
+      <span class="tag">Çinko · beslenme</span>
+      <span class="tag">Antibiyotik endikasyonu</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">Akut gastroenterit (AGE), genellikle 7 günden kısa (≤14 gün) süren, sıklıkla kusma ve/veya ateşle birlikte olan dışkı kıvamında azalma ve/veya dışkılama sıklığında artıştır (tipik olarak ≥3 sulu dışkı/gün). Etkenlerin büyük çoğunluğu viraldir (rotavirüs, norovirüs) ve kendini sınırlar; kritik görev etkeni tanımaktan çok <b>dehidratasyon derecesini nesnel ölçeklemek</b>, oral yolun yeterli olup olmayacağını belirlemek ve bakteriyel/invaziv ishalin antibiyotik gerektiren azınlığını ayırt etmektir. Tanı klinik olup rutin laboratuvar gerekmez; en güvenilir tek bulgular <b>uzamış kapiller dolum, anormal cilt turgoru ve anormal solunum paternidir</b>. Ağırlık takibi (akut kilo kaybı yüzdesi) dehidratasyonun altın standardıdır. Antiemetik (ondansetron) tek doz, oral rehidrasyonun başarısını artırmak için erken kullanılabilir.</p>
+    <div class="pill-row">
+      <span class="pill">Dehidratasyonu nesnel ölçekle (CDS/Gorelick)</span>
+      <span class="pill">Akut kilo kaybı = altın standart</span>
+      <span class="pill">Hipo-osmolar ORS ilk basamak</span>
+      <span class="pill">Antibiyotik = seçili endikasyon</span>
+      <span class="pill">Erken yeniden beslenme</span>
+    </div>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öyküde sorgula</h3>
+        <ul class="clean">
+          <li>İshal: başlangıç, süre, sıklık, hacim; kanlı-mukuslu mu (invaziv/dizanteri), suludur (viral/enterotoksijenik), yağlı-uzamış mı (parazit/malabsorpsiyon)</li>
+          <li>Kusma: sıklık, safralı/fekaloid mi (obstrüksiyon ekartasyonu), oral alımı engelliyor mu; ishalden önce baskın kusma alternatif tanı düşündürür</li>
+          <li>Sıvı dengesi: son idrar çıkışı/ıslak bez sayısı, alınan sıvı, gözyaşı-tükürük; tartılıysa hastalık öncesi kilo</li>
+          <li>Ateş, tenezm, karın ağrısı; yüksek ateş + kanlı dışkı bakteriyel lehine</li>
+          <li>Epidemiyoloji: kreş-salgın teması, çiğ süt/kümes-yumurta (Salmonella), yüzme/kuyu suyu (Giardia/Cryptosporidium), seyahat, yakın zamanda antibiyotik (C. difficile)</li>
+          <li>Konak riski: yaş &lt;3 ay, prematürite, immün yetmezlik, orak hücre, kronik hastalık, malnütrisyon; aşılanma (rotavirüs), son ilaçlar</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayenede değerlendir (dehidratasyon)</h3>
+        <ul class="clean">
+          <li>Genel: bilinç-aktivite (huzursuz/letarjik), susuzluk-emme isteği, ağlarken gözyaşı</li>
+          <li>Perfüzyon: kalp hızı (taşikardi), kapiller geri dolum (&gt;2 sn = anormal), ekstremite ısısı, nabız amplitüdü, kan basıncı (hipotansiyon = geç/dekompanse)</li>
+          <li>Mukoza-turgor: ağız-dil kuruluğu, cilt turgorunda azalma (geri dönüş gecikmesi), çökük göz, süt çocuğunda çökük fontanel</li>
+          <li>Solunum: derin/hızlı (asidoz-Kussmaul) — anormal solunum paterni önemli bir dehidratasyon işaretidir</li>
+          <li>İdrar çıkışı-tartı: akut kilo kaybı yüzdesi (%); anüri/oligüri</li>
+          <li>Alarm için: safralı kusma, batında distansiyon-defans (cerrahi karın ekartasyonu), peteşi-purpura, ödem-oligüri (HÜS)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout"><b>Etken ipuçları:</b> Sulu, ateşsiz-hafif ateşli, kusma baskın → viral (rotavirüs/norovirüs). Kanlı-mukuslu, yüksek ateş, tenezm → invaziv bakteriyel (Shigella, Campylobacter, invaziv Salmonella, EIEC, Yersinia). Uzamış (&gt;7-14 gün), yağlı, kilo kaybı → Giardia/Cryptosporidium. Yakın antibiyotik + kanlı-mukuslu → C. difficile.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Dehidratasyon şiddet sınıflaması</h2>
+    <p class="lede">Yönetim kararı (evde ORS, gözetimli oral/enteral rehidrasyon veya IV resüsitasyon) doğrudan dehidratasyon derecesine bağlıdır. Derecelendirmeyi tekil işaretlere değil, doğrulanmış klinik ölçeklere (Klinik Dehidratasyon Skalası — CDS; Gorelick 4/10 bulgu) ve mümkünse akut kilo kaybı yüzdesine dayandır. Yüzde eşikleri süt çocuğu / büyük çocuk için ayrışır.</p>
+    <div class="sev">
+      <div class="band mild">
+        <div class="lvl">Yok / Minimal</div>
+        <div class="rng">&lt;%3 (CDS 0)</div>
+        <p>Normal bilinç, ıslak mukoza, gözyaşı var, normal turgor-kapiller dolum, idrar çıkışı korunmuş. Susuzluk hafif olabilir. Rutin laboratuvar veya IV gerekmez; kayıpları ORS ile yerine koy.</p>
+      </div>
+      <div class="band mod">
+        <div class="lvl">Hafif-Orta (some)</div>
+        <div class="rng">%3-9 (CDS 1-4/5-6)</div>
+        <p>Huzursuz/susamış, hafif kuru mukoza, azalmış gözyaşı, hafif uzamış kapiller dolum, azalmış idrar, taşikardi. Tercih edilen tedavi <b>ağızdan/NG hipo-osmolar ORS ile rehidrasyondur</b> (ilk basamak).</p>
+      </div>
+      <div class="band sev">
+        <div class="lvl">Ağır</div>
+        <div class="rng">≥%9-10 (CDS 7-8)</div>
+        <p>Letarji, belirgin kuru mukoza, gözyaşı yok, çökük göz-fontanel, turgor çok azalmış, kapiller dolum &gt;3 sn, derin solunum, oligüri/anüri. <b>Acil IV izotonik sıvı</b> gerekir; elektrolit-kan gazı-glukoz bak.</p>
+      </div>
+      <div class="band rem">
+        <div class="lvl">Dekompanse / Hipovolemik şok</div>
+        <div class="rng">Hipotansiyon · dolaşım kollapsı</div>
+        <p>Filiform nabız, soğuk-benekli ekstremite, hipotansiyon, bilinç bozukluğu, kapiller dolum &gt;4 sn. <b>Yaşamı tehdit eden acil</b>: IV/IO bolus, monitörizasyon; damar yolu gecikirse intraosseöz.</p>
+      </div>
+    </div>
+    <div class="callout"><b>Ölçek pratiği:</b> Gorelick 10 bulgudan ≥3'ü ≥%5, ≥7'si ≥%10 dehidratasyonla; CDS 0=yok, 1-4=hafif, 5-8=orta-ağır ile ilişkilidir. Hipernatremik dehidratasyonda cilt "hamur kıvamında" olur ve klinik, dehidratasyonun ağırlığını olduğundan hafif gösterebilir — Na &gt;150 mmol/L'de rehidrasyonu yavaş (48 saat) planla.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">İlk çatal hipovolemik şok / oral yolun yetersizliğidir (IV mi, ORS mi); ikinci çatal, dehidrate olmayan/rehidrate edilen çocukta kanlı-invaziv ishal ve konak riskinin antibiyotik gerektirip gerektirmediğidir.</p>
+    <div class="flow">
+      <div class="node start"><span class="k">Başlangıç</span><span class="t">Akut gastroenterit (ishal ± kusma, ≤14 gün)</span><p>Dehidratasyonu derecele (CDS/Gorelick, kilo), alarm bulgularını tara; hedef sıvı-elektrolit dengesini yola koymak ve azınlıktaki bakteriyel-invaziv ishali ayırmaktır.</p></div>
+      <div class="connector"></div>
+      <div class="node action"><span class="k">Adım 1</span><span class="t">Dehidratasyon derecesi + kırmızı bayrak değerlendirmesi</span><p>Bilinç-perfüzyon-turgor-mukoza-idrar, vital ve tartı; safralı kusma/cerrahi karın, kanlı dışkı, oligüri-solukluk (HÜS) ve toksik görünümü ekarte et.</p></div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 1</span><span class="t">Ağır dehidratasyon / şok VEYA oral-enteral yol yetersiz mi?</span><p>Letarji-bilinç bozukluğu, hipotansiyon/şok, ileus-safralı kusma, dinmeyen kusmayla ORS/NG başarısızlığı ya da ağır dehidratasyon.</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">EVET → IV/IO resüsitasyon</span><div class="node alarm"><span class="k">Acil</span><span class="t">İzotonik bolus + monitör</span><p>20 mL/kg SF veya RL bolus (15-60 dk), perfüzyona göre tekrarla (60 mL/kg'a dek); elektrolit-kan gazı-glukoz-üre/kreatinin; şok düzelince defisit+idame ile IV rehidrasyon, tolere edince ORS'ye geç.</p></div></div>
+        <div class="branch no"><span class="label">HAYIR → Oral rehidrasyon</span><div class="node action safe"><span class="k">Rehidrate et</span><span class="t">Hipo-osmolar ORS ± ondansetron</span><p>Hafif-orta: 50-100 mL/kg ORS 3-4 saatte, sık-küçük hacimlerle; kusma engelse tek doz ondansetron veya NG infüzyon. Rehidrasyon sonrası erken yeniden beslenme + kayıp yerine koyma.</p></div></div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 2</span><span class="t">Kanlı-invaziv ishal + toksik/yüksek riskli konak → antibiyotik gerekli mi?</span><p>Kanlı-mukuslu dışkı + yüksek ateş/toksisite; ya da &lt;3 ay, immün baskılı, orak hücre; dizanteri/kolera/enterik ateş/parazit şüphesi. STEC (E. coli O157) olasılığını ayrıca değerlendir.</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">EVET → Etkene yönelik</span><div class="node action safe"><span class="k">Hedefle</span><span class="t">Dışkı kültürü/PCR + seçili antibiyotik</span><p>Shigella/Campylobacter → azitromisin; enterik ateş/invaziv Salmonella (riskli) → seftriakson; Giardia/ameba → metronidazol/tinidazol. <b>STEC şüphesinde antibiyotikten kaçın</b> (HÜS riski); antimotilite verme.</p></div></div>
+        <div class="branch no"><span class="label">HAYIR → Destekleyici</span><div class="node action safe"><span class="k">Destekle</span><span class="t">ORS + beslenme + çinko ± probiyotik</span><p>Antibiyotiksiz; kayıpları ORS ile karşıla, yaşa uygun beslenmeye erken dön, endike ise çinko (10-14 gün), seçili suşta probiyotik. Aileye güvenlik ağı ve dönüş kriterleri.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Basit AGE'de tanı klinik olup rutin kan/dışkı testi gerekmez. Tetkik; ağır dehidratasyon-IV sıvı gereksinimi, hipernatremi/asidoz şüphesi, kanlı-invaziv ishal, uzamış seyir, immün baskı, salgın veya HÜS kaygısı gibi seçili durumlara ayrılır.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Akut gastroenteritte kademeli değerlendirme</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Test</th><th>Amaç / not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Basamak 1 · Yatak başı</td><td>Ağırlık (akut kilo kaybı %), CDS/Gorelick skoru, vital, kapiller glukoz</td><td>Dehidratasyonun altın standardı tartı; hipoglisemi (özellikle süt çocuğu/uzun kusma) sık, yatak başı taranmalı</td></tr>
+          <tr><td class="step">Basamak 2 · Kan (seçili)</td><td>Na-K-Cl, HCO₃/venöz kan gazı, üre-kreatinin, glukoz</td><td>Ağır dehidratasyon, IV sıvı, bilinç bozukluğu, klinik-hikaye uyumsuzluğu ya da hamur-cilt turgorunda; <span class="dose">Na &gt;150 = hipernatremik (48 s yavaş düzelt), Na &lt;130 = hiponatremik</span></td></tr>
+          <tr><td class="step">Basamak 3 · Dışkı — mikroskopi</td><td>Dışkıda lökosit/eritrosit; gerekiyorsa kalprotektin</td><td>Sınırlı değer; kanlı-mukuslu dışkıda invazyonu destekler ama etkeni ayırmaz. Rutin değil</td></tr>
+          <tr><td class="step">Basamak 4 · Dışkı — etken</td><td>Dışkı kültürü ve/veya multipleks GİS PCR paneli</td><td>Kanlı ishal, toksik görünüm, &lt;3 ay/immün baskı, uzamış/ağır seyir, salgın, dizanteri/kolera şüphesi ya da antibiyotik düşünülüyorsa</td></tr>
+          <tr><td class="step">Basamak 5 · Parazit / toksin</td><td>Giardia/Cryptosporidium antijeni, dışkı O&amp;P; C. difficile toksin/GDH (yaş uygunsa)</td><td>Uzamış-yağlı ishal, seyahat/kuyu-yüzme suyu; C. difficile için &lt;1 yaş taşıyıcılık nedeniyle test önerilmez, ≥2 yaşta ve risk varsa değerlendir</td></tr>
+          <tr><td class="step">Basamak 6 · HÜS taraması</td><td>Tam kan + periferik yayma (şistosit), LDH, kreatinin, haptoglobin, TİT</td><td>Kanlı ishal + solukluk-oligüri-peteşi ya da STEC (E. coli O157) şüphesinde mikroanjiyopatik hemoliz-trombositopeni-AKI için</td></tr>
+          <tr><td class="step">Seçili · Görüntüleme</td><td>Batın USG / direkt grafi</td><td>Safralı kusma, distansiyon-defans, şüpheli cerrahi karın veya invajinasyon dışlanacaksa; rutin AGE'de gereksiz</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout"><b>Not:</b> Multipleks PCR panelleri kolonizasyon/taşıyıcılığı ve klinik dışı pozitiflikleri de yakalayabilir; sonucu klinikle birlikte yorumla ve tedavi kararını (özellikle antibiyotik) tek başına PCR pozitifliğine dayandırma.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdakilerden herhangi biri; ağır dehidratasyon, alternatif/cerrahi tanı, invaziv bakteriyel hastalık veya komplikasyon (HÜS, elektrolit bozukluğu) lehinedir ve ivedi değerlendirme-hastaneye yatış gerektirir.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Ağır dehidratasyon / hipovolemik şok: letarji, hipotansiyon, kapiller dolum &gt;3-4 sn</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Bilinç değişikliği, konvülziyon (hipo-/hipernatremi, hipoglisemi)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Safralı (yeşil) veya fekaloid kusma — obstrüksiyon/cerrahi karın ekarte edilmeli</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Dinmeyen kusma / ORS ile enteral yolun sürdürülememesi</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kanlı-mukuslu dışkı + yüksek ateş + toksik görünüm (invaziv bakteriyel)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Solukluk + oligüri/anüri + peteşi → hemolitik üremik sendrom (HÜS)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Yaş &lt;3 ay veya immün baskı, orak hücre, ağır malnütrisyon</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Batın distansiyonu, defans-rebound, şiddetli lokalize karın ağrısı</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Uzamış ishal (&gt;7-14 gün) veya ilerleyen kilo kaybı</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Klinik ile öykü uyumsuzluğu / hamur kıvamında cilt (hipernatremik dehidratasyon)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Yeni-doğan/erken süt çocuğunda letarji, kötü beslenme, ateş instabilitesi</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Yakın seyahat sonrası profüz sulu ishal (kolera) veya inatçı dizanteri</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi</h2>
+    <p class="lede">Tedavinin temeli sıvı-elektrolit dengesidir: hafif-ortada ağızdan/NG hipo-osmolar ORS, ağır/şokta IV izotonik sıvı. Buna erken yeniden beslenme, endike olgularda çinko, seçili probiyotik ve yalnızca kanıta dayalı endikasyonlarda antibiyotik eklenir. <b>Antimotilite ajanları (loperamid) çocukta önerilmez</b>; STEC şüphesinde antibiyotikten kaçınılır.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Rehidrasyon ve destek tedavisi — dozlar</caption>
+        <thead>
+          <tr><th>Basamak / ajan</th><th>Doz</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Hipo-osmolar ORS — rehidrasyon (hafif-orta)</td><td class="dose">50-100 mL/kg PO/NG, 3-4 saatte (sık-küçük hacim, 5 mL q1-2 dk)</td><td>ESPGHAN/DSÖ hipo-osmolar formül (Na 60-75, glukoz 75-90, osmolarite ~245 mOsm/L); ilk basamak, IV'ye üstün ve daha güvenli</td></tr>
+          <tr><td class="step">ORS — süregelen kayıp yerine koyma</td><td class="dose">Her sulu dışkı için ~5-10 mL/kg; her kusma için ~2 mL/kg</td><td>İdame sıvıya ek; ishal-kusma sürdükçe devam et. Minimal dehidratasyonda tek başına yeterli</td></tr>
+          <tr><td class="step">IV izotonik bolus (ağır dehidratasyon/şok)</td><td class="dose">20 mL/kg %0,9 NaCl veya Ringer laktat, 15-60 dk; perfüzyona göre tekrar (≤60 mL/kg)</td><td>Damar yolu yoksa intraosseöz; hipoglisemide dekstroz ekle. Şok düzelince defisit (kalanı 24-48 s) + idame</td></tr>
+          <tr><td class="step">IV idame sıvı (izotonik)</td><td class="dose">Holliday-Segar 4-2-1 mL/kg/s; sıvı olarak izotonik (%0,9 NaCl) ± %5 dekstroz ± KCl</td><td>Hiponatremiyi önlemek için izotonik idame tercih; K idrar çıkışı görülünce ekle; Na izlemi</td></tr>
+          <tr><td class="step">Ondansetron (antiemetik — ORT'yi kolaylaştırmak için)</td><td class="dose">0,15 mg/kg/doz PO/IV (kilo: 8-15 kg 2 mg, 15-30 kg 4 mg, &gt;30 kg 8 mg; maks 8 mg), genelde tek doz</td><td>Kusma nedeniyle ORS başarısızlığında; oral rehidrasyon ve hastane yatışını azaltır. QT uzatan birliktelikte dikkat, rutin çoklu doz önerilmez</td></tr>
+          <tr><td class="step">Çinko (DSÖ — yüksek riskli/kaynak-kısıtlı bölge, malnütrisyon)</td><td class="dose">&lt;6 ay: 10 mg/gün; ≥6 ay: 20 mg/gün — 10-14 gün elementer çinko</td><td>İshal süresini ve tekrarını azaltır; iyi beslenen düşük riskli çocukta rutin önerilmez. İlk dozlarda kusma olabilir</td></tr>
+          <tr><td class="step">Probiyotik (seçili — erken başlanırsa)</td><td class="dose">L. rhamnosus GG ≥10¹⁰ CFU/gün veya S. boulardii 250-750 mg/gün, 5-7 gün</td><td>Viral ishalde süreyi ~1 gün kısaltabilir; kanıt suşa özgüdür, immün baskılı/santral kateterli çocukta S. boulardii'den kaçın</td></tr>
+          <tr><td class="step">Rasekadotril (antisekretuar — ek tedavi)</td><td class="dose">1,5 mg/kg/doz PO q8s (rehidrasyona ek, ishal düzelene dek)</td><td>Enkefalinaz inhibitörü; sulu ishalde dışkı hacmini azaltabilir. Antimotilite (loperamid) DEĞİL — loperamid çocukta kullanılmaz</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <caption>Etkene özgü antibiyotik — yalnızca endike olduğunda</caption>
+        <thead>
+          <tr><th>Etken / durum</th><th>Antibiyotik / doz</th><th>Endikasyon / not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Shigella (dizanteri)</td><td class="dose">Azitromisin 12 mg/kg gün 1, sonra 6 mg/kg/gün ×4 gün (maks 500/250 mg); alternatif seftriakson 50 mg/kg/gün IV (maks 2 g) ×2-5 gün</td><td>Kanıtlı/kuvvetle şüpheli shigellozda önerilir; süreyi ve bulaşı azaltır. Direnç nedeniyle ampisilin/TMP-SMX ampirik değil</td></tr>
+          <tr><td class="step">Campylobacter</td><td class="dose">Azitromisin 10 mg/kg/gün ×3 gün (maks 500 mg/gün)</td><td>Erken (ilk 3 gün) başlanırsa süreyi kısaltır; ağır/dizanterik, uzamış ya da immün baskılı olguda</td></tr>
+          <tr><td class="step">İnvaziv / non-tifoidal Salmonella</td><td class="dose">Seftriakson 50-75 mg/kg/gün IV (maks 2 g) veya azitromisin 10 mg/kg/gün</td><td>YALNIZCA yüksek risk: &lt;3 ay, immün baskı, orak hücre, bakteriyemi/enterik ateş. Sağlıklı çocukta rutin verme — taşıyıcılığı uzatır</td></tr>
+          <tr><td class="step">Enterik ateş (S. typhi/paratyphi)</td><td class="dose">Seftriakson 75 mg/kg/gün IV (maks 2-4 g) ya da azitromisin 20 mg/kg/gün (maks 1 g)</td><td>Direnç paternine göre; tetkik-kültür ile doğrula</td></tr>
+          <tr><td class="step">Kolera (V. cholerae)</td><td class="dose">Azitromisin tek doz 20 mg/kg (maks 1 g)</td><td>Ana tedavi agresif rehidrasyondur; antibiyotik dışkı hacmi/süresini azaltır</td></tr>
+          <tr><td class="step">Giardia / E. histolytica</td><td class="dose">Metronidazol 15 mg/kg/gün ×5-7 gün (maks 750 mg/gün) veya tinidazol tek doz 50 mg/kg (maks 2 g); amebiaziste sonra lüminal ajan (paromomisin)</td><td>Uzamış/parazit doğrulanmış ishalde; amebiaziste doku ajanı sonrası lüminal eradikasyon</td></tr>
+          <tr><td class="step">C. difficile</td><td class="dose">Sorumlu antibiyotiği kes; metronidazol 7,5 mg/kg/doz PO q8s (maks 500 mg) veya vankomisin 10 mg/kg/doz PO q6s (maks 125 mg)</td><td>Hafif-ortada metronidazol, ağır/nükste oral vankomisin; &lt;1 yaş taşıyıcılık nedeniyle tedavi/test dikkatli</td></tr>
+          <tr><td class="step">STEC / EHEC (E. coli O157:H7)</td><td class="dose">Antibiyotik VERME — sadece destek ve HÜS izlemi</td><td>Antibiyotik ve antimotilite HÜS riskini artırır; kanlı ishalde ampirik antibiyotik öncesi STEC olasılığını dışla</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout safe"><b>Beslenme:</b> Anne sütü kesilmez; formula/katı gıdaya rehidrasyondan sonra <b>4-6 saat içinde</b>, yaşa uygun tam diyetle erken dönülür. Rutin laktozsuz mama veya seyreltme gerekmez; "BRAT" gibi kısıtlayıcı diyetler önerilmez. Seçili uzamış ishalde geçici laktoz intoleransı değerlendirilir.</div>
+    <div class="callout alarm"><b>Kaçın:</b> Loperamid/antimotilite ve rutin ampirik antibiyotik verme; STEC/HÜS riskini artırır ve taşıyıcılığı uzatır. Yüksek şekerli meşrubat, meyve suyu ve düşük-sodyumlu "ev karışımları" ORS yerine kullanılmamalıdır (ozmotik ishali kötüleştirir).</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve yönetim ilkeleri</h2>
+    <p class="lede">AGE'nin büyük kısmı ayaktan, ORS ve erken beslenme ile yönetilir; başarı, rehidrasyonun yeterliliğini ve süregelen kayıpları izlemeye, komplikasyonları (elektrolit bozukluğu, HÜS, ikincil laktoz intoleransı) erken yakalamaya ve aileye net güvenlik ağı vermeye dayanır.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>İzlem ve hastane yönetimi</h3>
+        <ul class="clean">
+          <li>Rehidrasyon yanıtını 1-2 saatte yeniden değerlendir: kilo, idrar çıkışı, kalp hızı, kapiller dolum, CDS; hedefe ulaşılmazsa hacmi artır veya NG/IV'ye geç</li>
+          <li>Hipernatremik dehidratasyonda düzeltmeyi yavaşlat (Na düşüşü ≤0,5 mmol/L/saat, ~48 saatte), serebral ödemden kaçın; hiponatremide izotonik idame</li>
+          <li>IV alan çocukta seri Na-K-HCO₃-glukoz; tolere edince erken oral yola geçiş</li>
+          <li>Yatış eşiği: ağır dehidratasyon/şok, dinmeyen kusma-ORS başarısızlığı, &lt;3 ay/immün baskı, güvenilmez izlem, HÜS/elektrolit bozukluğu şüphesi</li>
+          <li>Uzamış ishalde etiyolojiyi (parazit, ikincil laktoz intoleransı, alternatif tanı) yeniden gözden geçir</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Taburculuk, önleme ve güvenlik ağı</h3>
+        <ul class="clean">
+          <li>Taburculuk kriteri: yeterli rehidrasyon, oral tolerans, idrar çıkışı, güvenilir bakım verici ve erişilebilir tekrar başvuru</li>
+          <li>Aileye: ORS verme tekniği (sık-küçük hacim), süregelen kayıp yerine koyma, beslenmeye devam öğretimi</li>
+          <li>Yazılı dönüş uyarısı: içemiyor/dinmeyen kusma, letarji, idrar azalması-6-8 saat kuru bez, kanlı dışkı, safralı kusma, karın şişliği, solukluk-morarma</li>
+          <li>Önleme: el hijyeni, rotavirüs aşısı; kreş/toplum salgınlarında bulaş önlemleri ve bildirim</li>
+          <li>Antibiyotik yalnızca tabloda tanımlı endikasyonlarda; PCR-tek pozitifliğe göre gereksiz reçeteden kaçın</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout safe">En güvenli sonuç; dehidratasyonu nesnel ölçekle derecelendiren, hafif-ortada hipo-osmolar ORS'yi ilk basamak yapan, ağır/şokta hızlı IV izotonik resüsitasyon uygulayan, erken yeniden beslenmeyi ve endike olguda çinkoyu ekleyen, antibiyotiği kanıta dayalı endikasyonlara sınırlayan ve net güvenlik ağıyla izleyen bütüncül bir planla elde edilir.</div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Guarino A, Ashkenazi S, Gendrel D, et al. European Society for Pediatric Gastroenterology, Hepatology, and Nutrition/European Society for Pediatric Infectious Diseases Evidence-Based Guidelines for the Management of Acute Gastroenteritis in Children in Europe: Update 2014. J Pediatr Gastroenterol Nutr. 2014;59(1):132-152.</li>
+      <li>Florez ID, Niño-Serna LF, Beltrán-Arroyave CP. Acute Infectious Diarrhea and Gastroenteritis in Children. Curr Infect Dis Rep. 2020;22(2):4.</li>
+      <li>World Health Organization / UNICEF. The Treatment of Diarrhoea: A Manual for Physicians and Other Senior Health Workers. 4th rev. Geneva: WHO; 2005 (reduced-osmolarity ORS and zinc).</li>
+      <li>Shane AL, Mody RK, Crump JA, et al. 2017 Infectious Diseases Society of America Clinical Practice Guidelines for the Diagnosis and Management of Infectious Diarrhea. Clin Infect Dis. 2017;65(12):e45-e80.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge uzman kullanıcıya yönelik bir klinik karar destek aracıdır; hastanın bireysel değerlendirmesi, güncel kılavuzlar ve yerel uygulamaların yerine geçmez. Dozlar hastaya, ağırlığa, komorbiditeye, böbrek fonksiyonuna ve ilaç etkileşimlerine göre teyit edilmelidir.</div>
+</div>

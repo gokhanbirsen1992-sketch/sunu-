@@ -1,0 +1,410 @@
+<title>Hepatosplenomegali — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Hepatosplenomegali</h1>
+    <p class="sub">Eş zamanlı karaciğer ve dalak büyümesinde; depo/metabolik, portal hipertansiyon-konjestif, enfeksiyöz, malign ve infiltratif nedenleri sistematik ayırmaya ve TKS-periferik yayma, ultrasonografi ve hedefli tetkikle etiyolojiye ulaşmaya yönelik karar aracı. Hedef kitle: çocuk gastroenteroloji uzmanı.</p>
+    <div class="meta">
+      <span class="tag">Depo/metabolik</span>
+      <span class="tag">Portal hipertansiyon</span>
+      <span class="tag">Malignite/HLH</span>
+      <span class="tag">TKS-yayma + USG</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">Hepatosplenomegali (HSM), karaciğer ve dalağın eş zamanlı patolojik büyümesidir; tek başına bir tanı değil, altta yatan sistemik-metabolik-hematolojik bir sürecin işaretidir. İlk görev üç aşamalıdır: (1) organomegaliyi gerçekten doğrula — karaciğer için orta klavikula hattında yaşa göre span (yenidoğanda kot altı 2-3,5 cm, süt çocuğunda ≤2 cm, büyük çocukta 1-2 cm palpabl olabilir; kesin ölçüm perküsyon spanı ve USG ile), dalak için Castell/traube perküsyonu ve palpasyon. Aşağı itilmiş karaciğer (hiperinflasyon, subdiyafragmatik kitle, Riedel lobu) ve normal varyantı gerçek büyümeden ayır. (2) Büyümenin dağılım ve kıvamını tanımla — sert-nodüler (siroz, infiltrasyon), sert-düzgün (depo, konjestif), yumuşak (akut enfeksiyon-konjesyon); masif splenomegali (kala-azar, talasemi, depo, kronik myeloproliferatif) ayırıcı tanıyı daraltır. (3) Sistemik bağlamı oku — ateş, kilo kaybı, sitopeni/kanama, sarılık, lenfadenopati, nörolojik regresyon, dismorfizm ve büyüme. İlk laboratuvar üçlüsü her olguda zorunludur: <b>tam kan sayımı + periferik yayma</b>, KCFT (ALT/AST/GGT/ALP, bilirubin, albümin, INR) ve <b>abdominal ultrasonografi (Doppler dahil)</b>.</p>
+    <div class="pill-row">
+      <span class="pill">Önce gerçek organomegaliyi doğrula</span>
+      <span class="pill">Periferik yayma zorunlu</span>
+      <span class="pill">USG + Doppler ilk basamak</span>
+      <span class="pill">Masif dalak ayırıcıyı daraltır</span>
+      <span class="pill">Sitopeni + blast = acil</span>
+    </div>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öyküde sorgula</h3>
+        <ul class="clean">
+          <li>Başlangıç ve seyir: akut (enfeksiyon, hemoliz, konjesyon) mu, sinsi-ilerleyici (depo, infiltrasyon, siroz) mi; büyümenin hızı ve eşlik eden semptom kronolojisi</li>
+          <li>Ateş, gece terlemesi, kilo kaybı, iştahsızlık, kemik ağrısı; kanama-morarma, solukluk (sitopeni-lösemi-HLH ipuçları)</li>
+          <li>Coğrafi-maruziyet öyküsü: endemik bölge/seyahat (visseral layşmanyaz/kala-azar, sıtma, bruselloz, şistozomiyaz), çiğ süt-hayvan teması, kene teması, transfüzyon</li>
+          <li>Yenidoğan/süt çocuğunda depo-metabolik ipuçları: nörogelişimsel regresyon, kaba (grotesk) yüz, kornea bulanıklığı, işitme kaybı, tekrarlayan hipoglisemi, kas güçsüzlüğü</li>
+          <li>Karaciğer hastalığı-portal HT: sarılık, akolik gaita, karın şişliği-asit, hematemez-melena (varis kanaması), önceki umbilikal kateter/omfalit (portal ven trombozu)</li>
+          <li>Aile öyküsü: konsanguinite, kardeş ölümü, depo hastalığı, hemolitik anemi/talasemi, otoimmün hastalık; ilaç-toksin ve TPN öyküsü</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayenede değerlendir</h3>
+        <ul class="clean">
+          <li>Karaciğer: kot altı span (orta klavikula hattı), kıvam (yumuşak/sert/nodüler), yüzey, duyarlılık, hepatik üfürüm/friksiyon; dalak: boyut (Hackett derecesi), kıvam, çentik</li>
+          <li>Portal hipertansiyon: asit, karın duvarı venöz dolgunluğu (kaput medusa), splenomegali ağırlığı, rektal varis; kronik KC hastalığı stigmatları (spider anjioma, palmar eritem, çomak parmak)</li>
+          <li>Hematolojik: solukluk, peteşi-purpura-ekimoz, ikter, lenfadenopati (yaygın vs bölgesel), kemik hassasiyeti</li>
+          <li>Depo/metabolik: dismorfik-kaba yüz, makroglossi, dizostozis multipleks, eklem kontraktürü, hepatomegali baskın olabilir; göz dibinde kiraz-kırmızı nokta / kornea bulanıklığı</li>
+          <li>Enfeksiyon-inflamasyon: ateş, döküntü, konjonktivit, mukozit, kalp üfürümü (endokardit), sarılık; sistemik JİA döküntü-artrit</li>
+          <li>Kardiyak-konjestif: juguler venöz dolgunluk, hepatojuguler reflü, ödem, gallop; büyüme-antropometri persentil seyri</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout alarm"><b>Kırmızı çizgi:</b> HSM + sitopeni (özellikle 2-3 seride), periferik yaymada <b>blast</b> ya da lökoeritroblastik tablo, açıklanamayan ateş + ferritin yüksekliği ile birlikteyse akut lösemi ve hemofagositik lenfohistiyositoz (HLH) aksi kanıtlanana dek düşünülmeli ve <b>ivedi kemik iliği değerlendirmesi</b> yapılmalıdır. Bu senaryoda antibiyotik/steroid başlatmadan önce tanısal örnekleme planlanmalıdır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Etiyoloji ve mekanizma</h2>
+    <p class="lede">HSM oluşturan mekanizmalar altı ana kategoride toplanır. Ayrımın anahtarı: baskın olan organ (izole/baskın hepatomegali → depo, konjestif, infiltratif; masif splenomegali → kala-azar, talasemi, portal HT, myeloproliferatif), organ kıvamı, eşlik eden sitopeni/blast, ateş-enfeksiyon bağlamı ve sistemik-sendromik ipuçlarıdır. Periferik yayma ve ultrasonografi ilk yönlendiriciler, hedefli testler doğrulayıcıdır.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">Depo / metabolik (lizozomal ve diğer)</div>
+        <ul>
+          <li>Gaucher, Niemann-Pick A/B/C, GM1 gangliyozidoz; mukopolisakkaridozlar (Hurler)</li>
+          <li>Glikojen depo hastalıkları (baskın hepatomegali), Wolman/kolesteril ester depo, lizozomal asit lipaz eksikliği</li>
+          <li>İpuçları: sinsi başlangıç, nörolojik regresyon, kaba yüz, dizostoz; yaymada köpüklü/depo hücresi</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">Portal hipertansiyon / konjestif</div>
+        <ul>
+          <li>Ekstrahepatik portal ven obstrüksiyonu (kavernöz transformasyon), siroz (biliyer atrezi sekeli, otoimmün, metabolik)</li>
+          <li>Budd-Chiari, veno-oklüzif hastalık; kardiyak (sağ kalp yetmezliği, konstriktif perikardit, Fontan)</li>
+          <li>İpuçları: sert-nodüler KC, masif dalak + trombositopeni, asit, kollateral; Doppler tanısal</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">Enfeksiyon</div>
+        <ul>
+          <li>Viral: EBV/CMV, akut/kronik viral hepatit (HBV-HCV), HIV; konjenital TORCH (yenidoğan HSM)</li>
+          <li>Paraziter-bakteriyel: visseral layşmanyaz (kala-azar — masif dalak + pansitopeni), sıtma, şistozomiyaz, bruselloz, tifo, tüberküloz, endokardit, sepsis</li>
+          <li>İpuçları: ateş, seyahat/endemik maruziyet; kala-azarda kemik iliği/dalak aspiratında amastigot</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Malignite / hematolojik neoplazi</div>
+        <ul>
+          <li>Akut lösemi (ALL/AML), lenfoma; kronik myeloproliferatif (JMML, KML — masif dalak)</li>
+          <li>Nöroblastom (özellikle 4S evre, bebekte masif hepatomegali), hepatoblastom, langerhans hücreli histiyositoz (LCH)</li>
+          <li>İpuçları: sitopeni, blast, lökoeritroblastik yayma, kemik ağrısı, LAP, kitle; kemik iliği ile doğrula</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">İnfiltratif / hematolojik (non-malign)</div>
+        <ul>
+          <li>Kronik hemolitik anemiler (talasemi majör/intermedia, orak hücre, herediter sferositoz), ekstrameduller hematopoez</li>
+          <li>Hemofagositik lenfohistiyositoz (HLH) / makrofaj aktivasyon sendromu (MAS), transfüzyon-hemosiderozu</li>
+          <li>İpuçları: kronik anemi, retikülositoz, yaymada mikrositoz/hedef hücre/sferosit; HLH'de ateş + ferritin ↑↑ + sitopeni</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">Enflamatuar / otoimmün / diğer</div>
+        <ul>
+          <li>Otoimmün hepatit, primer sklerozan kolanjit/overlap; sistemik JİA (Still), SLE, sarkoidoz</li>
+          <li>Amiloidoz, histiyositozlar; kist hidatik-abse (asimetrik/fokal), konjenital hepatik fibrozis-Caroli</li>
+          <li>İpuçları: artrit-döküntü-ateş, ANA/otoantikor pozitifliği, poliklonal hipergamaglobulinemi</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout"><b>Ayrım kuralı:</b> Masif splenomegali (göbek hattını geçen) → visseral layşmanyaz, talasemi majör, portal HT, kronik myeloproliferatif ve bazı depo hastalıklarını; baskın-izole hepatomegali → depo hastalıkları, konjestif kalp yetmezliği, infiltratif/tümöral süreçleri öne çıkarır. Sitopeni + blast varlığı öncelikle lösemi/HLH'ye, ateş + endemik maruziyet kala-azara, kronik anemi + retikülositoz hemolize yönlendirir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">İlk çatal, HSM ile birlikte hayatı tehdit eden hematolojik acilin (lösemi, HLH) hızla tanınmasıdır; ikinci çatal, sinsi ilerleyen depo/metabolik hastalık ile portal hipertansiyon-enfeksiyon-infiltratif nedenlerin ayrımıdır. Her basamakta periferik yayma ve ultrasonografi yönlendiricidir.</p>
+    <div class="flow">
+      <div class="node start"><span class="k">Başlangıç</span><span class="t">Doğrulanmış hepatosplenomegali</span><p>Palpasyon + perküsyon spanı ve USG ile gerçek organomegaliyi doğrula; aşağı itilme-varyantı dışla. Organ kıvamı, dağılım (masif dalak?) ve sistemik bağlamı (ateş, sitopeni, sarılık, regresyon) tanımla.</p></div>
+      <div class="connector"></div>
+      <div class="node action"><span class="k">Adım 1</span><span class="t">İlk üçlü: TKS + periferik yayma + KCFT + USG-Doppler</span><p>Tam kan sayımı ve periferik yaymayı bizzat incele; KCFT (ALT/AST/GGT/ALP, bilirubin, albümin, INR), LDH, ürik asit; abdominal USG ve portal Doppler. Bu üçlü ilk mekanizmayı belirler.</p></div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 1</span><span class="t">Hematolojik acil bulgusu var mı? (sitopeni/blast/ateş+ferritin ↑↑)</span><p>İki-üç seride sitopeni, yaymada blast veya lökoeritroblastik tablo, kontrol edilemeyen ateş + belirgin ferritin yüksekliği, kanama, hızlı kötüleşme.</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">EVET → Acil hematoloji-onkoloji yolu</span><div class="node alarm"><span class="k">Acil</span><span class="t">Kemik iliği + HLH paneli, tanısal örnekleme</span><p>Kemik iliği aspirasyon/biyopsi; HLH kriterleri için ferritin, trigliserit, fibrinojen, sCD25, NK aktivitesi, hemofagositoz. Lösemi/HLH doğrulanırsa protokole (indüksiyon / HLH tedavisi) geç; ampirik steroidden önce örnek al.</p></div></div>
+        <div class="branch no"><span class="label">HAYIR → Stabil, sistematik etiyolojik çalışma</span><div class="node action safe"><span class="k">Devam</span><span class="t">Yönlendirilmiş ikinci basamak tetkik</span><p>Klinik-yayma-USG paternine göre depo, portal HT, enfeksiyon veya infiltratif hatta yönel; hedefli testleri sırala.</p></div></div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 2</span><span class="t">Depo/metabolik hastalık ipucu var mı? (regresyon, kaba yüz, dizostoz, izole büyük KC-dalak)</span><p>Sinsi ilerleyen HSM + nörolojik regresyon/kaba yüz/kornea bulanıklığı/dizostoz ya da yaymada köpüklü hücre; hipoglisemi-laktik asidoz.</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">EVET → Metabolik-depo çalışması</span><div class="node action safe"><span class="k">Hedefle</span><span class="t">Enzim + idrar GAG + göz-Kİ değerlendirmesi</span><p>Lökosit lizozomal enzim düzeyleri (glukoserebrozidaz-Gaucher, sfingomiyelinaz-NPD), idrar glikozaminoglikan/oligosakkarit, oftalmoloji (kiraz-kırmızı nokta), kemik iliğinde depo hücresi; gerekirse genetik doğrulama.</p></div></div>
+        <div class="branch no"><span class="label">HAYIR → Portal HT / enfeksiyon / infiltratif ayrımı</span><div class="node action safe"><span class="k">Ayır</span><span class="t">Doppler + enfeksiyon serolojisi + hemoliz paneli</span><p>Portal Doppler (kavernom, ters akım, splenik ven), enfeksiyon çalışması (EBV/CMV, hepatit serolojisi, kala-azar seroloji/Kİ, kan kültürü, PPD/IGRA), hemoliz göstergeleri (retikülosit, LDH, haptoglobin, Coombs, Hb elektroforezi). Gerekirse karaciğer biyopsisi.</p></div></div>
+      </div>
+    </div>
+    <div class="callout"><b>Not:</b> HSM bir semptomdur; tedavi etiyolojiye özgüdür. İlk üçlü (yayma-KCFT-USG) olguların çoğunu doğru hatta yönlendirir. Tanısal örnekleme (kemik iliği, biyopsi) gerektiren durumlarda ampirik immünsupresyon/antimikrobiyalden önce örnek alınması, malignite ve HLH tanısının kaçırılmaması açısından kritiktir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Tetkik her olguda zorunlu ilk üçlü (TKS-periferik yayma, KCFT, USG-Doppler) ile başlar; ardından klinik ve yayma paternine göre enfeksiyon, hemoliz, depo-metabolik ve infiltratif hatlara dallanır ve gerektiğinde kemik iliği/karaciğer biyopsisi ile doğrulanır. Testler klinik olasılığa göre hedeflenmeli, kör panel taramasından kaçınılmalıdır.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Hepatosplenomegalide kademeli değerlendirme</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Test</th><th>Amaç / not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Basamak 1 · Zorunlu ilk üçlü</td><td>Tam kan sayımı + <b>periferik yayma</b>, retikülosit; KCFT (ALT/AST/GGT/ALP, total-direkt bilirubin, albümin, INR); abdominal <b>ultrasonografi + portal Doppler</b></td><td>Sitopeni/blast, hemoliz, kolestaz-hepatosellüler patern ve portal akım-organ eko/boyutunu tek seferde tarar; <span class="dose">tüm olgularda ilk adım</span></td></tr>
+          <tr><td class="step">Basamak 2 · Temel biyokimya-inflamasyon</td><td>LDH, ürik asit, elektrolit-Ca/P, kan gazı-laktat, ferritin, CRP-sedim, glukoz; kan kültürü (ateşliyse)</td><td>Tümör lizis-yüksek hücre döngüsü (LDH, ürik asit), HLH (ferritin ↑↑), metabolik dekompansasyon (laktat-hipoglisemi) tarama</td></tr>
+          <tr><td class="step">Basamak 3 · Enfeksiyon çalışması</td><td>EBV-CMV seroloji/PCR, HBV-HCV-HIV serolojisi; endemik maruziyette visseral layşmanyaz serolojisi (rK39)/kemik iliği, kalın-ince yayma (sıtma), Brucella, tifo, PPD/IGRA</td><td>Ateş + HSM ana senaryosu; kala-azar masif dalak + pansitopeni ile klasik, kemik iliği/dalak aspiratı tanısal</td></tr>
+          <tr><td class="step">Basamak 4 · Hemoliz-hematoloji</td><td>Retikülosit, LDH, haptoglobin, indirekt bilirubin, direkt Coombs, periferik yayma morfolojisi, hemoglobin elektroforezi, ozmotik frajilite/EMA</td><td>Kronik hemolitik anemi-talasemi-orak hücre-sferositoz ve ekstrameduller hematopoez; retikülositoz + splenomegali tipik</td></tr>
+          <tr><td class="step">Basamak 5 · Depo / metabolik</td><td>Lökosit lizozomal enzimleri (β-glukoserebrozidaz, asit sfingomiyelinaz, asit lipaz), idrar GAG-oligosakkarit, kitotriosidaz, oftalmolojik muayene (kiraz-kırmızı nokta/kornea)</td><td>Sinsi HSM + regresyon/dismorfizm/dizostozda; kemik iliğinde depo hücresi (Gaucher-köpüklü hücre) yönlendirir, genetik doğrular</td></tr>
+          <tr><td class="step">Basamak 6 · Otoimmün-KC ileri</td><td>ANA, ASMA, anti-LKM, IgG-immünglobulinler, seruloplazmin (Wilson), alfa-1 antitripsin, tiroid; sistemik JİA için ferritin-triglierit</td><td>Otoimmün hepatit-overlap, Wilson, metabolik KC hastalıkları; hipergamaglobulinemi otoimmün/kronik enfeksiyon ipucu</td></tr>
+          <tr><td class="step">Basamak 7 · Görüntüleme ileri + örnekleme</td><td>Kontrastlı BT/MR (kitle-LAP-portal anatomi), MRCP; <b>kemik iliği aspirasyon/biyopsi</b>; endikasyonda karaciğer biyopsisi</td><td>Malignite-infiltrasyon şüphesi, açıklanamayan HSM veya tedaviyi belirleyecek doku tanısı; HLH/lösemi/depo doğrulaması</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout"><b>Sıralama ilkesi:</b> Yaşamsal aciller (lösemi-HLH) ekarte edilene kadar tanısal örnekleme geciktirilmemeli; enfeksiyöz ve hemolitik nedenler ucuz-hızlı testlerle önce dışlanmalı, pahalı metabolik-genetik çalışma klinik ipucu (regresyon, dismorfizm, depo hücresi) varlığında hedeflenmelidir. Karaciğer biyopsisi öncesi koagülasyon (INR-trombosit) düzeltilmelidir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdakilerden herhangi biri altta yatan ciddi, hızlı ilerleyen veya yaşamı tehdit eden neden (malignite, HLH, dekompanse portal HT, fulminan enfeksiyon) lehinedir; ivedi tanısal örnekleme, güvenlik önlemleri ve ilgili merkezle iletişimi gerektirir.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>İki-üç seride sitopeni, periferik yaymada blast veya lökoeritroblastik tablo (akut lösemi-infiltrasyon)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Açıklanamayan sürekli ateş + belirgin ferritin yüksekliği + sitopeni + hipertrigliseridemi/hipofibrinojenemi (HLH/MAS)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Hematemez-melena, masif dalak + trombositopeni, asit-kaput medusa (dekompanse portal hipertansiyon / varis kanaması)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Sentetik fonksiyon bozukluğu: uzamış INR, hipoalbüminemi, hipoglisemi, hiperamonyemi-ensefalopati (karaciğer yetmezliği)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Hızlı büyüyen karaciğer + solunum sıkıntısı/batın distansiyonu (bebekte nöroblastom 4S, hepatoblastom, tümör kitlesi)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Endemik bölge + masif dalak + pansitopeni + uzamış ateş (visseral layşmanyaz/kala-azar — tedavi edilebilir, gecikince ölümcül)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Nörolojik regresyon, ilerleyen dismorfizm, kiraz-kırmızı nokta ile birlikte HSM (ilerleyici depo hastalığı)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Yaygın lenfadenopati + kemik ağrısı + kilo kaybı-gece terlemesi (lenfoma-lösemi B semptomları)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Yenidoğanda HSM + peteşi + konjuge hiperbilirubinemi + mikrosefali (konjenital enfeksiyon-TORCH, metabolik kriz)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ateş + yeni üfürüm + emboli bulguları (enfektif endokardit) veya sepsis-septik şok tablosu</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi</h2>
+    <p class="lede">HSM'nin kendisi tedavi edilmez; tedavi altta yatan etiyolojiye özgüdür. Aşağıdaki tablo, çocuk gastroenteroloji-hepatoloji pratiğinde HSM ile karşılaşılan başlıca tedavi edilebilir nedenlerde dozlu başlangıç tedavilerini özetler. Her olguda öncelik: hemodinamik-hematolojik stabilizasyon, tanısal örneklemenin tedaviden önce güvence altına alınması ve komplikasyonların (kanama, tümör lizisi, enfeksiyon) yönetimidir. Malignite ve HLH kuşkusunda tedavi ilgili protokol çerçevesinde ve doku tanısı sonrası yürütülür.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Etiyolojiye özgü dozlu başlangıç tedavileri</caption>
+        <thead>
+          <tr><th>Neden / ilaç</th><th>Doz</th><th>Not / izlem</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Visseral layşmanyaz (kala-azar) · Lipozomal amfoterisin B</td><td class="dose">3-5 mg/kg/gün IV; immünkompetanda 1-5, 14 ve 21. günler (toplam ~21 mg/kg)</td><td>İlk seçenek; renal fonksiyon, K/Mg, infüzyon reaksiyonu izlemi. Tanı kemik iliği/dalak aspiratı veya rK39 ile doğrulanmalı</td></tr>
+          <tr><td class="step">Gaucher hastalığı tip 1/3 · Enzim replasmanı (imiglukeraz/velaglukeraz)</td><td class="dose">30-60 U/kg IV, 2 haftada bir infüzyon (bireysel titrasyon)</td><td>Hematolojik-viseral yanıt (Hb, trombosit, organ hacmi) ile titre; alternatif substrat azaltıcı tedavi seçili olguda</td></tr>
+          <tr><td class="step">HLH / MAS · Deksametazon</td><td class="dose">10 mg/m²/gün (2 hafta), sonra kademeli azaltım; protokol çerçevesinde</td><td>HLH-2004 temelli; MAS'ta tetikleyici hastalık tedavisi ile birlikte. Örnekleme sonrası başla; enfeksiyon-tümör lizis izlemi</td></tr>
+          <tr><td class="step">HLH · Etoposid (VP-16)</td><td class="dose">150 mg/m²/doz IV, haftada 2 (indüksiyon 1-2. hafta), sonra haftada 1</td><td>Ağır/ailesel HLH'de; sitopeni-hepatotoksisite-enfeksiyon izlemi. Uzman hematoloji-onkoloji eşliğinde</td></tr>
+          <tr><td class="step">Otoimmün hepatit · Prednizolon</td><td class="dose">1-2 mg/kg/gün (maks 40-60 mg/gün), yanıta göre azalt</td><td>İndüksiyon; transaminaz-IgG normalizasyonu hedefi. Azatioprin ile idameye geç</td></tr>
+          <tr><td class="step">Otoimmün hepatit · Azatioprin (idame)</td><td class="dose">1-2 mg/kg/gün (maks ~2 mg/kg), steroid azaltımıyla eklenir</td><td>TPMT durumu-kan sayımı-KCFT izlemi; steroid-koruyucu idame</td></tr>
+          <tr><td class="step">Kronik HBV (aktif) · Entekavir</td><td class="dose">0,015 mg/kg/gün (≥2 yaş; maks 0,5 mg/gün) — tenofovir alternatif (≥12 yaş 245 mg/gün)</td><td>Tedavi endikasyonu (ALT-viral yük-histoloji) doğrulandığında; direnç-renal-kemik izlemi</td></tr>
+          <tr><td class="step">Sıtma (P. falciparum, ağır) · Artesunat</td><td class="dose">2,4 mg/kg IV; 0, 12, 24. saat sonra günlük; ardından oral ACT</td><td>Ağır sıtmada ilk seçenek; hipoglisemi-hemoliz (gecikmiş) ve parazitemi izlemi</td></tr>
+          <tr><td class="step">Şistozomiyaz · Prazikuantel</td><td class="dose">40 mg/kg/gün tek doz (S. mansoni); yoğun enfeksiyonda 2 doza böl</td><td>Hepatosplenik şistozomiyaz-periportal fibroziste; portal HT ayrıca yönetilir</td></tr>
+          <tr><td class="step">Portal HT · Varis profilaksisi · Propranolol</td><td class="dose">Başlangıç 0,5-1 mg/kg/gün, 2-3 doz; kalp hızı %25 azalmaya göre titre (maks ~8 mg/kg/gün)</td><td>Non-selektif beta-bloker; bronkospazm-hipoglisemi-bradikardi dikkat. Endoskopik band ligasyonu ile birlikte</td></tr>
+          <tr><td class="step">Akut varis kanaması · Oktreotid</td><td class="dose">1-2 mcg/kg IV bolus, ardından 1-2 mcg/kg/saat infüzyon (maks ~50 mcg/saat)</td><td>Volüm resüsitasyonu-transfüzyon, PPI ve acil endoskopik ligasyon ile birlikte; hiperglisemi izlemi</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout safe"><b>Yaklaşım:</b> Önce yaşamsal stabilizasyon (kanama-şok-tümör lizis-enfeksiyon), sonra tanısal örneklemenin güvence altına alınması, ardından etiyolojiye özgü dozlu tedavi. Enzim replasmanı (Gaucher), antiparaziter (kala-azar-sıtma), immünsupresyon (otoimmün hepatit) ve portal HT yönetimi altta yatan tanıya göre seçilir; birçok olguda (EBV, akut viral enfeksiyon) destek tedavisi yeterlidir.</div>
+    <div class="callout alarm"><b>Dikkat:</b> Malignite/HLH kuşkusunda tanısal örnekleme (kemik iliği) yapılmadan ampirik steroid başlanması lösemi tanısını maskeler-geciktirir. Yüksek hücre döngülü tabloda tümör lizis sendromu için hidrasyon-rasburikaz/allopürinol hazırlığı; portal HT'de beta-bloker öncesi bradikardi-hipoglisemi-astım değerlendirilmelidir. Dozlar ağırlık, yaş, organ fonksiyonu ve güncel protokole göre teyit edilmelidir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve yönetim ilkeleri</h2>
+    <p class="lede">HSM'de yönetim, tanısal süreci güvenle ve gecikmeden yürütmek, yaşamsal komplikasyonları (kanama, sitopeni-enfeksiyon, dekompansasyon, tümör lizis) önlemek, etiyolojiye özgü tedaviyi başlatıp yanıtı organ boyutu ve hematolojik-biyokimyasal göstergelerle izlemek üzerine kuruludur. Hedef: doğru tanıya en kısa yoldan ulaşmak ve altta yatan hastalığın seyrini kontrol altına almaktır.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>İzlem ve takip</h3>
+        <ul class="clean">
+          <li>Organ boyutunu klinik (span-perküsyon) ve USG ile serial ölç; tedavi yanıtını organ küçülmesi ve zemindeki göstergelerle (Hb-trombosit, ferritin, transaminaz, parazitemi, viral yük) izle</li>
+          <li>Tanı netleşene dek TKS-yayma ve KCFT'yi yakın aralıkla tekrarla; yeni sitopeni-blast-ateş gelişiminde hematoloji-onkoloji değerlendirmesini yinele</li>
+          <li>Portal HT olgularında endoskopik varis izlemi, splenomegaliye bağlı sitopeni ve hipersplenizm takibi; travma-riski nedeniyle kontakt spor kısıtlaması danışmanlığı</li>
+          <li>Depo hastalıklarında multidisipliner izlem (nöroloji, oftalmoloji, ortopedi), enzim tedavisi altında organ hacmi-biyobelirteç takibi</li>
+          <li>İmmünsupresyon/kemoterapi alanlarda enfeksiyon-fırsatçı patojen profilaksisi, aşılama ve kan sayımı-hepatotoksisite izlemi</li>
+          <li>Büyüme-beslenme ve yaşam kalitesi; kronik hastalıkta psikososyal destek ve okul uyumu</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Yönetim ve güvenlik ağı</h3>
+        <ul class="clean">
+          <li>Etiyolojiye özgü tedaviyi doku/laboratuvar tanısı üzerine kur; ampirik immünsupresyondan önce malignite-HLH-enfeksiyonu dışla</li>
+          <li>Aileye yazılı uyarı: kanama-morarma, hematemez-melena, artan karın şişliği, yüksek ateş, solukluk-halsizlik, bilinç değişikliği-letarji gelişiminde acil dönüş</li>
+          <li>Splenomegalide dalak rüptürü riski konusunda uyar; travmadan koruma ve gerektiğinde aktivite kısıtlaması</li>
+          <li>Koagülopati-trombositopeni varlığında invaziv işlem (biyopsi) öncesi düzeltme; transfüzyon eşiklerini belirle</li>
+          <li>Portal HT'de varis kanaması için acil plan (oktreotid-endoskopi), aşı (HAV-HBV) ve hepatotoksik ilaçlardan kaçınma</li>
+          <li>Genetik-metabolik tanıda aile danışmanlığı, kardeş taraması ve uzun süreli izlem planı; nadir hastalıklarda ilgili referans merkezle koordinasyon</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout safe">En iyi sonuç; gerçek organomegalinin doğrulanması, zorunlu ilk üçlü (TKS-yayma, KCFT, USG-Doppler) ile mekanizmanın hızlı sınıflanması, yaşamsal acillerin (lösemi-HLH-dekompanse portal HT) önceliklendirilmesi ve etiyolojiye özgü dozlu tedavinin serial izlemle sürdürüldüğü yapılandırılmış bir planla elde edilir.</div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Wolf AD, Lavine JE. Hepatomegaly in Neonates and Children. Pediatr Rev. 2000;21(9):303-310 (güncel gözden geçirmelerle birlikte değerlendirilmelidir).</li>
+      <li>Fawaz R, Baumann U, Ekong U, et al. Guideline for the Evaluation of Cholestatic Jaundice in Infants: Joint Recommendations of NASPGHAN and ESPGHAN. J Pediatr Gastroenterol Nutr. 2017;64(1):154-168.</li>
+      <li>Henter JI, Horne A, Aricó M, et al. HLH-2004: Diagnostic and therapeutic guidelines for hemophagocytic lymphohistiocytosis. Pediatr Blood Cancer. 2007;48(2):124-131.</li>
+      <li>Mieli-Vergani G, Vergani D, Baumann U, et al. Diagnosis and Management of Pediatric Autoimmune Liver Disease: ESPGHAN Hepatology Committee Position Statement. J Pediatr Gastroenterol Nutr. 2018;66(2):345-360.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge uzman kullanıcıya yönelik bir klinik karar destek aracıdır; hastanın bireysel değerlendirmesi, güncel kılavuzlar ve yerel uygulamaların yerine geçmez. Dozlar hastaya, ağırlığa, yaşa, organ fonksiyonuna, protokole ve ilaç etkileşimlerine göre teyit edilmelidir. Enzim replasmanı, antiparaziter ve onkolojik-immünsupresif tedavilerde ülke-onay ve reçeteleme koşulları değişkendir ve ilgili uzmanlık ekipleriyle birlikte yürütülmelidir.</div>
+</div>
