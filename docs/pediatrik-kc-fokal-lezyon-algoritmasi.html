@@ -1,0 +1,512 @@
+<title>Karaciğerde Fokal Lezyon/Kitle — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Karaciğerde Fokal Lezyon/Kitle</h1>
+    <p class="sub">Çocukta insidental veya semptomatik saptanan fokal karaciğer lezyonunun sistematik değerlendirmesi: benign vasküler/hepatosellüler lezyonlardan (hemanjiyom, FNH, adenom) malign tümörlere (hepatoblastom, HCC) ayırıcı tanı, AFP ve kesitsel görüntüleme temelli algoritma.</p>
+    <div class="meta">
+      <span class="tag">AFP</span>
+      <span class="tag">Kontrastlı MR</span>
+      <span class="tag">Hepatoblastom/HCC</span>
+      <span class="tag">Benign lezyon izlemi</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">Fokal karaciğer lezyonu, normal parankim içinde radyolojik olarak ayrılabilen bir kitle/nodüldür. İlk hedef, malign potansiyeli olan lezyonu (hepatoblastom, HCC, metastaz) benign lezyondan (hemanjiyom, FNH, fokal yağlanma, adenom) hızla ayırmaktır. Değerlendirmenin üç ayağı: yaş, serum AFP düzeyi ve kesitsel görüntüleme paterni.</p>
+
+    <div class="callout">Anahtar ilke: Lezyona yaklaşımı <b>yaş + AFP + görüntüleme paterni</b> üçlüsü belirler. İzole bir bulgu tek başına tanı koydurmaz; AFP mutlaka yaşa göre yorumlanmalı (yenidoğanda fizyolojik olarak çok yüksek, ~6-8 ayda erişkin düzeyine iner).</div>
+
+    <div class="grid two">
+      <div class="card">
+        <h3>Öykü</h3>
+        <ul class="clean">
+          <li>Yaş: infant (hemanjiyom, hepatoblastom), okul çağı/adölesan (FNH, adenom, HCC)</li>
+          <li>Saptanma şekli: insidental (USG/muayene) vs semptomatik</li>
+          <li>Karın şişliği, palpabl kitle, ağrı, kilo kaybı, iştahsızlık</li>
+          <li>Altta yatan hastalık: kronik karaciğer hastalığı/siroz, HBV/HCV, biliyer atrezi, tirozinemi, glikojen depo hastalığı (adenom/HCC riski)</li>
+          <li>İlaç: uzun süreli oral kontraseptif, androjen kullanımı (adenom)</li>
+          <li>Prematürite, düşük doğum ağırlığı, Beckwith-Wiedemann, FAP (hepatoblastom ilişkisi)</li>
+          <li>İnfantil hemanjiyomda cilt hemanjiyomları, konjestif kalp yetmezliği, hipotiroidi belirtileri</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayene</h3>
+        <ul class="clean">
+          <li>Hepatomegali, sert/düzensiz kitle palpasyonu, yüzey nodülaritesi</li>
+          <li>Batın çevresi ölçümü ve seri takip</li>
+          <li>Cilt: kutanöz hemanjiyomlar (özellikle çok sayıda ise multifokal hepatik hemanjiyom)</li>
+          <li>Kardiyovasküler: taşikardi, üfürüm, yüksek debili kalp yetmezliği bulguları (dev hemanjiyom)</li>
+          <li>Sarılık, asit, splenomegali, kollateral venler (kronik KC hastalığı/portal HT)</li>
+          <li>Büyüme-gelişme, virilizasyon veya puberte prekoks (bazı tümörlerde)</li>
+          <li>Beckwith-Wiedemann stigmatları: makroglossi, hemihipertrofi, omfalosel</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Lezyon kategorileri ve mekanizma</h2>
+    <p class="lede">Pediatrik fokal karaciğer lezyonları vasküler, benign hepatosellüler ve malign gruplar altında toplanır. Her kategorinin tipik yaş dağılımı, AFP davranışı ve görüntüleme paterni ayırıcı tanının temelini oluşturur.</p>
+
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">İnfantil hepatik hemanjiyom</div>
+        <ul>
+          <li>En sık benign infant lezyonu; GLUT-1 pozitif</li>
+          <li>Fokal, multifokal veya diffüz tip</li>
+          <li>Proliferasyon (0-1 yaş) sonrası spontan involüsyon</li>
+          <li>Risk: yüksek debili kalp yetmezliği, tüketim hipotiroidisi, abdominal kompartman</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">Fokal nodüler hiperplazi (FNH)</div>
+        <ul>
+          <li>Hiperplastik hepatosit yanıtı; malign potansiyel yok</li>
+          <li>Santral skar, hepatobiliyer kontrastta izo/hiperintens tutulum</li>
+          <li>Genellikle asemptomatik, insidental</li>
+          <li>Onkoloji öyküsü/kemoterapi sonrası artmış görülme</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">Hepatosellüler adenom</div>
+        <ul>
+          <li>Adölesan; androjen/OKS, GDH tip I/III, MODY, obezite ilişkili</li>
+          <li>Kanama ve malign dönüşüm (özellikle beta-katenin mutant) riski</li>
+          <li>MR alt tip tayini yönetimi belirler</li>
+          <li>&gt;5 cm ve büyüyen lezyonlar riskli</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Hepatoblastom</div>
+        <ul>
+          <li>3 yaş altı en sık primer malign KC tümörü</li>
+          <li>AFP belirgin yüksek (%90'ında)</li>
+          <li>PRETEXT evrelemesi ile cerrahi planlama</li>
+          <li>Beckwith-Wiedemann, FAP, prematürite ilişkisi</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">Hepatosellüler karsinom (HCC)</div>
+        <ul>
+          <li>Büyük çocuk/adölesan; sıklıkla kronik KC hastalığı zemininde</li>
+          <li>HBV, biliyer atrezi, tirozinemi, GDH, kolestatik hastalıklar</li>
+          <li>Fibrolamellar varyant normal AFP ile seyredebilir</li>
+          <li>AFP değişken; zeminde siroz sık</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">Diğer / nadir</div>
+        <ul>
+          <li>Mezenkimal hamartom (kistik, infant), infantil koledok kisti ayrımı</li>
+          <li>Undiferansiye embriyonal sarkom (5-10 yaş, AFP normal)</li>
+          <li>Fokal yağlanma / yağdan korunmuş alan (psödolezyon)</li>
+          <li>Apse, granülom, metastaz (nöroblastom, Wilms, lenfoma)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">Fokal lezyon saptandığında akış yaşa göre AFP ve kesitsel görüntüleme ile ilerler; malignite şüphesi biyopsi/onkoloji kararına, benign lezyon ise paterne özgü izleme yönlendirir.</p>
+
+    <div class="flow">
+      <div class="node start">
+        <span class="k">Başlangıç</span>
+        <span class="t">Karaciğerde fokal lezyon saptandı (USG/insidental/palpabl)</span>
+        <p>Vital bulgular, batın muayenesi, yaş kaydı; ilk basamak Doppler USG ile lezyon sayısı/vaskülaritesi.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node action">
+        <span class="k">Adım 1</span>
+        <span class="t">Yaşa göre serum AFP + tam kan, KCFT, koagülasyon, LDH iste</span>
+        <p>AFP'yi yaş normogramına göre yorumla. İnfantta fizyolojik yüksekliği dışla.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 1</span>
+        <span class="t">AFP yaşa göre belirgin yüksek mi (ör. hepatoblastom düzeyinde)?</span>
+        <p>Malignite olasılığını ilk basamakta ayrıştıran anahtar soru.</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Malignite olası</span>
+          <div class="node alarm">
+            <span class="k">Malign yol</span>
+            <span class="t">Kontrastlı toraks-abdomen BT/MR ile PRETEXT evrele; onkoloji ile eş zamanlı yönet</span>
+            <p>Hepatoblastom/HCC şüphesi. Evreleme öncesi tanısal biyopsi (rezektabilite belirsizse); AFP baz alınır.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → AFP yaşa göre normal/hafif</span>
+          <div class="node action safe">
+            <span class="k">Benign yol</span>
+            <span class="t">Multifazik kontrastlı MR (hepatobiliyer kontrastlı) ile patern tayini</span>
+            <p>Hemanjiyom, FNH, adenom, fokal yağlanma ayrımı için karakterizasyon.</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 2</span>
+        <span class="t">MR paterni benign ve tipik mi (kesin FNH/hemanjiyom)?</span>
+        <p>Tipik patern varsa biyopsi genelde gereksiz; atipik/adenom şüphesi varsa ileri değerlendirme.</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Tipik benign</span>
+          <div class="node action safe">
+            <span class="k">İzlem</span>
+            <span class="t">Patern-spesifik seri USG/MR ile izle; girişim gereksiz</span>
+            <p>Hemanjiyom involüsyona kadar; FNH stabil ise aralıklı görüntüleme.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Atipik / adenom / şüpheli</span>
+          <div class="node alarm">
+            <span class="k">Doku tanısı</span>
+            <span class="t">Perkütan/görüntüleme eşliğinde biyopsi; adenom alt tip/HCC dışla</span>
+            <p>Beta-katenin mutant adenom, &gt;5 cm, büyüyen veya kanamalı lezyonda rezeksiyon değerlendir.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Tetkik, ucuz ve yaygın testlerden ileri görüntüleme ve dokuya doğru basamaklanır. Her basamakta amaç önceki adımın ayırıcı tanısını daraltmaktır.</p>
+
+    <div class="table-scroll">
+      <table>
+        <caption>Fokal karaciğer lezyonunda basamaklı tanısal yaklaşım</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Test / Yöntem</th><th>Amaç ve yorum</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">Basamak 1 — Laboratuvar</td>
+            <td>Yaşa göre serum AFP, tam kan, KCFT (AST/ALT/GGT/bilirubin), albümin, INR, LDH, beta-hCG</td>
+            <td>AFP yaş normogramına göre; belirgin yükseklik hepatoblastom/HCC lehine. Kolestaz ve sentez fonksiyonu değerlendir.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 2 — İlk görüntüleme</td>
+            <td>Doppler USG</td>
+            <td>Lezyon sayısı, boyut, kistik/solid yapı, vaskülarite, santral skar; hemanjiyomda yüksek akım. Fokal yağlanma/psödolezyon ayrımı.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 3 — Karakterizasyon</td>
+            <td>Multifazik kontrastlı MR (hepatobiliyer spesifik kontrast) veya kontrastlı BT</td>
+            <td>FNH: santral skar + hepatobiliyer fazda tutulum. Hemanjiyom: periferik nodüler dolum. Adenom: alt tipe göre sinyal. Malign: heterojen, invaziv.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 4 — Evreleme</td>
+            <td>Toraks BT, abdomen kesitsel görüntüleme; malignitede PRETEXT</td>
+            <td>Metastaz taraması ve rezektabilite/PRETEXT belirlenmesi; onkoloji-cerrahi ortak planlama.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 5 — Doku tanısı</td>
+            <td>Görüntüleme eşliğinde perkütan/açık biyopsi; histoloji + moleküler (beta-katenin)</td>
+            <td>Atipik/malign şüpheli ve adenom alt tip ayrımı; tirozinemi/GDH gibi zemin hastalık araştırması.</td>
+          </tr>
+          <tr>
+            <td class="step">Ek — Zemin araştırması</td>
+            <td>HBV/HCV serolojisi, ferritin, seruloplazmin, süksinilaseton (tirozinemi), metabolik panel</td>
+            <td>HCC/adenom zemininde altta yatan kronik KC ya da metabolik hastalığı belirlemek.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdaki bulgular malignite veya acil komplikasyon (kanama, kalp yetmezliği) lehinedir ve hızlandırılmış görüntüleme, biyopsi ve onkoloji ile eş zamanlı yönetim gerektirir.</p>
+
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Yaşa göre belirgin yüksek veya progresif artan AFP</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Sert, düzensiz, hızla büyüyen palpabl kitle</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kilo kaybı, iştahsızlık, gece terlemesi, açıklanamayan ateş</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kronik KC hastalığı/siroz zemininde yeni nodül (HCC)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Görüntülemede vasküler invazyon, çok sayıda nodül, metastaz</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Akut karın + hemodinamik bozulma (adenom rüptürü/kanama)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Dev hemanjiyomda yüksek debili kalp yetmezliği, tüketim hipotiroidisi</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Beckwith-Wiedemann / FAP / hemihipertrofi öyküsü ile fokal lezyon</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi</h2>
+    <p class="lede">Tedavi lezyon tipine göre bireyselleşir: çoğu benign lezyon izlenirken, semptomatik/komplike hemanjiyomda propranolol, malign tümörlerde onkoloji ile risk-uyarlı kemoterapi ve cerrahi uygulanır. Aşağıdaki dozlar başlıca ilaçlar içindir.</p>
+
+    <div class="callout safe">Tipik FNH ve involüsyona giden asemptomatik hemanjiyom için ilaç gerekmez; izlem yeterlidir. İlaç tedavisi semptomatik/komplike lezyonlara ayrılır.</div>
+
+    <div class="table-scroll">
+      <table>
+        <caption>Fokal karaciğer lezyonlarında tedavi seçenekleri ve dozlar</caption>
+        <thead>
+          <tr><th>İlaç / Girişim</th><th>Doz</th><th>Endikasyon ve not</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">Propranolol (semptomatik infantil hemanjiyom)</td>
+            <td class="dose">1-3 mg/kg/gün, 2-3 doza bölünmüş (hedef 2-3 mg/kg/gün; maks 3 mg/kg/gün)</td>
+            <td>Kademeli başla, kalp hızı/kan basıncı/kan şekeri izle; yüksek debili yetmezlik veya büyüyen dev lezyonda.</td>
+          </tr>
+          <tr>
+            <td class="step">Prednizolon (propranolol yetersiz/kontrendike)</td>
+            <td class="dose">2-3 mg/kg/gün PO (maks ~60 mg/gün)</td>
+            <td>Dirençli hemanjiyomda ikinci basamak; kademeli azaltma ile kesilir.</td>
+          </tr>
+          <tr>
+            <td class="step">Cisplatin (hepatoblastom, PRETEXT temelli)</td>
+            <td class="dose">80 mg/m²/siklus (protokole göre; onkoloji ile)</td>
+            <td>Risk-uyarlı neoadjuvan/adjuvan kemoterapi; işitme ve renal izlem.</td>
+          </tr>
+          <tr>
+            <td class="step">Doksorubisin (yüksek riskli hepatoblastom/HCC)</td>
+            <td class="dose">Protokol dozu (kümülatif maks ~300 mg/m², kardiyak sınır)</td>
+            <td>Kombinasyon rejimlerinde; kardiyak fonksiyon (EKO) takibi zorunlu.</td>
+          </tr>
+          <tr>
+            <td class="step">Levotiroksin (tüketim hipotiroidisi)</td>
+            <td class="dose">İhtiyaca göre yüksek doz replasman, TSH/sT4 ile titre</td>
+            <td>Diffüz hemanjiyomda tip 3 deiyodinaz aracılı hipotiroidi tedavisi.</td>
+          </tr>
+          <tr>
+            <td class="step">Cerrahi rezeksiyon</td>
+            <td class="dose">—</td>
+            <td>Rezektabl hepatoblastom/HCC; &gt;5 cm, büyüyen veya beta-katenin mutant adenom; komplike (kanayan) adenom.</td>
+          </tr>
+          <tr>
+            <td class="step">Karaciğer transplantasyonu</td>
+            <td class="dose">—</td>
+            <td>Rezeke edilemeyen PRETEXT IV hepatoblastom veya uygun kriterlerde HCC.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout alarm">Kemoterapi ve onkolojik cerrahi kararları risk-uyarlı protokoller (ör. SIOPEL/PRETEXT) çerçevesinde çocuk onkolojisi ve hepatobiliyer cerrahi ile eş zamanlı verilir; dozlar güncel protokole göre teyit edilmelidir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem / yönetim ilkeleri</h2>
+    <p class="lede">İzlem lezyon tipine göre uyarlanır; benign lezyonlarda görüntüleme aralıkları seyrekleştirilir, malign tümörlerde AFP ve görüntüleme ile yakın nüks takibi yapılır.</p>
+
+    <div class="grid two">
+      <div class="card">
+        <h3>Benign lezyon izlemi</h3>
+        <ul class="clean">
+          <li>İnfantil hemanjiyom: proliferasyon fazında yakın klinik+USG, involüsyona kadar; kardiyak/tiroid izlem</li>
+          <li>FNH: tipik ise aralıklı USG (ör. 6-12 ayda bir), stabil kalınca aralık uzatılır</li>
+          <li>Adenom: seri MR ile boyut takibi; büyüme, &gt;5 cm veya alt tip riski varsa rezeksiyon; tetikleyici ilacı (androjen/OKS) kes</li>
+          <li>Fokal yağlanma/psödolezyon: doğrulandığında ek izlem gereksiz</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Malign tümör izlemi</h3>
+        <ul class="clean">
+          <li>AFP tedavi yanıtı ve nüks belirteci olarak seri takip (yarılanma zamanı yanıtı)</li>
+          <li>Protokole göre kesitsel görüntüleme ile lokal ve uzak nüks taraması</li>
+          <li>Kemoterapi geç etkileri: kardiyak (doksorubisin), işitme/renal (cisplatin) izlemi</li>
+          <li>Kronik KC/siroz zemininde kalan parankim için sürekli HCC sürveyansı (USG + AFP)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pill-row">
+      <span class="pill">Yaşa göre AFP</span>
+      <span class="pill">Multidisipliner konsey</span>
+      <span class="pill">Seri görüntüleme</span>
+      <span class="pill">Geç etki izlemi</span>
+      <span class="pill">Zemin hastalık taraması</span>
+    </div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Czauderna P, Lopez-Terrada D, Hiyama E, et al. Hepatoblastoma state of the art: pathology, genetics, risk stratification, and chemotherapy. Curr Opin Pediatr. 2014.</li>
+      <li>Meyers RL, Maibach R, Hiyama E, et al. Risk-stratified staging in paediatric hepatoblastoma (PRETEXT/CHIC). Lancet Oncol. 2017.</li>
+      <li>Krishnamurthy S, et al. NASPGHAN/pediatric hepatology review: approach to focal liver lesions in children. J Pediatr Gastroenterol Nutr.</li>
+      <li>ESPGHAN Hepatology Committee. Diagnosis and management of pediatric liver tumors and benign focal lesions. Consensus/review.</li>
+      <li>Léauté-Labrèze C, et al. Propranolol for infantile hemangioma. N Engl J Med / consensus guidelines.</li>
+    </ol>
+  </footer>
+
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge çocuk gastroenteroloji/hepatoloji uzmanları için hazırlanmış bir klinik karar destek aracıdır; hastaya özgü klinik yargının, güncel kılavuzların ve çocuk onkolojisi/hepatobiliyer cerrahi ile multidisipliner değerlendirmenin yerine geçmez. Dozlar uygulamadan önce güncel protokol ve ürün bilgisiyle teyit edilmelidir.</div>
+</div>

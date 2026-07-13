@@ -1,0 +1,409 @@
+<title>Akut Karaciğer Yetmezliği (PALF) — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+<header class="masthead">
+<p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+<h1>Akut Karaciğer Yetmezliği (PALF)</h1>
+<p class="sub">Bilinen kronik karaciğer hastalığı olmayan çocukta, sarılık gerekmeden gelişen koagülopati ve hepatik ensefalopatiye dayalı hızlı tanı, etiyoloji odaklı tedavi ve nakil kararı algoritması.</p>
+<div class="meta"><span class="tag">PALF</span><span class="tag">NAC</span><span class="tag">Koagülopati</span><span class="tag">Nakil kriteri</span></div>
+</header>
+
+<section>
+<h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+<p class="lede">PALF, PALF Study Group ölçütleriyle tanımlanır: (1) bilinen kronik karaciğer hastalığı yok; (2) akut karaciğer hasarına bağlı biyokimyasal kanıt; (3) K vitaminine yanıtsız koagülopati — ensefalopati YOKSA INR ≥ 2.0 (PT ≥ 20 sn), hepatik ensefalopati VARSA INR ≥ 1.5 (PT ≥ 15 sn). Yenidoğan ve süt çocuğunda ensefalopati sıklıkla klinik olarak saptanamaz; koagülopati tek başına tanı koydurur.</p>
+<div class="callout alarm">Koagülopatiyi düzeltmek için taze donmuş plazma vermek, aktif kanama veya invaziv girişim yoksa KONTRENDİKEDİR: INR hem prognostik göstergeyi hem de nakil listeleme kriterini maskeler. Yalnızca IV K vitamini (uygulama sonrası INR yeniden değerlendirilir) verilir.</div>
+<div class="grid two">
+<div class="card">
+<h3>Yönlendirilmiş öykü</h3>
+<ul class="clean">
+<li>Asetaminofen / kombine soğuk algınlığı ilaçları: tek toksik doz (&gt;150 mg/kg) veya günlerce üst-üste supraterapötik alım (&quot;terapötik yanlışlık&quot;) — miktar ve zamanı netleştir.</li>
+<li>İlaç/toksin: valproat, izoniazid, antikonvülzanlar, Amanita phalloides mantarı, bitkisel/herbal ürünler.</li>
+<li>Yaş anahtarı: yenidoğan → metabolik (galaktozemi, tirozinemi), HSV, gestasyonel alloimmün karaciğer hastalığı (GALD/neonatal hemokromatoz), mitokondriyal.</li>
+<li>Otoimmün ipuçları: eşlik eden sitopeni, aşılar, ateş, cilt döküntüsü; ailede otoimmün hastalık.</li>
+<li>Nörolojik gerileme, tekrarlayan kusma, konsangüinite, kardeş ölümü (metabolik/mitokondriyal).</li>
+</ul>
+</div>
+<div class="card">
+<h3>Yönlendirilmiş muayene</h3>
+<ul class="clean">
+<li>Ensefalopati evrelemesi (West Haven uyarlaması): davranış değişikliği, uyku-uyanıklık tersine dönmesi, asteriksis, süt çocuğunda irritabilite/uykuya meyil.</li>
+<li>Kaput medusa, splenomegali, asit yoksa — kronik hastalık aleyhine (PALF lehine).</li>
+<li>Katarakt (galaktozemi), kaba yüz/organomegali, Kayser-Fleischer halkası (Wilson, &gt;3 yaş).</li>
+<li>Hepatomegali + kardiyak üfürüm (mitokondriyal), veziküler döküntü (HSV — yokluğu HSV&apos;yi dışlamaz).</li>
+<li>Glasgow/AVPU, pupil, fundus (serebral ödem işareti), sistolik hipertansiyon + bradikardi (herniasyon uyarısı).</li>
+</ul>
+</div>
+</div>
+</section>
+
+<section>
+<h2><span class="n">02</span> Etiyoloji ve mekanizma</h2>
+<p class="lede">PALF olgularının önemli bir kısmı ilk değerlendirmede &quot;indetermine&quot; kalır; ancak etiyolojiye özgü tedavisi olan gruplar (asetaminofen, HSV, otoimmün, metabolik, GALD, Wilson) mutlaka aktif olarak dışlanır çünkü zamana duyarlı, hayat kurtarıcı tedavileri vardır.</p>
+<div class="mech">
+<div class="m t1">
+<div class="h">Asetaminofen / toksik</div>
+<ul>
+<li>Doza bağlı sentrilobüler nekroz; NAPQI birikimi.</li>
+<li>Çok yüksek AST/ALT (binlerce), erken düşük bilirubin.</li>
+<li>Tedavi: asetaminofen toksisitesinde N-asetilsistein (NAC) standarttır. Non-asetaminofen PALF&apos;te rutin NAC sağkalımı iyileştirmez ve &lt;2 yaş çocukta sağkalımı KÖTÜLEŞTİRİR (RCT); bu yaşta verme.</li>
+</ul>
+</div>
+<div class="m t2">
+<div class="h">Enfeksiyöz — HSV</div>
+<ul>
+<li>Yenidoğan/süt çocuğu; sıklıkla ateş + ağır transaminaz + trombositopeni.</li>
+<li>Anikterik olabilir; döküntü %50&apos;den az.</li>
+<li>Ampirik IV asiklovir başla; HSV PCR bekleme.</li>
+</ul>
+</div>
+<div class="m t3">
+<div class="h">Otoimmün hepatit</div>
+<ul>
+<li>ANA / ASMA / anti-LKM-1, yüksek IgG.</li>
+<li>Histoloji: interfaz hepatiti, plazma hücreleri, masif nekroz olabilir.</li>
+<li>Kortikosteroide erken yanıt; biyopsi/serolojiyi geciktirme.</li>
+</ul>
+</div>
+<div class="m t4">
+<div class="h">Metabolik (yenidoğan/süt çocuğu)</div>
+<ul>
+<li>Galaktozemi, herediter fruktoz intoleransı, tirozinemi tip 1.</li>
+<li>Mitokondriyal hastalık; yağ asidi oksidasyon defektleri.</li>
+<li>Diyet uzaklaştırması + NTBC (tirozinemi) etiyolojiye özgü.</li>
+</ul>
+</div>
+<div class="m t5">
+<div class="h">Wilson hastalığı</div>
+<ul>
+<li>Genellikle &gt;3-5 yaş; Coombs-negatif hemolitik anemi + AKY.</li>
+<li>Düşük ALP, düşük ALP/bilirubin oranı (&lt;4), yüksek AST/ALT oranı.</li>
+<li>Fulminan Wilson = neredeyse daima nakil endikasyonu.</li>
+</ul>
+</div>
+<div class="m t6">
+<div class="h">GALD / neonatal hemokromatoz</div>
+<ul>
+<li>Yenidoğanda AKY&apos;nin en sık nedenlerinden; intrauterin başlangıç.</li>
+<li>Ferritin çok yüksek, düşük transaminaz, ağır koagülopati.</li>
+<li>Tedavi: IVIG + exchange transfüzyon; sonraki gebeliklerde anneye IVIG.</li>
+</ul>
+</div>
+</div>
+</section>
+
+<section>
+<h2><span class="n">03</span> Karar akışı</h2>
+<p class="lede">Amaç: koagülopatiyi doğrulamak, tedavi edilebilir etiyolojileri paralel ampirik olarak kapsamak ve nakil merkeziyle eş zamanlı iletişimi başlatmak.</p>
+<div class="flow">
+<div class="node start"><span class="k">Başlangıç</span><span class="t">AKY şüphesi</span><p>Akut hasta çocuk + yükselmiş transaminaz veya ensefalopati; hemen INR/PT, tam kan, glukoz, amonyak, biyokimya gönder.</p></div>
+<div class="connector"></div>
+<div class="node action"><span class="k">Adım 1</span><span class="t">IV K vitamini uygula</span><p>0.3 mg/kg IV (maks 10 mg). 2-4 saat sonra INR&apos;yi tekrar ölç; koagülopati K vitaminine dirençli mi belirle.</p></div>
+<div class="connector"></div>
+<div class="node decision"><span class="k">Karar 1</span><span class="t">PALF ölçütü karşılanıyor mu? (ensefalopatisiz INR ≥ 2.0 veya ensefalopatili INR ≥ 1.5)</span><p>K vitaminine yanıtsız koagülopati + kronik hastalık yok.</p></div>
+<div class="branches">
+<div class="branch yes"><span class="label">EVET → PALF doğrulandı</span>
+<div class="node alarm"><span class="k">Aktive et</span><span class="t">Nakil merkeziyle temas + YBÜ</span><p>Aynı anda etiyoloji paneli gönder; asetaminofen olası/ekarte edilemiyorsa NAC infüzyonu başla; hipoglisemi, amonyak ve ensefalopati takibine geç.</p></div>
+</div>
+<div class="branch no"><span class="label">HAYIR → Ciddi hepatit</span>
+<div class="node action safe"><span class="k">İzle</span><span class="t">Yakın seri izlem</span><p>6-12 saatte bir INR/transaminaz/glukoz; kötüleşme olursa Karar 1&apos;e dön. Destek tedavisi + etiyoloji araştırması sürdürülür.</p></div>
+</div>
+</div>
+<div class="connector"></div>
+<div class="node decision"><span class="k">Karar 2</span><span class="t">Tedavi edilebilir etiyoloji var mı? (asetaminofen / HSV / otoimmün / metabolik / GALD / Wilson)</span><p>Anamnez ve ilk panel sonuçlarına göre ampirik başla.</p></div>
+<div class="branches">
+<div class="branch yes"><span class="label">EVET → Etiyolojiye özgü tedavi</span>
+<div class="node action safe"><span class="k">Hedefe yönelik</span><span class="t">Spesifik ajan</span><p>Asetaminofen→NAC; süt çocuğu→IV asiklovir; otoimmün→metilprednizolon; tirozinemi→NTBC; GALD→IVIG.</p></div>
+</div>
+<div class="branch no"><span class="label">HAYIR → İndetermine</span>
+<div class="node action"><span class="k">Destekle</span><span class="t">NAC + YBÜ desteği</span><p>Ensefalopati/serebral ödem, koagülopati ve enfeksiyon yönetimi; asetaminofen ekarte edilemiyorsa NAC (&lt;2 yaşta verme); King&apos;s College / PALF prognostik göstergelerini izle.</p></div>
+</div>
+</div>
+<div class="connector"></div>
+<div class="node decision"><span class="k">Karar 3</span><span class="t">Kötü prognoz göstergesi var mı? (ilerleyen INR, evre III-IV ensefalopati, yükselen bilirubin, laktat)</span><p>Spontan iyileşme olasılığı düşüyor mu?</p></div>
+<div class="branches">
+<div class="branch yes"><span class="label">EVET → Nakil için listele</span>
+<div class="node alarm"><span class="k">Acil</span><span class="t">Süper-acil nakil değerlendirmesi</span><p>Nakil ekibiyle liste kararı; kontrendikasyon (mitokondriyal multisistem, kontrolsüz sepsis, geri dönüşsüz beyin hasarı) dışla.</p></div>
+</div>
+<div class="branch no"><span class="label">HAYIR → İyileşme eğilimi</span>
+<div class="node action safe"><span class="k">Sürdür</span><span class="t">Medikal izlem</span><p>INR/ensefalopati düzeliyorsa medikal iyileşme; destek tedavisini azaltarak sürdür, nakil listesini hazır tut.</p></div>
+</div>
+</div>
+</div>
+</section>
+
+<section>
+<h2><span class="n">04</span> Basamaklı tetkik</h2>
+<p class="lede">İlk 24 saatte etiyoloji paneli tamamlanır; tedavi edilebilir nedenler için sonuç beklenmeden ampirik tedavi başlatılır.</p>
+<div class="table-scroll">
+<table>
+<caption>PALF etiyoloji ve şiddet değerlendirme paneli</caption>
+<thead>
+<tr><th>Basamak</th><th>Amaç</th><th>İçerik</th></tr>
+</thead>
+<tbody>
+<tr><td class="step">1 · Koagülasyon &amp; şiddet</td><td>PALF ölçütü + prognoz</td><td>PT/INR, aPTT, faktör V, tam kan sayımı; INR seri takip prognostik.</td></tr>
+<tr><td class="step">2 · Karaciğer &amp; metabolik</td><td>Hasar örüntüsü</td><td>AST, ALT, GGT, ALP, total/direkt bilirubin, albümin, amonyak, laktat, glukoz (hipoglisemiyi kaçırma).</td></tr>
+<tr><td class="step">3 · Asetaminofen</td><td>Toksik neden</td><td>Serum asetaminofen düzeyi; alım zamanı bilinmiyorsa dahi NAC başla.</td></tr>
+<tr><td class="step">4 · Enfeksiyöz</td><td>HSV &amp; viral</td><td>HSV-1/2 PCR (kan), enterovirus PCR, HBV/HAV/HEV, EBV, CMV serolojisi; süt çocuğunda asiklovir bekletme.</td></tr>
+<tr><td class="step">5 · Otoimmün</td><td>OİH tanısı</td><td>ANA, ASMA, anti-LKM-1, IgG düzeyi; endike ise transjuguler karaciğer biyopsisi.</td></tr>
+<tr><td class="step">6 · Metabolik (yaşa göre)</td><td>Kalıtsal neden</td><td>Galaktoz-1-fosfat üridiltransferaz, süksinilaseton (tirozinemi), plazma aminoasit, idrar organik asit, ferritin (GALD).</td></tr>
+<tr><td class="step">7 · Wilson (&gt;3 yaş)</td><td>Bakır metabolizması</td><td>Seruloplazmin, 24 saatlik idrar bakırı, ALP/bilirubin &lt;4 ve AST/ALT &gt;2.2 oranı, hemoliz göstergeleri.</td></tr>
+<tr><td class="step">8 · Görüntüleme &amp; nöro</td><td>Vasküler + ödem</td><td>Doppler USG (Budd-Chiari), ekokardiyografi; ensefalopatide kranial görüntüleme, EEG.</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section>
+<h2><span class="n">05</span> Kırmızı bayraklar</h2>
+<p class="lede">Aşağıdaki bulgular serebral ödem/herniasyon, çoklu organ yetmezliği veya geri dönüşsüzlük habercisidir; nakil ekibi ve YBÜ eş zamanlı devreye girer.</p>
+<div class="alarm-grid">
+<div class="alarm-item"><span class="dot"></span><span>Evre III-IV ensefalopati veya hızlı bilinç kötüleşmesi</span></div>
+<div class="alarm-item"><span class="dot"></span><span>INR ilerleyerek &gt; 4 veya faktör V &lt; %25</span></div>
+<div class="alarm-item"><span class="dot"></span><span>Amonyak &gt; 150-200 µmol/L, hızla yükseliyor</span></div>
+<div class="alarm-item"><span class="dot"></span><span>Dirençli hipoglisemi (sentez yetmezliği)</span></div>
+<div class="alarm-item"><span class="dot"></span><span>Sistolik hipertansiyon + bradikardi (Cushing / herniasyon)</span></div>
+<div class="alarm-item"><span class="dot"></span><span>Yükselen laktat + metabolik asidoz + böbrek yetmezliği</span></div>
+<div class="alarm-item"><span class="dot"></span><span>Coombs-negatif hemolitik anemi + düşük ALP (fulminan Wilson)</span></div>
+<div class="alarm-item"><span class="dot"></span><span>Transaminazlarda düşüş + bilirubin/INR yükselişi (kütlenin kaybı)</span></div>
+</div>
+</section>
+
+<section>
+<h2><span class="n">06</span> Tedavi</h2>
+<p class="lede">Genel destek (glukoz infüzyonu, koagülopati yönetimi, enfeksiyon kontrolü) ile etiyolojiye özgü ajanlar eş zamanlı yürütülür. Dozlar mg/kg + maksimum olarak verilmiştir.</p>
+<div class="table-scroll">
+<table>
+<caption>PALF etiyolojiye yönelik ve destekleyici tedavi dozları</caption>
+<thead>
+<tr><th>İlaç / girişim</th><th>Doz</th><th>Endikasyon &amp; not</th></tr>
+</thead>
+<tbody>
+<tr><td class="step">N-asetilsistein (IV)</td><td class="dose">Yükleme 150 mg/kg (60 dk); ardından 12.5 mg/kg/saat × 4 saat; sonra 6.25 mg/kg/saat idame</td><td>Asetaminofen toksisitesinde standart. Non-asetaminofen PALF&apos;te rutin fayda kanıtlanmamış, &lt;2 yaşta zararlı — verme; ensefalopati düzelene ve INR &lt; 1.5 olana dek sürdür.</td></tr>
+<tr><td class="step">Asiklovir (IV)</td><td class="dose">20 mg/kg/doz, 8 saatte bir (yenidoğan/süt çocuğu)</td><td>HSV ekarte edilene dek ampirik; PCR bekleme, renal doz ayarı yap.</td></tr>
+<tr><td class="step">Metilprednizolon (IV)</td><td class="dose">2 mg/kg/gün (maks 60 mg/gün)</td><td>Otoimmün hepatit ilişkili PALF; seroloji/biyopsi sonucunu beklerken erken başla.</td></tr>
+<tr><td class="step">K vitamini (IV)</td><td class="dose">0.3 mg/kg (maks 10 mg), yavaş IV</td><td>Tüm PALF olgularında; K vitaminine yanıt koagülopatiyi tanımlar, rutin TDP verme.</td></tr>
+<tr><td class="step">NTBC / nitisinon</td><td class="dose">1 mg/kg/gün, 2 doza bölünmüş</td><td>Herediter tirozinemi tip 1; diyet faz/tir kısıtlaması ile birlikte.</td></tr>
+<tr><td class="step">IVIG (GALD)</td><td class="dose">1 g/kg tek doz; gerekirse exchange transfüzyon ile</td><td>Gestasyonel alloimmün karaciğer hastalığı / neonatal hemokromatoz.</td></tr>
+<tr><td class="step">Dekstroz infüzyonu</td><td class="dose">Glukoz akış hızı 6-10 mg/kg/dk; hedef kan şekeri &gt; 70 mg/dL</td><td>Hipoglisemiyi agresif önle; hepatik sentez yetmezliği göstergesi.</td></tr>
+<tr><td class="step">Laktuloz / rifaksimin</td><td class="dose">Laktuloz 0.5 mL/kg/doz; günde 2-3 yumuşak dışkı hedefi</td><td>Ensefalopati; amonyak yüksekse. Aşırı katarsisten kaçın.</td></tr>
+<tr><td class="step">Hipertonik salin (%3)</td><td class="dose">Serebral ödemde 3-5 mL/kg bolus; Na hedefi 145-155 mmol/L</td><td>Evre III-IV ensefalopati / herniasyon bulgusu; nöroşirürji-YBÜ ile.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="callout">Faktör konsantresi/TDP yalnızca aktif kanama veya invaziv girişim öncesi verilir. Rutin koagülopati düzeltmesi prognostik ve nakil kriterlerini (INR) maskeler.</div>
+</section>
+
+<section>
+<h2><span class="n">07</span> İzlem ve yönetim ilkeleri</h2>
+<p class="lede">PALF dinamik bir tablodur; izlem sıklığı kliniğin hızına göre ayarlanır ve nakil değerlendirmesi erken, paralel yürütülür.</p>
+<div class="grid three">
+<div class="card">
+<h3>Monitörizasyon</h3>
+<ul class="clean">
+<li>INR, transaminaz, bilirubin, albümin, amonyak, laktat, glukoz — kötüleşen olguda 6-12 saatte bir.</li>
+<li>Nörolojik durum saatlik; ensefalopati evresi değişimi kaydedilir.</li>
+<li>Böbrek fonksiyonu, elektrolit, fosfat; hepatorenal/çoklu organ takibi.</li>
+</ul>
+</div>
+<div class="card">
+<h3>YBÜ ilkeleri</h3>
+<ul class="clean">
+<li>Baş 30° yukarı, normokapni, normotermi; serebral perfüzyonu koru.</li>
+<li>Evre III-IV&apos;te entübasyon; ajitasyon/aspirasyon riskini yönet.</li>
+<li>Renal replasman (CRRT) hiperamonemi/sıvı yükünde; enfeksiyonda düşük eşikle antimikrobiyal.</li>
+</ul>
+</div>
+<div class="card">
+<h3>Nakil kararı</h3>
+<ul class="clean">
+<li>PALF doğrulanır doğrulanmaz nakil merkeziyle temas; süper-acil listeleme.</li>
+<li>Kontrendikasyon: mitokondriyal multisistem hastalık, kontrolsüz sepsis, geri dönüşsüz beyin hasarı.</li>
+<li>Medikal iyileşme (INR ve ensefalopatide düzelme) olsa da liste hazır tutulur.</li>
+</ul>
+</div>
+</div>
+<div class="pill-row"><span class="pill">Erken nakil teması</span><span class="pill">Asetaminofende NAC</span><span class="pill">Hipoglisemiyi önle</span><span class="pill">TDP&apos;yi sınırla</span><span class="pill">Etiyolojiyi paralel araştır</span></div>
+</section>
+
+<footer>
+<b>Kaynaklar</b>
+<ol>
+<li>Squires RH, et al. Acute Liver Failure in Children: Definition, Diagnosis, and Management — NASPGHAN Position Paper. J Pediatr Gastroenterol Nutr. 2022.</li>
+<li>Di Giorgio A, et al. Diagnostic Approach to Acute Liver Failure in Children (ESPGHAN Hepatology Committee). J Pediatr Gastroenterol Nutr. 2021.</li>
+<li>Pediatric Acute Liver Failure Study Group (PALFSG). Characterization and outcomes of pediatric acute liver failure. Hepatology / J Pediatr.</li>
+<li>EASL Clinical Practice Guidelines on the management of acute (fulminant) liver failure. J Hepatol. 2017.</li>
+</ol>
+</footer>
+<div class="disclaimer"><b>Uyarı:</b> Bu belge pediyatrik gastroenteroloji/hepatoloji uzmanları için karar-desteği amaçlıdır; kurumsal protokoller, hasta bireyselliği ve güncel kılavuzların yerine geçmez. Doz ve girişimler klinik yargı ve yerel nakil merkezi iş birliği ile uygulanmalıdır.</div>
+</div>

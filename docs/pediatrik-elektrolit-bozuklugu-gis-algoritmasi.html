@@ -1,0 +1,404 @@
+<title>GİS Kaynaklı Elektrolit Bozuklukları — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>GİS Kaynaklı Elektrolit Bozuklukları</h1>
+    <p class="sub">Üst GİS kayıplarının (pilor stenozu: hipokloremik hipokalemik metabolik alkaloz) ve alt GİS kayıplarının (ishalde hiperkloremik metabolik asidoz) tanınması, kantitatif sıvı-elektrolit düzeltmesi ve izlemi.</p>
+    <div class="meta">
+      <span class="tag">Pilor stenozu</span>
+      <span class="tag">Metabolik alkaloz</span>
+      <span class="tag">İshal / asidoz</span>
+      <span class="tag">Sıvı-elektrolit</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">GİS kaynaklı elektrolit bozuklukları, kaybın kaynağına göre iki zıt asit-baz tabloya ayrılır: kusma/nazogastrik drenaj (mide asidi, HCl kaybı) → hipokloremik, hipokalemik metabolik alkaloz; ishal (bikarbonat ve potasyum kaybı) → hiperkloremik (normal anyon açıklı) metabolik asidoz. İlk adım hidrasyon, hemodinami ve asit-baz durumunun eş zamanlı değerlendirilmesidir.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öykü</h3>
+        <ul class="clean">
+          <li>Kusmanın niteliği: safrasız fışkırır tarzda kusma (3-8 haftalık infant → hipertrofik pilor stenozu düşün)</li>
+          <li>İshal süresi, sıklığı, sulu/kanlı ayrımı; sekretuar mı osmotik mi</li>
+          <li>İdrar çıkışı, son ıslak bez, kilo kaybı yüzdesi, beslenme öyküsü</li>
+          <li>İlaç öyküsü: diüretik, laksatif, PPI; NG tüp / uzamış aspirasyon</li>
+          <li>Altta yatan: kistik fibroz (klor kaybettiren terleme), konjenital kloridore, kısa bağırsak</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayene</h3>
+        <ul class="clean">
+          <li>Dehidratasyon ağırlığı: kapiller dolum, turgor, mukoza, fontanel, taşikardi, hipotansiyon</li>
+          <li>Pilor stenozunda: sağ üst kadranda zeytin kıvamında kitle, görünür peristaltizm</li>
+          <li>Letarji, ileus, kas güçsüzlüğü → hipokalemi işareti</li>
+          <li>Kussmaul solunumu → belirgin metabolik asidoz (ağır ishal)</li>
+          <li>Zorunlu ilk tetkik: venöz kan gazı + Na, K, Cl, glukoz; idrar Cl ve idrar pH</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">Kritik ilke: Elektrolit düzeltmesine başlamadan idrar çıkışı sağlanmalı; potasyum ancak yeterli diürez (>1 mL/kg/saat) doğrulandıktan sonra verilir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Mekanizma ve tabloların ayrımı</h2>
+    <p class="lede">Kaybın anatomik kaynağı asit-baz yönünü belirler. Aşağıdaki kartlar üst ve alt GİS kaynaklı bozuklukların patofizyolojisini ve idrar bulgularını özetler.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">Üst GİS kaybı — Pilor stenozu / kusma</div>
+        <ul>
+          <li>Mide sıvısı = HCl + KCl kaybı → hipokloremik, hipokalemik metabolik alkaloz</li>
+          <li>Hipovolemi → RAAS aktivasyonu → aldosteron ile renal H⁺ ve K⁺ atılımı (alkalozu sürdürür)</li>
+          <li>Paradoks asidüri: hacim korunması için Na⁺ geri emiliminde H⁺ değişimi</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">Alt GİS kaybı — İshal</div>
+        <ul>
+          <li>Dışkı ile HCO₃⁻ ve K⁺ kaybı → hiperkloremik, normal anyon açıklı metabolik asidoz</li>
+          <li>Ağır perfüzyon bozukluğunda ek laktik asidoz (yükselmiş anyon açığı)</li>
+          <li>Hipokalemi sık; asidoz düzelirken K⁺ hücre içine kayar, plazma K⁺ düşer</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">İdrar Cl ile ayrım (alkaloz)</div>
+        <ul>
+          <li>İdrar Cl &lt; 10-15 mmol/L → klorüre duyarlı: kusma, pilor stenozu, NG drenaj (SF yanıtlı)</li>
+          <li>İdrar Cl &gt; 20 mmol/L → klorüre dirençli: mineralokortikoid fazlalığı, Bartter/Gitelman</li>
+          <li>GİS alkalozunda tedavi klor ve hacim replasmanıdır</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Eşlik eden bozukluklar</div>
+        <ul>
+          <li>Hipokalemi her iki tabloda; hipomagnezemi K⁺ düzelmesini engeller</li>
+          <li>Uzamış ishalde hiponatremi/hipernatremi (serbest su dengesine göre)</li>
+          <li>Refeeding sırasında hipofosfatemi</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout alarm">Pilor stenozunda düzeltme cerrahiden önce gelir: piloromiyotomi acil değildir; ameliyat ancak alkaloz düzeldikten (HCO₃⁻ &lt; 26-28 mmol/L, Cl &gt; 100 mmol/L, K normal) sonra yapılır, aksi halde postoperatif apne riski artar.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">Hemodinami ve asit-baz yönü akışı belirler. Şok varsa etiyolojiden bağımsız olarak önce hacim resüsitasyonu yapılır.</p>
+    <div class="flow">
+      <div class="node start"><span class="k">Başlangıç</span><span class="t">GİS kaybı olan çocuk</span><p>Vital bulgular, kilo, kan gazı + elektrolit, idrar Cl/pH.</p></div>
+      <div class="connector"></div>
+      <div class="node action"><span class="k">Adım 1</span><span class="t">Dolaşımı değerlendir</span><p>Perfüzyon, taşikardi, hipotansiyon, bilinç.</p></div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 1</span><span class="t">Şok / ağır dehidratasyon var mı?</span><p>Kapiller dolum &gt;3 sn, letarji, %10 kayıp.</p></div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → resüsitasyon</span>
+          <div class="node alarm"><span class="k">Acil</span><span class="t">İzotonik bolus</span><p>%0,9 NaCl 20 mL/kg IV 15-30 dk; yanıta göre tekrarla. Perfüzyon düzelince Adım 2.</p></div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → yönü belirle</span>
+          <div class="node action safe"><span class="k">Adım 2</span><span class="t">Asit-baz yönünü sınıfla</span><p>Kan gazı ile alkaloz mı asidoz mu?</p></div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 2</span><span class="t">Metabolik alkaloz mu (üst GİS)?</span><p>HCO₃⁻ ↑, pH ↑, Cl ↓, K ↓; kusma/pilor öyküsü.</p></div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → klor + K replasmanı</span>
+          <div class="node action safe"><span class="k">Yol A</span><span class="t">Klorüre duyarlı alkaloz</span><p>%0,9 NaCl bazlı sıvı + diürez sonrası KCl ekle. Pilor stenozunda USG ile tanı, alkaloz düzelene dek cerrahiyi beklet.</p></div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → asidoz kolu</span>
+          <div class="node action"><span class="k">Yol B</span><span class="t">Hiperkloremik asidoz (ishal)</span><p>ORS/IV ile hacim + HCO₃⁻ açığını yerine koy; K⁺ diürezle birlikte ekle.</p></div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 3</span><span class="t">K &lt; 3,0 mmol/L veya EKG değişikliği var mı?</span><p>Ağır hipokalemi / aritmi bulgusu.</p></div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → yakın izlem</span>
+          <div class="node alarm"><span class="k">Uyarı</span><span class="t">Monitörlü K replasmanı</span><p>KCl infüzyonu, EKG monitörü, Mg kontrol; santral yol gerekebilir.</p></div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → idame</span>
+          <div class="node action safe"><span class="k">Adım 3</span><span class="t">İdame + seri kontrol</span><p>Elektrolitleri 4-6 saatte tekrarla; kayıp devam ederse yerine koy.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Tanıyı doğrulama ve tedaviyi yönlendirme sırası. Kan gazı ve idrar Cl, alkaloz-asidoz ayrımının temelidir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>GİS kaynaklı elektrolit bozukluğunda basamaklı değerlendirme</caption>
+        <thead>
+          <tr><th>Basamak</th><th>İçerik</th><th>Yorum / eşik</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">1. Kan gazı + elektrolit</td><td>Venöz pH, HCO₃⁻, Na, K, Cl, glukoz</td><td>Alkaloz: HCO₃⁻ &gt;26; asidoz: HCO₃⁻ &lt;18. Anyon açığını hesapla</td></tr>
+          <tr><td class="step">2. İdrar Cl ve pH</td><td>Spot idrar klorür</td><td>&lt;15 mmol/L klorüre duyarlı (GİS kaybı); paradoks asidüri alkalozu doğrular</td></tr>
+          <tr><td class="step">3. Böbrek + Mg/P</td><td>Üre, kreatinin, Mg, fosfor</td><td>Prerenal azotemi hacim açığını gösterir; Mg düşükse K düzelmez</td></tr>
+          <tr><td class="step">4. Pilor USG</td><td>Pilor kas kalınlığı ve kanal uzunluğu</td><td>Kas &gt;3-4 mm, kanal &gt;15-17 mm → hipertrofik pilor stenozu</td></tr>
+          <tr><td class="step">5. Dışkı tetkiki (ishalde)</td><td>Dışkı elektrolit, osmotik açık, redüktan madde, kültür</td><td>Sekretuar vs osmotik ayrımı; konjenital kloridorede dışkı Cl yüksek</td></tr>
+          <tr><td class="step">6. Kilo takibi</td><td>Seri tartı</td><td>Sıvı açığı ve replasman yeterliliğinin en güvenilir göstergesi</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Acil müdahale veya monitörizasyon gerektiren bulgular.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Letarji, apne veya bilinç bozukluğu — ağır elektrolit dengesizliği</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>K &lt; 2,5 mmol/L veya EKG değişikliği (U dalgası, aritmi)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kompanse edilemeyen şok / anüri (idrar çıkışı yok)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Serum Na &lt;125 veya &gt;160 mmol/L; hızlı düzeltme riski</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Safralı / bilyöz kusma — malrotasyon/volvulus ekartasyonu</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kanlı ishal + hipotansiyon — sepsis/HÜS uyarısı</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Alkaloz düzelmeden piloromiyotomi planı — postoperatif apne riski</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kussmaul solunumu + yüksek anyon açığı — laktik asidoz eşliği</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi</h2>
+    <p class="lede">Hedef: hacim açığını izotonik sıvıyla kapatmak, klor ve potasyumu yerine koymak, asit-baz bozukluğunu altta yatan hacim/klor açığını düzelterek dolaylı olarak normalize etmektir. Bikarbonat rutin verilmez.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Sıvı-elektrolit düzeltme dozları (pediatrik)</caption>
+        <thead>
+          <tr><th>Basamak / ajan</th><th>Doz</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">İzotonik bolus (şok)</td><td class="dose">%0,9 NaCl 20 mL/kg IV, 15-30 dk (maks ~1000 mL/bolus, yanıta göre tekrarla)</td><td>Perfüzyon düzelene dek; kardiyak/renal yükte dikkatli</td></tr>
+          <tr><td class="step">İdame + açık replasmanı (pilor)</td><td class="dose">%0,45-0,9 NaCl + %5 dekstroz, 1,5-2× idame hız</td><td>Alkaloz düzelene dek; Cl &gt;100, HCO₃⁻ &lt;28 hedef</td></tr>
+          <tr><td class="step">Potasyum klorür (idame ekli)</td><td class="dose">Sıvıya 20-40 mmol/L KCl (diürez &gt;1 mL/kg/saat sonrası)</td><td>Periferik yolda max ~40 mmol/L konsantrasyon</td></tr>
+          <tr><td class="step">KCl — ağır hipokalemi (IV düzeltme)</td><td class="dose">0,5-1 mmol/kg/doz IV, 1-2 saatte (maks 20 mmol/doz; hız ≤0,3-0,5 mmol/kg/saat)</td><td>EKG monitörü; santral yol tercih; K &gt;40 mmol/L santralden</td></tr>
+          <tr><td class="step">Oral rehidratasyon (ishal)</td><td class="dose">DSÖ düşük ozmolar ORS 50-100 mL/kg, 4 saatte + devam eden kayıp 10 mL/kg/her dışkı</td><td>Hafif-orta dehidratasyonda ilk seçenek</td></tr>
+          <tr><td class="step">IV rehidratasyon (ishal, orta-ağır)</td><td class="dose">Açık %5-10 × kilo; izotonik sıvı ile 24 saatte replasman + idame</td><td>Asidoz hacimle düzelir; HCO₃⁻ rutin verilmez</td></tr>
+          <tr><td class="step">Magnezyum (refrakter hipokalemi)</td><td class="dose">MgSO₄ 25-50 mg/kg IV, 1-2 saatte (maks 2 g/doz)</td><td>Mg düzeltilmeden K normale gelmez</td></tr>
+          <tr><td class="step">Sodyum bikarbonat</td><td class="dose">Yalnızca pH &lt;7,1 + refrakter asidozda: 1 mmol/kg IV yavaş</td><td>Rutin değil; hacim resüsitasyonu önceliklidir</td></tr>
+          <tr><td class="step">Çinko (ishal, DSÖ)</td><td class="dose">&lt;6 ay 10 mg/gün, &gt;6 ay 20 mg/gün PO, 10-14 gün</td><td>İshal süresini ve nüksü azaltır</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout safe">Pilor stenozunda piloromiyotomi elektif bir işlemdir; öncelik metabolik alkalozun ve hipokalemik hipokloreminin tam düzeltilmesidir. Hedeflere ulaşınca (Cl &gt;100 mmol/L, HCO₃⁻ &lt;28 mmol/L, K normal, iyi idrar çıkışı) cerrahi güvenle planlanır.</div>
+    <div class="pill-row">
+      <span class="pill">Bolus önce, K sonra</span>
+      <span class="pill">Diürez = K için ön koşul</span>
+      <span class="pill">Bikarbonat = son çare</span>
+      <span class="pill">Mg'yi unutma</span>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve yönetim ilkeleri</h2>
+    <p class="lede">Düzeltme hızı ve seri takip, iyatrojenik komplikasyonları önler.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>İzlem parametreleri</h3>
+        <ul class="clean">
+          <li>Elektrolit ve kan gazını başlangıçta 4-6 saatte bir, stabilizasyonda 12-24 saatte tekrarla</li>
+          <li>Saatlik idrar çıkışı (&gt;1-2 mL/kg/saat hedef); seri kilo</li>
+          <li>Ağır hipokalemide sürekli EKG/kardiyak monitör</li>
+          <li>Na düzeltme hızı ≤10-12 mmol/L/24 saat (osmotik demiyelinizasyon / serebral ödemden kaçın)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Yönetim ilkeleri</h3>
+        <ul class="clean">
+          <li>Pilor stenozu: alkaloz düzelene dek NG dekompresyon; hedeflere ulaşınca piloromiyotomi</li>
+          <li>İshal: erken enteral beslenmeye dönüş (rehidrasyon sonrası 4-6 saat), laktozsuz diyet gerekmez</li>
+          <li>Refeeding izlemi: fosfor, magnezyum, potasyum takibi</li>
+          <li>Kronik/konjenital kayıplarda (kloridore, KF) uzun süreli oral elektrolit desteği ve altta yatan tedavi</li>
+          <li>Antidiyareik (loperamid vb.) çocukta rutin önerilmez</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">Taburculuk kriteri: oral alımı tolere eden, elektrolitleri normalleşen, yeterli idrar çıkışı olan ve altta yatan neden tedavi edilmiş/planlanmış hasta.</div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Guarino A, Lo Vecchio A, Dias JA, et al. ESPGHAN/ESPID Kılavuzu: Avrupa'da Çocuklarda Akut Gastroenterit Yönetimi, Güncelleme. J Pediatr Gastroenterol Nutr. 2014.</li>
+      <li>World Health Organization. The Treatment of Diarrhoea: A Manual for Physicians and Other Senior Health Workers. WHO. 2005.</li>
+      <li>Ranells HD, Ranells JD. Hypertrophic Pyloric Stenosis: An Update. Pediatr Rev / Pediatrics in Review. 2011.</li>
+      <li>NASPGHAN. Clinical Practice Guidance on Fluid and Electrolyte Management in Pediatric Gastrointestinal Disorders. 2018.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge pediyatrik gastroenteroloji uzmanları için klinik karar desteği amaçlıdır; hastaya özgü klinik değerlendirmenin, kurumsal protokollerin ve güncel kılavuzların yerini almaz. Dozlar doğrulanmalı ve bireysel duruma göre uyarlanmalıdır.</div>
+</div>

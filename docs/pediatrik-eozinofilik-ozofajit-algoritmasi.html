@@ -1,0 +1,488 @@
+<title>Eozinofilik Özofajit — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Eozinofilik Özofajit</h1>
+    <p class="sub">Kronik, immün/antijen aracılı özofagus hastalığında tanı doğrulama, PPI ve topikal steroidin dozlu kullanımı, eliminasyon diyeti ve dilatasyon kararlarını kapsayan basamaklı karar aracı.</p>
+    <div class="meta">
+      <span class="tag">Disfaji · İmpaksiyon</span>
+      <span class="tag">Özofagus ≥15 eoz/BBA</span>
+      <span class="tag">PPI · Topikal steroid</span>
+      <span class="tag">Eliminasyon diyeti</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve İlk Değerlendirme</h2>
+    <p class="lede">Eozinofilik özofajit (EoÖ), klinik olarak özofagus disfonksiyonu semptomları ve histolojik olarak özofagus mukozasında yoğun eozinofil infiltrasyonu (en yüksek büyütme alanında ≥15 eozinofil/BBA, yaklaşık ≥60 eoz/mm²) ile karakterize, antijen/immün aracılı kronik bir hastalıktır. Tanı klinik + endoskopik + histolojik verilerin bütünleştirilmesiyle konur; artık PPI yanıtı bir dışlama kriteri DEĞİLDİR, PPI bir tedavi seçeneğidir.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öykü — Yaşa Göre Semptomlar</h3>
+        <ul class="clean">
+          <li>Süt çocuğu/oyun çocuğu: beslenme reddi, kusma, regürjitasyon, büyüme geriliği, iritabilite</li>
+          <li>Okul çocuğu: karın/göğüs ağrısı, kusma, bulantı, tedaviye dirençli reflü benzeri şikayetler</li>
+          <li>Adölesan: disfaji, yavaş yeme, çok çiğneme/su ile yutma, besin impaksiyonu</li>
+          <li>Uyum davranışları (dikkat): iri lokmalardan kaçınma, en son yemek bitirme, sos/su ile ıslatma</li>
+          <li>Atopi eş tanısı: astım, alerjik rinit, atopik dermatit, IgE aracılı besin alerjisi, aile öyküsü</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayene ve İlk Tetkik</h3>
+        <ul class="clean">
+          <li>Fizik muayene sıklıkla normal; büyüme parametreleri (persentil, tartı-boy) mutlaka değerlendir</li>
+          <li>Atopik bulgular: egzama, allerjik shiner, oral solunum</li>
+          <li>Akut besin impaksiyonu acildir → endoskopik çıkarım + aynı seansta biyopsi</li>
+          <li>Üst GİS endoskopisi ilk basamak: özofagus boyunca 2-4 farklı düzeyden (proksimal + distal) ≥6 biyopsi</li>
+          <li>Rutin periferik eozinofili/serum IgE tanı koydurucu değildir; alerji testleri diyet hedefleme için sınırlı yarar</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">Endoskopik bulgular normal görünse bile (%10-30 makroskopik normal) biyopsi zorunludur. EREFS skoru (ödem, halkalar/trakealizasyon, eksüda, longitudinal oluklar, striktür) endoskopik şiddeti standardize eder.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Etiyoloji ve Mekanizma</h2>
+    <p class="lede">EoÖ, genetik yatkın bireyde gıda (nadiren aeroalerjen) antijenlerine karşı gelişen Th2 baskın, IgE-bağımsız gecikmiş tipte bir inflamasyondur. Anahtar sitokinler ve bariyer bozukluğu kronik fibrozis ve strüktürel remodeling ile sonuçlanır.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">Antijenik Tetik</div>
+        <ul>
+          <li>Süt, buğday, yumurta, soya en sık tetikleyiciler</li>
+          <li>Fıstık/ağaç yemişi, deniz ürünleri daha az</li>
+          <li>Mekanizma IgE-bağımsız, gecikmiş T-hücre aracılı</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">Th2 İnflamasyon</div>
+        <ul>
+          <li>IL-13, IL-5, IL-4 aşırı ekspresyonu</li>
+          <li>Eotaksin-3 (CCL26) ile eozinofil kemotaksisi</li>
+          <li>Mast hücre ve bazofil katkısı</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">Epitel Bariyer Bozukluğu</div>
+        <ul>
+          <li>Filaggrin/DSG1 azalması, geçirgenlik artışı</li>
+          <li>TSLP ve CAPN14 gen ilişkisi</li>
+          <li>Antijen penetrasyonunun kolaylaşması</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Doku Remodeling</div>
+        <ul>
+          <li>TGF-β aracılı subepitelyal fibrozis</li>
+          <li>Lamina propria kollajen birikimi</li>
+          <li>Düz kas hipertrofisi ve motilite bozukluğu</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">Klinik Fenotip</div>
+        <ul>
+          <li>İnflamatuvar fenotip (ödem, eksüda) — genç çocuk</li>
+          <li>Fibrostenotik fenotip (halka, striktür) — adölesan</li>
+          <li>Tanı gecikmesi fibrozis riskini artırır</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">Eş Hastalıklar</div>
+        <ul>
+          <li>Atopik yürüyüş: egzama, astım, rinit</li>
+          <li>IgE aracılı besin alerjisi birlikteliği</li>
+          <li>Bağ dokusu hastalıkları ile ilişki (nadir)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar Akışı</h2>
+    <p class="lede">Semptomatik hastada tanıyı histolojik olarak doğrula, ardından ilk basamak tedaviyi (PPI, topikal steroid veya eliminasyon diyeti) seç ve 8-12 haftada endoskopik/histolojik yeniden değerlendirme ile yanıtı objektif kanıtla.</p>
+    <div class="flow">
+      <div class="node start">
+        <span class="k">Başlangıç</span>
+        <span class="t">Özofagus disfonksiyonu semptomları</span>
+        <p>Disfaji, besin impaksiyonu, tedaviye dirençli reflü, beslenme reddi veya büyüme geriliği olan çocuk.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node action">
+        <span class="k">Adım 1</span>
+        <span class="t">Üst GİS endoskopisi + segmental biyopsi</span>
+        <p>Proksimal ve distal özofagustan ≥6 biyopsi; mide ve duodenum biyopsileri ile diğer eozinofilik/GÖRH nedenlerini dışla.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 1</span>
+        <span class="t">Pik ≥15 eozinofil/BBA var mı?</span>
+        <p>Histolojik eşik sağlanıyor ve sekonder nedenler (GÖRH-dışı, akalazya, Crohn, enfeksiyon, hipereozinofilik sendrom) dışlanmış mı?</p>
+      </div>
+      <div class="branches">
+        <div class="branch no">
+          <span class="label">HAYIR → Alternatif tanı</span>
+          <div class="node action safe">
+            <span class="k">Yeniden değerlendir</span>
+            <span class="t">GÖRH / diğer nedenler</span>
+            <p>Semptom sürüyorsa GÖRH yönetimi, pH-impedans veya diğer eozinofilik GİS hastalığı araştırması.</p>
+          </div>
+        </div>
+        <div class="branch yes">
+          <span class="label">EVET → EoÖ tanısı</span>
+          <div class="node decision">
+            <span class="k">Karar 2</span>
+            <span class="t">İlk basamak tedavi seçimi</span>
+            <p>Aile tercihi, fenotip ve uygulanabilirliğe göre PPI, yutulan topikal steroid veya eliminasyon diyetinden biri.</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node action">
+        <span class="k">Adım 2</span>
+        <span class="t">Seçilen tedaviyi 8-12 hafta uygula</span>
+        <p>PPI, budesonid/flutikazon ya da 6/4/2/1-gıda eliminasyonu; tedaviye tam uyum ve süreyi sağla.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 3</span>
+        <span class="t">Kontrol endoskopide histolojik remisyon (<15 eoz/BBA)?</span>
+        <p>Semptom düzelmesi tek başına yeterli değil; yanıt histolojik olarak kanıtlanmalı.</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → İdame</span>
+          <div class="node action safe">
+            <span class="k">Sürdür</span>
+            <span class="t">En düşük etkili doz ile idame</span>
+            <p>Etkili tedaviyi sürdür, periyodik izlem; ilaç kesilmesi sıklıkla nüksle sonuçlanır.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Basamak yükselt</span>
+          <div class="node alarm">
+            <span class="k">Yeniden düzenle</span>
+            <span class="t">Tedaviyi değiştir / dilatasyonu değerlendir</span>
+            <p>Alternatif ajana geç, dozu optimize et, uyumu sorgula; darlık + disfaji varsa endoskopik dilatasyon ekle.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı Tetkik</h2>
+    <p class="lede">Tanı doğrulama ve tedavi yanıtının izlenmesi endoskopik-histolojik temellidir; kan testleri ve görüntüleme tamamlayıcıdır.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>EoÖ tanı ve izlem basamakları</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Yöntem/Doz</th><th>Amaç ve Not</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">1. Üst GİS endoskopisi</td>
+            <td class="dose">Proksimal + distal ≥6 biyopsi</td>
+            <td>EREFS skorlaması; ödem, halkalar, eksüda, oluklar, striktür kaydı</td>
+          </tr>
+          <tr>
+            <td class="step">2. Histopatoloji</td>
+            <td class="dose">Pik eozinofil sayımı /BBA</td>
+            <td>≥15 eoz/BBA tanısal; bazal tabaka hiperplazisi, mikroabse, lamina propria fibrozisi</td>
+          </tr>
+          <tr>
+            <td class="step">3. Gastrik/duodenal biyopsi</td>
+            <td class="dose">Rutin eşlik eden örnekleme</td>
+            <td>Eozinofilik gastrit/enterit ve diğer sistemik nedenleri dışla</td>
+          </tr>
+          <tr>
+            <td class="step">4. Alerji değerlendirmesi</td>
+            <td class="dose">Öykü ± deri/sIgE testi</td>
+            <td>Atopi eş tanısı için; diyet hedeflemede öngörü değeri düşük</td>
+          </tr>
+          <tr>
+            <td class="step">5. Kontrol endoskopi</td>
+            <td class="dose">Tedavinin 8-12. haftası</td>
+            <td>Histolojik remisyon (<15 eoz/BBA) objektif kanıtı; her tedavi değişiminde tekrar</td>
+          </tr>
+          <tr>
+            <td class="step">6. Özofagogram (seçili)</td>
+            <td class="dose">Baryumlu grafi</td>
+            <td>Şüpheli ince/uzun darlık, small-caliber özofagus haritalaması</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı Bayraklar</h2>
+    <p class="lede">Aşağıdaki bulgular acil endoskopik girişim, hızlandırılmış tanı veya tedavi yoğunlaştırması gerektirir.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Akut besin/yabancı cisim impaksiyonu — acil endoskopik çıkarım + biyopsi</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Tam disfaji, tükürüğü yutamama, dehidratasyon</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>İlerleyici kilo kaybı / büyüme duraklaması / beslenme reddi</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Hematemez, delinme kuşkusu, şiddetli göğüs ağrısı (spontan perforasyon riski)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Yüksek dereceli darlık / small-caliber özofagus</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Optimal tedaviye rağmen kalıcı histolojik aktivite (dirençli EoÖ)</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi</h2>
+    <p class="lede">Üç ilk basamak seçeneği (PPI, yutulan topikal steroid, eliminasyon diyeti) benzer histolojik remisyon hedefi taşır; seçim aile tercihi, fenotip ve uygulanabilirliğe göre bireyselleştirilir. Tedavi kroniktir; etkili ajan kesilirse nüks kuraldır. Dozlar günde ikiye bölünmüş şekilde verilir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>EoÖ ilaç ve girişim tedavileri (pediatrik dozlar)</caption>
+        <thead>
+          <tr><th>Tedavi</th><th>Doz</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">PPI (omeprazol vb.)</td>
+            <td class="dose">1-2 mg/kg/gün, 2 doza böl (maks 40 mg/gün)</td>
+            <td>İlk basamak; 8-12 hafta sonra endoskopik kontrol, yanıtta en düşük etkili doza in</td>
+          </tr>
+          <tr>
+            <td class="step">Yutulan flutikazon (ölçülü doz inhaler, yutulur)</td>
+            <td class="dose">Küçük çocuk 88-440 µg/gün; büyük çocuk/adölesan 880-1760 µg/gün, 2 doza böl</td>
+            <td>Sprey ağza sıkılır ve yutulur; sonrası 30 dk yeme/içme/gargara yok</td>
+          </tr>
+          <tr>
+            <td class="step">Yutulan budesonid (viskoz süspansiyon/orodispersibl)</td>
+            <td class="dose"><10 yaş 1 mg/gün; ≥10 yaş 2 mg/gün, 2 doza böl (maks 2 mg/gün)</td>
+            <td>Sukraloz/bal ile viskoz karışım; orodispersibl tablet (Jorveza) adölesanda tercih</td>
+          </tr>
+          <tr>
+            <td class="step">Eliminasyon diyeti</td>
+            <td class="dose">6-/4-/2-/1-gıda basamaklı eliminasyon</td>
+            <td>Süt-buğday öncelikli; 6-12 haftada endoskopi ile basamaklı yeniden tanıtım</td>
+          </tr>
+          <tr>
+            <td class="step">Dupilumab (IL-4Rα)</td>
+            <td class="dose">≥1 yaş, kiloya göre (15-<30 kg 200 mg/2 hafta; 30-<40 kg 300 mg/2 hafta; ≥40 kg 300 mg/hafta) SC</td>
+            <td>Dirençli/steroide yanıtsız olguda; standart tedaviye yanıtsızlıkta biyolojik seçenek</td>
+          </tr>
+          <tr>
+            <td class="step">Endoskopik dilatasyon</td>
+            <td class="dose">Kademeli (rule of 3), semptomatik darlıkta</td>
+            <td>Fibrostenotik darlık + disfaji; medikal tedaviye ek, mukozal yırtık/ağrı bilgilendir</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout safe">Yutulan steroid sonrası ağzı su ile çalkalayıp tükürtmek özofageal/oral kandidiyaz riskini azaltır. Uzun süreli kullanımda oral kandidiyaz ve nadiren adrenal etkilenme açısından izlem yapılır.</div>
+    <div class="callout alarm">Dilatasyon inflamasyonu tedavi etmez; mutlaka etkili medikal/diyet tedavi ile birlikte uygulanmalı. İşlem öncesi ve sonrası göğüs ağrısı beklenir; şiddetli-ısrarlı ağrı, ateş veya subkutan amfizemde perforasyon dışlanmalıdır.</div>
+    <div class="pill-row">
+      <span class="pill">Hedef: histolojik remisyon <15 eoz/BBA</span>
+      <span class="pill">İlk kontrol 8-12. hafta</span>
+      <span class="pill">Etkili tedaviyi sürdür</span>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve Yönetim İlkeleri</h2>
+    <p class="lede">EoÖ ömür boyu kronik seyreder; tedavi hedefi hem semptom hem histolojik-endoskopik remisyondur ve idame ilaç kesilirse nüks beklenir. İzlem multidisipliner (gastroenteroloji, alerji, diyetisyen) yürütülür.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>İzlem İlkeleri</h3>
+        <ul class="clean">
+          <li>Her tedavi başlatma/değişiminde 8-12 hafta sonra kontrol endoskopi + biyopsi</li>
+          <li>Semptom-histoloji uyumsuzluğu sık; kararı histolojiye dayandır</li>
+          <li>Remisyonda en düşük etkili idame doz; ilaç kesme genellikle nükse yol açar</li>
+          <li>Büyüme, kilo, beslenme yeterliliği düzenli değerlendir; kısıtlayıcı diyette diyetisyen desteği</li>
+          <li>Yutulan steroidde oral/özofageal kandidiyaz taraması</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Hasta/Aile Eğitimi</h3>
+        <ul class="clean">
+          <li>Hastalığın kronik doğası ve tedavi devamlılığının önemi</li>
+          <li>İlaç uygulama tekniği (steroidi yut, sonra 30 dk aç kal)</li>
+          <li>Yavaş yeme, iyi çiğneme; impaksiyon acil başvuru işaretleri</li>
+          <li>Diyet uygulanıyorsa gizli tetikleyiciler ve etiket okuma</li>
+          <li>Atopik eş hastalıkların birlikte yönetimi</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Dhar A, Haboubi HN, Attwood SE, et al. British Society of Gastroenterology and British Society of Paediatric Gastroenterology, Hepatology and Nutrition — guidelines on eosinophilic oesophagitis. Gut. 2022.</li>
+      <li>Hirano I, Chan ES, Rank MA, et al. AGA Institute and Joint Task Force on Allergy-Immunology Practice Parameters — Clinical Guidelines for the Management of Eosinophilic Esophagitis. Gastroenterology. 2020.</li>
+      <li>Lucendo AJ, Molina-Infante J, Arias Á, et al. Guidelines on eosinophilic esophagitis: evidence-based statements and recommendations (UEG/EAACI/ESPGHAN). United European Gastroenterol J. 2017.</li>
+      <li>Dellon ES, Liacouras CA, Molina-Infante J, et al. Updated International Consensus Diagnostic Criteria for Eosinophilic Esophagitis: AGREE Conference. Gastroenterology. 2018.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge pediyatrik gastroenteroloji uzmanları için hazırlanmış bir klinik karar destek aracıdır; yerel protokoller, güncel kılavuzlar ve hastanın bireysel klinik durumu doğrultusunda hekimin nihai kararının yerini tutmaz. Dozlar ilgili ilacın güncel prospektüsü ile teyit edilmelidir.</div>
+</div>

@@ -1,0 +1,421 @@
+<title>Gastrit, Peptik Ülser ve H. pylori — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Gastrit, Peptik Ülser ve H. pylori</h1>
+    <p class="sub">Çocuk ve ergende üst gastrointestinal semptomlarda endoskopik tanı, H. pylori eradikasyonu, NSAİİ ilişkili ülser ve izlemin dozlu, kanıta dayalı karar çerçevesi.</p>
+    <div class="meta">
+      <span class="tag">Endoskopik tanı</span>
+      <span class="tag">H. pylori eradikasyonu</span>
+      <span class="tag">NSAİİ ülser</span>
+      <span class="tag">PPI dozları</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">Gastrit histopatolojik bir tanıdır; klinik olarak "dispepsi" ile karıştırılmamalıdır. Peptik ülser, muskularis mukozayı aşan mide/duodenum mukoza defektidir. Çocukta primer (H. pylori, idiyopatik) ve sekonder (NSAİİ, stres, kritik hastalık, hipersekresyon) ülserler ayırt edilmelidir. İlk değerlendirmede amaç, ampirik tedaviye uygun fonksiyonel dispepsiyi organik/alarm bulgulu tablodan ayırmaktır.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öykü</h3>
+        <ul class="clean">
+          <li>Epigastrik ağrı: süre, ritim, geceleri uyandırma, öğünle ilişki (Rome IV fonksiyonel dispepsi kriterleri).</li>
+          <li>NSAİİ, ibuprofen, aspirin, kortikosteroid, düşük molekül ağırlıklı ilaç kullanımı ve süre.</li>
+          <li>Hematemez, melena, kilo kaybı, tekrarlayan kusma, disfaji sorgusu.</li>
+          <li>Ailede peptik ülser, H. pylori, mide kanseri, MEN-1/gastrinoma öyküsü.</li>
+          <li>Demir eksikliği anemisi, büyümede duraklama, kronik ilaç maruziyeti.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayene</h3>
+        <ul class="clean">
+          <li>Persentil ve büyüme eğrisi; kilo/boy kaybı organik hastalık işareti.</li>
+          <li>Solukluk, taşikardi, ortostatik değişiklik (gizli/aşikâr kanama).</li>
+          <li>Epigastrik hassasiyet, guarding, kitle; hepatosplenomegali.</li>
+          <li>Perianal muayene ve gaitada gizli kan; ekstraintestinal İBH bulguları.</li>
+          <li>Ağız içi aft, çomak parmak, cilt bulguları (sistemik hastalık ipuçları).</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">Rome IV'e uyan, alarm bulgusu olmayan fonksiyonel dispepside test-tedavi ("test and treat") stratejisi çocukta ÖNERİLMEZ; endoskopi kararı klinik ve alarm bulgularına dayanır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Etiyoloji ve mekanizma</h2>
+    <p class="lede">Pediatrik gastrit/ülser etiyolojisi, mukozal savunma ile agresif faktörler arasındaki dengenin bozulmasıdır. Başlıca kategoriler ve mekanizmaları aşağıdadır.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">H. pylori</div>
+        <ul>
+          <li>Antral yerleşimli kronik aktif gastrit.</li>
+          <li>Üreaz, VacA/CagA ile mukoza hasarı.</li>
+          <li>Duodenal ülserle güçlü ilişki.</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">NSAİİ / ilaç</div>
+        <ul>
+          <li>COX-1 inhibisyonu, prostaglandin azalması.</li>
+          <li>Mukus-bikarbonat bariyeri bozulur.</li>
+          <li>Sıklıkla gastrik, çok odaklı.</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">Stres / kritik hastalık</div>
+        <ul>
+          <li>Splanknik hipoperfüzyon, iskemi.</li>
+          <li>YBÜ, sepsis, yanık, kafa travması.</li>
+          <li>Akut erozif gastrit, kanama riski.</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Hipersekresyon</div>
+        <ul>
+          <li>Zollinger-Ellison / gastrinoma.</li>
+          <li>Sistemik mastositoz, kısa barsak.</li>
+          <li>Tekrarlayan, tedaviye dirençli ülser.</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">İmmün / eozinofilik</div>
+        <ul>
+          <li>Crohn'un üst GİS tutulumu.</li>
+          <li>Eozinofilik gastrit, otoimmün gastrit.</li>
+          <li>Çölyak ile ilişkili lenfositik gastrit.</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">İdiyopatik / diğer</div>
+        <ul>
+          <li>H. pylori-negatif, NSAİİ-negatif ülser.</li>
+          <li>Portal hipertansif gastropati.</li>
+          <li>Safra reflüsü, kostik, viral (CMV/HSV).</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">Üst GİS semptomlu çocukta endoskopi ve tedavi kararı, alarm bulguları ve etiyolojik ipuçlarına göre yönlendirilir.</p>
+    <div class="flow">
+      <div class="node start"><span class="k">Başlangıç</span><span class="t">Kronik/tekrarlayan epigastrik ağrı, dispepsi</span><p>Öykü, muayene, büyüme değerlendirmesi; ilaç ve NSAİİ sorgusu.</p></div>
+      <div class="connector"></div>
+      <div class="node action"><span class="k">Adım 1</span><span class="t">Temel tetkik</span><p>Tam kan, ferritin, CRP, transaminaz, çölyak serolojisi; gaitada gizli kan.</p></div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 1</span><span class="t">Alarm bulgusu var mı?</span><p>Kanama, kilo kaybı, disfaji, gece ağrısı, anemi, kitle, ısrarlı kusma.</p></div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Endoskopi endikasyonu</span>
+          <div class="node alarm"><span class="k">Endoskopi</span><span class="t">Üst GİS endoskopisi + biyopsi</span><p>Antrum ve korpustan biyopsi (histoloji + hızlı üreaz + kültür/duyarlılık). Ülser görülürse etiyoloji araştır.</p></div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Rome IV değerlendir</span>
+          <div class="node action safe"><span class="k">Fonksiyonel</span><span class="t">Fonksiyonel dispepsi yönetimi</span><p>4-8 hafta PPI denemesi, tetikleyicilerin düzenlenmesi; yanıtsızsa/nüksde endoskopiyi yeniden değerlendir.</p></div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 2</span><span class="t">Endoskopide/biyopside H. pylori pozitif mi?</span><p>Tanı, kültür veya histoloji + ikinci pozitif testle (hızlı üreaz) konur.</p></div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Duyarlılığa göre eradikasyon</span>
+          <div class="node action"><span class="k">Eradikasyon</span><span class="t">14 gün rejim, duyarlılığa göre</span><p>Antibiyotik duyarlılığı biliniyorsa hedefe yönelik; bilinmiyorsa yüksek doz üçlü/bizmutlu dörtlü. Bölüm 06'ya bakınız.</p></div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Sekonder neden ara</span>
+          <div class="node action safe"><span class="k">Sekonder</span><span class="t">NSAİİ kes, PPI başla, hipersekresyon dışla</span><p>NSAİİ ilişkiliyse ilacı kes + PPI. Dirençli/çok odaklı ülserde serum gastrin ile ZES araştır.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Tanı, non-invaziv testlerle "tara-tedavi et" yerine, endoskopik doğrulamaya dayanır. Sıralı yaklaşım aşağıdadır.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>H. pylori ve peptik hastalıkta basamaklı tanı yaklaşımı</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Tetkik / eşik</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Basamak 1 — Laboratuvar</td><td>Tam kan, ferritin, CRP/sedim, transaminaz, çölyak serolojisi</td><td>Demir eksikliği anemisi ve inflamasyon organik hastalığı işaret eder.</td></tr>
+          <tr><td class="step">Basamak 2 — Endoskopi</td><td>Üst GİS endoskopisi (tanının temeli)</td><td>Alarm bulgusu veya dirençli semptomda ilk invaziv adım; ülser/erozyon doğrudan görülür.</td></tr>
+          <tr><td class="step">Basamak 3 — Biyopsi</td><td>Antrum ×2 + korpus ×2 histoloji; hızlı üreaz testi</td><td>H. pylori tanısı için histoloji + ikinci pozitif test gerekir; PPI 2 hafta, antibiyotik 4 hafta önce kesilmeli.</td></tr>
+          <tr><td class="step">Basamak 4 — Kültür/duyarlılık</td><td>Biyopside kültür + antibiyotik duyarlılık (veya moleküler direnç)</td><td>Klaritromisin/metronidazol direnci arttığından eradikasyon öncesi önerilir.</td></tr>
+          <tr><td class="step">Basamak 5 — Non-invaziv izlem</td><td>Üre nefes testi (UBT) veya gaita antijen testi</td><td>Yalnızca eradikasyon sonrası kontrol için; primer tanıda tek başına yeterli DEĞİL.</td></tr>
+          <tr><td class="step">Basamak 6 — Seçili durumlar</td><td>Açlık serum gastrin, gerektiğinde sekretin testi</td><td>Çoklu/dirençli ülser, diyare, MEN-1 kuşkusunda ZES için.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout safe">Eradikasyon sonrası kontrol tedavi bitiminden en az 4 hafta ve PPI kesildikten en az 2 hafta sonra yapılmalı; serolojik (antikor) test tedavi başarısını göstermez.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdaki bulgular acil/erken endoskopi ve organik hastalık araştırmasını zorunlu kılar.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Hematemez, kahve telvesi kusma veya melena</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Açıklanamayan kilo kaybı veya büyümede duraklama</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Demir eksikliği anemisi veya gaitada gizli kan pozitifliği</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Disfaji, odinofaji veya ısrarlı/safralı kusma</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Uykudan uyandıran gece ağrısı, sırta yayılım</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Epigastrik kitle, hepatosplenomegali veya sarılık</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Hemodinamik instabilite: taşikardi, hipotansiyon, solukluk</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Tedaviye dirençli/nükseden ülser (ZES, Crohn kuşkusu)</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi — dozlu</h2>
+    <p class="lede">Asit baskılama PPI ile yapılır; H. pylori eradikasyonu duyarlılığa göre 14 gün, tercihen yüksek doz rejimlerle uygulanır. Dozlar mg/kg + maksimum olarak verilmiştir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Asit baskılama ve destek tedavi dozları</caption>
+        <thead>
+          <tr><th>İlaç</th><th>Doz</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Omeprazol (PPI)</td><td class="dose">1-2 mg/kg/gün, bölünmüş 1-2 doz (maks 40 mg/gün)</td><td>Ülser tedavisinde 4-8 hafta; öğün öncesi.</td></tr>
+          <tr><td class="step">Lansoprazol</td><td class="dose">1-2 mg/kg/gün (maks 30 mg/gün)</td><td>PPI alternatifi; eradikasyon rejiminde de kullanılır.</td></tr>
+          <tr><td class="step">Esomeprazol</td><td class="dose">10 mg (&lt;20 kg) / 20 mg (≥20 kg) günde 1-2 (maks 40 mg/gün)</td><td>Kilo bazlı; eradikasyonda yüksek doz tercih edilir.</td></tr>
+          <tr><td class="step">Ranitidin (H2RA, bulunursa)</td><td class="dose">4-8 mg/kg/gün, bölünmüş 2 doz (maks 300 mg/gün)</td><td>Çoğu ülkede piyasadan çekilmiştir; famotidin tercih edilir.</td></tr>
+          <tr><td class="step">Famotidin</td><td class="dose">0,5-1 mg/kg/gün, bölünmüş 2 doz (maks 40 mg/gün)</td><td>PPI kontrendike/tolere edilemezse.</td></tr>
+          <tr><td class="step">Sükralfat</td><td class="dose">40-80 mg/kg/gün, bölünmüş 4 doz (maks 4 g/gün)</td><td>Mukozal koruyucu; diğer ilaçlardan ayrı verilir.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <caption>H. pylori eradikasyon rejimleri (14 gün) — ESPGHAN/NASPGHAN 2017</caption>
+        <thead>
+          <tr><th>Rejim / ilaç</th><th>Doz</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Yüksek doz üçlü (duyarlı) — PPI</td><td class="dose">1-2 mg/kg/gün, 2 doz (maks 40 mg/gün)</td><td>Klaritromisin + amoksisiline duyarlı suşta 14 gün.</td></tr>
+          <tr><td class="step">+ Amoksisilin</td><td class="dose">50 mg/kg/gün, 2 doz (maks 2 g/gün)</td><td>Yüksek doz eradikasyon başarısını artırır.</td></tr>
+          <tr><td class="step">+ Klaritromisin</td><td class="dose">20 mg/kg/gün, 2 doz (maks 1 g/gün)</td><td>Yalnızca duyarlılık gösterilmişse kullanılır.</td></tr>
+          <tr><td class="step">Metronidazol (klaritromisin direncinde)</td><td class="dose">20 mg/kg/gün, 2 doz (maks 1 g/gün)</td><td>Klaritromisin yerine üçlüde; direnç durumuna göre.</td></tr>
+          <tr><td class="step">Bizmutlu dörtlü (direnç/bilinmiyor) — Bizmut</td><td class="dose">8 mg/kg/gün (maks 480 mg/gün)</td><td>PPI + amoksisilin + metronidazol + bizmut, 14 gün.</td></tr>
+          <tr><td class="step">Yüksek doz ikili (kurtarma) — Amoksisilin</td><td class="dose">75 mg/kg/gün, 3-4 doz (maks 3 g/gün) + yüksek doz PPI</td><td>Çoklu dirençte, duyarlılık rehberliğinde deneyimli merkezde.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout alarm">Klaritromisin veya metronidazol, duyarlılık bilinmeden ampirik olarak KULLANILMAMALIDIR; bölgesel direnç yüksekse kültür-rehberli tedavi veya bizmutlu dörtlü tercih edilir. Tedaviye uyum eradikasyon başarısının en güçlü belirleyicisidir.</div>
+    <div class="pill-row">
+      <span class="pill">Süre: 14 gün</span>
+      <span class="pill">Duyarlılık rehberli</span>
+      <span class="pill">Yüksek doz PPI + amoksisilin</span>
+      <span class="pill">NSAİİ kes</span>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve yönetim ilkeleri</h2>
+    <p class="lede">Amaç eradikasyonu doğrulamak, ülser iyileşmesini teyit etmek ve nüksü/komplikasyonu önlemektir.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Eradikasyon ve iyileşme kontrolü</h3>
+        <ul class="clean">
+          <li>Eradikasyon başarısı, tedaviden ≥4 hafta ve PPI kesiminden ≥2 hafta sonra UBT veya gaita antijen testiyle doğrulanır.</li>
+          <li>Komplike ülser (kanama, perforasyon), dev/malign kuşkulu veya persistan semptomda kontrol endoskopisi yapılır.</li>
+          <li>Duodenal ülserde PPI 4-8 hafta, gastrik ülserde 8 haftaya dek sürdürülür.</li>
+          <li>Eradikasyon başarısızsa ilk rejimde kullanılmayan antibiyotiklerle, duyarlılık rehberli ikinci basamak seçilir.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Nüks önleme ve destek</h3>
+        <ul class="clean">
+          <li>NSAİİ ilişkili ülserde ilaç kesilir; gerekiyorsa en düşük dozda + PPI gastroproteksiyonu ile devam.</li>
+          <li>Demir eksikliği anemisi eşlik ediyorsa oral demir replasmanı ve yanıt takibi.</li>
+          <li>Dirençli/nükseden ülserde ZES (serum gastrin), Crohn ve eozinofilik gastrit yeniden değerlendirilir.</li>
+          <li>Aile içi reenfeksiyon kaynağı ve uyum; başarısız eradikasyonda uyum ve direnç birlikte gözden geçirilir.</li>
+          <li>Fonksiyonel dispepside gereksiz uzun PPI kullanımından kaçınılır, semptom-yönelimli izlem yapılır.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout safe">Eradikasyon sonrası reenfeksiyon çocukta düşüktür; rutin seri tarama önerilmez. Kontrol testi negatifse ve semptom yoksa ek izlem gerekmez.</div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Jones NL, Koletzko S, Goodman K, ve ark. Joint ESPGHAN/NASPGHAN Guidelines for the Management of Helicobacter pylori in Children and Adolescents. J Pediatr Gastroenterol Nutr. 2017;64(6):991-1003.</li>
+      <li>Hyams JS, Di Lorenzo C, Saps M, ve ark. Childhood Functional Gastrointestinal Disorders: Child/Adolescent (Rome IV). Gastroenterology. 2016;150(6):1456-1468.</li>
+      <li>Kotilea K, Bontems P, Iwanczak B, ve ark. Management of Helicobacter pylori infection in children and adolescents. Helicobacter. 2023 (güncel derleme).</li>
+      <li>Levine A, Koletzko S, ve ark. ESPGHAN üst GİS endoskopi ve pediatrik peptik hastalık yönetim önerileri.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge klinik karar desteği amaçlıdır ve pediyatrik gastroenteroloji uzmanı hekimin bireysel klinik değerlendirmesinin yerine geçmez. Dozlar hastanın yaşı, kilosu, böbrek/karaciğer işlevi ve yerel direnç paternlerine göre teyit edilmelidir.</div>
+</div>

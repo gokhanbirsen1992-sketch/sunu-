@@ -1,0 +1,501 @@
+<title>Hipertrofik Pilor Stenozu — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Hipertrofik Pilor Stenozu</h1>
+    <p class="sub">Pilor kas tabakasının hipertrofisine bağlı gastrik çıkış obstrüksiyonu; tipik olarak 2-8 haftalık infantta safrasız fışkırır tarzda kusma ile başvurur. USG ile tanı, sıvı-elektrolit düzeltmesi ve piloromiyotomi ekseninde yönetilir.</p>
+    <div class="meta">
+      <span class="tag">İnfant</span>
+      <span class="tag">USG tanısı</span>
+      <span class="tag">Hipokloremik alkaloz</span>
+      <span class="tag">Piloromiyotomi</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">Hipertrofik pilor stenozu (HPS), pilor sfinkter kasının konsantrik hipertrofisi ve hiperplazisi sonucu gelişen mekanik gastrik çıkış obstrüksiyonudur. İnsidans yaklaşık 2-4/1000 canlı doğum; erkek/kız oranı 4-5:1 ve ilk doğan erkek bebeklerde belirgin baskındır. Klasik başvuru 3-6. haftalarda, ilerleyici safrasız projektil (fışkırır) kusmadır.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öykü</h3>
+        <ul class="clean">
+          <li>Başlangıç yaşı 2-8 hafta (pik 3-6 hafta); prematürelerde daha geç olabilir.</li>
+          <li>Safrasız, giderek şiddetlenen projektil kusma; öğün sonrası dakikalar içinde.</li>
+          <li>Kusma sonrası "aç kurt" gibi tekrar beslenme isteği (hungry vomiter).</li>
+          <li>İlerleyen kilo kaybı/yetersiz alım, seyrek ıslak bez, azalan defekasyon.</li>
+          <li>Aile öyküsü ve ilk doğan erkek bebek riski; eritromisin/azitromisin maruziyeti (özellikle ilk 2 haftada) risk artışı.</li>
+          <li>Kusma tipik olarak safrasızdır; safralı kusma HPS'yi dışlar ve malrotasyon/volvulusa yönlendirir.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayene</h3>
+        <ul class="clean">
+          <li>Dehidratasyon bulguları: çökük fontanel, kuru mukoza, azalmış turgor, letarji.</li>
+          <li>Epigastriumda sağ üst kadranda palpe edilebilen "zeytin" (olive) kitlesi; deneyimli elde spesifik ancak günümüzde nadir palpe edilir.</li>
+          <li>Beslenme sonrası soldan sağa geçen görünür gastrik peristaltizm dalgaları.</li>
+          <li>Kilo, tartı persentil değişimi ve hidrasyon durumunun objektif kaydı.</li>
+          <li>Uzamış olgularda hafif sarılık (indirekt hiperbilirubinemi — "ikterik pilor stenozu") görülebilir.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">İlk laboratuvar paneli: venöz kan gazı, tam elektrolit (Na, K, Cl, HCO3), üre/kreatinin, glukoz ve idrar dansitesi. Klasik tablo hipokloremik, hipokalemik metabolik alkalozdur.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Mekanizma ve metabolik sonuç</h2>
+    <p class="lede">HPS'de asıl klinik aciliyet metabolik değil, obstrüksiyonun yol açtığı sıvı-elektrolit-asit-baz bozukluğudur. Cerrahi acil değil, metabolik düzeltme önceliklidir.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">Obstrüksiyon</div>
+        <ul>
+          <li>Pilor kas kalınlaşması gastrik çıkışı tıkar.</li>
+          <li>Persistan safrasız kusma ile mide içeriği kaybı.</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">HCl kaybı</div>
+        <ul>
+          <li>Kusma ile H+ ve Cl- kaybı belirgin.</li>
+          <li>Hipokloremi ve metabolik alkaloz gelişir.</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">Hipovolemi</div>
+        <ul>
+          <li>Sıvı kaybı ile renal Na/su tutulumu.</li>
+          <li>Aldosteron aktivasyonu K+ ve H+ atılımını artırır.</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Hipokalemi</div>
+        <ul>
+          <li>Renal ve gastrik K+ kaybı birikir.</li>
+          <li>Alkalozla hücre içine K+ kayması eklenir.</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">Paradoks asidürik</div>
+        <ul>
+          <li>Volüm ve K+ kaybı H+ atılımını zorlar.</li>
+          <li>Alkaloza rağmen idrar asidik ("paradoksal asidüri").</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">Cerrahi öncesi hedef</div>
+        <ul>
+          <li>Cl > 100 mmol/L, HCO3 < 28-30 mmol/L.</li>
+          <li>Normovolemi ve normal K+ sağlanmadan ameliyat yok.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout alarm">Alkaloz düzeltilmeden anesteziye alınırsa merkezi apne ve postoperatif solunum depresyonu riski artar. Piloromiyotomi elektif bir işlemdir; metabolik stabilizasyon şarttır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">Safrasız projektil kusan 2-8 haftalık infantta HPS ön tanısıyla ilerleyen tanı ve stabilizasyon algoritması.</p>
+    <div class="flow">
+      <div class="node start">
+        <span class="k">Başlangıç</span>
+        <span class="t">2-8 haftalık, safrasız projektil kusma</span>
+        <p>Hidrasyon değerlendir, damar yolu aç, kan gazı + elektrolit + glukoz gönder.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node action">
+        <span class="k">Adım 1</span>
+        <span class="t">Pilor USG</span>
+        <p>Kas kalınlığı ≥ 3 mm ve pilor kanal uzunluğu ≥ 15-17 mm ölçütlerini değerlendir.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 1</span>
+        <span class="t">USG ölçütleri HPS ile uyumlu mu?</span>
+        <p>Sınırda değerlerde 6-24 saat sonra USG'yi tekrarla; deneyimli radyolog önemli.</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → HPS doğrulandı</span>
+          <div class="node action">
+            <span class="k">Adım 2</span>
+            <span class="t">Metabolik stabilizasyon</span>
+            <p>NG dekompresyon (gerekirse), IV sıvı resüsitasyonu, elektrolit düzeltme. Cl > 100, HCO3 < 30, K normal ve iyi idrar çıkışı hedeflenir.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → USG negatif/sınırda</span>
+          <div class="node action safe">
+            <span class="k">Alternatif</span>
+            <span class="t">Ayırıcı tanıyı genişlet</span>
+            <p>Safralı kusma varsa acil UGİ pasaj grafisi ile malrotasyon/volvulus ekarte et. GÖRH, inek sütü protein alerjisi, adrenal yetmezlik, sepsis, artmış KİB düşün. USG'yi tekrarla.</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 2</span>
+        <span class="t">Cl > 100 mmol/L ve HCO3 < 30 mmol/L sağlandı mı?</span>
+        <p>Anestezi ve cerrahi için metabolik uygunluk kontrolü.</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Metabolik uygun</span>
+          <div class="node action safe">
+            <span class="k">Definitif</span>
+            <span class="t">Piloromiyotomi</span>
+            <p>Ramstedt piloromiyotomi (laparoskopik veya açık). Postoperatif erken beslenmeye geçiş planlanır.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Alkaloz sürüyor</span>
+          <div class="node alarm">
+            <span class="k">Bekle</span>
+            <span class="t">Ameliyatı ertele</span>
+            <p>Sıvı-elektrolit tedavisine devam et; K+ replasmanı ancak idrar çıkışı sağlandıktan sonra. Kriterler karşılanana kadar cerrahiyi geciktir.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Klinik şüpheden tanı doğrulamaya sıralı yaklaşım. USG birinci basamak görüntüleme yöntemidir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>HPS tanısal basamakları ve ölçütler</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Ölçüt / Değer</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">Kan gazı + elektrolit</td>
+            <td class="dose">Cl < 98, HCO3 > 28, K < 3.5 → destekler</td>
+            <td>Hipokloremik hipokalemik metabolik alkaloz; erken evrede normal olabilir.</td>
+          </tr>
+          <tr>
+            <td class="step">Pilor USG — kas kalınlığı</td>
+            <td class="dose">≥ 3 mm (tek duvar)</td>
+            <td>Birincil ve en spesifik ölçüt; deneyimli radyolog, uygun poziyon önemli.</td>
+          </tr>
+          <tr>
+            <td class="step">Pilor USG — kanal uzunluğu</td>
+            <td class="dose">≥ 15-17 mm</td>
+            <td>Kalınlık ile birlikte değerlendirilir; tek başına daha az güvenilir.</td>
+          </tr>
+          <tr>
+            <td class="step">Pilor USG — çap</td>
+            <td class="dose">≥ 10-14 mm</td>
+            <td>Destekleyici; sıvı geçişinin olmaması ve peristaltizmle açılmama gözlenir.</td>
+          </tr>
+          <tr>
+            <td class="step">Sınırda USG — tekrar</td>
+            <td class="dose">6-24 saat sonra kontrol</td>
+            <td>2-2.9 mm kalınlık veya erken başvuruda gözlem + tekrar görüntüleme.</td>
+          </tr>
+          <tr>
+            <td class="step">UGİ pasaj (seçilmiş)</td>
+            <td class="dose">"String sign", "shoulder sign"</td>
+            <td>Sadece USG belirsiz veya safralı kusmada; malrotasyon ayırıcı tanısı için.</td>
+          </tr>
+          <tr>
+            <td class="step">Bilirubin (endike ise)</td>
+            <td class="dose">İndirekt yükseklik</td>
+            <td>Uzamış olguda ikterik pilor stenozu; genellikle piloromiyotomi sonrası düzelir.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout safe">USG bulguları net ve klinik uyumlu ise ek görüntüleme gereksizdir; radyasyon ve kontrast yükünden kaçınılır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdaki bulgular ya tanıyı sorgulatır ya da acil müdahale gerektirir.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Safralı (yeşil) kusma — HPS'yi dışlar, malrotasyon/volvulusa acil yönlendirir.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Hematemez veya kanlı kusma; ciddi gastrit/başka patoloji.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ağır dehidratasyon, letarji, hipovolemik şok bulguları.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ağır alkaloz (HCO3 > 35) ve derin hipokalemi (K < 2.5) — aritmi/apne riski.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Karın distansiyonu, hassasiyet, peritonit bulguları.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ateş, septik görünüm — enfeksiyöz ayırıcı tanı.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Hipoglisemi, hiperpigmentasyon, hiponatremi + hiperkalemi — adrenal yetmezliği düşündürür.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi</h2>
+    <p class="lede">Tedavi iki aşamalıdır: önce metabolik stabilizasyon (medikal aciliyet), sonra definitif cerrahi (piloromiyotomi). Cerrahi bir acil değildir; asla stabilizasyon öncesi yapılmaz.</p>
+
+    <div class="table-scroll">
+      <table>
+        <caption>Sıvı-elektrolit düzeltme ve destek tedavisi (dozlu)</caption>
+        <thead>
+          <tr><th>İlaç / Basamak</th><th>Doz</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">Başlangıç bolus (dehidratasyon/şok)</td>
+            <td class="dose">%0.9 NaCl 10-20 mL/kg IV (maks 20 mL/kg/bolus)</td>
+            <td>Hemodinamik bozuklukta; yanıta göre tekrarlanabilir.</td>
+          </tr>
+          <tr>
+            <td class="step">İdame + defisit sıvısı</td>
+            <td class="dose">%0.45-0.9 NaCl + %5 dekstroz, ~1.5-2× idame</td>
+            <td>Klorür kaybını yerine koymak için klorlu solüsyon; defisit 24-48 saatte.</td>
+          </tr>
+          <tr>
+            <td class="step">Potasyum replasmanı</td>
+            <td class="dose">KCl 10-20 mmol/L sıvıya; 0.2-0.5 mmol/kg/saat (maks ~0.5 mmol/kg/saat)</td>
+            <td>Yalnızca yeterli idrar çıkışı (>1 mL/kg/saat) sağlandıktan sonra eklenir.</td>
+          </tr>
+          <tr>
+            <td class="step">Dekstroz (hipoglisemi/idame)</td>
+            <td class="dose">%5-10 dekstroz içeren idame sıvısı</td>
+            <td>Uzun açlık ve glikojen deposu düşük infantta hipoglisemiyi önler.</td>
+          </tr>
+          <tr>
+            <td class="step">NG dekompresyon</td>
+            <td class="dose">İhtiyaç halinde; rutin değil</td>
+            <td>Belirgin distansiyon/tekrarlayan kusmada; kayıp mL:mL klorlu sıvı ile telafi.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">Cerrahi öncesi metabolik hedef: <b>Cl > 100 mmol/L</b>, <b>HCO3 < 28-30 mmol/L</b>, normal K+, normovolemi ve tatmin edici idrar çıkışı. Bu kriterler sağlanana kadar operasyon ertelenir.</div>
+
+    <div class="grid two">
+      <div class="card">
+        <h3>Definitif cerrahi — piloromiyotomi</h3>
+        <ul class="clean">
+          <li>Ramstedt piloromiyotomi altın standart; laparoskopik veya açık yaklaşım, sonuçlar benzer.</li>
+          <li>Pilor serozası boyunca kesi, kas liflerinin mukozaya dokunmadan ayrılması.</li>
+          <li>Başlıca komplikasyonlar: mukoza perforasyonu, inkomplet miyotomi, yara enfeksiyonu.</li>
+          <li>İşlem küratiftir; nüks nadirdir.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Perioperatif izlem</h3>
+        <ul class="clean">
+          <li>Postoperatif apne riski nedeniyle solunum monitörizasyonu, özellikle prematüre ve rezidü alkalozda.</li>
+          <li>Ağrı kontrolü ve normogliseminin sürdürülmesi.</li>
+          <li>Beslenme genellikle 4-6 saat içinde başlatılır (ad libitum/kademeli protokol).</li>
+          <li>Postoperatif kusma ilk 24-48 saatte sık ve genellikle geçicidir.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pill-row">
+      <span class="pill">Önce stabilize et</span>
+      <span class="pill">Sonra ameliyat et</span>
+      <span class="pill">K+ ancak idrar sonrası</span>
+      <span class="pill">Klorlu sıvı</span>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem / yönetim ilkeleri</h2>
+    <p class="lede">Postoperatif seyir genellikle hızlı ve iyidir; izlem beslenme toleransı ve komplikasyon gözetimine odaklanır.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Postoperatif beslenme</h3>
+        <ul class="clean">
+          <li>Erken beslenme (4-6 saat) güvenli; hastanede kalışı kısaltır.</li>
+          <li>Geçici postoperatif kusma beklenir, kendiliğinden geriler; kademeli artış uygulanabilir.</li>
+          <li>Beslenme toleransı sağlandığında ve oral alım yeterli olduğunda taburculuk.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Uyarı işaretleri ve takip</h3>
+        <ul class="clean">
+          <li>Persistan kusma (>5-7 gün): inkomplet miyotomi veya GÖRH açısından değerlendir.</li>
+          <li>Ateş, yara akıntısı, karın hassasiyeti: enfeksiyon/perforasyon ekartasyonu.</li>
+          <li>Kilo takibi ve büyümenin izlenmesi; çoğu bebekte tam düzelme.</li>
+          <li>Uzamış sarılık genellikle miyotomi sonrası kendiliğinden düzelir.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout safe">HPS küratif olarak tedavi edilebilir bir durumdur; uygun stabilizasyon ve piloromiyotomi ile uzun dönem prognoz mükemmeldir, büyüme ve gelişme normale döner.</div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Kliegman RM, St. Geme JW, ve ark. Nelson Textbook of Pediatrics, Pyloric Stenosis and Other Congenital Anomalies of the Stomach. 21. Baskı. Elsevier; 2020.</li>
+      <li>Peters B, Oomen MWN, Bakx R, Benninga MA. Advances in infantile hypertrophic pyloric stenosis. Expert Rev Gastroenterol Hepatol. 2014;8(5):533-541.</li>
+      <li>Hall NJ, Pacilli M, Eaton S, ve ark. Recovery after open versus laparoscopic pyloromyotomy for pyloric stenosis: a double-blind multicentre randomised controlled trial. Lancet. 2009;373(9661):390-398.</li>
+      <li>Dalton BGA, Gonzalez KW, Boda SR, ve ark. Optimizing fluid resuscitation in hypertrophic pyloric stenosis. J Pediatr Surg. 2016;51(8):1279-1282.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge pediatrik gastroenteroloji uzmanları için hazırlanmış bir klinik karar-destek aracıdır; bireysel hasta yönetiminde güncel kılavuzların, kurumsal protokollerin ve klinik yargının yerini tutmaz. Dozlar hastaya özel doğrulanmalıdır.</div>
+</div>

@@ -1,0 +1,529 @@
+<title>Rektal Prolapsus — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Rektal Prolapsus</h1>
+    <p class="sub">Çocukta rektal prolapsus çoğunlukla iyi huyludur ve altta yatan bir nedenin belirtisidir; öncelik altta yatanı (kistik fibrozis, kronik kabızlık, parazit, malnütrisyon) araştırmak ve konservatif yönetimdir.</p>
+    <div class="meta">
+      <span class="tag">Kabızlık</span>
+      <span class="tag">Kistik fibrozis</span>
+      <span class="tag">Parazit</span>
+      <span class="tag">Konservatif yönetim</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">Rektal prolapsus, rektum duvarının (mukoza ± tüm kat) anal kanaldan dışarı doğru inmesidir. Pik yaş 1-4; sıklıkla defekasyon sırasında ıkınma ile ortaya çıkar, spontan redükte olur. Çoğu vaka altta yatan bir tetikleyicinin (kabızlık, ishalli hastalık, öksürük, malnütrisyon) sonucudur; en kritik dışlanacak tanı kistik fibrozis'tir.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öykü — yönlendirici sorular</h3>
+        <ul class="clean">
+          <li>Prolapsusun süresi, sıklığı, spontan mı yoksa manuel mi redükte olduğu; boyutu ve rengi (mukoza pembe vs iskemik koyu).</li>
+          <li>Dışkılama paterni: kabızlık, ıkınma, tuvalette uzun oturma, ağrılı defekasyon; ishal atakları (özellikle kronik/yağlı dışkı).</li>
+          <li>Kistik fibrozis ipuçları: tekrarlayan solunum yolu enfeksiyonu, steatore, kilo alamama/gelişme geriliği, tuzlu ter.</li>
+          <li>Parazit maruziyeti: kırsal yaşam, karın ağrısı, anal kaşıntı, dizanteri (Trichuris/Entamoeba), tenesmus.</li>
+          <li>Beslenme, kilo-boy seyri; kronik öksürük, artmış karın içi basınç (üfleme, obstrüktif üropati).</li>
+          <li>Nöromusküler/spinal patoloji, myelomeningosel, geçirilmiş anorektal cerrahi.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayene</h3>
+        <ul class="clean">
+          <li>Mümkünse ıkındırarak (çömelme/tuvalet pozisyonu) prolapsusu gözlemle; mukozal (kısa, radyal katlantı) vs tam kat (konsantrik halkalar) ayrımı.</li>
+          <li>Prolapsus mukozasının canlılığı: ödem, ülserasyon, kanama, iskemi.</li>
+          <li>Anal ton, perianal dermatit, fissür; rektal tuşe ile kitle/kabızlık değerlendirmesi.</li>
+          <li>Rektal polip veya intussusepsiyon liderini dışla (koyu kırmızı, sap taşıyan kitle → prolapsustan ayır).</li>
+          <li>Büyüme parametreleri (persentil), beslenme durumu, digital clubbing.</li>
+          <li>Sfinkter tonu düşük + alt ekstremite nörolojik bulgu → spinal görüntüleme düşün.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">Ayırıcı tanı anahtarı: Tam kat prolapsus konsantrik mukozal halkalar gösterir; prolabe rektal polip ise kısa saplı, tek lokalize kitle ile ayrılır; ileokolik intussusepsiyonda anüsten çıkan kitle ile parmak arasına girilebilir (prolapsusta giril<b>e</b>mez).</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Etiyoloji ve mekanizma</h2>
+    <p class="lede">Rektal prolapsus tek başına bir hastalık değil, artmış karın içi basınç + zayıf pelvik destek + yönlendirici bir hastalığın birleşimidir. Altta yatan neden aranmadan yönetim eksik kalır.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">Kabızlık / ıkınma (en sık)</div>
+        <ul>
+          <li>Uzun süreli ıkınma ve tuvalette oturma</li>
+          <li>Sert dışkı, ağrılı defekasyon, tutma davranışı</li>
+          <li>Fonksiyonel kabızlık (Rome IV) çoğu vakanın zemininde</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">Kistik fibrozis (mutlaka dışla)</div>
+        <ul>
+          <li>Prolapsus, KF'li çocukların %3-20'sinde; bazen ilk bulgu</li>
+          <li>Steatore, hacimli dışkı, malnütrisyon, kronik öksürük</li>
+          <li>Ter testi ZORUNLU — tüm idiyopatik vakalarda</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">İshalli hastalık</div>
+        <ul>
+          <li>Akut gastroenterit, tenesmus, sık defekasyon</li>
+          <li>Kronik ishal, malabsorbsiyon</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Parazit enfeksiyonu</div>
+        <ul>
+          <li>Trichuris trichiura (ağır enfeksiyon → prolapsus klasik)</li>
+          <li>Entamoeba histolytica, Giardia; endemik bölgeler</li>
+          <li>Dışkı mikroskopisi / antijen testi</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">Malnütrisyon / anatomik zemin</div>
+        <ul>
+          <li>İskiorektal yağ kaybı, zayıf pelvik destek</li>
+          <li>Sakrumun düz seyri (küçük çocuk anatomisi)</li>
+          <li>Ehlers-Danlos, bağ dokusu gevşekliği</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">Nöromusküler / diğer</div>
+        <ul>
+          <li>Myelomeningosel, spinal disrafizm, sakral agenezi</li>
+          <li>Kronik öksürük (pertussis), artmış intraabdominal basınç</li>
+          <li>Rektal polip veya intussusepsiyon (lider nokta)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">İlk redüksiyon ve stabilizasyondan sonra öncelik altta yatan nedeni ortaya koymaktır. Aşağıdaki ağaç, tanısal yol ile konservatif yönetimi birleştirir.</p>
+    <div class="flow">
+      <div class="node start">
+        <span class="k">Başlangıç</span>
+        <span class="t">Anüsten protrüde doku ile başvuru</span>
+        <p>Prolabe segmentin canlılığını ve redükte edilebilirliğini değerlendir; tam kat mı mukozal mı ayır.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 1</span>
+        <span class="t">İnkarserasyon / iskemi / redükte edilemeyen prolapsus var mı?</span>
+        <p>Koyu/mor renk, ödem, kanama, şiddetli ağrı veya manuel redüksiyona yanıtsızlık.</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Acil</span>
+          <div class="node alarm">
+            <span class="k">Acil müdahale</span>
+            <span class="t">Cerrahi konsültasyon + acil redüksiyon</span>
+            <p>Analjezi/sedasyon altında nazik manuel redüksiyon; ödem için topikal şeker/soğuk kompres. Redükte olmuyor veya iskemi ilerliyorsa cerrahi eksplorasyon.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Elektif değerlendirme</span>
+          <div class="node action safe">
+            <span class="k">Adım 1</span>
+            <span class="t">Nazik redüksiyon + altta yatanı araştır</span>
+            <p>Manuel redüksiyon; ardından tanısal basamaklı tetkik (Bölüm 04) başlat.</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node action">
+        <span class="k">Adım 2</span>
+        <span class="t">Zorunlu ilk basamak: KF ter testi + dışkı tetkiki</span>
+        <p>Tüm idiyopatik prolapsusta ter testi; dışkı mikroskopisi (parazit) ve gerekirse dışkı elastazı.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 2</span>
+        <span class="t">Spesifik altta yatan neden saptandı mı?</span>
+        <p>KF, parazit, kronik ishal veya diğer sekonder neden.</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Nedene yönelik</span>
+          <div class="node action">
+            <span class="k">Hedefe yönelik tedavi</span>
+            <span class="t">Altta yatanı tedavi et</span>
+            <p>KF → multidisipliner KF yönetimi + pankreatik enzim replasmanı; parazit → antihelmintik; ishal → etiyolojiye yönelik. Prolapsus çoğunlukla neden tedavi edilince geriler.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → İdiyopatik/fonksiyonel</span>
+          <div class="node action safe">
+            <span class="k">Konservatif yönetim</span>
+            <span class="t">Kabızlık tedavisi + tuvalet eğitimi</span>
+            <p>Osmotik laksatif (PEG), lifli beslenme, tuvalette ıkınma/uzun oturmayı azalt, ayak desteği. Çoğu vaka 3-12 ayda spontan düzelir.</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 3</span>
+        <span class="t">6-12 ay optimal konservatif yönetime rağmen inatçı/tekrarlayan mı?</span>
+        <p>Uyum doğrulanmış, kabızlık kontrol altında olmasına rağmen prolapsus devam ediyor.</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Girişimsel</span>
+          <div class="node alarm">
+            <span class="k">İleri tedavi</span>
+            <span class="t">Skleroterapi veya cerrahi</span>
+            <p>Submukozal skleroterapi (%15 hipertonik salin/%5 fenol vb.) ilk girişim; başarısızlıkta cerrahi (Thiersch, sütür rektopeksi, transanal rezeksiyon).</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → İzlem</span>
+          <div class="node action safe">
+            <span class="k">Sürdür</span>
+            <span class="t">Konservatifi devam ettir</span>
+            <p>Laksatif idamesi, tuvalet davranışı, büyüme takibi; sıklık azalırken kademeli geri çekilme.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Tetkik, sıklık sırasına ve önceki basamağın sonucuna göre kademelidir. Ter testi ve dışkı tetkiki idiyopatik her vakada zorunlu ilk basamaktır.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Rektal prolapsusta basamaklı tanısal değerlendirme</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Tetkik / eşik</th><th>Amaç ve yorum</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">1 — Ter testi (zorunlu)</td>
+            <td class="dose">Pilokarpin iyontoforezi; Cl⁻ &ge;60 mmol/L pozitif, 30-59 ara değer</td>
+            <td>Kistik fibrozis dışlanması; tüm idiyopatik/tekrarlayan prolapsusta ilk sırada. Ara değerde CFTR gen analizi.</td>
+          </tr>
+          <tr>
+            <td class="step">1 — Dışkı mikroskopisi</td>
+            <td class="dose">3 örnek; parazit yumurta/kist, Trichuris/Entamoeba</td>
+            <td>Parazit yükünü göster; endemik bölgede öncelikli. Gerekirse Entamoeba antijen/PCR.</td>
+          </tr>
+          <tr>
+            <td class="step">2 — Dışkı elastaz-1</td>
+            <td class="dose">&lt;200 µg/g yetersizlik; &lt;100 µg/g ağır ekzokrin pankreas yetmezliği</td>
+            <td>Pankreatik ekzokrin fonksiyon; KF/steatore şüphesinde ter testini destekler.</td>
+          </tr>
+          <tr>
+            <td class="step">2 — Tam kan + demir</td>
+            <td class="dose">Hb, ferritin, eozinofili</td>
+            <td>Kronik kanama/anemi (rektal polip, parazit), malnütrisyon değerlendirmesi.</td>
+          </tr>
+          <tr>
+            <td class="step">3 — Abdomen düz grafi / geçiş</td>
+            <td class="dose">Fekal yük değerlendirmesi (klinik yeterliyse gerekmez)</td>
+            <td>Ağır fekal impaksiyon şüphesinde; rutin değil.</td>
+          </tr>
+          <tr>
+            <td class="step">3 — Çölyak serolojisi</td>
+            <td class="dose">Doku transglutaminaz IgA + total IgA</td>
+            <td>Kronik ishal/gelişme geriliği eşlik ediyorsa.</td>
+          </tr>
+          <tr>
+            <td class="step">4 — Kolonoskopi / rektosigmoidoskopi</td>
+            <td class="dose">Kanama, kitle veya polip şüphesi</td>
+            <td>Prolabe polip, soliter rektal ülser, IBD ayrımı; rutin değil, seçilmiş olgular.</td>
+          </tr>
+          <tr>
+            <td class="step">4 — Spinal MR</td>
+            <td class="dose">Anormal sfinkter tonu / nörolojik bulgu</td>
+            <td>Spinal disrafizm, tethered kord şüphesinde.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdaki bulgular acil müdahale, ileri görüntüleme veya cerrahi konsültasyonu tetikler.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>İnkarsere / redükte edilemeyen prolapsus veya iskemi bulguları (koyu-mor mukoza, kanama, şiddetli ağrı).</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ter testi pozitif veya steatore + gelişme geriliği (kistik fibrozis).</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Anüsten çıkan doku ile parmak arasına girilebilmesi (intussusepsiyon lideri) veya lokalize saplı kitle (polip).</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Rektal kanama, kilo kaybı, kronik ishal → IBD / soliter rektal ülser / neoplazi.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Düşük sfinkter tonu + alt ekstremite nörolojik defisit → spinal patoloji.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>4 yaş üzeri ilk kez başlayan veya optimal konservatif tedaviye dirençli prolapsus.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi</h2>
+    <p class="lede">Tedavinin temeli akut redüksiyon, altta yatanın (özellikle kabızlık ve parazit) dozlu tedavisi ve tuvalet davranışının düzenlenmesidir. Cerrahi/skleroterapi yalnızca dirençli olgularda.</p>
+    <div class="callout safe">Konservatif yönetim çocukların büyük çoğunluğunda etkilidir; kabızlık kontrol altına alınıp ıkınma azaltıldığında prolapsus genellikle aylar içinde geriler. Manuel redüksiyon için ödemli mukozaya topikal granül şeker (osmotik ödem çözücü) uygulanabilir.</div>
+    <div class="table-scroll">
+      <table>
+        <caption>Rektal prolapsusta dozlu medikal tedavi</caption>
+        <thead>
+          <tr><th>İlaç / basamak</th><th>Doz (mg/kg + maksimum)</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">PEG 3350/4000 (idame — kabızlık)</td>
+            <td class="dose">0.4-0.8 g/kg/gün PO (maks başlangıç ~17 g/gün); dışkı yumuşaklığına titre</td>
+            <td>Birinci basamak osmotik laksatif; sert dışkı ve ıkınmayı azaltır.</td>
+          </tr>
+          <tr>
+            <td class="step">PEG 3350 (fekal disempaksiyon)</td>
+            <td class="dose">1-1.5 g/kg/gün PO, 3-6 gün (maks 100 g/gün)</td>
+            <td>İmpaksiyon varsa idameden önce.</td>
+          </tr>
+          <tr>
+            <td class="step">Laktuloz (alternatif osmotik)</td>
+            <td class="dose">1-2 g/kg/gün (1.5-3 mL/kg/gün), 1-2 doza böl (maks 60 mL/gün)</td>
+            <td>PEG tolere edilemezse.</td>
+          </tr>
+          <tr>
+            <td class="step">Mebendazol (Trichuris/askaris)</td>
+            <td class="dose">100 mg PO 2×/gün, 3 gün (veya 500 mg tek doz)</td>
+            <td>Ağır Trichuris'te 3 günlük kür tercih; parazit prolapsusun nedeniyse tedavi ile düzelir.</td>
+          </tr>
+          <tr>
+            <td class="step">Albendazol (alternatif antihelmintik)</td>
+            <td class="dose">400 mg PO tek doz (Trichuris'te 3 gün); &lt;2 yaş 200 mg</td>
+            <td>Geniş spektrum; endemik bölgede tercih edilebilir.</td>
+          </tr>
+          <tr>
+            <td class="step">Metronidazol (Entamoeba histolytica)</td>
+            <td class="dose">35-50 mg/kg/gün PO, 3 doza böl, 7-10 gün (maks 2250 mg/gün)</td>
+            <td>Amipli dizanteri zeminli prolapsusta; ardından luminal ajan (paromomisin).</td>
+          </tr>
+          <tr>
+            <td class="step">Pankreatik enzim (KF saptanırsa)</td>
+            <td class="dose">Lipaz 500-2500 IU/kg/öğün (maks 10.000 IU/kg/gün veya 2500 IU/kg/öğün)</td>
+            <td>KF'de steatoreyi düzeltir; multidisipliner KF ekibi ile.</td>
+          </tr>
+          <tr>
+            <td class="step">Skleroterapi (dirençli olgu)</td>
+            <td class="dose">Submukozal %15 hipertonik salin veya %5 fenol (badem yağında), sedasyon altında</td>
+            <td>6-12 ay konservatife yanıtsızlıkta ilk girişimsel adım; gerekirse tekrar.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pill-row">
+      <span class="pill">Manuel redüksiyon + topikal şeker</span>
+      <span class="pill">Tuvalette ayak desteği/tabure</span>
+      <span class="pill">Ikınma süresini kısalt</span>
+      <span class="pill">Lif + sıvı</span>
+      <span class="pill">Cerrahi: yalnızca refrakter</span>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem / yönetim ilkeleri</h2>
+    <p class="lede">İzlem, kabızlık kontrolünün sürdürülmesi, altta yatan nedenin tedavi yanıtı ve prolapsus sıklığının azalması üzerine kuruludur.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>İzlem hedefleri</h3>
+        <ul class="clean">
+          <li>Günlük yumuşak, ağrısız dışkılama; ıkınmasız defekasyon.</li>
+          <li>İlk 4-6 haftada telefon/poliklinik ile laksatif doz titrasyonu.</li>
+          <li>Prolapsus sıklığı azaldıkça laksatifi kademeli azalt; erken kesme nüks riski.</li>
+          <li>Büyüme (persentil) ve beslenme takibi; KF/malnütrisyonda ayrı izlem.</li>
+          <li>Parazit tedavisi sonrası kontrol dışkı incelemesi.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Aile eğitimi ve davranış</h3>
+        <ul class="clean">
+          <li>Tuvalette uzun oturmayı ve zorlu ıkınmayı önle; ayak desteği ile pelvik açı düzeltilir.</li>
+          <li>Prolapsus olursa ebeveyne nazik manuel redüksiyon öğret; iskemi bulgusunda acile başvuru.</li>
+          <li>Düzenli tuvalet rutini (öğün sonrası gastrokolik refleks).</li>
+          <li>Lif ve sıvı alımını artır; tutma davranışını azalt.</li>
+          <li>Çoğu çocukta prognoz mükemmel; 4 yaşından sonra spontan düzelme sıktır.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">Cerrahiye yönlendirme eşiği: uygun uygulanan konservatif tedaviye 6-12 ay yanıtsızlık, tam kat kalıcı prolapsus veya inkarserasyon. Skleroterapi genellikle ilk girişimsel basamaktır; başarısızlıkta Thiersch, sütür/laparoskopik rektopeksi veya transanal yaklaşım değerlendirilir.</div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Hyams JS, Di Lorenzo C, Saps M, ve ark. Functional Disorders: Children and Adolescents (Rome IV). Gastroenterology. 2016;150:1456-1468.</li>
+      <li>Tabbers MM, DiLorenzo C, Berger MY, ve ark. Evaluation and treatment of functional constipation in infants and children: ESPGHAN/NASPGHAN Evidence-Based Recommendations. J Pediatr Gastroenterol Nutr. 2014;58:258-274.</li>
+      <li>Farrell PM, White TB, Ren CL, ve ark. Diagnosis of Cystic Fibrosis: Consensus Guidelines from the Cystic Fibrosis Foundation. J Pediatr. 2017;181S:S4-S15.</li>
+      <li>Cares K, El-Baba M. Rectal Prolapse in Children: Significance and Management. Curr Gastroenterol Rep. 2016;18:22.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge pediatrik gastroenteroloji uzmanları için hazırlanmış bir klinik karar-destek aracıdır; bireysel hasta yönetiminin yerini tutmaz. Dozlar hastanın yaşı, kilosu, böbrek/karaciğer fonksiyonu ve güncel ürün bilgisine göre doğrulanmalıdır.</div>
+</div>

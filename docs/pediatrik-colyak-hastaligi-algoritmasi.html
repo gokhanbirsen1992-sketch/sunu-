@@ -1,0 +1,405 @@
+<title>Çölyak Hastalığı — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+<header class="masthead">
+<p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+<h1>Çölyak Hastalığı</h1>
+<p class="sub">Genetik yatkın çocukta glutene bağlı immün-aracılı enteropatinin serolojik, biyopsisiz/biyopsili tanısı, glutensiz diyetle tedavisi ve yaşam boyu izlemi için basamaklı karar aracı.</p>
+<div class="meta">
+<span class="tag">Seroloji: anti-tTG IgA</span>
+<span class="tag">Biyopsisiz tanı</span>
+<span class="tag">Glutensiz diyet</span>
+<span class="tag">HLA-DQ2/DQ8</span>
+</div>
+</header>
+
+<section>
+<h2><span class="n">01</span> Tanım ve İlk Değerlendirme</h2>
+<p class="lede">Çölyak hastalığı, genetik olarak yatkın (HLA-DQ2 ve/veya DQ8 pozitif) bireylerde diyetle alınan glutenin tetiklediği, ince bağırsakta villus atrofisiyle seyreden kronik, immün-aracılı sistemik bir enteropatidir. Çocuklarda gastrointestinal ve ekstraintestinal bulgularla veya risk grubu taramasıyla asemptomatik olarak saptanabilir. Tanı öncesinde çocuğun MUTLAKA glutenli diyette olması gerekir.</p>
+<div class="grid two">
+<div class="card">
+<h3>Öykü — sorgulanması gerekenler</h3>
+<ul class="clean">
+<li>Klasik GİS: kronik/tekrarlayan ishal, karın distansiyonu, karın ağrısı, kabızlık, iştahsızlık</li>
+<li>Büyümede duraklama, kilo alamama, boy kısalığı, puberte gecikmesi</li>
+<li>Ekstraintestinal: demir eksikliği anemisi (tedaviye dirençli), tekrarlayan aftöz stomatit, dermatitis herpetiformis, dental mine defektleri, artralji, kronik yorgunluk, transaminaz yüksekliği</li>
+<li>Risk grubu: Tip 1 DM, otoimmün tiroidit, Down/Turner/Williams sendromu, IgA eksikliği, birinci derece akraba pozitifliği</li>
+<li>Diyette gluten alımı devam ediyor mu? Ne zamandan beri gluten alıyor?</li>
+</ul>
+</div>
+<div class="card">
+<h3>Muayene ve ilk laboratuvar</h3>
+<ul class="clean">
+<li>Antropometri: ağırlık, boy, VKİ persentilleri ve büyüme eğrisi trendi</li>
+<li>Batın distansiyonu, gluteal kas kütlesi kaybı, periferik ödem (hipoalbuminemi)</li>
+<li>Pubertal evre (Tanner), dental mine, cilt (dermatitis herpetiformis)</li>
+<li>İlk tetkik: <b>total serum IgA + anti-tTG IgA</b> (glutenli diyette)</li>
+<li>Tam kan sayımı, ferritin, folat, B12, 25-OH D vitamini, ALT/AST, TSH-sT4</li>
+</ul>
+</div>
+</div>
+<div class="callout"><b>Ön koşul:</b> Serolojik tanı ve biyopsi öncesinde çocuk en az birkaç haftadır (ideali &gt;6 hafta, günde &ge;1-3 porsiyon) glutenli beslenmelidir. Test öncesi diyetten gluteni çıkarmak yanlış negatifliğe ve tanı belirsizliğine yol açar.</div>
+</section>
+
+<section>
+<h2><span class="n">02</span> Mekanizma ve İlişkili Kategoriler</h2>
+<p class="lede">Gliadin peptidleri doku transglutaminazı (TG2) tarafından deamide edilir; HLA-DQ2/DQ8 üzerinde sunularak CD4+ T-hücre yanıtını, anti-TG2 antikor üretimini ve villöz hasarı tetikler. Aşağıdaki kartlar patogenez ve klinik alt gruplandırmayı özetler.</p>
+<div class="mech">
+<div class="m t1">
+<div class="h">Genetik zemin</div>
+<ul>
+<li>HLA-DQ2 (~%90) ve/veya HLA-DQ8</li>
+<li>DQ2/DQ8 negatifliği tanıyı büyük ölçüde dışlar (yüksek NPV)</li>
+<li>Pozitiflik tanısal değil, yatkınlık gösterir</li>
+</ul>
+</div>
+<div class="m t2">
+<div class="h">İmmün mekanizma</div>
+<ul>
+<li>TG2 aracılı gliadin deamidasyonu</li>
+<li>HLA-DQ2/8 sunumu → CD4+ Th1 yanıtı</li>
+<li>Anti-TG2 (tTG) ve anti-endomisyum (EMA) antikorları</li>
+</ul>
+</div>
+<div class="m t3">
+<div class="h">Histopatoloji (Marsh)</div>
+<ul>
+<li>Marsh 1: intraepitelyal lenfositoz</li>
+<li>Marsh 2: kript hiperplazisi</li>
+<li>Marsh 3a-c: parsiyel→total villus atrofisi</li>
+</ul>
+</div>
+<div class="m t4">
+<div class="h">Klasik / semptomatik</div>
+<ul>
+<li>Malabsorpsiyon: ishal, distansiyon, kilo kaybı</li>
+<li>Büyüme geriliği, demir eksikliği anemisi</li>
+<li>Ekstraintestinal bulgular</li>
+</ul>
+</div>
+<div class="m t5">
+<div class="h">Sessiz / asemptomatik</div>
+<ul>
+<li>Risk grubu taramasında pozitif seroloji</li>
+<li>Semptom yok veya minimal</li>
+<li>Histolojik hasar mevcut olabilir</li>
+</ul>
+</div>
+<div class="m t6">
+<div class="h">Potansiyel çölyak</div>
+<ul>
+<li>Seroloji pozitif, biyopsi normal (Marsh 0-1)</li>
+<li>Glutensiz diyet kararı bireysel, izlem şart</li>
+<li>Zamanla enteropati gelişebilir</li>
+</ul>
+</div>
+</div>
+</section>
+
+<section>
+<h2><span class="n">03</span> Karar Akışı</h2>
+<p class="lede">ESPGHAN 2020 algoritmasına göre; glutenli diyette anti-tTG IgA düzeyine ve doğrulayıcı testlere göre biyopsisiz veya biyopsili tanı yolağı belirlenir.</p>
+<div class="flow">
+<div class="node start"><span class="k">Başlangıç</span><span class="t">Çölyak şüphesi olan çocuk</span><p>Glutenli diyette; semptomatik veya risk grubu. İlk basamak: total IgA + anti-tTG IgA.</p></div>
+<div class="connector"></div>
+<div class="node action"><span class="k">Adım 1</span><span class="t">Total IgA ve anti-tTG IgA gönder</span><p>IgA normal ise sonucu değerlendir. IgA eksikliği (&lt;0,2 g/L veya yaşa göre düşük) varsa IgG bazlı test (anti-tTG IgG / anti-DGP IgG) kullan.</p></div>
+<div class="connector"></div>
+<div class="node decision"><span class="k">Karar 1</span><span class="t">Anti-tTG IgA pozitif mi?</span><p>Normal IgA varlığında anti-tTG IgA titresini ULN (üst normal sınır) katına göre yorumla.</p></div>
+<div class="branches">
+<div class="branch no">
+<span class="label">HAYIR → tTG negatif</span>
+<div class="node action safe"><span class="k">Düşük olasılık</span><span class="t">Çölyak dışlanır</span><p>Semptom sürüyorsa/yüksek klinik şüphe varsa diyet uyumunu doğrula, IgA eksikliğini gözden geçir, gerekirse 6-12 ay sonra tekrarla veya biyopsi düşün.</p></div>
+</div>
+<div class="branch yes">
+<span class="label">EVET → tTG pozitif</span>
+<div class="node decision"><span class="k">Karar 2</span><span class="t">Anti-tTG IgA &ge; 10× ULN mü?</span><p>Biyopsisiz tanı için eşik. Yüksek titre villus atrofisiyle güçlü korelasyon gösterir.</p></div>
+</div>
+</div>
+<div class="connector"></div>
+<div class="branches">
+<div class="branch yes">
+<span class="label">EVET → &ge;10× ULN</span>
+<div class="node action safe"><span class="k">Biyopsisiz yol</span><span class="t">Ayrı örnekte EMA-IgA gönder</span><p>Farklı bir kan örneğinde anti-EMA IgA pozitif ise <b>biyopsisiz tanı</b> konur. HLA testi ve duodenal biyopsi zorunlu değildir. GİD başla.</p></div>
+</div>
+<div class="branch no">
+<span class="label">HAYIR → &lt;10× ULN</span>
+<div class="node alarm"><span class="k">Biyopsili yol</span><span class="t">Üst GİS endoskopi + duodenal biyopsi</span><p>Bulbustan &ge;1 ve distal duodenumdan &ge;4 biyopsi. Marsh &ge;2 tanıyı doğrular. HLA ve EMA belirsiz olgularda yardımcıdır.</p></div>
+</div>
+</div>
+</div>
+<div class="callout safe"><b>Not:</b> Biyopsisiz tanı iki koşulun birlikte sağlanmasını gerektirir: anti-tTG IgA &ge;10× ULN <b>ve</b> ayrı örnekte anti-EMA IgA pozitifliği. Her iki koşul glutenli diyette sağlanmalı; aile bilgilendirilip glutensiz diyet başlanmadan önce tanı kesinleştirilir.</div>
+</section>
+
+<section>
+<h2><span class="n">04</span> Basamaklı Tetkik</h2>
+<p class="lede">Tarama serolojisinden doğrulama ve komplikasyon değerlendirmesine kadar sıralı yaklaşım. Tüm serolojik testler glutenli diyette yapılmalıdır.</p>
+<div class="table-scroll">
+<table>
+<caption>Çölyak hastalığında basamaklı tanısal değerlendirme</caption>
+<thead>
+<tr><th>Basamak</th><th>Test / eşik</th><th>Yorum ve not</th></tr>
+</thead>
+<tbody>
+<tr><td class="step">1 · Tarama</td><td class="dose">Total IgA + anti-tTG IgA</td><td>İlk basamak. IgA normal + tTG negatif → düşük olasılık.</td></tr>
+<tr><td class="step">2 · IgA eksikliği</td><td class="dose">IgA &lt;0,2 g/L → anti-tTG IgG / anti-DGP IgG</td><td>Selektif IgA eksikliği çölyakta ~10-15 kat sık; IgG bazlı test kullan.</td></tr>
+<tr><td class="step">3 · Titre değerlendirmesi</td><td class="dose">Anti-tTG IgA &ge; 10× ULN</td><td>Biyopsisiz tanı eşiği; villus atrofisiyle yüksek korelasyon.</td></tr>
+<tr><td class="step">4 · Doğrulama (biyopsisiz)</td><td class="dose">Ayrı örnekte anti-EMA IgA (+)</td><td>&ge;10× ULN tTG ile birlikte biyopsisiz tanıyı tamamlar.</td></tr>
+<tr><td class="step">5 · Biyopsi (&lt;10× ULN)</td><td class="dose">Duodenum: bulbus &ge;1 + distal &ge;4 örnek</td><td>Marsh &ge;2 tanıyı doğrular. Patchy tutulum için çoklu örnek şart.</td></tr>
+<tr><td class="step">6 · HLA (seçili olgu)</td><td class="dose">HLA-DQ2 / DQ8</td><td>Negatiflik çölyağı dışlar. Belirsiz seroloji-histoloji uyumsuzluğunda ve risk grubunda ön eleme.</td></tr>
+<tr><td class="step">7 · Komplikasyon paneli</td><td class="dose">TKS, ferritin, folat, B12, 25-OH D, Ca, ALT/AST, TSH-sT4</td><td>Demir eksikliği anemisi, mikronutrient eksikliği, otoimmün tiroidit, hepatit taraması.</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section>
+<h2><span class="n">05</span> Kırmızı Bayraklar</h2>
+<p class="lede">Aşağıdaki bulgular ivedi ileri değerlendirme, hastaneye yatış veya alternatif/eşlik eden tanı arayışını gerektirir.</p>
+<div class="alarm-grid">
+<div class="alarm-item"><span class="dot"></span><span>Ağır malabsorpsiyon: hipoalbuminemi, yaygın ödem, hipokalemi/hipokalsemi ile dehidratasyon</span></div>
+<div class="alarm-item"><span class="dot"></span><span>Çölyak krizi: profüz ishal, elektrolit dengesizliği, metabolik asidoz, hemodinamik bozulma (özellikle küçük çocukta)</span></div>
+<div class="alarm-item"><span class="dot"></span><span>Ağır büyüme geriliği / belirgin kilo kaybı, puberte durması</span></div>
+<div class="alarm-item"><span class="dot"></span><span>Tedaviye dirençli demir eksikliği anemisi veya semptomatik anemi</span></div>
+<div class="alarm-item"><span class="dot"></span><span>Uygun glutensiz diyete rağmen sürekli/yeniden ortaya çıkan semptomlar (diyet uyumu, refrakter hastalık, eşlik eden tanı sorgusu)</span></div>
+<div class="alarm-item"><span class="dot"></span><span>Belirgin transaminaz yüksekliği veya eşlik eden otoimmün hepatit şüphesi</span></div>
+<div class="alarm-item"><span class="dot"></span><span>Kanamalı ishal, gece semptomu, kilo kaybı ile birlikte alarm bulguları — inflamatuar bağırsak hastalığı/malignite ekartasyonu</span></div>
+</div>
+</section>
+
+<section>
+<h2><span class="n">06</span> Tedavi</h2>
+<p class="lede">Temel tedavi yaşam boyu, sıkı glutensiz diyettir (GİD). Buğday, arpa, çavdar (ve çapraz bulaş riski olan yulaf) tümüyle çıkarılır. İlaç tedavisi yalnızca eşlik eden eksiklikler ve komplikasyonlar için gerekir; rutin çölyakta farmakoterapi yoktur.</p>
+<div class="pill-row">
+<span class="pill">Glutensiz diyet (yaşam boyu)</span>
+<span class="pill">Diyetisyen desteği</span>
+<span class="pill">Eksiklik replasmanı</span>
+<span class="pill">Aşı: pnömokok</span>
+</div>
+<div class="table-scroll">
+<table>
+<caption>Eşlik eden eksiklik ve komplikasyonlarda destek tedavisi (dozlar pediatrik)</caption>
+<thead>
+<tr><th>İlaç / girişim</th><th>Doz (mg/kg + maksimum)</th><th>Endikasyon / not</th></tr>
+</thead>
+<tbody>
+<tr><td class="step">Elementer demir (ferröz sülfat)</td><td class="dose">3-6 mg/kg/gün elementer demir, 2-3 doza böl (maks 150-200 mg/gün)</td><td>Demir eksikliği anemisi. 3 ay sürdür; GİD ile emilim düzelir.</td></tr>
+<tr><td class="step">D vitamini (kolekalsiferol)</td><td class="dose">Eksiklikte 2000 IU/gün (&lt;1 yaş 1000 IU) 6-12 hafta, sonra 400-600 IU/gün idame (maks tek doz 50.000 IU/hafta)</td><td>25-OH D &lt;20 ng/mL. Kalsiyum durumuyla birlikte değerlendir.</td></tr>
+<tr><td class="step">Kalsiyum (elementer)</td><td class="dose">Yaşa göre RDA hedefli; eksiklikte 500-1000 mg/gün böl (maks 1000-1500 mg/gün)</td><td>Malabsorpsiyon/kemik sağlığı; D vitamini ile birlikte.</td></tr>
+<tr><td class="step">Folik asit</td><td class="dose">1 mg/gün PO (maks 5 mg/gün)</td><td>Folat eksikliği; makrositoz veya düşük düzey.</td></tr>
+<tr><td class="step">B12 (kobalamin)</td><td class="dose">Eksiklikte 1000 µg IM/hafta yükleme sonra aylık; hafif olguda oral 500-1000 µg/gün</td><td>Distal ileum tutulumu/uzun süreli malabsorpsiyon.</td></tr>
+<tr><td class="step">Çinko</td><td class="dose">1 mg/kg/gün elementer çinko (maks 20-40 mg/gün) 2-4 hafta</td><td>Kronik ishal/eksiklik bulgusunda.</td></tr>
+<tr><td class="step">Glukokortikoid (seçili)</td><td class="dose">Prednizolon 1-2 mg/kg/gün (maks 40-60 mg/gün)</td><td>Yalnızca çölyak krizi/ağır refrakter olguda kısa süreli; sıvı-elektrolit desteğiyle birlikte. Standart tedavi değildir.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="callout alarm"><b>Uyarı:</b> Glukokortikoid ve immünsupresif tedaviler rutin pediatrik çölyakta yeri olmayan, yalnızca çölyak krizi gibi hayatı tehdit eden veya refrakter (çocuklarda çok nadir) durumlarda düşünülen istisnai seçeneklerdir. Ana ve kalıcı tedavi glutensiz diyettir.</div>
+</section>
+
+<section>
+<h2><span class="n">07</span> İzlem ve Yönetim İlkeleri</h2>
+<p class="lede">Amaç: semptom kontrolü, büyümenin normalleşmesi, serolojik normalleşme, mukozal iyileşme, eksikliklerin düzeltilmesi ve ilişkili otoimmün hastalıkların taranması.</p>
+<div class="grid two">
+<div class="card">
+<h3>İzlem takvimi</h3>
+<ul class="clean">
+<li>İlk kontrol: tanıdan 3-6 ay sonra — semptom, büyüme, diyet uyumu, anti-tTG IgA</li>
+<li>Ardından 6-12 ayda bir; stabilse yıllık</li>
+<li>Anti-tTG IgA GİD ile 6-12 ayda düşer, çoğu olguda 12-24 ayda normalleşir; kalıcı yükseklik → diyet uyumsuzluğu / gizli gluten</li>
+<li>Her vizitte antropometri ve büyüme eğrisi</li>
+</ul>
+</div>
+<div class="card">
+<h3>İlişkili hastalık taraması</h3>
+<ul class="clean">
+<li>Otoimmün tiroidit: TSH-sT4, gerekirse anti-TPO — tanıda ve periyodik</li>
+<li>Tip 1 DM olgularında ve DM'lilerde çölyak taraması (karşılıklı)</li>
+<li>Karaciğer: ALT/AST; kalıcı yükseklikte otoimmün hepatit sorgusu</li>
+<li>Kemik sağlığı: uzun süreli tanı/uyumsuzlukta D vitamini, gerekirse DXA</li>
+<li>Birinci derece akrabalara HLA/seroloji taraması önerisi</li>
+</ul>
+</div>
+</div>
+<div class="callout"><b>Diyet uyumu ve yaşam kalitesi:</b> Pediatrik diyetisyen ile düzenli görüşme, çapraz bulaş eğitimi, okul/aile bilgilendirmesi ve psikososyal destek uyumu artırır. Gizli gluten kaynakları (ilaç eksipiyanları, işlenmiş gıdalar) gözden geçirilmelidir. Semptomatik olgularda pnömokok aşısı önerilir (hiposplenizm riski).</div>
+</section>
+
+<footer>
+<b>Kaynaklar</b>
+<ol>
+<li>Husby S, Koletzko S, Korponay-Szabó I, ve ark. European Society Paediatric Gastroenterology, Hepatology and Nutrition Guidelines for Diagnosing Coeliac Disease 2020. J Pediatr Gastroenterol Nutr. 2020;70(1):141-156.</li>
+<li>Hill ID, Fasano A, Guandalini S, ve ark. NASPGHAN Clinical Report on the Diagnosis and Treatment of Gluten-related Disorders. J Pediatr Gastroenterol Nutr. 2016;63(1):156-165.</li>
+<li>Al-Toma A, Volta U, Auricchio R, ve ark. European Society for the Study of Coeliac Disease (ESsCD) guideline for coeliac disease and other gluten-related disorders. United European Gastroenterol J. 2019;7(5):583-613.</li>
+<li>Lebwohl B, Sanders DS, Green PHR. Coeliac disease. Lancet. 2018;391(10115):70-81.</li>
+</ol>
+</footer>
+<div class="disclaimer"><b>Uyarı:</b> Bu belge pediatrik gastroenteroloji uzmanları için hazırlanmış bir klinik karar destek aracıdır; bireysel hasta yönetiminin yerini almaz. Dozlar ulusal formüler ve hasta özelliklerine göre teyit edilmeli, güncel kılavuzlarla birlikte değerlendirilmelidir.</div>
+</div>

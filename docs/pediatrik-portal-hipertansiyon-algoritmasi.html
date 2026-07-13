@@ -1,0 +1,519 @@
+<title>Portal Ven Trombozu / Portal Hipertansiyon — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Portal Ven Trombozu / Portal Hipertansiyon</h1>
+    <p class="sub">Çocuklarda prehepatik (EHPVO) ve intrahepatik portal hipertansiyonun ayrımı, varis izlemi, akut varis kanamasının yönetimi ve Meso-Rex baypasa dek uzanan basamaklı bir karar aracı.</p>
+    <div class="meta">
+      <span class="tag">EHPVO</span>
+      <span class="tag">Varis Kanaması</span>
+      <span class="tag">Endoskopik İzlem</span>
+      <span class="tag">Meso-Rex</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve İlk Değerlendirme</h2>
+    <p class="lede">Portal hipertansiyon (PHT), portal basınç gradiyentinin (HVPG) &gt;5 mmHg olmasıdır; klinik anlamlı PHT ve varis riski genellikle &gt;10 mmHg üzerinde belirir. Çocukta ilk görev, tıkanıklığın seviyesini (prehepatik / intrahepatik / posthepatik) belirlemek ve altta yatan karaciğer hastalığını dışlamaktır. Prehepatik en sık neden ekstrahepatik portal ven obstrüksiyonudur (EHPVO); portal ven yerinde kavernöz dönüşüm (kavernom) tipik bulgudur.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öykü</h3>
+        <ul class="clean">
+          <li>Yenidoğan döneminde umbilikal ven kateterizasyonu, omfalit, sepsis, dehidratasyon öyküsü (EHPVO için).</li>
+          <li>İyi hissettiği halde saptanan splenomegali veya izole trombositopeni.</li>
+          <li>Ağrısız üst GİS kanaması (hematemez / melena) — sıklıkla ilk bulgu.</li>
+          <li>Neonatal kolestaz, biliyer atrezi Kasai sonrası, kistik fibrozis, konjenital hepatik fibrozis öyküsü (intrahepatik için).</li>
+          <li>Protrombotik zemin: JAK2, protein C/S, antitrombin eksikliği, faktör V Leiden, MTHFR.</li>
+          <li>Büyüme geriliği, tekrarlayan karın şişliği (asit), ensefalopati atakları.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayene</h3>
+        <ul class="clean">
+          <li>Splenomegali (en tutarlı bulgu) ± hipersplenizm belirtileri.</li>
+          <li>Karın ön duvarında venöz kollateraller, caput medusae.</li>
+          <li>Karaciğer boyutu: EHPVO'da normal/küçük ve yumuşak; siroz varsa sert nodüler.</li>
+          <li>Kronik karaciğer hastalığı stigmataları: sarılık, spider anjiyom, palmar eritem, çomak parmak.</li>
+          <li>Asit, pretibial ödem (dekompansasyon).</li>
+          <li>Büyüme parametreleri (boy/kilo persentili) — özellikle EHPVO'da büyüme geriliği taranmalı.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">Ağrısız üst GİS kanaması + splenomegali + normal karaciğer fonksiyon testleri olan çocukta aksi ispat edilene dek EHPVO düşünülmelidir. Doppler USG ilk basamak tetkiktir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Etiyoloji ve Mekanizma</h2>
+    <p class="lede">Portal hipertansiyon tıkanıklık seviyesine göre sınıflanır. Bu ayrım prognozu (karaciğer fonksiyonunun korunup korunmadığını) ve tedavi hedefini (ör. Meso-Rex uygunluğu) belirler.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">Prehepatik — EHPVO</div>
+        <ul>
+          <li>Portal ven trombozu + kavernöz dönüşüm.</li>
+          <li>Umbilikal kateter, omfalit, sepsis, protrombotik durum.</li>
+          <li>Karaciğer parenkimi ve fonksiyonu korunur.</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">İntrahepatik — Presinüzoidal</div>
+        <ul>
+          <li>Konjenital hepatik fibrozis, kistik fibrozis.</li>
+          <li>Şistozomiyaz, sarkoidoz, idiyopatik noninfeksiyöz PHT.</li>
+          <li>Sentetik fonksiyon uzun süre korunabilir.</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">İntrahepatik — Sinüzoidal</div>
+        <ul>
+          <li>Siroz: biliyer atrezi, otoimmün hepatit, Wilson, A1AT eksikliği.</li>
+          <li>Sentetik fonksiyon bozulur (INR, albümin, bilirubin).</li>
+          <li>Varis + asit + ensefalopati birlikte görülebilir.</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">İntrahepatik — Postsinüzoidal</div>
+        <ul>
+          <li>Sinüzoidal obstrüksiyon sendromu (VOD/SOS), HSCT sonrası.</li>
+          <li>Pirolizidin alkaloidleri, kemoterapi.</li>
+          <li>Hepatomegali + ağrı + hızlı kilo alımı.</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">Posthepatik</div>
+        <ul>
+          <li>Budd-Chiari sendromu (hepatik ven trombozu).</li>
+          <li>Konstriktif perikardit, sağ kalp yetmezliği.</li>
+          <li>Asit ön planda, hepatomegali belirgin.</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">Protrombotik Zemin</div>
+        <ul>
+          <li>Herediter: protein C/S, antitrombin, FV Leiden, protrombin G20210A.</li>
+          <li>Edinsel: myeloproliferatif (JAK2 V617F), antifosfolipid.</li>
+          <li>EHPVO ve Budd-Chiari olgularında mutlaka taranmalı.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar Akışı</h2>
+    <p class="lede">Üst GİS kanaması ya da yeni saptanan portal hipertansiyon bulgusu olan çocukta stabilizasyon, seviye ayrımı ve varis yönetimini kapsayan karar ağacı.</p>
+    <div class="flow">
+      <div class="node start">
+        <span class="k">Başlangıç</span>
+        <span class="t">Splenomegali / GİS kanaması / trombositopeni ile başvuru</span>
+        <p>Portal hipertansiyon şüphesi. Hemodinamik durumu değerlendir; aktif kanama varsa önce resüsitasyon.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node action">
+        <span class="k">Adım 1</span>
+        <span class="t">Doppler USG + tam kan + karaciğer paneli + koagülasyon</span>
+        <p>Portal ven açıklığı, kavernom, dalak boyutu, karaciğer ekojenitesi, asit değerlendir. Hemogram, INR, albümin, ALT/AST/GGT/bilirubin.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 1</span>
+        <span class="t">Portal vende tromboz / kavernom var, karaciğer fonksiyonu ve parenkimi normal mi?</span>
+        <p>Prehepatik (EHPVO) ile intrahepatik/sirotik PHT ayrımı.</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Prehepatik EHPVO</span>
+          <div class="node action safe">
+            <span class="k">Yol A</span>
+            <span class="t">Protrombotik tarama + Meso-Rex uygunluğu için değerlendirme</span>
+            <p>MR/BT portografi ile intrahepatik sol portal ven (Rex reçessi) açıklığını değerlendir. Uygunsa Meso-Rex baypas küratif hedeftir. Endoskopik varis izlemine al.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → İntrahepatik / Sirotik</span>
+          <div class="node action">
+            <span class="k">Yol B</span>
+            <span class="t">Etiyolojiyi netleştir, siroz/nakil değerlendirmesi</span>
+            <p>Karaciğer biyopsisi, otoimmün/metabolik panel. Sentetik fonksiyon bozuksa transplantasyon değerlendirmesi paralel yürütülür. Varis izlemi + primer/sekonder profilaksi.</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 2</span>
+        <span class="t">Aktif varis kanaması var mı?</span>
+        <p>Hematemez / melena + hemodinamik değişiklik + Hb düşüşü.</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Akut kanama protokolü</span>
+          <div class="node alarm">
+            <span class="k">Acil</span>
+            <span class="t">Resüsitasyon + oktreotid infüzyonu + &lt;12 sa içinde endoskopik bant ligasyonu</span>
+            <p>Kısıtlayıcı transfüzyon (hedef Hb ~7-8 g/dL), IV oktreotid, seftriakson profilaksisi, üst GİS endoskopisi ile bantlama/skleroterapi.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Elektif izlem</span>
+          <div class="node action safe">
+            <span class="k">Elektif</span>
+            <span class="t">Tarama endoskopisi + primer profilaksi kararı</span>
+            <p>Yüksek riskli varis (büyük varis, kırmızı işaret) varsa endoskopik ligasyon ile primer profilaksi; periyodik surveyans planla.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="callout alarm">Aktif kanamada hedef Hb ~7-8 g/dL'yi aşan agresif transfüzyondan kaçın; aşırı volüm portal basıncı artırıp yeniden kanamayı tetikler.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı Tetkik</h2>
+    <p class="lede">Doppler USG ilk basamaktır; tanı ve seviye ayrımı basamaklı olarak derinleştirilir. Meso-Rex adayı her EHPVO olgusunda kesitsel portografi zorunludur.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Portal hipertansiyonda basamaklı tanısal yaklaşım</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Tetkik / Parametre</th><th>Amaç ve not</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">Basamak 1</td>
+            <td>Doppler abdominal USG</td>
+            <td>Portal ven açıklığı, akım yönü/hızı, kavernom, dalak boyutu, kollateraller, asit. İlk ve en önemli basamak.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 1</td>
+            <td>Tam kan sayımı + periferik yayma</td>
+            <td>Hipersplenizm: trombositopeni, lökopeni, anemi. Trombosit/dalak boyutu oranı varis öngörüsünde kullanılır.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 1</td>
+            <td>Karaciğer paneli + INR + albümin</td>
+            <td>ALT, AST, GGT, bilirubin, INR, albümin. Sentetik fonksiyon EHPVO'da korunur, siroz da bozulur (seviye ayrımı).</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 2</td>
+            <td>Üst GİS endoskopisi</td>
+            <td>Özofagus varis derecesi, kırmızı işaretler, gastrik varis, portal hipertansif gastropati. Tarama ve tedavi.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 2</td>
+            <td>Protrombotik / etiyolojik panel</td>
+            <td>Protein C/S, antitrombin, FV Leiden, protrombin G20210A, JAK2 V617F, antifosfolipid; siroz için otoimmün/metabolik panel.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 3</td>
+            <td>MR / BT portografi (kesitsel venografi)</td>
+            <td>Rex reçessi ve intrahepatik sol portal ven açıklığı — Meso-Rex baypas uygunluğu için zorunlu.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 3</td>
+            <td>Karaciğer biyopsisi</td>
+            <td>İntrahepatik nedende fibrozis/siroz derecesi ve etiyoloji. EHPVO'da rutin gerekmez.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 4</td>
+            <td>HVPG / anjiyografi</td>
+            <td>Seçilmiş vakalarda basınç ölçümü; şant/Meso-Rex cerrahi planlaması ve intrahepatik hastalık ayrımı.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı Bayraklar</h2>
+    <p class="lede">Acil endoskopi, yoğun bakım ve/veya cerrahi konsültasyon gerektiren uyarı bulguları.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Aktif hematemez veya masif melena ile hemodinamik instabilite (taşikardi, hipotansiyon, kapiller dolum &gt;3 sn).</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Sürekli düşen hemoglobin ve transfüzyon gereksinimine rağmen devam eden kanama (kontrolsüz varis kanaması).</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Endoskopik tedaviye yanıtsız / erken tekrarlayan kanama (5 gün içinde) — kurtarma TIPS/şant düşün.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ateş + karın ağrısı + asit: spontan bakteriyel peritonit şüphesi (parasentez ile PNL &gt;250/mm³).</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Bilinç değişikliği, asteriksis, uyku hali: hepatik ensefalopati (özellikle intrahepatik/sirotik olgu).</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Hızlı büyüyen hepatomegali + ağrı + kilo alımı: Budd-Chiari / VOD-SOS.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Yükselen INR + hiperbilirubinemi + düşen albümin: sentetik dekompansasyon, nakil değerlendirmesi.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Yenilenen sepsis/bakteriyemi bulguları — kanamalı sirotik çocukta antibiyotik profilaksisi zorunlu.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi (Dozlu)</h2>
+    <p class="lede">Akut varis kanamasında üçlü strateji: hemodinamik resüsitasyon, splanknik vazokonstriksiyon (oktreotid) ve endoskopik bant ligasyonu. Enfeksiyon profilaksisi tüm sirotik kanamalı çocuklarda zorunludur. Nonselektif beta-bloker ile farmakolojik profilaksi seçilmiş olgularda düşünülür.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Portal hipertansiyon / varis kanaması ilaç ve girişim dozları</caption>
+        <thead>
+          <tr><th>İlaç / Girişim</th><th>Doz</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">Oktreotid (bolus)</td>
+            <td class="dose">1-2 mcg/kg IV bolus (maks 50 mcg)</td>
+            <td>Akut varis kanamasında başlangıç; ardından sürekli infüzyona geç.</td>
+          </tr>
+          <tr>
+            <td class="step">Oktreotid (infüzyon)</td>
+            <td class="dose">1-2 mcg/kg/saat IV (maks 50 mcg/saat)</td>
+            <td>Kanama kontrolünden sonra 2-5 gün sürdür, kademeli azalt. Hiperglisemi izle.</td>
+          </tr>
+          <tr>
+            <td class="step">Seftriakson (profilaksi)</td>
+            <td class="dose">50 mg/kg/gün IV (maks 2 g/gün)</td>
+            <td>Sirotik/kanamalı çocukta 5-7 gün. Bakteriyel translokasyon ve SBP önlenir; sağkalımı artırır.</td>
+          </tr>
+          <tr>
+            <td class="step">Endoskopik bant ligasyonu (EVL)</td>
+            <td class="dose">&lt;12 saat içinde; ~2-3 haftada bir seans</td>
+            <td>Tercih edilen endoskopik yöntem (&gt;10-15 kg). Varis eradikasyonuna dek tekrarla.</td>
+          </tr>
+          <tr>
+            <td class="step">Skleroterapi (EIS)</td>
+            <td class="dose">Seans başına ~1-2 mL/nokta polidokanol/etanolamin</td>
+            <td>Küçük infant / bantlamanın teknik olarak zor olduğu olgularda alternatif.</td>
+          </tr>
+          <tr>
+            <td class="step">Propranolol (profilaksi)</td>
+            <td class="dose">Başlangıç 0.5-1 mg/kg/gün PO, 2-3 doza böl; titre ederek maks ~8 mg/kg/gün veya 320 mg/gün</td>
+            <td>İstirahat kalp hızını yaklaşık %25 azaltacak şekilde titre et; istirahat nabzı dakikada 55'in altına inmemeli. Astım ve bradikardi kontrendikasyondur.</td>
+          </tr>
+          <tr>
+            <td class="step">Vitamin K</td>
+            <td class="dose">Kanamada 0.3 mg/kg IV yavaş (maks 10 mg)</td>
+            <td>Koagülopati/sentetik yetmezlik varsa. INR düzeltme için taze donmuş plazma ile birlikte.</td>
+          </tr>
+          <tr>
+            <td class="step">Eritrosit transfüzyonu</td>
+            <td class="dose">Hedef Hb ~7-8 g/dL (kısıtlayıcı strateji)</td>
+            <td>Aşırı transfüzyon portal basıncı artırır. Volümü dikkatli titre et.</td>
+          </tr>
+          <tr>
+            <td class="step">Meso-Rex baypas (cerrahi)</td>
+            <td class="dose">Rex reçessi açık, uygun EHPVO olgusunda</td>
+            <td>Süperior mezenterik ven ile sol intrahepatik portal ven arası greft. Fizyolojik/küratif; portal akımı yeniden sağlar.</td>
+          </tr>
+          <tr>
+            <td class="step">TIPS / cerrahi şant</td>
+            <td class="dose">Kurtarma tedavisi (refrakter kanama)</td>
+            <td>Meso-Rex uygun değilse veya endoskopik/medikal tedaviye yanıtsız kanamada distal splenorenal şant / TIPS.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout safe">EHPVO'da Meso-Rex baypas hem portal hipertansiyonu çözer hem de portal biliyopati ve büyüme geriliği gibi uzun dönem komplikasyonları geriletir; anatomik uygunluk erken değerlendirilmelidir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve Yönetim İlkeleri</h2>
+    <p class="lede">İzlem stratejisi tıkanıklık seviyesine ve kanama öyküsüne göre bireyselleştirilir; hedef, kanamayı önlemek ve karaciğer/portal sistem sağlığını uzun dönemde korumaktır.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Endoskopik ve Farmakolojik İzlem</h3>
+        <ul class="clean">
+          <li>Kanama sonrası (sekonder profilaksi): varis eradike olana dek 2-4 haftada bir EVL.</li>
+          <li>Eradikasyon sonrası ilk yıl 3-6 ayda bir, ardından yıllık surveyans endoskopisi.</li>
+          <li>Primer profilaksi: yüksek riskli varis saptanınca EVL veya seçilmiş olguda propranolol.</li>
+          <li>Nonselektif beta-bloker alan hastada nabız/tansiyon ve büyüme takibi.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Sistemik ve Uzun Dönem Yönetim</h3>
+        <ul class="clean">
+          <li>EHPVO'da Meso-Rex uygunluğunu MR/BT portografi ile periyodik yeniden değerlendir.</li>
+          <li>Portal biliyopati semptomları (kolestaz, kolanjit) açısından izle; gerekirse MRCP.</li>
+          <li>Büyüme/gelişme takibi; EHPVO'da büyüme geriliği portal akım restorasyonu ile düzelebilir.</li>
+          <li>Hipersplenizmi olan çocukta temas sporlarında dalak koruması ve travma danışmanlığı.</li>
+          <li>Protrombotik zeminde hematoloji ile antikoagülasyon kararı bireysel verilir.</li>
+          <li>Sirotik olguda asit, ensefalopati, SBP taraması ve transplantasyon listelemesi paralel yürütülür.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pill-row">
+      <span class="pill">Doppler USG surveyans</span>
+      <span class="pill">Varis eradikasyonu</span>
+      <span class="pill">SBP profilaksisi</span>
+      <span class="pill">Büyüme takibi</span>
+      <span class="pill">Aşılama (pnömokok, N. meningitidis)</span>
+    </div>
+    <div class="callout">Aşırı hipersplenizm çoğu çocukta iyi tolere edilir; izole trombositopeni tek başına splenektomi endikasyonu değildir. Splenektomiden kaçın, portal akımı restore eden yaklaşımları önceliklendir.</div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Shneider BL, de Ville de Goyet J, Leung DH, et al. Primary prophylaxis of variceal bleeding in children and the role of MesoRex Bypass: Summary of the Baveno VI Pediatric Satellite Symposium. Hepatology. 2016;63(4):1368-1380.</li>
+      <li>de Franchis R, Bosch J, Garcia-Tsao G, et al. Baveno VII — Renewing consensus in portal hypertension. J Hepatol. 2022;76(4):959-974.</li>
+      <li>Ling SC, Walters T, McKiernan PJ, et al. Primary prophylaxis of variceal hemorrhage in children with portal hypertension: NASPGHAN position paper. J Pediatr Gastroenterol Nutr. 2011;52(3):254-261.</li>
+      <li>Grama A, Pirvan A, Sirbe C, et al. Extrahepatic Portal Vein Obstruction in Children: Diagnosis and Management. Diagnostics. 2021 — pediatrik EHPVO derlemesi.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge pediyatrik gastroenteroloji/hepatoloji uzmanları için hazırlanmış bir klinik karar destek aracıdır; hastaya özgü klinik yargının, güncel kurumsal protokollerin ve ilaç prospektüslerinin yerini tutmaz. Dozlar hastanın kilosu, yaşı, organ fonksiyonları ve eşlik eden durumlarına göre teyit edilmelidir.</div>
+</div>

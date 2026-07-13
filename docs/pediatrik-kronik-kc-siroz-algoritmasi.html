@@ -1,0 +1,536 @@
+<title>Kronik Karaciğer Hastalığı ve Siroz — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Kronik Karaciğer Hastalığı ve Siroz</h1>
+    <p class="sub">Çocukta kronik karaciğer hastalığı ve sirozun komplikasyonlarına (portal hipertansiyon, asit, ensefalopati) yönelik dozlu tedavi, beslenme desteği, HCC sürveyansı ve nakil değerlendirmesini kapsayan basamaklı karar aracı.</p>
+    <div class="meta">
+      <span class="tag">Portal HT</span>
+      <span class="tag">Asit &amp; HE</span>
+      <span class="tag">Beslenme</span>
+      <span class="tag">Nakil</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">Kronik karaciğer hastalığı (KKH), &gt;6 ay süren hepatosellüler ve/veya kolestatik hasar; siroz ise fibrozisin nodüler rejenerasyon ve mimari bozulmayla sonuçlandığı son evredir. İlk değerlendirmenin amacı etiyolojiyi belirlemek, portal hipertansiyon (PHT) ve dekompansasyon bulgularını (asit, varis kanaması, ensefalopati, sarılık) saptayıp evrelemektir.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öykü — hedefli sorgulama</h3>
+        <ul class="clean">
+          <li>Kolestaz süresi: neonatal sarılık, akolik gaita, kaşıntı (BA, PFIC, Alagille)</li>
+          <li>Büyüme geriliği, kas kütlesi kaybı, yağda eriyen vitamin eksikliği bulguları</li>
+          <li>GİS kanama öyküsü: hematemez, melena, demir eksikliği anemisi</li>
+          <li>Nörodavranışsal değişiklik, uyku bozukluğu, okul performansında düşüş (HE)</li>
+          <li>Aile öyküsü: akraba evliliği, Wilson, tirozinemi, kistik fibroz, otoimmün hastalık</li>
+          <li>İlaç/toksin, obezite-MASLD, tekrarlayan kolanjit atakları</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayene — hedefli bulgular</h3>
+        <ul class="clean">
+          <li>Hepatosplenomegali, sert nodüler karaciğer, splenomegaliyle PHT işareti</li>
+          <li>Asit: karın distansiyonu, shifting dullness, göbek fıtığı</li>
+          <li>Kollateraller: karın duvarı venöz belirginliği (caput medusae), hemoroid</li>
+          <li>Kronik KC bulguları: spider anjioma, palmar eritem, çomak parmak, sarılık</li>
+          <li>Nörolojik: asteriksis, letarji, konfüzyon (West Haven / pediatrik HE evrelemesi)</li>
+          <li>Beslenme: triseps deri kıvrımı, orta kol çevresi (asitte kilo yanıltıcı)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">Başlangıç laboratuvarı: tam kan, INR/PT, albumin, total/direkt bilirubin, AST/ALT/GGT/ALP, amonyak, üre/kreatinin, elektrolit, kan gazı. Skorlama: PELD (&lt;12 yaş) / MELD (≥12 yaş) ve pediatrik Child-Pugh sentetik-fonksiyon değerlendirmesi için.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Etiyoloji ve mekanizma</h2>
+    <p class="lede">Yaşa göre etiyoloji dağılımı yönetimi belirler. Portal hipertansiyon ve dekompansasyon komplikasyonları etiyolojiden bağımsız ortak bir yol izler; ancak spesifik tedavi (ör. Wilson için şelasyon, tirozinemi için NTBC) etiyolojiye özgüdür.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">Kolestatik / biliyer</div>
+        <ul>
+          <li>Biliyer atrezi (Kasai sonrası siroz)</li>
+          <li>PFIC 1-3, Alagille sendromu</li>
+          <li>Sklerozan kolanjit, koledok kisti</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">Metabolik</div>
+        <ul>
+          <li>Wilson hastalığı, alfa-1 antitripsin eksikliği</li>
+          <li>Tirozinemi tip 1, galaktozemi</li>
+          <li>Glikojen depo, mitokondriyal hastalık</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">Hepatosellüler / inflamatuar</div>
+        <ul>
+          <li>Otoimmün hepatit tip 1-2</li>
+          <li>Kronik viral hepatit B/C</li>
+          <li>MASLD/MASH (obezite ilişkili)</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Vasküler / portal</div>
+        <ul>
+          <li>Ekstrahepatik portal ven obstrüksiyonu (EHPVO)</li>
+          <li>Budd-Chiari, konjenital hepatik fibroz</li>
+          <li>Kardiyak (Fontan ilişkili KC hastalığı)</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">PHT mekanizması</div>
+        <ul>
+          <li>Artmış intrahepatik direnç + splanknik vazodilatasyon</li>
+          <li>Portosistemik kollateraller → varis, HE</li>
+          <li>Hipersplenizm → sitopeni</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">Dekompansasyon işaretleri</div>
+        <ul>
+          <li>Asit, varis kanaması, ensefalopati</li>
+          <li>Sarılık, koagülopati, hepatopulmoner sendrom</li>
+          <li>Hepatorenal sendrom, sepsis eğilimi</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">Bilinen/şüpheli sirozlu çocukta dekompansasyon bulgusuna göre acil ve elektif yönetim ayrımı.</p>
+    <div class="flow">
+      <div class="node start">
+        <span class="k">Başlangıç</span>
+        <span class="t">Kronik KC hastalığı / siroz kanıtı olan çocuk</span>
+        <p>Sentetik fonksiyon (INR, albumin, bilirubin), PELD/MELD, USG-Doppler, üst GİS endoskopi planı.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node action">
+        <span class="k">Adım 1</span>
+        <span class="t">Dekompansasyon taraması</span>
+        <p>Asit, GİS kanama, ensefalopati, enfeksiyon (SBP) ve renal fonksiyon değerlendirilir.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 1</span>
+        <span class="t">Aktif üst GİS kanama var mı?</span>
+        <p>Hematemez/melena + hemodinamik bozulma değerlendir.</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Varis kanaması yönetimi</span>
+          <div class="node alarm">
+            <span class="k">Acil</span>
+            <span class="t">Resüsitasyon + oktreotid + acil endoskopi</span>
+            <p>Kan/volüm desteği (Hb hedefi ~7-8 g/dL), oktreotid infüzyonu, IV seftriakson profilaksisi, 12 saat içinde endoskopik bant ligasyonu/skleroterapi. Dirençli kanamada balon tamponadı / TIPS köprüleme.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Elektif komplikasyon yönetimi</span>
+          <div class="node action safe">
+            <span class="k">Devam</span>
+            <span class="t">Asit / HE / beslenme yönetimine geç</span>
+            <p>Karar 2'ye ilerle; primer varis profilaksisi için endoskopik surveyans planla.</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 2</span>
+        <span class="t">Gergin asit veya solunum sıkıntısı var mı?</span>
+        <p>Diürez yanıtı ve SBP olasılığı değerlendir (parasentez ile PMN sayımı).</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Terapötik parasentez + albumin</span>
+          <div class="node alarm">
+            <span class="k">Girişim</span>
+            <span class="t">Büyük hacimli parasentez</span>
+            <p>Çıkarılan her 1 L sıvı için %20-25 albumin ~0,5-1 g/kg; PMN &gt;250/mm3 ise SBP tedavisi başlat.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Medikal diürez + tuz kısıtlama</span>
+          <div class="node action safe">
+            <span class="k">Sürdür</span>
+            <span class="t">Spironolakton ± furosemid, Na kısıtlama</span>
+            <p>Günlük tartı, karın çevresi, elektrolit ve renal izlem; yetersiz yanıtta doz titrasyonu.</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node action">
+        <span class="k">Adım 2</span>
+        <span class="t">Nakil değerlendirmesi eşiği</span>
+        <p>PELD/MELD artışı, tekrarlayan dekompansasyon, dirençli asit, hepatopulmoner/hepatorenal sendrom, büyüme geriliği → nakil merkezi listeleme değerlendirmesi.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Etiyoloji + komplikasyon evrelemesi için kademeli tetkik. Her basamak bir önceki normal/anormal sonuca göre ilerler.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Kronik KC hastalığı / siroz — basamaklı tetkik protokolü</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Tetkik / doz</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">1 · Sentetik fonksiyon</td>
+            <td class="dose">INR, albumin, bilirubin, amonyak</td>
+            <td>PELD (&lt;12y: bilirubin, INR, albumin, boy-yaş, büyüme geriliği) / MELD (≥12y) hesapla.</td>
+          </tr>
+          <tr>
+            <td class="step">2 · Görüntüleme</td>
+            <td class="dose">Abdominal USG + Doppler</td>
+            <td>Portal ven akım yönü/hızı, splenomegali, asit, kollateral, nodülarite; HCC şüphesinde çok fazlı BT/MR.</td>
+          </tr>
+          <tr>
+            <td class="step">3 · Etiyoloji paneli</td>
+            <td class="dose">Seruloplazmin, A1AT fenotip, otoimmün belirteç, viral seroloji</td>
+            <td>Wilson için 24s idrar bakırı; tirozinemi için kan süksinilaseton; IgG + ANA/SMA/LKM otoimmün için.</td>
+          </tr>
+          <tr>
+            <td class="step">4 · Varis surveyansı</td>
+            <td class="dose">Üst GİS endoskopi</td>
+            <td>Tanıda ve periyodik; özofagus/gastrik varis derecelendirme, primer profilaksi kararı.</td>
+          </tr>
+          <tr>
+            <td class="step">5 · Asit analizi</td>
+            <td class="dose">Diagnostik parasentez: PMN, SAAG, kültür</td>
+            <td>PMN &gt;250/mm3 → SBP; SAAG ≥1,1 g/dL portal HT kaynaklı transüda.</td>
+          </tr>
+          <tr>
+            <td class="step">6 · HCC sürveyansı</td>
+            <td class="dose">AFP + USG, 6 ayda bir</td>
+            <td>Siroz ve yüksek riskli etiyolojide (tirozinemi, HBV, safra yolu hastalığı); AFP yükselişi/nodül → kesitsel görüntüleme.</td>
+          </tr>
+          <tr>
+            <td class="step">7 · Beslenme / vitamin</td>
+            <td class="dose">A, D, E, K düzeyi; INR ile K durumu</td>
+            <td>Kolestazda yağda eriyen vitamin eksikliği; antropometri + orta kol çevresi ile kas kütlesi izlemi.</td>
+          </tr>
+          <tr>
+            <td class="step">8 · Histoloji (seçilmiş)</td>
+            <td class="dose">Karaciğer biyopsisi</td>
+            <td>Etiyoloji netleşmediğinde/evreleme için; koagülopatide transjuguler yol düşün.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Acil müdahale ve/veya hızlı nakil merkezi iletişimi gerektiren bulgular.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Aktif varis kanaması: hematemez/melena + taşikardi/hipotansiyon</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>İlerleyici ensefalopati: letarji, konfüzyon, asteriksis, koma (evre III-IV)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Spontan bakteriyel peritonit: ateş, karın ağrısı, asit PMN &gt;250/mm3</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Hepatorenal sendrom: dirençli asit + yükselen kreatinin, oligüri</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Hipoksemi / hepatopulmoner sendrom: platipne, ortodeoksi, dispne</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Hızlı INR yükselişi + hipoglisemi + belirgin sarılık (akut-üstü-kronik yetmezlik)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Dirençli asit / hiponatremi (Na &lt;125 mmol/L) diürez altında</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Yeni fokal karaciğer nodülü veya hızla yükselen AFP (HCC şüphesi)</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi — dozlu</h2>
+    <p class="lede">Komplikasyona yönelik dozlu tedavi. Dozlar mg/kg cinsinden, erişkin maksimumunu aşmayacak şekilde; renal/hepatik fonksiyona göre titre edilir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Siroz komplikasyonları — dozlu tedavi</caption>
+        <thead>
+          <tr><th>İlaç / girişim</th><th>Doz (mg/kg + maksimum)</th><th>Endikasyon / not</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">Spironolakton</td>
+            <td class="dose">1-3 mg/kg/gün, 1-2 doz (maks 100-200 mg/gün)</td>
+            <td>Asit birinci basamak; hiperkalemi ve renal izlem.</td>
+          </tr>
+          <tr>
+            <td class="step">Furosemid</td>
+            <td class="dose">0,5-2 mg/kg/doz (maks 40 mg/doz)</td>
+            <td>Spironolaktona ekle; spiron:furosemid ~5:2 oranı korunur; hipovolemi/hiponatremi izle.</td>
+          </tr>
+          <tr>
+            <td class="step">Albumin %20-25</td>
+            <td class="dose">0,5-1 g/kg IV (parasentezde her 1 L için)</td>
+            <td>Büyük hacimli parasentez sonrası ve SBP'de (1,5 g/kg gün 1, 1 g/kg gün 3) sirkülatuar disfonksiyon/HRS önlemi.</td>
+          </tr>
+          <tr>
+            <td class="step">Oktreotid</td>
+            <td class="dose">Bolus 1-2 mcg/kg, infüzyon 1-2 mcg/kg/saat (maks 50 mcg/saat)</td>
+            <td>Akut varis kanaması; splanknik akımı azaltır, 2-5 gün.</td>
+          </tr>
+          <tr>
+            <td class="step">Seftriakson</td>
+            <td class="dose">50-75 mg/kg/gün IV (maks 2 g/gün)</td>
+            <td>Varis kanamasında profilaksi ve SBP ampirik tedavisi (5-7 gün).</td>
+          </tr>
+          <tr>
+            <td class="step">Propranolol</td>
+            <td class="dose">0,5-1 mg/kg/gün başlangıç, titre (maks ~8 mg/kg/gün veya 320 mg)</td>
+            <td>Nonselektif beta-bloker; primer/sekonder varis profilaksisi, kalp hızı %25 düşene dek titre.</td>
+          </tr>
+          <tr>
+            <td class="step">Laktuloz</td>
+            <td class="dose">0,5-1 mL/kg/doz, günde 2-3 kez (günde 2-3 yumuşak gaita hedefi)</td>
+            <td>Hepatik ensefalopati birinci basamak; amonyak temizliği.</td>
+          </tr>
+          <tr>
+            <td class="step">Rifaksimin</td>
+            <td class="dose">10-20 mg/kg/gün, 2 doz (maks 1100 mg/gün)</td>
+            <td>Laktuloza yetersiz yanıtta/eklemede HE; luminal amonyak üreten flora baskılanır.</td>
+          </tr>
+          <tr>
+            <td class="step">K vitamini</td>
+            <td class="dose">2,5-10 mg PO/IV (kolestazda düzenli)</td>
+            <td>Koagülopati ve kolestatik eksiklik; IV yavaş infüzyon.</td>
+          </tr>
+          <tr>
+            <td class="step">Ursodeoksikolik asit</td>
+            <td class="dose">10-20 mg/kg/gün, 2-3 doz</td>
+            <td>Kolestatik hastalıkta kaşıntı/biliyer akım desteği (PFIC, Alagille, kolestaz).</td>
+          </tr>
+          <tr>
+            <td class="step">Yağda eriyen vitaminler</td>
+            <td class="dose">A/D/E/K düzeye göre replasman (E: 15-25 IU/kg/gün)</td>
+            <td>Kolestazda rutin; düzey ve INR ile titrasyon.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout safe"><b>Beslenme:</b> Enerji hedefi tahmini ihtiyacın %120-150'si; protein kısıtlanmaz (1-4 g/kg/gün, HE'de bile yalnızca kısa süreli kısıtlama). Kolestazda diyet yağının %30-50'si MCT olarak. Yetersiz oral alımda gece nazogastrik/enteral destek; kas kütlesi kaybı (sarkopeni) kötü prognoz belirtecidir.</div>
+    <div class="callout alarm"><b>Dikkat:</b> Sirozda hepatotoksik/sedatif ilaçlardan (yüksek doz parasetamol, NSAİİ, aminoglikozid, uzun etkili benzodiazepin) kaçının; NSAİİ renal perfüzyonu bozarak HRS'yi tetikleyebilir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve yönetim ilkeleri</h2>
+    <p class="lede">Amaç: dekompansasyonu geciktirmek, büyümeyi korumak, komplikasyonları erken yakalamak ve zamanında nakle hazırlamak.</p>
+    <div class="grid three">
+      <div class="card">
+        <h3>Periyodik izlem</h3>
+        <ul class="clean">
+          <li>3-6 ayda bir sentetik fonksiyon + PELD/MELD güncelleme</li>
+          <li>6 ayda bir HCC sürveyansı: USG + AFP</li>
+          <li>Endoskopik varis surveyansı (etiyoloji/dereceye göre aralık)</li>
+          <li>Antropometri, yağda eriyen vitamin düzeyleri</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Komplikasyon önlemi</h3>
+        <ul class="clean">
+          <li>Aşılama tamamlanması: HAV, HBV, pnömokok, influenza, varisella</li>
+          <li>SBP sekonder profilaksisi seçilmiş olguda</li>
+          <li>Na kısıtlama + tartı/karın çevresi günlüğü (asit)</li>
+          <li>Hepatotoksik ilaçlardan kaçınma, doz ayarlaması</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Nakil hazırlığı</h3>
+        <ul class="clean">
+          <li>Erken merkez iletişimi: tekrarlayan dekompansasyon, dirençli asit</li>
+          <li>HPS/HRS, büyüme geriliği, yaşam kalitesi bozulması</li>
+          <li>Psikososyal değerlendirme, uyum, bakıcı desteği</li>
+          <li>PELD/MELD ile listeleme; istisna puanı gerektiren durumlar</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pill-row">
+      <span class="pill">Günlük tartı</span>
+      <span class="pill">6 aylık HCC taraması</span>
+      <span class="pill">Aşı tamamlama</span>
+      <span class="pill">Beslenme optimizasyonu</span>
+      <span class="pill">Erken nakil değerlendirmesi</span>
+    </div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Shneider BL, de Ville de Goyet J, Leung DH, et al. Primary prophylaxis of variceal bleeding in children and the role of MesoRex bypass: Summary of the Baveno VI Pediatric Satellite Symposium. Hepatology. 2016.</li>
+      <li>Mouzaki M, Bronsky J, Gupte G, et al. Nutrition Support of Children With Chronic Liver Diseases: A Joint Position Paper of NASPGHAN and ESPGHAN. J Pediatr Gastroenterol Nutr. 2019.</li>
+      <li>Fagundes EDT, Ferreira AR, et al. ESPGHAN Position Paper on the diagnosis and management of pediatric ascites and hepatorenal syndrome. J Pediatr Gastroenterol Nutr. 2022.</li>
+      <li>European Association for the Study of the Liver (EASL). Clinical Practice Guidelines on the management of decompensated cirrhosis and portal hypertension. J Hepatol. 2018-2022.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge pediyatrik gastroenteroloji/hepatoloji uzmanları için klinik karar desteği amaçlıdır; hasta bazlı klinik yargının ve güncel kılavuzların yerini almaz. Dozlar hastanın kilosu, renal/hepatik fonksiyonu ve yerel protokollere göre doğrulanmalıdır.</div>
+</div>

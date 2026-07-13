@@ -1,0 +1,409 @@
+<title>İntususepsiyon — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>İntususepsiyon</h1>
+    <p class="sub">Bebeklik döneminde en sık akut karın ve intestinal obstrüksiyon nedenlerinden biri olan invajinasyonun tanı, redüksiyon endikasyon/kontrendikasyonları ve patolojik başlangıç noktası yönetimi için basamaklı karar aracı.</p>
+    <div class="meta">
+      <span class="tag">Klasik triad</span>
+      <span class="tag">USG hedef bulgusu</span>
+      <span class="tag">Redüksiyon</span>
+      <span class="tag">Patolojik lead point</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">İntususepsiyon (invajinasyon), proksimal bir bağırsak segmentinin (intussusceptum) distal segment (intussuscipiens) içine teleskopik olarak girmesidir. En sık 3 ay–3 yaş arası (pik 5–9 ay), erkek çocuklarda daha sık; en yaygın tip ileokoliktir. Klasik triad (aralıklı kolik ağrı + kanlı/"çilek jölesi" gaita + palpabl kitle) olguların yalnızca ~%15–25'inde tamdır; triadın olmaması tanıyı DIŞLAMAZ.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öykü — hedefe yönelik sorgu</h3>
+        <ul class="clean">
+          <li>Ani başlayan, aralıklı (her 15–20 dk) kramp tarzı ağrı; atak arasında sakin/uykulu çocuk</li>
+          <li>Bacakları karna çekme, huzursuzluk atakları ile solukluk</li>
+          <li>Safralı/geç dönem kusma (obstrüksiyon ilerlemesi)</li>
+          <li>"Çilek jölesi" gaita — geç ve mukoza iskemisi göstergesi (acil işaret)</li>
+          <li>Yakın geçmişte viral GİS enfeksiyonu, adenovirüs; rotavirüs aşısı sonrası dönem</li>
+          <li>Letarji/apati (bazen tek atipik prezentasyon olabilir)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayene — yönlendirici bulgular</h3>
+        <ul class="clean">
+          <li>Sağ üst kadran/epigastriumda sosis şeklinde palpabl kitle; sağ alt kadran boş hissi (Dance belirtisi)</li>
+          <li>Batın distansiyonu, artan hassasiyet, defans/rijidite → perforasyon şüphesi</li>
+          <li>Rektal tuşede kan veya kitle uç kısmı</li>
+          <li>Vital bulgular: taşikardi, hipotansiyon, dehidratasyon derecesi, ateş (nekroz/sepsis)</li>
+          <li>Letarji + solukluk → ciddi kısım; şok bulgularını mutlaka değerlendir</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">İlk basamak: İntravenöz damar yolu, sıvı resüsitasyonu, NG dekompresyon (kusma/distansiyon varsa) ve cerrahi ekibin erken haberdar edilmesi tanı doğrulanır doğrulanmaz eş zamanlı yürütülür.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Etiyoloji ve mekanizma</h2>
+    <p class="lede">Olguların çoğu idiyopatiktir; peyer plaklarındaki lenfoid hiperplazi peristaltizmle sürüklenerek lead point işlevi görür. Yaş büyüdükçe (özellikle >2–3 yaş veya tekrarlayan olgu) patolojik başlangıç noktası olasılığı artar ve mutlaka araştırılmalıdır.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">İdiyopatik / lenfoid</div>
+        <ul>
+          <li>En sık (~%75), tipik yaş 5–9 ay</li>
+          <li>Peyer plağı hipertrofisi, viral enfeksiyon sonrası</li>
+          <li>Adenovirüs/rotavirüs ilişkisi</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">Meckel divertikülü</div>
+        <ul>
+          <li>En sık patolojik lead point (çocuk)</li>
+          <li>İnvert divertikül teleskopu başlatır</li>
+          <li>Ektopik mide mukozası ile kanama</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">Polip / duplikasyon</div>
+        <ul>
+          <li>Juvenil polip, Peutz-Jeghers polibi</li>
+          <li>Enterik duplikasyon kisti</li>
+          <li>Kolonoskopi/görüntüleme ile araştır</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Vaskülit / sistemik</div>
+        <ul>
+          <li>IgA vasküliti (HSP) — genelde ileoileal</li>
+          <li>İntramural hematom lead point olur</li>
+          <li>USG'de küçük ince bağırsak invajinasyonu</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">Neoplazi</div>
+        <ul>
+          <li>Lenfoma (Burkitt) — özellikle >6 yaş</li>
+          <li>Kitlesel lead point, kilo kaybı ile birlikte</li>
+          <li>Tümör araştırması ve doku örneklemesi</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">Post-op / kistik fibrozis</div>
+        <ul>
+          <li>Postoperatif ince bağırsak invajinasyonu</li>
+          <li>Kistik fibrozis (koyu mekonyum/gaita)</li>
+          <li>Sütür hattı/anastomoz komşuluğu</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout alarm">Yaş &gt;2–3 yıl, tekrarlayan invajinasyon, ileoileal (ince bağırsak) lokalizasyon veya redüksiyona dirençli olgularda patolojik lead point güçlü şüphesi vardır; bu olgularda cerrahi eksplorasyon ve/veya ileri görüntüleme (kontrastlı BT/enteroklizis) planlanmalıdır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">Klinik şüphe → USG doğrulama → hemodinami ve peritonit değerlendirmesi → redüksiyon uygunluğu şeklinde ilerleyen gerçek karar ağacı.</p>
+    <div class="flow">
+      <div class="node start"><span class="k">Başlangıç</span><span class="t">Aralıklı kolik ağrı ± kanlı gaita ± kitle</span><p>&lt;3 yaş bebekte invajinasyon klinik şüphesi; damar yolu ve sıvı başlanır.</p></div>
+      <div class="connector"></div>
+      <div class="node action"><span class="k">Adım 1</span><span class="t">Batın USG (ilk tercih)</span><p>Hedef/donut işareti, psödokidney görünümü aranır; lead point ve serbest sıvı değerlendirilir.</p></div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 1</span><span class="t">USG invajinasyonu doğruluyor mu?</span><p>Hedef bulgusu var mı?</p></div>
+      <div class="branches">
+        <div class="branch no">
+          <span class="label">HAYIR → tanı dışı</span>
+          <div class="node action safe"><span class="k">Alternatif</span><span class="t">Ayırıcı tanı</span><p>Gastroenterit, HSP, malrotasyon/volvulus dışlanır; klinik sebat ederse USG tekrarı.</p></div>
+        </div>
+        <div class="branch yes">
+          <span class="label">EVET → doğrulandı</span>
+          <div class="node decision"><span class="k">Karar 2</span><span class="t">Perforasyon / peritonit / şok var mı?</span><p>Pnömoperitoneum, defans, düzelmeyen şok?</p></div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → kontrendikasyon</span>
+          <div class="node alarm"><span class="k">Acil</span><span class="t">Cerrahi redüksiyon</span><p>Redüksiyon KONTRENDİKE. Resüsitasyon + acil laparotomi/laparoskopi; gangren varsa rezeksiyon.</p></div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → uygun</span>
+          <div class="node action safe"><span class="k">Tedavi</span><span class="t">Nonoperatif redüksiyon</span><p>Cerrahi hazır ortamda hava (tercih) veya hidrostatik enema redüksiyonu; başarısızsa cerrahiye geç.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="callout">Nonoperatif redüksiyon her zaman cerrahi ekip ve ameliyathane hazır iken, perforasyon açısından monitörize edilerek yapılmalıdır. Başarılı redüksiyon sonrası da rekürrens (~%10) ve gecikmiş perforasyon açısından gözlem gerekir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Görüntüleme merkezli; USG hem tanı hem lead point taraması için altın standart ilk basamaktır. Laboratuvar destekleyicidir, tanı koydurucu değildir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>İnvajinasyonda basamaklı tanısal yaklaşım</caption>
+        <thead>
+          <tr><th>Basamak / Tetkik</th><th>Amaç / Eşik</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Batın USG (ilk tercih)</td><td class="dose">Duyarlılık ~%97–100</td><td>Hedef/donut, psödokidney; ileokolik &gt;2,5 cm çap anlamlı; renkli Doppler ile perfüzyon</td></tr>
+          <tr><td class="step">Point-of-care USG</td><td>Deneyimli elde tarama</td><td>Erken triyaj; pozitifse formal USG ile doğrula</td></tr>
+          <tr><td class="step">Ayakta direkt batın grafisi</td><td>Perforasyon/obstrüksiyon</td><td>Serbest hava (pnömoperitoneum) redüksiyon kontrendikasyonu; hava-sıvı seviyeleri</td></tr>
+          <tr><td class="step">Tam kan sayımı + CRP</td><td>İskemi/enfeksiyon</td><td>Belirgin lökositoz iskemi/nekroz lehine; tanı koydurucu değil</td></tr>
+          <tr><td class="step">Kan gazı + laktat</td><td class="dose">Laktat yüksekliği alarm</td><td>Bağırsak iskemisi ve şok değerlendirmesi</td></tr>
+          <tr><td class="step">Elektrolit, üre, kreatinin</td><td>Dehidratasyon</td><td>Redüksiyon öncesi sıvı-elektrolit düzeltmesi için</td></tr>
+          <tr><td class="step">Kontrast enema (tanısal+tedavi)</td><td>Redüksiyon amaçlı</td><td>Hava en güvenli; sıvı/baryum alternatif — tanı ile tedavi birleşir</td></tr>
+          <tr><td class="step">Lead point araştırması</td><td>&gt;2 yaş / rekürren / ileoileal</td><td>Kontrastlı BT, MR-enterografi, gerektiğinde endoskopi/cerrahi eksplorasyon</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdaki bulgular nonoperatif redüksiyon için kontrendikasyon veya acil cerrahi göstergesidir; hiçbiri gözden kaçırılmamalıdır.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Peritonit bulguları: yaygın defans, rebound, batın rijiditesi</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Direkt grafide/USG'de serbest hava (perforasyon)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Düzeltilemeyen hipovolemik/septik şok, belirgin laktik asidoz</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Bağırsak iskemi/nekroz bulguları: USG'de duvar perfüzyon kaybı, serbest sıvı</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Uzamış semptom süresi (&gt;24–48 saat) ve ağır obstrüksiyon</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Belirgin letarji/koma benzeri tablo, ısrarlı safralı kusma</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Tekrarlayan invajinasyon veya patolojik lead point şüphesi</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Yenidoğan/çok küçük bebek veya ileoileal lokalizasyon</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi</h2>
+    <p class="lede">Hemodinamik stabilizasyon önce; ardından kontrendikasyon yoksa görüntüleme kılavuzluğunda nonoperatif redüksiyon (hava tercih edilir). Destek tedavi ve antibiyotik dozları aşağıda verilmiştir.</p>
+    <div class="pill-row">
+      <span class="pill">Hava enema: ilk tercih</span>
+      <span class="pill">Maks intrakolonik basınç ~120 mmHg</span>
+      <span class="pill">Başarı ~%80–90</span>
+      <span class="pill">Rekürrens ~%10</span>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <caption>Destek ve peri-prosedürel ilaç dozları (mg/kg + maksimum)</caption>
+        <thead>
+          <tr><th>İlaç / Girişim</th><th>Doz</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">İzotonik sıvı bolusu (%0,9 NaCl / RL)</td><td class="dose">10–20 mL/kg IV bolus</td><td>Şokta tekrarla; idame sıvı ile devam</td></tr>
+          <tr><td class="step">Seftriakson (perforasyon/nekroz şüphesi)</td><td class="dose">50–75 mg/kg/gün IV (maks 2 g/doz)</td><td>Cerrahi/sepsis öncesi geniş spektrum</td></tr>
+          <tr><td class="step">Metronidazol (anaerobik kapsam)</td><td class="dose">10 mg/kg IV q8h (maks 500 mg/doz)</td><td>Perforasyon/peritonitte kombine et</td></tr>
+          <tr><td class="step">Piperasilin-tazobaktam (alternatif)</td><td class="dose">100 mg/kg/doz IV q6–8h (maks 4 g/doz)</td><td>Tek ajan geniş spektrum seçeneği</td></tr>
+          <tr><td class="step">Parasetamol (analjezi/antipiretik)</td><td class="dose">15 mg/kg IV q6h (maks 60 mg/kg/gün)</td><td>Redüksiyon konforu için</td></tr>
+          <tr><td class="step">Morfin (şiddetli ağrı)</td><td class="dose">0,05–0,1 mg/kg IV (maks 2–4 mg/doz)</td><td>Titre et; solunum monitörizasyonu</td></tr>
+          <tr><td class="step">Ondansetron (kusma)</td><td class="dose">0,15 mg/kg IV (maks 4 mg/doz)</td><td>NG dekompresyon ile birlikte</td></tr>
+          <tr><td class="step">Hava/hidrostatik enema redüksiyonu</td><td class="dose">Basınç ≤120 mmHg; en çok 3 deneme</td><td>Cerrahi hazır; başarısızsa operatif redüksiyon</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout safe">Stabil, peritonit/perforasyon bulgusu olmayan olguda hava enema ile redüksiyon ilk seçenektir. Kısmi redüksiyon veya başarısızlıkta, hasta stabil ise kısa aralıkla (~30 dk) tekrar denenebilir (delayed repeat); ardından operatif redüksiyon.</div>
+    <div class="callout alarm">Redüksiyon KONTRENDİKASYONLARI: perforasyon/pnömoperitoneum, peritonit, düzeltilemeyen şok, bağırsak nekrozu bulguları. Bu olgular doğrudan cerrahiye alınır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve yönetim ilkeleri</h2>
+    <p class="lede">Başarılı redüksiyon sonrası dahi gözlem, rekürrens ve lead point takibi esastır.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Redüksiyon sonrası izlem</h3>
+        <ul class="clean">
+          <li>En az 12–24 saat hastane gözlemi; erken (ilk 24–48 saat) ve geç rekürrens takibi</li>
+          <li>Klinik iyileşme + gaz-gaita çıkışı sonrası kademeli oral beslenmeye geçiş</li>
+          <li>Tekrar ağrı atağı/kanlı gaita → kontrol USG</li>
+          <li>Rekürrens stabil hastada tekrar nonoperatif redüksiyonla yönetilebilir</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Cerrahi ve lead point yönetimi</h3>
+        <ul class="clean">
+          <li>Operatif redüksiyon veya rezeksiyon sonrası standart postop bakım ve beslenme ilerletmesi</li>
+          <li>&gt;2 yaş, ≥3 rekürrens veya ileoileal olguda lead point araştırması (BT/MR-enterografi, endoskopi)</li>
+          <li>Meckel/polip/duplikasyon saptanırsa segmenter rezeksiyon; lenfoma şüphesinde onkolojik doku örneklemesi</li>
+          <li>Aileye rekürrens semptomları ve acil başvuru kriterleri eğitimi</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Kelley-Quon LI, ve ark. Management of intussusception in children: A systematic review. J Pediatr Surg. 2021.</li>
+      <li>Gluckman S, ve ark. Management for intussusception in children (Cochrane Review). Cochrane Database Syst Rev. 2017.</li>
+      <li>Marsicovetere P, ve ark. Intestinal Intussusception: Etiology, Diagnosis, and Treatment. Clin Colon Rectal Surg. 2017.</li>
+      <li>Applegate KE. Intussusception in children: evidence-based diagnosis and treatment. Pediatr Radiol. 2009.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge klinik karar desteği amaçlıdır ve hekimin bireysel değerlendirmesinin yerine geçmez. Dozlar hastanın yaşına, kilosuna, organ fonksiyonlarına ve kurumsal protokollere göre teyit edilmeli; güncel kılavuzlar esas alınmalıdır.</div>
+</div>

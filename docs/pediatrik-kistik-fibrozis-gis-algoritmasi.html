@@ -1,0 +1,521 @@
+<title>Kistik Fibrozis — GİS/Pankreas — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Kistik Fibrozis — GİS/Pankreas</h1>
+    <p class="sub">Kistik fibroziste pankreatik yetmezlik, yağda eriyen vitamin eksikliği, distal intestinal obstrüksiyon sendromu (DİOS) ve KF ilişkili karaciğer hastalığının tanı ve dozlu yönetimi. Çocuk gastroenteroloji uzmanı için karar odaklı başvuru.</p>
+    <div class="meta">
+      <span class="tag">PERT / Enzim</span>
+      <span class="tag">Yağda Eriyen Vitamin</span>
+      <span class="tag">DİOS</span>
+      <span class="tag">CFLD</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">Kistik fibrozis (KF), CFTR gen mutasyonuna bağlı multisistemik hastalıktır. Hastaların yaklaşık %85'i pankreatik yetmezlik (PY) gösterir; GİS tutulumu enzim yetmezliği, malabsorpsiyon, DİOS ve karaciğer hastalığı ekseninde ele alınır. İlk değerlendirmede PY durumu, beslenme ve büyüme, yağda eriyen vitamin düzeyleri ve karaciğer belirteçleri sistematik olarak taranır.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öykü</h3>
+        <ul class="clean">
+          <li>Mekonyum ileusu, doğumsal barsak obstrüksiyonu öyküsü</li>
+          <li>Yağlı, kötü kokulu, hacimli dışkı (steatore); gaita sıklığı ve kıvamı</li>
+          <li>Kilo alamama, büyüme geriliği, iştahsızlık</li>
+          <li>Rektal prolapsus, tekrarlayan karın ağrısı, şişkinlik</li>
+          <li>Enzim (PERT) kullanımı: doz, öğünle uyum, adherans</li>
+          <li>Vitamin desteği (ADEK) kullanımı ve düzenliliği</li>
+          <li>Kanama, kolay morarma (K vitamini/karaciğer), gece körlüğü (A vitamini)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayene</h3>
+        <ul class="clean">
+          <li>Antropometri: ağırlık, boy, VKİ persentili, kilo/boy trendi</li>
+          <li>Karın: distansiyon, sağ alt kadran kitle (DİOS), hassasiyet</li>
+          <li>Hepatomegali, splenomegali, karaciğer kıvam ve yüzey değerlendirmesi</li>
+          <li>İkter, portal hipertansiyon bulguları (asit, kollateral, palmar)</li>
+          <li>Rektal prolapsus, perianal muayene</li>
+          <li>Vitamin eksikliği bulguları: kseroftalmi, deri değişiklikleri, nöropati</li>
+          <li>Çomak parmak, kas kütlesi ve subkutan yağ kaybı</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Mekanizma ve tutulum kategorileri</h2>
+    <p class="lede">GİS/pankreas tutulumu CFTR disfonksiyonunun salgı ve mukus özelliklerini bozmasından kaynaklanır. Başlıca mekanizmalar aşağıda kategorize edilmiştir.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">Pankreatik yetmezlik</div>
+        <ul>
+          <li>Duktal HCO3⁻ ve sıvı sekresyonu bozulur, koyu sekresyon kanalları tıkar</li>
+          <li>Asiner hasar → lipaz/proteaz/amilaz eksikliği</li>
+          <li>Yağ ve yağda eriyen vitamin malabsorpsiyonu</li>
+          <li>Fekal elastaz-1 &lt;200 µg/g ile saptanır</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">Yağda eriyen vitamin eksikliği</div>
+        <ul>
+          <li>A, D, E, K vitaminleri lipaz bağımlı emilir</li>
+          <li>PY'de yetersiz misel oluşumu ile emilim düşer</li>
+          <li>Enzim replasmanı optimize edilmezse kalıcı eksiklik</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">DİOS (distal intestinal obstrüksiyon)</div>
+        <ul>
+          <li>Koyu, yapışkan intestinal içerik ileoçekal bölgeyi tıkar</li>
+          <li>Dehidratasyon, yetersiz enzim, adherans sorunu tetikler</li>
+          <li>Tam veya kısmi obstrüksiyon spektrumu</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">KF ilişkili karaciğer (CFLD)</div>
+        <ul>
+          <li>Safra kanalikülünde koyu safra → fokal biliyer siroz</li>
+          <li>Multilobüler siroz ve portal hipertansiyona ilerleyebilir</li>
+          <li>Genellikle ilk 10 yılda ortaya çıkar</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">Diğer GİS komplikasyonları</div>
+        <ul>
+          <li>Gastroözofageal reflü, SIBO (ince barsak bakteriyel çoğalma)</li>
+          <li>Rektal prolapsus, fibrozan kolonopati (yüksek doz enzim)</li>
+          <li>İntussusepsiyon riski</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">Modülatör tedavi etkisi</div>
+        <ul>
+          <li>CFTR modülatörleri (ör. elexacaftor/tezacaftor/ivacaftor) GİS semptomlarını iyileştirir</li>
+          <li>Bazı hastalarda pankreas fonksiyonunda kısmi düzelme bildirilmiştir</li>
+          <li>Karaciğer enzim izlemi modülatör altında gereklidir</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">Malabsorpsiyon/steatore bulgusu olan KF hastasında pankreatik yetmezlik doğrulaması ve enzim optimizasyonu karar ağacı.</p>
+    <div class="flow">
+      <div class="node start">
+        <span class="k">Başlangıç</span>
+        <span class="t">KF hastası + GİS/beslenme sorunu</span>
+        <p>Steatore, kilo alamama, karın şişliği veya vitamin eksikliği ile başvuru.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node action">
+        <span class="k">Adım 1</span>
+        <span class="t">Fekal elastaz-1 ölç</span>
+        <p>Pankreatik fonksiyonun temel testi. &lt;200 µg/g yetmezliği düşündürür; &lt;100 ağır PY.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 1</span>
+        <span class="t">Fekal elastaz-1 &lt;200 µg/g mü?</span>
+        <p>Pankreatik yetmezlik var mı?</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Pankreatik yetmezlik</span>
+          <div class="node action">
+            <span class="k">Tedavi</span>
+            <span class="t">PERT başla + ADEK vitamini</span>
+            <p>Kiloya göre enzim replasmanı başlat, yağda eriyen vitamin desteği ekle, düzeyleri izle.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Pankreatik yeterli</span>
+          <div class="node action safe">
+            <span class="k">Değerlendir</span>
+            <span class="t">Alternatif nedenleri araştır</span>
+            <p>Çölyak, SIBO, GÖRH, safra sorunu; elastaz sınırdaysa tekrar ölç ve izle.</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 2</span>
+        <span class="t">PERT'e rağmen semptom devam mı?</span>
+        <p>Persistan steatore, kilo alamama veya karın bulguları?</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Optimizasyon gerekli</span>
+          <div class="node alarm">
+            <span class="k">Kritik</span>
+            <span class="t">Doz/adherans/DİOS gözden geçir</span>
+            <p>Enzim dozunu artır, mide asit baskılayıcı ekle; sağ alt kadran kitle + obstrüksiyon → DİOS protokolü. Fibrozan kolonopati için maksimum dozu aşma.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Kontrol sağlandı</span>
+          <div class="node action safe">
+            <span class="k">İzlem</span>
+            <span class="t">Rutin takibe devam</span>
+            <p>Büyüme, vitamin düzeyleri ve karaciğer belirteçlerini periyodik izle.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Pankreatik yetmezlik, vitamin durumu, DİOS ve CFLD için kademeli laboratuvar ve görüntüleme.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>KF GİS/pankreas basamaklı tetkik protokolü</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Test/hedef</th><th>Yorum / eşik</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">1. PY tarama</td>
+            <td>Fekal elastaz-1</td>
+            <td>&lt;200 µg/g yetmezlik, &lt;100 µg/g ağır. Sulu gaitada yalancı düşük olabilir.</td>
+          </tr>
+          <tr>
+            <td class="step">2. Malabsorpsiyon</td>
+            <td>72 saatlik fekal yağ / dışkı yağ globülleri</td>
+            <td>Yağ emilim katsayısı; enzim yanıtını değerlendirmede yardımcı.</td>
+          </tr>
+          <tr>
+            <td class="step">3. Vitamin düzeyi</td>
+            <td>25-OH D, A (retinol), E (α-tokoferol), INR/PIVKA-II (K)</td>
+            <td>Yılda en az bir kez; eksiklikte doz sonrası tekrar. E vitamini için tokoferol/total lipid oranı.</td>
+          </tr>
+          <tr>
+            <td class="step">4. Karaciğer</td>
+            <td>ALT, AST, GGT, ALP, bilirubin, albümin, INR</td>
+            <td>Yılda en az bir kez; 3-12 ay boyunca yükseklik CFLD lehine. GGT biliyer tutulumda duyarlı.</td>
+          </tr>
+          <tr>
+            <td class="step">5. Karaciğer görüntüleme</td>
+            <td>Karaciğer USG (± elastografi)</td>
+            <td>Heterojenite, nodülarite, portal hipertansiyon (splenomegali, portal ven akımı) araştır.</td>
+          </tr>
+          <tr>
+            <td class="step">6. DİOS görüntüleme</td>
+            <td>Ayakta direkt karın grafisi ± abdominal USG/BT</td>
+            <td>Sağ alt kadranda fekal kitle, hava-sıvı seviyeleri; intussusepsiyon ayırıcı tanısı.</td>
+          </tr>
+          <tr>
+            <td class="step">7. Ek nedenler</td>
+            <td>Doku transglutaminaz IgA + total IgA, SIBO nefes testi</td>
+            <td>PERT'e dirençli semptomlarda çölyak ve bakteriyel çoğalma dışlanır.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Acil değerlendirme veya ileri girişim gerektiren durumlar.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Tam obstrüksiyon: safralı kusma, distansiyon, gaz-gaita çıkışının durması (komplet DİOS)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Sağ alt kadranda ağrılı kitle + peritoneal bulgu (cerrahi/intussusepsiyon riski)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Hematemez veya melena — portal hipertansiyona bağlı varis kanaması</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>İlerleyici ikter, asit, uzamış INR — dekompanse karaciğer hastalığı</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>K vitamini yanıtsız koagülopati / spontan kanama</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kanlı ishal + yüksek doz enzim öyküsü — fibrozan kolonopati şüphesi</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ağır büyüme geriliği / hızlı kilo kaybı ve dirençli malabsorpsiyon</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ağır kseroftalmi/gece körlüğü — semptomatik A vitamini eksikliği</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi — dozlu</h2>
+    <p class="lede">Pankreatik enzim replasmanı (PERT), yağda eriyen vitamin desteği, DİOS yönetimi ve CFLD tedavisi. Dozlar lipaz üzerinden ve kiloya göre verilir; maksimum sınırlar fibrozan kolonopatiyi önlemek için mutlaka gözetilir.</p>
+    <div class="callout">PERT dozu <b>lipaz ünitesi</b> üzerinden hesaplanır. Kapsüller öğün başında, çiğnenmeden verilir; süt/mama ile alınabilir. Yüksek doz gereksiniminde mide asidini baskıla (PPI) — düşük duodenal pH enzimi inaktive eder.</div>
+    <div class="table-scroll">
+      <table>
+        <caption>KF GİS/pankreas tedavi ve dozlama</caption>
+        <thead>
+          <tr><th>İlaç / girişim</th><th>Doz</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">PERT — bebek (&lt;12 ay)</td>
+            <td class="dose">2000–4000 lipaz Ü / 120 mL mama veya her emzirme</td>
+            <td>Öğün başında yumuşak gıda ile; günlük maksimuma dikkat.</td>
+          </tr>
+          <tr>
+            <td class="step">PERT — kiloya göre</td>
+            <td class="dose">Başlangıç 1000 lipaz Ü/kg/öğün; maks 2500 lipaz Ü/kg/öğün</td>
+            <td>Ara öğünde yarım doz. Yanıtsızsa dozu titre et.</td>
+          </tr>
+          <tr>
+            <td class="step">PERT — günlük tavan</td>
+            <td class="dose">≤10.000 lipaz Ü/kg/gün (maks); ≤4000 Ü/g diyet yağı</td>
+            <td>Aşımı fibrozan kolonopati riski. Tavanı aşmadan asit baskılama ekle.</td>
+          </tr>
+          <tr>
+            <td class="step">Mide asit baskılama</td>
+            <td class="dose">PPI (ör. omeprazol) 1 mg/kg/gün (maks 20–40 mg/gün)</td>
+            <td>PERT yanıtı yetersizse duodenal pH'ı yükseltmek için ekle.</td>
+          </tr>
+          <tr>
+            <td class="step">A vitamini</td>
+            <td class="dose">1500–10.000 IU/gün (yaşa göre); eksiklikte üst doz</td>
+            <td>Retinol düzeyi ile izle; aşırı dozdan kaçın (hepatotoksisite).</td>
+          </tr>
+          <tr>
+            <td class="step">D vitamini</td>
+            <td class="dose">400–2000 IU/gün; eksiklikte 25-OH D hedefi ≥30 ng/mL</td>
+            <td>Düzeye göre titrasyon; dirençli eksiklikte yüksek doz rejimi.</td>
+          </tr>
+          <tr>
+            <td class="step">E vitamini</td>
+            <td class="dose">50–400 IU/gün (yaşa göre)</td>
+            <td>Tokoferol/total lipid oranı ile değerlendir.</td>
+          </tr>
+          <tr>
+            <td class="step">K vitamini</td>
+            <td class="dose">0,3–1 mg/gün (rutin); CFLD/koagülopatide artır</td>
+            <td>PIVKA-II / INR ile izlem. Kanamada parenteral doz.</td>
+          </tr>
+          <tr>
+            <td class="step">DİOS — inkomplet</td>
+            <td class="dose">PEG 3350 elektrolitli solüsyon; oral rehidratasyon + PERT optimizasyonu</td>
+            <td>Yüksek hacimli oral/NG PEG ile intestinal içeriği temizle.</td>
+          </tr>
+          <tr>
+            <td class="step">DİOS — dirençli/komplet</td>
+            <td class="dose">Gastrografin (suda çözünen kontrast) lavman/oral; cerrahi konsültasyon</td>
+            <td>IV hidrasyon; komplet obstrüksiyon veya volvulus/intussusepsiyonda cerrahi.</td>
+          </tr>
+          <tr>
+            <td class="step">CFLD — ursodeoksikolik asit</td>
+            <td class="dose">15–20 mg/kg/gün, 2 doza bölünmüş</td>
+            <td>Kolestaz/GGT yüksekliğinde; yararı sınırlı, portal HT'de rutin önerilmez.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout alarm">Günlük 10.000 lipaz Ü/kg tavanının aşılması <b>fibrozan kolonopati</b> ile ilişkilidir. Yanıt yetersizse dozu sınırsız artırmak yerine adheransı, öğün uyumunu ve mide pH'ını değerlendir.</div>
+    <div class="callout safe">Beslenme hedefi yüksek kalori-yüksek yağ diyettir; tuz kaybı riski nedeniyle sodyum desteği verilir. CFTR modülatörü uygun mutasyonda GİS ve beslenme sonuçlarını iyileştirir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem / yönetim ilkeleri</h2>
+    <p class="lede">Çok disiplinli KF merkez izlemi; büyüme, enzim yeterliliği, vitamin ve karaciğer belirteçlerinin düzenli takibi.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Periyodik izlem</h3>
+        <ul class="clean">
+          <li>Her vizitte antropometri ve beslenme değerlendirmesi</li>
+          <li>Yılda en az bir kez ADEK vitamin düzeyleri</li>
+          <li>Yılda en az bir kez karaciğer enzimleri + USG (CFLD taraması)</li>
+          <li>PERT dozunun büyüme ve diyetle yeniden hesaplanması</li>
+          <li>KF ilişkili diyabet için OGTT taraması (≥10 yaş)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Yönetim ilkeleri</h3>
+        <ul class="clean">
+          <li>DİOS öyküsünde profilaktik hidrasyon, enzim adheransı, gerektiğinde idame laksatif</li>
+          <li>Kabızlık ve DİOS ayrımını netleştir; tekrarlayan ataklarda önleyici PEG</li>
+          <li>CFLD progresyonunda portal hipertansiyon ve varis izlemi</li>
+          <li>Yüksek doz enzimden kaçın; tavanı aşmadan pH optimizasyonu</li>
+          <li>Modülatör altında karaciğer enzimlerini yakın izle</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pill-row">
+      <span class="pill">Fekal elastaz izlemi</span>
+      <span class="pill">ADEK yıllık</span>
+      <span class="pill">Karaciğer USG</span>
+      <span class="pill">Büyüme takibi</span>
+      <span class="pill">Enzim tavanı ≤10.000 Ü/kg/gün</span>
+    </div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Turck D, Braegger CP, Colombo C, ve ark. ESPEN-ESPGHAN-ECFS guidelines on nutrition care for infants, children, and adults with cystic fibrosis. Clin Nutr. 2016;35(3):557-577.</li>
+      <li>Sabharwal S, Schwarzenberg SJ, ve ark. Cystic Fibrosis Foundation Consensus: Gastrointestinal and Nutritional Management. J Cyst Fibros / J Pediatr Gastroenterol Nutr. 2023.</li>
+      <li>Debray D, Kelly D, Houwen R, ve ark. Best practice guidance for the diagnosis and management of cystic fibrosis-associated liver disease. J Cyst Fibros. 2011;10(Suppl 2):S29-S36.</li>
+      <li>Colombo C, Ellemunter H, Houwen R, ve ark. Guidelines for the diagnosis and management of distal intestinal obstruction syndrome in cystic fibrosis patients. J Cyst Fibros. 2011;10(Suppl 2):S24-S28.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge klinik karar desteği amaçlıdır ve uzman hekim değerlendirmesinin yerini almaz. Dozlar hastanın kilosu, klinik durumu ve güncel ürün monografına göre bireyselleştirilmelidir. Tedavi kararları merkezin protokolü ve güncel kılavuzlar doğrultusunda verilmelidir.</div>
+</div>

@@ -1,0 +1,515 @@
+<title>İlaç/Toksik Hepatotoksisite — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>İlaç/Toksik Hepatotoksisite</h1>
+    <p class="sub">Çocukta ilaca bağlı karaciğer hasarında hızlı sınıflama, asetaminofen nomogramına dayalı N-asetilsistein (NAC) tedavisi, idiyosinkratik DILI'de nedensellik değerlendirmesi ve akut karaciğer yetmezliği için erken triyaj.</p>
+    <div class="meta">
+      <span class="tag">Asetaminofen / NAC</span>
+      <span class="tag">İdiyosinkratik DILI</span>
+      <span class="tag">Akut KC yetmezliği</span>
+      <span class="tag">RUCAM / R-oranı</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">İlaca bağlı karaciğer hasarı (DILI); reçeteli ilaç, bitkisel/besin takviyesi (HDS) veya toksik maruziyet sonrası, başka nedenlerin dışlanmasıyla konan bir dışlama tanısıdır. İki temel fenotip vardır: (1) doza bağlı öngörülebilir hasar (asetaminofen prototip), (2) doza bağlı olmayan idiyosinkratik DILI. İlk adım biyokimyasal hasar paternini tanımlamak ve akut karaciğer yetmezliği (AKY) bulgularını dışlamaktır.</p>
+
+    <div class="callout">Biyokimyasal eşik: ALT ≥ 5× ÜNS, VEYA ALP ≥ 2× ÜNS, VEYA ALT ≥ 3× ÜNS ile birlikte total bilirubin > 2× ÜNS. Bu eşiklerin altındaki izole enzim yükselmeleri "karaciğer adaptasyonu" olabilir; DILI tanısı için eşik önemlidir.</div>
+
+    <div class="callout alarm"><b>Hy yasası:</b> Hepatoselüler DILI + total bilirubin > 2× ÜNS (kolestaz/tıkanma olmadan) mortaliteyi ~%10'a çıkarır. Bu tabloda ilaç DERHAL kesilir ve INR/ensefalopati yakın izlenir.</div>
+
+    <div class="grid two">
+      <div class="card">
+        <h3>Öykü</h3>
+        <ul class="clean">
+          <li>Tüm ilaçlar, reçetesiz analjezikler, antibiyotikler, antiepileptikler, bitkisel/spor takviyeleri (HDS), zayıflama ürünleri; başlangıç–maruziyet–semptom zaman ilişkisi (latent dönem)</li>
+          <li>Asetaminofen: alınan toplam doz (mg/kg), tek doz mu tekrarlayan supraterapötik mi, alım saati (tek zamanlı vs. saati belirsiz), formülasyon (uzatılmış salınım)</li>
+          <li>Risk çarpanları: açlık, malnütrisyon, uzun süreli terapötik dozda tekrarlayan alım, enzim indükleyiciler (izoniazid, rifampin, antiepileptikler)</li>
+          <li>Kaza/kasıt ayrımı; adolesanda özkıyım niyeti ve psikososyal değerlendirme</li>
+          <li>Ateş, döküntü, eozinofili, lenfadenopati → DRESS/immünoalerjik reaksiyon ipuçları</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayene</h3>
+        <ul class="clean">
+          <li>Genel durum, bilinç düzeyi ve ensefalopati (irritabilite, uyku bozulması, asteriksis, konfüzyon) — AKY'nin en kritik bulgusu</li>
+          <li>İkter, sağ üst kadran hassasiyeti, hepatomegali, karaciğer boyutunda küçülme (kötü prognoz)</li>
+          <li>Kanama diyatezi: peteşi, mukozal kanama, uzamış kanama (koagülopati)</li>
+          <li>Döküntü, mukozit, yüz ödemi (DRESS); asit, splenomegali (kronik/portal hipertansiyon)</li>
+          <li>Büyüme parametreleri, dehidratasyon ve hipoglisemi bulguları</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Hasar paterni ve şiddet sınıflaması</h2>
+    <p class="lede">Hasar tipini R-oranı ile sınıflandır: R = (ALT/ALT-ÜNS) ÷ (ALP/ALP-ÜNS). R ≥ 5 hepatoselüler, R ≤ 2 kolestatik, 2 < R < 5 mikst. Şiddet ise bilirubin, INR ve ensefalopati ile belirlenir.</p>
+
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">Doza bağlı (asetaminofen)</div>
+        <ul>
+          <li>NAPQI birikimi, glutatyon tükenmesi, sentrilobüler nekroz</li>
+          <li>Öngörülebilir, latent 24–72 saat</li>
+          <li>Antidot: NAC</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">İdiyosinkratik (hepatoselüler)</div>
+        <ul>
+          <li>İzoniazid, valproat, minosiklin, metotreksat</li>
+          <li>ALT baskın, R ≥ 5</li>
+          <li>Latent haftalar–aylar</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">İdiyosinkratik (kolestatik/mikst)</div>
+        <ul>
+          <li>Amoksisilin-klavulanat, makrolid, TMP-SMX</li>
+          <li>ALP/GGT baskın, R ≤ 2</li>
+          <li>Sarılık ve kaşıntı öne çıkar</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">İmmünoalerjik / DRESS</div>
+        <ul>
+          <li>Antiepileptikler (lamotrijin, karbamazepin, fenitoin), sülfonamid</li>
+          <li>Ateş, döküntü, eozinofili, lenfadenopati</li>
+          <li>Sistemik tutulum</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">Mitokondriyal / mikroveziküler</div>
+        <ul>
+          <li>Valproat, nükleozid analogları, tetrasiklin</li>
+          <li>Steatoz, laktik asidoz, hiperamonyemi</li>
+          <li>POLG mutasyonu riski (valproat)</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">Otoimmün-benzeri (DI-AIH)</div>
+        <ul>
+          <li>Minosiklin, nitrofurantoin, metildopa</li>
+          <li>ANA/SMA (+), IgG yüksek</li>
+          <li>Steroide yanıt, kesince gerileme</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="lede">Şiddet dereceleri (klinik yönetim için):</p>
+    <div class="sev">
+      <div class="band mild">
+        <div class="lvl">Hafif</div>
+        <div class="rng">ALT yüksek, bili &lt; 2× ÜNS, INR normal</div>
+        <p>Ensefalopati yok. İlaç kes, ayaktan/kısa yatış izlem.</p>
+      </div>
+      <div class="band mod">
+        <div class="lvl">Orta</div>
+        <div class="rng">ALT yüksek + bili ≥ 2× ÜNS, INR &lt; 1,5</div>
+        <p>Hy yasası pozitif olabilir. Yatış, günlük KCFT/INR.</p>
+      </div>
+      <div class="band sev">
+        <div class="lvl">Ağır</div>
+        <div class="rng">INR ≥ 1,5 veya ensefalopati (herhangi biri)</div>
+        <p>Akut KC yetmezliği. KC transplant merkezine acil bildir/nakil.</p>
+      </div>
+      <div class="band rem">
+        <div class="lvl">Düzelme</div>
+        <div class="rng">ALT düşüşü, INR &lt; 1,5, bili gerileme</div>
+        <p>İyileşme fazı; ilaç yeniden başlanmaz (rechallenge yasak).</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">Öncelik: asetaminofen maruziyetini ve akut karaciğer yetmezliğini erken ayırmak.</p>
+    <div class="flow">
+      <div class="node start">
+        <span class="k">Başlangıç</span>
+        <span class="t">Şüpheli hepatotoksik maruziyet</span>
+        <p>ABC stabilizasyonu; kan şekeri, ALT/AST, bilirubin, INR, kreatinin, venöz kan gazı/laktat, amonyak, asetaminofen düzeyi.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node action">
+        <span class="k">Adım 1</span>
+        <span class="t">Asetaminofen maruziyeti var mı?</span>
+        <p>Akut tek zamanlı alımda alımdan ≥ 4. saatte serum asetaminofen düzeyi al; alım saatini kesinleştir.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 1</span>
+        <span class="t">Rumack-Matthew nomogramı tedavi hattının üzerinde mi (≥ 150 µg/mL, 4. saat)?</span>
+        <p>Veya alım saati belirsiz / tekrarlayan supraterapötik alım / ALT zaten yüksek?</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Antidot başla</span>
+          <div class="node alarm">
+            <span class="k">NAC</span>
+            <span class="t">IV N-asetilsistein derhal</span>
+            <p>Nomogram üstünde, alım ≥ 8 saat geçtiyse düzey beklenmeden, veya alımdan &gt; 8 saat / belirsiz zaman ise ampirik başla. Doz için Bölüm 06.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → İdiyosinkratik yolu</span>
+          <div class="node action safe">
+            <span class="k">Adım 2</span>
+            <span class="t">Zorunlu ilacı kes + neden ara</span>
+            <p>Şüpheli ajanı kes, R-oranını hesapla, RUCAM ile nedensellik; viral/otoimmün/metabolik/biliyer nedenleri dışla.</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 2</span>
+        <span class="t">Akut KC yetmezliği var mı? (INR ≥ 1,5 + ensefalopati, veya INR ≥ 2,0)</span>
+        <p>K vitaminine yanıtsız koagülopati; hipoglisemi, yükselen amonyak, küçülen karaciğer.</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Kritik bakım + nakil</span>
+          <div class="node alarm">
+            <span class="k">Acil</span>
+            <span class="t">Transplant merkezine bildir</span>
+            <p>PICU izlemi, hipoglisemi/serebral ödem yönetimi, King's College kriterleri; asetaminofen dışı AKY'de bile IV NAC düşünülür.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → İzlem</span>
+          <div class="node action safe">
+            <span class="k">İzlem</span>
+            <span class="t">Seri KCFT/INR ile takip</span>
+            <p>İlaç kesildikten sonra düzelme beklenir; Hy yasası pozitifse yakın izlem, düzelmezse ileri tetkik.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Amaç: hasar paternini belirlemek, alternatif nedenleri dışlamak ve şiddeti izlemek.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>DILI değerlendirmesinde basamaklı laboratuvar ve görüntüleme</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Test / Doz-eşik</th><th>Amaç ve not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">1. Temel KCFT</td><td>ALT, AST, ALP, GGT, total/direkt bilirubin, albumin</td><td>R-oranını hesapla; paterni sınıfla (hepatoselüler/kolestatik/mikst).</td></tr>
+          <tr><td class="step">1. Sentetik fonksiyon</td><td class="dose">INR / PT, glukoz, amonyak</td><td>INR ≥ 1,5 ve/veya hipoglisemi AKY işareti; en önemli prognostik belirteçler.</td></tr>
+          <tr><td class="step">2. Asetaminofen düzeyi</td><td class="dose">Serum düzeyi ≥ 4. saatte (nomogram tedavi hattı 4. saatte 150 µg/mL)</td><td>Tek zamanlı akut alımda nomograma yerleştir; belirsiz zamanda düzey + ALT birlikte yorumla.</td></tr>
+          <tr><td class="step">2. Genel toksik/metabolik</td><td>Venöz kan gazı, laktat, kreatinin, elektrolit, lipaz</td><td>Laktik asidoz mitokondriyal toksisite (valproat) ipucu; renal fonksiyon King's kriteri.</td></tr>
+          <tr><td class="step">3. Viral dışlama</td><td>Anti-HAV IgM, HBsAg/anti-HBc IgM, anti-HCV, EBV, CMV, HSV PCR</td><td>Özellikle HSV hepatiti yenidoğan/immünsüpresede fulminan; ampirik asiklovir düşün.</td></tr>
+          <tr><td class="step">3. Otoimmün</td><td>ANA, ASMA, anti-LKM1, IgG düzeyi</td><td>DI-AIH ve klasik OİH ayrımı; pozitiflik steroid endikasyonuna yön verir.</td></tr>
+          <tr><td class="step">4. Metabolik (yaşa göre)</td><td>Seruloplazmin, 24 saatlik idrar bakırı, göz muayenesi (KF halkası)</td><td>Wilson hastalığı akut KC yetmezliğini taklit eder; ürik asit düşüklüğü + hemoliz + düşük ALP/bili oranı ipucu.</td></tr>
+          <tr><td class="step">5. Görüntüleme</td><td>Abdominal USG (Doppler dahil)</td><td>Biliyer tıkanma, damarsal patoloji, karaciğer boyut/eko yapısı; kolestatik paternde önce yapılır.</td></tr>
+          <tr><td class="step">6. Nedensellik</td><td>RUCAM skoru, R-oranı, ilaç-latent zaman ilişkisi</td><td>Rechallenge/dechallenge yanıtı; biyopsi seçili dirençli/tanısı belirsiz olgularda.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdakilerden herhangi biri acil kritik bakım ve transplant merkezi ile temas gerektirir.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Ensefalopati: irritabilite, uyku-uyanıklık bozulması, konfüzyon, asteriksis</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>K vitaminine yanıtsız INR ≥ 1,5 (ensefalopati ile) veya INR ≥ 2,0</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Yenilenen/persistan hipoglisemi (glukoz desteği gereksinimi)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Hy yasası: hepatoselüler hasar + total bilirubin &gt; 2× ÜNS</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Fizik muayenede karaciğer boyutunda hızlı küçülme</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Yükselen amonyak, laktik asidoz (mitokondriyal toksisite)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>DRESS: yüksek ateş, yaygın döküntü, eozinofili, lenfadenopati, yüz ödemi</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Belirsiz zamanlı / tekrarlayan supraterapötik asetaminofen alımı</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi</h2>
+    <p class="lede">İlaç kesimi tüm DILI'de temeldir; asetaminofen zehirlenmesinde antidot NAC hayat kurtarıcıdır. Aşağıdaki dozlar pediatrik hastaya göredir.</p>
+
+    <div class="callout alarm">Rechallenge (ilacı yeniden başlatma) ağır hepatotoksisitede kesin kontrendikedir; hızlı ve daha şiddetli tekrarlamaya yol açar.</div>
+
+    <div class="table-scroll">
+      <table>
+        <caption>Hepatotoksisitede dozlu tedavi</caption>
+        <thead>
+          <tr><th>İlaç / Girişim</th><th>Doz (mg/kg + maksimum)</th><th>Endikasyon ve not</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">N-asetilsistein (IV) — yükleme</td>
+            <td class="dose">150 mg/kg (maks 15 g) 200 mL sıvı içinde 60 dk</td>
+            <td>Asetaminofen nomogram üstü, belirsiz zaman veya tekrarlayan supraterapötik alım; alımdan &lt; 8 saat içinde en etkili.</td>
+          </tr>
+          <tr>
+            <td class="step">NAC (IV) — 2. faz</td>
+            <td class="dose">50 mg/kg (maks 5 g) 4 saatte</td>
+            <td>21 saatlik standart rejimin ikinci basamağı; infüzyon devamlılığı korunur.</td>
+          </tr>
+          <tr>
+            <td class="step">NAC (IV) — 3. faz</td>
+            <td class="dose">100 mg/kg (maks 10 g) 16 saatte</td>
+            <td>16. saat sonunda ALT/asetaminofen/INR normal değilse infüzyon 6,25 mg/kg/saat ile uzatılır.</td>
+          </tr>
+          <tr>
+            <td class="step">NAC (oral alternatif)</td>
+            <td class="dose">Yükleme 140 mg/kg, sonra 70 mg/kg/doz 4 saatte bir × 17 doz</td>
+            <td>IV erişilemezse; kusma varsa antiemetik (ondansetron) ekle.</td>
+          </tr>
+          <tr>
+            <td class="step">Aktif kömür</td>
+            <td class="dose">1 g/kg (maks 50 g) PO/NG</td>
+            <td>Yalnızca alımdan &lt; 1–2 saat içinde ve hava yolu güvenliyse; NAC'ı geciktirmez.</td>
+          </tr>
+          <tr>
+            <td class="step">L-karnitin (valproat toksisitesi)</td>
+            <td class="dose">100 mg/kg IV yükleme (maks 6 g), ardından 15 mg/kg/doz 4 saatte bir</td>
+            <td>Valproata bağlı hiperamonyemi/hepatotoksisitede; POLG mutasyonunda valproat kesin kontrendike.</td>
+          </tr>
+          <tr>
+            <td class="step">Kortikosteroid (prednizolon)</td>
+            <td class="dose">1–2 mg/kg/gün (maks 60 mg/gün)</td>
+            <td>DI-AIH veya ağır DRESS/immünoalerjik tabloda; rutin idiyosinkratik DILI'de önerilmez.</td>
+          </tr>
+          <tr>
+            <td class="step">K vitamini (fitomenadion)</td>
+            <td class="dose">1–10 mg IV (yavaş), koagülopatide</td>
+            <td>K vitamini eksikliğini düzeltmek için; yanıtsız INR gerçek sentetik yetmezliği gösterir.</td>
+          </tr>
+          <tr>
+            <td class="step">%10 Dekstroz infüzyonu</td>
+            <td class="dose">Glukoz 6–8 mg/kg/dk hedefiyle titre</td>
+            <td>Hipoglisemiyi önlemek/tedavi etmek için AKY'de; kan şekeri &gt; 70 mg/dL tut.</td>
+          </tr>
+          <tr>
+            <td class="step">UDCA (ursodeoksikolik asit)</td>
+            <td class="dose">10–15 mg/kg/gün 2 doza bölünmüş</td>
+            <td>Uzamış kolestatik DILI'de kaşıntı/kolestazı hafifletmek için (destekleyici).</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout safe">Asetaminofen zehirlenmesinde 4. saat düzeyi nomogram tedavi hattının altında, hasta asemptomatik ve ALT normal ise NAC gerekmez; yalnızca alım tek zamanlı ve saati kesin biliniyorsa bu güvenli değerlendirme geçerlidir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve yönetim ilkeleri</h2>
+    <p class="lede">Hedef: hasarın seyrini yakından izlemek, iyileşmeyi belgelemek ve nüksü önlemek.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Akut dönem izlemi</h3>
+        <ul class="clean">
+          <li>ALT/AST, bilirubin, INR ve glukozu ağır olguda 4–12 saatte bir, orta olguda günlük izle</li>
+          <li>NAC alan hastada infüzyon sonu ALT/asetaminofen/INR ile durma kararı ver; kriterler karşılanmadıkça infüzyonu uzat</li>
+          <li>Ensefalopati skorlaması ve amonyak takibi; kötüleşmede PICU ve transplant merkezine erken bildir</li>
+          <li>Yükselen INR + düşen ALT ("bilirubin-transaminaz ayrışması") kötüleşme işareti olabilir, dikkatle yorumla</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>İyileşme ve önlem</h3>
+        <ul class="clean">
+          <li>İyileşmeyi belgeledikten sonra ALT normale dönene dek 1–2 haftada bir poliklinik KCFT</li>
+          <li>Sorumlu ilacı kalıcı olarak listeye ekle; alerji/advers ilaç kaydı oluştur, rechallenge yapma</li>
+          <li>Hepatotoksik ajanı ilaç raporuna ve aile bilgilendirmesine yaz; benzer sınıf çapraz reaksiyona dikkat</li>
+          <li>Adolesan kasıtlı alımda psikiyatri konsültasyonu ve güvenlik planı; ev ilaç güvenliği eğitimi</li>
+          <li>DI-AIH'de steroid yanıtı sonrası kesip nüks izlemi; gerçek OİH ayrımı için uzun izlem</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pill-row">
+      <span class="pill">İlaç kes = temel tedavi</span>
+      <span class="pill">NAC penceresini kaçırma</span>
+      <span class="pill">INR + ensefalopati = triyaj</span>
+      <span class="pill">Rechallenge yok</span>
+    </div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Chalasani NP, et al. ACG Clinical Guideline: Diagnosis and Management of Idiosyncratic Drug-Induced Liver Injury. Am J Gastroenterol. 2021.</li>
+      <li>European Association for the Study of the Liver (EASL). Clinical Practice Guidelines: Drug-induced liver injury. J Hepatol. 2019.</li>
+      <li>Squires RH, et al. (NASPGHAN). Evaluation and Management of Pediatric Acute Liver Failure. J Pediatr Gastroenterol Nutr. 2022.</li>
+      <li>Chiew AL, et al. Updated guidelines for the management of paracetamol poisoning (Rumack-Matthew nomogram / NAC). Med J Aust / Clin Toxicol. 2020.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge pediatrik gastroenteroloji/hepatoloji uzmanları için klinik karar desteği amaçlıdır; bireysel hasta yönetimi, güncel zehir danışma merkezi önerileri, yerel protokoller ve klinik yargı ile birlikte değerlendirilmelidir. Dozlar doğrulanmalıdır.</div>
+</div>

@@ -1,0 +1,418 @@
+<title>Konjenital İshaller — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Konjenital İshaller</h1>
+    <p class="sub">Yaşamın ilk günlerinde başlayan, sıklıkla ağır dehidratasyon ve elektrolit bozukluğu ile seyreden kalıtsal ishallerin tanısal ayrımı ve yönetimi. Dışkı ozmotik aralığı ve genetik doğrulama merkezli bir yaklaşım.</p>
+    <div class="meta">
+      <span class="tag">Sekretuar vs Ozmotik</span>
+      <span class="tag">Dışkı Elektrolit/Ozmotik Aralık</span>
+      <span class="tag">Genetik Tanı</span>
+      <span class="tag">Enteral/Parenteral Nutrisyon</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve İlk Değerlendirme</h2>
+    <p class="lede">Konjenital diyare ve enteropatiler (CODEs); tipik olarak yenidoğan/erken infantil dönemde başlayan, aç bırakmakla verilen yanıta göre sekretuar veya ozmotik olarak sınıflanan, monogenik kalıtsal ishal grubudur. Enfeksiyöz, alerjik ve anatomik nedenler dışlandıktan sonra, erken başlangıç + akrabalık öyküsü + persistan ağır ishal üçlüsü CODE'yi güçlü şekilde düşündürür.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öykü — Yönlendirici Sorular</h3>
+        <ul class="clean">
+          <li>Başlangıç zamanı: ilk 72 saat (klor/sodyum ishali, MVID) vs ilk haftalar (tufting, enteroendokrin defektler)</li>
+          <li>Polihidramnios öyküsü (konjenital klor ishali — CLD; sodyum ishali — CSD): intrauterin barsak dilatasyonu</li>
+          <li>Ebeveyn akrabalığı, benzer etkilenen kardeş, açıklanamayan neonatal ölüm</li>
+          <li>İshalin su gibi mi yoksa yağlı/mukuslu mu olduğu; kilo alamama, gelişme geriliği</li>
+          <li>Aç bırakınca ishalin kesilip kesilmediği (ozmotik ipucu)</li>
+          <li>Eşlik eden bulgular: koanal atrezi, punktat kondrodisplazi, saç anomalileri (trikohepatoenterik sendrom), artrogripozis-renal disfonksiyon-kolestaz (ARC)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayene ve İlk Laboratuvar</h3>
+        <ul class="clean">
+          <li>Dehidratasyon derecesi, tartı-boy persentili, karın distansiyonu</li>
+          <li>CLD'de "dışkı idrarla karışır" fenomeni; bez tartımı ile gerçek dışkı çıkışı</li>
+          <li>Kan gazı + elektrolit: CLD'de hipokloremik hipokalemik metabolik alkaloz; CSD'de metabolik asidoz + hiponatremi</li>
+          <li>Dışkı elektrolitleri (Na, K) ve dışkı ozmotik aralığı hesabı: 290 − 2×(dışkı Na + dışkı K)</li>
+          <li>Dışkı Cl (CLD tanısında anahtar), dışkı pH ve redüktan madde (karbonhidrat malabsorbsiyonu)</li>
+          <li>Dışkı elastaz, dışkı alfa-1 antitripsin (protein kaybettiren enteropati), enfeksiyon paneli</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout"><b>Ozmotik aralık kuralı:</b> Dışkı ozmotik aralığı &lt;50 mOsm/kg → sekretuar ishal (aç bırakınca sürer); &gt;100 mOsm/kg → ozmotik ishal (aç bırakınca durur). Ara değerler karışık mekanizmayı düşündürür.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Etiyoloji / Mekanizma</h2>
+    <p class="lede">CODE'ler patofizyolojiye göre dört ana mekanizma ve iki nadir grupta toplanır. Mekanizma, hem tetkik hem de tedavi yolunu belirler.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">Elektrolit Transport Defekti (Sekretuar)</div>
+        <ul>
+          <li>Konjenital klor ishali (SLC26A3): hipokloremik alkaloz, dışkı Cl &gt;90 mmol/L</li>
+          <li>Konjenital sodyum ishali (SLC9A3/GUCY2C): asidoz, hiponatremi, dışkı Na yüksek</li>
+          <li>GUCY2C aktive edici mutasyon: sekretuar ishal</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">Enterosit Yapı/Trafik Defekti</div>
+        <ul>
+          <li>Mikrovillus inklüzyon hastalığı (MYO5B, STX3, STXBP2): masif sekretuar ishal, ilk günlerde</li>
+          <li>Tufting enteropati / intestinal epitelyal displazi (EPCAM, SPINT2)</li>
+          <li>Trikohepatoenterik sendrom (TTC37, SKIV2L)</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">Karbonhidrat/Besin Malabsorbsiyonu (Ozmotik)</div>
+        <ul>
+          <li>Konjenital laktaz eksikliği (LCT)</li>
+          <li>Glukoz-galaktoz malabsorbsiyonu (SLC5A1)</li>
+          <li>Sükraz-izomaltaz eksikliği (SI); konjenital dekstrin malabsorbsiyonu</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Enteroendokrin / Hormonal Defekt</div>
+        <ul>
+          <li>Enterik anendokrinozis (NEUROG3)</li>
+          <li>Proprotein konvertaz 1/3 eksikliği (PCSK1): ishal + obezite + endokrinopati</li>
+          <li>Enteroendokrin hücre disgenezisi</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">Yağ/Lipoprotein Metabolizması</div>
+        <ul>
+          <li>Abetalipoproteinemi (MTTP), hipobetalipoproteinemi (APOB)</li>
+          <li>Şilomikron retansiyon hastalığı — Anderson (SAR1B)</li>
+          <li>DGAT1 eksikliği: protein kaybettiren enteropati + ishal</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">İmmün Aracılı (Erken IBD Benzeri)</div>
+        <ul>
+          <li>IPEX sendromu (FOXP3): otoimmün enteropati, endokrinopati, ekzema</li>
+          <li>IL-10/IL-10R defekti: çok erken başlangıçlı VEO-IBD</li>
+          <li>Otoimmün enteropati (anti-enterosit / anti-goblet antikorları)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar Akışı</h2>
+    <p class="lede">İlk ayrım aç bırakma testi ile sekretuar/ozmotik yapılır; sonra dışkı elektrolitleri ve hedefli genetik ile tanı daraltılır.</p>
+    <div class="flow">
+      <div class="node start"><span class="k">Başlangıç</span><span class="t">Yenidoğanda persistan sulu ishal</span><p>Enfeksiyon, cerrahi karın ve besin protein alerjisi dışlanmış; ağır dehidratasyon/elektrolit bozukluğu mevcut.</p></div>
+      <div class="connector"></div>
+      <div class="node action"><span class="k">Adım 1</span><span class="t">Dışkı elektrolitleri + ozmotik aralık hesabı</span><p>Dışkı Na, K, Cl ölç; ozmotik aralık = 290 − 2×(Na+K). Eşzamanlı kan gazı ve serum elektrolit.</p></div>
+      <div class="connector"></div>
+      <div class="node action"><span class="k">Adım 2</span><span class="t">Kontrollü aç bırakma / TPN testi</span><p>Enteral beslenme kesilip parenteral sıvı verildiğinde ishal seyrini izle.</p></div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 1</span><span class="t">Aç bırakınca ishal sürüyor mu (sekretuar)?</span><p>Ozmotik aralık &lt;50 ve TPN'de yüksek debili çıkış devam ediyor mu?</p></div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Sekretuar</span>
+          <div class="node alarm"><span class="k">Sekretuar kol</span><span class="t">Dışkı Cl'ye bak</span><p>Dışkı Cl &gt;90 mmol/L + hipokloremik alkaloz → CLD (SLC26A3). Asidoz + hiponatremi + dışkı Na yüksek → CSD (SLC9A3). Her ikisi de negatifse enterosit yapı defekti (MVID/tufting) için ince barsak biyopsisi + elektron mikroskopi.</p></div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Ozmotik</span>
+          <div class="node action safe"><span class="k">Ozmotik kol</span><span class="t">Karbonhidrat malabsorbsiyonu</span><p>Ozmotik aralık &gt;100, dışkı pH düşük, redüktan madde pozitif. Şeker eliminasyonu ile yanıt: glukoz-galaktoz malabsorbsiyonu (SLC5A1), konjenital laktaz eksikliği (LCT), SI eksikliği. Disakkaridaz aktivitesi + genetik ile doğrula.</p></div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 2</span><span class="t">Sendromik/immün ipuçları var mı?</span><p>Ekzema+endokrinopati (IPEX), saç anomalisi (THE), koanal atrezi, kolestaz, VEO-IBD fenotipi?</p></div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Genişletilmiş panel</span>
+          <div class="node alarm"><span class="k">İmmün/sendromik</span><span class="t">WES + immünoloji</span><p>Otoantikorlar (anti-enterosit), FOXP3, IL10/IL10R; whole-exome sequencing. HSCT değerlendirmesi (IPEX, IL-10R) planla.</p></div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Hedefli panel</span>
+          <div class="node action safe"><span class="k">Monogenik CODE paneli</span><span class="t">NGS gen paneli</span><p>Fenotipe göre CODE gen paneli; sonuç negatifse WES'e ilerle. Destekleyici nutrisyon devam.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı Tetkik</h2>
+    <p class="lede">Ucuz ve ayırt edici testlerden başlayıp genetik doğrulamaya ilerleyen kademeli algoritma.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Konjenital ishalde basamaklı tanısal iş akışı</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Test / Örnek</th><th>Yorum</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">1 — Dışkı ozmotik aralık</td><td>Dışkı Na, K → 290 − 2×(Na+K)</td><td>&lt;50 sekretuar; &gt;100 ozmotik; ilk ayrımı yapar</td></tr>
+          <tr><td class="step">2 — Dışkı Cl</td><td>Spot dışkı klorür</td><td>&gt;90 mmol/L + hipokloremik alkaloz → CLD için tanısal</td></tr>
+          <tr><td class="step">3 — Kan gazı + elektrolit</td><td>pH, HCO3, Na, K, Cl</td><td>Alkaloz→CLD; asidoz+hiponatremi→CSD</td></tr>
+          <tr><td class="step">4 — Dışkı pH + redüktan madde</td><td>Klinitest, dışkı pH</td><td>pH &lt;5,5 + redüktan (+) → karbonhidrat malabsorbsiyonu</td></tr>
+          <tr><td class="step">5 — Enfeksiyon/inflamasyon</td><td>Dışkı kültür, virüs, kalprotektin, alfa-1 antitripsin</td><td>Edinsel nedenleri ve PLE'yi dışla</td></tr>
+          <tr><td class="step">6 — Aç bırakma / TPN yanıtı</td><td>Kontrollü enteral kesme</td><td>Sekretuar/ozmotik ayrımını doğrular</td></tr>
+          <tr><td class="step">7 — İnce barsak biyopsisi + EM</td><td>Duodenal biyopsi, elektron mikroskopi, PAS/CD10</td><td>MVID: apikal PAS/CD10 pozitif inklüzyonlar; tufting: yüzey epitel tutamları</td></tr>
+          <tr><td class="step">8 — Otoantikor / immünoloji</td><td>Anti-enterosit, anti-goblet, IgG alt gruplar</td><td>Otoimmün enteropati / IPEX ipucu</td></tr>
+          <tr><td class="step">9 — Hedefli NGS paneli</td><td>CODE gen paneli</td><td>SLC26A3, SLC9A3, MYO5B, EPCAM, SLC5A1, NEUROG3 vb.</td></tr>
+          <tr><td class="step">10 — WES/WGS</td><td>Tüm ekzom/genom</td><td>Panel negatif veya sendromik/atipik fenotipte</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı Bayraklar</h2>
+    <p class="lede">Acil elektrolit müdahalesi, yoğun bakım veya hızlı genetik/immünolojik değerlendirme gerektiren bulgular.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Yaşamın ilk 72 saatinde başlayan yüksek debili sulu ishal + hızlı kilo kaybı</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ağır hipokloremik hipokalemik metabolik alkaloz (CLD) — psödo-Bartter tablosu</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Metabolik asidoz + refrakter hiponatremi (CSD)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Antenatal polihidramnios + dilate barsak ansları öyküsü</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>TPN'ye rağmen devam eden masif sekretuar çıkış (MVID) → uzun süreli PN bağımlılığı</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>İshal + ekzema + tip 1 diyabet/tiroidit (IPEX) — hızlı immünsüpresyon/HSCT değerlendirmesi</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Eşlik eden kolestaz + karaciğer disfonksiyonu (MYO5B, THE, ARC)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Persistan sepsis benzeri tablo / kateter enfeksiyonları (PN bağımlı hastada)</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi</h2>
+    <p class="lede">Temel ilke sıvı-elektrolit dengesinin agresif idamesi ve mekanizmaya özgü tedavidir. Dozlar yenidoğan/infant için verilmiştir; klinik izlemle titre edilir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Mekanizmaya özgü tedavi ve dozlar</caption>
+        <thead>
+          <tr><th>Durum / Ajan</th><th>Doz</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Konjenital klor ishali — oral tuz replasmanı</td><td class="dose">NaCl + KCl toplam Cl 6–8 mmol/kg/gün (bölünmüş)</td><td>K:Na oranını kan gazına göre ayarla; hedef normal serum Cl ve K</td></tr>
+          <tr><td class="step">CLD — omeprazol (dışkı Cl kaybını azaltır)</td><td class="dose">0,5–1 mg/kg/gün (maks 20 mg/gün)</td><td>Gastrik klorür sekresyonunu azaltarak dışkı volümünü düşürür; ek seçenek</td></tr>
+          <tr><td class="step">CLD — butirat (seçilmiş olguda)</td><td class="dose">50–100 mg/kg/gün oral</td><td>SLC26A3 dışı Cl/HCO3 değişimini uyarır; kanıt sınırlı</td></tr>
+          <tr><td class="step">Konjenital sodyum ishali — NaHCO3/NaCl</td><td class="dose">Na 6–10 mmol/kg/gün + baz açığına göre HCO3</td><td>Asidozu ve hiponatremiyi düzelt; sitrat karışımı kullanılabilir</td></tr>
+          <tr><td class="step">Glukoz-galaktoz malabsorbsiyonu</td><td class="dose">Fruktoz bazlı formül; glukoz/galaktoz &lt;%2</td><td>Fruktoz tek tolere edilen karbonhidrat; ozmotik ishal düzelir</td></tr>
+          <tr><td class="step">Konjenital laktaz eksikliği</td><td class="dose">Laktozsuz formül; ömür boyu laktaz kısıtlaması</td><td>Erken tanı ile gelişme normal</td></tr>
+          <tr><td class="step">Sükraz-izomaltaz eksikliği — sakrosidaz</td><td class="dose">1 mL (8500 IU) öğünle, süt/mama içinde</td><td>Sükroz kısıtlı diyet + enzim replasmanı</td></tr>
+          <tr><td class="step">MVID / tufting — parenteral nutrisyon</td><td class="dose">Bireyselleştirilmiş TPN; sıvı çıkışı yerine koy</td><td>Uzun dönem PN; barsak yetmezliği → transplant adayı</td></tr>
+          <tr><td class="step">Enteroendokrin defekt (NEUROG3/PCSK1)</td><td class="dose">Destekleyici PN + eşlik eden endokrinopati tedavisi</td><td>Kortizol, tiroid, glukoz replasmanı gerekebilir</td></tr>
+          <tr><td class="step">IPEX / otoimmün enteropati</td><td class="dose">Metilprednizolon 1–2 mg/kg/gün + sirolimus/takrolimus</td><td>Definitif tedavi allojenik HSCT; köprü olarak immünsüpresyon</td></tr>
+          <tr><td class="step">Abetalipoproteinemi / ŞRH</td><td class="dose">Yüksek doz E vit 100–300 IU/kg/gün; A,D,K + MCT diyet</td><td>Yağda eriyen vitaminler; nörolojik/retinal koruma</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout alarm"><b>Rehidratasyon:</b> Sekretuar CODE'lerde standart ORS yetersiz kalır; sıvı ve elektrolit kayıpları dışkı elektrolit ölçümüne göre "mmol-mmol" yerine konmalıdır. CLD'de potasyum yerine konmadan alkaloz düzelmez.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem / Yönetim İlkeleri</h2>
+    <p class="lede">Uzun dönem hedef; normal büyüme, elektrolit dengesi, PN komplikasyonlarının önlenmesi ve genetik danışmadır.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Rutin İzlem</h3>
+        <ul class="clean">
+          <li>Büyüme (tartı-boy-baş çevresi) her vizitte; gelişme geriliğinde nutrisyon revizyonu</li>
+          <li>Serum elektrolit, kan gazı, böbrek fonksiyonu; CLD'de nefrokalsinoz/böbrek taşı taraması (USG)</li>
+          <li>Dışkı volüm ve elektrolit takibi ile replasman titrasyonu</li>
+          <li>Yağda eriyen vitamin düzeyleri (lipid metabolizması defektlerinde)</li>
+          <li>PN alanlarda karaciğer fonksiyonu, IFALD ve kateter enfeksiyonu izlemi</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Uzun Dönem ve Danışmanlık</h3>
+        <ul class="clean">
+          <li>Genetik danışma: çoğu CODE otozomal resesif; %25 tekrar riski, taşıyıcı testi</li>
+          <li>Barsak yetmezliği rehabilitasyon programı; intestinal transplant değerlendirmesi (MVID, tufting)</li>
+          <li>IPEX/IL-10R'de HSCT için erken merkez yönlendirmesi</li>
+          <li>Prenatal tanı imkânı (bilinen aile mutasyonunda)</li>
+          <li>Nörogelişimsel izlem (abetalipoproteinemi, ağır elektrolit dalgalanmaları)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pill-row">
+      <span class="pill">Elektrolit dengesi</span>
+      <span class="pill">Nutrisyonel rehabilitasyon</span>
+      <span class="pill">Genetik danışma</span>
+      <span class="pill">Transplant değerlendirmesi</span>
+    </div>
+    <div class="callout safe"><b>Prognoz:</b> Karbonhidrat malabsorbsiyonu ve CLD/CSD, uygun diyet ve replasmanla normal yaşam beklentisine sahiptir; MVID ve tufting genellikle kalıcı barsak yetmezliği ve PN/transplant bağımlılığı ile seyreder.</div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Thiagarajah JR, Kamin DS, Acra S, ve ark. Advances in Evaluation of Chronic Diarrhea in Infants. Gastroenterology. 2018;154(8):2045-2059.</li>
+      <li>Canani RB, Terrin G, Cardillo G, ve ark. Congenital Diarrheal Disorders: Improved Understanding of Gene Defects. J Pediatr Gastroenterol Nutr (JPGN). 2010;50(4):360-366.</li>
+      <li>Uhlig HH, Charbit-Henrion F, Kotlarz D, ve ark. Clinical Genomics for the Diagnosis of Monogenic Forms of Inflammatory Bowel Disease: ESPGHAN Position Paper. JPGN. 2021;72(3):456-473.</li>
+      <li>Wedenoja S, Höglund P, Holmberg C. Review Article: The Clinical Management of Congenital Chloride Diarrhoea. Aliment Pharmacol Ther. 2010;31(4):477-485.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge pediyatrik gastroenteroloji uzmanları için hazırlanmış klinik karar-destek aracıdır; hastaya özgü değerlendirmenin, güncel kılavuzların ve yerel protokollerin yerini tutmaz. Dozlar erişkin değil infant/yenidoğan içindir ve klinik izlemle bireyselleştirilmelidir.</div>
+</div>

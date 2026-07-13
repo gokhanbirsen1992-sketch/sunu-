@@ -1,0 +1,477 @@
+<title>IFALD (İntestinal Yetmezlik İlişkili KC Hastalığı) — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>IFALD (İntestinal Yetmezlik İlişkili KC Hastalığı)</h1>
+    <p class="sub">Uzun süreli parenteral beslenme (PN) alan intestinal yetmezlikli çocukta kolestaz/steatohepatit gelişiminin erken tanınması, lipid stratejisi, sepsis önleme ve enteral ilerleme ile geri döndürülmesine yönelik yapılandırılmış karar aracı.</p>
+    <div class="meta">
+      <span class="tag">Lipid yönetimi</span>
+      <span class="tag">SMOF / balık yağı</span>
+      <span class="tag">Sepsis önleme (CLABSI)</span>
+      <span class="tag">Enteral ilerleme</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">IFALD, intestinal yetmezlik ve/veya uzamış PN bağlamında, hepatotoksik/kolestatik başka nedenler dışlandıktan sonra gelişen karaciğer hasarıdır. Süt çocuğunda baskın fenotip kolestaz (konjuge bilirubin yüksekliği), daha büyük çocuk/adölesanda steatohepatit-fibroz-portal hipertansiyon spektrumudur.</p>
+    <div class="callout">Çalışma tanımı: PN &gt; 14 gün ve konjuge (direkt) bilirubin &gt; 2 mg/dL'nin, viral hepatit, biliyer atrezi, koledok kisti, metabolik/genetik kolestaz, ilaç ve aktif sepsis gibi diğer nedenler yokluğunda persistan olması. Büyük çocukta ALT/GGT yüksekliği + hepatomegali/steatoz da IFALD sayılır.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öykü — odaklı sorgulama</h3>
+        <ul class="clean">
+          <li>Altta yatan neden: NEK sonrası kısa bağırsak, gastroşizis, intestinal atrezi, volvulus, Hirschsprung total kolik, motilite bozukluğu.</li>
+          <li>Rezeksiyon anatomisi: kalan ince bağırsak uzunluğu, ileoçekal valv varlığı, kolon sürekliliği, stoma/ostomi.</li>
+          <li>PN parametreleri: toplam süre, günlük lipid dozu (g/kg), lipid tipi (saf soya vs SMOF vs balık yağı), siklik mi sürekli mi.</li>
+          <li>Enteral durum: enteral kalori yüzdesi, beslenme intoleransı, ileri gidememe nedenleri.</li>
+          <li>Sepsis öyküsü: santral kateter enfeksiyonu (CLABSI) sıklığı, bakteriyel aşırı çoğalma (SIBO) atakları, D-laktik asidoz.</li>
+          <li>İlaçlar: sık antibiyotik, hepatotoksik ajanlar, ursodeoksikolik asit kullanımı.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayene — sistematik bulgu</h3>
+        <ul class="clean">
+          <li>Sarılık, skleral ikter, akolik gaita, koyu idrar (kolestaz).</li>
+          <li>Hepatomegali ve/veya splenomegali; kıvam sertliği.</li>
+          <li>Portal hipertansiyon işaretleri: asit, karın duvarı venöz dolgunluk, splenomegali.</li>
+          <li>Büyüme: kilo/boy z-skoru, baş çevresi; malnütrisyon ve büyüme geriliği.</li>
+          <li>Kateter çıkış yeri: eritem, akıntı, hassasiyet (enfeksiyon).</li>
+          <li>Kanama/koagülopati bulguları (peteşi, mukozal kanama); K vitaminine yanıtlı INR uzaması.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Şiddet sınıflaması</h2>
+    <p class="lede">Şiddet, biyokimyasal kolestaz derinliği ve karaciğer sentez/fibroz göstergeleriyle derecelendirilir; sınıf, lipid stratejisi ve transplant değerlendirmesi eşiklerini belirler.</p>
+    <div class="sev">
+      <div class="band mild">
+        <div class="lvl">Hafif</div>
+        <div class="rng">Konj. bil 2–5 mg/dL</div>
+        <p>İzole hafif kolestaz, GGT/ALT hafif yüksek. Sentez fonksiyonu normal. Lipid optimizasyonu ve enteral ilerleme ile büyük ölçüde geri döner.</p>
+      </div>
+      <div class="band mod">
+        <div class="lvl">Orta</div>
+        <div class="rng">Konj. bil 5–10 mg/dL</div>
+        <p>Persistan kolestaz + hepatomegali. SMOF'a geçiş / balık yağı temelli strateji ve soya lipid kısıtlaması endikedir; sepsis kaynağı aranır.</p>
+      </div>
+      <div class="band sev">
+        <div class="lvl">Ağır</div>
+        <div class="rng">Konj. bil &gt; 10 mg/dL veya sentez bozukluğu</div>
+        <p>İlerleyici kolestaz, koagülopati (K vit'e dirençli INR uzaması), erken fibroz/portal HT. Balık yağı temelli lipide geçiş, agresif enteral ilerleme; transplant/rehabilitasyon merkezi ile eşzamanlı yönetim.</p>
+      </div>
+      <div class="band rem">
+        <div class="lvl">Düzelme</div>
+        <div class="rng">Konj. bil &lt; 2 mg/dL, kalıcı normalizasyon</div>
+        <p>Enteral otonomi artışı ile biyokimyasal düzelme. İzlem sürdürülür; portal HT/fibroz sekeli açısından takip devam eder.</p>
+      </div>
+    </div>
+    <div class="callout alarm">Konjuge bilirubin &gt; 10 mg/dL, artan bilirubin trendi + trombositopeni + splenomegali kombinasyonu ileri fibroz/end-stage karaciğer hastalığı riskini işaret eder; intestinal-karaciğer transplant değerlendirmesi için erken referans gerekir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">Konjuge hiperbilirubinemi saptanan PN'li çocukta önce diğer kolestaz nedenleri dışlanır, sonra sepsis/lipid/enteral kollar sırayla yönetilir.</p>
+    <div class="flow">
+      <div class="node start">
+        <span class="k">Başlangıç</span>
+        <span class="t">PN &gt; 14 gün + konjuge bil &gt; 2 mg/dL</span>
+        <p>İntestinal yetmezlikli çocukta yeni/persistan kolestaz saptandı.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node action">
+        <span class="k">Adım 1</span>
+        <span class="t">Diğer nedenleri dışla</span>
+        <p>Biliyer atrezi/koledok kisti (USG), viral hepatit, metabolik-genetik kolestaz, hepatotoksik ilaç taraması yap.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 1</span>
+        <span class="t">Aktif sepsis / CLABSI var mı?</span>
+        <p>Ateş, CRP/PCT yüksekliği, kateter çıkış yeri bulgusu, pozitif kan kültürü?</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Enfeksiyonu tedavi et</span>
+          <div class="node alarm">
+            <span class="k">Sepsis kolu</span>
+            <span class="t">Kültür al, ampirik geniş spektrumlu antibiyotik</span>
+            <p>CLABSI'de kateter kilidi/çekilmesi değerlendir; kaynak kontrolü sağlanmadan kolestaz düzelmez.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Lipid stratejisine geç</span>
+          <div class="node action safe">
+            <span class="k">Lipid kolu</span>
+            <span class="t">Lipid tipini ve dozunu optimize et</span>
+            <p>Saf soya lipidini bırak; SMOF'a geç, dozu 1–1,5 g/kg/gün'e kısıtla.</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 2</span>
+        <span class="t">4 hafta SMOF + doz kısıtlaması sonrası kolestaz düzeliyor mu?</span>
+        <p>Konjuge bilirubinde düşüş trendi var mı?</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Enteral ilerlemeyi hızlandır</span>
+          <div class="node action safe">
+            <span class="k">İyileşme kolu</span>
+            <span class="t">Enteral kaloriyi artır, PN'yi azalt</span>
+            <p>Enteral otonomiyi hedefle; siklik PN'e geç, izlemi sürdür.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Balık yağı temelli lipide geç</span>
+          <div class="node alarm">
+            <span class="k">İlerleyen hastalık kolu</span>
+            <span class="t">Saf balık yağı 1 g/kg/gün + transplant değerlendirmesi</span>
+            <p>Ağır/ilerleyici IFALD: intestinal rehabilitasyon-transplant merkezi ile eşzamanlı yönetim.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Tanı, diğer kolestaz nedenlerini dışlama ve şiddet/fibroz derecelendirmesi ekseninde basamaklandırılır.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>IFALD basamaklı tanısal değerlendirme</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Tetkik / eşik</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">Basamak 1 — Biyokimya</td>
+            <td class="dose">Total + konjuge bilirubin, ALT, AST, GGT, ALP, albümin</td>
+            <td>Konjuge bil &gt; 2 mg/dL tanı eşiği; GGT kolestazın duyarlı göstergesi.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 2 — Sentez / koagülasyon</td>
+            <td class="dose">INR, PT, fibrinojen; K vit sonrası tekrar</td>
+            <td>K vit'e dirençli INR uzaması sentez bozukluğunu ve ağır hastalığı gösterir.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 3 — Enfeksiyon taraması</td>
+            <td class="dose">Tam kan, CRP/PCT, kan kültürü (periferik + kateter)</td>
+            <td>Her kolestaz alevlenmesinde CLABSI/SIBO dışlanır.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 4 — Görüntüleme</td>
+            <td class="dose">Abdominal USG + Doppler</td>
+            <td>Biliyer atrezi/koledok kisti/safra çamuru dışla; hepatosplenomegali, portal akım, asit değerlendir.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 5 — Ayırıcı tanı paneli</td>
+            <td class="dose">Viral hepatit serolojisi, TSH, alfa-1 antitripsin, metabolik/genetik kolestaz paneli</td>
+            <td>Persistan/atipik olgularda genetik kolestaz (PFIC vb.) dışlanır.</td>
+          </tr>
+          <tr>
+            <td class="step">Basamak 6 — Fibroz değerlendirmesi</td>
+            <td class="dose">Trombosit sayımı, elastografi (mümkünse); seçili olguda karaciğer biyopsisi</td>
+            <td>Trombositopeni + splenomegali portal HT'yi düşündürür; biyopsi fibroz derecesini kesinleştirir.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pill-row">
+      <span class="pill">Konjuge bilirubin trendi</span>
+      <span class="pill">GGT</span>
+      <span class="pill">INR (K vit sonrası)</span>
+      <span class="pill">Trombosit</span>
+      <span class="pill">USG + Doppler</span>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdaki bulgular ileri karaciğer hastalığı/dekompansasyon veya acil müdahale gereğini işaret eder.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Konjuge bilirubin &gt; 10 mg/dL veya hızla artan trend.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>K vitaminine dirençli INR uzaması (sentez bozukluğu).</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Splenomegali + trombositopeni (portal hipertansiyon).</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Yeni başlayan asit veya gastrointestinal/varis kanaması.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Tekrarlayan CLABSI atakları (&gt; 2–3/yıl) veya fungemi.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>SMOF/lipid optimizasyonuna rağmen ilerleyen kolestaz.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Büyüme geriliği + enteral otonomiye ilerleyememe.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ensefalopati/hipoglisemi/laktik asidoz (dekompansasyon).</span></div>
+    </div>
+    <div class="callout alarm">Kırmızı bayraklardan herhangi biri, intestinal rehabilitasyon ve karaciğer/bağırsak transplant değerlendirmesi için erken multidisipliner referansı gerektirir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi — dozlu</h2>
+    <p class="lede">Tedavinin temeli üç koldur: lipid stratejisi (tip + doz), sepsis/CLABSI önleme ve enteral ilerleme. Aşağıdaki dozlar pediyatrik intestinal yetmezlik pratiğine göre verilmiştir; her hastada anatomi ve toleransa göre bireyselleştirilir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>IFALD dozlu tedavi kalemleri</caption>
+        <thead>
+          <tr><th>İlaç / girişim</th><th>Doz (mg/kg veya g/kg + maksimum)</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">SMOF lipid (karma emülsiyon)</td>
+            <td class="dose">1–1,5 g/kg/gün (maks 3 g/kg/gün)</td>
+            <td>Kolestaz gelişiminde ilk basamak; soya oranı düşük, balık yağı içerir. Esansiyel yağ asidi eksikliğini önlemek için &ge; 1 g/kg/gün korunur.</td>
+          </tr>
+          <tr>
+            <td class="step">Saf balık yağı lipidi (%100 omega-3)</td>
+            <td class="dose">1 g/kg/gün (maks 1 g/kg/gün)</td>
+            <td>SMOF'a yanıtsız ağır/ilerleyici IFALD'de kurtarma stratejisi; kolestazı geri döndürebilir. Doz artırılmaz.</td>
+          </tr>
+          <tr>
+            <td class="step">Soya-temelli lipidi kısıtla</td>
+            <td class="dose">&le; 1 g/kg/gün (lipid minimizasyonu)</td>
+            <td>Saf soya emülsiyonu kolestazda azaltılır/değiştirilir; ancak EFAD riski nedeniyle tamamen kesilmez.</td>
+          </tr>
+          <tr>
+            <td class="step">Ursodeoksikolik asit</td>
+            <td class="dose">10 mg/kg/doz, 2–3×/gün; toplam 20–30 mg/kg/gün (maks 30 mg/kg/gün)</td>
+            <td>Enteral tolere edilebiliyorsa safra akışını artırmak için adjuvan; tek başına IFALD'yi tersine çevirmez.</td>
+          </tr>
+          <tr>
+            <td class="step">Etanol / taurolidin kateter kilidi</td>
+            <td class="dose">Kilit hacmi kateter iç hacmine göre (kurum protokolü)</td>
+            <td>CLABSI önlemede kanıtlı; tekrarlayan kateter enfeksiyonu olan çocukta uygulanır.</td>
+          </tr>
+          <tr>
+            <td class="step">CLABSI ampirik antibiyotik</td>
+            <td class="dose">Kurum protokolü; ör. vankomisin 15 mg/kg/doz + gram-negatif kapsama</td>
+            <td>Kültür sonrası de-eskalasyon; fungemi/persistan pozitiflikte kateter çekilir.</td>
+          </tr>
+          <tr>
+            <td class="step">Siklik PN</td>
+            <td class="dose">İnfüzyonu 12–18 saate sıkıştır (tolere edilirse)</td>
+            <td>Sürekli PN yerine siklik uygulama hepatik steatoz/kolestazı azaltır; hipoglisemi açısından izlenir.</td>
+          </tr>
+          <tr>
+            <td class="step">Yağda eriyen vitamin desteği (A, D, E, K)</td>
+            <td class="dose">Düzeye göre replasman; K vit koagülopatide 1–2 mg/kg (maks 10 mg)</td>
+            <td>Kolestazda yağda eriyen vitamin eksikliği sık; düzeyler izlenir ve replase edilir.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout safe">Enteral ilerleme en güçlü tedavidir: minimal enteral/trofik beslenmeyi sürdür, tolere edildikçe enteral kaloriyi artır ve PN'yi kademeli azalt. Enteral otonomi arttıkça kolestaz sıklıkla geri döner.</div>
+    <div class="callout">GLP-2 analoğu (teduglutid) seçili kalıcı PN bağımlı kısa bağırsak olgularında enteral otonomiyi artırmak için değerlendirilebilir; endikasyon ve doz uzman merkezde bireyselleştirilir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem / yönetim ilkeleri</h2>
+    <p class="lede">İzlem, biyokimyasal düzelmeyi, büyümeyi, mikronütrient durumunu ve komplikasyonları eşzamanlı takip eder.</p>
+    <div class="grid three">
+      <div class="card">
+        <h3>Biyokimyasal izlem</h3>
+        <ul class="clean">
+          <li>Aktif kolestazda haftalık konjuge bilirubin + karaciğer enzimleri; düzeldikçe seyreklet.</li>
+          <li>INR/koagülasyon ve albümin ile sentez fonksiyonu.</li>
+          <li>Trombosit trendi ile portal HT taraması.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Beslenme ve büyüme</h3>
+        <ul class="clean">
+          <li>Kilo/boy/baş çevresi z-skorlarını düzenli izle.</li>
+          <li>Yağda eriyen vitamin (A, D, E, K) ve eser element (çinko, selenyum, bakır, manganez) düzeyleri periyodik.</li>
+          <li>Esansiyel yağ asidi eksikliği (trien:tetraen oranı) riskini gözet.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Komplikasyon / kateter</h3>
+        <ul class="clean">
+          <li>CLABSI oranını izle; kateter bakımı ve kilit protokolüne uyum.</li>
+          <li>Düzelmeyen/ilerleyen olguda elastografi ve gerekirse biyopsi ile fibroz izlemi.</li>
+          <li>Transplant/rehabilitasyon merkezi ile eşik aşıldığında eşzamanlı yönetim.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout safe">Hedef: enteral otonomiye ulaşmak ve PN'yi güvenle sonlandırmaktır. Multidisipliner intestinal rehabilitasyon programı (gastroenteroloji, cerrahi, beslenme, eczane, hemşirelik) sonuçları anlamlı biçimde iyileştirir.</div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Lacaille F, Gupte G, Colomb V, et al. Intestinal Failure–Associated Liver Disease: A Position Paper of the ESPGHAN Working Group of Intestinal Failure and Intestinal Transplantation. J Pediatr Gastroenterol Nutr. 2015;60(2):272-283.</li>
+      <li>Mihatsch WA, Braegger C, Bronsky J, et al. ESPGHAN/ESPEN/ESPR Guidelines on Pediatric Parenteral Nutrition: Lipids. Clin Nutr. 2018;37(6 Pt B):2324-2336.</li>
+      <li>Kumpf VJ, Gervasio J. Complications of Parenteral Nutrition: IFALD — ASPEN Clinical Guidelines. JPEN J Parenter Enteral Nutr. 2014.</li>
+      <li>Wales PW, Allen N, Worthington P, et al. ASPEN Clinical Guidelines: Support of Pediatric Patients With Intestinal Failure at Risk of Parenteral Nutrition–Associated Liver Disease. JPEN J Parenter Enteral Nutr. 2014;38(5):538-557.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge klinik karar desteği amaçlıdır ve uzman hekim değerlendirmesinin yerine geçmez. Dozlar bireysel anatomi, yaş, kilo, organ fonksiyonu ve güncel yerel protokollere göre uyarlanmalı; ilaç ve emülsiyon uygulamaları öncesi güncel ürün bilgisi ve kurum kılavuzları doğrulanmalıdır.</div>
+</div>

@@ -1,0 +1,432 @@
+<title>İntestinal Lenfanjiektazi — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>İntestinal Lenfanjiektazi</h1>
+    <p class="sub">İnce bağırsak lenfatiklerinin dilatasyonu ile lenfin lümene kaçtığı, protein kaybettiren enteropatinin başlıca çocukluk çağı nedenlerinden biridir. Bu araç tanı, doğrulama ve diyet temelli tedavinin basamaklı yönetimini özetler.</p>
+    <div class="meta">
+      <span class="tag">Protein kaybettiren enteropati</span>
+      <span class="tag">Fekal A1AT</span>
+      <span class="tag">MCT diyeti</span>
+      <span class="tag">Lenfopeni</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">İntestinal lenfanjiektazi (İL), mukozal/submukozal lenfatiklerin dilatasyonu sonucu protein-zengin lenfin bağırsak lümenine sızmasıyla giden protein kaybettiren enteropatidir. Primer (Waldmann hastalığı, çoğunlukla süt çocuğu/erken çocukluk) veya sekonder (kardiyak, konstriktif perikardit, Fontan sonrası, malignite, retroperitoneal/lenfatik obstrüksiyon) olabilir. Klasik biyokimyasal imza hipoalbüminemi + hipogamaglobulinemi + lenfopeni üçlüsüdür.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öykü — sorulacaklar</h3>
+        <ul class="clean">
+          <li>Progresif periferik/fasyal ödem, asit, plevral/perikardiyal efüzyon</li>
+          <li>Kronik veya aralıklı ishal, yağlı/köpüklü dışkı, karın şişliği</li>
+          <li>Boy/kilo duraklaması, büyüme geriliği</li>
+          <li>Tekrarlayan enfeksiyonlar (hipogamaglobulinemi + lenfopeniye bağlı)</li>
+          <li>Kardiyak öykü: konjenital kalp hastalığı, Fontan operasyonu, perikardit</li>
+          <li>Tetani/parestezi (hipokalsemi), gece körlüğü (yağda eriyen vitamin eksikliği)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayene — aranacaklar</h3>
+        <ul class="clean">
+          <li>Simetrik gode bırakan ödem, bazen asimetrik lenfödem</li>
+          <li>Asit, azalmış solunum sesleri (efüzyon)</li>
+          <li>Antropometri: kilo/boy persentil ve z-skoru, deri kıvrım kalınlığı</li>
+          <li>Hipokalsemi bulguları (Chvostek/Trousseau)</li>
+          <li>Çomak parmak veya dismorfizm (sendromik lenfatik anomaliler: Noonan, Hennekam, Turner)</li>
+          <li>Kardiyovasküler muayene: juguler dolgunluk, perikardiyal frotman</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">İL, izole hipoalbüminemili bir çocukta nefrotik sendrom ve hepatik yetmezlik dışlandıktan sonra mutlaka düşünülmelidir; idrarda protein (-) + normal karaciğer sentez fonksiyonu, gastrointestinal protein kaybına işaret eder.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Etiyoloji ve mekanizma</h2>
+    <p class="lede">Ortak son yol, lenfatik basınç artışı veya lenfatik yapısal bozukluk nedeniyle protein-zengin lenfin bağırsağa kaybıdır. Kategoriler tedaviyi ve prognozu değiştirir.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">Primer / konjenital (Waldmann)</div>
+        <ul>
+          <li>İnce bağırsak lenfatiklerinin idiyopatik displazisi</li>
+          <li>Genellikle ilk 3 yaşta ödem + diyare</li>
+          <li>Sendromik formlar: Hennekam, Noonan, Turner, Klippel-Trenaunay</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">Kardiyak / yüksek santral venöz basınç</div>
+        <ul>
+          <li>Fontan sonrası PLE, konstriktif perikardit</li>
+          <li>Sağ kalp yetmezliği, restriktif kardiyomiyopati</li>
+          <li>Torasik duktus basıncını artırıp lenf drenajını bozar</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">Obstrüktif / infiltratif</div>
+        <ul>
+          <li>Retroperitoneal/mezenterik lenfoma, tüberküloz, sarkoidoz</li>
+          <li>Radyasyon, cerrahi sonrası lenfatik hasar</li>
+          <li>Retroperitoneal fibrozis</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Sonuç — biyokimyasal etki</div>
+        <ul>
+          <li>Albümin, IgG, transferrin kaybı (yarı ömrü uzun proteinler)</li>
+          <li>Lenfositlerin lümene kaybı → lenfopeni, T-hücre azalması</li>
+          <li>Yağ ve yağda eriyen vitamin (A, D, E, K) malabsorpsiyonu</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">Sekonder nedenler tedavi edilebilir olabileceğinden (ör. konstriktif perikardit cerrahisi, lenfoma tedavisi), her yeni tanıda kardiyak ve infiltratif etiyolojiler dışlanmalıdır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">Ödem + hipoalbüminemili çocukta protein kaybettiren enteropatinin doğrulanması ve İL tanısına yönelmenin akış şeması.</p>
+    <div class="flow">
+      <div class="node start">
+        <span class="k">Başlangıç</span>
+        <span class="t">Ödem + hipoalbüminemi</span>
+        <p>Serum albümin düşük; klinik ödem, asit veya efüzyon mevcut.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node action">
+        <span class="k">Adım 1</span>
+        <span class="t">Kaybın kaynağını ayır</span>
+        <p>Tam idrar (proteinüri?), karaciğer sentez fonksiyonu (INR, transaminaz), beslenme öyküsü ile renal ve hepatik nedenleri dışla.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 1</span>
+        <span class="t">Proteinüri ve karaciğer yetmezliği yok mu?</span>
+        <p>İdrar protein (-), normal INR/albümin sentezi ise GI kayıp olasıdır.</p>
+      </div>
+      <div class="branches">
+        <div class="branch no">
+          <span class="label">HAYIR → renal/hepatik neden</span>
+          <div class="node action safe">
+            <span class="k">Alternatif yol</span>
+            <span class="t">Nefroloji/hepatoloji odaklı değerlendirme</span>
+            <p>Nefrotik sendrom veya kronik karaciğer hastalığına yönelik tetkik ve tedaviyi yürüt; İL ekartasyonuna gerek kalmaz.</p>
+          </div>
+        </div>
+        <div class="branch yes">
+          <span class="label">EVET → GI protein kaybı olası</span>
+          <div class="node action">
+            <span class="k">Adım 2</span>
+            <span class="t">Fekal alfa-1 antitripsin (A1AT) klerensi</span>
+            <p>Spot fekal A1AT veya 24-72 saatlik dışkıda A1AT klerensi ölç; PLE'nin non-invaziv doğrulayıcısıdır.</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 2</span>
+        <span class="t">Fekal A1AT yüksek mi?</span>
+        <p>Klerens diyaresiz >27 mL/gün (ishalde >56 mL/gün) veya spot A1AT artmış.</p>
+      </div>
+      <div class="branches">
+        <div class="branch no">
+          <span class="label">HAYIR → PLE dışı</span>
+          <div class="node action safe">
+            <span class="k">Yeniden değerlendir</span>
+            <span class="t">Alternatif hipoalbüminemi nedenleri</span>
+            <p>Malnütrisyon, protein alım yetersizliği, kayıp dışı nedenleri gözden geçir; gerekirse tekrarla.</p>
+          </div>
+        </div>
+        <div class="branch yes">
+          <span class="label">EVET → PLE doğrulandı</span>
+          <div class="node alarm">
+            <span class="k">Adım 3</span>
+            <span class="t">Üst GİS endoskopi + biyopsi</span>
+            <p>Duodenum/jejunumda beyaz kar tanesi görünümü; biyopside dilate lakteal ve lenfatikler → İL tanısı. Kardiyak/infiltratif sekonder nedenleri paralel dışla.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Non-invazivden invazive ilerleyen kademeli tanı basamakları. Endoskopik lezyonlar yamalı olabileceği için çok sayıda biyopsi alınmalıdır.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>İntestinal lenfanjiektazi — basamaklı tanı</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Tetkik / parametre</th><th>Beklenen bulgu / not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">1. Tarama biyokimyası</td><td>Albümin, total protein, IgG, kalsiyum, lenfosit sayısı</td><td>Hipoalbüminemi + hipogamaglobulinemi + lenfopeni üçlüsü tipiktir</td></tr>
+          <tr><td class="step">2. Dışlama</td><td>Tam idrar, INR, transaminazlar</td><td>Proteinüri ve hepatik sentez bozukluğu olmamalı</td></tr>
+          <tr><td class="step">3. Doğrulama</td><td>Fekal alfa-1 antitripsin klerensi</td><td class="dose">Klerens >27 mL/gün (ishalde >56 mL/gün) PLE lehine</td></tr>
+          <tr><td class="step">4. Beslenme/vitamin</td><td>25-OH D vitamini, A, E, INR (K), lipid, ferritin</td><td>Yağda eriyen vitamin eksikliği ve steatore taranır</td></tr>
+          <tr><td class="step">5. Görüntüleme</td><td>Abdominal USG/BT/MR enterografi; ekokardiyografi</td><td>Bağırsak duvar ödemi, mezenterik lenfatik; kardiyak neden dışlaması</td></tr>
+          <tr><td class="step">6. Endoskopi</td><td>Üst GİS endoskopi (± video kapsül)</td><td>Duodenum/jejunumda beyaz nodüler "kar tanesi" mukoza</td></tr>
+          <tr><td class="step">7. Histopatoloji</td><td>Çok sayıda mukozal biyopsi</td><td>Dilate mukozal/submukozal lenfatik ve lakteal — kesin tanı</td></tr>
+          <tr><td class="step">8. İleri lenfatik</td><td>MR/BT lenfanjiyografi, sintigrafi (seçilmiş)</td><td>Lenfatik anatomiyi ve olası girişimsel hedefi gösterir</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pill-row">
+      <span class="pill">Kar tanesi mukoza</span>
+      <span class="pill">Dilate lakteal</span>
+      <span class="pill">A1AT klerensi</span>
+      <span class="pill">Yamalı tutulum → çok biyopsi</span>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Acil değerlendirme, hospitalizasyon veya sekonder neden araştırmasını hızlandıran uyarı bulguları.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Ağır hipoalbüminemi (&lt;2 g/dL) ile masif ödem, asit veya plevral/perikardiyal efüzyon</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Solunum sıkıntısı veya hemodinamik bozukluk (büyük efüzyon/tamponad)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Semptomatik hipokalsemi: tetani, laringospazm, konvülziyon</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ağır lenfopeni zemininde tekrarlayan/fırsatçı enfeksiyon veya sepsis</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Fontan/kardiyak öykü ile yeni başlayan PLE — kardiyak dekompanzasyon</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Konstitüsyonel semptomlar (ateş, kilo kaybı, lenfadenopati) — lenfoma şüphesi</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Tromboembolik olay (antitrombin III kaybına bağlı hiperkoagülabilite)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Büyümede belirgin duraklama / ilerleyici malnütrisyon</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi</h2>
+    <p class="lede">Tedavinin temel taşı yüksek proteinli, düşük uzun-zincirli yağ (LCT), MCT ile zenginleştirilmiş diyettir. MCT lenfatik yolu atlayıp doğrudan portal dolaşıma girerek lenfatik yükü ve protein kaybını azaltır. İlaç ve girişimler seçilmiş vakalara saklanır. Dozlar yaş/ağırlığa göre bireyselleştirilir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>İntestinal lenfanjiektazi — tedavi ve destek dozları</caption>
+        <thead>
+          <tr><th>Basamak / ajan</th><th>Doz</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Diyet — protein</td><td class="dose">Yüksek protein: 2-3 g/kg/gün (yaşa göre üst sınıra)</td><td>Kaybı telafi için; büyüme ve albümin normalleşmesini destekler</td></tr>
+          <tr><td class="step">Diyet — MCT</td><td class="dose">Enerjinin ~%40-50'si MCT'den; LCT belirgin kısıtlanır</td><td>MCT lenfatiği atlar; süt çocuğunda MCT-bazlı formül (ör. Monogen)</td></tr>
+          <tr><td class="step">A vitamini</td><td class="dose">5.000-10.000 IU/gün PO (düzeye göre)</td><td>Yağda eriyen vitamin replasmanı; düzey takibiyle</td></tr>
+          <tr><td class="step">D vitamini</td><td class="dose">1.000-2.000 IU/gün (eksiklikte 2.000-4.000 IU/gün)</td><td>Kalsiyum ile birlikte; 25-OH D hedefine titre et</td></tr>
+          <tr><td class="step">E vitamini</td><td class="dose">1-2 IU/kg/gün PO</td><td>Serum E/lipid oranı ile izlem</td></tr>
+          <tr><td class="step">K vitamini</td><td class="dose">Oral 2,5-5 mg, haftada 1-2 kez (INR uzamışsa); aktif kanamada parenteral fitomenadion 0,3 mg/kg IV/SC, maks 10 mg/doz</td><td>INR normalleşene dek; IV uygulamayı yavaş infüzyonla yap</td></tr>
+          <tr><td class="step">Kalsiyum (elementer)</td><td class="dose">Semptomatik/tetanide IV %10 kalsiyum glukonat 50-100 mg/kg/doz (0,5-1 mL/kg) yavaş IV, maks 2 g/doz; idamede oral elementer kalsiyum ~50 mg/kg/gün (maks 1-2 g/gün)</td><td>D vitamini ile birlikte; IV verirken kardiyak monitörizasyon ve ekstravazasyondan kaçınma</td></tr>
+          <tr><td class="step">Albümin (IV)</td><td class="dose">0,5-1 g/kg/doz, ağır semptomatik ödem/efüzyonda</td><td>Sadece geçici; kalıcı çözüm değildir, altta yatanı tedavi et</td></tr>
+          <tr><td class="step">Oktreotid (seçilmiş, dirençli)</td><td class="dose">Başlangıç ~1 µg/kg/doz SC 8-12 saatte bir; yanıta göre ~10 µg/kg/doza dek titrasyon, maks ~1.500 µg/gün (uzun etkili forma geçilebilir)</td><td>Diyete dirençli olgularda splanknik akımı azaltarak lenf kaybını düşürebilir; kanıt sınırlı; safra taşı/glukoz açısından izlem</td></tr>
+          <tr><td class="step">Sirolimus (seçilmiş)</td><td class="dose">Hedef düzeye göre titrasyon (uzman merkez)</td><td>Yaygın lenfatik anomali/refrakter olgularda deneysel</td></tr>
+          <tr><td class="step">Girişimsel / cerrahi</td><td class="dose">Doz yok</td><td>Segmental hastalıkta rezeksiyon; lenfatik embolizasyon; sekonder nedende (perikardiyektomi, lenfoma tedavisi) küratif olabilir</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout safe">Birinci basamak daima diyet: düşük-LCT + MCT + yüksek proteindir. Çoğu primer olgu diyetle klinik ve biyokimyasal düzelme gösterir; ilaç/girişim yalnızca diyete dirençli veya lokalize hastalıkta düşünülür.</div>
+    <div class="callout alarm">IV albümin ve diğer parenteral ürünler yalnızca semptomatik/acil dengelenme içindir; tek başına verildiğinde kayıp devam eder ve kalıcı tedavi yerine geçmez.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve yönetim ilkeleri</h2>
+    <p class="lede">İL kronik bir hastalıktır; hedef büyümenin sürdürülmesi, albümin/immünglobulin normalleşmesi, vitamin eksikliklerinin önlenmesi ve komplikasyonların erken yakalanmasıdır.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Rutin izlem</h3>
+        <ul class="clean">
+          <li>Antropometri (kilo, boy, z-skor) her vizitte; süt çocuğunda daha sık</li>
+          <li>Albümin, total protein, IgG, lenfosit sayısı: başta 1-3 ayda bir, stabilse 3-6 ayda bir</li>
+          <li>Yağda eriyen vitamin düzeyleri (A, D, E, INR) 6-12 ayda bir</li>
+          <li>Diyetisyen ile MCT/protein uyumu ve öğün planı gözden geçirme</li>
+          <li>Tedavi yanıtı belirsizse fekal A1AT klerensi ile objektif takip</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Komplikasyon önleme</h3>
+        <ul class="clean">
+          <li>Enfeksiyon: aşı takvimini tamamla; ağır hipogamaglobulinemi + tekrarlayan enfeksiyonda IVIG düşün</li>
+          <li>Kemik sağlığı: kalsiyum + D vitamini optimizasyonu, gerekirse DXA</li>
+          <li>Tromboz farkındalığı (antitrombin kaybı); risk durumlarında proflaksi değerlendir</li>
+          <li>Kardiyak nedenli olguda kardiyoloji ile eş güdüm</li>
+          <li>Refrakter/kötüleşen seyirde lenfoma ve yeni sekonder neden yönünden yeniden tara</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">Diyet uyumu belirleyicidir: LCT kısıtlaması gevşediğinde relaps sıktır. Aileye MCT temelli ürünler, gizli LCT kaynakları ve uzun süreli izlemin gerekliliği net anlatılmalıdır.</div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Vignes S, Bellanger J. Primary intestinal lymphangiectasia (Waldmann's disease). Orphanet J Rare Dis. 2008.</li>
+      <li>Ozen A, Lenardo MJ. Protein-Losing Enteropathy. N Engl J Med. 2023.</li>
+      <li>ESPGHAN Working Group. Diagnostic approach to chronic diarrhoea and protein-losing enteropathy in children. J Pediatr Gastroenterol Nutr.</li>
+      <li>Braamskamp MJAM, Dolman KM, Tabbers MM. Clinical practice: protein-losing enteropathy in children. Eur J Pediatr. 2010.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge pediyatrik gastroenteroloji uzmanları için klinik karar desteği amaçlıdır; hastanın yaşı, ağırlığı, etiyolojisi ve eşlik eden durumlarına göre bireyselleştirilmelidir. Dozlar güncel kılavuz ve ilaç prospektüsleri ile doğrulanmalıdır ve tek başına tedavi talimatı yerine geçmez.</div>
+</div>

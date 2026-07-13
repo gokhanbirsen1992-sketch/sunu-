@@ -1,0 +1,485 @@
+<title>Crohn Hastalığı — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Crohn Hastalığı</h1>
+    <p class="sub">Çocuk ve ergende Crohn hastalığının tanısı, remisyon indüksiyonu, idame tedavisi ve dozla desteklenmiş izlem ilkeleri. Güncel ESPGHAN/ECCO ve porto kriterlerine dayanır.</p>
+    <div class="meta">
+      <span class="tag">EEN indüksiyon</span>
+      <span class="tag">Anti-TNF</span>
+      <span class="tag">Kalprotektin izlemi</span>
+      <span class="tag">Perianal hastalık</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">Crohn hastalığı, ağızdan anüse kadar tüm gastrointestinal sistemi tutabilen, transmural ve segmental (atlamalı) tutulumla seyreden kronik inflamatuar bir hastalıktır. Çocuklarda sıklıkla ileokolonik tutulum ve büyüme geriliği ön plandadır. Tanı; klinik, laboratuvar, endoskopik, histolojik ve görüntüleme bulgularının bütünlüğüne (revize Porto kriterleri) dayanır; tek başına hiçbir test tanısal değildir.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öykü</h3>
+        <ul class="clean">
+          <li>Kronik ishal (>4 hafta), gece uyandıran karın ağrısı, rektal kanama</li>
+          <li>Kilo kaybı, boy uzamasında duraklama, puberte gecikmesi</li>
+          <li>Ateş, halsizlik, iştahsızlık; okul devamsızlığı</li>
+          <li>Ekstraintestinal: artralji/artrit, aftöz stomatit, eritema nodozum, üveit</li>
+          <li>Perianal semptomlar: ağrı, akıntı, fistül/apse öyküsü</li>
+          <li>Aile öyküsü (İBH), erken başlangıç için monogenik İBH şüphesi (&lt;6 yaş)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayene</h3>
+        <ul class="clean">
+          <li>Antropometri: boy, kilo, VKİ persentil ve boy hızı (mutlaka)</li>
+          <li>Solukluk, karın hassasiyeti/kitle, aftöz lezyonlar</li>
+          <li>Perianal inspeksiyon: fissür, deri lifi (skin tag), fistül ağzı, apse</li>
+          <li>Tanner evrelemesi ile puberte değerlendirmesi</li>
+          <li>Çomak parmak, eklem bulguları, cilt/göz muayenesi</li>
+          <li>Büyüme eğrisi geriye dönük gözden geçirilmeli</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">İlk başvuruda tanısal panel: tam kan sayımı, CRP, ESR, albümin, ferritin, karaciğer/böbrek fonksiyonları, fekal kalprotektin ve enfeksiyöz dışlama (dışkı kültürü, <em>C. difficile</em> toksini) mutlaka istenmelidir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Şiddet sınıflaması (wPCDAI)</h2>
+    <p class="lede">Pediatrik Crohn hastalığı aktivitesi, kısaltılmış Pediatrik Crohn Hastalığı Aktivite İndeksi (wPCDAI) ile derecelendirilir. Tedavi kararları ve yanıt izlemi bu skorlamaya göre yönlendirilir.</p>
+    <div class="sev">
+      <div class="band rem">
+        <div class="lvl">Remisyon</div>
+        <div class="rng">wPCDAI &lt; 12,5</div>
+        <p>Semptomsuz; idame tedavisi ve mukozal iyileşme hedefi sürdürülür.</p>
+      </div>
+      <div class="band mild">
+        <div class="lvl">Hafif</div>
+        <div class="rng">wPCDAI 12,5–40</div>
+        <p>Hafif semptomlar; büyüme korunmuş. İndüksiyonda EEN öncelikli.</p>
+      </div>
+      <div class="band mod">
+        <div class="lvl">Orta</div>
+        <div class="rng">wPCDAI 40–57,5</div>
+        <p>Belirgin aktivite; EEN veya kortikosteroid + erken idame planı.</p>
+      </div>
+      <div class="band sev">
+        <div class="lvl">Ağır</div>
+        <div class="rng">wPCDAI &gt; 57,5</div>
+        <p>Ağır aktivite / komplikasyon; erken anti-TNF (top-down) düşünülür.</p>
+      </div>
+    </div>
+    <div class="pill-row">
+      <span class="pill">Yüksek risk: derin ülser</span>
+      <span class="pill">Perianal fistül</span>
+      <span class="pill">Ağır büyüme geriliği</span>
+      <span class="pill">Yaygın panenterik tutulum</span>
+      <span class="pill">Striktür/penetrasyon</span>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">Tanı doğrulandıktan sonra hastalık şiddeti, tutulum yaygınlığı ve risk faktörlerine göre indüksiyon ve idame stratejisi belirlenir.</p>
+    <div class="flow">
+      <div class="node start">
+        <span class="k">Başlangıç</span>
+        <span class="t">Crohn tanısı doğrulandı (Porto kriterleri)</span>
+        <p>İleokolonoskopi + üst endoskopi + histoloji + MR enterografi ile tanı ve yaygınlık belirlendi.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node action">
+        <span class="k">Adım 1</span>
+        <span class="t">Şiddet ve risk katmanlandır</span>
+        <p>wPCDAI hesapla; yüksek riskli özellikleri (derin ülser, perianal hastalık, ağır büyüme geriliği, panenterik tutulum) belirle.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 1</span>
+        <span class="t">Yüksek riskli/komplike hastalık veya aktif perianal fistül var mı?</span>
+        <p>Erken agresif (top-down) tedavi endikasyonu değerlendiriliyor.</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Erken biyolojik</span>
+          <div class="node alarm">
+            <span class="k">Top-down</span>
+            <span class="t">Anti-TNF (infliksimab/adalimumab) başla</span>
+            <p>Perianal fistülize hastalıkta infliksimab + gerekirse cerrahi drenaj/seton. Erken TDM ile hedef düzey sağla.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → İndüksiyon</span>
+          <div class="node action safe">
+            <span class="k">Standart indüksiyon</span>
+            <span class="t">EEN 6–8 hafta (birinci basamak)</span>
+            <p>Luminal hafif–orta hastalıkta EEN önceliklidir; tolere edilemezse kortikosteroid. Eş zamanlı idame planla.</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 2</span>
+        <span class="t">İndüksiyon sonu (8–12. hafta) klinik + biyokimyasal remisyon sağlandı mı?</span>
+        <p>Klinik (wPCDAI), CRP normalizasyonu ve kalprotektin düşüşü birlikte değerlendirilir.</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → İdame</span>
+          <div class="node action safe">
+            <span class="k">İdame</span>
+            <span class="t">Tiyopürin veya metotreksat ile idame; mukozal iyileşme hedefi</span>
+            <p>Steroidsiz remisyonu sürdür; kalprotektin ve büyüme ile izle.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Basamak yükselt</span>
+          <div class="node alarm">
+            <span class="k">Step-up</span>
+            <span class="t">Anti-TNF'e geç; TDM ile optimize et</span>
+            <p>Yetersiz yanıtta biyolojik başla/optimize et; yanıtsızlıkta ustekinumab/vedolizumab ve cerrahi konseyi değerlendir.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Tanı, sistematik ve tam bir değerlendirme gerektirir; ince bağırsak görüntülemesi ve üst GİS endoskopisi çocuklarda zorunludur.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Crohn hastalığında tanısal basamaklar</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Tetkik</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">1. Laboratuvar</td>
+            <td>TKS, CRP, ESR, albümin, ferritin, KCFT, BUN/kreatinin</td>
+            <td>Anemi, trombositoz, hipoalbüminemi ve akut faz yüksekliği aktiviteyi destekler; normal olması tanıyı dışlamaz.</td>
+          </tr>
+          <tr>
+            <td class="step">2. Dışkı</td>
+            <td>Fekal kalprotektin + enfeksiyöz panel</td>
+            <td>Kalprotektin yüksekliği inflamasyonu gösterir; kültür ve <em>C. difficile</em> toksini ile enfeksiyon dışlanır.</td>
+          </tr>
+          <tr>
+            <td class="step">3. Endoskopi</td>
+            <td>İleokolonoskopi + özofagogastroduodenoskopi</td>
+            <td>Her iki uçtan çoklu biyopsi zorunlu; segmental tutulum, aftöz/derin ülser, kaldırım taşı görünümü aranır.</td>
+          </tr>
+          <tr>
+            <td class="step">4. Histoloji</td>
+            <td>Biyopsi: transmural odak, non-kazeifiye granülom</td>
+            <td>Granülom Crohn için destekleyicidir; kript distorsiyonu, fokal kronik inflamasyon değerlendirilir.</td>
+          </tr>
+          <tr>
+            <td class="step">5. Görüntüleme</td>
+            <td>MR enterografi (ince bağırsak)</td>
+            <td>Duvar kalınlaşması, striktür, penetran hastalık ve uzunluk değerlendirmesi; radyasyonsuz tercih.</td>
+          </tr>
+          <tr>
+            <td class="step">6. Perianal</td>
+            <td>Pelvik MR ± muayene altında anestezi (EUA)</td>
+            <td>Fistül/apse şüphesinde pelvik MR altın standarttır; drenaj gerekliyse EUA planlanır.</td>
+          </tr>
+          <tr>
+            <td class="step">7. Tedavi öncesi</td>
+            <td>TPMT/NUDT15, latent TB (IGRA/PPD), HBV/VZV serolojisi</td>
+            <td>Tiyopürin ve anti-TNF öncesi güvenlik taraması; aşılama durumu gözden geçirilir.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdaki bulgular acil değerlendirme, hospitalizasyon veya cerrahi konsültasyon gerektirir.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Ağır GİS kanaması, hemodinamik instabilite veya derin anemi</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Akut ağır kolit; toksik megakolon bulguları (distansiyon, ateş, taşikardi)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Bağırsak obstrüksiyonu / semptomatik striktür (safralı kusma, distansiyon)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>İntraabdominal veya perianal apse; sepsis bulguları</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Serbest perforasyon veya peritonit</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Belirgin büyüme durması / puberte gecikmesi</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Şiddetli malnütrisyon, dehidratasyon, elektrolit bozukluğu</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Biyolojik tedavi altında yeni/ilerleyici enfeksiyon işaretleri</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi (dozlu)</h2>
+    <p class="lede">İndüksiyonda beslenme tedavisi (EEN) önceliklidir; idamede immünomodülatör ve biyolojikler kullanılır. Dozlar kiloya göre ayarlanır ve maksimum erişkin dozu aşılmaz.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Crohn hastalığında ilaç/tedavi dozları</caption>
+        <thead>
+          <tr><th>Tedavi</th><th>Doz</th><th>Not / izlem</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">EEN (eksklüzif enteral beslenme)</td>
+            <td class="dose">Hedefin %100'ü, 6–8 hafta polimerik formül</td>
+            <td>Birinci basamak indüksiyon; mukozal iyileşmede steroide üstün. Kademeli gıdaya geçiş.</td>
+          </tr>
+          <tr>
+            <td class="step">Prednizolon (oral)</td>
+            <td class="dose">1 mg/kg/gün (maks 40 mg/gün)</td>
+            <td>EEN uygun değilse; 2–3 haftada yanıt sonrası azaltılarak kesilir. Kalsiyum/D vitamini eklenir.</td>
+          </tr>
+          <tr>
+            <td class="step">Budesonid (ileoçekal)</td>
+            <td class="dose">9 mg/gün (hafif ileoçekal hastalık)</td>
+            <td>Düşük sistemik etki; hafif lokalize hastalıkta seçenek.</td>
+          </tr>
+          <tr>
+            <td class="step">Azatioprin</td>
+            <td class="dose">2–2,5 mg/kg/gün</td>
+            <td>İdame; TPMT/NUDT15'e göre doz. TKS/KCFT izlemi; etki 8–12 haftada.</td>
+          </tr>
+          <tr>
+            <td class="step">6-Merkaptopurin</td>
+            <td class="dose">1–1,5 mg/kg/gün</td>
+            <td>Azatioprin alternatifi; benzer izlem gerektirir.</td>
+          </tr>
+          <tr>
+            <td class="step">Metotreksat (SC)</td>
+            <td class="dose">15 mg/m²/hafta (maks 25 mg/hafta)</td>
+            <td>Folik asit eklenir; tiyopürin intoleransında idame. KCFT izlemi.</td>
+          </tr>
+          <tr>
+            <td class="step">İnfliksimab (IV)</td>
+            <td class="dose">5 mg/kg; 0-2-6. hafta indüksiyon, sonra her 8 haftada</td>
+            <td>Perianal/ağır hastalıkta ilk tercih. Fistülde 10 mg/kg gerekebilir; TDM ile optimize.</td>
+          </tr>
+          <tr>
+            <td class="step">Adalimumab (SC)</td>
+            <td class="dose">İndüksiyon 160/80 mg (&lt;40 kg: 80/40 mg); idame ≥40 kg 40 mg, &lt;40 kg 20 mg — 2 haftada bir</td>
+            <td>Kiloya göre ayarlanır; yetersiz yanıtta haftalık doza çıkılabilir.</td>
+          </tr>
+          <tr>
+            <td class="step">Ustekinumab</td>
+            <td class="dose">IV indüksiyon ~6 mg/kg, sonra SC 90 mg her 8 haftada</td>
+            <td>Anti-TNF yanıtsızlığında/kaybında ikinci basamak biyolojik.</td>
+          </tr>
+          <tr>
+            <td class="step">Vedolizumab</td>
+            <td class="dose">~6 mg/kg (maks 300 mg) IV; 0-2-6. hafta, sonra 8 haftada</td>
+            <td>Bağırsak-seçici; anti-TNF yetersizliğinde alternatif.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout safe">Perianal fistülize hastalıkta anti-TNF tedavisi cerrahi (seton drenajı) ve gerektiğinde metronidazol/siprofloksasin ile kombine edilir. Aktif apse önce drene edilmelidir.</div>
+    <div class="callout alarm">Tiyopürin ve anti-TNF kombinasyonunda, özellikle erkeklerde, nadir hepatosplenik T hücreli lenfoma riski akılda tutulmalı; tedavi süresi ve monoterapi seçenekleri bireysel değerlendirilmelidir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem / yönetim ilkeleri</h2>
+    <p class="lede">Hedef sadece semptom kontrolü değil, biyokimyasal ve mukozal iyileşme ("treat-to-target") ile büyümenin korunmasıdır.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Aktivite ve laboratuvar izlemi</h3>
+        <ul class="clean">
+          <li>Fekal kalprotektin: yanıt izlemi ve nüks öngörüsünde; indüksiyon sonrası ve idamede periyodik (ör. 3 ayda bir)</li>
+          <li>CRP, TKS, albümin, ferritin ile inflamasyon ve beslenme durumu</li>
+          <li>Klinik skor (wPCDAI) ile semptomatik takip</li>
+          <li>Endoskopik yeniden değerlendirme mukozal iyileşmeyi doğrulamak için (ör. 6–12. ayda)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>İlaç güvenliği ve TDM</h3>
+        <ul class="clean">
+          <li>Anti-TNF için terapötik ilaç izlemi (TDM): dip düzey + anti-ilaç antikoru; yetersiz yanıt/kayıpta reaktif ölçüm</li>
+          <li>Tiyopürin: TKS ve KCFT ile miyelosupresyon/hepatotoksisite izlemi</li>
+          <li>Latent TB, HBV reaktivasyonu izlemi; canlı aşılar biyolojik öncesi tamamlanır</li>
+          <li>Boy, kilo, VKİ persentili ve puberte her vizitte; kemik sağlığı ve D vitamini</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">Büyüme geriliği bağımsız bir tedavi başarısızlığı göstergesidir; boy hızında duraklama, kalprotektin/CRP normal olsa bile tedavi yoğunlaştırmayı gündeme getirmelidir. Psikososyal destek ve geçiş (transition) planı ergende ihmal edilmemelidir.</div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>van Rheenen PF, Aloi M, Assa A, et al. The Medical Management of Paediatric Crohn's Disease: an ECCO-ESPGHAN Guideline Update. J Crohns Colitis. 2021.</li>
+      <li>Levine A, Koletzko S, Turner D, et al. ESPGHAN Revised Porto Criteria for the Diagnosis of Inflammatory Bowel Disease in Children and Adolescents. J Pediatr Gastroenterol Nutr. 2014.</li>
+      <li>Turner D, Ricciuto A, Lewis A, et al. STRIDE-II: An Update on the Selecting Therapeutic Targets in Inflammatory Bowel Disease (STRIDE) Initiative. Gastroenterology. 2021.</li>
+      <li>Ruemmele FM, Veres G, Kolho KL, et al. Consensus Guidelines of ECCO/ESPGHAN on the Medical Management of Pediatric Crohn's Disease. J Crohns Colitis. 2014.</li>
+    </ol>
+  </footer>
+
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge pediatrik gastroenteroloji uzmanları için hazırlanmış bir klinik karar destek aracıdır; bireysel hasta değerlendirmesi, güncel kılavuzlar ve klinik yargının yerini tutmaz. Dozlar doğrulanmalı ve yerel protokollere göre uyarlanmalıdır.</div>
+</div>

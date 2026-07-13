@@ -1,0 +1,480 @@
+<title>Malrotasyon ve Volvulus — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Malrotasyon ve Volvulus</h1>
+    <p class="sub">Bilöz kusma ve akut karın bulgusu olan bebekte orta-barsak volvulusunu dışlamaya yönelik ivedi tanısal-cerrahi algoritma; whirlpool bulgusundan Ladd prosedürüne.</p>
+    <div class="meta">
+      <span class="tag">Bilöz kusma</span>
+      <span class="tag">Whirlpool bulgusu</span>
+      <span class="tag">Ladd prosedürü</span>
+      <span class="tag">Cerrahi acil</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">Malrotasyon, embriyonik orta-barsağın normal 270° saat yönü tersine rotasyonunun tamamlanmamasıdır; dar mezenter kökü nedeniyle superior mezenterik arter (SMA) çevresinde orta-barsak volvulusu riski oluşur. Volvulus, dakikalar-saatler içinde tüm ince barsak iskemisine yol açabilen gerçek bir cerrahi acildir. Bilöz kusma aksi kanıtlanana dek volvulus kabul edilir.</p>
+    <div class="callout alarm">Bilöz (safralı, yeşil) kusan her yenidoğan/süt çocuğu, klinik olarak stabil görünse bile orta-barsak volvulusu açısından ACİL değerlendirilmeli; görüntüleme cerrahiyi geciktirmemelidir.</div>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öykü</h3>
+        <ul class="clean">
+          <li>Ani başlangıçlı bilöz (yeşil/safralı) kusma — klasik sunum, sıklıkla ilk ay içinde</li>
+          <li>Beslenme intoleransı, ani huzursuzluk/ağlama atakları, letarji</li>
+          <li>Kanlı/mukuslu dışkı veya rektal kanama (geç, mukozal iskemi işareti)</li>
+          <li>Doğum sonrası normal mekonyum sonrası akut kötüleşme</li>
+          <li>Büyük çocuk/adölesanda: tekrarlayan intermittan karın ağrısı, kronik kusma, büyüme geriliği (kısmi/intermittan volvulus)</li>
+          <li>Eşlik eden anomaliler: heterotaksi, konjenital diyafram hernisi, duodenal atrezi, gastroşizis öyküsü</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayene</h3>
+        <ul class="clean">
+          <li>Erken: karın distansiyonu az/yok olabilir — normal batın bulgusu volvulusu DIŞLAMAZ</li>
+          <li>İlerledikçe: distansiyon, defans, rebound, palpasyonda aşırı hassasiyet (peritonit)</li>
+          <li>Karın duvarında eritem/renk değişikliği — barsak nekrozunun geç işareti</li>
+          <li>Taşikardi, hipotansiyon, kapiller dolum uzaması — iskemi/şok</li>
+          <li>Rektal muayenede kan</li>
+          <li>Genel durumda hızlı bozulma; letarji ve gri renk</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Klinik senaryolar ve mekanizma</h2>
+    <p class="lede">Sunum, rotasyon anomalisinin tipi ve volvulusun varlığı/derecesine göre değişir. Ayrım, ivedilik düzeyini belirler.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">Akut orta-barsak volvulusu</div>
+        <ul>
+          <li>Ani bilöz kusma + akut karın</li>
+          <li>SMA çevresinde saat yönünde torsiyon → vasküler oklüzyon</li>
+          <li>Dakikalar-saatler içinde tüm ince barsak iskemisi</li>
+          <li>Gerçek cerrahi acil — geri döndürülemez nekroz riski</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">İntermittan/kronik volvulus</div>
+        <ul>
+          <li>Tekrarlayan kısmi torsiyon-detorsiyon</li>
+          <li>Nüks eden karın ağrısı, kusma, malabsorpsiyon</li>
+          <li>Lenfatik obstrüksiyon → protein kaybettiren enteropati, şiloz asit</li>
+          <li>Büyüme geriliği; tanı sıklıkla gecikir</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">Ladd bantları (volvulussuz)</div>
+        <ul>
+          <li>Çekumdan retroperitona uzanan peritoneal bantlar</li>
+          <li>Duodenumu dıştan bası ile kısmen tıkar</li>
+          <li>İntermittan bilöz kusma, duodenal darlık tablosu</li>
+          <li>Akut vasküler tehdit yok ama elektif Ladd endikasyonu</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Asemptomatik malrotasyon</div>
+        <ul>
+          <li>Başka nedenle görüntülemede rastlantısal</li>
+          <li>Heterotaksi sendromu ile birlikte sık</li>
+          <li>Yaşam boyu volvulus riski taşır</li>
+          <li>Cerrahi karar bireysel; çoğu vakada elektif Ladd önerilir</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pill-row">
+      <span class="pill">En yüksek risk: ilk 1 ay</span>
+      <span class="pill">Vakaların ~%75'i &lt; 1 yaş</span>
+      <span class="pill">Adölesan/erişkinde de görülür</span>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">Bilöz kusan bebekte hedef: volvulusu hızla dışlamak veya doğrulamak. Peritonit/instabilite varsa görüntüleme cerrahiyi geciktirmemelidir.</p>
+    <div class="flow">
+      <div class="node start">
+        <span class="k">Başlangıç</span>
+        <span class="t">Bilöz kusan süt çocuğu</span>
+        <p>Yeşil/safralı kusma öyküsü — volvulus aksi kanıtlanana dek varsayılır.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node action">
+        <span class="k">Adım 1</span>
+        <span class="t">Eşzamanlı resüsitasyon</span>
+        <p>NPO, nazogastrik dekompresyon, geniş damar yolu, sıvı resüsitasyonu, cerrahi konsültasyonu HEMEN başlat.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 1</span>
+        <span class="t">Peritonit, hemodinamik instabilite veya rektal kanama var mı?</span>
+        <p>İskemik barsak / perforasyon lehine klinik bulgular.</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Doğrulanmış cerrahi acil</span>
+          <div class="node alarm">
+            <span class="k">Acil laparotomi</span>
+            <span class="t">Görüntüleme için bekleme</span>
+            <p>Doğrudan ameliyathaneye; Ladd prosedürü ve barsak canlılık değerlendirmesi.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Stabil, tanısal görüntüleme</span>
+          <div class="node action safe">
+            <span class="k">Adım 2</span>
+            <span class="t">Acil üst GİS pasaj grafisi</span>
+            <p>Altın standart. Stabil çocukta duodenojejunal bileşke (DJ / Treitz) konumunu değerlendir.</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 2</span>
+        <span class="t">Üst GİS'te malrotasyon/volvulus bulgusu var mı?</span>
+        <p>DJ bileşke sağa/aşağıda, "corkscrew"/"beak" görünümü, whirlpool.</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Volvulus/malrotasyon</span>
+          <div class="node alarm">
+            <span class="k">İvedi Ladd prosedürü</span>
+            <span class="t">Detorsiyon + Ladd</span>
+            <p>Saat yönünün tersine detorsiyon, Ladd bantları divizyonu, mezenter genişletme, apendektomi, barsakların non-rotasyon konumuna yerleştirilmesi.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Normal rotasyon</span>
+          <div class="node action safe">
+            <span class="k">Alternatif tanı</span>
+            <span class="t">Ayırıcı değerlendirme</span>
+            <p>Duodenal atrezi/web, NEK, sepsis, metabolik hastalık, inkarsere herni araştır; klinik şüphe sürerse tekrar değerlendir.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="callout">Tanı belirsiz ve çocuk stabil ise, deneyimli merkezde renkli Doppler USG ile SMA-SMV ilişkisi ve "whirlpool" bulgusu tamamlayıcı olarak değerlendirilebilir; ancak negatif USG volvulusu dışlamaz.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Görüntüleme çocuğun stabilitesine göre önceliklendirilir; instabil çocukta laparotomi görüntülemeden önce gelir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Malrotasyon/volvulus tanısal basamakları</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Zamanlama</th><th>Beklenen bulgu / not</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">Klinik değerlendirme + vitaller</td>
+            <td class="dose">Hemen</td>
+            <td>Peritonit / şok bulgusu → görüntülemeyi atla, acil cerrahi</td>
+          </tr>
+          <tr>
+            <td class="step">Ayakta/yatarak direkt batın grafisi</td>
+            <td class="dose">İlk 30 dk</td>
+            <td>"Double bubble", gazsız batın veya distansiyon; normal grafi volvulusu DIŞLAMAZ</td>
+          </tr>
+          <tr>
+            <td class="step">Üst GİS pasaj grafisi (altın standart)</td>
+            <td class="dose">Stabilse ivedi</td>
+            <td>DJ bileşke Treitz solunda ve pilor seviyesinde değilse patolojik; "corkscrew" (volvulus), "beak/kuş gagası" tıkanma, duodenumda spiral</td>
+          </tr>
+          <tr>
+            <td class="step">Renkli Doppler USG</td>
+            <td class="dose">Tamamlayıcı</td>
+            <td>SMV'nin SMA'nın soluna yer değiştirmesi (ters ilişki), "whirlpool" bulgusu; operatör bağımlı, negatiflik dışlamaz</td>
+          </tr>
+          <tr>
+            <td class="step">Laboratuvar</td>
+            <td class="dose">Paralel</td>
+            <td>Tam kan, kan gazı + laktat (iskemi), elektrolit, kan grubu/cross-match, koagülasyon; metabolik asidoz iskemi işareti</td>
+          </tr>
+          <tr>
+            <td class="step">Kontrastlı BT / MR</td>
+            <td class="dose">Seçilmiş / büyük çocuk</td>
+            <td>Rutin değil; büyük çocuk/adölesanda mezenter whirlpool ve vasküler değerlendirme için kullanılabilir</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdakilerden herhangi biri görüntülemeyi beklemeden acil cerrahi konsültasyon ve laparotomi gerektirir.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Bilöz (safralı, yeşil) kusma</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Rektal kanama / kanlı-mukuslu dışkı</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Karın distansiyonu + defans/rebound (peritonit)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Karın duvarında eritem/renk değişikliği</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Taşikardi, hipotansiyon, kapiller dolum uzaması (şok)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Metabolik asidoz / yükselen laktat</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Letarji, gri renk, hızlı genel durum bozukluğu</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Üst GİS'te "corkscrew" veya duodenal "beak" görünümü</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi</h2>
+    <p class="lede">Kesin tedavi cerrahidir (Ladd prosedürü). Perioperatif medikal yönetim resüsitasyon, dekompresyon, analjezi ve antibiyotik profilaksisini kapsar. Dozlar pediyatrik referanslara göre verilmiştir; renal/hepatik duruma göre bireyselleştirin.</p>
+    <div class="callout safe">Cerrahi ilke: Detorsiyon (saat yönü tersine) → Ladd bantları divizyonu → mezenter kökü genişletme → apendektomi → ince barsak sağda, kolon solda (non-rotasyon) yerleşim. Şüpheli canlılıkta "second-look" laparotomi 24-48 saatte planlanır.</div>
+    <div class="table-scroll">
+      <table>
+        <caption>Perioperatif medikal yönetim ve dozlar</caption>
+        <thead>
+          <tr><th>İlaç / girişim</th><th>Doz</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">İzotonik sıvı bolusu (%0.9 NaCl / RL)</td>
+            <td class="dose">10-20 mL/kg IV, yanıta göre tekrar</td>
+            <td>Şokta hızlı; idame sıvı + elektrolit takibi</td>
+          </tr>
+          <tr>
+            <td class="step">Nazogastrik dekompresyon + NPO</td>
+            <td class="dose">Serbest drenaj</td>
+            <td>Distansiyonu ve aspirasyon riskini azaltır</td>
+          </tr>
+          <tr>
+            <td class="step">Ampisilin (geniş spektrum profilaksi)</td>
+            <td class="dose">50 mg/kg/doz IV q6-8s (maks 2 g/doz)</td>
+            <td>Barsak iskemisi/perforasyon şüphesinde üçlü kombinasyonun parçası</td>
+          </tr>
+          <tr>
+            <td class="step">Gentamisin</td>
+            <td class="dose">5-7 mg/kg/gün IV (tek doz; yenidoğanda 4-5 mg/kg q24-36s)</td>
+            <td>Düzey ve renal fonksiyon takibi</td>
+          </tr>
+          <tr>
+            <td class="step">Metronidazol (anaerob kapsama)</td>
+            <td class="dose">Yükleme 15 mg/kg, ardından 7.5 mg/kg/doz IV q8s (maks 500 mg/doz)</td>
+            <td>Peritonit/nekroz varlığında</td>
+          </tr>
+          <tr>
+            <td class="step">Fentanil (analjezi)</td>
+            <td class="dose">1-2 mcg/kg/doz IV, titre</td>
+            <td>Hemodinamik takip; perioperatif ağrı kontrolü</td>
+          </tr>
+          <tr>
+            <td class="step">Vitamin K (yenidoğan / koagülopati)</td>
+            <td class="dose">1 mg IV/IM</td>
+            <td>Cerrahi öncesi koagülasyon optimizasyonu</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout alarm">Antibiyotik ve analjezi cerrahiyi ERTELEMEZ. Doğrulanmış volvulusta zaman = barsak; ivedi Ladd prosedürü önceliğini korur.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve yönetim ilkeleri</h2>
+    <p class="lede">Postoperatif seyir, rezeke edilen barsak miktarı ve iskemi derecesine bağlıdır.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Erken postoperatif</h3>
+        <ul class="clean">
+          <li>NG dekompresyon + NPO; barsak fonksiyonu dönene dek TPN</li>
+          <li>Şüpheli canlılıkta 24-48 saatte "second-look" laparotomi</li>
+          <li>Sıvı-elektrolit ve laktat takibi; sepsis izlemi</li>
+          <li>Barsak sesleri/dışkılama sonrası kademeli enteral beslenme</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Uzun dönem</h3>
+        <ul class="clean">
+          <li>Geniş rezeksiyonda kısa barsak sendromu: TPN, enteral rehabilitasyon, büyüme takibi</li>
+          <li>Adezyona bağlı ileus/obstrüksiyon riski — nüks eden ağrı/kusmada değerlendir</li>
+          <li>Ladd sonrası volvulus nüksü nadir ancak mümkün; ailelere bilöz kusma uyarısı</li>
+          <li>Beslenme, kilo alımı ve gelişim takibi; gerekirse vitamin/mineral desteği</li>
+          <li>Heterotaksi eşlik ediyorsa kardiyak ve dalak fonksiyon değerlendirmesi</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">Aile eğitimi: Taburculuk sonrası herhangi bir bilöz kusma veya akut karın epizodu acil başvuru gerektirir. Prognoz erken tanı ve barsak canlılığı korunduğunda mükemmeldir.</div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Graziano K, Islam S, Dasgupta R, ve ark. Asymptomatic malrotation: Diagnosis and surgical management — APSA Outcomes and Evidence Based Practice Committee systematic review. J Pediatr Surg. 2015;50(10):1783-1790.</li>
+      <li>NASPGHAN. Approach to the infant with bilious vomiting: evaluation for malrotation and midgut volvulus. Clinical practice guidance.</li>
+      <li>Nayak S, Reddy KR, ve ark. Midgut malrotation and volvulus: contemporary diagnosis and management. Pediatr Radiol / Semin Pediatr Surg derlemesi.</li>
+      <li>ESPGHAN. Diagnostic approach to the vomiting infant and pediatric acute abdomen — position paper.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge pediyatrik gastroenteroloji/hepatoloji uzmanlarına yönelik klinik karar destek aracıdır; bireysel hasta yönetiminin yerine geçmez. Dozlar erişkin/pediyatrik referanslara göre verilmiştir ve hastanın yaşı, kilosu, renal-hepatik fonksiyonu ile güncel kurumsal protokollere göre doğrulanmalıdır. Malrotasyon/volvulus cerrahi acildir; şüphede pediyatrik cerrahi ile ivedi koordinasyon esastır.</div>
+</div>

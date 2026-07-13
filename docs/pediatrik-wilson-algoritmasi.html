@@ -1,0 +1,463 @@
+<title>Wilson Hastalığı — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Wilson Hastalığı</h1>
+    <p class="sub">Otozomal resesif ATP7B mutasyonuna bağlı bakır birikim hastalığında tanı, Leipzig skorlaması ve dozlu şelasyon/çinko tedavisinin pratik algoritması.</p>
+    <div class="meta">
+      <span class="tag">ATP7B</span>
+      <span class="tag">Seruloplazmin</span>
+      <span class="tag">Leipzig skoru</span>
+      <span class="tag">Şelasyon</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve İlk Değerlendirme</h2>
+    <p class="lede">Wilson hastalığı (WH), ATP7B genindeki (13q14) çift alelik mutasyonlar sonucu safra ile bakır atılımının ve seruloplazmine bakır bağlanmasının bozulduğu, karaciğer ve santral sinir sisteminde toksik bakır birikimiyle giden otozomal resesif bir hastalıktır. Pediatrik yaşta klinik çoğunlukla hepatiktir; 3 yaş altında nadirdir, en erken 5 yaş civarında biyokimyasal bulgu verebilir.</p>
+    <p>Çocukta açıklanamayan transaminaz yüksekliği, kriptojenik kronik hepatit/siroz, hemolitik anemiyle giden akut karaciğer yetmezliği veya yeni başlayan nörolojik-psikiyatrik semptomların ayırıcı tanısında WH mutlaka düşünülmelidir. Tanı tek bir teste değil, klinik + biyokimyasal + genetik verilerin birleştirildiği Leipzig skoruna dayanır.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öyküde sorgula</h3>
+        <ul class="clean">
+          <li>Akraba evliliği, kardeşte/ailede WH veya açıklanamayan karaciğer-nöroloji hastalığı, erken ölüm</li>
+          <li>Yorgunluk, sarılık atakları, açıklanamayan tekrarlayan hemoliz</li>
+          <li>Okul başarısında düşme, el yazısında bozulma, tremor, dizartri, distoni, davranış-duygudurum değişikliği</li>
+          <li>Coombs-negatif hemolitik anemi öyküsü (özellikle karaciğer bulgularıyla birlikte)</li>
+          <li>Amenore, tekrarlayan düşük; eklem yakınmaları</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayenede ara</h3>
+        <ul class="clean">
+          <li>Hepatomegali, splenomegali, sarılık, kronik karaciğer hastalığı stigmatları</li>
+          <li>Yarık lamba ile Kayser-Fleischer (KF) halkası — çocukta hepatik formda sık negatiftir, yokluğu tanıyı dışlamaz</li>
+          <li>Nörolojik: tremor, distoni, rijidite, dizartri, kötüleşen ince motor beceri</li>
+          <li>Ayçiçeği kataraktı (sunflower cataract)</li>
+          <li>Fulminan seyirde: koagülopati, ensefalopati, hızlı ilerleyen ikter</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">Anahtar ipucu: Yüksek bilirubin + düşük alkalen fosfataz (ALP), düşük ürik asit, düşük ALP/total bilirubin oranı (&lt;4) ve yüksek AST/ALT oranı (&gt;2.2) akut karaciğer yetmezliğinde Wilson lehine güçlü bir örüntüdür.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Klinik Fenotip ve Şiddet Sınıflaması</h2>
+    <p class="lede">Pediatrik prezentasyon asemptomatik biyokimyasal anomaliden fulminan karaciğer yetmezliğine kadar uzanır. Şiddet, acil transplantasyon kararı ve tedavi hızını belirler.</p>
+    <div class="sev">
+      <div class="band mild">
+        <div class="lvl">Presemptomatik</div>
+        <div class="rng">Sıklıkla &lt;5–10 yaş, tarama ile</div>
+        <p>Aile taramasında veya insidental saptanan hafif transaminaz yüksekliği; belirti yok. Tedavi endikasyonu yine de vardır (çinko veya şelasyon).</p>
+      </div>
+      <div class="band mod">
+        <div class="lvl">Hepatik (kompanse)</div>
+        <div class="rng">Kronik hepatit / kompanse siroz</div>
+        <p>Persistan ALT/AST yüksekliği, hepatomegali, steatoz veya kompanse siroz. Şelasyon tedavisi + diyet bakır kısıtlaması.</p>
+      </div>
+      <div class="band sev">
+        <div class="lvl">Nörolojik / Dekompanse</div>
+        <div class="rng">Dekompanse siroz veya SSS tutulumu</div>
+        <p>Portal hipertansiyon, asit, dizartri/distoni/tremor. Şelasyonda başlangıç nörolojik kötüleşme riski; yavaş titrasyon gerekir.</p>
+      </div>
+      <div class="band rem">
+        <div class="lvl">Fulminan (WH-akut KY)</div>
+        <div class="rng">Coombs(-) hemoliz + koagülopati + AKY</div>
+        <p>Acil. New Wilson Index ≥11 medikal tedaviye yanıtsızlığı öngörür; acil karaciğer nakli değerlendirmesi. Şelasyon tek başına yetmez.</p>
+      </div>
+    </div>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">Genetik defekt</div>
+        <ul><li>ATP7B çift alelik patojenik varyant</li><li>&gt;900 mutasyon; H1069Q (Avrupa), R778L (Asya) sık</li></ul>
+      </div>
+      <div class="m t2">
+        <div class="h">Hepatosit içi birikim</div>
+        <ul><li>Safraya bakır atılımı bozulur</li><li>Seruloplazmine Cu inkorporasyonu azalır (düşük seruloplazmin)</li></ul>
+      </div>
+      <div class="m t3">
+        <div class="h">Oksidatif hasar</div>
+        <ul><li>Serbest bakır ile ROS artışı</li><li>Kronik hepatit → fibroz → siroz</li></ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Sistemik taşma</div>
+        <ul><li>Hepatosit ölümünde ani serbest Cu salınımı</li><li>Coombs-negatif hemoliz, akut tübüler hasar</li></ul>
+      </div>
+      <div class="m t5">
+        <div class="h">Ekstrahepatik depolanma</div>
+        <ul><li>Bazal ganglion (nörolojik/psikiyatrik)</li><li>Descemet membranı → KF halkası</li></ul>
+      </div>
+      <div class="m t6">
+        <div class="h">Renal / iskelet</div>
+        <ul><li>Fankoni tipi tübülopati, nefrolitiazis</li><li>Osteopeni, artropati</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar Akışı</h2>
+    <p class="lede">Şüpheden başlayarak Leipzig skoru temelli tanı ve tedavi yönlendirmesi.</p>
+    <div class="flow">
+      <div class="node start">
+        <span class="k">Başlangıç</span>
+        <span class="t">Açıklanamayan hepatik/nörolojik bulgu</span>
+        <p>Kronik transaminaz yüksekliği, kriptojenik siroz, Coombs(-) hemoliz veya yeni nörolojik semptomlu çocuk-ergen.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node action">
+        <span class="k">Adım 1</span>
+        <span class="t">İlk tarama paneli</span>
+        <p>Serum seruloplazmin, KF halkası için yarık lamba muayenesi, 24 saatlik idrar bakırı, tam kan sayımı + retikülosit, karaciğer fonksiyonları.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 1</span>
+        <span class="t">Seruloplazmin düşük (&lt;20 mg/dL) ve/veya idrar Cu yüksek (&gt;40 µg/24s) mü?</span>
+        <p>İki taramanın en az biri anormalse WH olasılığı yüksektir; normalse dışlama için ek test gerekir.</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → İleri doğrulama</span>
+          <div class="node action">
+            <span class="k">Adım 2</span>
+            <span class="t">Leipzig skorunu topla</span>
+            <p>KF halkası, seruloplazmin, idrar/karaciğer bakırı, nörolojik bulgu, Coombs(-) hemoliz ve ATP7B mutasyon analizini skorla.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Yine de dışlama</span>
+          <div class="node action safe">
+            <span class="k">Alt yol</span>
+            <span class="t">Provokasyon / genetik</span>
+            <p>Şüphe sürüyorsa penisilaminli idrar Cu testi, karaciğer bakır kantitasyonu ve ATP7B dizileme ile dışla. Normal seruloplazmin WH'yi dışlamaz (akut faz reaktanı).</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 2</span>
+        <span class="t">Leipzig skoru ≥4 mü?</span>
+        <p>≥4: tanı kesin. 3: olası, ek test. ≤2: olası değil.</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET (≥4) → Tanı kesin</span>
+          <div class="node alarm">
+            <span class="k">Karar 3</span>
+            <span class="t">Fulminan / dekompanse mi?</span>
+            <p>Koagülopati + hemoliz + ensefalopati varsa New Wilson Index hesapla; ≥11 ise acil karaciğer nakli merkezine yönlendir. Değilse fenotipe göre şelasyon başla.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR (≤3) → Doğrula</span>
+          <div class="node action safe">
+            <span class="k">Adım 3</span>
+            <span class="t">Karaciğer biyopsisi + ATP7B</span>
+            <p>Kuru ağırlıkta bakır &gt;250 µg/g ve/veya iki patojenik ATP7B varyantı ile tanıyı netleştir; aile taramasını başlat.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı Tetkik</h2>
+    <p class="lede">Tarama testlerinden doğrulayıcı ve genetik incelemeye kadar basamaklı yaklaşım. Tek bir test tanı koydurmaz; Leipzig skoru bütünleştirir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Wilson hastalığı tanısal basamakları ve eşik değerleri</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Beklenen değer</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Serum seruloplazmin</td><td class="dose">&lt;20 mg/dL (belirgin: &lt;10)</td><td>Akut faz reaktanı; enflamasyon/östrojende yalancı normal olabilir. Nefrotik sendrom/malnütrisyonda düşük olabilir.</td></tr>
+          <tr><td class="step">24 saatlik idrar bakırı</td><td class="dose">&gt;40 µg/24s (semptomatikte sıklıkla &gt;100)</td><td>Leipzig'de &gt;2× ÜSN = 2 puan, 1–2× = 1 puan. Toplama tam olmalı; kontaminasyondan kaçın.</td></tr>
+          <tr><td class="step">Yarık lamba — KF halkası</td><td class="dose">Var / yok</td><td>Çocuk hepatik formda sıklıkla yok; nörolojik formda &gt;%95 pozitif. Deneyimli oftalmolog değerlendirmeli.</td></tr>
+          <tr><td class="step">Serum serbest (non-seruloplazmin) bakır</td><td class="dose">&gt;25 µg/dL (tanı öncesi)</td><td>Total Cu − (3.15 × seruloplazmin). Tedavi izleminde hedef 5–15 µg/dL. Serum total Cu genelde düşüktür.</td></tr>
+          <tr><td class="step">Penisilaminli idrar Cu (çocukta)</td><td class="dose">&gt;1600 µg/24s</td><td>500 mg oral D-penisilamin (0. ve 12. saat) sonrası 24s idrar. Negatiflik WH'yi dışlamaz; sınırlı sensitivite.</td></tr>
+          <tr><td class="step">Karaciğer bakır kantitasyonu (biyopsi)</td><td class="dose">&gt;250 µg/g kuru ağırlık (&gt;4 µmol/g)</td><td>Referans standart. 70–250 arası ara bölge. Örnekleme heterojenitesi olabilir.</td></tr>
+          <tr><td class="step">ATP7B moleküler analiz</td><td class="dose">2 patojenik varyant = tanısal</td><td>Leipzig'de 2 varyant = 4 puan (tek başına kesin). Aile segregasyonu ve tarama için gerekli.</td></tr>
+          <tr><td class="step">Coombs(-) hemolitik anemi taraması</td><td class="dose">Retikülositoz, LDH↑, haptoglobin↓</td><td>Akut prezentasyonda WH lehine güçlü. Direkt Coombs negatiftir.</td></tr>
+          <tr><td class="step">Beyin MR (nörolojik formda)</td><td class="dose">Bazal ganglion T2 sinyal artışı</td><td>"Panda yüzü" mezensefalonda; nörolojik bulgu varsa endike.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pill-row">
+      <span class="pill">Leipzig ≥4 = kesin</span>
+      <span class="pill">Leipzig 3 = olası</span>
+      <span class="pill">Leipzig ≤2 = olası değil</span>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı Bayraklar</h2>
+    <p class="lede">Aşağıdaki bulgular acil değerlendirme, hospitalizasyon veya nakil merkezine yönlendirme gerektirir.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Coombs-negatif hemolitik anemi ile birlikte akut karaciğer yetmezliği (WH-AKY klasik triadı)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Koagülopati (INR &gt;1.5–2), ensefalopati, hızlı yükselen bilirubin — New Wilson Index ile skorla</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Düşük ALP (&lt;40 U/L), ALP/bilirubin oranı &lt;4, AST/ALT &gt;2.2 örüntüsü</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Hızlı ilerleyen distoni, dizartri veya yutma güçlüğü (aspirasyon riski)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Şelasyon başlangıcında paradoks nörolojik kötüleşme</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Böbrek yetmezliği ile giden akut tübüler nekroz / Fankoni sendromu</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Dekompanse siroz: asit, varis kanaması, hepatik ensefalopati</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Tedaviye uyumsuzluk sonrası ani klinik dekompansasyon (ilaç kesilmesi hayatı tehdit eder)</span></div>
+    </div>
+    <div class="callout alarm">WH-akut karaciğer yetmezliği medikal tedaviye çoğunlukla yanıtsızdır. New Wilson Index ≥11 olan hasta gecikmeden pediatrik karaciğer nakli merkezine iletilmeli; bekleme döneminde albumin diyalizi/plazma değişimi ile serbest bakır uzaklaştırılabilir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi — Dozlu</h2>
+    <p class="lede">Amaç negatif bakır dengesi sağlamaktır: semptomatik/başlangıç fazında şelatör (penisilamin veya trientin), idame ve presemptomatikte çinko. İlaçlar aç karnına (yemekten ≥1 saat önce veya 2 saat sonra) verilir; çinko ile şelatör aynı anda alınmamalıdır (en az 5–6 saat arayla).</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Pediatrik Wilson hastalığı ilaç dozları (kilo tabanlı, maksimumla)</caption>
+        <thead>
+          <tr><th>İlaç / basamak</th><th>Doz (mg/kg + maksimum)</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">D-Penisilamin (başlangıç şelasyon)</td><td class="dose">20 mg/kg/gün, 2–3 doza böl (maks 1000–1500 mg/gün)</td><td>Düşük dozdan (aşamalı) başlayıp 2–4 haftada artır. Piridoksin (B6) 25 mg/gün ekle. Nörolojik formda başlangıç kötüleşme riski.</td></tr>
+          <tr><td class="step">D-Penisilamin (idame)</td><td class="dose">10–20 mg/kg/gün, 2 doza böl (maks 1000 mg/gün)</td><td>İdrar Cu ve serbest Cu ile titre et. Yan etki: kemik iliği baskılanması, proteinüri, lupus benzeri reaksiyon, dermatopati.</td></tr>
+          <tr><td class="step">Trientin (alternatif şelatör)</td><td class="dose">20 mg/kg/gün, 2–3 doza böl (maks 1500 mg/gün; idame 900–1500 mg)</td><td>Penisilamin intoleransında tercih. Nörolojik formda daha iyi tolere edilir. Demirle birlikte alınmamalı.</td></tr>
+          <tr><td class="step">Çinko tuzu — &lt;5 yaş veya &lt;25 kg</td><td class="dose">25 mg elementer çinko × 2/gün (50 mg/gün)</td><td>Metallotiyonein indükleyip enterositte bakır tutar. İdame ve presemptomatik tedavi. Etki yavaş başlar (haftalar).</td></tr>
+          <tr><td class="step">Çinko tuzu — &lt;16 yaş ve &gt;25 kg</td><td class="dose">25 mg elementer çinko × 3/gün (75 mg/gün)</td><td>Doz elementer çinko üzerinden verilir. Aç karnına al; yemekle emilimi azalır. Yan etki: gastrit.</td></tr>
+          <tr><td class="step">Çinko tuzu — &gt;16 yaş / erişkin doz</td><td class="dose">50 mg elementer çinko × 3/gün (150 mg/gün)</td><td>Monoterapi hafif/presemptomatik ve şelasyon sonrası idamede uygundur.</td></tr>
+          <tr><td class="step">Diyet bakır kısıtlaması</td><td class="dose">İlk 1 yıl belirgin kısıtlama</td><td>Karaciğer, kabuklu deniz ürünleri, fındık/kuruyemiş, çikolata, mantar, kuru baklagilden kaçın. Bakırlı su borusu/kaptan sakın.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout safe">Nörolojik formda şelasyonu düşük dozdan başlatıp yavaş titre etmek başlangıç kötüleşmesini azaltır; bazı merkezler bu grupta trientin veya çinkoyu tercih eder. Tedavi ömür boyudur ve asla kesilmez.</div>
+    <div class="callout alarm">Gebelikte ve uyumsuz adölesanda ilaç kesilmesi fulminan yetmezliği tetikleyebilir. Cerrahi/gebelikte şelatör dozu ~%25–50 azaltılabilir ama tamamen durdurulmaz.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem / Yönetim İlkeleri</h2>
+    <p class="lede">İzlemin amacı hem tedavi etkinliğini (yeterli dekuprasyon) hem de aşırı tedaviyi (bakır eksikliği) ve ilaç toksisitesini yakalamaktır.</p>
+    <div class="grid three">
+      <div class="card">
+        <h3>Başlangıç fazı (ilk 6 ay)</h3>
+        <ul class="clean">
+          <li>İlk 1 ayda TKS, KCFT, tam idrar tetkiki 1–2 haftada bir (penisilamin toksisitesi için)</li>
+          <li>Klinik yanıt ve tolerans değerlendir, dozu titre et</li>
+          <li>Nörolojik hastada semptom kötüleşmesini izle</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>İdame izlemi (stabil)</h3>
+        <ul class="clean">
+          <li>KCFT, TKS, tam idrar 3–6 ayda bir</li>
+          <li>Serbest (non-seruloplazmin) bakır hedefi 5–15 µg/dL</li>
+          <li>24s idrar Cu: şelasyonda tedavide 200–500 µg/24s; çinkoda &lt;75 µg/24s</li>
+          <li>Yılda 1 fizik+nörolojik muayene, gerekirse yarık lamba</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Uyum ve aşırı tedavi</h3>
+        <ul class="clean">
+          <li>Çok düşük idrar/serbest Cu + sitopeni → aşırı tedavi/bakır eksikliği (doz azalt)</li>
+          <li>İlaç uyumu ergende en kritik faktör; kesme = yaşamsal risk</li>
+          <li>Çinkoda 24s idrar çinkosu ile uyum teyidi</li>
+        </ul>
+      </div>
+    </div>
+    <div class="grid two">
+      <div class="card">
+        <h3>Aile ve tarama</h3>
+        <ul class="clean">
+          <li>Birinci derece akrabaları tara: KCFT, seruloplazmin, idrar Cu, KF halkası ± ATP7B</li>
+          <li>Proband mutasyonu biliniyorsa kardeşlerde hedefli genetik test</li>
+          <li>Presemptomatik tanı konanlarda erken tedavi (çinko veya şelasyon) başlat</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Komplikasyon ve nakil</h3>
+        <ul class="clean">
+          <li>Siroz varsa HCC ve portal hipertansiyon sürveyansı</li>
+          <li>Medikal tedaviye yanıtsız AKY veya dekompanse siroz → karaciğer nakli (kür sağlar)</li>
+          <li>Aşılama (hepatit A/B), büyüme-gelişme, kemik sağlığı ve psikososyal destek izlemi</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Socha P, Janczyk W, Dhawan A, et al. Wilson's Disease in Children: A Position Paper by the ESPGHAN Hepatology Committee. J Pediatr Gastroenterol Nutr. 2018;66(2):334-344.</li>
+      <li>Roberts EA, Schilsky ML. AASLD Practice Guidelines: Diagnosis and Treatment of Wilson Disease: An Update. Hepatology. 2023 (güncelleme).</li>
+      <li>European Association for the Study of the Liver. EASL Clinical Practice Guidelines: Wilson's Disease. J Hepatol. 2012;56(3):671-685.</li>
+      <li>Ferenci P, Caca K, Loudianos G, et al. Diagnosis and phenotypic classification of Wilson disease (Leipzig skorlama sistemi). Liver Int. 2003;23(3):139-142.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge pediatrik gastroenteroloji/hepatoloji uzmanları için klinik karar desteği amaçlıdır ve bireysel hasta yönetiminin yerini almaz. Doz ve eşik değerler yerel kılavuz, güncel ürün bilgisi ve hastanın klinik durumuna göre teyit edilmelidir.</div>
+</div>

@@ -1,0 +1,435 @@
+<title>Özofagus Varisi — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+<header class="masthead">
+<p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+<h1>Özofagus Varisi</h1>
+<p class="sub">Portal hipertansiyonlu çocukta özofagus varislerinin endoskopik taranması, primer/sekonder profilaksisi ve akut varis kanamasının basamaklı yönetimi için karar aracı.</p>
+<div class="meta">
+<span class="tag">Portal hipertansiyon</span>
+<span class="tag">Endoskopik bant ligasyonu</span>
+<span class="tag">NSBB</span>
+<span class="tag">Akut varis kanaması</span>
+</div>
+</header>
+
+<section>
+<h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+<p class="lede">Özofagus varisi, portal hipertansiyona (portal basınç gradyanı &gt;10 mmHg) bağlı olarak submukozal venöz kollateral genişlemesidir. Çocukta en sık nedenler ekstrahepatik portal ven obstrüksiyonu (EHPVO / portal ven trombozu) ve siroza yol açan kronik karaciğer hastalıklarıdır (bilyer atrezi, kistik fibrozis, otoimmün hepatit, portosinüzoidal hastalık). Klinik önem, ilk prezentasyonun sıklıkla masif üst GİS kanaması olmasından kaynaklanır.</p>
+<div class="grid two">
+<div class="card">
+<h3>Öykü</h3>
+<ul class="clean">
+<li>Hematemez, melena, kahve telvesi kusma; senkop veya solukluk atakları</li>
+<li>Bilinen kronik karaciğer hastalığı, bilyer atrezi/Kasai, neonatal umbilikal ven kateterizasyonu veya omfalit öyküsü (EHPVO riski)</li>
+<li>Sarılık, kaşıntı, kolestaz, büyüme geriliği; karında şişlik (asit)</li>
+<li>Splenomegaliye bağlı erken doyma, sol üst kadran rahatsızlığı</li>
+<li>NSAID/aspirin kullanımı, kanama diyatezi, önceki endoskopi/skleroterapi öyküsü</li>
+</ul>
+</div>
+<div class="card">
+<h3>Muayene</h3>
+<ul class="clean">
+<li>Splenomegali (portal hipertansiyonun en tutarlı bulgusu), hipersplenizm bulguları</li>
+<li>Karın duvarı venöz kollateralleri (caput medusae), hemoroid</li>
+<li>Kronik karaciğer hastalığı stigmatları: sarılık, palmar eritem, spider anjiyom, tırnak değişiklikleri, kas kaybı</li>
+<li>Asit, ödem; ensefalopati bulguları (asteriksis, uykululuk)</li>
+<li>Hemodinami: taşikardi, hipotansiyon, kapiller dolum &gt;2 sn — aktif kanamada şok değerlendirmesi</li>
+</ul>
+</div>
+</div>
+</section>
+
+<section>
+<h2><span class="n">02</span> Etiyoloji ve mekanizma</h2>
+<p class="lede">Varis oluşumu ve kanama riski, portal basınç artışı ile varis duvar gerilimi (LaPlace: gerilim ∝ basınç × yarıçap / duvar kalınlığı) arasındaki dengeye bağlıdır. Nedenler prehepatik, hepatik ve posthepatik olarak sınıflanır.</p>
+<div class="mech">
+<div class="m t1">
+<div class="h">Prehepatik (EHPVO)</div>
+<ul>
+<li>Portal ven trombozu — çocukta en sık neden</li>
+<li>Umbilikal kateter, omfalit, protrombotik durumlar</li>
+<li>Karaciğer sentez fonksiyonu genelde korunmuş</li>
+</ul>
+</div>
+<div class="m t2">
+<div class="h">İntrahepatik — presinüzoidal</div>
+<ul>
+<li>Konjenital hepatik fibrozis, portosinüzoidal damar hastalığı</li>
+<li>Şistozomiyaz, sarkoidoz</li>
+</ul>
+</div>
+<div class="m t3">
+<div class="h">İntrahepatik — sinüzoidal (siroz)</div>
+<ul>
+<li>Bilyer atrezi, kistik fibrozis ilişkili karaciğer hastalığı</li>
+<li>Otoimmün hepatit, Wilson, metabolik hastalıklar</li>
+</ul>
+</div>
+<div class="m t4">
+<div class="h">Posthepatik</div>
+<ul>
+<li>Budd-Chiari sendromu, veno-oklüzif hastalık (SOS)</li>
+<li>Konstriktif perikardit, sağ kalp yetmezliği</li>
+</ul>
+</div>
+<div class="m t5">
+<div class="h">Duvar gerilimi belirleyicileri</div>
+<ul>
+<li>Varis boyutu (büyük varis = yüksek risk)</li>
+<li>Kırmızı işaretler (red wale, cherry-red spot)</li>
+<li>Portal basınç gradyanı ve gerilme</li>
+</ul>
+</div>
+<div class="m t6">
+<div class="h">Eşlik eden faktörler</div>
+<ul>
+<li>Hipersplenizmle trombositopeni, koagülopati</li>
+<li>Bakteriyel translokasyon/enfeksiyon kanamayı tetikler</li>
+<li>Gastrik varis, portal hipertansif gastropati</li>
+</ul>
+</div>
+</div>
+</section>
+
+<section>
+<h2><span class="n">03</span> Karar akışı</h2>
+<p class="lede">Prezentasyona göre iki yol: aktif GİS kanaması (acil) veya portal hipertansiyonlu stabil çocukta tarama/profilaksi.</p>
+<div class="flow">
+<div class="node start">
+<span class="k">Başlangıç</span>
+<span class="t">Portal hipertansiyon şüphesi veya bilinen tanı</span>
+<p>Splenomegali, kronik karaciğer hastalığı ya da üst GİS kanaması ile başvuru.</p>
+</div>
+<div class="connector"></div>
+<div class="node action">
+<span class="k">Adım 1</span>
+<span class="t">Hemodinamik durumu değerlendir</span>
+<p>Nabız, kan basıncı, kapiller dolum, hemoglobin; damar yolu ve kan grubu/cross.</p>
+</div>
+<div class="connector"></div>
+<div class="node decision">
+<span class="k">Karar 1</span>
+<span class="t">Aktif GİS kanaması / hemodinamik instabilite var mı?</span>
+<p>Hematemez, melena veya şok bulguları.</p>
+</div>
+<div class="branches">
+<div class="branch yes">
+<span class="label">EVET → Akut kanama protokolü</span>
+<div class="node alarm">
+<span class="k">Acil</span>
+<span class="t">Resüsitasyon + vazoaktif + antibiyotik</span>
+<p>Restriktif transfüzyon (Hb hedefi ~7 g/dL), oktreotid infüzyonu, IV seftriakson; stabilizasyon sonrası 12 saat içinde EBL amaçlı endoskopi. Kontrolsüz kanamada balon tamponadı + TIPS/şant değerlendirmesi.</p>
+</div>
+</div>
+<div class="branch no">
+<span class="label">HAYIR → Stabil / elektif yol</span>
+<div class="node action safe">
+<span class="k">Elektif</span>
+<span class="t">Tarama endoskopisi planla</span>
+<p>Üst GİS endoskopisi ile varis boyutu ve kırmızı işaretleri değerlendir; bulgulara göre profilaksi kararı.</p>
+</div>
+</div>
+</div>
+<div class="connector"></div>
+<div class="node decision">
+<span class="k">Karar 2</span>
+<span class="t">Endoskopide yüksek riskli varis var mı? (büyük varis veya kırmızı işaret)</span>
+<p>Grade II-III / kırmızı işaretli veya gastrik varis.</p>
+</div>
+<div class="branches">
+<div class="branch yes">
+<span class="label">EVET → Primer profilaksi</span>
+<div class="node action">
+<span class="k">Girişim</span>
+<span class="t">EBL seansları ± NSBB</span>
+<p>Endoskopik bant ligasyonu tercih; teknik uygun değilse (küçük çocuk/dar özofagus) NSBB. Eradikasyona kadar 2-4 haftada bir seans.</p>
+</div>
+</div>
+<div class="branch no">
+<span class="label">HAYIR → İzlem</span>
+<div class="node action safe">
+<span class="k">Takip</span>
+<span class="t">Aralıklı endoskopik izlem</span>
+<p>Küçük varis/işaretsiz: 1-2 yılda bir kontrol endoskopisi; hastalık progresyonunu ve splenomegaliyi izle.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section>
+<h2><span class="n">04</span> Basamaklı tetkik</h2>
+<p class="lede">Amaç: portal hipertansiyonu doğrulamak, etiyolojiyi belirlemek ve varis yükünü haritalamaktır.</p>
+<div class="table-scroll">
+<table>
+<caption>Portal hipertansiyon ve varis değerlendirmesinde basamaklı tetkik</caption>
+<thead>
+<tr><th>Basamak</th><th>Tetkik / eşik</th><th>Not</th></tr>
+</thead>
+<tbody>
+<tr><td class="step">1 · Laboratuvar</td><td class="dose">Tam kan, PT/INR, aPTT, fibrinojen</td><td>Hipersplenizm (trombositopeni/lökopeni), sentez fonksiyonu; trombosit/splenomegali oranı non-invaziv varis göstergesi</td></tr>
+<tr><td class="step">2 · Karaciğer paneli</td><td class="dose">AST, ALT, GGT, ALP, bilirubin, albümin, amonyak</td><td>Kolestaz ve sentez yetmezliği; APRI/FIB-4 fibrozis öngörüsü</td></tr>
+<tr><td class="step">3 · Doppler USG</td><td class="dose">Portal ven akım yönü/hızı, dalak boyu</td><td>İlk basamak görüntüleme; portal ven trombozu, kavernöz transformasyon, splenomegali, asit</td></tr>
+<tr><td class="step">4 · Üst GİS endoskopisi</td><td class="dose">Varis derecesi (grade I-III), kırmızı işaret</td><td>Tanı ve tedavide altın standart; gastrik varis ve portal hipertansif gastropatiyi de değerlendirir</td></tr>
+<tr><td class="step">5 · Kesitsel görüntüleme</td><td class="dose">BT/MR anjiyografi, MR kolanjiyografi</td><td>Damar anatomisi (şant planı), Budd-Chiari, bilyer patoloji</td></tr>
+<tr><td class="step">6 · Karaciğer biyopsisi</td><td class="dose">Seçilmiş olgular</td><td>Siroz/etiyoloji belirsizse; koagülopati düzeltildikten sonra</td></tr>
+</tbody>
+</table>
+</div>
+<div class="callout">Non-invaziv prediksiyon: düşük trombosit sayısı + belirgin splenomegali kombinasyonu yüksek riskli varis olasılığını artırır; ancak tanıyı ve profilaksi kararını endoskopi belirler.</div>
+</section>
+
+<section>
+<h2><span class="n">05</span> Kırmızı bayraklar</h2>
+<p class="lede">Acil müdahale gerektiren bulgular.</p>
+<div class="alarm-grid">
+<div class="alarm-item"><span class="dot"></span><span>Aktif hematemez veya taze melena ile hemodinamik instabilite (taşikardi, hipotansiyon, kapiller dolum &gt;2 sn)</span></div>
+<div class="alarm-item"><span class="dot"></span><span>Hemoglobinde hızlı düşüş veya transfüzyona rağmen devam eden kanama</span></div>
+<div class="alarm-item"><span class="dot"></span><span>Bilinç değişikliği — hipovolemi veya hepatik ensefalopati</span></div>
+<div class="alarm-item"><span class="dot"></span><span>Ateş/sepsis bulguları — bakteriyel enfeksiyon kanamayı tetikler ve mortaliteyi artırır</span></div>
+<div class="alarm-item"><span class="dot"></span><span>Endoskopide aktif fışkıran kanama, kırmızı işaret veya beyaz meme (nipple) bulgusu</span></div>
+<div class="alarm-item"><span class="dot"></span><span>Kontrolsüz kanamada balon tamponadı gereksinimi ve kurtarma TIPS/şant ihtiyacı</span></div>
+</div>
+</section>
+
+<section>
+<h2><span class="n">06</span> Tedavi</h2>
+<p class="lede">Akut kanamada resüsitasyon + vazoaktif + antibiyotik + endoskopik tedavi eş zamanlı yürütülür. Dozlar pediatrik referanslara göre ağırlığa uyarlanır; erişkin maksimum dozları aşılmaz.</p>
+<div class="table-scroll">
+<table>
+<caption>Akut özofagus varis kanaması — ilaç ve girişim dozları</caption>
+<thead>
+<tr><th>İlaç / girişim</th><th>Doz</th><th>Not</th></tr>
+</thead>
+<tbody>
+<tr><td class="step">Oktreotid (bolus)</td><td class="dose">1-2 mcg/kg IV bolus (maks 50 mcg)</td><td>Ardından infüzyon; splanknik vazokonstriksiyon</td></tr>
+<tr><td class="step">Oktreotid (infüzyon)</td><td class="dose">1-2 mcg/kg/saat IV (maks 50 mcg/saat)</td><td>Kanama kontrolünden sonra 24-48 saatte azaltarak kes; hipo/hiperglisemi izle</td></tr>
+<tr><td class="step">Vazopressin (alternatif)</td><td class="dose">0.002-0.005 U/kg/dk, titre (maks 0.01 U/kg/dk)</td><td>Oktreotid yoksa; iskemi riski nedeniyle tercih edilmez</td></tr>
+<tr><td class="step">Seftriakson (profilaksi)</td><td class="dose">50 mg/kg/gün IV (maks 2 g/gün)</td><td>Tüm akut kanamalarda 5-7 gün; bakteriyel enfeksiyon profilaksisi mortaliteyi azaltır</td></tr>
+<tr><td class="step">Pantoprazol</td><td class="dose">1 mg/kg/doz IV günde 1-2 kez (maks 40 mg/doz)</td><td>Endoskopi öncesi ampirik; ülser/tanı belirsizliğinde</td></tr>
+<tr><td class="step">Eritrosit transfüzyonu</td><td class="dose">Restriktif hedef Hb ~7 g/dL</td><td>Aşırı transfüzyondan kaçın (portal basıncı artırır, rebound kanama)</td></tr>
+<tr><td class="step">Vitamin K</td><td class="dose">0.3 mg/kg IV (maks 10 mg)</td><td>Koagülopati/kolestazda; INR yüksekse</td></tr>
+<tr><td class="step">Endoskopik bant ligasyonu (EBL)</td><td class="dose">Stabilizasyon sonrası ≤12 saatte</td><td>Birincil endoskopik tedavi; skleroterapi bant uygulanamayan küçük çocukta alternatif</td></tr>
+<tr><td class="step">Propranolol (NSBB)</td><td class="dose">0.5-1 mg/kg/gün başla, bölünmüş; titre (maks ~8 mg/kg/gün veya 320 mg/gün)</td><td>İstirahat nabzını %25 azalt; profilakside, akut fazda değil. Astım/bradikardi kontrendikasyon</td></tr>
+<tr><td class="step">Kurtarma tedavisi</td><td class="dose">Balon tamponadı (köprü) → TIPS / cerrahi şant / Meso-Rex</td><td>Kontrolsüz kanamada; EHPVO'da Meso-Rex bypass küratif seçenek</td></tr>
+</tbody>
+</table>
+</div>
+<div class="callout alarm">Propranolol ve diğer NSBB'ler akut kanama fazında başlatılmaz — hipotansiyonu maskeler ve refleks taşikardiyi engeller. Yalnızca profilakside kullanılır.</div>
+</section>
+
+<section>
+<h2><span class="n">07</span> İzlem ve yönetim ilkeleri</h2>
+<p class="lede">Amaç, varis eradikasyonu, rekürren kanamanın önlenmesi ve altta yatan hastalığın yönetimidir.</p>
+<div class="grid two">
+<div class="card">
+<h3>Sekonder profilaksi ve eradikasyon</h3>
+<ul class="clean">
+<li>İlk kanamadan sonra EBL seansları 2-4 haftada bir, varis eradikasyonuna kadar</li>
+<li>Eradikasyon sonrası ilk yıl 3-6 ayda, sonra 6-12 ayda kontrol endoskopisi ile nüks takibi</li>
+<li>NSBB (propranolol) EBL'ye ek olarak seçilmiş sirotik olgularda rekürensi azaltır</li>
+<li>EHPVO'da anatomi uygunsa Meso-Rex bypass ile portal akım restorasyonu değerlendirilir</li>
+</ul>
+</div>
+<div class="card">
+<h3>Altta yatan hastalık ve destek</h3>
+<ul class="clean">
+<li>Kronik karaciğer hastalığının etiyolojik tedavisi; kolestaz, beslenme (yağda eriyen vitaminler), büyüme takibi</li>
+<li>Hipersplenizm ve sitopenilerin izlemi; splenektomiden kaçınma</li>
+<li>NSAID/aspirinden kaçınma; enfeksiyon profilaksisi ve erken antibiyotik</li>
+<li>Sirozlu çocukta transplantasyon değerlendirmesi ve PELD/MELD izlemi</li>
+<li>Aile eğitimi: kanama belirtileri ve acil başvuru planı</li>
+</ul>
+</div>
+</div>
+<div class="pill-row">
+<span class="pill">EBL ilk tercih</span>
+<span class="pill">Restriktif transfüzyon</span>
+<span class="pill">Antibiyotik profilaksisi</span>
+<span class="pill">NSBB yalnız profilakside</span>
+<span class="pill">Meso-Rex (EHPVO)</span>
+</div>
+</section>
+
+<footer>
+<b>Kaynaklar</b>
+<ol>
+<li>Shneider BL, de Ville de Goyet J, Leung DH, et al. Primary prophylaxis of variceal bleeding in children and the role of MesoRex Bypass: Summary of the Baveno VI Pediatric Satellite Symposium. Hepatology. 2016.</li>
+<li>Ling SC, Walters T, McKiernan PJ, et al. Primary prophylaxis of variceal hemorrhage in children with portal hypertension: a framework for future research. J Pediatr Gastroenterol Nutr (NASPGHAN). 2011.</li>
+<li>de Franchis R, et al. Baveno VII — Renewing consensus in portal hypertension. J Hepatol. 2022.</li>
+<li>Duché M, Ducot B, Ackermann O, et al. Portal hypertension in children: high-risk varices, primary prophylaxis and consequences of bleeding. J Hepatol. 2017.</li>
+</ol>
+</footer>
+<div class="disclaimer"><b>Uyarı:</b> Bu belge pediyatrik gastroenteroloji uzmanları için klinik karar desteği amaçlıdır; hastaya özgü klinik yargının ve güncel yerel protokollerin yerini almaz. Dozlar hastaya, ağırlığa ve organ fonksiyonuna göre doğrulanmalıdır.</div>
+</div>

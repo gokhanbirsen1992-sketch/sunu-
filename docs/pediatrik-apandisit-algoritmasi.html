@@ -1,0 +1,391 @@
+<title>Apandisit — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Apandisit</h1>
+    <p class="sub">Çocukta akut karın ağrısında apandisit ön tanısı için skorlama, görüntüleme ve tedavi kararlarını basamaklandıran hızlı başvuru aracı. Basit ve komplike apandisit ayrımı üzerine kuruludur.</p>
+    <div class="meta">
+      <span class="tag">Akut karın</span>
+      <span class="tag">Alvarado / PAS</span>
+      <span class="tag">USG / BT</span>
+      <span class="tag">Basit vs komplike</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">Akut apandisit, apendiks lümen obstrüksiyonu sonrası gelişen ilerleyici transmural inflamasyondur ve çocukluk çağının en sık cerrahi karın nedenidir. İnsidans 5 yaş altında düşüktür ancak bu yaş grubunda perforasyon oranı %50-70'e ulaşır. İlk değerlendirmenin amacı; klinik olasılığı tahmin etmek (PAS/Alvarado), gereksiz görüntüleme ve negatif apendektomiyi azaltmak, ve perforasyon/komplike gidiş riskini erken tanımaktır.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öykü — yönlendirici sorular</h3>
+        <ul class="clean">
+          <li>Ağrının başlangıcı: klasik olarak periumbilikal başlayıp sağ alt kadrana (RLQ) göç eder; süre genellikle &lt;48 saat.</li>
+          <li>Anoreksi, bulantı, ağrı sonrası kusma (kusma ağrıdan önce ise gastroenterit lehine).</li>
+          <li>Subfebril ateş; yüksek ateş + toksik görünüm perforasyon/peritoniti düşündürür.</li>
+          <li>Yürürken/zıplarken/araba sarsıntısıyla artan ağrı (periton irritasyonu).</li>
+          <li>Süre &gt;48 saat, dışkılamayla değişmeyen ağrı, iştahsızlık kilit ipuçları.</li>
+          <li>Ayırıcı: mezenterik lenfadenit, gastroenterit, üriner enfeksiyon, over torsiyonu, Meckel, IBD alevlenmesi.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayene — anahtar bulgular</h3>
+        <ul class="clean">
+          <li>McBurney noktasında hassasiyet, defans (guarding) ve rebound.</li>
+          <li>Rovsing, psoas ve obturator işaretleri (retroçekal/pelvik yerleşimde değişken).</li>
+          <li>Öksürük/topuk vurma (heel-drop) ile RLQ ağrısı — periton irritasyonu.</li>
+          <li>Yaygın defans, tahta karın, distansiyon → perforasyon/peritonit.</li>
+          <li>Küçük çocukta bulgular silik; tekrarlı muayene (serial exam) tanısal değeri artırır.</li>
+          <li>Vital: taşikardi, hipotansiyon ve uzamış kapiller dolum sepsis/perforasyon uyarısıdır.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">Küçük yaş, atipik yerleşim (retroçekal, pelvik) ve iletişim güçlüğü tanıyı geciktirir. Şüphe sürüyorsa taburcu değil, gözlem + tekrarlı muayene ve gerekirse görüntüleme yeğlenir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Şiddet sınıflaması: basit vs komplike</h2>
+    <p class="lede">Tedavi yolunu belirleyen temel ayrım apandisitin basit (nonperfore, flegmonöz) mi yoksa komplike (perfore, gangrenöz, apse/flegmon) mi olduğudur. Bu ayrım antibiyotik süresi, ameliyat zamanlaması ve nonoperatif yaklaşım uygunluğunu doğrudan etkiler.</p>
+    <div class="sev">
+      <div class="band mild">
+        <div class="lvl">Basit / erken</div>
+        <div class="rng">Nonperfore, flegmonöz</div>
+        <p>İnflame apendiks, perforasyon/apse yok. Standart apendektomi; seçilmiş olgularda nonoperatif antibiyotik tedavisi seçeneği. Kısa süreli (≤24 saat) postop antibiyotik.</p>
+      </div>
+      <div class="band mod">
+        <div class="lvl">Gangrenöz</div>
+        <div class="rng">Perforasyon öncesi nekroz</div>
+        <p>Transmural nekroz, henüz serbest perforasyon yok. Cerrahi öncelikli; komplike gibi yönetme eğilimi. Perop bulguya göre antibiyotik süresi belirlenir.</p>
+      </div>
+      <div class="band sev">
+        <div class="lvl">Komplike — perfore</div>
+        <div class="rng">Serbest perforasyon / peritonit</div>
+        <p>Yaygın kontaminasyon/peritonit. Sıvı resüsitasyonu + geniş spektrumlu IV antibiyotik + apendektomi. Postop 4-7 gün antibiyotik; abdominal apse için izlem.</p>
+      </div>
+      <div class="band rem">
+        <div class="lvl">Apse / flegmon</div>
+        <div class="rng">Sınırlanmış perforasyon</div>
+        <p>Palpabl kitle/apse. IV antibiyotik ± perkütan drenaj ile nonoperatif başlangıç; interval apendektomi tartışmalı, olguya göre kararlaştırılır.</p>
+      </div>
+    </div>
+    <div class="pill-row">
+      <span class="pill">Süre &gt;48 saat → komplike riski ↑</span>
+      <span class="pill">CRP &gt;40-50 mg/L</span>
+      <span class="pill">Yaş &lt;5</span>
+      <span class="pill">USG'de serbest sıvı / apse</span>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">Klinik olasılık (PAS/Alvarado) + laboratuvar + hedeflenmiş görüntüleme (önce USG) ile risk katmanlama. Amaç düşük riskliyi radyasyonsuz güvenle taburcu/gözlem etmek, yüksek riskliyi hızla cerrahiye yönlendirmektir.</p>
+    <div class="flow">
+      <div class="node start"><span class="k">Başlangıç</span><span class="t">RLQ ağrılı çocuk</span><p>Öykü + tekrarlı muayene; vitaller ve toksik görünüm değerlendirilir.</p></div>
+      <div class="connector"></div>
+      <div class="node action"><span class="k">Adım 1</span><span class="t">PAS/Alvarado + tam kan + CRP</span><p>Pediatric Appendicitis Score (0-10) veya Alvarado skoru hesaplanır; lökosit/nötrofil, CRP eklenir.</p></div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 1</span><span class="t">Peritonit / toksik görünüm var mı?</span><p>Yaygın defans, tahta karın, hemodinamik bozukluk?</p></div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → acil cerrahi</span>
+          <div class="node alarm"><span class="k">Acil</span><span class="t">Resüsitasyon + IV antibiyotik + cerrahi konsültasyon</span><p>Görüntüleme cerrahiyi geciktirmemeli; komplike apandisit gibi yönet.</p></div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → skora göre katmanla</span>
+          <div class="node action safe"><span class="k">Devam</span><span class="t">Risk katmanlama (Karar 2)</span><p>PAS/Alvarado düşük–orta–yüksek gruplarına ayrılır.</p></div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 2</span><span class="t">PAS ≤3 (Alvarado ≤4) düşük risk mi?</span><p>Klinik olasılık düşük mü?</p></div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → düşük risk</span>
+          <div class="node action safe"><span class="k">Gözlem</span><span class="t">Taburcu/gözlem + güvenlik önerileri</span><p>Görüntüleme çoğunlukla gereksiz; 12-24 saatte kötüleşme/persistans varsa yeniden değerlendir.</p></div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → orta/yüksek risk</span>
+          <div class="node decision"><span class="k">Karar 3</span><span class="t">USG tanısal mı?</span><p>İlk basamak görüntüleme: yüksek çözünürlüklü graded-compression USG.</p></div>
+        </div>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → USG pozitif</span>
+          <div class="node alarm"><span class="k">Cerrahi</span><span class="t">Apandisit doğrulandı → apendektomi ± antibiyotik</span><p>Basit/komplike ayrımına göre tedavi (Bölüm 06).</p></div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → USG belirsiz</span>
+          <div class="node action"><span class="k">İkinci basamak</span><span class="t">Tekrarlı muayene ± MR / seçilmiş BT</span><p>Klinik yüksekse gözlem + skor tekrarı; ayırıcı için MR öncelikli, MR yoksa hedeflenmiş BT.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="callout safe">Skor + laboratuvar + USG bütünleşik kullanıldığında negatif apendektomi ve gereksiz BT anlamlı azalır. Tek başına düşük PAS güvenli taburculuk için tekrarlı muayene ile desteklenmelidir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Radyasyondan kaçınmak esastır; USG birinci basamaktır, MR ikinci basamak (ulaşılabildiğinde), BT ise ancak MR yoksa ve klinik gereklilik varsa kullanılır.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Apandisit şüphesinde basamaklı değerlendirme</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Eşik / doz</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Klinik skorlama (PAS)</td><td class="dose">PAS ≤3 düşük; 4-6 orta; ≥7 yüksek</td><td>PAS: RLQ hassasiyet, öksürük/perküsyon hassasiyeti, anoreksi, ateş ≥38, bulantı/kusma, RLQ'ye göç, lökositoz, nötrofili.</td></tr>
+          <tr><td class="step">Alvarado skoru (alternatif)</td><td class="dose">≤4 düşük; 5-6 orta; ≥7 yüksek</td><td>MANTRELS bileşenleri; pediatride PAS ile benzer performans.</td></tr>
+          <tr><td class="step">Tam kan sayımı</td><td class="dose">Lökosit &gt;10.000/µL, nötrofili</td><td>Normal lökosit + normal CRP birlikte ise apandisit olasılığı belirgin düşer (yüksek negatif prediktif değer).</td></tr>
+          <tr><td class="step">CRP</td><td class="dose">&gt;10 mg/L anlamlı; &gt;40-50 komplike lehine</td><td>Semptom süresi &gt;24-48 saatte duyarlılığı artar; erken dönemde normal olabilir.</td></tr>
+          <tr><td class="step">İdrar tetkiki + gebelik testi</td><td class="dose">Piyüri/hematüri ayırıcı için</td><td>Üriner enfeksiyon ve pelvik patoloji dışlaması; adölesan kızda β-hCG.</td></tr>
+          <tr><td class="step">USG (1. basamak görüntüleme)</td><td class="dose">Apendiks çapı &gt;6 mm, kompresyonla yassılaşmama</td><td>Duvar kalınlaşması, apendikolit, çevresel sıvı/ekojen yağ, hedeflenmiş hassasiyet. Non-kompres apendiks görülemezse belirsiz kabul edilir.</td></tr>
+          <tr><td class="step">MR (2. basamak, radyasyonsuz)</td><td class="dose">Ulaşılabilirse BT'ye tercih</td><td>USG belirsiz + klinik devam ediyorsa; sedasyon gereksinimi ve erişim kısıtı olabilir.</td></tr>
+          <tr><td class="step">BT (seçilmiş)</td><td class="dose">Düşük-doz protokol; yalnızca gerekliyse</td><td>MR yoksa, apse/komplike şüphesinde ve tanı belirsizliğinde IV kontrastlı hedeflenmiş BT.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdaki bulgular komplike apandisit, perforasyon/peritonit veya sepsis işaret eder; gecikmeden resüsitasyon ve cerrahi değerlendirme gerektirir.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Yaygın defans, tahta karın, rebound ile birlikte toksik görünüm.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Yüksek ateş (≥39°C), taşikardi, hipotansiyon, uzamış kapiller dolum (sepsis).</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Semptom süresi &gt;48-72 saat + belirgin CRP yüksekliği (perforasyon riski).</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Palpabl RLQ kitlesi (apse/flegmon) veya görüntülemede serbest sıvı/serbest hava.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>5 yaş altı çocukta belirsizleşen ama ilerleyen karın bulguları.</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Safralı/inatçı kusma, distansiyon, dışkı-gaz çıkışının durması (obstrüksiyon/ileus).</span></div>
+    </div>
+    <div class="callout alarm">Perforasyon şüphesinde görüntüleme cerrahi girişimi geciktirmemeli; sıvı resüsitasyonu ve geniş spektrumlu IV antibiyotik hemen başlanmalıdır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi — dozlu</h2>
+    <p class="lede">Basit apandisitte laparoskopik apendektomi standart; seçilmiş nonperfore olgularda aileyle paylaşılan kararla nonoperatif antibiyotik tedavisi bir seçenektir. Komplike apandisitte resüsitasyon + geniş spektrumlu IV antibiyotik + apendektomi (veya apsede drenaj) uygulanır. Dozlar ampiriktir; lokal antibiyogram ve kılavuzlara göre uyarlanmalıdır.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Perioperatif / ampirik antibiyotik ve destek dozları (pediatrik)</caption>
+        <thead>
+          <tr><th>İlaç / basamak</th><th>Doz (mg/kg + maksimum)</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Piperasilin-tazobaktam (komplike, 1. seçenek)</td><td class="dose">100 mg/kg/doz (piperasilin) IV, 6-8 saatte bir (maks 4 g/doz)</td><td>Perfore/komplike apandisitte tekli geniş spektrum; enterik gram-negatif + anaerop kapsar.</td></tr>
+          <tr><td class="step">Seftriakson (kombine rejim)</td><td class="dose">50-75 mg/kg/gün IV, tek doz (maks 2 g/gün)</td><td>Metronidazol ile birlikte; basit ve komplike olguda kullanılabilir.</td></tr>
+          <tr><td class="step">Metronidazol (anaerop kapsama)</td><td class="dose">30 mg/kg/gün IV, 2-3 doza bölünmüş (maks 1.5 g/gün)</td><td>Seftriakson veya sefuroksim ile kombine anaerop örtüsü.</td></tr>
+          <tr><td class="step">Sefoksitin (basit, perioperatif tekli)</td><td class="dose">40 mg/kg/doz IV, 6 saatte bir (maks 2 g/doz)</td><td>Basit apandisitte tek ajanlı perioperatif profilaksi seçeneği.</td></tr>
+          <tr><td class="step">Gentamisin (alternatif gram-negatif)</td><td class="dose">7.5 mg/kg/gün IV, tek/bölünmüş (renal fonksiyona göre)</td><td>Ampisilin + metronidazol ile üçlü rejimde; düzey takibi gerekir.</td></tr>
+          <tr><td class="step">Sıvı resüsitasyonu</td><td class="dose">20 mL/kg izotonik bolus, yanıta göre tekrar</td><td>Perforasyon/sepsiste ilk basamak; idame + elektrolit düzeltilir.</td></tr>
+          <tr><td class="step">Analjezi — morfin</td><td class="dose">0.05-0.1 mg/kg/doz IV (maks 4-5 mg/doz)</td><td>Ağrı kontrolü tanıyı maskelemez; muayeneyi geciktirmemek için erken verilebilir.</td></tr>
+          <tr><td class="step">Antiemetik — ondansetron</td><td class="dose">0.15 mg/kg/doz IV (maks 4 mg/doz)</td><td>Kusma ve preop konfor için.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout"><b>Süre:</b> Basit apandisitte postop antibiyotik ≤24 saat (çoğu olguda tek profilaktik doz yeterli). Komplike/perfore olguda IV antibiyotik klinik yanıta göre 4-7 gün; ateşsiz, beslenen, lökosit normalleşen hastada kesilir. Nonoperatif tedavide (seçilmiş nonperfore) IV ardından oral geçiş ve yakın izlem; nüks riski aileyle paylaşılmalıdır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem / yönetim ilkeleri</h2>
+    <p class="lede">İzlem, komplikasyonların erken yakalanması ve gereksiz girişimin önlenmesi üzerine kuruludur.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Postoperatif izlem</h3>
+        <ul class="clean">
+          <li>Basit apendektomi sonrası erken oral başlama, hızlı mobilizasyon, kısa yatış.</li>
+          <li>Komplike olguda ateş, karın bulgusu ve inflamatuar belirteç trendi (lökosit/CRP) takibi.</li>
+          <li>Postop 5-7. günde persistan ateş/ağrı → intraabdominal apse için USG/BT.</li>
+          <li>Apse saptanırsa perkütan drenaj + IV antibiyotik; cerrahi reeksplorasyon seçilmiş olguda.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Nonoperatif ve taburculuk</h3>
+        <ul class="clean">
+          <li>Nonoperatif antibiyotik tedavisinde ilk 24-48 saatte yanıtsızlık → apendektomi.</li>
+          <li>Apse/flegmonda IV antibiyotik ± drenaj; interval apendektomi kararı olguya özgü.</li>
+          <li>Düşük riskli taburcuda 12-24 saat içinde kötüleşme uyarı işaretleri ailene öğretilir.</li>
+          <li>Yeniden değerlendirme eşiği düşük tutulur; şüphe sürerse tekrar muayene ve görüntüleme.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout safe">Güvenlik ağı: sürekli/kötüleşen ağrı, yüksek ateş, safralı kusma, karında sertleşme veya durumun bozulması halinde acilen başvuru. Serial değerlendirme, tek seferlik değerlendirmeye üstündür.</div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Di Saverio S, Podda M, De Simone B, et al. Diagnosis and treatment of acute appendicitis: 2020 update of the WSES Jerusalem guidelines. World J Emerg Surg. 2020.</li>
+      <li>Gorter RR, Eker HH, Gorter-Stam MAW, et al. Diagnosis and management of acute appendicitis. EAES consensus development conference. Surg Endosc. 2016.</li>
+      <li>Kulik DM, Uleryk EM, Maguire JL. Does this child have appendicitis? A systematic review of clinical prediction rules (Pediatric Appendicitis Score, Alvarado). J Clin Epidemiol. 2013.</li>
+      <li>American Pediatric Surgical Association (APSA) Outcomes and Clinical Trials Committee. Antibiotic and management guidelines for pediatric appendicitis. J Pediatr Surg. 2020.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge pediatrik gastroenteroloji/hepatoloji uzmanları için hazırlanmış klinik karar destek özetidir; bireysel hasta yönetiminin yerine geçmez. Dozlar güncel kılavuz, lokal antibiyogram ve hasta özelliklerine göre doğrulanmalıdır.</div>
+</div>

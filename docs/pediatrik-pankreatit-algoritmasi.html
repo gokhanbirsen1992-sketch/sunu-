@@ -1,0 +1,435 @@
+<title>Akut ve Rekürren/Kronik Pankreatit — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+<header class="masthead">
+<p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+<h1>Akut ve Rekürren/Kronik Pankreatit</h1>
+<p class="sub">Çocuklarda akut pankreatit (AP), akut rekürren pankreatit (ARP) ve kronik pankreatitin (KP) tanı ölçütleri, erken agresif sıvı-beslenme yönetimi, etiyoloji araştırması ve uzun dönem izlem ilkeleri.</p>
+<div class="meta">
+<span class="tag">Akut pankreatit</span>
+<span class="tag">Erken enteral beslenme</span>
+<span class="tag">Etiyoloji taraması</span>
+<span class="tag">Kronik izlem</span>
+</div>
+</header>
+
+<section>
+<h2><span class="n">01</span> Tanım ve İlk Değerlendirme</h2>
+<p class="lede">INSPPIRE ölçütlerine göre pediyatrik AP tanısı için 3 kriterden en az 2'si gereklidir: (1) pankreatite uyan karın ağrısı, (2) amilaz ve/veya lipaz üst sınırın (ULN) ≥3 katı, (3) görüntülemede pankreatitle uyumlu bulgu. ARP = en az iki ayrı AP atağı (araları ağrısız/tam iyileşme). KP = kalıcı görüntüleme/histoloji/fonksiyon bozukluğu.</p>
+<div class="grid two">
+<div class="card">
+<h3>Öykü</h3>
+<ul class="clean">
+<li>Ağrının yeri (epigastrik/sağ üst kadran), sırta yayılım, süre ve tekrarlama.</li>
+<li>İlaç öyküsü (valproat, L-asparaginaz, azatioprin/6-MP, steroid, sülfasalazin).</li>
+<li>Travma (bisiklet gidonu, istismar şüphesi), viral enfeksiyon, kabakulak/koksaki.</li>
+<li>Aile öyküsü: pankreatit, safra taşı, hipertrigliseridemi, kistik fibrozis.</li>
+<li>Sistemik ipuçları: kilo kaybı, yağlı-kokulu dışkı (steatore), diyabet.</li>
+</ul>
+</div>
+<div class="card">
+<h3>Muayene</h3>
+<ul class="clean">
+<li>Karın hassasiyeti, distansiyon, defans/rebound; peristaltizm.</li>
+<li>Dehidratasyon ve şok bulguları (taşikardi, kapiller dolum, hipotansiyon).</li>
+<li>Solunum sıkıntısı, plevral efüzyon işaretleri.</li>
+<li>Cullen/Grey-Turner (nadir, ağır hemorajik), sarılık (biliyer tıkanıklık).</li>
+<li>Antropometri: kronik seyirde büyüme geriliği ve beslenme durumu.</li>
+</ul>
+</div>
+</div>
+<div class="callout"><b>Not:</b> Lipaz, amilaza göre daha duyarlı ve özgüldür; tek başına hafif yükseklik (ULN &lt;3 kat) tanı koydurmaz, klinik ve görüntüleme ile birlikte değerlendirilir.</div>
+</section>
+
+<section>
+<h2><span class="n">02</span> Etiyoloji ve Mekanizma</h2>
+<p class="lede">Çocuklarda erişkinden farklı olarak biliyer taş ve alkol nadirdir; en sık nedenler biliyer/obstrüktif, ilaç, sistemik hastalık, travma ve genetik-metaboliktir. ARP/KP olgularında genetik tarama (PRSS1, SPINK1, CFTR, CTRC) verimi yüksektir.</p>
+<div class="mech">
+<div class="m t1">
+<div class="h">Biliyer / Obstrüktif</div>
+<ul>
+<li>Kolelitiazis, koledok kisti</li>
+<li>Pankreas divisum, anüler pankreas</li>
+<li>Sfinkter disfonksiyonu, tümör</li>
+</ul>
+</div>
+<div class="m t2">
+<div class="h">Genetik</div>
+<ul>
+<li>PRSS1 (herediter, otozomal dominant)</li>
+<li>SPINK1, CTRC (modifiye edici)</li>
+<li>CFTR (mono/biallelik varyant)</li>
+</ul>
+</div>
+<div class="m t3">
+<div class="h">İlaç ilişkili</div>
+<ul>
+<li>Valproat, L-asparaginaz</li>
+<li>Azatioprin / 6-merkaptopurin</li>
+<li>Steroid, sülfasalazin, tetrasiklin</li>
+</ul>
+</div>
+<div class="m t4">
+<div class="h">Metabolik</div>
+<ul>
+<li>Hipertrigliseridemi (&gt;1000 mg/dL)</li>
+<li>Hiperkalsemi (hiperparatiroidi)</li>
+<li>Diyabetik ketoasidoz</li>
+</ul>
+</div>
+<div class="m t5">
+<div class="h">Sistemik / Enfeksiyon</div>
+<ul>
+<li>Kabakulak, koksaki, EBV, HAV</li>
+<li>HÜS, IBD, SLE, vaskülit</li>
+<li>Sepsis, iskemi/şok</li>
+</ul>
+</div>
+<div class="m t6">
+<div class="h">Travma / Diğer</div>
+<ul>
+<li>Künt karın travması, istismar</li>
+<li>ERCP sonrası pankreatit</li>
+<li>Otoimmün pankreatit (nadir)</li>
+</ul>
+</div>
+</div>
+<p class="lede">Şiddet, ilk 48 saatte organ disfonksiyonu ve lokal/sistemik komplikasyona göre sınıflanır (revize INSPPIRE/Atlanta uyarlaması):</p>
+<div class="sev">
+<div class="band mild">
+<div class="lvl">Hafif</div>
+<div class="rng">Organ yetmezliği yok</div>
+<p>Lokal/sistemik komplikasyon yok; genellikle 48-72 saatte düzelir.</p>
+</div>
+<div class="band mod">
+<div class="lvl">Orta-ağır</div>
+<div class="rng">Geçici organ yetmezliği &lt;48 sa</div>
+<p>Geçici organ disfonksiyonu ve/veya lokal komplikasyon (sıvı koleksiyonu).</p>
+</div>
+<div class="band sev">
+<div class="lvl">Ağır</div>
+<div class="rng">Kalıcı organ yetmezliği &gt;48 sa</div>
+<p>Persistan tek/çoklu organ yetmezliği; nekroz, yüksek mortalite riski.</p>
+</div>
+<div class="band rem">
+<div class="lvl">İyileşme</div>
+<div class="rng">Atak sonrası</div>
+<p>Ağrısız, laboratuvar normalleşmesi; ARP/KP açısından izlem ve etiyoloji taraması.</p>
+</div>
+</div>
+</section>
+
+<section>
+<h2><span class="n">03</span> Karar Akışı</h2>
+<p class="lede">Tanı doğrulandıktan sonra öncelik erken sıvı resüsitasyonu, şiddet değerlendirmesi ve erken enteral beslenmedir.</p>
+<div class="flow">
+<div class="node start"><span class="k">Başlangıç</span><span class="t">Şüpheli AP</span><p>Epigastrik ağrı + lipaz/amilaz ULN ≥3 kat veya görüntüleme pozitif.</p></div>
+<div class="connector"></div>
+<div class="node action"><span class="k">Adım 1</span><span class="t">Tanıyı doğrula ve monitörize et</span><p>Lipaz/amilaz, tam kan, elektrolit, Ca, TG, KCFT; vital ve idrar çıkışı takibi.</p></div>
+<div class="connector"></div>
+<div class="node action safe"><span class="k">Adım 2</span><span class="t">Erken agresif sıvı</span><p>İlk 24 saatte hedefe yönelik izotonik (LR tercih) sıvı; idrar çıkışı ≥0.5-1 mL/kg/sa.</p></div>
+<div class="connector"></div>
+<div class="node decision"><span class="k">Karar 1</span><span class="t">Ağır seyir bulgusu var mı?</span><p>Persistan organ yetmezliği, taşikardi/hipotansiyon, artan BUN, düşük idrar çıkışı?</p></div>
+<div class="branches">
+<div class="branch yes">
+<span class="label">EVET → Ağır AP</span>
+<div class="node alarm"><span class="k">Yoğun bakım</span><span class="t">PICU + agresif destek</span><p>Sıvı titrasyonu, organ desteği; kontrastlı görüntüleme (nekroz), gerekirse girişimsel yaklaşım. Enteral beslenme tolere edildikçe başlat.</p></div>
+</div>
+<div class="branch no">
+<span class="label">HAYIR → Hafif/orta</span>
+<div class="node action safe"><span class="k">Erken beslenme</span><span class="t">24-48 saatte enteral başla</span><p>Ağrı/bulantı izin verdikçe düşük yağlı oral/enteral beslenme; uzun süreli açlıktan kaçın.</p></div>
+</div>
+</div>
+<div class="connector"></div>
+<div class="node decision"><span class="k">Karar 2</span><span class="t">İkinci atak veya kalıcı bulgu mu?</span><p>ARP (≥2 atak) ya da KP düşündüren kalıcı görüntüleme/fonksiyon bozukluğu?</p></div>
+<div class="branches">
+<div class="branch yes">
+<span class="label">EVET → ARP/KP</span>
+<div class="node action"><span class="k">Etiyoloji</span><span class="t">Genetik + görüntüleme paneli</span><p>PRSS1/SPINK1/CFTR/CTRC, MRCP; metabolik ve otoimmün tarama; ekzokrin/endokrin fonksiyon izlemi.</p></div>
+</div>
+<div class="branch no">
+<span class="label">HAYIR → Tek atak</span>
+<div class="node action safe"><span class="k">İzlem</span><span class="t">Düzelme sonrası taburcu</span><p>Etiyolojiye yönelik temel tarama, beslenme planı, poliklinik kontrolü.</p></div>
+</div>
+</div>
+</div>
+</section>
+
+<section>
+<h2><span class="n">04</span> Basamaklı Tetkik</h2>
+<p class="lede">İlk atakta temel; ARP/KP'de genişletilmiş genetik-görüntüleme paneli.</p>
+<div class="table-scroll">
+<table>
+<caption>Pediyatrik pankreatitte kademeli tetkik</caption>
+<thead>
+<tr><th>Basamak</th><th>Tetkik</th><th>Amaç / Not</th></tr>
+</thead>
+<tbody>
+<tr><td class="step">Basamak 1 — Tanı</td><td>Lipaz, amilaz</td><td>ULN ≥3 kat tanısaldır; lipaz daha özgül.</td></tr>
+<tr><td class="step">Basamak 1 — Şiddet</td><td>Tam kan, BUN/kreatinin, elektrolit, Ca, glukoz, KCFT, CRP</td><td>Yükselen BUN ve hematokrit ağırlık göstergesi; Ca ve KCFT etiyoloji-şiddet.</td></tr>
+<tr><td class="step">Basamak 1 — Metabolik</td><td>Trigliserid, lipid profili</td><td>TG &gt;1000 mg/dL nedenseldir; hiperkalsemi ekartasyonu.</td></tr>
+<tr><td class="step">Basamak 2 — Görüntüleme</td><td>Abdominal USG</td><td>İlk seçenek; safra taşı, koledok dilatasyonu, ödem/koleksiyon.</td></tr>
+<tr><td class="step">Basamak 2 — İleri görüntüleme</td><td>Kontrastlı BT (endike ise)</td><td>Ağır/nekroz şüphesinde, tercihen 48-72 saat sonra.</td></tr>
+<tr><td class="step">Basamak 3 — ARP/KP</td><td>MRCP (± sekretin)</td><td>Kanal anatomisi, divisum, taş, striktür; ERCP'ye üstün ilk basamak.</td></tr>
+<tr><td class="step">Basamak 3 — Genetik</td><td>PRSS1, SPINK1, CFTR, CTRC</td><td>ARP/KP'de yüksek verim; aile öyküsü olmasa da endike.</td></tr>
+<tr><td class="step">Basamak 3 — Fonksiyon</td><td>Fekal elastaz-1, HbA1c/OGTT, yağda eriyen vitaminler</td><td>Ekzokrin yetmezlik (elastaz &lt;200 µg/g) ve endokrin (diyabet) izlemi.</td></tr>
+<tr><td class="step">Basamak 3 — Otoimmün</td><td>IgG4, ANA</td><td>Otoimmün pankreatit şüphesinde.</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section>
+<h2><span class="n">05</span> Kırmızı Bayraklar</h2>
+<p class="lede">Aşağıdaki bulgular ağır seyir, komplikasyon veya acil girişim ihtiyacına işaret eder.</p>
+<div class="alarm-grid">
+<div class="alarm-item"><span class="dot"></span><span>Persistan organ yetmezliği (&gt;48 sa): solunum, dolaşım veya böbrek.</span></div>
+<div class="alarm-item"><span class="dot"></span><span>Sıvı resüsitasyonuna rağmen taşikardi, hipotansiyon, kötü perfüzyon.</span></div>
+<div class="alarm-item"><span class="dot"></span><span>İdrar çıkışı &lt;0.5 mL/kg/sa; yükselen BUN ve hematokrit.</span></div>
+<div class="alarm-item"><span class="dot"></span><span>Yüksek/yükselen CRP (&gt;150 mg/L, 48. saat), persistan ateş → nekroz/enfeksiyon.</span></div>
+<div class="alarm-item"><span class="dot"></span><span>Şiddetli sarılık ve kolanjit bulguları → biliyer obstrüksiyon, acil ERCP.</span></div>
+<div class="alarm-item"><span class="dot"></span><span>Solunum sıkıntısı, hipoksemi, plevral efüzyon → ARDS/sistemik yanıt.</span></div>
+<div class="alarm-item"><span class="dot"></span><span>Karında ele gelen kitle, GİS kanaması → psödokist/vasküler komplikasyon.</span></div>
+<div class="alarm-item"><span class="dot"></span><span>Hipokalsemi, hipergliseminin kontrolsüz seyri, metabolik asidoz.</span></div>
+</div>
+</section>
+
+<section>
+<h2><span class="n">06</span> Tedavi</h2>
+<p class="lede">Temel taşlar: erken hedefe yönelik sıvı, etkin analjezi, erken enteral beslenme ve etiyolojiye yönelik tedavi. Antibiyotik profilaksisi rutin DEĞİLDİR; yalnız enfekte nekroz/kolanjit gibi kanıtlı enfeksiyonda verilir.</p>
+<div class="table-scroll">
+<table>
+<caption>Akut pankreatitte dozlu tedavi (pediyatrik)</caption>
+<thead>
+<tr><th>İlaç / Girişim</th><th>Doz</th><th>Not</th></tr>
+</thead>
+<tbody>
+<tr><td class="step">İzotonik sıvı (LR/SF)</td><td class="dose">İlk bolus 10-20 mL/kg, ardından idamenin 1.5-2 katı; ilk 24 saat hedefe yönelik titrasyon</td><td>Ringer laktat tercih; idrar çıkışı ≥0.5-1 mL/kg/sa hedefi. Aşırı yükten kaçın.</td></tr>
+<tr><td class="step">Parasetamol</td><td class="dose">15 mg/kg/doz PO/IV, 6 saatte bir (maks 75 mg/kg/gün, ≤4 g/gün)</td><td>Hafif-orta ağrıda ilk basamak.</td></tr>
+<tr><td class="step">Morfin</td><td class="dose">0.05-0.1 mg/kg/doz IV, 2-4 saatte bir (maks tek doz 5 mg başlangıç)</td><td>Şiddetli ağrıda; solunum ve sedasyon izlemi.</td></tr>
+<tr><td class="step">Fentanil</td><td class="dose">1-2 µg/kg/doz IV (infüzyon 1-2 µg/kg/sa)</td><td>Hemodinamik olarak stabil olmayanda alternatif opioid.</td></tr>
+<tr><td class="step">Ondansetron</td><td class="dose">0.15 mg/kg/doz IV, 8 saatte bir (maks 4-8 mg/doz)</td><td>Bulantı/kusma kontrolü; beslenme toleransını artırır.</td></tr>
+<tr><td class="step">Erken enteral beslenme</td><td class="dose">İlk 24-48 saatte oral/NG; düşük yağlı normal diyet</td><td>Tolere edildikçe; TPN yalnız enteral tolere edilemezse.</td></tr>
+<tr><td class="step">Antibiyotik (yalnız enfeksiyonda)</td><td class="dose">Örn. meropenem 20 mg/kg/doz IV 8 saatte bir (maks 1 g/doz)</td><td>Rutin profilaksi YOK; enfekte nekroz/kolanjit kanıtında.</td></tr>
+<tr><td class="step">Pankreatik enzim replasmanı (KP)</td><td class="dose">Lipaz 500-2500 U/kg/öğün (maks 10.000 U/kg/gün veya 2500 U/kg/öğün)</td><td>Ekzokrin yetmezlikte (elastaz &lt;200); yağda eriyen vitaminlerle.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="callout safe"><b>Erken beslenme:</b> Uzun süreli açlık ve "pankreası dinlendirme" yaklaşımı terk edilmiştir; erken enteral beslenme mukozal bütünlüğü korur, enfeksiyöz komplikasyonu ve hastanede kalışı azaltır.</div>
+<div class="callout alarm"><b>Dikkat:</b> Hipertrigliseridemik pankreatitte TG &gt;1000 mg/dL ise düşük yağlı diyet, insülin infüzyonu ve dirençli/ağır olguda plazmaferez düşünülür. Hiperkalsemi altta yatan nedene yönelik tedavi edilir.</div>
+</section>
+
+<section>
+<h2><span class="n">07</span> İzlem ve Yönetim İlkeleri</h2>
+<p class="lede">Amaç: atakların önlenmesi, ekzokrin/endokrin yetmezliğin erken saptanması, ağrı kontrolü ve büyüme-gelişmenin korunması.</p>
+<div class="grid two">
+<div class="card">
+<h3>Kısa dönem</h3>
+<ul class="clean">
+<li>Klinik düzelme + oral tolerans sonrası taburculuk; ağrı ve beslenme planı.</li>
+<li>Biliyer taş saptanırsa uygun zamanlı kolesistektomi/ERCP planı.</li>
+<li>İlaç ilişkili ise sorumlu ajanı kes; alternatif ajan değerlendir.</li>
+<li>Psödokist takibi (semptomatik/büyüyen olguda girişim).</li>
+</ul>
+</div>
+<div class="card">
+<h3>Uzun dönem (ARP/KP)</h3>
+<ul class="clean">
+<li>Yıllık ekzokrin (fekal elastaz) ve endokrin (HbA1c/OGTT) tarama.</li>
+<li>Kemik sağlığı ve yağda eriyen vitamin (A, D, E, K) düzey izlemi.</li>
+<li>Kronik ağrı yönetimi; girişimsel/cerrahi seçenekler (ör. total pankreatektomi + adacık ototransplantasyonu seçili olguda).</li>
+<li>Pankreas kanseri riski danışmanlığı (özellikle PRSS1); sigaradan kaçınma.</li>
+<li>Beslenme desteği ve büyüme takibi; multidisipliner izlem.</li>
+</ul>
+</div>
+</div>
+<div class="pill-row">
+<span class="pill">Düşük yağlı diyet</span>
+<span class="pill">Enzim replasmanı</span>
+<span class="pill">Vitamin izlemi</span>
+<span class="pill">Genetik danışmanlık</span>
+<span class="pill">Multidisipliner ekip</span>
+</div>
+</section>
+
+<footer>
+<b>Kaynaklar</b>
+<ol>
+<li>Abu-El-Haija M, et al. Management of Acute Pancreatitis in the Pediatric Population: A Clinical Report From the NASPGHAN Pancreas Committee. J Pediatr Gastroenterol Nutr. 2018.</li>
+<li>Abu-El-Haija M, et al. The Role of Nutrition in Pediatric Acute Pancreatitis: NASPGHAN Position Paper. J Pediatr Gastroenterol Nutr. 2018.</li>
+<li>Párniczky A, et al. (ESPGHAN/INSPPIRE/Hungarian Pancreatic Study Group) Guidelines for the Management of Pediatric Acute Pancreatitis. Pancreatology. 2018.</li>
+<li>Gariepy CE, et al. (INSPPIRE) Causal Evaluation of Acute Recurrent and Chronic Pancreatitis in Children. J Pediatr Gastroenterol Nutr. 2017.</li>
+</ol>
+</footer>
+<div class="disclaimer"><b>Uyarı:</b> Bu belge klinik karar desteği amacıyla hazırlanmış özet bir algoritmadır; hastanın bireysel değerlendirmesi, güncel kılavuzlar ve kurumsal protokollerin yerine geçmez. Dozlar doğrulanmalı ve hastaya göre uyarlanmalıdır.</div>
+</div>

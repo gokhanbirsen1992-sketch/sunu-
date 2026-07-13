@@ -1,0 +1,504 @@
+<title>Hirschsprung Hastalığı — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Hirschsprung Hastalığı</h1>
+    <p class="sub">Distal kolonda gangliyon hücrelerinin konjenital yokluğuna bağlı fonksiyonel obstrüksiyon; erken tanı ve enterokolit öngörüsü prognozu belirler. Bu belge tanı doğrulama, cerrahi zamanlama ve HAEC yönetimi için basamaklı karar desteği sunar.</p>
+    <div class="meta">
+      <span class="tag">Aganglionoz</span>
+      <span class="tag">Rektal biyopsi</span>
+      <span class="tag">HAEC</span>
+      <span class="tag">Pull-through</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">Hirschsprung hastalığı (HSCR), nöral krista kaynaklı enterik gangliyon hücrelerinin rektumdan başlayarak değişken uzunlukta proksimale doğru yokluğu ile karakterize konjenital bir barsak motilite bozukluğudur. Sıklık ~1/5000 canlı doğum, erkek/kız ~4:1. Olguların %80'i kısa segment (rektosigmoid), ~%15-20 uzun segment, ~%5 total kolonik aganglionozdur.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öykü</h3>
+        <ul class="clean">
+          <li>Yaşamın ilk 48 saatinde mekonyum çıkışında gecikme (term bebekte anlamlı ipucu)</li>
+          <li>Neonatal dönemde safralı kusma, batın distansiyonu, beslenme intoleransı</li>
+          <li>Süt çocuğu/çocukta kronik kabızlık, gaz-gaita çıkışında zorlanma, yetersiz kilo alımı</li>
+          <li>Aralıklı ateş, patlayıcı diyare, sepsis benzeri tablo (enterokolit lehine)</li>
+          <li>Aile öyküsü (RET geni), Down sendromu, ilişkili sendromlar (Waardenburg, MEN2A, Mowat-Wilson)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayene</h3>
+        <ul class="clean">
+          <li>Batın distansiyonu, görünür barsak halkaları, kötü beslenme</li>
+          <li>Rektal tuşede boş/dar ampulla ve parmak çekildiğinde patlayıcı gaita-gaz boşalması ("blast sign")</li>
+          <li>Anüs normal konumda; anal stenoz/anterior anüs ayırıcı tanıda dışlanmalı</li>
+          <li>Enterokolit bulguları: distansiyon, hassasiyet, pis kokulu diyare, letarji, taşikardi</li>
+          <li>Büyüme-gelişme geriliği ve malnütrisyon işaretleri</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">İlk 48 saatte mekonyum çıkaran bir bebekte HSCR olasılığı düşer ama dışlanmaz; total kolonik aganglionoz atipik seyredebilir. Klinik şüphe varlığında tanısal zincir başlatılmalıdır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Anatomik/segmental sınıflama</h2>
+    <p class="lede">Aganglionik segmentin uzunluğu cerrahi planı, komplikasyon riskini ve prognozu belirler. Segment ne kadar uzunsa enterokolit ve uzun dönem fonksiyonel bozukluk riski o kadar yüksektir.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">Ultra-kısa segment</div>
+        <ul>
+          <li>İnternal anal sfinktere sınırlı</li>
+          <li>Kontrast grafi sıklıkla normal</li>
+          <li>Anorektal manometri ve biyopsi tanı koydurur</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">Kısa segment (klasik)</div>
+        <ul>
+          <li>Rektosigmoid tutulum (~%80)</li>
+          <li>Belirgin geçiş zonu grafide görülür</li>
+          <li>Tek aşamalı pull-through uygun</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">Uzun segment</div>
+        <ul>
+          <li>Splenik fleksura proksimaline uzanım</li>
+          <li>Geçiş zonu değişken/silik olabilir</li>
+          <li>Enterokolit riski artmış</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Total kolonik aganglionoz</div>
+        <ul>
+          <li>Tüm kolon +/- terminal ileum</li>
+          <li>Kontrast grafi yanıltıcı (kısa kolon "soru işareti")</li>
+          <li> Meydana çıkan yüksek debili stoma ihtiyacı</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">Total intestinal aganglionoz</div>
+        <ul>
+          <li>Nadir, ince barsak boyunca yaygın</li>
+          <li>Barsak yetmezliği/İV nutrisyon bağımlılığı</li>
+          <li>Prognoz ciddi</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">Sendromik/genetik ilişki</div>
+        <ul>
+          <li>RET, EDNRB, SOX10 mutasyonları</li>
+          <li>Down sendromu ile birliktelik (~%10)</li>
+          <li>MEN2A taramasında RET önemi</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">Klinik şüpheden başlayarak tanının doğrulanması, enterokolit stabilizasyonu ve cerrahi zamanlamaya uzanan karar ağacı.</p>
+    <div class="flow">
+      <div class="node start">
+        <span class="k">Başlangıç</span>
+        <span class="t">Mekonyum gecikmesi / kronik kabızlık + distansiyon</span>
+        <p>Term yenidoğanda 48 saati aşan mekonyum çıkışı veya erken başlangıçlı, dirençli kabızlık HSCR şüphesini başlatır.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node action">
+        <span class="k">Adım 1</span>
+        <span class="t">Kontrastlı kolon grafisi (baryum enema)</span>
+        <p>Barsak temizliği/lavman YAPMADAN çekilir; geçiş zonu, rektosigmoid indeks (&lt;1), 24 saat gecikmiş baryum retansiyonu aranır.</p>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 1</span>
+        <span class="t">Aktif enterokolit bulgusu var mı?</span>
+        <p>Ateş, patlayıcı-pis kokulu diyare, distansiyon, letarji, taşikardi, lökositoz.</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → Önce stabilizasyon</span>
+          <div class="node alarm">
+            <span class="k">Acil</span>
+            <span class="t">HAEC yönetimi</span>
+            <p>NPO, İV sıvı, geniş spektrumlu antibiyotik + metronidazol, seri rektal irrigasyon (10-20 mL/kg SF). Stabilize olunca tanısal zincir tamamlanır.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Tanıyı doğrula</span>
+          <div class="node action safe">
+            <span class="k">Adım 2</span>
+            <span class="t">Rektal emme biyopsisi</span>
+            <p>Dentat çizginin ~2 cm üzerinden alınır; gangliyon hücre yokluğu + asetilkolinesteraz artışı / kalretinin kaybı aranır.</p>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision">
+        <span class="k">Karar 2</span>
+        <span class="t">Biyopside gangliyon hücresi YOK mu?</span>
+        <p>Altın standart histopatolojik doğrulama.</p>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → HSCR doğrulandı</span>
+          <div class="node action">
+            <span class="k">Adım 3</span>
+            <span class="t">Cerrahi planlama</span>
+            <p>Beslenme optimizasyonu ve rektal irrigasyonla dekompresyon sağlanır; uygun kiloda tek aşamalı pull-through planlanır.</p>
+          </div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → Gangliyon mevcut</span>
+          <div class="node action safe">
+            <span class="k">Alternatif</span>
+            <span class="t">Diğer nedenleri araştır</span>
+            <p>Fonksiyonel kabızlık, anorektal malformasyon, hipotiroidi, kistik fibrozis, ince barsak nöronal displazisi ekarte edilir; ultra-kısa segment için anorektal manometri değerlendirilir.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="callout safe">Anorektal manometride rektoanal inhibitör refleksin (RAIR) yokluğu HSCR'yi destekler; ancak yenidoğanda güvenilirliği sınırlıdır ve tanı biyopsi ile doğrulanmalıdır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Şüpheden kesin tanıya doğru mantıksal tetkik sırası; her basamak bir öncekinin bulgusuna göre yorumlanır.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>HSCR tanısal basamakları</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Yöntem / detay</th><th>Beklenen bulgu / not</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">1. Ayakta direkt batın grafisi</td>
+            <td>Dekompresyon öncesi</td>
+            <td>Dilate barsak halkaları, hava-sıvı seviyeleri; perforasyon/pnömatozis dışlanır</td>
+          </tr>
+          <tr>
+            <td class="step">2. Kontrastlı kolon grafisi</td>
+            <td class="dose">Hazırlıksız (lavmansız) baryum/iyotlu kontrast</td>
+            <td>Geçiş zonu, rektosigmoid indeks &lt;1, 24-48 saat gecikmiş retansiyon; yenidoğanda geçiş zonu henüz oluşmamış olabilir</td>
+          </tr>
+          <tr>
+            <td class="step">3. Rektal emme biyopsisi</td>
+            <td class="dose">Dentat çizgi üzeri 2 cm; en az 2 örnek</td>
+            <td>Submukozal gangliyon yokluğu; kalretinin immünohistokimyası (kayıp) ve AChE artışı destekler</td>
+          </tr>
+          <tr>
+            <td class="step">4. Tam kat rektal biyopsi</td>
+            <td>Emme biyopsisi yetersiz/şüpheli ise (özellikle büyük çocuk)</td>
+            <td>Myenterik pleksus değerlendirmesi; anestezi altında</td>
+          </tr>
+          <tr>
+            <td class="step">5. Anorektal manometri</td>
+            <td>Ultra-kısa segment şüphesi / tarama</td>
+            <td>RAIR yokluğu HSCR lehine; normal refleks HSCR'yi büyük ölçüde dışlar</td>
+          </tr>
+          <tr>
+            <td class="step">6. İntraoperatif frozen biyopsi</td>
+            <td>Pull-through sırasında</td>
+            <td>Gangliyonik geçiş seviyesinin belirlenmesi; rezeksiyon sınırını tayin eder</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pill-row">
+      <span class="pill">Altın standart: histopatoloji</span>
+      <span class="pill">Kalretinin IHC</span>
+      <span class="pill">Asetilkolinesteraz</span>
+      <span class="pill">RAIR yokluğu</span>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdaki bulgular acil değerlendirme, dekompresyon ve enterokolit/perforasyon yönünden agresif yönetim gerektirir.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Patlayıcı, pis kokulu diyare + batın distansiyonu (HAEC)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ateş, letarji, taşikardi ve sepsis benzeri tablo</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Safralı kusma ve barsak obstrüksiyonu bulguları</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Direkt grafide pnömatozis intestinalis veya serbest hava (perforasyon)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>İlerleyici distansiyon ile solunum sıkıntısı</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Rektal irrigasyona rağmen dekompresyon sağlanamaması</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Hipotansiyon, kapiller dolum bozukluğu, metabolik asidoz</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Postoperatif dönemde yeniden distansiyon + ateş (post-pull-through HAEC)</span></div>
+    </div>
+    <div class="callout alarm">Hirschsprung ilişkili enterokolit (HAEC) en önemli mortalite ve morbidite nedenidir; şüphede tedavi tanısal doğrulamayı beklemeden başlatılır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi</h2>
+    <p class="lede">Tedavinin temeli cerrahi (aganglionik segment rezeksiyonu + gangliyonik barsağın anüse indirilmesi / pull-through). Medikal tedavi HAEC yönetimi, dekompresyon ve perioperatif destekten oluşur.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>HAEC ve perioperatif medikal tedavi — dozlar</caption>
+        <thead>
+          <tr><th>İlaç / girişim</th><th>Doz</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="step">Rektal irrigasyon (serum fizyolojik)</td>
+            <td class="dose">10-20 mL/kg/seans, %0.9 NaCl; günde 2-4 kez</td>
+            <td>HAEC ve preoperatif dekompresyonun temel taşı; hipotonik sıvı KULLANMA (su intoksikasyonu)</td>
+          </tr>
+          <tr>
+            <td class="step">Metronidazol (IV/PO)</td>
+            <td class="dose">30 mg/kg/gün, 3-4 doza bölünmüş (maks 1500 mg/gün)</td>
+            <td>Anaerobik/Clostridium örtüsü; HAEC'de birinci basamak</td>
+          </tr>
+          <tr>
+            <td class="step">Piperasilin-tazobaktam (IV)</td>
+            <td class="dose">100 mg/kg/doz (piperasilin), 6-8 saatte bir (maks 4 g/doz)</td>
+            <td>Orta-ağır HAEC'de geniş spektrumlu ampirik örtü</td>
+          </tr>
+          <tr>
+            <td class="step">Ampisilin + Gentamisin (IV)</td>
+            <td class="dose">Ampisilin 50 mg/kg/doz q6-8s (maks 2 g/doz); Gentamisin 5-7 mg/kg/gün tek doz (maks 7 mg/kg/gün)</td>
+            <td>Alternatif ampirik rejim; gentamisin düzey takibi</td>
+          </tr>
+          <tr>
+            <td class="step">İV sıvı resüsitasyonu</td>
+            <td class="dose">Bolus 10-20 mL/kg izotonik kristalloid; idame + defisit</td>
+            <td>NPO; elektrolit ve asit-baz düzeltilir</td>
+          </tr>
+          <tr>
+            <td class="step">Cerrahi — Pull-through</td>
+            <td>Soave / Swenson / Duhamel tekniği; transanal +/- laparoskopik</td>
+            <td>Aganglionik segment rezeksiyonu; intraoperatif frozen ile gangliyonik sınır doğrulanır</td>
+          </tr>
+          <tr>
+            <td class="step">Saptırıcı stoma</td>
+            <td>Ağır HAEC, perforasyon, masif distansiyon veya belirsiz geçiş zonunda</td>
+            <td>Total kolonik tutulumda ve stabil olmayan hastada tercih</td>
+          </tr>
+          <tr>
+            <td class="step">Anal dilatasyon (postop)</td>
+            <td>Anastomoz darlığı gelişiminde programlı dilatasyon</td>
+            <td>Cerrahın planına göre; obstrüktif semptom ve HAEC nüksünü azaltır</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">Antibiyotik seçimi lokal direnç paternine ve HAEC şiddetine göre bireyselleştirilir; metronidazol tüm evrelerde omurga tedavidir. Rektal irrigasyon tekniği aileye öğretilerek taburculuk sonrası nüks profilaksisinde kullanılır.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem / yönetim ilkeleri</h2>
+    <p class="lede">Pull-through sonrası uzun dönem izlem, obstrüktif semptomların ve tekrarlayan HAEC'nin erken tanınması ile fonksiyonel sonucun optimize edilmesine odaklanır.</p>
+    <div class="grid three">
+      <div class="card">
+        <h3>Erken postoperatif</h3>
+        <ul class="clean">
+          <li>Anastomoz iyileşmesi ve darlık takibi; endikasyonda anal dilatasyon</li>
+          <li>HAEC nüksü açısından ebeveyn eğitimi (distansiyon, ateş, ishal)</li>
+          <li>Rektal irrigasyon tekniğinin evde uygulanabilirliği</li>
+          <li>Beslenme ve kilo takibi</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Uzun dönem fonksiyon</h3>
+        <ul class="clean">
+          <li>Obstrüktif belirti (distansiyon, kabızlık) — mekanik darlık, kalan aganglionoz, sfinkter akalazi veya dismotilite ayrımı</li>
+          <li>Fekal inkontinans / kirletme yönetimi, barsak eğitimi programı</li>
+          <li>Dirençli obstrüksiyonda internal sfinkter için botulinum toksin değerlendirmesi</li>
+          <li>Gerekirse redo pull-through değerlendirmesi</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Genetik ve eşlik eden</h3>
+        <ul class="clean">
+          <li>RET mutasyonu / MEN2A açısından aile öyküsü sorgulama</li>
+          <li>Down sendromu olgularında artmış HAEC ve fonksiyonel sorun riski</li>
+          <li>Total kolonik tutulumda beslenme/barsak yetmezliği izlemi</li>
+          <li>Aileye tekrar riski ve genetik danışmanlık</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout safe">HAEC nüks riski cerrahiden sonra da yıllarca devam edebilir; ailenin erken belirtileri tanıması ve hızlı irrigasyon-antibiyotik başlaması hastaneye yatışı önler.</div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Kyrklund K, Sloots CEJ, de Blaauw I, et al. ERNICA guidelines for the management of rectosigmoid Hirschsprung's disease. Orphanet J Rare Dis. 2020;15:164.</li>
+      <li>Gosain A, Frykman PK, Cowles RA, et al. Guidelines for the diagnosis and management of Hirschsprung-associated enterocolitis. Pediatr Surg Int. 2017;33(5):517-521.</li>
+      <li>Ambartsumyan L, Smith C, Kapur RP. Diagnosis of Hirschsprung Disease. Pediatr Dev Pathol. 2020;23(1):8-22.</li>
+      <li>Amiel J, Sproat-Emison E, Garcia-Barcelo M, et al. Hirschsprung disease, associated syndromes and genetics: a review. J Med Genet. 2008;45(1):1-14.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge klinik karar desteği amaçlıdır ve hekimin bireysel değerlendirmesinin yerine geçmez. Dozlar hastanın kilosu, yaşı, böbrek/karaciğer fonksiyonu ve yerel direnç paternine göre teyit edilmeli; cerrahi kararlar multidisipliner ekip ile alınmalıdır.</div>
+</div>

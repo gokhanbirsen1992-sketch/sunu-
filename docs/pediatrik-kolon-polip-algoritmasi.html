@@ -1,0 +1,433 @@
+<title>Kolon Polibi ve Polipozis — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji · Klinik Karar Aracı</p>
+    <h1>Kolon Polibi ve Polipozis</h1>
+    <p class="sub">Çocukta rektal kanama ve polipoid lezyonların değerlendirilmesi: soliter juvenil polipten kalıtsal polipozis sendromlarına tanı, polipektomi, genetik ve sürveyans yönetimi.</p>
+    <div class="meta">
+      <span class="tag">Juvenil polip</span>
+      <span class="tag">JPS / FAP</span>
+      <span class="tag">Peutz-Jeghers</span>
+      <span class="tag">Sürveyans &amp; genetik</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">Çocukluk çağında en sık polip tipi soliter juvenil (retansiyon/hamartomatöz) poliptir; ağrısız, aralıklı, parlak kırmızı rektal kanamanın en sık organik nedenidir. İlk görev, iyi huylu izole bir polibi kalıtsal bir polipozis sendromundan (JPS, FAP, PJS) ayırmaktır; bu ayrım tedavi, genetik ve yaşam boyu kanser riskini belirler.</p>
+    <div class="pill-row">
+      <span class="pill">Juvenil polip: 2-10 yaş piki</span>
+      <span class="pill">Polip sayısı = anahtar</span>
+      <span class="pill">Aile öyküsü &amp; sendromik bulgular</span>
+    </div>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öykü</h3>
+        <ul class="clean">
+          <li>Kanama paterni: dışkı yüzeyinde parlak kırmızı kan, damlama; ağrısız, aralıklı</li>
+          <li>Prolabe doku, mukus, tenezm, kısmi obstrüksiyon/invajinasyon epizodları (PJS'de karın ağrısı)</li>
+          <li>Süre, sıklık, halsizlik/solukluk (kronik demir eksikliği anemisi)</li>
+          <li>Ailede polipozis, kolorektal/gastrik/ince barsak/meme/tiroid kanseri, genç yaşta kanser ölümü</li>
+          <li>Kırmızı bayrak semptomları: kilo kaybı, büyüme geriliği, ishal, protein kaybı</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayene</h3>
+        <ul class="clean">
+          <li>Solukluk, tırnak/deri bulguları, büyüme persentilleri (JPS'de FTT olabilir)</li>
+          <li>Perioral/bukkal/parmak mukokutanöz melanotik makuller → Peutz-Jeghers</li>
+          <li>Konjenital hipertrofik retina pigment epiteli (CHRPE), osteom, epidermoid kist, desmoid → FAP/Gardner</li>
+          <li>Karın muayenesi: kitle, invajinasyon hassasiyeti, hepatomegali</li>
+          <li>Perianal inspeksiyon + rektal tuşe: prolabe/palpabl distal polip, fissür ayrımı</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">Tanımlar: JPS ≥5 kolorektal juvenil polip <b>veya</b> herhangi sayıda juvenil polip + aile öyküsü <b>veya</b> GİS boyunca juvenil polipler. FAP: klasik formda yüzlerce-binlerce adenomatöz polip (APC). PJS: hamartomatöz polip + mukokutanöz pigmentasyon (STK11/LKB1).</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Polip tipleri ve mekanizma</h2>
+    <p class="lede">Polipler histoloji (hamartomatöz vs adenomatöz) ve altta yatan germline mutasyona göre ayrılır; bu ayrım malignite riskini ve organ sürveyansını yönlendirir.</p>
+    <div class="mech">
+      <div class="m t1">
+        <div class="h">Soliter juvenil polip</div>
+        <ul>
+          <li>Sporadik hamartom; germline mutasyon yok</li>
+          <li>%80 tek, sıklıkla rektosigmoid; malignite riski yok</li>
+          <li>Polipektomi genelde küratif</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">JPS (Juvenil Polipozis Send.)</div>
+        <ul>
+          <li>Otozomal dominant; <b>SMAD4</b> veya <b>BMPR1A</b></li>
+          <li>Yaşam boyu artmış kolorektal + gastrik kanser riski</li>
+          <li>SMAD4: kombine JPS-HHT (herediter hemorajik telanjiektazi)</li>
+        </ul>
+      </div>
+      <div class="m t3">
+        <div class="h">FAP / atenue FAP</div>
+        <ul>
+          <li>Otozomal dominant; <b>APC</b> geni</li>
+          <li>Adenomatöz polipler; tedavisiz KRK'ye kesin ilerleme</li>
+          <li>Ekstrakolonik: duodenal adenom, desmoid, hepatoblastom</li>
+        </ul>
+      </div>
+      <div class="m t4">
+        <div class="h">Peutz-Jeghers (PJS)</div>
+        <ul>
+          <li>Otozomal dominant; <b>STK11/LKB1</b></li>
+          <li>İnce barsak hamartomları → invajinasyon riski</li>
+          <li>GİS dışı çoklu kanser riski (meme, pankreas, gonad)</li>
+        </ul>
+      </div>
+      <div class="m t5">
+        <div class="h">MAP &amp; nadir sendromlar</div>
+        <ul>
+          <li>MUTYH-ilişkili polipozis (otozomal resesif)</li>
+          <li>PTEN hamartom tümör send. (Cowden/BRRS)</li>
+          <li>Genotip-fenotip için ekip genetik değerlendirme</li>
+        </ul>
+      </div>
+      <div class="m t6">
+        <div class="h">İnflamatuar / diğer</div>
+        <ul>
+          <li>İBH ilişkili inflamatuar psödopolipler</li>
+          <li>Lenfoid nodüler hiperplazi</li>
+          <li>Histoloji ile ayrım şart</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">Ağrısız rektal kanama ile başvuran çocukta polip olasılığından tanı ve sürveyans planına giden karar ağacı.</p>
+    <div class="flow">
+      <div class="node start"><span class="k">Başlangıç</span><span class="t">Ağrısız rektal kanama / şüpheli polip</span><p>Öykü, muayene, büyüme, aile öyküsü ve mukokutanöz bulgular değerlendirilir.</p></div>
+      <div class="connector"></div>
+      <div class="node action"><span class="k">Adım 1</span><span class="t">Perianal inspeksiyon + rektal tuşe, tam kan sayımı, ferritin</span><p>Fissür/hemoroid ekarte edilir; anemi ve demir durumu belirlenir.</p></div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 1</span><span class="t">Sendromik ipucu var mı? (aile öyküsü, mukokutanöz pigment, çoklu polip, FTT)</span><p>Kalıtsal polipozis kırmızı bayrakları taranır.</p></div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → sendrom şüphesi</span>
+          <div class="node alarm"><span class="k">İleri değerlendirme</span><span class="t">Tam kolonoskopi + üst endoskopi, genetik test, ekstraintestinal tarama</span><p>APC/SMAD4/BMPR1A/STK11 germline testi; histoloji ile hamartom vs adenom ayrımı; sürveyans programına alınır.</p></div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → izole polip olası</span>
+          <div class="node action safe"><span class="k">Kolonoskopi</span><span class="t">Total kolonoskopi ile tanısal + terapötik polipektomi</span><p>Tüm kolon taranır (sigmoidoskopi yetersiz); polip sayısı belgelenir, snare polipektomi + histoloji.</p></div>
+        </div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 2</span><span class="t">Kolonoskopide ≥5 juvenil polip veya adenomatöz histoloji?</span><p>Soliter iyi huylu polip mi, polipozis mi?</p></div>
+      <div class="branches">
+        <div class="branch yes">
+          <span class="label">EVET → polipozis tanısı</span>
+          <div class="node alarm"><span class="k">Sürveyans</span><span class="t">Genetik doğrulama + sendroma özgü aralıklı endoskopik izlem</span><p>Ailesel genetik danışmanlık; kolektomi zamanlaması ve organ sürveyansı planlanır.</p></div>
+        </div>
+        <div class="branch no">
+          <span class="label">HAYIR → soliter juvenil polip</span>
+          <div class="node action safe"><span class="k">İzlem</span><span class="t">Polipektomi küratif; nüks kanamada tekrar kolonoskopi</span><p>Rutin uzun süreli endoskopik sürveyansa gerek yok; semptom rekürrensinde yeniden değerlendirme.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <p class="lede">Anemi/kanama düzeyinden endoskopik tanı ve genetik teste giden basamaklı yaklaşım.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Kolon polibi/polipozis şüphesinde tanısal basamaklar</caption>
+        <thead>
+          <tr><th>Basamak</th><th>Tetkik / doz</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">1. Laboratuvar</td><td>Tam kan sayımı, ferritin, CRP, dışkı gizli kan</td><td>Demir eksikliği anemisi ve inflamasyon; İBH ayrımı</td></tr>
+          <tr><td class="step">2. Barsak hazırlığı</td><td class="dose">PEG 3350: 1-1.5 g/kg/gün (maks ~100 g/gün), bölünmüş doz</td><td>Kolonoskopi öncesi tam temizlik; sedasyon değerlendirmesi</td></tr>
+          <tr><td class="step">3. Total kolonoskopi</td><td>Çekuma kadar tam inceleme + terapötik polipektomi</td><td>Sigmoidoskopi yetersiz; proksimal polipler atlanır. Altın standart</td></tr>
+          <tr><td class="step">4. Histopatoloji</td><td>Tüm çıkarılan poliplerin histolojisi</td><td>Hamartom (juvenil/PJS) vs adenom (FAP) ayrımı; displazi derecesi</td></tr>
+          <tr><td class="step">5. Üst GİS endoskopi</td><td>PJS, JPS-SMAD4, FAP şüphesinde gastroduodenoskopi</td><td>Gastrik/duodenal polip taraması</td></tr>
+          <tr><td class="step">6. İnce barsak görüntüleme</td><td>Video kapsül endoskopi veya MR enterografi (PJS)</td><td>İnce barsak hamartomu + invajinasyon riski değerlendirmesi</td></tr>
+          <tr><td class="step">7. Genetik test</td><td>Germline: APC, SMAD4, BMPR1A, STK11, MUTYH</td><td>Genetik danışmanlıkla; aile bireyleri için basamaklı test (cascade)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <p class="lede">Aşağıdaki bulgular soliter iyi huylu polip yerine kalıtsal polipozis/malignite riskini düşündürür ve hızlandırılmış tam değerlendirme gerektirir.</p>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span>Çoklu polip (≥5) veya kolonoskopide sayısız polipoid lezyon</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ailede polipozis sendromu veya genç yaşta kolorektal/GİS kanseri</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Perioral/bukkal mukokutanöz melanotik pigmentasyon (PJS)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Adenomatöz histoloji veya poliplerde displazi saptanması</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Tekrarlayan invajinasyon veya kısmi barsak obstrüksiyonu atakları</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Büyüme geriliği, kilo kaybı, protein kaybettiren enteropati, ishal</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Dirençli/masif rektal kanama, transfüzyon gerektiren anemi</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ekstraintestinal bulgular: CHRPE, osteom, desmoid, epidermoid kist</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi</h2>
+    <p class="lede">Temel tedavi endoskopik polipektomidir; medikal destek anemi ve prosedür sedasyonuna yöneliktir. Semptomatik ilaç dozları çocuk için mg/kg ve maksimum ile verilmiştir.</p>
+    <div class="callout safe"><b>Endoskopik polipektomi:</b> Snare (soğuk/sıcak) polipektomi soliter juvenil polipte küratiftir. Polipozis sendromlarında hedefe yönelik polipektomi + gerektiğinde profilaktik kolektomi (FAP'te polip yükü/displazi ile zamanlanır; genelde adölesan-erken erişkin dönem).</div>
+    <div class="table-scroll">
+      <table>
+        <caption>Destek tedavi ve prosedür ilişkili dozlar</caption>
+        <thead>
+          <tr><th>İlaç / girişim</th><th>Doz</th><th>Not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="step">Oral demir (elementer)</td><td class="dose">3-6 mg/kg/gün elementer demir, bölünmüş (maks 150-200 mg/gün)</td><td>Demir eksikliği anemisi; ferritin normalleşene dek 2-3 ay sürdür</td></tr>
+          <tr><td class="step">PEG 3350 (hazırlık)</td><td class="dose">1-1.5 g/kg/gün (maks ~100 g/gün)</td><td>Kolonoskopi barsak temizliği</td></tr>
+          <tr><td class="step">Midazolam (sedasyon)</td><td class="dose">IV 0.05-0.1 mg/kg (maks 2 mg/doz, titre)</td><td>Prosedür sedasyonu; anestezi ekibiyle</td></tr>
+          <tr><td class="step">Fentanil (analjezi)</td><td class="dose">IV 1 mcg/kg (maks 50 mcg/doz, titre)</td><td>Kısa etkili; solunum monitörizasyonu</td></tr>
+          <tr><td class="step">Parasetamol</td><td class="dose">10-15 mg/kg/doz PO, 4-6 saatte (maks 75 mg/kg/gün, ≤4 g/gün)</td><td>Post-prosedür hafif ağrı</td></tr>
+          <tr><td class="step">Selektif COX-2 / NSAİİ (FAP)</td><td class="dose">Erişkinde kemoprevansiyon; pediatride rutin değil, ekip kararı</td><td>Duodenal/rektal polip yükü azaltımı deneysel; standart tedavinin yerini almaz</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout alarm"><b>Uyarı:</b> Polipektomi sonrası gecikmiş kanama ve perforasyon riski açısından 1-2 hafta gözlem; büyük saplı polip veya sıcak snare sonrası post-polipektomi sendromu bulguları (ateş, karın ağrısı, lökositoz) izlenmelidir.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem / yönetim ilkeleri</h2>
+    <p class="lede">İzlem yoğunluğu tanıya göre belirlenir: soliter polipte minimal, polipozis sendromlarında ömür boyu programlı sürveyans ve genetik danışmanlık.</p>
+    <div class="grid three">
+      <div class="card">
+        <h3>Soliter juvenil polip</h3>
+        <ul class="clean">
+          <li>Tam polipektomi sonrası rutin sürveyans gerekmez</li>
+          <li>Kanama nüksünde tekrar kolonoskopi</li>
+          <li>Demir durumunu normalleştir, aileyi bilgilendir</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>JPS</h3>
+        <ul class="clean">
+          <li>Kolonoskopi ~12-15 yaşta (semptom varsa daha erken) başla, 1-3 yılda bir</li>
+          <li>Üst endoskopi ile gastrik sürveyans (özellikle SMAD4)</li>
+          <li>SMAD4: HHT taraması (beyin/akciğer AVM, tam kan)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>FAP</h3>
+        <ul class="clean">
+          <li>APC taşıyıcısında 10-12 yaştan yıllık sigmoidoskopi/kolonoskopi</li>
+          <li>Polip yükü/displazi ile profilaktik kolektomi zamanlaması</li>
+          <li>Hepatoblastom taraması (süt çocuğu: AFP + USG), duodenal sürveyans</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Peutz-Jeghers</h3>
+        <ul class="clean">
+          <li>~8 yaşta üst/alt endoskopi + ince barsak görüntüleme başlat</li>
+          <li>Büyük ince barsak poliplerini invajinasyon öncesi çıkar</li>
+          <li>Multiorgan kanser sürveyans protokolü</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Genetik yönetim</h3>
+        <ul class="clean">
+          <li>Germline test + resmi genetik danışmanlık</li>
+          <li>Birinci derece akrabalarda cascade (basamaklı) test</li>
+          <li>Prediktif test ve psikososyal destek</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Geçiş &amp; multidisipliner bakım</h3>
+        <ul class="clean">
+          <li>Erişkin polipozis kliniğine planlı geçiş</li>
+          <li>Cerrahi, genetik, onkoloji ile ortak izlem</li>
+          <li>Aile için kayıt/registry ve uzun dönem takip</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Cohen S, Hyer W, Mas E, et al. Management of Juvenile Polyposis Syndrome in Children and Adolescents: A Position Paper From the ESPGHAN Polyposis Working Group. J Pediatr Gastroenterol Nutr. 2019.</li>
+      <li>Hyer W, Cohen S, Attard T, et al. Management of Familial Adenomatous Polyposis in Children and Adolescents: Position Paper From the ESPGHAN Polyposis Working Group. J Pediatr Gastroenterol Nutr. 2019.</li>
+      <li>Latchford A, Cohen S, Auth M, et al. Management of Peutz-Jeghers Syndrome in Children and Adolescents: ESPGHAN Polyposis Working Group Position Paper. J Pediatr Gastroenterol Nutr. 2019.</li>
+      <li>NASPGHAN/ESPGHAN. Pediatric colonoscopy and polypectomy: clinical practice guidance. J Pediatr Gastroenterol Nutr.</li>
+    </ol>
+  </footer>
+  <div class="disclaimer"><b>Uyarı:</b> Bu belge pediyatrik gastroenteroloji uzmanları için klinik karar desteği amaçlıdır; hastaya özgü klinik yargının, güncel kurumsal protokollerin ve genetik danışmanlığın yerini almaz. Dozlar doğrulanmalı ve bireysel hastaya göre uyarlanmalıdır.</div>
+</div>
