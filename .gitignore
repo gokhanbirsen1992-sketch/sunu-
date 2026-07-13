@@ -15,3 +15,6 @@ data/
 *.sav
 !tests/fixtures/*.sav
 *.egg-info/
+
+# Pediyatrik GE algoritma serisi — ara üretim parçaları (nihai HTML/PDF commit'lenir)
+docs/frag/
