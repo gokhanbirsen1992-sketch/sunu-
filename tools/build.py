@@ -130,6 +130,11 @@ html,body{height:100%}body{margin:0}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
 .chip{font:inherit;font-size:.74rem;padding:4px 9px;border-radius:100px;border:1px solid var(--line);background:var(--bg);color:var(--ink-soft);cursor:pointer}
 .chip.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.recents{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:9px}
+.recents .rl{font-size:.72rem;color:var(--ink-soft);font-weight:600}
+.rchip{font:inherit;font-size:.74rem;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:4px 9px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+.rchip:hover{border-color:var(--accent);color:var(--accent)}
+.kbd{font-size:.72rem;color:var(--ink-soft);margin:6px 2px 0}.kbd b{background:var(--surface-2);border:1px solid var(--line);border-radius:5px;padding:0 5px;color:var(--ink);font-weight:600}
 .navlist{overflow:auto;padding:8px 8px 40px;min-height:0}
 .navcat{font-size:.66rem;letter-spacing:.07em;text-transform:uppercase;font-weight:800;color:var(--tone,var(--accent));margin:12px 8px 4px}
 .navitem{display:flex;align-items:center;gap:9px;width:100%;text-align:left;font:inherit;font-size:.88rem;color:var(--ink);background:none;border:0;border-radius:8px;padding:7px 9px;cursor:pointer}
@@ -152,7 +157,7 @@ app = f'''<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name=
 <div class="app" id="app"><aside class="side"><div class="top">
 <div class="brand">Klinik Karar Uygulaması<b>Çocuk Gastroenterolojisi</b></div>
 <input class="search" id="q" type="search" placeholder="Ara: reflü, kanama, Wilson, ALT…" autocomplete="off">
-<div class="chips" id="chips">{appchips}</div></div><nav class="navlist" id="nav">{navhtml}</nav></aside>
+<div class="chips" id="chips">{appchips}</div><div class="recents" id="recents" hidden></div></div><nav class="navlist" id="nav">{navhtml}</nav></aside>
 <main class="main" id="main"><div class="welcome" id="welcome"><h1>Çocuk Gastroenterolojisi — Algoritma Uygulaması</h1>
 <p>{total} uzman-düzeyi tanı-tetkik-tedavi-izlem algoritması tek uygulamada. Soldan arayın veya seçin.</p>
 <div class="stats">{stats}</div>
@@ -161,11 +166,21 @@ app = f'''<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name=
 const nav=document.getElementById('nav'),q=document.getElementById('q'),chips=document.getElementById('chips'),main=document.getElementById('main'),welcome=document.getElementById('welcome'),app=document.getElementById('app');
 const items=[...nav.querySelectorAll('.navitem')],groups=[...nav.querySelectorAll('.navgroup')],docs=[...main.querySelectorAll('.doc')];let filter='all';
 function norm(s){{return (s||'').toLowerCase().replace(/ç/g,'c').replace(/ğ/g,'g').replace(/ı/g,'i').replace(/ö/g,'o').replace(/ş/g,'s').replace(/ü/g,'u');}}
-function show(slug){{docs.forEach(d=>d.hidden=(d.id!=='a-'+slug));welcome.hidden=!!slug;items.forEach(b=>b.classList.toggle('active',b.dataset.slug===slug));main.scrollTop=0;app.classList.remove('nav-open');if(slug)history.replaceState(null,'','#'+slug);}}
+function show(slug){{docs.forEach(d=>d.hidden=(d.id!=='a-'+slug));welcome.hidden=!!slug;items.forEach(b=>b.classList.toggle('active',b.dataset.slug===slug));main.scrollTop=0;app.classList.remove('nav-open');if(slug){{history.replaceState(null,'','#'+slug);pushRecent(slug);}}}}
 nav.addEventListener('click',e=>{{const b=e.target.closest('.navitem');if(b)show(b.dataset.slug);}});
 function applyFilter(){{const term=norm(q.value.trim());items.forEach(b=>{{const ok=(filter==='all'||b.closest('.navgroup').dataset.cat===filter)&&(!term||norm(b.dataset.search).includes(term));b.style.display=ok?'':'none';}});groups.forEach(g=>{{const any=[...g.querySelectorAll('.navitem')].some(b=>b.style.display!=='none');g.style.display=any?'':'none';}});}}
 q.addEventListener('input',applyFilter);chips.addEventListener('click',e=>{{const c=e.target.closest('.chip');if(!c)return;filter=c.dataset.filter;[...chips.children].forEach(x=>x.classList.toggle('active',x===c));applyFilter();}});
 document.getElementById('menu').addEventListener('click',()=>app.classList.toggle('nav-open'));
+const recents=document.getElementById('recents');
+function titleOf(s){{const b=nav.querySelector('.navitem[data-slug="'+s+'"]');return b?b.textContent.trim():s;}}
+function readRecents(){{try{{return JSON.parse(localStorage.getItem('ge-recents')||'[]');}}catch(_){{return [];}}}}
+function renderRecents(){{let a=readRecents().filter(s=>document.getElementById('a-'+s));if(!a.length){{recents.hidden=true;recents.innerHTML='';return;}}recents.hidden=false;recents.innerHTML='<span class="rl">Son:</span>'+a.slice(0,6).map(s=>'<button class="rchip" data-slug="'+s+'">'+titleOf(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</button>').join('');}}
+function pushRecent(slug){{let a=[slug].concat(readRecents().filter(s=>s!==slug)).slice(0,6);localStorage.setItem('ge-recents',JSON.stringify(a));renderRecents();}}
+recents.addEventListener('click',e=>{{const b=e.target.closest('.rchip');if(b)show(b.dataset.slug);}});
+function visibleItems(){{return items.filter(b=>b.style.display!=='none');}}
+document.addEventListener('keydown',e=>{{if(e.key==='/'&&!/^(INPUT|TEXTAREA)$/.test(e.target.tagName)){{e.preventDefault();q.focus();q.select();return;}}if(e.key==='ArrowDown'&&e.target===q){{const v=visibleItems();if(v.length){{e.preventDefault();v[0].focus();}}}}}});
+nav.addEventListener('keydown',e=>{{const v=visibleItems();const i=v.indexOf(document.activeElement);if(i<0)return;if(e.key==='ArrowDown'){{e.preventDefault();(v[i+1]||v[0]).focus();}}else if(e.key==='ArrowUp'){{e.preventDefault();(i===0?q:v[i-1]).focus();}}}});
+renderRecents();
 const start=location.hash.replace('#','');if(start&&document.getElementById('a-'+start))show(start);
 </script></body></html>'''
 open(os.path.join(D,"app.html"),"w",encoding="utf-8").write(app)
