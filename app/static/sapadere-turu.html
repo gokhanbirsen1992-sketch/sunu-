@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sapadere Kanyonu Turu — Alanya Günübirlik Doğa Gezisi</title>
+<meta name="description" content="Alanya Sapadere Kanyonu günübirlik tur programı: saat saat gezi planı, dahil olan hizmetler, yanınıza almanız gerekenler ve sık sorulan sorular.">
+<style>
+  :root {
+    --yesil: #1f6f54;
+    --yesil-koyu: #14503c;
+    --su: #2e8fa3;
+    --kum: #f6f1e7;
+    --kahve: #4a3b2a;
+    --turuncu: #d97b29;
+    --beyaz: #ffffff;
+    --golge: 0 6px 24px rgba(20, 60, 45, .12);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    background: var(--kum);
+    color: var(--kahve);
+    line-height: 1.65;
+  }
+  .icerik { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+
+  /* ---------- Kapak ---------- */
+  header.kapak {
+    background:
+      linear-gradient(160deg, rgba(20,80,60,.92), rgba(46,143,163,.85)),
+      repeating-linear-gradient(135deg, #185a44 0 24px, #14503c 24px 48px);
+    color: var(--beyaz);
+    text-align: center;
+    padding: 72px 20px 64px;
+  }
+  header.kapak .rozet {
+    display: inline-block;
+    background: rgba(255,255,255,.16);
+    border: 1px solid rgba(255,255,255,.35);
+    border-radius: 999px;
+    padding: 6px 18px;
+    font-size: .9rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  header.kapak h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin-bottom: 12px; }
+  header.kapak p.slogan { font-size: 1.15rem; max-width: 640px; margin: 0 auto 28px; opacity: .95; }
+  .kapak-bilgi {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;
+  }
+  .kapak-bilgi span {
+    background: rgba(255,255,255,.14);
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-size: .95rem;
+  }
+
+  /* ---------- Bölümler ---------- */
+  section { padding: 56px 0; }
+  section h2 {
+    color: var(--yesil-koyu);
+    font-size: 1.7rem;
+    margin-bottom: 8px;
+  }
+  section p.alt-baslik { color: #7a6a55; margin-bottom: 28px; }
+  .cizgi { width: 64px; height: 4px; background: var(--turuncu); border-radius: 2px; margin: 10px 0 24px; }
+
+  /* ---------- Öne çıkanlar ---------- */
+  .kartlar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 18px;
+  }
+  .kart {
+    background: var(--beyaz);
+    border-radius: 14px;
+    padding: 22px;
+    box-shadow: var(--golge);
+  }
+  .kart .simge { font-size: 1.9rem; margin-bottom: 10px; }
+  .kart h3 { color: var(--yesil); font-size: 1.05rem; margin-bottom: 6px; }
+  .kart p { font-size: .93rem; }
+
+  /* ---------- Program (zaman çizelgesi) ---------- */
+  .zaman { list-style: none; position: relative; padding-left: 30px; }
+  .zaman::before {
+    content: "";
+    position: absolute; left: 9px; top: 6px; bottom: 6px;
+    width: 3px; background: var(--su); border-radius: 2px; opacity: .45;
+  }
+  .zaman li { position: relative; padding: 0 0 26px 14px; }
+  .zaman li::before {
+    content: "";
+    position: absolute; left: -27px; top: 6px;
+    width: 15px; height: 15px; border-radius: 50%;
+    background: var(--turuncu); border: 3px solid var(--kum);
+    box-shadow: 0 0 0 2px var(--turuncu);
+  }
+  .zaman .saat {
+    display: inline-block;
+    background: var(--yesil); color: var(--beyaz);
+    border-radius: 8px; padding: 2px 12px;
+    font-weight: 600; font-size: .9rem; margin-bottom: 6px;
+  }
+  .zaman h3 { font-size: 1.08rem; color: var(--yesil-koyu); margin-bottom: 4px; }
+  .zaman p { font-size: .95rem; }
+
+  /* ---------- Dahil / Hariç ---------- */
+  .iki-sutun {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 18px;
+  }
+  .liste-kart {
+    background: var(--beyaz); border-radius: 14px;
+    padding: 24px; box-shadow: var(--golge);
+  }
+  .liste-kart h3 { margin-bottom: 14px; font-size: 1.1rem; }
+  .liste-kart.dahil h3 { color: var(--yesil); }
+  .liste-kart.haric h3 { color: #b3543a; }
+  .liste-kart ul { list-style: none; }
+  .liste-kart li { padding: 6px 0 6px 30px; position: relative; font-size: .95rem; }
+  .liste-kart.dahil li::before { content: "✔"; position: absolute; left: 4px; color: var(--yesil); font-weight: 700; }
+  .liste-kart.haric li::before { content: "✘"; position: absolute; left: 4px; color: #b3543a; font-weight: 700; }
+
+  /* ---------- Yanınıza alın ---------- */
+  .etiketler { display: flex; flex-wrap: wrap; gap: 10px; }
+  .etiketler span {
+    background: var(--beyaz); border: 1.5px solid var(--su);
+    color: var(--su); border-radius: 999px;
+    padding: 8px 18px; font-size: .93rem; font-weight: 600;
+  }
+
+  /* ---------- SSS ---------- */
+  details {
+    background: var(--beyaz); border-radius: 12px;
+    box-shadow: var(--golge); margin-bottom: 12px;
+    padding: 4px 20px;
+  }
+  details summary {
+    cursor: pointer; font-weight: 600; color: var(--yesil-koyu);
+    padding: 14px 0; list-style: none; position: relative; padding-right: 28px;
+  }
+  details summary::after {
+    content: "＋"; position: absolute; right: 2px; top: 12px;
+    color: var(--turuncu); font-size: 1.1rem; font-weight: 700;
+  }
+  details[open] summary::after { content: "－"; }
+  details p { padding: 0 0 16px; font-size: .95rem; }
+
+  /* ---------- Önemli not ---------- */
+  .uyari {
+    background: #fdf3e3; border-left: 5px solid var(--turuncu);
+    border-radius: 10px; padding: 18px 22px; font-size: .95rem;
+  }
+
+  /* ---------- Alt bilgi ---------- */
+  footer {
+    background: var(--yesil-koyu); color: rgba(255,255,255,.85);
+    text-align: center; padding: 34px 20px; font-size: .9rem;
+  }
+  footer strong { color: var(--beyaz); }
+
+  @media print {
+    header.kapak { padding: 36px 16px; }
+    section { padding: 24px 0; }
+    details { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<header class="kapak">
+  <div class="rozet">Alanya • Günübirlik Doğa Turu</div>
+  <h1>🏞️ Sapadere Kanyonu Turu</h1>
+  <p class="slogan">Toros Dağları'nın kalbinde 400 metrelik kaya duvarları, buz gibi doğal havuzlar
+  ve şelaleler eşliğinde unutulmaz bir gün sizi bekliyor.</p>
+  <div class="kapak-bilgi">
+    <span>📍 Sapadere Köyü, Demirtaş / Alanya</span>
+    <span>🕘 09:00 – 17:00 (yaklaşık 8 saat)</span>
+    <span>🚌 Otelden alma & bırakma</span>
+    <span>👟 Zorluk: Kolay – herkes için uygun</span>
+  </div>
+</header>
+
+<section>
+  <div class="icerik">
+    <h2>Sapadere Kanyonu Hakkında</h2>
+    <div class="cizgi"></div>
+    <p>
+      Alanya merkezine yaklaşık <strong>45 km</strong> uzaklıkta, Demirtaş beldesine bağlı Sapadere
+      Köyü'nde yer alan Sapadere Kanyonu, <strong>2008 yılında</strong> turizme açılmıştır. Yaklaşık
+      <strong>750 metre</strong> uzunluğundaki güvenli yürüyüş platformu, yer yer
+      <strong>400 metreye</strong> ulaşan sarp kaya duvarlarının arasından, şelalelerin ve kristal
+      berraklığındaki doğal havuzların yanı başından geçer. Yürüyüşün sonunda dileyen misafirlerimiz
+      buz gibi kanyon suyunda serinleyebilir. Dönüş yolunda ise ipek böcekçiliğiyle ünlü Sapadere
+      Köyü'nün otantik dokusunu keşfedeceğiz.
+    </p>
+  </div>
+</section>
+
+<section style="padding-top: 0;">
+  <div class="icerik">
+    <h2>Öne Çıkanlar</h2>
+    <div class="cizgi"></div>
+    <div class="kartlar">
+      <div class="kart">
+        <div class="simge">🌊</div>
+        <h3>Doğal Havuzlar</h3>
+        <p>Kanyonun buz gibi berrak sularında yüzme molası — sıcak yaz günlerinin en serin anı.</p>
+      </div>
+      <div class="kart">
+        <div class="simge">🚶</div>
+        <h3>Platform Yürüyüşü</h3>
+        <p>750 metrelik güvenli ahşap-çelik platformda, şelaleler eşliğinde keyifli bir yürüyüş.</p>
+      </div>
+      <div class="kart">
+        <div class="simge">⛰️</div>
+        <h3>Toros Manzaraları</h3>
+        <p>Muz ve narenciye bahçelerinin arasından dağ köylerine uzanan fotoğraflık bir yolculuk.</p>
+      </div>
+      <div class="kart">
+        <div class="simge">🐟</div>
+        <h3>Alabalık Keyfi</h3>
+        <p>Dere kenarında taze alabalık (veya ızgara tavuk / vejetaryen seçenek) ile öğle yemeği.</p>
+      </div>
+      <div class="kart">
+        <div class="simge">🧵</div>
+        <h3>İpek Köyü</h3>
+        <p>Sapadere Köyü'nde geleneksel ipek böcekçiliği ve el emeği ipek ürünlerine yakından bakış.</p>
+      </div>
+      <div class="kart">
+        <div class="simge">🕳️</div>
+        <h3>Cüceler Mağarası</h3>
+        <p>Yol üzerinde sarkıt ve dikitleriyle büyüleyen küçük ama etkileyici mağara durağı.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top: 0;">
+  <div class="icerik">
+    <h2>Tur Programı</h2>
+    <p class="alt-baslik">Saatler yaklaşıktır; otelinizin konumuna göre 15–30 dakika değişebilir.</p>
+    <ul class="zaman">
+      <li>
+        <span class="saat">09:00</span>
+        <h3>Otelden Hareket</h3>
+        <p>Klimalı aracımızla otelinizden alınıyorsunuz. Alanya'dan doğuya, Demirtaş yönüne yola çıkıyoruz.</p>
+      </li>
+      <li>
+        <span class="saat">10:00</span>
+        <h3>Toroslar'da Manzara Molası</h3>
+        <p>Muz bahçeleri ve dağ manzarası eşliğinde fotoğraf molası veriyoruz.</p>
+      </li>
+      <li>
+        <span class="saat">10:30</span>
+        <h3>Cüceler Mağarası</h3>
+        <p>Sarkıt ve dikitleriyle ünlü mağarayı yaklaşık 20 dakikalık kısa bir gezi ile keşfediyoruz.</p>
+      </li>
+      <li>
+        <span class="saat">11:15</span>
+        <h3>Sapadere Kanyonu</h3>
+        <p>Kanyon girişinden platform yürüyüşüne başlıyoruz. Şelaleler ve doğal havuzlar boyunca
+        serbest zaman: yüzebilir, fotoğraf çekebilir ya da gölgede dinlenebilirsiniz. (~2,5 saat)</p>
+      </li>
+      <li>
+        <span class="saat">13:45</span>
+        <h3>Öğle Yemeği</h3>
+        <p>Dere kenarındaki restoranda taze alabalık, ızgara tavuk veya vejetaryen menü;
+        salata ve mevsim garnitürleri eşliğinde.</p>
+      </li>
+      <li>
+        <span class="saat">15:00</span>
+        <h3>Sapadere Köyü Gezisi</h3>
+        <p>İpek böcekçiliği atölyesini ziyaret ediyor, köy kahvesinde çay molası veriyoruz.</p>
+      </li>
+      <li>
+        <span class="saat">16:00</span>
+        <h3>Dönüş Yolculuğu</h3>
+        <p>Toroslar'ın manzarası eşliğinde Alanya'ya dönüş.</p>
+      </li>
+      <li>
+        <span class="saat">17:00</span>
+        <h3>Otele Varış</h3>
+        <p>Gün boyu biriktirdiğiniz fotoğraflar ve serin anılarla otelinize bırakılıyorsunuz.</p>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section style="padding-top: 0;">
+  <div class="icerik">
+    <h2>Fiyata Dahil Olanlar</h2>
+    <div class="cizgi"></div>
+    <div class="iki-sutun">
+      <div class="liste-kart dahil">
+        <h3>✔ Dahil</h3>
+        <ul>
+          <li>Otelden alma ve bırakma (klimalı araç)</li>
+          <li>Profesyonel rehberlik hizmeti</li>
+          <li>Kanyon giriş ücreti</li>
+          <li>Öğle yemeği (alabalık / tavuk / vejetaryen)</li>
+          <li>Cüceler Mağarası girişi</li>
+          <li>Seyahat sigortası</li>
+        </ul>
+      </div>
+      <div class="liste-kart haric">
+        <h3>✘ Dahil Değil</h3>
+        <ul>
+          <li>Yemekte alınan içecekler</li>
+          <li>Fotoğraf ve video hizmetleri</li>
+          <li>Kişisel harcamalar ve hediyelik eşya</li>
+          <li>Havlu ve deniz ayakkabısı kiralama</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top: 0;">
+  <div class="icerik">
+    <h2>Yanınıza Almanız Gerekenler</h2>
+    <div class="cizgi"></div>
+    <div class="etiketler">
+      <span>🩱 Mayo</span>
+      <span>🧺 Havlu</span>
+      <span>👟 Rahat / kaymaz ayakkabı</span>
+      <span>🧴 Güneş kremi</span>
+      <span>🕶️ Şapka & güneş gözlüğü</span>
+      <span>📷 Fotoğraf makinesi</span>
+      <span>💧 Su</span>
+      <span>👕 Yedek kıyafet</span>
+    </div>
+    <div class="uyari" style="margin-top: 24px;">
+      <strong>💡 Önemli:</strong> Kanyon suyu yaz aylarında bile <strong>oldukça soğuktur</strong>
+      (yaklaşık 12–15&nbsp;°C). Yüzmeye girecekseniz suya yavaş alışmanızı öneririz. Platform
+      yürüyüşü kolaydır; ancak ıslak zeminlerde kaymaz tabanlı ayakkabı güvenliğiniz için önemlidir.
+    </div>
+  </div>
+</section>
+
+<section style="padding-top: 0;">
+  <div class="icerik">
+    <h2>Sık Sorulan Sorular</h2>
+    <div class="cizgi"></div>
+    <details>
+      <summary>Tur hangi günler düzenleniyor?</summary>
+      <p>Sapadere Kanyonu turu <strong>Mayıs – Ekim</strong> sezonunda her gün düzenlenir. Kış
+      aylarında hava ve su seviyesi koşullarına göre gün doğrulaması yapılır.</p>
+    </details>
+    <details>
+      <summary>Çocuklar ve yaşlılar için uygun mu?</summary>
+      <p>Evet. Yürüyüş, korkuluklu düz bir platform üzerinde yapıldığı için her yaş grubuna
+      uygundur. Bebek arabası için platformun bazı bölümleri dar olabilir; taşıyıcı (kanguru)
+      önerilir.</p>
+    </details>
+    <details>
+      <summary>Yüzmek zorunlu mu?</summary>
+      <p>Hayır. Yüzme tamamen isteğe bağlıdır. Dileyen misafirlerimiz kanyonun gölgelik
+      alanlarında dinlenebilir veya fotoğraf çekebilir.</p>
+    </details>
+    <details>
+      <summary>Yemekte vejetaryen seçenek var mı?</summary>
+      <p>Evet. Rezervasyon sırasında belirtmeniz yeterlidir; vejetaryen menü hazırlanır.</p>
+    </details>
+    <details>
+      <summary>Tur iptali ve iade koşulları nedir?</summary>
+      <p>Tur saatinden <strong>24 saat öncesine kadar</strong> ücretsiz iptal edebilirsiniz. Hava
+      koşulları nedeniyle tarafımızca iptal edilen turlarda ücretin tamamı iade edilir veya
+      dilerseniz başka bir güne aktarılır.</p>
+    </details>
+    <details>
+      <summary>Yanımıza yiyecek-içecek alabilir miyiz?</summary>
+      <p>Kanyon içine ambalajlı yiyecek sokulması doğayı korumak amacıyla önerilmez; su
+      alabilirsiniz. Kanyon girişinde ve köyde kafeler mevcuttur.</p>
+    </details>
+  </div>
+</section>
+
+<footer>
+  <p><strong>Sapadere Kanyonu Turu</strong> — Alanya'nın saklı cenneti sizi bekliyor 🌿</p>
+  <p style="margin-top: 8px;">Rezervasyon ve bilgi için otel danışmanınızla veya tur ofisimizle
+  iletişime geçebilirsiniz. Bu sayfayı yazdırarak yanınızda götürebilirsiniz. 🖨️</p>
+</footer>
+
+</body>
+</html>
