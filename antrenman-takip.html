@@ -1,0 +1,514 @@
+<title>Antrenman Takip — Bel Dostu Program</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --bg:#F4F6F5; --card:#FFFFFF; --ink:#1C2826; --ink2:#5B6B67; --line:#DDE4E1;
+    --accent:#0E6E62; --accent-ink:#FFFFFF; --accent-soft:#E2F0ED;
+    --warn:#B4762A; --warn-soft:#F6EBDA; --danger:#B0453C; --danger-soft:#F4E3E1;
+    --ok:#2E7D4F; --ok-soft:#E1EFE6;
+    --r:10px; --shadow:0 1px 3px rgba(28,40,38,.08);
+    color-scheme: light dark;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#141A19; --card:#1D2523; --ink:#E8EEEC; --ink2:#93A39E; --line:#2C3634;
+      --accent:#3FA795; --accent-ink:#0E1513; --accent-soft:#1E3330;
+      --warn:#D8A054; --warn-soft:#332A1B; --danger:#D8756B; --danger-soft:#33201E;
+      --ok:#5FB07E; --ok-soft:#1D2E24; --shadow:0 1px 3px rgba(0,0,0,.35); }
+  }
+  :root[data-theme="dark"]{ --bg:#141A19; --card:#1D2523; --ink:#E8EEEC; --ink2:#93A39E; --line:#2C3634;
+    --accent:#3FA795; --accent-ink:#0E1513; --accent-soft:#1E3330;
+    --warn:#D8A054; --warn-soft:#332A1B; --danger:#D8756B; --danger-soft:#33201E;
+    --ok:#5FB07E; --ok-soft:#1D2E24; --shadow:0 1px 3px rgba(0,0,0,.35); }
+  :root[data-theme="light"]{ --bg:#F4F6F5; --card:#FFFFFF; --ink:#1C2826; --ink2:#5B6B67; --line:#DDE4E1;
+    --accent:#0E6E62; --accent-ink:#FFFFFF; --accent-soft:#E2F0ED;
+    --warn:#B4762A; --warn-soft:#F6EBDA; --danger:#B0453C; --danger-soft:#F4E3E1;
+    --ok:#2E7D4F; --ok-soft:#E1EFE6; --shadow:0 1px 3px rgba(28,40,38,.08); }
+
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.5 "Avenir Next","Segoe UI",system-ui,-apple-system,sans-serif;
+    padding-bottom:76px}
+  .wrap{max-width:560px;margin:0 auto;padding:14px 14px 24px}
+  header.top{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:6px 2px 14px}
+  header.top h1{font-size:19px;margin:0;font-weight:700;letter-spacing:-.01em}
+  header.top .date{font-size:13px;color:var(--ink2)}
+  .eyebrow{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--accent)}
+
+  .chips{display:flex;gap:8px;overflow-x:auto;padding:2px}
+  .chip{flex:0 0 auto;border:1px solid var(--line);background:var(--card);color:var(--ink);
+    border-radius:999px;padding:8px 14px;font-size:14px;font-weight:600;cursor:pointer}
+  .chip.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+  .chip:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
+    outline:2px solid var(--accent);outline-offset:2px}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+    box-shadow:var(--shadow);padding:14px;margin-top:12px}
+  .card h3{margin:0;font-size:16px;font-weight:700}
+  .sub{font-size:13px;color:var(--ink2);margin-top:2px}
+  .last{font-size:13px;color:var(--ink2);margin-top:8px;font-variant-numeric:tabular-nums}
+  .last b{color:var(--ink)}
+
+  .badge{display:inline-block;font-size:12px;font-weight:700;border-radius:6px;padding:3px 8px;margin-top:8px}
+  .badge.up{background:var(--ok-soft);color:var(--ok)}
+  .badge.warm{background:var(--warn-soft);color:var(--warn)}
+
+  .sets{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+  .setrow{display:grid;grid-template-columns:52px 1fr 1fr;gap:8px;align-items:center}
+  .setrow.single{grid-template-columns:52px 1fr}
+  .setlbl{font-size:12px;font-weight:700;color:var(--ink2)}
+  input[type=number],input[type=text],input[type=date],select,textarea{
+    width:100%;border:1px solid var(--line);border-radius:8px;background:var(--bg);
+    color:var(--ink);padding:10px;font-size:16px;font-variant-numeric:tabular-nums}
+  textarea{resize:vertical;min-height:40px}
+  label.mini{font-size:12px;color:var(--ink2);display:block;margin-bottom:3px}
+
+  details.how{margin-top:10px}
+  details.how summary{cursor:pointer;font-size:13px;font-weight:600;color:var(--accent)}
+  details.how p{font-size:13.5px;color:var(--ink2);margin:8px 0 0}
+
+  .checkline{display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px dashed var(--line)}
+  .checkline:last-child{border-bottom:0}
+  .checkline input[type=checkbox]{width:22px;height:22px;accent-color:var(--accent);flex:0 0 auto;margin-top:1px}
+  .checkline span{font-size:14.5px}
+
+  button.big{width:100%;border:0;border-radius:var(--r);padding:14px;font-size:16px;font-weight:700;
+    background:var(--accent);color:var(--accent-ink);cursor:pointer;margin-top:14px}
+  button.ghost{width:100%;border:1px solid var(--line);border-radius:var(--r);padding:12px;font-size:15px;
+    font-weight:600;background:var(--card);color:var(--ink);cursor:pointer;margin-top:10px}
+  button.danger{border-color:var(--danger);color:var(--danger)}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .stat{background:var(--accent-soft);border-radius:var(--r);padding:10px 12px}
+  .stat .v{font-size:20px;font-weight:800;font-variant-numeric:tabular-nums}
+  .stat .k{font-size:12px;color:var(--ink2)}
+  .delta{font-size:12px;font-weight:700}
+  .delta.down{color:var(--ok)} .delta.upbad{color:var(--danger)} .delta.flat{color:var(--ink2)}
+
+  table.hist{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}
+  table.hist td,table.hist th{padding:7px 6px;border-bottom:1px solid var(--line);text-align:left}
+  table.hist th{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink2)}
+  .scrollx{overflow-x:auto}
+
+  .painrow{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .pain{width:38px;height:38px;border-radius:8px;border:1px solid var(--line);background:var(--card);
+    font-weight:700;cursor:pointer;font-variant-numeric:tabular-nums}
+  .pain.on{background:var(--danger);border-color:var(--danger);color:#fff}
+  .pain.on.low{background:var(--ok);border-color:var(--ok)}
+  .pain.on.mid{background:var(--warn);border-color:var(--warn)}
+
+  nav.tabs{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--line);
+    display:flex;justify-content:space-around;padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
+  nav.tabs button{border:0;background:none;color:var(--ink2);font-size:12px;font-weight:700;cursor:pointer;
+    display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 10px;border-radius:8px}
+  nav.tabs button.on{color:var(--accent);background:var(--accent-soft)}
+  nav.tabs .ico{font-size:19px}
+
+  .toast{position:fixed;left:50%;bottom:86px;transform:translateX(-50%);background:var(--ink);color:var(--bg);
+    padding:10px 18px;border-radius:999px;font-size:14px;font-weight:600;opacity:0;transition:opacity .25s;pointer-events:none;z-index:9}
+  .toast.show{opacity:1}
+  .note{font-size:13px;color:var(--ink2);margin-top:8px}
+  .warnbox{background:var(--danger-soft);color:var(--danger);border-radius:var(--r);padding:10px 12px;font-size:13.5px;font-weight:600;margin-top:12px}
+  h2.sec{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink2);margin:20px 2px 0}
+  @media (prefers-reduced-motion: reduce){ .toast{transition:none} }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="eyebrow">Bel Dostu Program</div>
+      <h1>Antrenman Takip</h1>
+    </div>
+    <div class="date" id="todayLbl"></div>
+  </header>
+  <main id="view"></main>
+</div>
+
+<nav class="tabs" aria-label="Sekmeler">
+  <button data-tab="workout" class="on"><span class="ico">🏋️</span>Antrenman</button>
+  <button data-tab="metrics"><span class="ico">📏</span>Ölçümler</button>
+  <button data-tab="history"><span class="ico">📒</span>Geçmiş</button>
+  <button data-tab="backup"><span class="ico">💾</span>Yedek</button>
+</nav>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+"use strict";
+/* ================= VERİ ================= */
+const DB_KEY = "spor-takip-v1";
+const DAYS = {
+  gun1:{ name:"Gün 1 — Kuvvet A (İtiş)", ex:[
+    {id:"legpress", n:"Leg press (90° sınırlı)", sets:3, rep:"10–12", repTop:12, rest:"2 dk", start:"kızak+20–40 kg", type:"wr",
+     how:"Sırt ve kalça yastığa yapışık, ayaklar platformun üst yarısında. Dizler 90°'yi GEÇMEZ — kalçan yastıktan kalkarsa çok derindesin. İterken nefes ver, dizleri kilitleme. 3×12 temiz olunca +5 kg."},
+    {id:"goblet", n:"Goblet squat (kutuya)", sets:3, rep:"8–10", repTop:10, rest:"90 sn", start:"8–10 kg dambıl", type:"wr",
+     how:"Dambıl göğüste dikey, arkanda diz hizasında kutu. Kalça geriye-aşağı, kutuya DOKUN ve kalk (oturma). Topuklar yerde, göğüs dik. 3×10 olunca bir üst dambıl."},
+    {id:"chest", n:"Göğüs pres (makine/dambıl)", sets:3, rep:"8–12", repTop:12, rest:"90–120 sn", start:"makine 20–30 kg / dambıl 8–10 kg", type:"wr",
+     how:"Tutamaçlar göğüs ortası hizasında, bel köprü YAPMAZ. İterken nefes ver, dirsek kilitleme, 2 sn'de geri getir."},
+    {id:"shoulder", n:"Omuz pres (sırt destekli)", sets:3, rep:"8–12", repTop:12, rest:"90 sn", start:"6–8 kg dambıl", type:"wr",
+     how:"Sırtlık 85–90°, sırt TAM yastıkta (ayakta yasak). Kulak hizasından yukarı it, belini yastıktan ayırma, kaburgalar aşağıda."},
+    {id:"pallof1", n:"Pallof press", sets:3, rep:"10/yan", repTop:10, rest:"60 sn", start:"5 kg kablo", type:"wr",
+     how:"Makara göğüs hizasında, makineye YAN dur, tutamaç göğüste. Nefes verip kolları dümdüz İLERİ uzat — gövde 5 cm bile dönmez. 2 sn bekle, 2 sn'de getir. 10 tekrar + diğer yan = 1 set. Gövden dönüyorsa ağırlık fazla."},
+    {id:"abd1", n:"Kalça abdüksiyonu (makine)", sets:3, rep:"12–15", repTop:15, rest:"60 sn", start:"25–35 kg", type:"wr",
+     how:"Sırt yastıkta, bacakları kontrollü aç, 1 sn tut, 2 sn'de kapat. Gövdeyi öne yatırma. Sakroiliak stabilizatörün."},
+    {id:"cardio1", n:"Yarı yatar bisiklet — Zon 2", sets:1, rep:"20 dk", type:"cardio", start:"konuşabilme temposu",
+     how:"Konuşabilirsin ama şarkı söyleyemezsin. Nabız kabaca (220−yaş)×0,60–0,70."}
+  ]},
+  gun2:{ name:"Gün 2 — Aerobik + Kor", ex:[
+    {id:"walk2", n:"Eğimli yürüyüş bandı", sets:1, rep:"30–40 dk", type:"cardio", start:"5–6 km/s, %5 eğim",
+     how:"Tutamaçlara ASILMA. Her hafta YA +%1 eğim YA +5 dk (ikisi birden değil). Tavan: %8, 40 dk."},
+    {id:"mcgill2", n:"McGill üçlüsü — tam doz (5-3-1)", sets:3, rep:"5-3-1 piramit", type:"time",
+     how:"Curl-up → yan köprü (her yan) → bird-dog (her çapraz). Her hareket 5-3-1 azalan piramit, 8–10 sn tutuşlar, setler arası 30 sn. Süre kutusuna ortalama tutuş saniyeni yaz."},
+    {id:"plank2", n:"Plank (dirseklerde)", sets:3, rep:"15–30 sn", type:"time",
+     how:"Dizden başla, omuz-kalça-diz düz çizgi; kalça çökerse set biter. Normal nefes al. 3×30 sn dizden olunca ayaklara geç, 15 sn'den yeniden başla."},
+    {id:"hipext2", n:"Kablo kalça ekstansiyonu", sets:2, rep:"12/bacak", repTop:12, rest:"60 sn", start:"5–10 kg", type:"wr",
+     how:"Alt makara + bilek kelepçesi, makineye yüzünü dön. Gövde dik SABİT, bacağı dizini bükmeden 20–30 cm geriye it, kalçanı sık. Beli kavislendirme."},
+    {id:"clam2", n:"Yan bacak kaldırma + clamshell", sets:2, rep:"12/yan", type:"check",
+     how:"Yan yatış: üst bacak düz 30–40 cm kalk-in. Clamshell: dizler bükük, lastikle diz aç-kapa; kalça geriye devrilmez."},
+    {id:"str2", n:"Esneme (kalça fleksörü, piriformis, hamstring)", sets:1, rep:"10 dk", type:"check",
+     how:"30 sn × 2 tur. Hamstring esnemesinde bacağa elektrik/uyuşma gelirse o esnemeyi YAPMA."}
+  ]},
+  gun3:{ name:"Gün 3 — Kuvvet B (Çekiş)", ex:[
+    {id:"latpd", n:"Lat pulldown", sets:3, rep:"10–12", repTop:12, rest:"90–120 sn", start:"30–40 kg", type:"wr",
+     how:"Dizler pedin altında, bar köprücüğe iner, gövde 5–10° sabit geriye eğim — SALLANMA. Omuzlar kulağa kalkmaz."},
+    {id:"row", n:"Göğüs destekli row", sets:3, rep:"10–12", repTop:12, rest:"90 sn", start:"25–35 kg", type:"wr",
+     how:"Göğüs yastıkta KALIR. Dirsekleri geriye çek, kürek kemiklerini sıkıştır, 1 sn tut. Serbest bent-over row yasak."},
+    {id:"split", n:"Destekli split squat", sets:3, rep:"8–10/bacak", repTop:10, rest:"90 sn", start:"vücut ağırlığı", type:"wr",
+     how:"Makas duruş, bir elinle destek al. Arka diz yere 5–10 cm kala dur, ön topuktan kalk. Desteksiz 3×10 olunca her ele 4 kg."},
+    {id:"legcurl", n:"Oturarak leg curl", sets:3, rep:"10–12", repTop:12, rest:"60–90 sn", start:"20–30 kg", type:"wr",
+     how:"Topukları altına kıvır, 1 sn tut, 2 sn'de bırak. Kalça koltuktan kalkmaz. Belsiz hamstring çalışması."},
+    {id:"pullthru", n:"Kablo pull-through", sets:2, rep:"12", repTop:12, rest:"60 sn", start:"10–15 kg", type:"wr",
+     how:"Alt makara + halat, makineye sırtını dön. Dizler hafif bükük SABİT, kalça geriye — sırt DÜMDÜZ, hareket kalçadan. Belde his olursa bu hareketi programdan at."},
+    {id:"rdl", n:"Kısmi KB RDL (opsiyonel — sadece ağrısız haftalarda)", sets:2, rep:"10", repTop:10, rest:"90 sn", start:"8–12 kg", type:"wr",
+     how:"Yalnızca diz kapağına kadar in. Sırt düz, çene nötr. Ağrılı haftada atla → yerine 1 set leg curl."},
+    {id:"cardio3", n:"Eliptik — Zon 2", sets:1, rep:"20 dk", type:"cardio", start:"konuşabilme temposu", how:"Konuşma testi temposu."}
+  ]},
+  gun4:{ name:"Gün 4 — Uzun Aerobik + Kor", ex:[
+    {id:"cardio4", n:"Karışık kardiyo (yürüyüş + bisiklet/eliptik)", sets:1, rep:"40 dk", type:"cardio", start:"20+20 dk, Zon 2",
+     how:"20 dk eğimli yürüyüş (%5–8) + 20 dk bisiklet/eliptik. Haftanın en yüksek kalori seansı; 4 haftada 45 dk'ya çıkabilir."},
+    {id:"mcgill4", n:"McGill üçlüsü — tam doz (5-3-1)", sets:3, rep:"5-3-1 piramit", type:"time",
+     how:"Gün 2 ile aynı: her hareket 5-3-1, 8–10 sn tutuşlar."},
+    {id:"pallof4", n:"Pallof press", sets:3, rep:"10/yan", repTop:10, rest:"60 sn", start:"5 kg", type:"wr",
+     how:"Gün 1 tekniğiyle aynı: yan dur, kolları ileri uzat, gövde dönmez."},
+    {id:"abd4", n:"Kalça abdüksiyonu (makine)", sets:2, rep:"15", repTop:15, rest:"60 sn", start:"25–35 kg", type:"wr",
+     how:"Kontrollü aç, 1 sn tut, yavaş kapat."},
+    {id:"stepup", n:"Alçak basamağa step-up", sets:2, rep:"10/bacak", repTop:10, rest:"60 sn", start:"ağırlıksız", type:"wr",
+     how:"15–20 cm basamak. Tümüyle ÖN bacakla it, dik gövde, kontrollü in. Sakroiliakta his yaparsa çıkar → +1 set abdüksiyon."},
+    {id:"str4", n:"Esneme rutini", sets:1, rep:"10 dk", type:"check", how:"Gün 2 ile aynı: 30 sn × 2 tur."}
+  ]}
+};
+const WARMUP = [
+  "Yürüyüş bandı 5 dk (hız 5–5,5, eğim %2–3)",
+  "Cat-camel × 8 (ağrısız aralıkta, akıcı)",
+  "McGill curl-up 2×5 (5 sn tutuş — eller bel altında)",
+  "Yan köprü (dizden) her yan 2×5 (7–10 sn)",
+  "Bird-dog her çapraz 2×5 (bel çukurlaşmaz)",
+  "Clamshell (lastikli) her yan 1×12"
+];
+const METRIC_DEFS = [
+  {id:"kilo", n:"Kilo", unit:"kg", freq:"haftada 1 — aynı gün, sabah aç, tuvalet sonrası", goodDown:true},
+  {id:"bel", n:"Bel çevresi", unit:"cm", freq:"2 haftada 1 — göbek deliği hizasından", goodDown:true},
+  {id:"adim", n:"Adım", unit:"adım", freq:"günlük (hedef: 6.000'den başla, +1.000/hafta → 10.000)", goodDown:false},
+  {id:"plankR", n:"Yan köprü SAĞ", unit:"sn", freq:"4 haftada 1", goodDown:false},
+  {id:"plankL", n:"Yan köprü SOL", unit:"sn", freq:"4 haftada 1 — sağ/sol farkı %10 altına inmeli", goodDown:false}
+];
+
+let db = load();
+function load(){
+  try{ const raw = localStorage.getItem(DB_KEY); if(raw) return JSON.parse(raw); }catch(e){}
+  return {sessions:{}, metrics:{}, pain:{}, ui:{day:"gun1"}};
+}
+function save(){
+  try{ localStorage.setItem(DB_KEY, JSON.stringify(db)); }
+  catch(e){ toast("Kaydedilemedi! Tarayıcı depolaması dolu olabilir."); }
+}
+const today = () => new Date().toISOString().slice(0,10);
+const fmtDate = iso => { const [y,m,d]=iso.split("-"); return `${d}.${m}.${y}`; };
+let curDate = today(), curDay = db.ui.day || "gun1", curTab = "workout";
+
+function sKey(date,day){ return date+"_"+day; }
+function getSession(date,day){
+  const k=sKey(date,day);
+  if(!db.sessions[k]) db.sessions[k]={date,day,ex:{},warm:[],done:false};
+  return db.sessions[k];
+}
+function getEx(sess,ex){
+  if(!sess.ex[ex.id]) sess.ex[ex.id]={sets:Array.from({length:ex.sets},()=>({w:"",r:""})),note:"",chk:false};
+  const e=sess.ex[ex.id];
+  while(e.sets.length<ex.sets) e.sets.push({w:"",r:""});
+  return e;
+}
+function lastSession(exId, beforeKey){
+  const keys=Object.keys(db.sessions)
+    .filter(k=>k!==beforeKey && db.sessions[k].ex[exId])
+    .filter(k=>{ const e=db.sessions[k].ex[exId];
+      return e.chk || e.sets.some(s=>s.w!==""||s.r!==""); })
+    .sort((a,b)=> db.sessions[b].date.localeCompare(db.sessions[a].date));
+  return keys.length? db.sessions[keys[0]] : null;
+}
+
+/* ================= GÖRÜNÜMLER ================= */
+const view = document.getElementById("view");
+document.getElementById("todayLbl").textContent = fmtDate(today());
+
+function esc(s){ return String(s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+function toast(msg){
+  const t=document.getElementById("toast"); t.textContent=msg; t.classList.add("show");
+  clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),2200);
+}
+
+function render(){
+  if(curTab==="workout") renderWorkout();
+  else if(curTab==="metrics") renderMetrics();
+  else if(curTab==="history") renderHistory();
+  else renderBackup();
+}
+
+/* ---- ANTRENMAN ---- */
+function renderWorkout(){
+  const day=DAYS[curDay], sess=getSession(curDate,curDay), skey=sKey(curDate,curDay);
+  let h=`<div class="chips" role="tablist">`;
+  for(const k of Object.keys(DAYS)){
+    h+=`<button class="chip ${k===curDay?"on":""}" data-day="${k}">${DAYS[k].name.split(" — ")[0]}</button>`;
+  }
+  h+=`</div>
+  <div class="card">
+    <label class="mini" for="dateIn">Antrenman tarihi</label>
+    <input type="date" id="dateIn" value="${curDate}">
+    <div class="sub" style="margin-top:6px">${esc(day.name)}</div>
+  </div>
+  <div class="card"><h3>Isınma <span class="sub" style="display:inline">— 10 dk, atlanmaz</span></h3><div style="margin-top:6px">`;
+  WARMUP.forEach((w,i)=>{
+    h+=`<div class="checkline"><input type="checkbox" id="wu${i}" data-warm="${i}" ${sess.warm.includes(i)?"checked":""}><span><label for="wu${i}">${esc(w)}</label></span></div>`;
+  });
+  h+=`</div></div>`;
+
+  day.ex.forEach(ex=>{
+    const e=getEx(sess,ex), last=lastSession(ex.id,skey);
+    let lastLine="", badge="";
+    if(last){
+      const le=last.ex[ex.id];
+      if(ex.type==="wr"){
+        const parts=le.sets.filter(s=>s.w!==""||s.r!=="").map(s=>`${s.w||"?"}kg×${s.r||"?"}`);
+        if(parts.length) lastLine=`Geçen (${fmtDate(last.date)}): <b>${parts.join(" · ")}</b>`;
+        if(ex.repTop && le.sets.length>=ex.sets && le.sets.every(s=>Number(s.r)>=ex.repTop))
+          badge=`<span class="badge up">⬆ Geçen seans hedefi doldurdun → bu seans en küçük kademe artır</span>`;
+      }else if(ex.type==="time"){
+        const parts=le.sets.filter(s=>s.r!=="").map(s=>`${s.r} sn`);
+        if(parts.length) lastLine=`Geçen (${fmtDate(last.date)}): <b>${parts.join(" · ")}</b>`;
+      }else if(ex.type==="cardio"){
+        if(le.sets[0]&&(le.sets[0].r!==""||le.sets[0].w!==""))
+          lastLine=`Geçen (${fmtDate(last.date)}): <b>${le.sets[0].r||"?"} dk${le.sets[0].w?` · seviye/eğim ${le.sets[0].w}`:""}</b>`;
+      }else if(le.chk){ lastLine=`Geçen (${fmtDate(last.date)}): <b>yapıldı ✓</b>`; }
+    }
+    h+=`<div class="card"><h3>${esc(ex.n)}</h3>
+      <div class="sub">${ex.sets>1?`${ex.sets} set × `:""}${esc(ex.rep)}${ex.rest?` · dinlenme ${esc(ex.rest)}`:""}${ex.start?` · başlangıç: ${esc(ex.start)}`:""}</div>
+      ${lastLine?`<div class="last">${lastLine}</div>`:""}${badge}
+      <div class="sets">`;
+    if(ex.type==="wr"){
+      e.sets.forEach((s,i)=>{
+        h+=`<div class="setrow"><span class="setlbl">Set ${i+1}</span>
+          <input type="number" inputmode="decimal" step="0.5" min="0" placeholder="kg" aria-label="${esc(ex.n)} set ${i+1} kilo" data-ex="${ex.id}" data-i="${i}" data-f="w" value="${esc(s.w)}">
+          <input type="number" inputmode="numeric" step="1" min="0" placeholder="tekrar" aria-label="${esc(ex.n)} set ${i+1} tekrar" data-ex="${ex.id}" data-i="${i}" data-f="r" value="${esc(s.r)}"></div>`;
+      });
+    }else if(ex.type==="time"){
+      e.sets.forEach((s,i)=>{
+        h+=`<div class="setrow single"><span class="setlbl">Set ${i+1}</span>
+          <input type="number" inputmode="numeric" step="1" min="0" placeholder="saniye" aria-label="${esc(ex.n)} set ${i+1} saniye" data-ex="${ex.id}" data-i="${i}" data-f="r" value="${esc(s.r)}"></div>`;
+      });
+    }else if(ex.type==="cardio"){
+      h+=`<div class="setrow"><span class="setlbl">Süre</span>
+        <input type="number" inputmode="numeric" step="1" min="0" placeholder="dk" aria-label="${esc(ex.n)} dakika" data-ex="${ex.id}" data-i="0" data-f="r" value="${esc(e.sets[0].r)}">
+        <input type="text" placeholder="seviye / eğim" aria-label="${esc(ex.n)} seviye" data-ex="${ex.id}" data-i="0" data-f="w" value="${esc(e.sets[0].w)}"></div>`;
+    }else{
+      h+=`<div class="checkline"><input type="checkbox" id="chk_${ex.id}" data-exchk="${ex.id}" ${e.chk?"checked":""}><span><label for="chk_${ex.id}">Yapıldı</label></span></div>`;
+    }
+    h+=`</div>
+      <details class="how"><summary>Nasıl yapılır?</summary><p>${esc(ex.how)}</p></details>
+      <div style="margin-top:8px"><input type="text" placeholder="Not (his, ağrı, zorluk…)" aria-label="${esc(ex.n)} notu" data-exnote="${ex.id}" value="${esc(e.note)}"></div>
+    </div>`;
+  });
+
+  h+=`<div class="card"><h3>Bugünkü ağrı (0–10, akşam işaretle)</h3>
+    <div class="painrow">${[0,1,2,3,4,5,6,7,8,9,10].map(p=>{
+      const on = db.pain[curDate]===p;
+      const cls = p<=2?"low":(p<=4?"mid":"");
+      return `<button class="pain ${on?"on "+cls:""}" data-pain="${p}">${p}</button>`;
+    }).join("")}</div>
+    <div class="note">🔴 Bacağa yayılan ağrı/uyuşma varsa sayıdan bağımsız: hareketi bırak; artış 3 günü geçerse yükleri %30 düşür.</div>
+  </div>
+  <button class="big" id="finishBtn">${sess.done?"✓ Antrenman tamamlandı":"Antrenmanı bitir ve kaydet"}</button>
+  <div class="warnbox">Her set sonrası kendine sor: "2–3 tekrar daha yapabilir miydim?" Cevap hayırsa ağırlık fazla. Nefes tutup ıkınmak yasak.</div>`;
+  view.innerHTML=h;
+
+  view.querySelectorAll("[data-day]").forEach(b=>b.onclick=()=>{ curDay=b.dataset.day; db.ui.day=curDay; save(); render(); });
+  view.querySelector("#dateIn").onchange=ev=>{ curDate=ev.target.value||today(); render(); };
+  view.querySelectorAll("[data-warm]").forEach(c=>c.onchange=()=>{
+    const i=Number(c.dataset.warm), s=getSession(curDate,curDay);
+    s.warm = c.checked? [...new Set([...s.warm,i])] : s.warm.filter(x=>x!==i); save();
+  });
+  view.querySelectorAll("input[data-ex]").forEach(inp=>inp.oninput=()=>{
+    const s=getSession(curDate,curDay);
+    const exDef=DAYS[curDay].ex.find(x=>x.id===inp.dataset.ex);
+    getEx(s,exDef).sets[Number(inp.dataset.i)][inp.dataset.f]=inp.value; save();
+  });
+  view.querySelectorAll("[data-exchk]").forEach(c=>c.onchange=()=>{
+    const s=getSession(curDate,curDay);
+    const exDef=DAYS[curDay].ex.find(x=>x.id===c.dataset.exchk);
+    getEx(s,exDef).chk=c.checked; save();
+  });
+  view.querySelectorAll("[data-exnote]").forEach(inp=>inp.oninput=()=>{
+    const s=getSession(curDate,curDay);
+    const exDef=DAYS[curDay].ex.find(x=>x.id===inp.dataset.exnote);
+    getEx(s,exDef).note=inp.value; save();
+  });
+  view.querySelectorAll("[data-pain]").forEach(b=>b.onclick=()=>{
+    const p=Number(b.dataset.pain);
+    if(db.pain[curDate]===p) delete db.pain[curDate]; else db.pain[curDate]=p;
+    save(); render();
+  });
+  view.querySelector("#finishBtn").onclick=()=>{
+    const s=getSession(curDate,curDay); s.done=!s.done; save(); render();
+    if(s.done) toast("Kaydedildi. İyi iş! 💪");
+  };
+}
+
+/* ---- ÖLÇÜMLER ---- */
+function renderMetrics(){
+  let h=`<h2 class="sec">Vücut ölçümleri</h2>`;
+  METRIC_DEFS.forEach(m=>{
+    const arr=(db.metrics[m.id]||[]).slice().sort((a,b)=>a.d.localeCompare(b.d));
+    const lastV=arr.length?arr[arr.length-1]:null;
+    const prevV=arr.length>1?arr[arr.length-2]:null;
+    let delta="";
+    if(lastV&&prevV){
+      const d=Number(lastV.v)-Number(prevV.v);
+      const good=(m.goodDown&&d<0)||(!m.goodDown&&d>0);
+      const cls=d===0?"flat":(good?"down":"upbad");
+      delta=`<span class="delta ${cls}">${d>0?"+":""}${Math.round(d*10)/10} ${m.unit}</span>`;
+    }
+    h+=`<div class="card"><h3>${m.n} <span class="sub" style="display:inline">(${m.unit})</span></h3>
+      <div class="sub">${esc(m.freq)}</div>
+      ${lastV?`<div class="last">Son: <b>${esc(lastV.v)} ${m.unit}</b> (${fmtDate(lastV.d)}) ${delta}</div>`:`<div class="last">Henüz kayıt yok</div>`}
+      <div class="setrow" style="margin-top:10px">
+        <span class="setlbl">Bugün</span>
+        <input type="number" inputmode="decimal" step="0.1" placeholder="${m.unit}" id="min_${m.id}" aria-label="${m.n} değeri">
+        <button class="ghost" style="margin-top:0" data-msave="${m.id}">Kaydet</button>
+      </div>
+      ${arr.length?`<details class="how"><summary>Tüm kayıtlar (${arr.length})</summary><div class="scrollx"><table class="hist"><tr><th>Tarih</th><th>${m.unit}</th></tr>${
+        arr.slice().reverse().map(r=>`<tr><td>${fmtDate(r.d)}</td><td>${esc(r.v)}</td></tr>`).join("")
+      }</table></div></details>`:""}
+    </div>`;
+  });
+  const kilo=(db.metrics.kilo||[]).slice().sort((a,b)=>a.d.localeCompare(b.d));
+  if(kilo.length){
+    const first=Number(kilo[0].v), last=Number(kilo[kilo.length-1].v);
+    h=`<div class="grid2">
+      <div class="stat"><div class="v">${last} kg</div><div class="k">güncel kilo</div></div>
+      <div class="stat"><div class="v">${Math.round((first-last)*10)/10} kg</div><div class="k">toplam kayıp (başlangıç ${first} kg)</div></div>
+    </div>`+h;
+    h+=`<div class="note">Hedef hız: haftada 0,5–0,75 kg. 2 haftalık ortalama bunun altındaysa −200 kcal; üstünde >1 kg ise +200 kcal (kas koruması).</div>`;
+  }
+  view.innerHTML=h;
+  view.querySelectorAll("[data-msave]").forEach(b=>b.onclick=()=>{
+    const id=b.dataset.msave, inp=view.querySelector("#min_"+id);
+    if(inp.value===""){ toast("Önce değer gir"); return; }
+    if(!db.metrics[id]) db.metrics[id]=[];
+    db.metrics[id]=db.metrics[id].filter(r=>r.d!==today());
+    db.metrics[id].push({d:today(), v:inp.value});
+    save(); render(); toast("Ölçüm kaydedildi");
+  });
+}
+
+/* ---- GEÇMİŞ ---- */
+function renderHistory(){
+  const keys=Object.keys(db.sessions)
+    .filter(k=>{ const s=db.sessions[k];
+      return s.done || s.warm.length || Object.values(s.ex).some(e=>e.chk||e.sets.some(x=>x.w!==""||x.r!==""));})
+    .sort((a,b)=> db.sessions[b].date.localeCompare(db.sessions[a].date));
+  let h=`<h2 class="sec">Antrenman geçmişi (${keys.length} seans)</h2>`;
+  if(!keys.length) h+=`<div class="card"><div class="sub">Henüz kayıtlı antrenman yok. İlk seansını Antrenman sekmesinden kaydet.</div></div>`;
+  keys.forEach(k=>{
+    const s=db.sessions[k], day=DAYS[s.day];
+    if(!day) return;
+    let vol=0, lines="";
+    day.ex.forEach(ex=>{
+      const e=s.ex[ex.id]; if(!e) return;
+      if(ex.type==="wr"){
+        const parts=e.sets.filter(x=>x.w!==""||x.r!=="").map(x=>{ vol+=(Number(x.w)||0)*(Number(x.r)||0); return `${x.w||"?"}×${x.r||"?"}`;});
+        if(parts.length) lines+=`<tr><td>${esc(ex.n)}</td><td>${parts.join(" · ")}</td></tr>`;
+      }else if(ex.type==="time"){
+        const parts=e.sets.filter(x=>x.r!=="").map(x=>`${x.r} sn`);
+        if(parts.length) lines+=`<tr><td>${esc(ex.n)}</td><td>${parts.join(" · ")}</td></tr>`;
+      }else if(ex.type==="cardio"){
+        if(e.sets[0]&&(e.sets[0].r!==""||e.sets[0].w!==""))
+          lines+=`<tr><td>${esc(ex.n)}</td><td>${e.sets[0].r||"?"} dk${e.sets[0].w?` · ${esc(e.sets[0].w)}`:""}</td></tr>`;
+      }else if(e.chk){ lines+=`<tr><td>${esc(ex.n)}</td><td>✓</td></tr>`; }
+      if(e.note) lines+=`<tr><td class="sub">↳ not</td><td class="sub">${esc(e.note)}</td></tr>`;
+    });
+    const pain=db.pain[s.date];
+    h+=`<div class="card"><h3>${fmtDate(s.date)} — ${esc(day.name)} ${s.done?'<span class="badge up">tamamlandı</span>':'<span class="badge warm">yarım</span>'}</h3>
+      <div class="sub">Isınma ${s.warm.length}/${WARMUP.length}${vol?` · toplam hacim ~${Math.round(vol)} kg`:""}${pain!==undefined?` · ağrı ${pain}/10`:""}</div>
+      ${lines?`<details class="how"><summary>Detaylar</summary><div class="scrollx"><table class="hist">${lines}</table></div></details>`:""}
+      <button class="ghost danger" data-del="${k}">Bu seansı sil</button>
+    </div>`;
+  });
+  const pains=Object.keys(db.pain).sort().reverse().slice(0,14);
+  if(pains.length){
+    h+=`<h2 class="sec">Ağrı günlüğü (son 14 kayıt)</h2><div class="card"><div class="scrollx"><table class="hist"><tr><th>Tarih</th><th>Ağrı</th></tr>${
+      pains.map(d=>`<tr><td>${fmtDate(d)}</td><td>${db.pain[d]}/10</td></tr>`).join("")}</table></div></div>`;
+  }
+  view.innerHTML=h;
+  view.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{
+    if(confirm("Bu seans kaydı silinsin mi? Geri alınamaz.")){ delete db.sessions[b.dataset.del]; save(); render(); }
+  });
+}
+
+/* ---- YEDEK ---- */
+function renderBackup(){
+  const count=Object.keys(db.sessions).length;
+  view.innerHTML=`
+  <div class="card"><h3>Verilerin nerede?</h3>
+    <p class="note">Tüm kayıtların <b>bu cihazda, bu tarayıcının kalıcı hafızasında</b> tutulur ve sayfayı/uygulamayı kapatınca <b>kaybolmaz</b>. Ama tarayıcı verilerini/geçmişini temizlersen veya başka cihazdan açarsan görünmez. Bu yüzden <b>haftada bir yedek indir.</b></p></div>
+  <div class="card"><h3>Yedek al</h3>
+    <p class="note">${count} seans + ölçümler tek dosyada iner. Dosyayı telefonuna/Google Drive'a kaydet.</p>
+    <button class="big" id="expBtn">Yedeği indir (.json)</button>
+    <button class="ghost" id="copyBtn">Panoya kopyala</button></div>
+  <div class="card"><h3>Yedekten geri yükle</h3>
+    <p class="note">Daha önce indirdiğin .json dosyasını seç. Mevcut verilerin üzerine yazılır.</p>
+    <input type="file" id="impFile" accept=".json,application/json"></div>
+  <div class="card"><h3>Sıfırla</h3>
+    <button class="ghost danger" id="wipeBtn">Tüm verileri sil</button></div>`;
+  const dl=()=>{
+    const blob=new Blob([JSON.stringify(db,null,1)],{type:"application/json"});
+    const a=document.createElement("a"); a.href=URL.createObjectURL(blob);
+    a.download="antrenman-yedek-"+today()+".json"; a.click(); URL.revokeObjectURL(a.href);
+  };
+  view.querySelector("#expBtn").onclick=()=>{ dl(); toast("Yedek indirildi"); };
+  view.querySelector("#copyBtn").onclick=async()=>{
+    try{ await navigator.clipboard.writeText(JSON.stringify(db)); toast("Panoya kopyalandı"); }
+    catch(e){ toast("Kopyalanamadı — Yedeği indir'i kullan"); }
+  };
+  view.querySelector("#impFile").onchange=ev=>{
+    const f=ev.target.files[0]; if(!f) return;
+    const r=new FileReader();
+    r.onload=()=>{ try{
+        const d=JSON.parse(r.result);
+        if(!d.sessions||!d.metrics) throw 0;
+        db=d; save(); toast("Yedek geri yüklendi"); render();
+      }catch(e){ toast("Dosya okunamadı — geçerli bir yedek değil"); } };
+    r.readAsText(f);
+  };
+  view.querySelector("#wipeBtn").onclick=()=>{
+    if(confirm("TÜM antrenman ve ölçüm kayıtların silinecek. Emin misin?")&&confirm("Son kez: geri alınamaz. Silinsin mi?")){
+      db={sessions:{},metrics:{},pain:{},ui:{day:"gun1"}}; save(); render(); toast("Sıfırlandı");
+    }
+  };
+}
+
+/* ---- SEKMELER ---- */
+document.querySelectorAll("nav.tabs button").forEach(b=>b.onclick=()=>{
+  curTab=b.dataset.tab;
+  document.querySelectorAll("nav.tabs button").forEach(x=>x.classList.toggle("on",x===b));
+  render(); window.scrollTo(0,0);
+});
+render();
+</script>
