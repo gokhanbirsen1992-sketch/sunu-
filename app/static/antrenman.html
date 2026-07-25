@@ -121,6 +121,7 @@
     </div>
     <div class="date" id="todayLbl"></div>
   </header>
+  <div id="alerts"></div>
   <main id="view"></main>
 </div>
 
@@ -212,6 +213,13 @@ const METRIC_DEFS = [
   {id:"plankL", n:"Yan köprü SOL", unit:"sn", freq:"4 haftada 1 — sağ/sol farkı %10 altına inmeli", goodDown:false}
 ];
 
+let storageOK = true;
+try{
+  localStorage.setItem("__depo_testi","1");
+  if(localStorage.getItem("__depo_testi")!=="1") storageOK=false;
+  localStorage.removeItem("__depo_testi");
+}catch(e){ storageOK=false; }
+
 let db = load();
 function load(){
   try{ const raw = localStorage.getItem(DB_KEY); if(raw) return JSON.parse(raw); }catch(e){}
@@ -256,7 +264,47 @@ function toast(msg){
   clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),2200);
 }
 
+function hasData(){
+  return Object.keys(db.sessions).length>0 || Object.values(db.metrics).some(a=>a&&a.length) || Object.keys(db.pain).length>0;
+}
+function backupStale(){
+  const lb=db.ui.lastBackup;
+  return !lb || (Date.now()-new Date(lb+"T00:00:00").getTime())/86400000 >= 7;
+}
+async function downloadBackup(){
+  const data=JSON.stringify(db,null,1);
+  const fn="antrenman-yedek-"+today()+".json";
+  try{
+    if(window.claude && window.claude.downloads){
+      await window.claude.downloads.save({filename:fn, data:data});
+    }else{
+      const blob=new Blob([data],{type:"application/json"});
+      const a=document.createElement("a"); a.href=URL.createObjectURL(blob);
+      a.download=fn; a.click(); URL.revokeObjectURL(a.href);
+    }
+    db.ui.lastBackup=today(); save(); renderAlerts(); toast("Yedek kaydedildi ✓");
+    return true;
+  }catch(err){
+    if(err&&err.code==="declined") toast("Yedek indirme iptal edildi");
+    else if(err&&err.code==="rate_limited") toast("Biraz bekleyip tekrar dene");
+    else toast("İndirilemedi — Yedek sekmesinden tekrar dene");
+    return false;
+  }
+}
+function renderAlerts(){
+  const el=document.getElementById("alerts"); let h="";
+  if(!storageOK){
+    h=`<div class="warnbox">⛔ Bu ekran kayıt TUTAMIYOR (dosya önizlemesi veya kısıtlı tarayıcı). Burada girdiğin hiçbir şey saklanmaz! Linki Safari ya da Chrome'da aç, öyle kullan.</div>`;
+  }else if(hasData() && backupStale()){
+    h=`<div class="warnbox">⚠️ ${db.ui.lastBackup?`Son yedek: ${fmtDate(db.ui.lastBackup)} — 7 günden eski.`:"Henüz hiç yedek almadın."} Kayıtlar yalnızca bu tarayıcıda durur; kaybolmadan yedeğini indir.
+    <button class="ghost" id="quickBackup" style="margin-top:8px">Yedeği şimdi indir (.json)</button></div>`;
+  }
+  el.innerHTML=h;
+  const qb=document.getElementById("quickBackup");
+  if(qb) qb.onclick=downloadBackup;
+}
 function render(){
+  renderAlerts();
   if(curTab==="workout") renderWorkout();
   else if(curTab==="metrics") renderMetrics();
   else if(curTab==="history") renderHistory();
@@ -368,7 +416,10 @@ function renderWorkout(){
   });
   view.querySelector("#finishBtn").onclick=()=>{
     const s=getSession(curDate,curDay); s.done=!s.done; save(); render();
-    if(s.done) toast("Kaydedildi. İyi iş! 💪");
+    if(s.done){
+      toast("Kaydedildi. İyi iş! 💪");
+      if(backupStale()) downloadBackup();
+    }
   };
 }
 
@@ -470,7 +521,8 @@ function renderBackup(){
   <div class="card"><h3>Verilerin nerede?</h3>
     <p class="note">Tüm kayıtların <b>bu cihazda, bu tarayıcının kalıcı hafızasında</b> tutulur ve sayfayı/uygulamayı kapatınca <b>kaybolmaz</b>. Ama tarayıcı verilerini/geçmişini temizlersen veya başka cihazdan açarsan görünmez. Bu yüzden <b>haftada bir yedek indir.</b></p></div>
   <div class="card"><h3>Yedek al</h3>
-    <p class="note">${count} seans + ölçümler tek dosyada iner. Dosyayı telefonuna/Google Drive'a kaydet.</p>
+    <p class="note">${count} seans + ölçümler tek dosyada iner. Dosyayı telefonuna/Google Drive'a kaydet.
+    ${db.ui.lastBackup?`<br>Son yedek: <b>${fmtDate(db.ui.lastBackup)}</b>`:"<br><b>Henüz hiç yedek alınmadı.</b>"}</p>
     <button class="big" id="expBtn">Yedeği indir (.json)</button>
     <button class="ghost" id="copyBtn">Panoya kopyala</button></div>
   <div class="card"><h3>Yedekten geri yükle</h3>
@@ -478,12 +530,7 @@ function renderBackup(){
     <input type="file" id="impFile" accept=".json,application/json"></div>
   <div class="card"><h3>Sıfırla</h3>
     <button class="ghost danger" id="wipeBtn">Tüm verileri sil</button></div>`;
-  const dl=()=>{
-    const blob=new Blob([JSON.stringify(db,null,1)],{type:"application/json"});
-    const a=document.createElement("a"); a.href=URL.createObjectURL(blob);
-    a.download="antrenman-yedek-"+today()+".json"; a.click(); URL.revokeObjectURL(a.href);
-  };
-  view.querySelector("#expBtn").onclick=()=>{ dl(); toast("Yedek indirildi"); };
+  view.querySelector("#expBtn").onclick=async()=>{ if(await downloadBackup()) render(); };
   view.querySelector("#copyBtn").onclick=async()=>{
     try{ await navigator.clipboard.writeText(JSON.stringify(db)); toast("Panoya kopyalandı"); }
     catch(e){ toast("Kopyalanamadı — Yedeği indir'i kullan"); }
