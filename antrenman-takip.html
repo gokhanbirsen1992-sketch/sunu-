@@ -226,6 +226,7 @@ function load(){
   return {sessions:{}, metrics:{}, pain:{}, ui:{day:"gun1"}};
 }
 function save(){
+  db.ui.savedAt = Date.now();
   try{ localStorage.setItem(DB_KEY, JSON.stringify(db)); }
   catch(e){ toast("Kaydedilemedi! Tarayıcı depolaması dolu olabilir."); }
 }
@@ -264,8 +265,14 @@ function toast(msg){
   clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),2200);
 }
 
+function sessionHasContent(s){
+  return !!(s && (s.done || (s.warm&&s.warm.length) ||
+    Object.values(s.ex||{}).some(e=>e.chk || (e.sets||[]).some(x=>x.w!==""||x.r!==""))));
+}
 function hasData(){
-  return Object.keys(db.sessions).length>0 || Object.values(db.metrics).some(a=>a&&a.length) || Object.keys(db.pain).length>0;
+  return Object.values(db.sessions).some(sessionHasContent)
+    || Object.values(db.metrics).some(a=>a&&a.length)
+    || Object.keys(db.pain).length>0;
 }
 function backupStale(){
   const lb=db.ui.lastBackup;
@@ -291,17 +298,154 @@ async function downloadBackup(){
     return false;
   }
 }
+/* ---- GOOGLE DRIVE BULUT KAYDI ---- */
+const DRIVE_FILE = "antrenman-takip-verileri.json";
+let DRIVE_NAME = "Google Drive";
+let driveReady = false, driveMsg = "", cloudBusy = false, pendingCloud = null;
+
+function mcpOn(){ return typeof window!=="undefined" && window.claude && window.claude.mcp !== undefined; }
+function driveErrText(e){
+  const c = e && e.code;
+  if(c==="needs_reauth") return "Google Drive bağlantısının süresi dolmuş. claude.ai → Ayarlar → Bağlayıcılar'dan Drive'ı yeniden bağla.";
+  if(c==="server_not_connected") return "Google Drive bağlı değil. claude.ai → Ayarlar → Bağlayıcılar'dan Google Drive'ı ekle.";
+  if(c==="selection_required") return "Birden fazla Drive bağlayıcısı var — sayfa açılınca çıkan seçim istemini onayla.";
+  if(c==="blocked_by_policy"||c==="approval_required") return "Kuruluş ayarların Drive erişimine izin vermiyor.";
+  if(c==="not_granted"||c==="capability_disabled"||c==="capability_removed") return "Bu görünümde Drive erişimi yok.";
+  if(c==="tool_error") return "Drive işlemi hata verdi: " + (e.message||"");
+  return "Drive'a şu an ulaşılamadı" + (e&&e.message? " ("+e.message+")" : "") + ". Biraz sonra tekrar dene.";
+}
+async function driveCall(tool, input, opts){
+  try{ return await window.claude.mcp.callTool(DRIVE_NAME, tool, input, opts); }
+  catch(e){
+    if(e && e.retryable){
+      await new Promise(r=>setTimeout(r,(e.retryAfterMs||1500)+Math.random()*500));
+      return await window.claude.mcp.callTool(DRIVE_NAME, tool, input, opts);
+    }
+    throw e;
+  }
+}
+function pickList(p){
+  if(Array.isArray(p)) return p;
+  if(p && typeof p==="object"){
+    for(const k of ["files","items","results","data","fileList"]) if(Array.isArray(p[k])) return p[k];
+  }
+  return [];
+}
+function fileIdOf(f){ return f && (f.fileId||f.id||(f.file&&(f.file.id||f.file.fileId))) || null; }
+function fileTimeOf(f){ return (f && (f.createdTime||f.modifiedTime||f.created_time||f.modified_time||f.createdAt||"")) || ""; }
+function b64ToText(b64){
+  const bin=atob(String(b64).replace(/\s/g,""));
+  const bytes=new Uint8Array(bin.length);
+  for(let i=0;i<bin.length;i++) bytes[i]=bin.charCodeAt(i);
+  return new TextDecoder("utf-8").decode(bytes);
+}
+function parseDbCandidate(x){
+  if(!x) return null;
+  if(typeof x==="object" && x.sessions && x.metrics) return x;
+  if(typeof x==="string"){
+    try{ const j=JSON.parse(x); if(j&&j.sessions&&j.metrics) return j; }catch(e){}
+    try{ const j=JSON.parse(b64ToText(x)); if(j&&j.sessions&&j.metrics) return j; }catch(e){}
+  }
+  return null;
+}
+function decodeDownload(p){
+  let d = parseDbCandidate(p); if(d) return d;
+  if(p && typeof p==="object"){
+    for(const k of ["base64Content","content","data","textContent","text","body"]){
+      d = parseDbCandidate(p[k]); if(d) return d;
+    }
+  }
+  return null;
+}
+function dataScore(d){
+  if(!d) return 0;
+  return Object.keys(d.sessions||{}).length*10
+       + Object.values(d.metrics||{}).reduce((a,x)=>a+(x?x.length:0),0)
+       + Object.keys(d.pain||{}).length;
+}
+async function driveFetchLatest(){
+  const q = "title = '"+DRIVE_FILE+"'";
+  const res = await driveCall("search_files", {query:q, pageSize:10, excludeContentSnippets:true}, {cache:false});
+  const list = pickList(res && res.payload).slice()
+    .sort((a,b)=> String(fileTimeOf(b)).localeCompare(String(fileTimeOf(a))));
+  for(const f of list){
+    const id = fileIdOf(f); if(!id) continue;
+    try{
+      const dl = await driveCall("download_file_content", {fileId:id}, {cache:false});
+      const d = decodeDownload(dl && dl.payload);
+      if(d) return d;
+    }catch(e){ /* sıradaki dosyayı dene */ }
+  }
+  return null;
+}
+async function driveSave(showToast){
+  if(!driveReady || cloudBusy) return false;
+  cloudBusy = true; if(showToast) toast("Drive'a kaydediliyor…");
+  try{
+    await driveCall("create_file", {
+      title: DRIVE_FILE,
+      textContent: JSON.stringify(db),
+      contentMimeType: "application/json",
+      disableConversionToGoogleType: true
+    });
+    db.ui.lastCloud = new Date().toISOString();
+    save();
+    toast("Google Drive'a kaydedildi ☁️✓");
+    cloudBusy=false; if(curTab==="backup") render();
+    return true;
+  }catch(e){
+    cloudBusy=false;
+    driveMsg = driveErrText(e);
+    toast("Drive kaydı BAŞARISIZ — Yedek sekmesine bak");
+    if(curTab==="backup") render();
+    return false;
+  }
+}
+async function driveRestore(d){
+  const keepUi = Object.assign({}, d.ui||{}, {day: db.ui.day});
+  db = d; db.ui = keepUi; if(!db.pain) db.pain={};
+  save(); pendingCloud=null; render();
+  toast("Drive'daki kayıtların geri yüklendi ☁️");
+}
+async function driveInit(){
+  if(!mcpOn()) return;
+  try{
+    const lt = await window.claude.mcp.listTools();
+    const servers = (lt && lt.servers) || [];
+    let srv = servers.find(s=>s.server===DRIVE_NAME) || servers.find(s=>/drive/i.test(s.server||""));
+    if(!srv || !srv.tools || !srv.tools.length){ driveMsg = driveErrText({code:"server_not_connected"}); renderAlerts(); return; }
+    if(srv.authStatus==="needs_reauth"){ driveMsg = driveErrText({code:"needs_reauth"}); renderAlerts(); return; }
+    DRIVE_NAME = srv.server; driveReady = true; driveMsg="";
+    renderAlerts(); if(curTab==="backup") render();
+    const cloud = await driveFetchLatest();
+    if(cloud){
+      const cloudAt = (cloud.ui&&cloud.ui.savedAt)||0, localAt=(db.ui&&db.ui.savedAt)||0;
+      if(!hasData() && dataScore(cloud)>0){ await driveRestore(cloud); }
+      else if(dataScore(cloud)>0 && cloudAt>localAt){ pendingCloud=cloud; renderAlerts(); }
+    }
+  }catch(e){ driveMsg = driveErrText(e); renderAlerts(); }
+}
+
 function renderAlerts(){
   const el=document.getElementById("alerts"); let h="";
-  if(!storageOK){
-    h=`<div class="warnbox">⛔ Bu ekran kayıt TUTAMIYOR (dosya önizlemesi veya kısıtlı tarayıcı). Burada girdiğin hiçbir şey saklanmaz! Linki Safari ya da Chrome'da aç, öyle kullan.</div>`;
-  }else if(hasData() && backupStale()){
+  if(pendingCloud){
+    h+=`<div class="warnbox" style="background:var(--accent-soft);color:var(--accent)">☁️ Google Drive'da bu cihazdakinden DAHA YENİ kayıt bulundu.
+    <button class="ghost" id="cloudRestoreBtn" style="margin-top:8px">Drive'daki kaydı yükle</button></div>`;
+  }
+  if(driveMsg && !driveReady){
+    h+=`<div class="warnbox">☁️ ${esc(driveMsg)}</div>`;
+  }
+  if(!storageOK && !driveReady){
+    h+=`<div class="warnbox">⛔ Bu ekran kayıt TUTAMIYOR (dosya önizlemesi veya kısıtlı tarayıcı). Burada girdiğin hiçbir şey saklanmaz! Linki Safari ya da Chrome'da aç, öyle kullan.</div>`;
+  }else if(!driveReady && hasData() && backupStale()){
     h=`<div class="warnbox">⚠️ ${db.ui.lastBackup?`Son yedek: ${fmtDate(db.ui.lastBackup)} — 7 günden eski.`:"Henüz hiç yedek almadın."} Kayıtlar yalnızca bu tarayıcıda durur; kaybolmadan yedeğini indir.
     <button class="ghost" id="quickBackup" style="margin-top:8px">Yedeği şimdi indir (.json)</button></div>`;
   }
   el.innerHTML=h;
   const qb=document.getElementById("quickBackup");
   if(qb) qb.onclick=downloadBackup;
+  const cr=document.getElementById("cloudRestoreBtn");
+  if(cr) cr.onclick=()=>driveRestore(pendingCloud);
 }
 function render(){
   renderAlerts();
@@ -418,7 +562,8 @@ function renderWorkout(){
     const s=getSession(curDate,curDay); s.done=!s.done; save(); render();
     if(s.done){
       toast("Kaydedildi. İyi iş! 💪");
-      if(backupStale()) downloadBackup();
+      if(driveReady) driveSave(true);
+      else if(backupStale()) downloadBackup();
     }
   };
 }
@@ -517,9 +662,19 @@ function renderHistory(){
 /* ---- YEDEK ---- */
 function renderBackup(){
   const count=Object.keys(db.sessions).length;
-  view.innerHTML=`
+  const cloudCard = mcpOn() ? `
+  <div class="card"><h3>☁️ Google Drive bulut kaydı ${driveReady?'<span class="badge up">aktif</span>':'<span class="badge warm">bağlı değil</span>'}</h3>
+    <p class="note">${driveReady
+      ? `Kayıtların <b>${esc(DRIVE_NAME)}</b> hesabına <code>${DRIVE_FILE}</code> adıyla yazılır. Her "Antrenmanı bitir"de otomatik kaydedilir; uygulama açılınca Drive'daki en yeni kayıt aranır. Her kayıt Drive'da yeni bir sürüm dosyası oluşturur — eskileri Drive'dan silebilirsin.${db.ui.lastCloud?`<br>Son Drive kaydı: <b>${new Date(db.ui.lastCloud).toLocaleString("tr-TR")}</b>`:""}`
+      : esc(driveMsg||"Drive bağlantısı bekleniyor…")}</p>
+    ${driveReady?`<button class="big" id="cloudSaveBtn">Drive'a şimdi kaydet</button>
+    <button class="ghost" id="cloudLoadBtn">Drive'daki en yeni kaydı getir</button>`:""}
+  </div>` : "";
+  view.innerHTML=`${cloudCard}
   <div class="card"><h3>Verilerin nerede?</h3>
-    <p class="note">Tüm kayıtların <b>bu cihazda, bu tarayıcının kalıcı hafızasında</b> tutulur ve sayfayı/uygulamayı kapatınca <b>kaybolmaz</b>. Ama tarayıcı verilerini/geçmişini temizlersen veya başka cihazdan açarsan görünmez. Bu yüzden <b>haftada bir yedek indir.</b></p></div>
+    <p class="note">${driveReady
+      ? `Ana kayıt yerin <b>Google Drive</b> (yukarıda). Aşağıdaki dosya yedeği ek bir sigortadır.`
+      : `Tüm kayıtların <b>bu cihazda, bu tarayıcının kalıcı hafızasında</b> tutulur. Tarayıcı verilerini temizlersen veya başka cihazdan açarsan görünmez. Bu yüzden <b>haftada bir yedek indir.</b>`}</p></div>
   <div class="card"><h3>Yedek al</h3>
     <p class="note">${count} seans + ölçümler tek dosyada iner. Dosyayı telefonuna/Google Drive'a kaydet.
     ${db.ui.lastBackup?`<br>Son yedek: <b>${fmtDate(db.ui.lastBackup)}</b>`:"<br><b>Henüz hiç yedek alınmadı.</b>"}</p>
@@ -530,6 +685,17 @@ function renderBackup(){
     <input type="file" id="impFile" accept=".json,application/json"></div>
   <div class="card"><h3>Sıfırla</h3>
     <button class="ghost danger" id="wipeBtn">Tüm verileri sil</button></div>`;
+  const csb=view.querySelector("#cloudSaveBtn");
+  if(csb) csb.onclick=()=>driveSave(true);
+  const clb=view.querySelector("#cloudLoadBtn");
+  if(clb) clb.onclick=async()=>{
+    toast("Drive'da aranıyor…");
+    try{
+      const cloud=await driveFetchLatest();
+      if(!cloud){ toast("Drive'da kayıt bulunamadı"); return; }
+      if(!hasData() || confirm("Drive'daki kayıt bu cihazdakinin ÜZERİNE yazılacak. Devam?")) await driveRestore(cloud);
+    }catch(e){ driveMsg=driveErrText(e); toast("Drive'a ulaşılamadı"); render(); }
+  };
   view.querySelector("#expBtn").onclick=async()=>{ if(await downloadBackup()) render(); };
   view.querySelector("#copyBtn").onclick=async()=>{
     try{ await navigator.clipboard.writeText(JSON.stringify(db)); toast("Panoya kopyalandı"); }
@@ -559,4 +725,5 @@ document.querySelectorAll("nav.tabs button").forEach(b=>b.onclick=()=>{
   render(); window.scrollTo(0,0);
 });
 render();
+driveInit();
 </script>
