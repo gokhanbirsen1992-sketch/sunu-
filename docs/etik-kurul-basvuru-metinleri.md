@@ -164,7 +164,6 @@ sayısı 10 olduğunda, 100 olay ve dolayısıyla **n≈2500** gerekmektedir. Ad
   - Ağırlık SDS < −2
   - Vücut kütle indeksi SDS < −2
   - Hedef boy SDS'den sapma > 1.6 SDS
-  - Son bir yılda boy SDS'de ≥ 0.5 azalma
 
 Antropometrik değerlendirmede birincil referans olarak Neyzi ve ark.'nın Türk çocuklarına ait
 büyüme referans değerleri, duyarlılık analizinde WHO 2007 referansı kullanılacaktır.
@@ -205,7 +204,7 @@ düzeyinin normalin üst sınırının 10 katını aşması, doğrulanmış çö
 örnekte EMA pozitifliği), test isteminin klinik katkısı.
 
 **Bağımsız değişkenler:** yaş, cinsiyet, başvurulan branş, antropometrik ölçümler ve SDS
-değerleri, boy SDS'deki yıllık değişim, hedef boydan sapma, kemik yaşı; gastrointestinal
+değerleri, hedef boydan sapma, kemik yaşı; gastrointestinal
 semptomlar; hemoglobin, ferritin, demir eksikliği anemisi, transaminaz düzeyleri, albümin,
 D vitamini, kalsiyum, ALP, çinko, total IgA; eşlik eden tip 1 diyabet, otoimmün tiroidit,
 Down/Turner/Williams sendromu; birinci derece akrabada çölyak öyküsü; diş minesi defekti,

@@ -96,7 +96,6 @@ dönemi başvuru azalmasının etkisini görebilmek için yıl bazlı alt analiz
   - Ağırlık SDS < −2
   - VKİ SDS < −2
   - Hedef boy SDS'den sapma > 1.6 SDS
-  - Son 1 yılda boy SDS'de ≥ 0.5 düşüş (büyüme hızı yetersizliği)
 - Referans: Neyzi ve ark. Türk çocukları büyüme referansı (birincil), WHO 2007 (duyarlılık
   analizi için)
 
@@ -150,8 +149,6 @@ Literatürde ÇH ile ilişkisi gösterilmiş, rutin kayıtta bulunabilen değiş
 **Antropometrik**
 - Boy SDS (sürekli), Ağırlık SDS, VKİ SDS
 - Hedef boydan sapma (SDS)
-- Son 1 yıl boy SDS değişimi (Δ boy SDS) — Finlandiya modelinin en güçlü parametrelerinden
-- Son 1 yıl VKİ SDS değişimi
 - Kemik yaşı – kronolojik yaş farkı
 
 **Gastrointestinal**
@@ -186,7 +183,6 @@ Literatürde ÇH ile ilişkisi gösterilmiş, rutin kayıtta bulunabilen değiş
 ### 4.3. Öngörücülerin önceliklendirilmesi
 Olay sayısı kısıtlıysa modele giriş sırası (literatür gücüne göre önceden belirlenmiştir):
 1. Demir eksikliği anemisi
-2. Δ boy SDS (büyüme hızı bozulması)
 3. Kronik GİS semptomu (ishal/karın şişliği)
 4. Boy SDS derinliği
 5. Transaminaz yüksekliği

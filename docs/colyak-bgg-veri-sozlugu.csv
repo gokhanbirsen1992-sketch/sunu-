@@ -14,12 +14,9 @@ vki_sds,VKİ SDS,ondalık,SDS,Evet,Antropometri,
 boy_sds_who,Boy SDS (WHO 2007),ondalık,SDS,Hayır,Antropometri,Duyarlılık analizi için
 hedef_boy_sds,Hedef boy SDS,ondalık,SDS,Hayır,Antropometri,(Anne boy + Baba boy ± 13)/2
 hedef_boy_sapma,Hedef boydan sapma,ondalık,SDS,Hayır,Antropometri,boy_sds - hedef_boy_sds
-delta_boy_sds,Son 1 yıl boy SDS değişimi,ondalık,SDS/yıl,Hayır,Antropometri,ÖNCELİKLİ ÖNGÖRÜCÜ - önceki ölçüm varsa mutlaka doldurun
-delta_vki_sds,Son 1 yıl VKİ SDS değişimi,ondalık,SDS/yıl,Hayır,Antropometri,
-buyume_hizi,Büyüme hızı,ondalık,cm/yıl,Hayır,Antropometri,
 kemik_yasi,Kemik yaşı,ondalık,yıl,Hayır,Antropometri,Greulich-Pyle
 kemik_yas_farki,Kemik yaşı - kronolojik yaş,ondalık,yıl,Hayır,Antropometri,
-bgg_olcut,Hangi BGG ölçütünü karşılıyor,kategorik,1=Boy SDS<-2 2=Kilo SDS<-2 3=VKİ SDS<-2 4=Hedef boy sapması 5=Büyüme hızı düşük 6=Birden fazla,Evet,Antropometri,
+bgg_olcut,Hangi BGG ölçütünü karşılıyor,kategorik,1=Boy SDS<-2 2=Kilo SDS<-2 3=VKİ SDS<-2 4=Hedef boy sapması 5=Birden fazla,Evet,Antropometri,
 gis_ishal,Kronik ishal (>=4 hafta),kategorik,0=Yok 1=Var 9=Kayıt yok,Evet,GİS semptom,
 gis_kabizlik,Kabızlık,kategorik,0=Yok 1=Var 9=Kayıt yok,Evet,GİS semptom,
 gis_karin_agrisi,Tekrarlayan karın ağrısı,kategorik,0=Yok 1=Var 9=Kayıt yok,Evet,GİS semptom,
