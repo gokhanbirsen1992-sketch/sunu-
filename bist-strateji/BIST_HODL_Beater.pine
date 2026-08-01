@@ -1,22 +1,26 @@
 //@version=6
 // ============================================================================
-// BIST HODL-Beater — Çok İndikatörlü Puanlama Stratejisi (Günlük + Haftalık)
+// BIST HODL-Beater — Rejim Filtresi Stratejisi (Günlük + Haftalık)
 // ----------------------------------------------------------------------------
-// Literatür temelli bileşenler:
-//   • Supertrend (Olivier Seban) ............ ATR tabanlı trend yönü
-//   • EMA kesişimi (Brock-Lakonishok-LeBaron 1992) trend teyidi
-//   • MACD (Gerald Appel) ................... momentum dönüşü
-//   • RSI (J. Welles Wilder 1978) ........... momentum rejimi
-//   • Donchian kanalı (Richard Donchian) .... kırılım/orta hat konumu
-//   • DMI +DI/-DI (Wilder) .................. yön hakimiyeti
-//   • Chandelier Exit (Chuck LeBeau) ........ ATR iz süren stop
-//   • Üçlü Ekran haftalık teyit (Alexander Elder) — isteğe bağlı
-// 6 bileşen oy verir; puan giriş eşiğini aşınca AL, çıkış eşiğine düşünce
-// veya iz süren stop kırılınca SAT. Long/flat çalışır (BIST'e uygun).
-// Sağ üstteki tablo, seçili parametrelerle geçmiş performansı HODL
-// (al-ve-tut) ile karşılaştırır; parametreleri optimize ettikçe canlı güncellenir.
+// ANA MOD — Rejim Filtresi (3 aşamalı sağlamlık testinden geçti):
+//   Varsayılan pozisyon LONG. Yalnızca ÇİFTE ayı teyidinde çıkar:
+//     kapanış < SMA(131 gün) × (1 − %3)  VE  284 günlük momentum < 0
+//   Geri giriş hızlıdır: kapanış > SMA  VEYA  momentum > 0.
+//   Literatür: Faber (2007) trend filtresi + Antonacci (2014) mutlak momentum
+//   + Zakamulin histerezis bandı. Amaç: boğayı kaçırmadan büyük ayıları atlamak.
+//
+// DENEYSEL MOD — Komposit Puanlama (6 indikatör oylaması):
+//   Supertrend (Seban) + EMA kesişimi (Brock-Lakonishok-LeBaron 1992) +
+//   MACD (Appel) + RSI (Wilder 1978) + Donchian (Donchian/Turtle) + DMI (Wilder),
+//   Chandelier Exit (LeBeau) iz süren stop seçeneğiyle. Sağlamlık testinde
+//   güçlü boğada HODL'un gerisinde kaldı — yalnızca araştırma amaçlı.
+//
+// Periyot girdileri İŞLEM GÜNÜ cinsindendir ve haftalık grafikte otomatik
+// ölçeklenir (131 gün ≈ 27 hafta). Sağ üstteki tablo, seçili parametrelerle
+// geçmiş performansı HODL (al-ve-tut) ile karşılaştırır; parametre
+// değiştirdikçe canlı güncellenir. Long/flat çalışır, açığa satış yoktur.
 // ============================================================================
-strategy("BIST HODL-Beater [Puanlama]",
+strategy("BIST HODL-Beater [Rejim Filtresi]",
      shorttitle = "BIST HODL-Beater",
      overlay = true,
      initial_capital = 100000,
@@ -30,51 +34,77 @@ strategy("BIST HODL-Beater [Puanlama]",
      max_labels_count = 500)
 
 // ─── Girdiler ───────────────────────────────────────────────────────────────
-grpST  = "1) Supertrend"
+grpMod = "0) Strateji Modu"
+mod = input.string("Rejim Filtresi (doğrulanmış)", "Mod",
+     options = ["Rejim Filtresi (doğrulanmış)", "Komposit Puanlama (deneysel)"], group = grpMod)
+
+grpRejim = "1) Rejim Filtresi — periyotlar işlem günü cinsinden"
+smaGun  = input.int(131, "Trend SMA (gün)", minval = 20, group = grpRejim,
+     tooltip = "Doğrulanmış plato: 131-150 gün. Haftalık grafikte otomatik ölçeklenir.")
+momGun  = input.int(284, "Momentum penceresi (gün)", minval = 40, group = grpRejim,
+     tooltip = "Doğrulanmış bölge: 284-315 gün. Kısaltmak testere işlemleri artırır.")
+bandYuzde = input.float(3.0, "Histerezis bandı (%)", minval = 0.0, maxval = 10.0, step = 0.25, group = grpRejim,
+     tooltip = "Çıkış için fiyatın SMA'nın bu kadar ALTINA inmesi gerekir (Zakamulin).")
+
+grpST  = "2) Komposit: Supertrend"
 stN    = input.int(10,  "ATR periyodu",  minval = 2,  group = grpST)
 stMult = input.float(3.0, "ATR çarpanı", minval = 0.5, step = 0.25, group = grpST)
 
-grpEMA   = "2) EMA Trendi"
+grpEMA   = "3) Komposit: EMA Trendi"
 emaHizli = input.int(20,  "Hızlı EMA", minval = 2, group = grpEMA)
 emaYavas = input.int(100, "Yavaş EMA", minval = 5, group = grpEMA)
 
-grpMom   = "3) Momentum"
+grpMom    = "4) Komposit: Momentum"
 macdHizli = input.int(12, "MACD hızlı", minval = 2, group = grpMom)
 macdYavas = input.int(26, "MACD yavaş", minval = 5, group = grpMom)
 macdSig   = input.int(9,  "MACD sinyal", minval = 2, group = grpMom)
 rsiN      = input.int(14, "RSI periyodu", minval = 2, group = grpMom)
 rsiEsik   = input.float(50, "RSI eşiği (üzeri boğa oyu)", minval = 30, maxval = 70, group = grpMom)
 
-grpKanal = "4) Kanal / Yön"
-dcN   = input.int(20, "Donchian periyodu", minval = 5, group = grpKanal)
-dmiN  = input.int(14, "DMI periyodu", minval = 2, group = grpKanal)
+grpKanal = "5) Komposit: Kanal / Yön"
+dcN  = input.int(20, "Donchian periyodu", minval = 5, group = grpKanal)
+dmiN = input.int(14, "DMI periyodu", minval = 2, group = grpKanal)
 
-grpPuan    = "5) Puanlama"
-girisEsik  = input.int(5, "Giriş eşiği (kaç oy ile AL)", minval = 1, maxval = 6, group = grpPuan)
-cikisEsik  = input.int(2, "Çıkış eşiği (bu oy ve altında SAT)", minval = 0, maxval = 5, group = grpPuan)
+grpPuan   = "6) Komposit: Puanlama"
+girisEsik = input.int(5, "Giriş eşiği (kaç oy ile AL)", minval = 1, maxval = 6, group = grpPuan)
+cikisEsik = input.int(2, "Çıkış eşiği (bu oy ve altında SAT)", minval = 0, maxval = 5, group = grpPuan)
 
-grpStop   = "6) İz Süren Stop (Chandelier)"
+grpStop   = "7) Komposit: İz Süren Stop (Chandelier)"
 chandAcik = input.bool(true, "Chandelier Exit aktif", group = grpStop)
 chandN    = input.int(22,  "ATR periyodu", minval = 5, group = grpStop)
 chandMult = input.float(3.0, "ATR çarpanı", minval = 1.0, step = 0.25, group = grpStop)
 
-grpElder  = "7) Üçlü Ekran (Elder) — günlük grafikte önerilir"
+grpElder  = "8) Komposit: Üçlü Ekran (Elder)"
 elderAcik = input.bool(false, "Haftalık EMA trend teyidi", group = grpElder)
 elderN    = input.int(30, "Haftalık EMA periyodu", minval = 5, group = grpElder)
 
-grpTarih = "8) Backtest Aralığı"
+grpTarih = "9) Backtest Aralığı"
 tarihBas = input.time(timestamp("2016-01-01T00:00"), "Başlangıç", group = grpTarih)
 tarihBit = input.time(timestamp("2099-01-01T00:00"), "Bitiş", group = grpTarih)
 
-grpGorsel  = "9) Görünüm"
+grpGorsel  = "10) Görünüm"
 tabloAcik  = input.bool(true, "Performans tablosu", group = grpGorsel)
 tabloKonum = input.string("Sağ üst", "Tablo konumu", options = ["Sağ üst", "Sağ alt", "Sol üst", "Sol alt"], group = grpGorsel)
-stCiz      = input.bool(true, "Supertrend çizgisi", group = grpGorsel)
-stopCiz    = input.bool(true, "İz süren stop çizgisi", group = grpGorsel)
+cizgiler   = input.bool(true, "Gösterge çizgileri", group = grpGorsel)
 
+rejimModu  = mod == "Rejim Filtresi (doğrulanmış)"
 araliktaMi = time >= tarihBas and time <= tarihBit
 
-// ─── Bileşen hesapları ──────────────────────────────────────────────────────
+// ─── Periyot ölçekleme: "işlem günü" → bar sayısı ───────────────────────────
+// Günlük grafik: 1 gün = 1 bar. Haftalık: 252 işlem günü ≈ 52 bar.
+olcek = timeframe.isweekly ? 52.0 / 252.0 : timeframe.ismonthly ? 12.0 / 252.0 : 1.0
+gun2bar(float gun) => math.max(2, int(math.round(gun * olcek)))
+
+// ─── Rejim Filtresi hesapları ───────────────────────────────────────────────
+smaBars  = gun2bar(smaGun)
+momBars  = gun2bar(momGun)
+rejimSma = ta.sma(close, smaBars)
+rejimMom = ta.roc(close, momBars)
+rejimHazir  = not na(rejimSma) and not na(rejimMom)
+ayiTeyit    = rejimHazir and close < rejimSma * (1 - bandYuzde / 100) and rejimMom < 0
+rejimGeri   = rejimHazir and (close > rejimSma or rejimMom > 0)
+
+// ─── Komposit hesapları ─────────────────────────────────────────────────────
 [stCizgi, stYon] = ta.supertrend(stMult, stN)          // yon < 0 → yükseliş
 eH = ta.ema(close, emaHizli)
 eY = ta.ema(close, emaYavas)
@@ -85,11 +115,9 @@ dcAlt  = ta.lowest(low, dcN)
 dcOrta = (dcUst + dcAlt) / 2
 [diArti, diEksi, _adx] = ta.dmi(dmiN, dmiN)
 
-// Elder Üçlü Ekran: üst zaman dilimi (haftalık) trend süzgeci
 haftalikEma = request.security(syminfo.tickerid, "W", ta.ema(close, elderN), lookahead = barmerge.lookahead_off)
 elderOnay = not elderAcik or timeframe.isweekly or timeframe.ismonthly or close > haftalikEma
 
-// ─── Oylar (0/1) ────────────────────────────────────────────────────────────
 oy1 = stYon < 0 ? 1 : 0
 oy2 = eH > eY ? 1 : 0
 oy3 = macdHist > 0 ? 1 : 0
@@ -98,7 +126,7 @@ oy5 = close > dcOrta ? 1 : 0
 oy6 = diArti > diEksi ? 1 : 0
 puan = oy1 + oy2 + oy3 + oy4 + oy5 + oy6
 
-// ─── Chandelier Exit (pozisyona bağlı, sadece yukarı güncellenen stop) ──────
+// Chandelier Exit (pozisyona bağlı, sadece yukarı güncellenen stop)
 atrChand = ta.atr(chandN)
 var float izStop = na
 var float pozTepe = na
@@ -111,14 +139,18 @@ else
     pozTepe := na
 
 // ─── Emirler ────────────────────────────────────────────────────────────────
-girisKosul = araliktaMi and puan >= girisEsik and elderOnay and strategy.position_size == 0
-cikisKosul = strategy.position_size > 0 and (puan <= cikisEsik or not araliktaMi)
+// Rejim modu: ısınma döneminde (indikatörler hazır değilken) piyasada kal —
+// HODL ile aynı noktadan başla; sadece çifte ayı teyidinde çık.
+girisKosul = rejimModu ?
+     (araliktaMi and strategy.position_size == 0 and (not rejimHazir or rejimGeri)) :
+     (araliktaMi and strategy.position_size == 0 and puan >= girisEsik and elderOnay)
+cikisKosul = strategy.position_size > 0 and (rejimModu ? ayiTeyit : puan <= cikisEsik or not araliktaMi)
 
 if girisKosul
     strategy.entry("AL", strategy.long)
 if cikisKosul
     strategy.close("AL", comment = "SAT")
-if chandAcik and strategy.position_size > 0 and not na(izStop)
+if not rejimModu and chandAcik and strategy.position_size > 0 and not na(izStop)
     strategy.exit("Stop", from_entry = "AL", stop = izStop, comment = "STOP")
 
 // ─── HODL kıyaslaması ve istatistikler ──────────────────────────────────────
@@ -128,7 +160,6 @@ if araliktaMi and na(hodlBas)
 hodlYuzde = na(hodlBas) ? 0.0 : (close / hodlBas - 1) * 100
 netYuzde  = (strategy.equity / strategy.initial_capital - 1) * 100
 
-// Maks. düşüş (%) — strateji ve HODL için ayrı ayrı izlenir
 var float eqTepe = na
 var float maksDus = 0.0
 eqTepe := na(eqTepe) ? strategy.equity : math.max(eqTepe, strategy.equity)
@@ -139,7 +170,6 @@ if araliktaMi and not na(hodlBas)
     hodlTepe := na(hodlTepe) ? close : math.max(hodlTepe, close)
     hodlMaksDus := math.max(hodlMaksDus, (hodlTepe - close) / hodlTepe * 100)
 
-// Yıllıklandırılmış getiri (CAGR)
 var int zamanBas = na
 if araliktaMi and na(zamanBas)
     zamanBas := time
@@ -152,25 +182,28 @@ kazanmaOr  = islemSay > 0 ? strategy.wintrades / islemSay * 100 : 0.0
 karFaktoru = strategy.grossloss > 0 ? strategy.grossprofit / strategy.grossloss : na
 
 // ─── Görsel katman ──────────────────────────────────────────────────────────
-plot(stCiz ? stCizgi : na, "Supertrend", color = stYon < 0 ? color.new(color.teal, 0) : color.new(color.red, 0), style = plot.style_linebr)
-plot(stopCiz and strategy.position_size > 0 ? izStop : na, "İz Süren Stop", color = color.new(color.orange, 0), style = plot.style_circles)
+plot(cizgiler and rejimModu ? rejimSma : na, "Rejim SMA", color = color.new(color.blue, 0), linewidth = 2)
+plot(cizgiler and rejimModu ? rejimSma * (1 - bandYuzde / 100) : na, "Çıkış bandı", color = color.new(color.red, 50))
+plot(cizgiler and not rejimModu ? stCizgi : na, "Supertrend", color = stYon < 0 ? color.new(color.teal, 0) : color.new(color.red, 0), style = plot.style_linebr)
+plot(cizgiler and not rejimModu and strategy.position_size > 0 ? izStop : na, "İz Süren Stop", color = color.new(color.orange, 0), style = plot.style_circles)
 
 plotshape(girisKosul, "AL", shape.labelup,   location.belowbar, color.new(color.green, 0), text = "AL",  textcolor = color.white, size = size.small)
 plotshape(cikisKosul, "SAT", shape.labeldown, location.abovebar, color.new(color.red, 0),   text = "SAT", textcolor = color.white, size = size.small)
 
-alertcondition(girisKosul, "BIST HODL-Beater AL",  "{{ticker}} AL sinyali — puan giriş eşiğini aştı")
-alertcondition(cikisKosul, "BIST HODL-Beater SAT", "{{ticker}} SAT sinyali — puan çıkış eşiğine düştü")
+alertcondition(girisKosul, "BIST HODL-Beater AL",  "{{ticker}} AL sinyali")
+alertcondition(cikisKosul, "BIST HODL-Beater SAT", "{{ticker}} SAT sinyali")
 
 // ─── Performans tablosu ─────────────────────────────────────────────────────
 konum = tabloKonum == "Sağ üst" ? position.top_right : tabloKonum == "Sağ alt" ? position.bottom_right : tabloKonum == "Sol üst" ? position.top_left : position.bottom_left
-var table t = table.new(konum, 2, 12, bgcolor = color.new(color.black, 15), border_width = 1, border_color = color.new(color.gray, 60))
+var table t = table.new(konum, 2, 13, bgcolor = color.new(color.black, 15), border_width = 1, border_color = color.new(color.gray, 60))
 
 fmt(float x) => na(x) ? "—" : str.tostring(x, "#,##0.0")
 
 if tabloAcik and barstate.islast
     basari = netYuzde > hodlYuzde
+    tfUygun = timeframe.isdaily or timeframe.isweekly
     table.cell(t, 0, 0, "BIST HODL-Beater", text_color = color.white, text_size = size.small, bgcolor = color.new(color.blue, 30))
-    table.cell(t, 1, 0, timeframe.isweekly ? "Haftalık" : timeframe.isdaily ? "Günlük" : timeframe.period, text_color = color.white, text_size = size.small, bgcolor = color.new(color.blue, 30))
+    table.cell(t, 1, 0, (rejimModu ? "Rejim" : "Komposit") + " · " + (timeframe.isweekly ? "Haftalık" : timeframe.isdaily ? "Günlük" : timeframe.period), text_color = color.white, text_size = size.small, bgcolor = color.new(color.blue, 30))
     table.cell(t, 0, 1, "Net Kâr", text_color = color.silver, text_size = size.small)
     table.cell(t, 1, 1, fmt(netYuzde) + " %", text_color = netYuzde >= 0 ? color.lime : color.red, text_size = size.small)
     table.cell(t, 0, 2, "HODL (Al-Tut)", text_color = color.silver, text_size = size.small)
@@ -187,9 +220,11 @@ if tabloAcik and barstate.islast
     table.cell(t, 1, 7, fmt(kazanmaOr) + " %", text_color = kazanmaOr >= 50 ? color.lime : color.orange, text_size = size.small)
     table.cell(t, 0, 8, "Kâr Faktörü", text_color = color.silver, text_size = size.small)
     table.cell(t, 1, 8, fmt(karFaktoru), text_color = not na(karFaktoru) and karFaktoru >= 1.5 ? color.lime : color.orange, text_size = size.small)
-    table.cell(t, 0, 9, "Anlık Puan", text_color = color.silver, text_size = size.small)
-    table.cell(t, 1, 9, str.tostring(puan) + " / 6  (giriş ≥ " + str.tostring(girisEsik) + ")", text_color = color.white, text_size = size.small)
+    table.cell(t, 0, 9, "Durum", text_color = color.silver, text_size = size.small)
+    table.cell(t, 1, 9, rejimModu ? (ayiTeyit ? "AYI TEYİDİ" : strategy.position_size > 0 ? "LONG" : "NAKİT") : ("Puan " + str.tostring(puan) + "/6"), text_color = strategy.position_size > 0 ? color.lime : color.orange, text_size = size.small)
     table.cell(t, 0, 10, "Pozisyon", text_color = color.silver, text_size = size.small)
     table.cell(t, 1, 10, strategy.position_size > 0 ? "LONG" : "NAKİT", text_color = strategy.position_size > 0 ? color.lime : color.gray, text_size = size.small)
     table.cell(t, 0, 11, "HODL'a karşı", text_color = color.silver, text_size = size.small)
     table.cell(t, 1, 11, basari ? "✔ GEÇTİ" : "✘ geride", text_color = basari ? color.lime : color.red, text_size = size.small, bgcolor = basari ? color.new(color.green, 70) : color.new(color.maroon, 60))
+    table.cell(t, 0, 12, "Not", text_color = color.silver, text_size = size.small)
+    table.cell(t, 1, 12, tfUygun ? (rejimModu ? "Endeks için doğrulandı" : "Deneysel mod") : "⚠ Günlük/Haftalık önerilir", text_color = tfUygun ? color.gray : color.yellow, text_size = size.small)

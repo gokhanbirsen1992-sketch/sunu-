@@ -1,0 +1,458 @@
+{
+ "turnuva": [
+  {
+   "aile": "supertrend_adx",
+   "en_iyi": [
+    {
+     "params": {
+      "st_n": 10,
+      "st_mult": 3.5,
+      "adx_esik": 0,
+      "adx_n": 14
+     },
+     "skor": 4.16,
+     "medyan_cagr_fark": -0.82,
+     "hodl_gecme_orani": 45,
+     "medyan_dd_fark": -19.95,
+     "medyan_islem": 7.5
+    },
+    {
+     "params": {
+      "st_n": 14,
+      "st_mult": 2,
+      "adx_esik": 0,
+      "adx_n": 14
+     },
+     "skor": 4.11,
+     "medyan_cagr_fark": -0.89,
+     "hodl_gecme_orani": 50,
+     "medyan_dd_fark": -20.02,
+     "medyan_islem": 18.5
+    }
+   ],
+   "yorum": "Tum 80 kombinasyon egitim senaryolarinda tarandi; en iyi set st_n=10, st_mult=3.5, adx_esik=0 (skor 4.16). Ailenin gucu drawdown korumasi: medyan maxDD'yi HODL'a gore ~20 puan azaltiyor ve HODL DD'sinin %55-75'e ulastigi ayi/coken senaryolarda (seed 6-9) +3 ila +12 puan alpha uretiyor. Zayif yonu ise guclu ve istikrarli boga senaryolarinda (seed 0, 3, 5; HODL CAGR %47-65) gec giris/erken cikis ve komisyon nedeniyle HODL'un 7-13 puan gerisinde kalmasi (medyan CAGR farki hafif negatif, HODL gecme orani sadece %45-50); ayrica en iyi setlerin neredeyse tamaminda adx_esik=0 cikmasi ADX filtresinin bu ailede deger katmadigini, esik yukseldikce (25) alpha kaybinin buyudugunu gosteriyor."
+  },
+  {
+   "aile": "ema_cross_macd",
+   "en_iyi": [
+    {
+     "params": {
+      "hizli": 10,
+      "yavas": 150
+     },
+     "skor": -5.1,
+     "medyan_cagr_fark": -12.97,
+     "hodl_gecme_orani": 15,
+     "medyan_dd_fark": -31.46,
+     "medyan_islem": 34
+    },
+    {
+     "params": {
+      "hizli": 8,
+      "yavas": 150
+     },
+     "skor": -5.16,
+     "medyan_cagr_fark": -12.79,
+     "hodl_gecme_orani": 15,
+     "medyan_dd_fark": -30.53,
+     "medyan_islem": 35
+    }
+   ],
+   "yorum": "Tum 36 kombinasyon tarandi; en iyi setlerin bile skoru negatif ve HODL gecme orani %10-15'te kaldi — aile getiri tarafinda HODL'a sistematik olarak yeniliyor (medyan CAGR farki ~-13 puan). Detay analizi ({hizli:10, yavas:150}, 20 egitim senaryosunun 17'sinde kayip): en agir kayiplar guclu ve dusuk-drawdown'lu boga senaryolarinda (orn. seed 3'te -41/-44 puan) — MACD histogram onayi trend ici momentum duraklamalarinda erken cikartip gec sokuyor, gunlukte ~70-90 islemin komisyonu getiriyi eritiyor; kazandigi tek yerler HODL'un zayif ve %58-75 drawdown'lu yatay/coppy senaryolari (seed 7 ve 9). Guclu yonu ise cok tutarli risk azaltimi: medyan maxDD farki ~-31 puan, strateji DD'si %13-32 bandinda kalirken HODL %75'e kadar dusuyor ve haftalik zaman diliminde (az islem, PF 7-55) kar faktoru cok yuksek — yani bu aile bir getiri motoru degil, drawdown sigortasi olarak islev goruyor; uzun yavas EMA (100-150) kisa olanlara acik sekilde ustun."
+  },
+  {
+   "aile": "donchian_turtle",
+   "en_iyi": [
+    {
+     "params": {
+      "giris_n": 20,
+      "cikis_n": 20,
+      "atr_stop_mult": 0,
+      "atr_n": 22
+     },
+     "skor": 2.69,
+     "medyan_cagr_fark": -1.82,
+     "hodl_gecme_orani": 45,
+     "medyan_dd_fark": -18.01,
+     "medyan_islem": 11
+    },
+    {
+     "params": {
+      "giris_n": 10,
+      "cikis_n": 20,
+      "atr_stop_mult": 0,
+      "atr_n": 22
+     },
+     "skor": 2.15,
+     "medyan_cagr_fark": -1.64,
+     "hodl_gecme_orani": 45,
+     "medyan_dd_fark": -15.18,
+     "medyan_islem": 13
+    }
+   ],
+   "yorum": "Donchian/turtle ailesinin gücü getiri değil risk kontrolü: en iyi set (giris_n=20, cikis_n=20, ATR stopsuz) medyan CAGR'da HODL'un ~1.8 puan gerisinde kalsa da maksimum düşüşü medyanda ~18 puan azaltıyor ve HODL'un %55-75 drawdown yaşadığı çöküşlü/dalgalı senaryolarda (seed 4, 8, 9) net alpha üretiyor. Zayıf yönü, kesintisiz güçlü boğa senaryolarında (örn. seed 3: HODL CAGR %62-65) kanal çıkışlarının geri çekilmelerde pozisyonu boşaltıp yükselişi kaçırması — burada 13-15 CAGR puanı geride kalıyor; ayrıca haftalık zaman diliminde işlem sayısı 1-5'e düşerek sinyal güvenilirliğini zayıflatıyor. Dikkat çekici bulgu: ATR stop (2x/3x) hiçbir kombinasyonda ilk 5'e giremedi, yani bu ailede sıkı stoplar whipsaw çıkışlarıyla trend takibini bozuyor; en sağlam yapı simetrik ve yavaş (20/20) kanal."
+  },
+  {
+   "aile": "kama_roc",
+   "en_iyi": [
+    {
+     "params": {
+      "kama_n": 20,
+      "roc_n": 20,
+      "roc_esik": 0
+     },
+     "skor": -0.44,
+     "medyan_cagr_fark": -4.82,
+     "hodl_gecme_orani": 30,
+     "medyan_dd_fark": -17.53,
+     "medyan_islem": 68.5
+    },
+    {
+     "params": {
+      "kama_n": 20,
+      "roc_n": 60,
+      "roc_esik": 0
+     },
+     "skor": -1.33,
+     "medyan_cagr_fark": -6.89,
+     "hodl_gecme_orani": 25,
+     "medyan_dd_fark": -22.25,
+     "medyan_islem": 57.5
+    }
+   ],
+   "yorum": "kama_roc ailesinin tum 24 kombinasyonu negatif skorlu: en iyi set (kama_n=20, roc_n=20, roc_esik=0.0) bile medyan -4.8 puan CAGR farki verip HODL'u senaryolarin sadece %30'unda geciyor; ailenin asil gucu getiri degil savunma — drawdown'i medyanda ~17.5 puan azaltiyor ve HODL DD'sinin %57-75'e ulastigi zayif/coken senaryolarda (seed 4/7/8/9) pozitif alpha uretiyor. Zayif yonu net: guclu boga piyasalarinda (seed 0, 3, 5; HODL CAGR %47-65) gec giris/erken cikis yuzunden -11 ile -31 puana varan farklarla agir kaybediyor, gunluk zaman diliminde ~110-136 islemin komisyon yuku bunu agirlastiriyor (haftalik ayni parametrelerle sistematik olarak daha iyi). Parametre duyarliligi tutarli: roc_esik=0.0 ve kisa roc_n=20 her zaman ustun, esik yukseldikce (5-10) ve roc_n uzadikca (90-120) skor bozuluyor; bu aile ancak dusuk-DD savunmaci bir bilesen olarak, tercihen haftalik veride anlamli."
+  },
+  {
+   "aile": "rsi_meanrev",
+   "en_iyi": [
+    {
+     "params": {
+      "rsi_n": 14,
+      "alt": 40,
+      "ust": 75
+     },
+     "skor": -21.82,
+     "medyan_cagr_fark": -23.25,
+     "hodl_gecme_orani": 0,
+     "medyan_dd_fark": -5.72,
+     "medyan_islem": 6.5
+    },
+    {
+     "params": {
+      "rsi_n": 7,
+      "alt": 40,
+      "ust": 75
+     },
+     "skor": -22.74,
+     "medyan_cagr_fark": -23.68,
+     "hodl_gecme_orani": 0,
+     "medyan_dd_fark": -3.76,
+     "medyan_islem": 21.5
+    }
+   ],
+   "yorum": "RSI mean-reversion ailesi bu evrende zayıf: 27 kombinasyonun tümü negatif skor aldı ve en iyi set (rsi_n=14, alt=40, ust=75) dahil hicbir set 20 egitim senaryosunun hicbirinde HODL'u gecemedi (medyan CAGR farki -23 puan), cunku strateji zamanin cogunda nakitte bekleyip guclu trendli BIST benzeri serilerin yukselisini kacırıyor. Guclu yonu islem bazinda: kazanma orani %67-100, profit factor cogunlukla >2 ve drawdown'i hafifce azaltiyor (medyan DD farki -5.7 puan). Zayif yonu ise asil kayiplarin yuksek volatiliteli/ayi agirlikli senaryolarda gelmesi (seed 9 gunlukte net -%46, DD %79.7 ile HODL'dan bile derin; seed 8 haftalikta -%19) — 'dipte al' mantigi coken rejimde dusen bicagi yakaliyor — ve haftalik zaman diliminde 1-4 islemle sinyalin asiri seyrek kalmasi."
+  },
+  {
+   "aile": "komposit",
+   "en_iyi": [
+    {
+     "params": {
+      "st_n": 10,
+      "st_mult": 2.5,
+      "ema_hizli": 20,
+      "ema_yavas": 50,
+      "giris_esik": 4,
+      "cikis_esik": 1,
+      "chand_mult": 0,
+      "dc_n": 20
+     },
+     "skor": 4.3,
+     "medyan_cagr_fark": -0.07,
+     "hodl_gecme_orani": 50,
+     "medyan_dd_fark": -17.5,
+     "medyan_islem": 20.5
+    },
+    {
+     "params": {
+      "st_n": 10,
+      "st_mult": 3,
+      "ema_hizli": 20,
+      "ema_yavas": 100,
+      "giris_esik": 4,
+      "cikis_esik": 1,
+      "chand_mult": 0,
+      "dc_n": 20
+     },
+     "skor": 4.17,
+     "medyan_cagr_fark": -0.16,
+     "hodl_gecme_orani": 40,
+     "medyan_dd_fark": -17.3,
+     "medyan_islem": 18.5
+    }
+   ],
+   "yorum": "Komposit ailenin asil gucu risk azaltmada: en iyi set (st_mult=2.5, ema_yavas=50, giris_esik=4, cikis_esik=1, chandelier kapali, dc_n=20) maksimum dususu medyan ~17.5 puan dusururken CAGR'i HODL ile basa bas tutuyor (medyan fark -0.07); tum top-5'te giris_esik=4, cikis_esik=1, chand_mult=0 ve dc_n=20 secilmesi, gec cikan/uzun tasiyan ve sıkı stop kullanmayan varyantin tercih edildigini gosteriyor. Zayif yonu guclu boga senaryolari: HODL CAGR>%25 olan 12 senaryonun sadece 2'sinde HODL'u gecti (medyan CAGR farki -3.05, en kotusu seed 3 gunlukte -17.1 puan) — oylama sistemi guclu trendlerde her sinyal zayiflamasinda pozisyondan cikip rallinin bir kismini kaciriyor. Buna karsilik orta/dalgali piyasalarda (HODL CAGR 0-25%) 8 senaryonun 7'sinde kazandi (medyan +2.7) ve zayif piyasalarda (seed 7, 9) belirgin alfa uretti; ozetle bu aile getiri maksimizasyonundan cok dusuk-drawdown'lu, savunmaci bir HODL alternatifi olarak degerli."
+  }
+ ],
+ "rafine": [
+  {
+   "aile": "komposit",
+   "en_iyi": [
+    {
+     "params": {
+      "st_n": 13,
+      "st_mult": 2.5,
+      "ema_hizli": 20,
+      "ema_yavas": 40,
+      "giris_esik": 4,
+      "cikis_esik": 1,
+      "chand_mult": 0,
+      "dc_n": 17
+     },
+     "skor": 5.07,
+     "medyan_cagr_fark": 0.72,
+     "hodl_gecme_orani": 55,
+     "medyan_dd_fark": -17.41,
+     "medyan_islem": 22.5
+    },
+    {
+     "params": {
+      "st_n": 13,
+      "st_mult": 2.5,
+      "ema_hizli": 25,
+      "ema_yavas": 60,
+      "giris_esik": 4,
+      "cikis_esik": 1,
+      "chand_mult": 0,
+      "dc_n": 17
+     },
+     "skor": 4.99,
+     "medyan_cagr_fark": 0.78,
+     "hodl_gecme_orani": 55,
+     "medyan_dd_fark": -16.82,
+     "medyan_islem": 22.5
+    },
+    {
+     "params": {
+      "st_n": 13,
+      "st_mult": 2.5,
+      "ema_hizli": 20,
+      "ema_yavas": 60,
+      "giris_esik": 4,
+      "cikis_esik": 1,
+      "chand_mult": 0,
+      "dc_n": 17
+     },
+     "skor": 4.98,
+     "medyan_cagr_fark": 0.75,
+     "hodl_gecme_orani": 55,
+     "medyan_dd_fark": -16.93,
+     "medyan_islem": 22.5
+    }
+   ],
+   "yorum": "Ince izgara 3 asamada kosuldu (toplam 197 kombo <= 200): Grid A trend parametreleri (st_n 7/10/13, st_mult 2.0/2.5/3.0, ema_hizli 15/20/25, ema_yavas 40/50/60; 81 kombo), Grid B esikler+DC+stop (giris 3/4/5, cikis 0/1/2, dc_n 14/17/20/26, chand_mult 0/2.5/3.0; 108 kombo), Grid C iki kazananin capraz kombinasyonu (8 kombo). Baz nokta (skor 4.30) 5.07'ye iyilesti: st_n 10->13, ema_yavas 50->40, dc_n 20->17. HASSASIYET DEGERLENDIRMESI: yuzey duz bir plato gorunumunde, tek-nokta sivri degil — Grid A'nin ilk 5'i 4.77-4.84 bandinda birbirine cok yakin ve farkli ema kombinasyonlarini (20/40, 25/60, 25/50, 15/50) ve st_n {10,13} degerlerini iceriyor; Grid C'de dc_17'li uc farkli ema kombosu 4.98-5.07 bandinda. Bu genis komsu bandi ROBUSTLUK lehine. Kararli bulgular: (1) chand_mult>0 hicbir top-5'e girmedi — Chandelier stop bu ailede skoru tutarli sekilde dusuruyor, kapali kalmali (yapisal, tek noktaya bagli degil); (2) giris_esik=4 / cikis_esik=1 tum kazananlarda sabit; giris=3 sadece hafif dusuk skor veriyor (4.21-4.26), yani esiklerde +-1 sapma cokme yaratmiyor; (3) st_mult=2.5 tum top-5'lerde. DIKKAT: skorun buyuk kismi (~4.3 puan) cok kararli olan DD azaltmasindan geliyor (medyan DD farki tum kombolarda ~-17 pp); medyan CAGR farki ise kucuk ve gurultulu (-0.07 ile +0.78 arasi). 5.07 ile 4.8-5.0 bandindaki siralama farki bu gurultulu CAGR bileseninden kaynaklaniyor; 20 senaryoluk medyanla bu siralamaya asiri guvenilmemeli. Sonuc: parametre yuzeyi robust (plato), ama en tepe noktanin komsularina ustunlugu marjinal — TEST_SEEDS uzerinde out-of-sample dogrulama yapmadan 5.07'lik setin 4.3'luk baza gercek ustunlugu kesinlesmis sayilmamali. Overfit riski dusuk-orta."
+  },
+  {
+   "aile": "supertrend_adx",
+   "en_iyi": [
+    {
+     "params": {
+      "st_n": 9,
+      "st_mult": 3.2,
+      "adx_esik": 0,
+      "adx_n": 14
+     },
+     "skor": 5.79,
+     "medyan_cagr_fark": 0.51,
+     "hodl_gecme_orani": 50,
+     "medyan_dd_fark": -21.13,
+     "medyan_islem": 8
+    },
+    {
+     "params": {
+      "st_n": 10,
+      "st_mult": 3.25,
+      "adx_esik": 0,
+      "adx_n": 14
+     },
+     "skor": 5.37,
+     "medyan_cagr_fark": 0.34,
+     "hodl_gecme_orani": 50,
+     "medyan_dd_fark": -20.14,
+     "medyan_islem": 8
+    },
+    {
+     "params": {
+      "st_n": 11,
+      "st_mult": 3.25,
+      "adx_esik": 0,
+      "adx_n": 14
+     },
+     "skor": 5.37,
+     "medyan_cagr_fark": 0.34,
+     "hodl_gecme_orani": 50,
+     "medyan_dd_fark": -20.14,
+     "medyan_islem": 8
+    }
+   ],
+   "yorum": "Ince izgara 135 kombinasyonla 3 asamada kosuldu (A: adx kapali 7x9 st_n/st_mult taramasi, B: adx acik dusuk esikler, C: zirve etrafinda mikro tarama). Baz skor 4.16 (st_mult=3.5) dogrulandi; zirve st_mult=3.2-3.25'e kaydi (5.79). HASSASIYET: (1) st_n oldukca robust — 9-11 araliginda skor 5.2-5.8, 7-8 ve 12-13'te ~3.9-4.5'e yumusak dusus; kritik degil. (2) st_mult EN HASSAS parametre ve yuzey testere disli: st_n=10'da 3.0->2.24, 3.15->3.61, 3.25->5.37, 3.5->4.16, 3.75->1.95, 4.25->4.17 — 3.75-4.0'daki sert cukur ve 4.25'teki geri sicrama monoton olmayan, senaryo-gurultusu kaynakli bir yapiya isaret ediyor. En tepe nokta (9/3.2=5.79) tek hucrelik bir sivri uc (komsulari 3.61-5.21), yani tam bu noktayi secmek OVERFIT RISKI tasir; buna karsilik st_n 9-11 x st_mult 3.25-3.35 bolgesi 4.9-5.4 skorlu genisce bir plato olusturuyor — uretim icin bu platodan st_n=10, st_mult=3.25 daha guvenilir bir secim. (3) adx_esik: filtreyi acmak (esik 1-2 gibi neredeyse hic baglamayan degerlerde bile) skoru dusuruyor ve adx_n buyudukce zarar artiyor (NaN isinma donemi ilk girisleri geciktiriyor); adx_esik=0 (filtre kapali) net olarak en iyi — bu ayni zamanda adx_n parametresini tamamen devre disi biraktigi icin aileyi 2 serbest parametreye indirip robustlugu artiriyor. NOT: en iyi setlerde bile medyan CAGR farki ancak ~0-0.5 puan; skorun asil kaynagi ~20 puanlik drawdown azaltimi (DD bonusu ~+5) ve HODL gecme orani %50'de kaliyor — ailenin avantaji getiri degil savunma karakterli. Sonuc: parametre yuzeyi tek noktada degil bir platoda iyi (kismen robust), ancak plato disinda (ozellikle st_mult 3.75-4.0) ani cokusler oldugundan out-of-sample TEST_SEEDS dogrulamasi sart."
+  }
+ ],
+ "dogrulama": [
+  {
+   "aile": "komposit",
+   "params": {
+    "st_n": 13,
+    "st_mult": 2.5,
+    "ema_hizli": 20,
+    "ema_yavas": 40,
+    "giris_esik": 4,
+    "cikis_esik": 1,
+    "chand_mult": 0,
+    "dc_n": 17
+   },
+   "hodl_gecme_orani_endeks": 33.3,
+   "hodl_gecme_orani_hisse": 23.3,
+   "medyan_cagr_fark_endeks": -4.73,
+   "medyan_dd_fark_endeks": -7.37,
+   "endeks_ozet": {
+    "skor": -2.89,
+    "medyan_cagr_fark": -4.73,
+    "medyan_dd_fark": -7.37,
+    "hodl_gecme_orani": 33.3,
+    "medyan_islem": 19.5,
+    "seeds": "100-114",
+    "hisse_mi": false
+   },
+   "hisse_ozet": {
+    "skor": -5.24,
+    "medyan_cagr_fark": -6.76,
+    "medyan_dd_fark": -6.08,
+    "hodl_gecme_orani": 23.3,
+    "medyan_islem": 23.5,
+    "seeds": "100-114",
+    "hisse_mi": true
+   },
+   "karar": "KALDI",
+   "gerekce": "Endeks OOS'ta skor -2.89 (<0) ve hodl_gecme_orani %33.3 (<%40): uc kriterden ikisi net basarisiz; sadece medyan_dd_fark (-7.37) kriteri saglandi. Egitim skoru 5.07'den OOS'ta -2.89'a cokmesi agir overfit gostergesi. Hisse profilinde daha da kotu: skor -5.24, hodl_gecme %23.3 — yuksek volatilitede strateji tamamen cokuyor. En kotu senaryolar (106/113/103 gunluk, CAGR farki -19 ila -12 puan) ortak mekanizmayi gosteriyor: cikis_esik=1 tek bilesen donusunde hemen cikartip giris_esik=4 geri girisi geciktirdigi icin guclu boga trendlerinde pozisyon disi kacirilan hareket kumulatif x2.4-x3.9'a ulasiyor; gunlukte 40-55 islem, %33-34 kazanma orani ve ~%10 komisyon surtunmesi ekleniyor; ustelik seed 113 ve 103'te DD bile HODL'dan kotu (27.2 vs 19.9; 46.4 vs 41.6), yani DD-azaltma vaadi gunluk zaman diliminde tutmuyor. Karar: KALDI."
+  },
+  {
+   "aile": "komposit",
+   "params": {
+    "st_n": 13,
+    "st_mult": 2.5,
+    "ema_hizli": 25,
+    "ema_yavas": 60,
+    "giris_esik": 4,
+    "cikis_esik": 1,
+    "chand_mult": 0,
+    "dc_n": 17
+   },
+   "hodl_gecme_orani_endeks": 33.3,
+   "hodl_gecme_orani_hisse": 26.7,
+   "medyan_cagr_fark_endeks": -5.13,
+   "medyan_dd_fark_endeks": -7.83,
+   "endeks_ozet": {
+    "skor": -3.17,
+    "medyan_cagr_fark": -5.13,
+    "hodl_gecme_orani": 33.3,
+    "medyan_dd_fark": -7.83,
+    "medyan_islem": 17.5
+   },
+   "hisse_ozet": {
+    "skor": -5.31,
+    "medyan_cagr_fark": -6.79,
+    "hodl_gecme_orani": 26.7,
+    "medyan_dd_fark": -5.9,
+    "medyan_islem": 23.5
+   },
+   "karar": "KALDI",
+   "gerekce": "Egitim skoru 4.99 OOS'ta -3.17'ye cokuyor (endeks) ve hisse profilinde -5.31'e daha da kotulesiyor — belirgin asiri uyum. Kriterlerden yalnizca medyan_dd_fark < 0 (-7.83) saglaniyor; skor > 0 (gercek: -3.17) ve hodl_gecme >= %40 (gercek: %33.3, hisse %26.7) kriterleri KALIYOR. Zayiflik mekanizmasi: giris_esik=4 / cikis_esik=1 asimetrisi tek gostergedeki zayiflikta cikip yeniden giris icin 4 puanlik teyit bekliyor; guclu boga senaryolarinda (en kotu 3: seed 106, 113, 103 gunluk) piyasada sadece %77-84 kalip pozisyon disindayken kumulatif +%114 ile +%251 arasi rallileri kaciriyor, 32-55 islemle %6-11 komisyon yuku ekleniyor. Seed 113'te DD bile HODL'den kotu (27.2 vs 19.9), seed 105 hissede DD 62.3 vs HODL 42.5 — risk azaltma iddiasi yuksek volatilitede tersine donuyor. Strateji yalnizca cokuslu senaryolarda (seed 107) deger uretiyor; OOS setinin cogunlugunda HODL'un gerisinde. Karar: KALDI."
+  },
+  {
+   "aile": "supertrend_adx",
+   "params": {
+    "st_n": 9,
+    "st_mult": 3.2,
+    "adx_esik": 0,
+    "adx_n": 14
+   },
+   "endeks_ozet": {
+    "skor": -2.81,
+    "medyan_cagr_fark": -4.91,
+    "hodl_gecme_orani": 26.7,
+    "medyan_dd_fark": -8.41,
+    "medyan_islem": 8,
+    "en_kotu_3": [
+     {
+      "seed": 113,
+      "tf": "gunluk",
+      "cagr_fark": -13.9,
+      "dd_fark": -0.6
+     },
+     {
+      "seed": 109,
+      "tf": "gunluk",
+      "cagr_fark": -13.7,
+      "dd_fark": -8.4
+     },
+     {
+      "seed": 106,
+      "tf": "gunluk",
+      "cagr_fark": -12.5,
+      "dd_fark": -2.5
+     }
+    ]
+   },
+   "hisse_ozet": {
+    "skor": -6.88,
+    "medyan_cagr_fark": -8.6,
+    "hodl_gecme_orani": 20,
+    "medyan_dd_fark": -6.88,
+    "medyan_islem": 10,
+    "en_kotu_ornek": {
+     "seed": 109,
+     "tf": "gunluk",
+     "cagr_fark": -24.2,
+     "not": "hodl_cagr 68.2 vs strateji 44.0; seed 110 haftalik'ta strateji dd 64.1 > hodl dd 50.8 — DD korumasi bile tersine donuyor"
+    }
+   },
+   "hodl_gecme_orani_endeks": 26.7,
+   "hodl_gecme_orani_hisse": 20,
+   "medyan_cagr_fark_endeks": -4.91,
+   "medyan_dd_fark_endeks": -8.41,
+   "karar": "KALDI",
+   "gerekce": "Egitim skoru +5.79 iken endeks OOS skoru -2.81'e dustu (~8.6 puanlik cokme = agresif overfit). KARAR kriterinin 3 kosulundan 2'si ihlal: skor -2.81 < 0 ve hodl_gecme %26.7 < %40 (sadece medyan_dd_fark -8.41 < 0 sagliyor). Hisse profilinde daha da kotu: skor -6.88, gecme %20, medyan_cagr_fark -8.6 — yuksek volatilitede cokuyor. En kotu 3 endeks senaryosunun (seed 113/109/106 gunluk, cagr_fark -13.9/-13.7/-12.5) ortak deseni: dusuk-drawdown'lu guclu boga piyasalari. Islem loglari kaybin mekanizmasini gosteriyor: (1) Yeniden giris gecikmesi — seed 113'te bar 1885'te 125212'den cikip bar 1897'de 142524'ten geri giriyor (%13.8 kacirilmis ralli); benzer %8-10'luk bosluklar her cikista tekrarlaniyor ve 10 yilda bileske olarak buyuk CAGR farkina donusuyor. (2) Bu senaryolarda HODL dd zaten dusuk (seed 113: %19.9 vs strateji %19.4, dd_fark sadece -0.6) — supertrend cikislarin risk faydasi sifira yakin, sadece firsat maliyeti kaliyor. (3) Yatay bolgelerde whipsaw + komisyon: seed 106'da 16 islemin 6'si zararli/sifir, 32 bacak x %0.1 komisyon ~%3.2 ek surtunme. Strateji HODL'u yalnizca hodl_dd > %50 olan cokus senaryolarinda geciyor (seed 107, 102, 112) — yani sigortaya benziyor ama primi cok pahali. Ayrica adx_esik=0 ADX filtresini tamamen kapatiyor: aile fiilen ciplak supertrend'e dejenere olmus, egitim izgarasi filtreyi devre disi birakan koseyi secmis. Suphecilik gerektirmeyen net bir KALDI: sinir zar zor bile gecilmiyor, hisse profilinde katlanarak kotulesme var."
+  },
+  {
+   "aile": "supertrend_adx",
+   "params": {
+    "st_n": 10,
+    "st_mult": 3.25,
+    "adx_esik": 0,
+    "adx_n": 14
+   },
+   "hodl_gecme_orani_endeks": 20,
+   "hodl_gecme_orani_hisse": 20,
+   "medyan_cagr_fark_endeks": -5.17,
+   "medyan_dd_fark_endeks": -8.41,
+   "endeks_ozet": {
+    "skor": -3.07,
+    "medyan_cagr_fark": -5.17,
+    "medyan_dd_fark": -8.41,
+    "hodl_gecme_orani": 20,
+    "medyan_islem": 7.5,
+    "senaryo_sayisi": 30
+   },
+   "hisse_ozet": {
+    "skor": -7.23,
+    "medyan_cagr_fark": -8.94,
+    "medyan_dd_fark": -6.82,
+    "hodl_gecme_orani": 20,
+    "medyan_islem": 10,
+    "senaryo_sayisi": 30
+   },
+   "karar": "KALDI",
+   "gerekce": "Egitim skoru +5.37 olan aday OOS endekste (seed 100-114, gunluk+haftalik, 30 senaryo) skor -3.07'ye cokuyor: medyan CAGR farki -5.17 puan, HODL gecme orani sadece %20 (6/30). Uc kriterden ikisi ihlal (skor>0 YOK, gecme>=%40 YOK); tek saglanan medyan_dd_fark<0 (-8.41). Hisse profilinde durum daha kotu: skor -7.23, medyan CAGR farki -8.94, gecme yine %20; yuksek volatilite daha fazla sahte SuperTrend donusu tetikliyor (medyan islem 7.5->10) ve bazi senaryolarda (104/105/106 gunluk, 108/109 haftalik) strateji DD'si HODL'dan bile KOTU cikiyor — tek savunma iddiasi olan drawdown korumasi da guvenilmez. En kotu 3 endeks senaryosu hep guclu boga rejimleri: seed 109 gunluk (CAGR 44.0 vs HODL 58.2, fark -14.2), seed 113 gunluk (65.4 vs 78.7, -13.3), seed 106 gunluk (28.0 vs 39.6, -11.6). Kayip mekanizmasi net: adx_esik=0 oldugu icin ADX filtresi kodda tamamen devre disi (stratejiler.py: 'if adx_esik>0' bloguna hic girilmiyor) ve aile ciplak SuperTrend(10,3.25)'e indirgenmis; yuksek-drift rejimlerinde strateji zamanin %18-30'unda piyasa disinda kalip birlesik %14-54 yukseliyi kaciriyor, cikis->tekrar giris ciftlerinin 9/10 ila 13/14'u DAHA PAHALI fiyattan geri giriyor (ortalama +%6-8.5 geri-girme maliyeti) ve her donuste %0.2 komisyon oduyor. Islemler tek tek karli (PF 4-176, yuksek kazanma orani) ama alpha kaybi firsat maliyetinden geliyor: trend guclendikce whipsaw cezasi buyuyor. Karar acik farkla KALDI — sinir vakasi bile degil."
+  }
+ ]
+}

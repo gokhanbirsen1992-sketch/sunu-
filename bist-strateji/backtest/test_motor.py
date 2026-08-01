@@ -119,3 +119,23 @@ def test_ayni_seed_ayni_veri():
     a = sentetik_bist(n_gun=100, seed=7)
     b = sentetik_bist(n_gun=100, seed=7)
     assert np.allclose(a["close"], b["close"])
+
+
+def test_kazanan_strateji_regresyon():
+    """Doğrulanmış kazanan parametrelerin davranışını sabitler (seed 100).
+
+    Bu test kırılırsa strateji/motor/veri değişikliği doğrulanmış sonuçları
+    geçersiz kılmıştır — SONUCLAR.md yeniden üretilmelidir.
+    """
+    from .optimize import kos, veri_seti
+
+    p = {"sma_gun": 131, "mom_gun": 284, "band_yuzde": 3.0, "be_giris": 0}
+    vs = veri_seti(100)
+    r = kos("rejim_filtre", p, vs["gunluk"], 252.0)
+    assert r.islem_sayisi == 2
+    assert r.net_kar_yuzde == pytest.approx(3635.271, abs=0.5)
+    assert r.hodl_yuzde == pytest.approx(3305.978, abs=0.5)
+    assert r.maks_dusus == pytest.approx(23.15, abs=0.05)
+    rh = kos("rejim_filtre", p, vs["haftalik"], 52.0)
+    assert rh.islem_sayisi == 2
+    assert rh.net_kar_yuzde == pytest.approx(3235.898, abs=0.5)
