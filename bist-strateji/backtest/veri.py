@@ -45,11 +45,18 @@ def sentetik_bist(
 
     rejim = rng.choice(["boga", "yatay", "ayi"], p=[0.5, 0.35, 0.15])
     kalan = int(rng.exponential(REJIMLER[rejim][2])) + 5
+    duzeltme_kalan = 0  # boğa/yatay içi sert düzeltme fazı (BIST'e özgü şok günleri)
     log_r = np.zeros(n_gun)
     for i in range(n_gun):
         mu, sig, _ = REJIMLER[rejim]
         mu *= drift_carpan
         sig *= vol_carpan
+        if duzeltme_kalan > 0:
+            # Politik/kur şoku tarzı kısa-sert düzeltme (ör. Mar/Kas 2021, Tem 2023)
+            mu, sig = -0.013, 0.030 * vol_carpan
+            duzeltme_kalan -= 1
+        elif rejim != "ayi" and rng.random() < 0.0035:
+            duzeltme_kalan = int(rng.integers(4, 11))
         r = rng.normal(mu, sig)
         # Nadir sıçrama günleri (BIST devre kesici tarzı sert hareketler)
         if rng.random() < 0.003:

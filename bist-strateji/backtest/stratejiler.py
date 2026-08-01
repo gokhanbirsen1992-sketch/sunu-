@@ -151,6 +151,105 @@ def _iz_suren_atr_stop(h, l, c, sinyal, n, mult):
     return stop
 
 
+def _gun2bar(p: dict, n_gun: float) -> int:
+    """'İşlem günü' cinsinden periyodu bar sayısına çevirir (günlük→aynı, haftalık→/5)."""
+    bpy = float(p.get("_bpy", 252.0))
+    return max(2, int(round(n_gun * bpy / 252.0)))
+
+
+def faber_sma(o, h, l, c, v, p):
+    """Faber (2007) trend filtresi + Zakamulin histerezis bandı.
+
+    Giriş: kapanış > SMA(n)*(1+band); Çıkış: kapanış < SMA(n)*(1-band).
+    Bant, testere (whipsaw) işlemlerini azaltır. n işlem günü cinsindendir.
+    """
+    n = _gun2bar(p, p["sma_gun"])
+    band = float(p.get("band_yuzde", 0.0)) / 100.0
+    s = ind.sma(c, n)
+    sinyal = np.zeros(len(c))
+    sinyal[0] = 1.0
+    for i in range(1, len(c)):
+        if np.isnan(s[i]):
+            sinyal[i] = 1.0  # ısınma döneminde piyasada kal (HODL ile aynı başla)
+            continue
+        if sinyal[i - 1] == 0:
+            sinyal[i] = 1.0 if c[i] > s[i] * (1 + band) else 0.0
+        else:
+            sinyal[i] = 0.0 if c[i] < s[i] * (1 - band) else 1.0
+    return sinyal, None
+
+
+def mutlak_momentum(o, h, l, c, v, p):
+    """Mutlak momentum (Antonacci 2014): n günlük getiri histerezisli.
+
+    Giriş: ROC(n) > giris_esik; Çıkış: ROC(n) < cikis_esik (negatif eşik =
+    yavaş çıkış). Zaman-serisi momentumu: Moskowitz-Ooi-Pedersen (2012).
+    """
+    n = _gun2bar(p, p["mom_gun"])
+    r = ind.roc(c, n)
+    ge = float(p.get("giris_esik", 0.0))
+    ce = float(p.get("cikis_esik", 0.0))
+    sinyal = np.zeros(len(c))
+    sinyal[0] = 1.0
+    for i in range(1, len(c)):
+        if np.isnan(r[i]):
+            sinyal[i] = 1.0  # ısınma döneminde piyasada kal
+            continue
+        if sinyal[i - 1] == 0:
+            sinyal[i] = 1.0 if r[i] > ge else 0.0
+        else:
+            sinyal[i] = 0.0 if r[i] < ce else 1.0
+    return sinyal, None
+
+
+def rejim_filtre(o, h, l, c, v, p):
+    """Varsayılan pozisyon LONG; sadece ÇİFTE ayı teyidinde çıkar.
+
+    Çıkış: kapanış < SMA(nL)*(1-band) VE ROC(nM) < 0 (iki yavaş sinyal aynı anda).
+    Geri giriş: kapanış > SMA(nL) VEYA ROC(nM) > 0 (hızlı dönüş — boğayı kaçırma),
+    ayrıca be_giris=1 ise kapanış çıkış fiyatını aşarsa da geri gir (breakeven
+    kuralı, Kaminski & Lo 2014: yanlış alarmın maliyetini 2 komisyona sabitler).
+    Amaç: piyasada kalma süresini maksimize edip yalnızca gerçek ayıları atlamak.
+    (Faber 2007 + Antonacci 2014 bileşimi, asimetrik histerezis.)
+    """
+    nL = _gun2bar(p, p["sma_gun"])
+    nM = _gun2bar(p, p["mom_gun"])
+    band = float(p.get("band_yuzde", 0.0)) / 100.0
+    be = int(p.get("be_giris", 0)) == 1
+    s = ind.sma(c, nL)
+    r = ind.roc(c, nM)
+    sinyal = np.zeros(len(c))
+    sinyal[0] = 1.0
+    cikis_px = np.nan
+    for i in range(1, len(c)):
+        if np.isnan(s[i]) or np.isnan(r[i]):
+            sinyal[i] = 1.0  # ısınma döneminde piyasada kal (HODL ile aynı başla)
+            continue
+        if sinyal[i - 1] == 1:
+            if c[i] < s[i] * (1 - band) and r[i] < 0:
+                sinyal[i] = 0.0
+                cikis_px = c[i]
+            else:
+                sinyal[i] = 1.0
+        else:
+            geri = c[i] > s[i] or r[i] > 0
+            if be and not np.isnan(cikis_px):
+                geri = geri or c[i] > cikis_px
+            sinyal[i] = 1.0 if geri else 0.0
+    return sinyal, None
+
+
+def supertrend_yavas(o, h, l, c, v, p):
+    """Çok yavaş Supertrend: geniş çarpanla yalnızca büyük ayılarda çıkış."""
+    n = _gun2bar(p, p["st_gun"])
+    _, yon = ind.supertrend(h, l, c, n, float(p["st_mult"]))
+    sinyal = (yon == 1).astype(float)
+    # Isınma döneminde piyasada kal (HODL ile aynı başlangıç)
+    ilk = np.argmax(yon != 0) if (yon != 0).any() else len(c)
+    sinyal[:ilk] = 1.0
+    return sinyal, None
+
+
 AILELER = {
     "supertrend_adx": supertrend_adx,
     "ema_cross_macd": ema_cross_macd,
@@ -158,4 +257,8 @@ AILELER = {
     "kama_roc": kama_roc,
     "rsi_meanrev": rsi_meanrev,
     "komposit": komposit,
+    "faber_sma": faber_sma,
+    "mutlak_momentum": mutlak_momentum,
+    "rejim_filtre": rejim_filtre,
+    "supertrend_yavas": supertrend_yavas,
 }

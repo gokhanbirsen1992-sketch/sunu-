@@ -90,15 +90,18 @@ def test_backtest_hodl_ile_ayni_surekli_long():
 
 
 def test_stop_bar_ici_calisir():
+    # Pine parite: bar 1 kapanışında konan stop (97) bar 2 boyunca geçerlidir;
+    # bar 2'de low=94 stopu kırar → çıkış 97'den.
     o = np.array([100.0, 100.0, 100.0, 100.0])
     h = np.array([101.0, 101.0, 101.0, 101.0])
     l = np.array([99.0, 99.0, 94.0, 99.0])
     c = np.array([100.0, 100.5, 95.0, 99.0])
     sinyal = np.array([1.0, 1.0, 1.0, 1.0])
-    stop = np.array([np.nan, np.nan, 97.0, np.nan])
+    stop = np.array([np.nan, 97.0, 97.0, np.nan])
     r = backtest(o, h, l, c, sinyal, komisyon_yuzde=0.0, stop_seviyesi=stop)
     assert r.islemler[0].get("stop") is True
     assert r.islemler[0]["cikis_px"] == 97.0
+    assert r.islemler[0]["cikis_i"] == 2
 
 
 def test_sentetik_veri_tutarli():

@@ -18,8 +18,9 @@ from .motor import Sonuc, backtest
 from .stratejiler import AILELER
 from .veri import haftalik, sentetik_bist
 
-TRAIN_SEEDS = list(range(0, 10))
-TEST_SEEDS = list(range(100, 115))
+TRAIN_SEEDS = list(range(0, 20))
+TEST_SEEDS = list(range(100, 115))      # out-of-sample doğrulama
+ONAY_SEEDS = list(range(200, 215))      # nihai onay — optimizasyonda ASLA kullanılmaz
 KOMISYON = 0.1  # % — BIST aracı kurum ortalaması
 
 
@@ -32,7 +33,9 @@ def veri_seti(seed: int, hisse_mi: bool = False):
 def kos(aile: str, params: dict, df, bar_per_yil: float) -> Sonuc:
     fn = AILELER[aile]
     o, h, l, c, v = (df[k].to_numpy() for k in ("open", "high", "low", "close", "volume"))
-    sinyal, stop = fn(o, h, l, c, v, params)
+    p = dict(params)
+    p["_bpy"] = bar_per_yil  # periyotlarını "gün" cinsinden tanımlayan aileler için
+    sinyal, stop = fn(o, h, l, c, v, p)
     return backtest(o, h, l, c, sinyal, KOMISYON, bar_per_yil, stop)
 
 

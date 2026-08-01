@@ -87,9 +87,10 @@ def backtest(
                 pos = 0
                 trades[-1].update({"cikis_i": i, "cikis_px": px})
                 trades[-1]["getiri"] = (px * (1 - kom)) / (entry_px / (1 - kom)) - 1.0
-        # 2) Bar içi stop kontrolü (pozisyondayken)
-        if pos == 1 and stop_seviyesi is not None and not np.isnan(stop_seviyesi[i]):
-            stp = stop_seviyesi[i]
+        # 2) Bar içi stop kontrolü (pozisyondayken). Pine parite: stop emri bir
+        # önceki barın kapanışında konur, bu bar boyunca o seviye geçerlidir.
+        if pos == 1 and stop_seviyesi is not None and i > 0 and not np.isnan(stop_seviyesi[i - 1]):
+            stp = stop_seviyesi[i - 1]
             if low[i] <= stp:
                 px = min(open_[i], stp) if open_[i] < stp else stp
                 cash = shares * px * (1 - kom)

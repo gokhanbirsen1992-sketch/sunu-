@@ -1,0 +1,195 @@
+//@version=6
+// ============================================================================
+// BIST HODL-Beater — Çok İndikatörlü Puanlama Stratejisi (Günlük + Haftalık)
+// ----------------------------------------------------------------------------
+// Literatür temelli bileşenler:
+//   • Supertrend (Olivier Seban) ............ ATR tabanlı trend yönü
+//   • EMA kesişimi (Brock-Lakonishok-LeBaron 1992) trend teyidi
+//   • MACD (Gerald Appel) ................... momentum dönüşü
+//   • RSI (J. Welles Wilder 1978) ........... momentum rejimi
+//   • Donchian kanalı (Richard Donchian) .... kırılım/orta hat konumu
+//   • DMI +DI/-DI (Wilder) .................. yön hakimiyeti
+//   • Chandelier Exit (Chuck LeBeau) ........ ATR iz süren stop
+//   • Üçlü Ekran haftalık teyit (Alexander Elder) — isteğe bağlı
+// 6 bileşen oy verir; puan giriş eşiğini aşınca AL, çıkış eşiğine düşünce
+// veya iz süren stop kırılınca SAT. Long/flat çalışır (BIST'e uygun).
+// Sağ üstteki tablo, seçili parametrelerle geçmiş performansı HODL
+// (al-ve-tut) ile karşılaştırır; parametreleri optimize ettikçe canlı güncellenir.
+// ============================================================================
+strategy("BIST HODL-Beater [Puanlama]",
+     shorttitle = "BIST HODL-Beater",
+     overlay = true,
+     initial_capital = 100000,
+     default_qty_type = strategy.percent_of_equity,
+     default_qty_value = 99,
+     commission_type = strategy.commission.percent,
+     commission_value = 0.1,
+     slippage = 0,
+     calc_on_every_tick = false,
+     process_orders_on_close = false,
+     max_labels_count = 500)
+
+// ─── Girdiler ───────────────────────────────────────────────────────────────
+grpST  = "1) Supertrend"
+stN    = input.int(10,  "ATR periyodu",  minval = 2,  group = grpST)
+stMult = input.float(3.0, "ATR çarpanı", minval = 0.5, step = 0.25, group = grpST)
+
+grpEMA   = "2) EMA Trendi"
+emaHizli = input.int(20,  "Hızlı EMA", minval = 2, group = grpEMA)
+emaYavas = input.int(100, "Yavaş EMA", minval = 5, group = grpEMA)
+
+grpMom   = "3) Momentum"
+macdHizli = input.int(12, "MACD hızlı", minval = 2, group = grpMom)
+macdYavas = input.int(26, "MACD yavaş", minval = 5, group = grpMom)
+macdSig   = input.int(9,  "MACD sinyal", minval = 2, group = grpMom)
+rsiN      = input.int(14, "RSI periyodu", minval = 2, group = grpMom)
+rsiEsik   = input.float(50, "RSI eşiği (üzeri boğa oyu)", minval = 30, maxval = 70, group = grpMom)
+
+grpKanal = "4) Kanal / Yön"
+dcN   = input.int(20, "Donchian periyodu", minval = 5, group = grpKanal)
+dmiN  = input.int(14, "DMI periyodu", minval = 2, group = grpKanal)
+
+grpPuan    = "5) Puanlama"
+girisEsik  = input.int(5, "Giriş eşiği (kaç oy ile AL)", minval = 1, maxval = 6, group = grpPuan)
+cikisEsik  = input.int(2, "Çıkış eşiği (bu oy ve altında SAT)", minval = 0, maxval = 5, group = grpPuan)
+
+grpStop   = "6) İz Süren Stop (Chandelier)"
+chandAcik = input.bool(true, "Chandelier Exit aktif", group = grpStop)
+chandN    = input.int(22,  "ATR periyodu", minval = 5, group = grpStop)
+chandMult = input.float(3.0, "ATR çarpanı", minval = 1.0, step = 0.25, group = grpStop)
+
+grpElder  = "7) Üçlü Ekran (Elder) — günlük grafikte önerilir"
+elderAcik = input.bool(false, "Haftalık EMA trend teyidi", group = grpElder)
+elderN    = input.int(30, "Haftalık EMA periyodu", minval = 5, group = grpElder)
+
+grpTarih = "8) Backtest Aralığı"
+tarihBas = input.time(timestamp("2016-01-01T00:00"), "Başlangıç", group = grpTarih)
+tarihBit = input.time(timestamp("2099-01-01T00:00"), "Bitiş", group = grpTarih)
+
+grpGorsel  = "9) Görünüm"
+tabloAcik  = input.bool(true, "Performans tablosu", group = grpGorsel)
+tabloKonum = input.string("Sağ üst", "Tablo konumu", options = ["Sağ üst", "Sağ alt", "Sol üst", "Sol alt"], group = grpGorsel)
+stCiz      = input.bool(true, "Supertrend çizgisi", group = grpGorsel)
+stopCiz    = input.bool(true, "İz süren stop çizgisi", group = grpGorsel)
+
+araliktaMi = time >= tarihBas and time <= tarihBit
+
+// ─── Bileşen hesapları ──────────────────────────────────────────────────────
+[stCizgi, stYon] = ta.supertrend(stMult, stN)          // yon < 0 → yükseliş
+eH = ta.ema(close, emaHizli)
+eY = ta.ema(close, emaYavas)
+[macdL, macdS, macdHist] = ta.macd(close, macdHizli, macdYavas, macdSig)
+rsiDeger = ta.rsi(close, rsiN)
+dcUst  = ta.highest(high, dcN)
+dcAlt  = ta.lowest(low, dcN)
+dcOrta = (dcUst + dcAlt) / 2
+[diArti, diEksi, _adx] = ta.dmi(dmiN, dmiN)
+
+// Elder Üçlü Ekran: üst zaman dilimi (haftalık) trend süzgeci
+haftalikEma = request.security(syminfo.tickerid, "W", ta.ema(close, elderN), lookahead = barmerge.lookahead_off)
+elderOnay = not elderAcik or timeframe.isweekly or timeframe.ismonthly or close > haftalikEma
+
+// ─── Oylar (0/1) ────────────────────────────────────────────────────────────
+oy1 = stYon < 0 ? 1 : 0
+oy2 = eH > eY ? 1 : 0
+oy3 = macdHist > 0 ? 1 : 0
+oy4 = rsiDeger > rsiEsik ? 1 : 0
+oy5 = close > dcOrta ? 1 : 0
+oy6 = diArti > diEksi ? 1 : 0
+puan = oy1 + oy2 + oy3 + oy4 + oy5 + oy6
+
+// ─── Chandelier Exit (pozisyona bağlı, sadece yukarı güncellenen stop) ──────
+atrChand = ta.atr(chandN)
+var float izStop = na
+var float pozTepe = na
+if strategy.position_size > 0
+    pozTepe := na(pozTepe) ? high : math.max(pozTepe, high)
+    yeniStop = pozTepe - chandMult * atrChand
+    izStop := na(izStop) ? yeniStop : math.max(izStop, yeniStop)
+else
+    izStop := na
+    pozTepe := na
+
+// ─── Emirler ────────────────────────────────────────────────────────────────
+girisKosul = araliktaMi and puan >= girisEsik and elderOnay and strategy.position_size == 0
+cikisKosul = strategy.position_size > 0 and (puan <= cikisEsik or not araliktaMi)
+
+if girisKosul
+    strategy.entry("AL", strategy.long)
+if cikisKosul
+    strategy.close("AL", comment = "SAT")
+if chandAcik and strategy.position_size > 0 and not na(izStop)
+    strategy.exit("Stop", from_entry = "AL", stop = izStop, comment = "STOP")
+
+// ─── HODL kıyaslaması ve istatistikler ──────────────────────────────────────
+var float hodlBas = na
+if araliktaMi and na(hodlBas)
+    hodlBas := close
+hodlYuzde = na(hodlBas) ? 0.0 : (close / hodlBas - 1) * 100
+netYuzde  = (strategy.equity / strategy.initial_capital - 1) * 100
+
+// Maks. düşüş (%) — strateji ve HODL için ayrı ayrı izlenir
+var float eqTepe = na
+var float maksDus = 0.0
+eqTepe := na(eqTepe) ? strategy.equity : math.max(eqTepe, strategy.equity)
+maksDus := math.max(maksDus, (eqTepe - strategy.equity) / eqTepe * 100)
+var float hodlTepe = na
+var float hodlMaksDus = 0.0
+if araliktaMi and not na(hodlBas)
+    hodlTepe := na(hodlTepe) ? close : math.max(hodlTepe, close)
+    hodlMaksDus := math.max(hodlMaksDus, (hodlTepe - close) / hodlTepe * 100)
+
+// Yıllıklandırılmış getiri (CAGR)
+var int zamanBas = na
+if araliktaMi and na(zamanBas)
+    zamanBas := time
+yilSayisi = na(zamanBas) ? 0.0 : (time - zamanBas) / (365.25 * 86400000.0)
+cagr     = yilSayisi > 0.2 and strategy.equity > 0 ? (math.pow(strategy.equity / strategy.initial_capital, 1 / yilSayisi) - 1) * 100 : na
+hodlCagr = yilSayisi > 0.2 and not na(hodlBas) ? (math.pow(close / hodlBas, 1 / yilSayisi) - 1) * 100 : na
+
+islemSay   = strategy.closedtrades
+kazanmaOr  = islemSay > 0 ? strategy.wintrades / islemSay * 100 : 0.0
+karFaktoru = strategy.grossloss > 0 ? strategy.grossprofit / strategy.grossloss : na
+
+// ─── Görsel katman ──────────────────────────────────────────────────────────
+plot(stCiz ? stCizgi : na, "Supertrend", color = stYon < 0 ? color.new(color.teal, 0) : color.new(color.red, 0), style = plot.style_linebr)
+plot(stopCiz and strategy.position_size > 0 ? izStop : na, "İz Süren Stop", color = color.new(color.orange, 0), style = plot.style_circles)
+
+plotshape(girisKosul, "AL", shape.labelup,   location.belowbar, color.new(color.green, 0), text = "AL",  textcolor = color.white, size = size.small)
+plotshape(cikisKosul, "SAT", shape.labeldown, location.abovebar, color.new(color.red, 0),   text = "SAT", textcolor = color.white, size = size.small)
+
+alertcondition(girisKosul, "BIST HODL-Beater AL",  "{{ticker}} AL sinyali — puan giriş eşiğini aştı")
+alertcondition(cikisKosul, "BIST HODL-Beater SAT", "{{ticker}} SAT sinyali — puan çıkış eşiğine düştü")
+
+// ─── Performans tablosu ─────────────────────────────────────────────────────
+konum = tabloKonum == "Sağ üst" ? position.top_right : tabloKonum == "Sağ alt" ? position.bottom_right : tabloKonum == "Sol üst" ? position.top_left : position.bottom_left
+var table t = table.new(konum, 2, 12, bgcolor = color.new(color.black, 15), border_width = 1, border_color = color.new(color.gray, 60))
+
+fmt(float x) => na(x) ? "—" : str.tostring(x, "#,##0.0")
+
+if tabloAcik and barstate.islast
+    basari = netYuzde > hodlYuzde
+    table.cell(t, 0, 0, "BIST HODL-Beater", text_color = color.white, text_size = size.small, bgcolor = color.new(color.blue, 30))
+    table.cell(t, 1, 0, timeframe.isweekly ? "Haftalık" : timeframe.isdaily ? "Günlük" : timeframe.period, text_color = color.white, text_size = size.small, bgcolor = color.new(color.blue, 30))
+    table.cell(t, 0, 1, "Net Kâr", text_color = color.silver, text_size = size.small)
+    table.cell(t, 1, 1, fmt(netYuzde) + " %", text_color = netYuzde >= 0 ? color.lime : color.red, text_size = size.small)
+    table.cell(t, 0, 2, "HODL (Al-Tut)", text_color = color.silver, text_size = size.small)
+    table.cell(t, 1, 2, fmt(hodlYuzde) + " %", text_color = hodlYuzde >= 0 ? color.lime : color.red, text_size = size.small)
+    table.cell(t, 0, 3, "Fark (Alpha)", text_color = color.silver, text_size = size.small)
+    table.cell(t, 1, 3, (basari ? "+" : "") + fmt(netYuzde - hodlYuzde) + " puan", text_color = basari ? color.lime : color.orange, text_size = size.small)
+    table.cell(t, 0, 4, "Yıllık Getiri (CAGR)", text_color = color.silver, text_size = size.small)
+    table.cell(t, 1, 4, fmt(cagr) + " % (HODL " + fmt(hodlCagr) + " %)", text_color = color.white, text_size = size.small)
+    table.cell(t, 0, 5, "Maks. Düşüş", text_color = color.silver, text_size = size.small)
+    table.cell(t, 1, 5, fmt(maksDus) + " % (HODL " + fmt(hodlMaksDus) + " %)", text_color = maksDus <= hodlMaksDus ? color.lime : color.orange, text_size = size.small)
+    table.cell(t, 0, 6, "İşlem Sayısı", text_color = color.silver, text_size = size.small)
+    table.cell(t, 1, 6, str.tostring(islemSay), text_color = color.white, text_size = size.small)
+    table.cell(t, 0, 7, "Kazanma Oranı", text_color = color.silver, text_size = size.small)
+    table.cell(t, 1, 7, fmt(kazanmaOr) + " %", text_color = kazanmaOr >= 50 ? color.lime : color.orange, text_size = size.small)
+    table.cell(t, 0, 8, "Kâr Faktörü", text_color = color.silver, text_size = size.small)
+    table.cell(t, 1, 8, fmt(karFaktoru), text_color = not na(karFaktoru) and karFaktoru >= 1.5 ? color.lime : color.orange, text_size = size.small)
+    table.cell(t, 0, 9, "Anlık Puan", text_color = color.silver, text_size = size.small)
+    table.cell(t, 1, 9, str.tostring(puan) + " / 6  (giriş ≥ " + str.tostring(girisEsik) + ")", text_color = color.white, text_size = size.small)
+    table.cell(t, 0, 10, "Pozisyon", text_color = color.silver, text_size = size.small)
+    table.cell(t, 1, 10, strategy.position_size > 0 ? "LONG" : "NAKİT", text_color = strategy.position_size > 0 ? color.lime : color.gray, text_size = size.small)
+    table.cell(t, 0, 11, "HODL'a karşı", text_color = color.silver, text_size = size.small)
+    table.cell(t, 1, 11, basari ? "✔ GEÇTİ" : "✘ geride", text_color = basari ? color.lime : color.red, text_size = size.small, bgcolor = basari ? color.new(color.green, 70) : color.new(color.maroon, 60))
