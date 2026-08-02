@@ -125,21 +125,19 @@ var int basZaman = na
 var string sonIslem = "—"
 
 // 1) Bu barın getirisi — ÖNCEKİ dönemde seçilmiş portföyle (sızıntı yok)
+var array<float> kumulatif = array.new<float>()   // hisse başına al-tut çarpanı
 if basladi
     topG = 0.0
     for i in tutulan
         ri = array.get(getirilerA, i)
         topG += na(ri) ? 0.0 : ri
     eq := eq * (1.0 + topG / topK)
-    // Evren kıyası: tüm geçerli hisselerin eşit ağırlık ortalaması (günlük dengeli)
-    topE = 0.0
-    nE = 0
+    // Evren kıyası: her hissenin başlangıçtan bu yana AL-TUT büyümesi, ortalaması
     for i = 0 to N - 1
         ri = array.get(getirilerA, i)
         if not na(ri)
-            topE += ri
-            nE += 1
-    evrenEq := evrenEq * (1.0 + (nE > 0 ? topE / nE : 0.0))
+            array.set(kumulatif, i, array.get(kumulatif, i) * (1.0 + ri))
+    evrenEq := array.avg(kumulatif)
 
 // 2) Rotasyon: dönem değişiminin İLK barının kapanışında yeni seçim
 gecerliSayi = 0
@@ -149,7 +147,9 @@ for i = 0 to N - 1
 
 yeniDonem = rebalans == "Aylık" ? ta.change(time("M")) != 0 : ta.change(time("W")) != 0
 
-if gecerliSayi >= topK and (not basladi or yeniDonem)
+// İlk kurulum en az K geçerli aday bekler; sonraki rotasyonlar eldeki adaylarla
+// yapılır (eksik veri ayı rebalansı iptal etmesin — boş slot zaten nakit).
+if (not basladi and gecerliSayi >= topK) or (basladi and yeniDonem and gecerliSayi > 0)
     secilen = array.new<int>()
     kullanildi = array.new<bool>(N, false)
     for k = 1 to topK
@@ -186,6 +186,8 @@ if gecerliSayi >= topK and (not basladi or yeniDonem)
         basZaman := time
         xuBas := xu
         sonIslem := "İlk portföy: " + alStr
+        for i = 1 to N
+            array.push(kumulatif, 1.0)
     tutulan := secilen
 
 // ─── İstatistikler ──────────────────────────────────────────────────────────

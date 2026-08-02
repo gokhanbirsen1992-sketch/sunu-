@@ -56,11 +56,15 @@ def rotasyon_backtest(
             if degisen:
                 # her değişen bacak: sat + al ≈ 2 komisyon, portföy ağırlığıyla
                 equity[t] *= 1.0 - degisen * 2.0 * kom / (2.0 * top_k)
-                rotasyon_sayisi += 1
+                if tutulan:
+                    rotasyon_sayisi += 1  # ilk kurulum sayılmaz (Pine ile aynı)
             tutulan = yeni_set
 
-    hodl = np.mean(fiyatlar / fiyatlar[0], axis=1)     # eşit ağırlık al-ve-tut
-    yil = n_gun / 252.0
+    # Adil kıyas: iki taraf da stratejinin BAŞLADIĞI günden ölçülür (ısınma
+    # dönemindeki nakit bekleyiş kıyası çarpıtmasın).
+    eq2 = equity[baslangic:]
+    hodl2 = np.mean(fiyatlar[baslangic:] / fiyatlar[baslangic], axis=1)
+    yil = len(eq2) / 252.0
 
     def _cagr(eq):
         return (eq[-1] ** (1.0 / yil) - 1.0) * 100.0
@@ -70,14 +74,14 @@ def rotasyon_backtest(
         return float((1.0 - eq / tepe).max() * 100.0)
 
     return {
-        "net": (equity[-1] - 1.0) * 100.0,
-        "hodl": (hodl[-1] - 1.0) * 100.0,
-        "cagr": _cagr(equity),
-        "hodl_cagr": _cagr(hodl),
-        "dd": _dd(equity),
-        "hodl_dd": _dd(hodl),
+        "net": (eq2[-1] - 1.0) * 100.0,
+        "hodl": (hodl2[-1] - 1.0) * 100.0,
+        "cagr": _cagr(eq2),
+        "hodl_cagr": _cagr(hodl2),
+        "dd": _dd(eq2),
+        "hodl_dd": _dd(hodl2),
         "rotasyon": rotasyon_sayisi,
-        "equity": equity,
+        "equity": eq2,
     }
 
 

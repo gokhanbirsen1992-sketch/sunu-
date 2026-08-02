@@ -6,14 +6,19 @@ Tek sembol zamanlaması yerine kesitsel momentum (Jegadeesh-Titman 1993):
 her ay, 6 aylık getirisi (son 1 ay atlanarak) en yüksek 5 hisseyi eşit
 ağırlıkla tut; momentumu negatif olanlar alınmaz (Antonacci mutlak filtre).
 
-Parametre taraması (8 bağımsız 20-hisselik sentetik evren, komisyon %0.1/bacak):
+Parametre taraması (8 bağımsız 20-hisselik sentetik evren, komisyon %0.1/bacak,
+düşmanca inceleme sonrası adil kıyas penceresiyle — iki taraf da stratejinin
+başladığı günden ölçülür):
 
 | Pencere | Top-K | Rotasyon | Medyan CAGR farkı | Kazanma |
 |---|---|---|---|---|
-| **126g (6 ay)** | **5** | **Aylık** | **+2.44 puan/yıl** | **5/8** |
-| 126g | 7 | Aylık | +1.88 | 5/8 |
-| 126g | 5 | Haftalık | +1.05 | 4/8 |
-| 252g (12 ay) | 5 | Aylık | -3.70 | 3/8 |
+| **126g (6 ay)** | **5** | **Aylık** | **+6.52 puan/yıl** | **5/8** |
+| 126g | 7 | Aylık | +5.13 | 5/8 |
+| 126g | 3 | Aylık | +4.37 | 5/8 |
+| 252g (12 ay) | 5 | Aylık | +0.22 | 4/8 |
+
+Kazanan evrenlerde avantaj +10/+15 puan; kaybeden 3 evrende -1/-13 puan —
+rotasyon bir garanti değil, olasılık avantajıdır.
 
 Bulgular literatürle birebir: 6 ay > 12 ay; aylık > haftalık (komisyon);
 konsantrasyon (top-3) varyansı artırıyor. Maks. düşüş HODL'dan ~4 puan yüksek

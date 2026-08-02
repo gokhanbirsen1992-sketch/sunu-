@@ -161,8 +161,8 @@ def test_rotasyon_regresyon():
 
     fx = evren_uret(300)
     r = rotasyon_backtest(fx)
-    assert r["rotasyon"] == 103
+    assert r["rotasyon"] == 102
     assert r["net"] == pytest.approx(7379.865, abs=1.0)
-    assert r["hodl"] == pytest.approx(3263.141, abs=1.0)
+    assert r["hodl"] == pytest.approx(2911.198, abs=1.0)
     assert r["dd"] == pytest.approx(15.343, abs=0.05)
     assert r["net"] > r["hodl"]
