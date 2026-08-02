@@ -1,0 +1,146 @@
+//@version=6
+// ============================================================================
+// BIST Makro Bağlantı Paneli — Intermarket Analizi (John Murphy geleneği)
+// ----------------------------------------------------------------------------
+// "Savaş çıktı → petrol arttı → havayolu maliyeti arttı" tarzı bağlantıları
+// VERİYLE ölçer: grafiği açık hissenin her makro sürücüye (petrol, USDTRY,
+// altın, XU100, sektör endeksleri...) karşı SON 6 AYLIK getiri korelasyonunu
+// hesaplar ve bunu sürücünün MEVCUT trendiyle çarpar:
+//     katkı = duyarlılık(korelasyon) × sürücünün momentumu
+// Toplam = MAKRO RÜZGAR SKORU: pozitifse makro ortam bu hisseyi itiyor,
+// negatifse frenliyor. Panel her sürücünün trendini, hissenin ona
+// duyarlılığını ve katkısını ayrı ayrı gösterir.
+//
+// DÜRÜST UYARI: Bu panel geleceği (savaşı, faiz kararını) ÖNGÖRMEZ; şu an
+// esen rüzgarı ölçer. Literatür bağlantılı varlıklar arasında bilginin yavaş
+// yayıldığını destekler (Cohen-Frazzini 2008; Hong-Torous-Valkanov 2007) ama
+// olayın kendisi öngörülemez. Karar destek aracıdır, tek başına sinyal değil.
+// GÜNLÜK grafikte kullan.
+// ============================================================================
+indicator("BIST Makro Bağlantı Paneli", shorttitle = "MakroRüzgar", overlay = false)
+
+// ─── Parametreler ───────────────────────────────────────────────────────────
+grpP = "1) Hesap"
+korN  = input.int(126, "Duyarlılık penceresi (bar)", minval = 40, tooltip = "Hisse ile sürücü arasındaki getiri korelasyonu bu pencerede ölçülür (~6 ay).", group = grpP)
+momN  = input.int(63, "Sürücü momentum penceresi (bar)", minval = 10, tooltip = "Her makro sürücünün trendi bu pencerdeki % değişimle ölçülür (~3 ay).", group = grpP)
+esikG = input.float(20.0, "Güçlü rüzgar eşiği", minval = 5, maxval = 60, group = grpP)
+
+grpS = "2) Makro sürücüler (değiştirilebilir)"
+d1 = input.symbol("TVC:UKOIL",      "Petrol (Brent)", group = grpS)
+d2 = input.symbol("FX_IDC:USDTRY",  "Dolar/TL", group = grpS)
+d3 = input.symbol("TVC:GOLD",       "Altın (ons USD)", group = grpS)
+d4 = input.symbol("BIST:XU100",     "BIST 100", group = grpS)
+d5 = input.symbol("BIST:XBANK",     "Bankacılık end.", group = grpS)
+d6 = input.symbol("BIST:XUSIN",     "Sınai end.", group = grpS)
+d7 = input.symbol("BIST:XULAS",     "Ulaştırma end.", group = grpS)
+d8 = input.symbol("BIST:XGIDA",     "Gıda end.", group = grpS)
+d9 = input.symbol("TVC:VIX",        "VIX (küresel korku)", group = grpS)
+
+grpG = "3) Görünüm"
+tabloKonum = input.string("Sağ üst", "Tablo konumu", options = ["Sağ üst", "Sağ alt", "Sol üst", "Sol alt"], group = grpG)
+
+// ─── Veri ───────────────────────────────────────────────────────────────────
+// Her sürücü için: [günlük getiri, momN barlık % değişim]
+al(simge) =>
+    request.security(simge, timeframe.period,
+         [close / close[1] - 1.0, (close / close[momN] - 1.0) * 100.0],
+         lookahead = barmerge.lookahead_off)
+
+[g1, m1] = al(d1)
+[g2, m2] = al(d2)
+[g3, m3] = al(d3)
+[g4, m4] = al(d4)
+[g5, m5] = al(d5)
+[g6, m6] = al(d6)
+[g7, m7] = al(d7)
+[g8, m8] = al(d8)
+[g9, m9] = al(d9)
+
+hisseGetiri = close / close[1] - 1.0
+
+// Duyarlılık: hisse getirisi ile sürücü getirisi korelasyonu (korN bar)
+k1 = ta.correlation(hisseGetiri, g1, korN)
+k2 = ta.correlation(hisseGetiri, g2, korN)
+k3 = ta.correlation(hisseGetiri, g3, korN)
+k4 = ta.correlation(hisseGetiri, g4, korN)
+k5 = ta.correlation(hisseGetiri, g5, korN)
+k6 = ta.correlation(hisseGetiri, g6, korN)
+k7 = ta.correlation(hisseGetiri, g7, korN)
+k8 = ta.correlation(hisseGetiri, g8, korN)
+k9 = ta.correlation(hisseGetiri, g9, korN)
+
+// Sürücü momentum skoru: momN barlık %değişimi [-1, +1] aralığına sıkıştır
+// (%15'lik 3 aylık hareket = tam sinyal)
+sikistir(m) => math.max(-1.0, math.min(1.0, m / 15.0))
+
+// Katkı = duyarlılık × sürücü momentumu (× 100 okunabilirlik için)
+katki(k, m) => na(k) or na(m) ? na : k * sikistir(m) * 100.0
+
+c1 = katki(k1, m1)
+c2 = katki(k2, m2)
+c3 = katki(k3, m3)
+c4 = katki(k4, m4)
+c5 = katki(k5, m5)
+c6 = katki(k6, m6)
+c7 = katki(k7, m7)
+c8 = katki(k8, m8)
+c9 = katki(k9, m9)
+
+// Toplam skor: geçerli katkıların ortalaması
+katkilar = array.from(c1, c2, c3, c4, c5, c6, c7, c8, c9)
+toplam = 0.0
+sayi = 0
+for i = 0 to array.size(katkilar) - 1
+    ci = array.get(katkilar, i)
+    if not na(ci)
+        toplam += ci
+        sayi += 1
+skor = sayi > 0 ? toplam / sayi : na
+
+// ─── Grafik: skor tarihçesi ─────────────────────────────────────────────────
+renk = na(skor) ? color.gray : skor > esikG ? color.lime : skor < -esikG ? color.red : color.orange
+plot(skor, "Makro Rüzgar Skoru", color = renk, linewidth = 2, style = plot.style_area)
+hline(0, "Sıfır", color = color.new(color.gray, 60))
+hline(20, "Arka rüzgar", color = color.new(color.green, 70))
+hline(-20, "Karşı rüzgar", color = color.new(color.red, 70))
+
+// ─── Tablo ──────────────────────────────────────────────────────────────────
+konum = tabloKonum == "Sağ üst" ? position.top_right : tabloKonum == "Sağ alt" ? position.bottom_right : tabloKonum == "Sol üst" ? position.top_left : position.bottom_left
+var table t = table.new(konum, 4, 13, bgcolor = color.new(color.black, 15), border_width = 1, border_color = color.new(color.gray, 60))
+
+fmt(float x) => na(x) ? "—" : str.tostring(x, "#,##0.0")
+ok(float m) => na(m) ? "—" : m > 3 ? "↑ +" + fmt(m) + "%" : m < -3 ? "↓ " + fmt(m) + "%" : "→ " + fmt(m) + "%"
+
+satirYaz(int satir, string ad, float m, float k, float c) =>
+    table.cell(t, 0, satir, ad, text_color = color.white, text_size = size.small)
+    table.cell(t, 1, satir, ok(m), text_color = na(m) ? color.gray : m > 3 ? color.lime : m < -3 ? color.red : color.gray, text_size = size.small)
+    table.cell(t, 2, satir, na(k) ? "—" : fmt(k * 100) + " %", text_color = na(k) ? color.gray : math.abs(k) > 0.3 ? color.aqua : color.gray, text_size = size.small)
+    table.cell(t, 3, satir, na(c) ? "—" : (c > 0 ? "+" : "") + fmt(c), text_color = na(c) ? color.gray : c > 5 ? color.lime : c < -5 ? color.red : color.gray, text_size = size.small)
+
+if barstate.islast
+    table.cell(t, 0, 0, syminfo.ticker + " — Makro Rüzgar", text_color = color.white, text_size = size.small, bgcolor = color.new(color.blue, 30))
+    table.cell(t, 1, 0, "Trend (" + str.tostring(momN) + "g)", text_color = color.white, text_size = size.small, bgcolor = color.new(color.blue, 30))
+    table.cell(t, 2, 0, "Duyarlılık", text_color = color.white, text_size = size.small, bgcolor = color.new(color.blue, 30))
+    table.cell(t, 3, 0, "Katkı", text_color = color.white, text_size = size.small, bgcolor = color.new(color.blue, 30))
+    satirYaz(1, "Petrol (Brent)", m1, k1, c1)
+    satirYaz(2, "Dolar/TL", m2, k2, c2)
+    satirYaz(3, "Altın (ons)", m3, k3, c3)
+    satirYaz(4, "BIST 100", m4, k4, c4)
+    satirYaz(5, "Bankacılık", m5, k5, c5)
+    satirYaz(6, "Sınai", m6, k6, c6)
+    satirYaz(7, "Ulaştırma", m7, k7, c7)
+    satirYaz(8, "Gıda", m8, k8, c8)
+    satirYaz(9, "VIX (korku)", m9, k9, c9)
+    ozet = na(skor) ? "veri bekleniyor" : skor > esikG ? "ARKA RÜZGAR — makro ortam destekliyor" : skor < -esikG ? "KARŞI RÜZGAR — makro ortam frenliyor" : "NÖTR — belirgin makro itki yok"
+    table.cell(t, 0, 10, "TOPLAM SKOR", text_color = color.white, text_size = size.small, bgcolor = color.new(color.blue, 30))
+    table.cell(t, 1, 10, fmt(skor), text_color = renk, text_size = size.small, bgcolor = color.new(color.blue, 30))
+    table.cell(t, 2, 10, ozet, text_color = renk, text_size = size.small, bgcolor = color.new(color.blue, 30))
+    table.cell(t, 3, 10, "", text_size = size.small, bgcolor = color.new(color.blue, 30))
+    table.cell(t, 0, 11, "Nasıl okunur", text_color = color.silver, text_size = size.small)
+    table.cell(t, 1, 11, "Duyarlılık: hissenin o sürücüyle 6 aylık korelasyonu", text_color = color.gray, text_size = size.small)
+    table.cell(t, 2, 11, "Katkı = duyarlılık × sürücü trendi", text_color = color.gray, text_size = size.small)
+    table.cell(t, 3, 11, "", text_size = size.small)
+    table.cell(t, 0, 12, "Uyarı", text_color = color.silver, text_size = size.small)
+    table.cell(t, 1, 12, "Olayları öngörmez; mevcut rüzgarı ölçer", text_color = color.yellow, text_size = size.small)
+    table.cell(t, 2, 12, "Tek başına al-sat sinyali değildir", text_color = color.yellow, text_size = size.small)
+    table.cell(t, 3, 12, "", text_size = size.small)
