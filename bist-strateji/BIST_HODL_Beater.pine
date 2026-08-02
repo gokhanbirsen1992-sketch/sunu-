@@ -25,7 +25,7 @@ strategy("BIST HODL-Beater [Rejim Filtresi]",
      overlay = true,
      initial_capital = 100000,
      default_qty_type = strategy.percent_of_equity,
-     default_qty_value = 99,
+     default_qty_value = 100,
      commission_type = strategy.commission.percent,
      commission_value = 0.1,
      slippage = 0,
@@ -115,7 +115,8 @@ dcAlt  = ta.lowest(low, dcN)
 dcOrta = (dcUst + dcAlt) / 2
 [diArti, diEksi, _adx] = ta.dmi(dmiN, dmiN)
 
-haftalikEma = request.security(syminfo.tickerid, "W", ta.ema(close, elderN), lookahead = barmerge.lookahead_off)
+// Onaylanmış (kapanmış) haftalık bar değeri — repaint yapmaz (PineCoders idiyomu)
+haftalikEma = request.security(syminfo.tickerid, "W", ta.ema(close, elderN)[1], lookahead = barmerge.lookahead_on)
 elderOnay = not elderAcik or timeframe.isweekly or timeframe.ismonthly or close > haftalikEma
 
 oy1 = stYon < 0 ? 1 : 0
@@ -125,6 +126,12 @@ oy4 = rsiDeger > rsiEsik ? 1 : 0
 oy5 = close > dcOrta ? 1 : 0
 oy6 = diArti > diEksi ? 1 : 0
 puan = oy1 + oy2 + oy3 + oy4 + oy5 + oy6
+
+// Komposit sinyal durum makinesi (histerezis): giriş eşiği aşılınca 1'e geçer,
+// çıkış eşiğine düşene KADAR 1 kalır. Pozisyondan bağımsız izlenir ki iz süren
+// stop sonrası yeniden giriş, Python motoruyla aynı kurala uysun.
+var int kompositDurum = 0
+kompositDurum := kompositDurum == 0 ? (puan >= girisEsik ? 1 : 0) : (puan <= cikisEsik ? 0 : 1)
 
 // Chandelier Exit (pozisyona bağlı, sadece yukarı güncellenen stop)
 atrChand = ta.atr(chandN)
@@ -143,21 +150,27 @@ else
 // HODL ile aynı noktadan başla; sadece çifte ayı teyidinde çık.
 girisKosul = rejimModu ?
      (araliktaMi and strategy.position_size == 0 and (not rejimHazir or rejimGeri)) :
-     (araliktaMi and strategy.position_size == 0 and puan >= girisEsik and elderOnay)
-cikisKosul = strategy.position_size > 0 and (rejimModu ? ayiTeyit : puan <= cikisEsik or not araliktaMi)
+     (araliktaMi and strategy.position_size == 0 and kompositDurum == 1 and elderOnay)
+cikisKosul = strategy.position_size > 0 and ((rejimModu ? ayiTeyit : kompositDurum == 0) or not araliktaMi)
 
 if girisKosul
     strategy.entry("AL", strategy.long)
+    alert(syminfo.ticker + " AL sinyali — BIST HODL-Beater", alert.freq_once_per_bar_close)
 if cikisKosul
     strategy.close("AL", comment = "SAT")
+    alert(syminfo.ticker + " SAT sinyali — BIST HODL-Beater", alert.freq_once_per_bar_close)
 if not rejimModu and chandAcik and strategy.position_size > 0 and not na(izStop)
     strategy.exit("Stop", from_entry = "AL", stop = izStop, comment = "STOP")
 
 // ─── HODL kıyaslaması ve istatistikler ──────────────────────────────────────
+// Aralık bitince HODL/CAGR metrikleri donar — kıyas adil kalır
 var float hodlBas = na
-if araliktaMi and na(hodlBas)
-    hodlBas := close
-hodlYuzde = na(hodlBas) ? 0.0 : (close / hodlBas - 1) * 100
+var float hodlSon = na
+if araliktaMi
+    if na(hodlBas)
+        hodlBas := close
+    hodlSon := close
+hodlYuzde = na(hodlBas) or na(hodlSon) ? 0.0 : (hodlSon / hodlBas - 1) * 100
 netYuzde  = (strategy.equity / strategy.initial_capital - 1) * 100
 
 var float eqTepe = na
@@ -171,14 +184,17 @@ if araliktaMi and not na(hodlBas)
     hodlMaksDus := math.max(hodlMaksDus, (hodlTepe - close) / hodlTepe * 100)
 
 var int zamanBas = na
-if araliktaMi and na(zamanBas)
-    zamanBas := time
-yilSayisi = na(zamanBas) ? 0.0 : (time - zamanBas) / (365.25 * 86400000.0)
+var int zamanSon = na
+if araliktaMi
+    if na(zamanBas)
+        zamanBas := time
+    zamanSon := time
+yilSayisi = na(zamanBas) or na(zamanSon) ? 0.0 : (zamanSon - zamanBas) / (365.25 * 86400000.0)
 cagr     = yilSayisi > 0.2 and strategy.equity > 0 ? (math.pow(strategy.equity / strategy.initial_capital, 1 / yilSayisi) - 1) * 100 : na
-hodlCagr = yilSayisi > 0.2 and not na(hodlBas) ? (math.pow(close / hodlBas, 1 / yilSayisi) - 1) * 100 : na
+hodlCagr = yilSayisi > 0.2 and not na(hodlBas) and not na(hodlSon) ? (math.pow(hodlSon / hodlBas, 1 / yilSayisi) - 1) * 100 : na
 
 islemSay   = strategy.closedtrades
-kazanmaOr  = islemSay > 0 ? strategy.wintrades / islemSay * 100 : 0.0
+kazanmaOr  = islemSay > 0 ? strategy.wintrades * 100.0 / islemSay : 0.0
 karFaktoru = strategy.grossloss > 0 ? strategy.grossprofit / strategy.grossloss : na
 
 // ─── Görsel katman ──────────────────────────────────────────────────────────
@@ -189,9 +205,6 @@ plot(cizgiler and not rejimModu and strategy.position_size > 0 ? izStop : na, "�
 
 plotshape(girisKosul, "AL", shape.labelup,   location.belowbar, color.new(color.green, 0), text = "AL",  textcolor = color.white, size = size.small)
 plotshape(cikisKosul, "SAT", shape.labeldown, location.abovebar, color.new(color.red, 0),   text = "SAT", textcolor = color.white, size = size.small)
-
-alertcondition(girisKosul, "BIST HODL-Beater AL",  "{{ticker}} AL sinyali")
-alertcondition(cikisKosul, "BIST HODL-Beater SAT", "{{ticker}} SAT sinyali")
 
 // ─── Performans tablosu ─────────────────────────────────────────────────────
 konum = tabloKonum == "Sağ üst" ? position.top_right : tabloKonum == "Sağ alt" ? position.bottom_right : tabloKonum == "Sol üst" ? position.top_left : position.bottom_left
