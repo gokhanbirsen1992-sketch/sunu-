@@ -128,6 +128,20 @@ araliktaMi = time >= tarihBas and time <= tarihBit
 olcek = timeframe.isweekly ? 52.0 / 252.0 : timeframe.ismonthly ? 12.0 / 252.0 : 1.0
 gun2bar(float gun) => math.max(2, int(math.round(gun * olcek)))
 
+// ─── Hisse karakteri analizi (mod önerisi) ──────────────────────────────────
+// Kaufman verim oranı (ER): |net yol| / |toplam yol| — yüksekse temiz trend.
+// SMA100 kesişme sayısı: son 1 yılda fiyat ortalamayı kaç kez kesti — çoksa salınım.
+karakterBars = gun2bar(252)
+karakterSma  = ta.sma(close, gun2bar(100))
+verimOrani   = math.abs(close - close[karakterBars]) / math.sum(math.abs(ta.change(close)), karakterBars)
+kesismeSay   = math.sum(ta.cross(close, karakterSma) ? 1.0 : 0.0, karakterBars)
+trendKarakter   = not na(verimOrani) and verimOrani > 0.20 and kesismeSay <= 4
+salinimKarakter = not na(verimOrani) and (verimOrani < 0.12 or kesismeSay >= 8)
+karakterYazi = na(verimOrani) ? "veri bekleniyor" :
+     trendKarakter ? "TREND hissesi → Rejim / Zirve İz Stop" :
+     salinimKarakter ? "SALINIM hissesi → Sapma Bandı dene" :
+     "KARMA → Zirve İz Stop dengeli seçim"
+
 // ─── Rejim Filtresi hesapları ───────────────────────────────────────────────
 smaBars  = gun2bar(smaGun)
 momBars  = gun2bar(momGun)
@@ -307,7 +321,7 @@ plotshape(cikisKosul, "SAT", shape.labeldown, location.abovebar, color.new(color
 
 // ─── Performans tablosu ─────────────────────────────────────────────────────
 konum = tabloKonum == "Sağ üst" ? position.top_right : tabloKonum == "Sağ alt" ? position.bottom_right : tabloKonum == "Sol üst" ? position.top_left : position.bottom_left
-var table t = table.new(konum, 2, 13, bgcolor = color.new(color.black, 15), border_width = 1, border_color = color.new(color.gray, 60))
+var table t = table.new(konum, 2, 14, bgcolor = color.new(color.black, 15), border_width = 1, border_color = color.new(color.gray, 60))
 
 fmt(float x) => na(x) ? "—" : str.tostring(x, "#,##0.0")
 
@@ -338,5 +352,7 @@ if tabloAcik and barstate.islast
     table.cell(t, 1, 10, strategy.position_size > 0 ? "LONG" : "NAKİT", text_color = strategy.position_size > 0 ? color.lime : color.gray, text_size = size.small)
     table.cell(t, 0, 11, "HODL'a karşı", text_color = color.silver, text_size = size.small)
     table.cell(t, 1, 11, basari ? "✔ GEÇTİ" : "✘ geride", text_color = basari ? color.lime : color.red, text_size = size.small, bgcolor = basari ? color.new(color.green, 70) : color.new(color.maroon, 60))
-    table.cell(t, 0, 12, "Not", text_color = color.silver, text_size = size.small)
-    table.cell(t, 1, 12, tfUygun ? (rejimModu or zirveModu ? "Endeks için doğrulandı" : bantModu ? "Sembole göre tabloda test et" : "Deneysel mod") : "⚠ Günlük/Haftalık önerilir", text_color = tfUygun ? color.gray : color.yellow, text_size = size.small)
+    table.cell(t, 0, 12, "Bu hisse için öneri", text_color = color.silver, text_size = size.small)
+    table.cell(t, 1, 12, karakterYazi, text_color = color.aqua, text_size = size.small)
+    table.cell(t, 0, 13, "Not", text_color = color.silver, text_size = size.small)
+    table.cell(t, 1, 13, tfUygun ? (rejimModu or zirveModu ? "Endeks için doğrulandı" : bantModu ? "Sembole göre tabloda test et" : "Deneysel mod") : "⚠ Günlük/Haftalık önerilir", text_color = tfUygun ? color.gray : color.yellow, text_size = size.small)
