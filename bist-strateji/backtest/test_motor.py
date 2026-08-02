@@ -166,3 +166,13 @@ def test_rotasyon_regresyon():
     assert r["hodl"] == pytest.approx(2911.198, abs=1.0)
     assert r["dd"] == pytest.approx(15.343, abs=0.05)
     assert r["net"] > r["hodl"]
+
+
+def test_cok_varlik_regresyon():
+    """Çok varlıklı portföy simülasyonunu sabitler (seed 0, aylık rebalans)."""
+    from .cok_varlik import portfoy_sim, varliklar_uret
+
+    f = varliklar_uret(0)
+    r = portfoy_sim(f, np.array([0.40, 0.25, 0.15, 0.20]), "aylik")
+    assert r["cagr"] == pytest.approx(44.2, abs=0.5)
+    assert r["dd"] == pytest.approx(11.0, abs=0.5)
