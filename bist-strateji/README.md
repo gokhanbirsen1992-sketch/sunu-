@@ -28,7 +28,15 @@ Doğrulama özeti (ayrıntılar `sonuclar/SONUCLAR.md`):
 Tekil hisselerde getiri avantajı doğrulanamadı (yalnızca düşüş koruması).
 Günlük grafik hafif önde; haftalık da geçerli.
 
-### 2) Komposit Puanlama — deneysel mod
+### 2) Zirve İz Stop — tepeye yakın satış (3 aşamalı testi geçti)
+
+> SAT: kapanış, pozisyon **zirvesinin %10 altına** inince — satış her zaman
+> tepeye yakın olur, dipte değil. AL: kapanış > SMA(100g) veya momentum > 0
+> veya fiyat çıkış fiyatını aşarsa (breakeven). 10 yılda ~15-19 işlem.
+> OOS skor +1.95, nihai onay +0.78 (endeks profili). Rejim filtresinden daha
+> sık işlem yapar ama satış noktaları psikolojik olarak çok daha rahattır.
+
+### 3) Komposit Puanlama — deneysel mod
 
 6 indikatör oyu (Supertrend, EMA kesişimi, MACD, RSI, Donchian, DMI) +
 Chandelier Exit + Elder haftalık teyidi. Eğitimde parlak görünüp **örneklem

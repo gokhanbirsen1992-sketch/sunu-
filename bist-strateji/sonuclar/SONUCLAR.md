@@ -34,6 +34,45 @@ Zaman dilimi: günlük hafif önde (onay setinde geçme %66.7 vs %53.3); ikisi d
 - En kötü senaryo tipi: güçlü boğa içindeki V-tipi düzeltmede dipte satıp
   toparlanmada %3-10 pahalıya geri alma (seed 113 örneği).
 
+## 🥈 İkinci doğrulanmış mod: Zirve İz Stop (tepeye yakın satış)
+
+Kullanıcı geri bildirimi üzerine eklendi: rejim filtresinin çıkışları çifte
+teyit beklediği için dibe yakın düşüyordu. Zirve İz Stop satışı **pozisyon
+zirvesinden sabit mesafede** yapar — satış hiçbir zaman zirvenin %10'undan
+fazla altında olmaz.
+
+```
+esik    = %10   (zirveden düşüş eşiği)
+sma_gun = 100   (geri giriş SMA'sı)
+mom_gun = 284   (geri giriş momentumu)
+be      = 1     (breakeven geri giriş — açık)
+```
+
+**Kural:** Varsayılan LONG. SAT: kapanış < zirve×0.90. AL: kapanış > SMA(100g)
+VEYA momentum > 0 VEYA kapanış çıkış fiyatını aşarsa (breakeven).
+
+| Aşama | Skor | CAGR farkı | HODL'u geçme | MaksDD farkı | İşlem/10y |
+|---|---|---|---|---|---|
+| Eğitim (0-19) | +1.46 | +0.95 | %62.5 | -2.0 pp | 15 |
+| OOS (100-114) | +1.95 | +0.25 | %53.3 | -6.8 pp | 19 |
+| Nihai onay (200-214) | +0.78 | +0.09 | %53.3 | -2.8 pp | 18 |
+
+Rejim filtresine göre: daha fazla işlem (komisyon yükü), benzer toplam skor,
+ama satışlar tepeye yakın — psikolojik olarak çok daha rahat izlenir.
+Aynı sınırlama geçerli: **endeks profili** (hisse profilinde onayda kaldı).
+İlginç not: breakeven geri giriş, rejim filtresinde zararlıyken bu ailede
+faydalı — hızlı çıkışların yanlış alarm oranı yüksek olduğu için sigorta işliyor.
+
+## ❌ Test edilip reddedilen: "Tepede sat, dipte al" bandı (mean reversion)
+
+Kullanıcının istediği "güce satış" mantığı (sapma > eşik iken sat, ortalamaya
+dönünce al) 216 kombinasyonla tarandı: **gerçekten tetiklenen her tepe-satış
+eşiği para kaybetti** (eşik %20 → skor -16, HODL'u geçme %0). Optimizasyon,
+eşiği ulaşılmaz %55'e itip özelliği fiilen kapattı — yani veri, trendli
+piyasada mekanik tepe satışının anti-alpha olduğunu söylüyor. Literatürle
+tutarlı: momentum piyasasında kazananı erken satmak en pahalı hatadır
+(Jegadeesh-Titman 1993; "cut winners short" sendromu).
+
 ## Elenen yaklaşımlar ve nedenleri
 
 | Aile | Eğitim | OOS | Neden |

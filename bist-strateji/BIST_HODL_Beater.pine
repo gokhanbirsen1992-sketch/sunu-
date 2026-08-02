@@ -9,6 +9,12 @@
 //   Literatür: Faber (2007) trend filtresi + Antonacci (2014) mutlak momentum
 //   + Zakamulin histerezis bandı. Amaç: boğayı kaçırmadan büyük ayıları atlamak.
 //
+// ZİRVE İZ STOP MODU (3 aşamalı testten geçti, tepeye yakın satış):
+//   SAT: kapanış, pozisyon zirvesinin %10 altına inince — satış her zaman son
+//   zirveye yakın gerçekleşir, dipte değil. AL: kapanış > SMA veya momentum > 0
+//   veya kapanış çıkış fiyatını aşarsa (breakeven — yanlış alarmın maliyeti
+//   2 komisyonla sınırlanır). Rejim moduna göre daha sık işlem yapar.
+//
 // DENEYSEL MOD — Komposit Puanlama (6 indikatör oylaması):
 //   Supertrend (Seban) + EMA kesişimi (Brock-Lakonishok-LeBaron 1992) +
 //   MACD (Appel) + RSI (Wilder 1978) + Donchian (Donchian/Turtle) + DMI (Wilder),
@@ -36,7 +42,7 @@ strategy("BIST HODL-Beater [Rejim Filtresi]",
 // ─── Girdiler ───────────────────────────────────────────────────────────────
 grpMod = "0) Strateji Modu"
 mod = input.string("Rejim Filtresi (doğrulanmış)", "Mod",
-     options = ["Rejim Filtresi (doğrulanmış)", "Komposit Puanlama (deneysel)"], group = grpMod)
+     options = ["Rejim Filtresi (doğrulanmış)", "Zirve İz Stop (tepeye yakın satış)", "Komposit Puanlama (deneysel)"], group = grpMod)
 
 grpRejim = "1) Rejim Filtresi — periyotlar işlem günü cinsinden"
 smaGun  = input.int(131, "Trend SMA (gün)", minval = 20, group = grpRejim,
@@ -45,6 +51,13 @@ momGun  = input.int(284, "Momentum penceresi (gün)", minval = 40, group = grpRe
      tooltip = "Doğrulanmış bölge: 284-315 gün. Kısaltmak testere işlemleri artırır.")
 bandYuzde = input.float(3.0, "Histerezis bandı (%)", minval = 0.0, maxval = 10.0, step = 0.25, group = grpRejim,
      tooltip = "Çıkış için fiyatın SMA'nın bu kadar ALTINA inmesi gerekir (Zakamulin).")
+
+grpZirve = "1b) Zirve İz Stop — tepeye yakın satış"
+zirveEsik = input.float(10.0, "Zirveden düşüş eşiği (%)", minval = 3.0, maxval = 30.0, step = 0.5, group = grpZirve,
+     tooltip = "Doğrulanmış değer: %10 (SMA 100 gün ile). Satış her zaman son zirvenin en fazla bu kadar altında olur.")
+zirveSmaGun = input.int(100, "Geri giriş SMA (gün)", minval = 20, group = grpZirve)
+zirveBe = input.bool(true, "Breakeven geri giriş", group = grpZirve,
+     tooltip = "Fiyat çıkış fiyatını aşarsa geri gir — yanlış alarmın maliyeti 2 komisyonla sınırlanır (Kaminski & Lo 2014).")
 
 grpST  = "2) Komposit: Supertrend"
 stN    = input.int(10,  "ATR periyodu",  minval = 2,  group = grpST)
@@ -88,6 +101,7 @@ tabloKonum = input.string("Sağ üst", "Tablo konumu", options = ["Sağ üst", "
 cizgiler   = input.bool(true, "Gösterge çizgileri", group = grpGorsel)
 
 rejimModu  = mod == "Rejim Filtresi (doğrulanmış)"
+zirveModu  = mod == "Zirve İz Stop (tepeye yakın satış)"
 araliktaMi = time >= tarihBas and time <= tarihBit
 
 // ─── Periyot ölçekleme: "işlem günü" → bar sayısı ───────────────────────────
@@ -103,6 +117,30 @@ rejimMom = ta.roc(close, momBars)
 rejimHazir  = not na(rejimSma) and not na(rejimMom)
 ayiTeyit    = rejimHazir and close < rejimSma * (1 - bandYuzde / 100) and rejimMom < 0
 rejimGeri   = rejimHazir and (close > rejimSma or rejimMom > 0)
+
+// ─── Zirve İz Stop durum makinesi ───────────────────────────────────────────
+// Sinyal, pozisyondan bağımsız izlenir; satış her zaman zirvenin esik% altında.
+zirveSmaBars = gun2bar(zirveSmaGun)
+zirveSma     = ta.sma(close, zirveSmaBars)
+zirveHazir   = not na(zirveSma) and not na(rejimMom)
+var int zirveDurum = 1
+var float zirveTepe = na
+var float zirveCikisPx = na
+zirveTepe := na(zirveTepe) ? close : zirveTepe
+if not zirveHazir
+    zirveDurum := 1
+    zirveTepe := math.max(zirveTepe, close)
+else
+    if zirveDurum == 1
+        zirveTepe := math.max(zirveTepe, close)
+        if close < zirveTepe * (1 - zirveEsik / 100)
+            zirveDurum := 0
+            zirveCikisPx := close
+    else
+        geriOk = close > zirveSma or rejimMom > 0 or (zirveBe and not na(zirveCikisPx) and close > zirveCikisPx)
+        if geriOk
+            zirveDurum := 1
+            zirveTepe := close
 
 // ─── Komposit hesapları ─────────────────────────────────────────────────────
 [stCizgi, stYon] = ta.supertrend(stMult, stN)          // yon < 0 → yükseliş
@@ -148,10 +186,10 @@ else
 // ─── Emirler ────────────────────────────────────────────────────────────────
 // Rejim modu: ısınma döneminde (indikatörler hazır değilken) piyasada kal —
 // HODL ile aynı noktadan başla; sadece çifte ayı teyidinde çık.
-girisKosul = rejimModu ?
-     (araliktaMi and strategy.position_size == 0 and (not rejimHazir or rejimGeri)) :
-     (araliktaMi and strategy.position_size == 0 and kompositDurum == 1 and elderOnay)
-cikisKosul = strategy.position_size > 0 and ((rejimModu ? ayiTeyit : kompositDurum == 0) or not araliktaMi)
+girisKosul = araliktaMi and strategy.position_size == 0 and
+     (rejimModu ? (not rejimHazir or rejimGeri) : zirveModu ? zirveDurum == 1 : (kompositDurum == 1 and elderOnay))
+cikisKosul = strategy.position_size > 0 and
+     ((rejimModu ? ayiTeyit : zirveModu ? zirveDurum == 0 : kompositDurum == 0) or not araliktaMi)
 
 if girisKosul
     strategy.entry("AL", strategy.long)
@@ -159,7 +197,7 @@ if girisKosul
 if cikisKosul
     strategy.close("AL", comment = "SAT")
     alert(syminfo.ticker + " SAT sinyali — BIST HODL-Beater", alert.freq_once_per_bar_close)
-if not rejimModu and chandAcik and strategy.position_size > 0 and not na(izStop)
+if not rejimModu and not zirveModu and chandAcik and strategy.position_size > 0 and not na(izStop)
     strategy.exit("Stop", from_entry = "AL", stop = izStop, comment = "STOP")
 
 // ─── HODL kıyaslaması ve istatistikler ──────────────────────────────────────
@@ -200,8 +238,10 @@ karFaktoru = strategy.grossloss > 0 ? strategy.grossprofit / strategy.grossloss 
 // ─── Görsel katman ──────────────────────────────────────────────────────────
 plot(cizgiler and rejimModu ? rejimSma : na, "Rejim SMA", color = color.new(color.blue, 0), linewidth = 2)
 plot(cizgiler and rejimModu ? rejimSma * (1 - bandYuzde / 100) : na, "Çıkış bandı", color = color.new(color.red, 50))
-plot(cizgiler and not rejimModu ? stCizgi : na, "Supertrend", color = stYon < 0 ? color.new(color.teal, 0) : color.new(color.red, 0), style = plot.style_linebr)
-plot(cizgiler and not rejimModu and strategy.position_size > 0 ? izStop : na, "İz Süren Stop", color = color.new(color.orange, 0), style = plot.style_circles)
+plot(cizgiler and zirveModu ? zirveSma : na, "Geri Giriş SMA", color = color.new(color.blue, 40))
+plot(cizgiler and zirveModu and zirveDurum == 1 ? zirveTepe * (1 - zirveEsik / 100) : na, "Zirve Stop", color = color.new(color.orange, 0), style = plot.style_linebr, linewidth = 2)
+plot(cizgiler and not rejimModu and not zirveModu ? stCizgi : na, "Supertrend", color = stYon < 0 ? color.new(color.teal, 0) : color.new(color.red, 0), style = plot.style_linebr)
+plot(cizgiler and not rejimModu and not zirveModu and strategy.position_size > 0 ? izStop : na, "İz Süren Stop", color = color.new(color.orange, 0), style = plot.style_circles)
 
 plotshape(girisKosul, "AL", shape.labelup,   location.belowbar, color.new(color.green, 0), text = "AL",  textcolor = color.white, size = size.small)
 plotshape(cikisKosul, "SAT", shape.labeldown, location.abovebar, color.new(color.red, 0),   text = "SAT", textcolor = color.white, size = size.small)
@@ -216,7 +256,7 @@ if tabloAcik and barstate.islast
     basari = netYuzde > hodlYuzde
     tfUygun = timeframe.isdaily or timeframe.isweekly
     table.cell(t, 0, 0, "BIST HODL-Beater", text_color = color.white, text_size = size.small, bgcolor = color.new(color.blue, 30))
-    table.cell(t, 1, 0, (rejimModu ? "Rejim" : "Komposit") + " · " + (timeframe.isweekly ? "Haftalık" : timeframe.isdaily ? "Günlük" : timeframe.period), text_color = color.white, text_size = size.small, bgcolor = color.new(color.blue, 30))
+    table.cell(t, 1, 0, (rejimModu ? "Rejim" : zirveModu ? "Zirve Stop" : "Komposit") + " · " + (timeframe.isweekly ? "Haftalık" : timeframe.isdaily ? "Günlük" : timeframe.period), text_color = color.white, text_size = size.small, bgcolor = color.new(color.blue, 30))
     table.cell(t, 0, 1, "Net Kâr", text_color = color.silver, text_size = size.small)
     table.cell(t, 1, 1, fmt(netYuzde) + " %", text_color = netYuzde >= 0 ? color.lime : color.red, text_size = size.small)
     table.cell(t, 0, 2, "HODL (Al-Tut)", text_color = color.silver, text_size = size.small)
@@ -234,10 +274,10 @@ if tabloAcik and barstate.islast
     table.cell(t, 0, 8, "Kâr Faktörü", text_color = color.silver, text_size = size.small)
     table.cell(t, 1, 8, fmt(karFaktoru), text_color = not na(karFaktoru) and karFaktoru >= 1.5 ? color.lime : color.orange, text_size = size.small)
     table.cell(t, 0, 9, "Durum", text_color = color.silver, text_size = size.small)
-    table.cell(t, 1, 9, rejimModu ? (ayiTeyit ? "AYI TEYİDİ" : strategy.position_size > 0 ? "LONG" : "NAKİT") : ("Puan " + str.tostring(puan) + "/6"), text_color = strategy.position_size > 0 ? color.lime : color.orange, text_size = size.small)
+    table.cell(t, 1, 9, rejimModu ? (ayiTeyit ? "AYI TEYİDİ" : strategy.position_size > 0 ? "LONG" : "NAKİT") : zirveModu ? (zirveDurum == 1 ? "Zirveden " + fmt((zirveTepe - close) / zirveTepe * 100) + " % uzakta" : "NAKİT — geri giriş bekliyor") : ("Puan " + str.tostring(puan) + "/6"), text_color = strategy.position_size > 0 ? color.lime : color.orange, text_size = size.small)
     table.cell(t, 0, 10, "Pozisyon", text_color = color.silver, text_size = size.small)
     table.cell(t, 1, 10, strategy.position_size > 0 ? "LONG" : "NAKİT", text_color = strategy.position_size > 0 ? color.lime : color.gray, text_size = size.small)
     table.cell(t, 0, 11, "HODL'a karşı", text_color = color.silver, text_size = size.small)
     table.cell(t, 1, 11, basari ? "✔ GEÇTİ" : "✘ geride", text_color = basari ? color.lime : color.red, text_size = size.small, bgcolor = basari ? color.new(color.green, 70) : color.new(color.maroon, 60))
     table.cell(t, 0, 12, "Not", text_color = color.silver, text_size = size.small)
-    table.cell(t, 1, 12, tfUygun ? (rejimModu ? "Endeks için doğrulandı" : "Deneysel mod") : "⚠ Günlük/Haftalık önerilir", text_color = tfUygun ? color.gray : color.yellow, text_size = size.small)
+    table.cell(t, 1, 12, tfUygun ? (rejimModu or zirveModu ? "Endeks için doğrulandı" : "Deneysel mod") : "⚠ Günlük/Haftalık önerilir", text_color = tfUygun ? color.gray : color.yellow, text_size = size.small)

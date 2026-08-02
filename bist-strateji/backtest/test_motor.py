@@ -139,3 +139,17 @@ def test_kazanan_strateji_regresyon():
     rh = kos("rejim_filtre", p, vs["haftalik"], 52.0)
     assert rh.islem_sayisi == 2
     assert rh.net_kar_yuzde == pytest.approx(3235.898, abs=0.5)
+
+
+def test_zirve_stop_regresyon():
+    """Zirve İz Stop doğrulanmış parametrelerinin davranışını sabitler (seed 100)."""
+    from .optimize import kos, veri_seti
+
+    p = {"esik": 10, "sma_gun": 100, "mom_gun": 284, "be": 1}
+    vs = veri_seti(100)
+    r = kos("tepe_iz_stop", p, vs["gunluk"], 252.0)
+    assert r.islem_sayisi == 21
+    assert r.net_kar_yuzde == pytest.approx(3080.394, abs=0.5)
+    rh = kos("tepe_iz_stop", p, vs["haftalik"], 52.0)
+    assert rh.islem_sayisi == 11
+    assert rh.net_kar_yuzde == pytest.approx(3688.536, abs=0.5)

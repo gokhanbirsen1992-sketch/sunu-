@@ -250,6 +250,108 @@ def supertrend_yavas(o, h, l, c, v, p):
     return sinyal, None
 
 
+def tepe_dip_bant(o, h, l, c, v, p):
+    """Tepe-Dip Bandı: güce sat, zayıflığa al (trend çapalı ortalamaya dönüş).
+
+    Sapma d = kapanış/SMA(sma_gun) - 1.
+    - Varsayılan LONG.
+    - TEPE SATIŞI: d > ust_esik (aşırı uzama — güce satış).
+    - DİP ALIMI: d < geri_esik (ortalamaya dönüş) → geri gir.
+    - Kaçırma sigortası: satış sonrası fiyat çıkış fiyatının (1+kacirma)%
+      üstüne koşarsa geri gir (ralli devam ediyorsa dışarıda kalma maliyeti sınırlanır).
+    - KRİZ ÇIKIŞI (isteğe bağlı): kapanış < SMA*(1-kriz_band) VE ROC(mom_gun)<0
+      → çık; geri giriş rejim kuralı (kapanış > SMA VEYA ROC > 0).
+    Literatür: Bollinger bant dönüşü, aşırılık satışı (mean reversion), Faber
+    kriz filtresi bileşimi.
+    """
+    nS = _gun2bar(p, p["sma_gun"])
+    nM = _gun2bar(p, p.get("mom_gun", 284))
+    ust = float(p["ust_esik"]) / 100.0
+    geri = float(p.get("geri_esik", 0.0)) / 100.0
+    kacirma = float(p.get("kacirma", 0.0)) / 100.0
+    kriz_band = float(p.get("kriz_band", 0.0)) / 100.0
+    s = ind.sma(c, nS)
+    r = ind.roc(c, nM)
+    n = len(c)
+    sinyal = np.zeros(n)
+    sinyal[0] = 1.0
+    DURUM_LONG, DURUM_TEPE, DURUM_KRIZ = 1, 2, 3
+    durum = DURUM_LONG
+    cikis_px = np.nan
+    tepe_kurulu = True  # kaçırma sigortasıyla girişte, sapma eşiğin altına inene
+    for i in range(1, n):  # kadar tepe satışı devre dışı (aynı barda tekrar satmasın)
+        if np.isnan(s[i]) or np.isnan(r[i]):
+            sinyal[i] = 1.0  # ısınmada piyasada kal
+            continue
+        d = c[i] / s[i] - 1.0
+        if durum == DURUM_LONG:
+            if not tepe_kurulu and d < ust:
+                tepe_kurulu = True
+            if kriz_band > 0 and c[i] < s[i] * (1 - kriz_band) and r[i] < 0:
+                durum = DURUM_KRIZ
+            elif tepe_kurulu and d > ust:
+                durum = DURUM_TEPE
+                cikis_px = c[i]
+        elif durum == DURUM_TEPE:
+            if d < geri:
+                durum = DURUM_LONG          # dip alımı: ortalamaya döndü
+                tepe_kurulu = True
+            elif kacirma > 0 and c[i] > cikis_px * (1 + kacirma):
+                durum = DURUM_LONG          # kaçırma sigortası — tepe satışı yeniden
+                tepe_kurulu = False         # kurulana kadar askıda
+            elif kriz_band > 0 and c[i] < s[i] * (1 - kriz_band) and r[i] < 0:
+                durum = DURUM_KRIZ          # beklerken kriz teyidi geldi
+        else:  # DURUM_KRIZ
+            if c[i] > s[i] or r[i] > 0:
+                durum = DURUM_LONG
+                tepe_kurulu = True
+        sinyal[i] = 1.0 if durum == DURUM_LONG else 0.0
+    return sinyal, None
+
+
+def tepe_iz_stop(o, h, l, c, v, p):
+    """Zirve İz Stop: pozisyon zirvesinden esik% düşünce sat — tepeye yakın satış.
+
+    Satış her zaman son zirvenin en fazla esik% altında gerçekleşir (dipte değil).
+    Geri giriş: kapanış > SMA(sma_gun) VEYA ROC(mom_gun) > 0 (rejim kuralı);
+    be=1 ise ayrıca kapanış çıkış fiyatını aşarsa (breakeven, yanlış alarmın
+    maliyetini 2 komisyona sabitler). Doğrulama: endeks profili, 3 aşama GEÇTİ.
+    """
+    nS = _gun2bar(p, p.get("sma_gun", 100))
+    nM = _gun2bar(p, p.get("mom_gun", 284))
+    esik = float(p["esik"]) / 100.0
+    be = int(p.get("be", 1)) == 1
+    s = ind.sma(c, nS)
+    r = ind.roc(c, nM)
+    n = len(c)
+    sinyal = np.zeros(n)
+    sinyal[0] = 1.0
+    zirve = c[0]
+    cikis_px = np.nan
+    for i in range(1, n):
+        if np.isnan(s[i]) or np.isnan(r[i]):
+            sinyal[i] = 1.0
+            zirve = max(zirve, c[i])
+            continue
+        if sinyal[i - 1] == 1:
+            zirve = max(zirve, c[i])
+            if c[i] < zirve * (1 - esik):
+                sinyal[i] = 0.0
+                cikis_px = c[i]
+            else:
+                sinyal[i] = 1.0
+        else:
+            geri = c[i] > s[i] or r[i] > 0
+            if be and not np.isnan(cikis_px):
+                geri = geri or c[i] > cikis_px
+            if geri:
+                sinyal[i] = 1.0
+                zirve = c[i]
+            else:
+                sinyal[i] = 0.0
+    return sinyal, None
+
+
 AILELER = {
     "supertrend_adx": supertrend_adx,
     "ema_cross_macd": ema_cross_macd,
@@ -261,4 +363,6 @@ AILELER = {
     "mutlak_momentum": mutlak_momentum,
     "rejim_filtre": rejim_filtre,
     "supertrend_yavas": supertrend_yavas,
+    "tepe_dip_bant": tepe_dip_bant,
+    "tepe_iz_stop": tepe_iz_stop,
 }
