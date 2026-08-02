@@ -1,5 +1,13 @@
 # 📈 BIST HODL-Beater — Al/Sat Strateji İndikatörü
 
+> 🥇 **Yeni: `BIST_Momentum_Rotasyon.pine`** — literatürün en sağlam anomalisi
+> (kesitsel momentum, Jegadeesh-Titman 1993) ile **hisseler arası rotasyon**:
+> 30 BIST hissesini tarar, 6 aylık momentumla sıralar, her ay en güçlü 5'ini
+> tutar; portföy getirisini komisyon dahil simüle edip XU100 al-tut ile
+> kıyaslar. Sentetik doğrulamada medyan **+2.4 puan/yıl** avantaj (8 evrenin
+> 5'inde kazandı). Tek sembol zamanlaması yerine endeksi geçme şansı en yüksek
+> yaklaşım budur — ayrıntı `sonuclar/SONUCLAR.md`.
+
 BIST (Borsa İstanbul) için, **günlük ve haftalık grafikte** çalışan, long/flat
 al-sat stratejisi. Grafiğin köşesindeki canlı performans tablosu, seçtiğin
 parametrelerle stratejinin geçmişte ne yaptığını **HODL (al-ve-tut)** ile

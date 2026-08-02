@@ -153,3 +153,16 @@ def test_zirve_stop_regresyon():
     rh = kos("tepe_iz_stop", p, vs["haftalik"], 52.0)
     assert rh.islem_sayisi == 11
     assert rh.net_kar_yuzde == pytest.approx(3688.536, abs=0.5)
+
+
+def test_rotasyon_regresyon():
+    """Momentum rotasyonu davranışını sabitler (evren seed 300, doğrulanmış varsayılanlar)."""
+    from .rotasyon import evren_uret, rotasyon_backtest
+
+    fx = evren_uret(300)
+    r = rotasyon_backtest(fx)
+    assert r["rotasyon"] == 103
+    assert r["net"] == pytest.approx(7379.865, abs=1.0)
+    assert r["hodl"] == pytest.approx(3263.141, abs=1.0)
+    assert r["dd"] == pytest.approx(15.343, abs=0.05)
+    assert r["net"] > r["hodl"]

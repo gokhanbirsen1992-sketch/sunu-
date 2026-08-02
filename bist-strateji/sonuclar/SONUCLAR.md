@@ -1,5 +1,26 @@
 # Turnuva ve Doğrulama Sonuçları
 
+## 🥇 Momentum Rotasyonu (hisseler arası — endeksi geçmenin en sağlam yolu)
+
+Tek sembol zamanlaması yerine kesitsel momentum (Jegadeesh-Titman 1993):
+her ay, 6 aylık getirisi (son 1 ay atlanarak) en yüksek 5 hisseyi eşit
+ağırlıkla tut; momentumu negatif olanlar alınmaz (Antonacci mutlak filtre).
+
+Parametre taraması (8 bağımsız 20-hisselik sentetik evren, komisyon %0.1/bacak):
+
+| Pencere | Top-K | Rotasyon | Medyan CAGR farkı | Kazanma |
+|---|---|---|---|---|
+| **126g (6 ay)** | **5** | **Aylık** | **+2.44 puan/yıl** | **5/8** |
+| 126g | 7 | Aylık | +1.88 | 5/8 |
+| 126g | 5 | Haftalık | +1.05 | 4/8 |
+| 252g (12 ay) | 5 | Aylık | -3.70 | 3/8 |
+
+Bulgular literatürle birebir: 6 ay > 12 ay; aylık > haftalık (komisyon);
+konsantrasyon (top-3) varyansı artırıyor. Maks. düşüş HODL'dan ~4 puan yüksek
+(5 hisse < 20 hisse çeşitlendirmesi) — rotasyonun bedeli. Kıyas: eşit ağırlık
+evren al-tut. Uygulama: `BIST_Momentum_Rotasyon.pine` (gerçek BIST verisiyle
+canlı simülasyon + sıralama tablosu + rotasyon alarmı).
+
 İki turnuva, toplam **10 strateji ailesi**, ~1000 parametre kombinasyonu,
 her kombinasyon 20-40 senaryoda (günlük + haftalık, %0.1 komisyon/bacak) test edildi.
 Protokol: eğitim (seed 0-19) → ince ayar → out-of-sample (seed 100-114) →

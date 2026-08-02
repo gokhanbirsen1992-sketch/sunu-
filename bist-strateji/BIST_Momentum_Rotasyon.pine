@@ -1,0 +1,273 @@
+//@version=6
+// ============================================================================
+// BIST Momentum Rotasyonu — Kesitsel Momentum Portföyü (Jegadeesh-Titman 1993)
+// ----------------------------------------------------------------------------
+// Literatürün en sağlam anomalisi: geçmiş 6 ayın kazananları, gelecek dönemde
+// de ortalamanın üzerinde getiri eğilimi taşır (son 1 ay atlanır — kısa vadeli
+// ters dönüş, Jegadeesh 1990). Bu gösterge:
+//   1) Evrendeki 30 BIST hissesini her bar tarar, momentumla sıralar.
+//   2) Her rotasyon döneminde (varsayılan: aylık) momentumu pozitif olan
+//      ilk K hisseyi (varsayılan 5) eşit ağırlıkla "tutar"; boş slot nakit.
+//   3) Bu rotasyon portföyünün getirisini KOMİSYON DAHİL simüle eder ve
+//      XU100 al-tut ile evrenin eşit ağırlıklı ortalamasına karşı çizer.
+//   4) Tabloda canlı sıralama + portföy istatistikleri; rotasyon değişiminde
+//      alarm ("AL: X, Y | SAT: Z").
+// Sinyal dönem barının KAPANIŞINDA hesaplanır, yeni portföy ERTESİ bardan
+// itibaren getiri işler — bakış açısı sızıntısı yoktur.
+// GÜNLÜK grafikte kullan (XU100 veya herhangi bir sembol üzerinde açılabilir).
+// ============================================================================
+indicator("BIST Momentum Rotasyonu", shorttitle = "BIST MomRot", overlay = false, max_labels_count = 500)
+
+// ─── Parametreler ───────────────────────────────────────────────────────────
+grpP = "1) Momentum (doğrulanan: 126/21, top 5, aylık)"
+uzun = input.int(126, "Momentum penceresi (bar)", minval = 20, group = grpP,
+     tooltip = "6 ay ≈ 126 işlem günü. Testlerde 12 aydan (252) daha iyi sonuç verdi.")
+atla = input.int(21, "Atlama (bar)", minval = 0, group = grpP,
+     tooltip = "Son 1 ay atlanır: kısa vadeli ters dönüş etkisinden kaçınma (Jegadeesh 1990).")
+topK = input.int(5, "Tutulacak hisse sayısı (K)", minval = 1, maxval = 10, group = grpP)
+rebalans = input.string("Aylık", "Rotasyon sıklığı", options = ["Aylık", "Haftalık"], group = grpP,
+     tooltip = "Aylık, komisyon yükü açısından testlerde haftalıktan üstün çıktı.")
+mutlakFiltre = input.bool(true, "Mutlak momentum filtresi", group = grpP,
+     tooltip = "Yalnızca momentumu POZİTİF hisseler alınır (Antonacci 2014); yeterli aday yoksa kalan pay nakitte bekler.")
+komisyon = input.float(0.1, "Komisyon (%, her bacak)", minval = 0.0, step = 0.05, group = grpP)
+
+grpG = "2) Görünüm"
+tabloAcik = input.bool(true, "Tablo", group = grpG)
+tabloKonum = input.string("Sağ üst", "Tablo konumu", options = ["Sağ üst", "Sağ alt", "Sol üst", "Sol alt"], group = grpG)
+
+grpE = "3) Evren — likit BIST hisseleri (istediğini değiştir)"
+s01 = input.symbol("BIST:THYAO", "Hisse 1",  group = grpE)
+s02 = input.symbol("BIST:GARAN", "Hisse 2",  group = grpE)
+s03 = input.symbol("BIST:AKBNK", "Hisse 3",  group = grpE)
+s04 = input.symbol("BIST:ISCTR", "Hisse 4",  group = grpE)
+s05 = input.symbol("BIST:YKBNK", "Hisse 5",  group = grpE)
+s06 = input.symbol("BIST:VAKBN", "Hisse 6",  group = grpE)
+s07 = input.symbol("BIST:ASELS", "Hisse 7",  group = grpE)
+s08 = input.symbol("BIST:EREGL", "Hisse 8",  group = grpE)
+s09 = input.symbol("BIST:TUPRS", "Hisse 9",  group = grpE)
+s10 = input.symbol("BIST:BIMAS", "Hisse 10", group = grpE)
+s11 = input.symbol("BIST:MGROS", "Hisse 11", group = grpE)
+s12 = input.symbol("BIST:FROTO", "Hisse 12", group = grpE)
+s13 = input.symbol("BIST:TOASO", "Hisse 13", group = grpE)
+s14 = input.symbol("BIST:TCELL", "Hisse 14", group = grpE)
+s15 = input.symbol("BIST:TTKOM", "Hisse 15", group = grpE)
+s16 = input.symbol("BIST:SISE",  "Hisse 16", group = grpE)
+s17 = input.symbol("BIST:KCHOL", "Hisse 17", group = grpE)
+s18 = input.symbol("BIST:SAHOL", "Hisse 18", group = grpE)
+s19 = input.symbol("BIST:PETKM", "Hisse 19", group = grpE)
+s20 = input.symbol("BIST:KOZAL", "Hisse 20", group = grpE)
+s21 = input.symbol("BIST:ENKAI", "Hisse 21", group = grpE)
+s22 = input.symbol("BIST:ARCLK", "Hisse 22", group = grpE)
+s23 = input.symbol("BIST:VESTL", "Hisse 23", group = grpE)
+s24 = input.symbol("BIST:ULKER", "Hisse 24", group = grpE)
+s25 = input.symbol("BIST:PGSUS", "Hisse 25", group = grpE)
+s26 = input.symbol("BIST:TAVHL", "Hisse 26", group = grpE)
+s27 = input.symbol("BIST:EKGYO", "Hisse 27", group = grpE)
+s28 = input.symbol("BIST:DOHOL", "Hisse 28", group = grpE)
+s29 = input.symbol("BIST:SASA",  "Hisse 29", group = grpE)
+s30 = input.symbol("BIST:ENJSA", "Hisse 30", group = grpE)
+
+// ─── Veri çekme: her sembol için [momentum, günlük getiri] ──────────────────
+veriAl(simge) =>
+    request.security(simge, timeframe.period,
+         [close[atla] / close[uzun + atla] - 1.0, close / close[1] - 1.0],
+         lookahead = barmerge.lookahead_off)
+
+[m01, r01] = veriAl(s01)
+[m02, r02] = veriAl(s02)
+[m03, r03] = veriAl(s03)
+[m04, r04] = veriAl(s04)
+[m05, r05] = veriAl(s05)
+[m06, r06] = veriAl(s06)
+[m07, r07] = veriAl(s07)
+[m08, r08] = veriAl(s08)
+[m09, r09] = veriAl(s09)
+[m10, r10] = veriAl(s10)
+[m11, r11] = veriAl(s11)
+[m12, r12] = veriAl(s12)
+[m13, r13] = veriAl(s13)
+[m14, r14] = veriAl(s14)
+[m15, r15] = veriAl(s15)
+[m16, r16] = veriAl(s16)
+[m17, r17] = veriAl(s17)
+[m18, r18] = veriAl(s18)
+[m19, r19] = veriAl(s19)
+[m20, r20] = veriAl(s20)
+[m21, r21] = veriAl(s21)
+[m22, r22] = veriAl(s22)
+[m23, r23] = veriAl(s23)
+[m24, r24] = veriAl(s24)
+[m25, r25] = veriAl(s25)
+[m26, r26] = veriAl(s26)
+[m27, r27] = veriAl(s27)
+[m28, r28] = veriAl(s28)
+[m29, r29] = veriAl(s29)
+[m30, r30] = veriAl(s30)
+xu = request.security("BIST:XU100", timeframe.period, close, lookahead = barmerge.lookahead_off)
+
+momlar = array.from(m01, m02, m03, m04, m05, m06, m07, m08, m09, m10, m11, m12, m13, m14, m15, m16, m17, m18, m19, m20, m21, m22, m23, m24, m25, m26, m27, m28, m29, m30)
+getirilerA = array.from(r01, r02, r03, r04, r05, r06, r07, r08, r09, r10, r11, r12, r13, r14, r15, r16, r17, r18, r19, r20, r21, r22, r23, r24, r25, r26, r27, r28, r29, r30)
+
+kisa(s) =>
+    str.contains(s, ":") ? array.get(str.split(s, ":"), 1) : s
+adlar = array.from(kisa(s01), kisa(s02), kisa(s03), kisa(s04), kisa(s05), kisa(s06), kisa(s07), kisa(s08), kisa(s09), kisa(s10), kisa(s11), kisa(s12), kisa(s13), kisa(s14), kisa(s15), kisa(s16), kisa(s17), kisa(s18), kisa(s19), kisa(s20), kisa(s21), kisa(s22), kisa(s23), kisa(s24), kisa(s25), kisa(s26), kisa(s27), kisa(s28), kisa(s29), kisa(s30))
+
+N = array.size(momlar)
+
+// ─── Portföy simülasyonu ────────────────────────────────────────────────────
+var array<int> tutulan = array.new<int>()
+var float eq = 1.0
+var float evrenEq = 1.0
+var float xuBas = na
+var int rotSay = 0
+var bool basladi = false
+var int basZaman = na
+var string sonIslem = "—"
+
+// 1) Bu barın getirisi — ÖNCEKİ dönemde seçilmiş portföyle (sızıntı yok)
+if basladi
+    topG = 0.0
+    for i in tutulan
+        ri = array.get(getirilerA, i)
+        topG += na(ri) ? 0.0 : ri
+    eq := eq * (1.0 + topG / topK)
+    // Evren kıyası: tüm geçerli hisselerin eşit ağırlık ortalaması (günlük dengeli)
+    topE = 0.0
+    nE = 0
+    for i = 0 to N - 1
+        ri = array.get(getirilerA, i)
+        if not na(ri)
+            topE += ri
+            nE += 1
+    evrenEq := evrenEq * (1.0 + (nE > 0 ? topE / nE : 0.0))
+
+// 2) Rotasyon: dönem değişiminin İLK barının kapanışında yeni seçim
+gecerliSayi = 0
+for i = 0 to N - 1
+    if not na(array.get(momlar, i))
+        gecerliSayi += 1
+
+yeniDonem = rebalans == "Aylık" ? ta.change(time("M")) != 0 : ta.change(time("W")) != 0
+
+if gecerliSayi >= topK and (not basladi or yeniDonem)
+    secilen = array.new<int>()
+    kullanildi = array.new<bool>(N, false)
+    for k = 1 to topK
+        enIyi = -1
+        enIyiMom = mutlakFiltre ? 0.0 : -1e9
+        for i = 0 to N - 1
+            mi = array.get(momlar, i)
+            if not array.get(kullanildi, i) and not na(mi) and mi > enIyiMom
+                enIyi := i
+                enIyiMom := mi
+        if enIyi >= 0
+            array.push(secilen, enIyi)
+            array.set(kullanildi, enIyi, true)
+    // değişen bacaklar + alım/satım listeleri
+    alStr = ""
+    satStr = ""
+    degisen = 0
+    for i in secilen
+        if not array.includes(tutulan, i)
+            degisen += 1
+            alStr += (alStr == "" ? "" : ", ") + array.get(adlar, i)
+    for i in tutulan
+        if not array.includes(secilen, i)
+            degisen += 1
+            satStr += (satStr == "" ? "" : ", ") + array.get(adlar, i)
+    if degisen > 0
+        eq := eq * (1.0 - degisen * (komisyon / 100.0) / topK)
+        if basladi
+            rotSay += 1
+            sonIslem := (alStr == "" ? "" : "AL: " + alStr) + (satStr == "" ? "" : (alStr == "" ? "" : " | ") + "SAT: " + satStr)
+            alert("Momentum Rotasyonu — " + sonIslem, alert.freq_once_per_bar_close)
+    if not basladi
+        basladi := true
+        basZaman := time
+        xuBas := xu
+        sonIslem := "İlk portföy: " + alStr
+    tutulan := secilen
+
+// ─── İstatistikler ──────────────────────────────────────────────────────────
+netY = (eq - 1.0) * 100
+xuY = na(xuBas) ? 0.0 : (xu / xuBas - 1.0) * 100
+evrenY = (evrenEq - 1.0) * 100
+
+var float eqTepe = na
+var float eqDD = 0.0
+var float xuTepe = na
+var float xuDD = 0.0
+if basladi
+    eqTepe := na(eqTepe) ? eq : math.max(eqTepe, eq)
+    eqDD := math.max(eqDD, (eqTepe - eq) / eqTepe * 100)
+    xuTepe := na(xuTepe) ? xu : math.max(xuTepe, xu)
+    xuDD := math.max(xuDD, (xuTepe - xu) / xuTepe * 100)
+
+yilS = na(basZaman) ? 0.0 : (time - basZaman) / (365.25 * 86400000.0)
+cagrR = yilS > 0.2 and eq > 0 ? (math.pow(eq, 1.0 / yilS) - 1.0) * 100 : na
+cagrX = yilS > 0.2 and not na(xuBas) ? (math.pow(xu / xuBas, 1.0 / yilS) - 1.0) * 100 : na
+
+// ─── Grafik ─────────────────────────────────────────────────────────────────
+plot(basladi ? netY : na, "Rotasyon Portföyü %", color = color.new(color.lime, 0), linewidth = 2)
+plot(basladi ? xuY : na, "XU100 Al-Tut %", color = color.new(color.orange, 0), linewidth = 2)
+plot(basladi ? evrenY : na, "Evren Eşit Ağırlık %", color = color.new(color.gray, 40))
+hline(0, "Sıfır", color = color.new(color.gray, 70))
+
+// ─── Tablo ──────────────────────────────────────────────────────────────────
+konum = tabloKonum == "Sağ üst" ? position.top_right : tabloKonum == "Sağ alt" ? position.bottom_right : tabloKonum == "Sol üst" ? position.top_left : position.bottom_left
+var table t = table.new(konum, 3, 20, bgcolor = color.new(color.black, 15), border_width = 1, border_color = color.new(color.gray, 60))
+
+fmt(float x) => na(x) ? "—" : str.tostring(x, "#,##0.0")
+
+if tabloAcik and barstate.islast
+    basari = netY > xuY
+    table.cell(t, 0, 0, "Momentum Rotasyonu", text_color = color.white, text_size = size.small, bgcolor = color.new(color.blue, 30))
+    table.cell(t, 1, 0, str.tostring(topK) + " hisse · " + rebalans, text_color = color.white, text_size = size.small, bgcolor = color.new(color.blue, 30))
+    table.cell(t, 2, 0, timeframe.isdaily ? "Günlük" : "⚠ Günlük önerilir", text_color = timeframe.isdaily ? color.white : color.yellow, text_size = size.small, bgcolor = color.new(color.blue, 30))
+    table.cell(t, 0, 1, "Portföy", text_color = color.silver, text_size = size.small)
+    table.cell(t, 1, 1, fmt(netY) + " %", text_color = netY >= 0 ? color.lime : color.red, text_size = size.small)
+    table.cell(t, 2, 1, "CAGR " + fmt(cagrR) + " %", text_color = color.white, text_size = size.small)
+    table.cell(t, 0, 2, "XU100 Al-Tut", text_color = color.silver, text_size = size.small)
+    table.cell(t, 1, 2, fmt(xuY) + " %", text_color = xuY >= 0 ? color.lime : color.red, text_size = size.small)
+    table.cell(t, 2, 2, "CAGR " + fmt(cagrX) + " %", text_color = color.white, text_size = size.small)
+    table.cell(t, 0, 3, "Evren Eşit Ağırlık", text_color = color.silver, text_size = size.small)
+    table.cell(t, 1, 3, fmt(evrenY) + " %", text_color = evrenY >= 0 ? color.lime : color.red, text_size = size.small)
+    table.cell(t, 2, 3, "", text_size = size.small)
+    table.cell(t, 0, 4, "XU100'e karşı", text_color = color.silver, text_size = size.small)
+    table.cell(t, 1, 4, (basari ? "+" : "") + fmt(netY - xuY) + " puan", text_color = basari ? color.lime : color.orange, text_size = size.small)
+    table.cell(t, 2, 4, basari ? "✔ GEÇTİ" : "✘ geride", text_color = basari ? color.lime : color.red, text_size = size.small, bgcolor = basari ? color.new(color.green, 70) : color.new(color.maroon, 60))
+    table.cell(t, 0, 5, "Maks. Düşüş", text_color = color.silver, text_size = size.small)
+    table.cell(t, 1, 5, fmt(eqDD) + " %", text_color = eqDD <= xuDD ? color.lime : color.orange, text_size = size.small)
+    table.cell(t, 2, 5, "XU100: " + fmt(xuDD) + " %", text_color = color.gray, text_size = size.small)
+    table.cell(t, 0, 6, "Rotasyon sayısı", text_color = color.silver, text_size = size.small)
+    table.cell(t, 1, 6, str.tostring(rotSay), text_color = color.white, text_size = size.small)
+    table.cell(t, 2, 6, "kom. %" + str.tostring(komisyon, "#.##") + "/bacak", text_color = color.gray, text_size = size.small)
+    table.cell(t, 0, 7, "Son işlem", text_color = color.silver, text_size = size.small)
+    table.cell(t, 1, 7, sonIslem, text_color = color.yellow, text_size = size.small)
+    table.cell(t, 2, 7, "", text_size = size.small)
+    table.cell(t, 0, 8, "── SIRALAMA ──", text_color = color.aqua, text_size = size.small)
+    table.cell(t, 1, 8, "Momentum (" + str.tostring(uzun) + "g)", text_color = color.aqua, text_size = size.small)
+    table.cell(t, 2, 8, "Durum", text_color = color.aqua, text_size = size.small)
+    // İlk 10 sıralama (görsel amaçlı; portföy seçimi yukarıdaki rotasyonda yapılır)
+    gosterildi = array.new<bool>(N, false)
+    for satir = 1 to 10
+        enIyi = -1
+        enIyiMom = -1e9
+        for i = 0 to N - 1
+            mi = array.get(momlar, i)
+            if not array.get(gosterildi, i) and not na(mi) and mi > enIyiMom
+                enIyi := i
+                enIyiMom := mi
+        if enIyi >= 0
+            array.set(gosterildi, enIyi, true)
+            tutuluyor = array.includes(tutulan, enIyi)
+            table.cell(t, 0, 8 + satir, str.tostring(satir) + ". " + array.get(adlar, enIyi), text_color = tutuluyor ? color.lime : color.white, text_size = size.small)
+            table.cell(t, 1, 8 + satir, (enIyiMom >= 0 ? "+" : "") + fmt(enIyiMom * 100) + " %", text_color = enIyiMom >= 0 ? color.lime : color.red, text_size = size.small)
+            table.cell(t, 2, 8 + satir, tutuluyor ? "● PORTFÖYDE" : (mutlakFiltre and enIyiMom <= 0 ? "negatif — alınmaz" : ""), text_color = tutuluyor ? color.lime : color.gray, text_size = size.small)
+        else
+            table.cell(t, 0, 8 + satir, "", text_size = size.small)
+            table.cell(t, 1, 8 + satir, "", text_size = size.small)
+            table.cell(t, 2, 8 + satir, "", text_size = size.small)
+    table.cell(t, 0, 19, "Not", text_color = color.silver, text_size = size.small)
+    table.cell(t, 1, 19, "Sinyal dönem kapanışında; ertesi gün uygula", text_color = color.gray, text_size = size.small)
+    table.cell(t, 2, 19, "Yatırım tavsiyesi değildir", text_color = color.gray, text_size = size.small)
