@@ -1,0 +1,87 @@
+degisken_adi,turkce_etiket,tip,kodlama_birim,zorunlu,grup,notlar
+calisma_id,Çalışma numarası,metin,ÇLY-0001 formatı,Evet,Kimlik,Hasta adı/TCKN GİRİLMEZ
+basvuru_yili,Başvuru yılı,tam sayı,2019-2024,Evet,Demografik,COVID alt analizi için
+yas_ay,Başvuru yaşı (ay),tam sayı,ay,Evet,Demografik,Yıl değil AY olarak girin
+cinsiyet,Cinsiyet,kategorik,0=Kız 1=Erkek,Evet,Demografik,
+brans,Başvurulan branş,kategorik,1=Genel pediatri 2=Çocuk gastro 3=Çocuk endokrin 4=Diğer,Evet,Bağlamsal,
+hekim_kideim,İstemi yapan hekim,kategorik,1=Asistan 2=Uzman 3=Öğretim üyesi,Hayır,Bağlamsal,Kılavuz uyumu alt analizi
+sevkli,Dış merkezden sevkli mi,kategorik,0=Hayır 1=Evet,Hayır,Bağlamsal,
+boy_cm,Boy,ondalık,cm,Evet,Antropometri,Başvuru anındaki ölçüm
+kilo_kg,Ağırlık,ondalık,kg,Evet,Antropometri,
+boy_sds,Boy SDS,ondalık,SDS,Evet,Antropometri,Neyzi referansı (birincil)
+kilo_sds,Ağırlık SDS,ondalık,SDS,Evet,Antropometri,
+vki_sds,VKİ SDS,ondalık,SDS,Evet,Antropometri,
+boy_sds_who,Boy SDS (WHO 2007),ondalık,SDS,Hayır,Antropometri,Duyarlılık analizi için
+hedef_boy_sds,Hedef boy SDS,ondalık,SDS,Hayır,Antropometri,(Anne boy + Baba boy ± 13)/2
+hedef_boy_sapma,Hedef boydan sapma,ondalık,SDS,Hayır,Antropometri,boy_sds - hedef_boy_sds
+kemik_yasi,Kemik yaşı,ondalık,yıl,Hayır,Antropometri,Greulich-Pyle
+kemik_yas_farki,Kemik yaşı - kronolojik yaş,ondalık,yıl,Hayır,Antropometri,
+bgg_olcut,Hangi BGG ölçütünü karşılıyor,kategorik,1=Boy SDS<-2 2=Kilo SDS<-2 3=VKİ SDS<-2 4=Hedef boy sapması 5=Birden fazla,Evet,Antropometri,
+gis_ishal,Kronik ishal (>=4 hafta),kategorik,0=Yok 1=Var 9=Kayıt yok,Evet,GİS semptom,
+gis_kabizlik,Kabızlık,kategorik,0=Yok 1=Var 9=Kayıt yok,Evet,GİS semptom,
+gis_karin_agrisi,Tekrarlayan karın ağrısı,kategorik,0=Yok 1=Var 9=Kayıt yok,Evet,GİS semptom,
+gis_distansiyon,Karın şişkinliği/distansiyon,kategorik,0=Yok 1=Var 9=Kayıt yok,Evet,GİS semptom,
+gis_kusma,Kusma,kategorik,0=Yok 1=Var 9=Kayıt yok,Hayır,GİS semptom,
+gis_istahsizlik,İştahsızlık,kategorik,0=Yok 1=Var 9=Kayıt yok,Hayır,GİS semptom,
+gis_herhangi,Herhangi bir GİS semptomu,kategorik,0=Yok 1=Var,Evet,GİS semptom,Türetilmiş değişken
+hb,Hemoglobin,ondalık,g/dL,Evet,Laboratuvar,
+mcv,MCV,ondalık,fL,Hayır,Laboratuvar,
+ferritin,Ferritin,ondalık,ug/L,Evet,Laboratuvar,
+demir_eksikligi,Demir eksikliği,kategorik,0=Yok 1=Var 9=Bakılmamış,Evet,Laboratuvar,Ferritin<12 (<5y) veya <15 ug/L
+dea,Demir eksikliği anemisi,kategorik,0=Yok 1=Var 9=Bakılmamış,Evet,Laboratuvar,ÖNCELİKLİ ÖNGÖRÜCÜ - Hb düşük + ferritin düşük
+alt,ALT,ondalık,U/L,Hayır,Laboratuvar,
+ast,AST,ondalık,U/L,Hayır,Laboratuvar,
+transaminaz_yuksek,Transaminaz yüksekliği,kategorik,0=Yok 1=Var 9=Bakılmamış,Evet,Laboratuvar,ALT veya AST > ULN
+albumin,Albümin,ondalık,g/dL,Hayır,Laboratuvar,
+vitd,25-OH D vitamini,ondalık,ng/mL,Hayır,Laboratuvar,
+kalsiyum,Kalsiyum,ondalık,mg/dL,Hayır,Laboratuvar,
+alp,ALP,ondalık,U/L,Hayır,Laboratuvar,
+cinko,Çinko,ondalık,ug/dL,Hayır,Laboratuvar,
+tsh,TSH,ondalık,mIU/L,Hayır,Laboratuvar,
+anti_tpo,Anti-TPO,kategorik,0=Negatif 1=Pozitif 9=Bakılmamış,Hayır,Laboratuvar,
+igf1_sds,IGF-1 SDS,ondalık,SDS,Hayır,Laboratuvar,Endokrin ayırıcı tanı
+total_iga,Total IgA,ondalık,mg/dL,Evet,Çölyak testi,BOŞSA = G1 gereksizlik kategorisi
+iga_eksikligi,Selektif IgA eksikliği,kategorik,0=Yok 1=Var 9=Bakılmamış,Evet,Çölyak testi,
+t1dm,Tip 1 diyabet,kategorik,0=Yok 1=Var,Evet,Eşlik eden,
+otoimmun_tiroidit,Otoimmün tiroidit/hipotiroidi,kategorik,0=Yok 1=Var,Evet,Eşlik eden,
+sendrom,Sendrom,kategorik,0=Yok 1=Down 2=Turner 3=Williams 4=Diğer,Evet,Eşlik eden,
+diger_otoimmun,Diğer otoimmün hastalık,kategorik,0=Yok 1=Var,Hayır,Eşlik eden,
+aile_oykusu,1. derece akrabada çölyak,kategorik,0=Yok 1=Var 9=Kayıt yok,Evet,Eşlik eden,ÖNCELİKLİ ÖNGÖRÜCÜ
+dis_mine_defekti,Diş minesi defekti,kategorik,0=Yok 1=Var 9=Kayıt yok,Hayır,Klinik bulgu,
+aftoz_stomatit,Tekrarlayan aftöz stomatit,kategorik,0=Yok 1=Var 9=Kayıt yok,Hayır,Klinik bulgu,
+puberte_gecikmesi,Puberte gecikmesi,kategorik,0=Yok 1=Var 8=Yaşa uygun değil 9=Kayıt yok,Hayır,Klinik bulgu,
+dermatit_herpetiformis,Dermatit herpetiformis,kategorik,0=Yok 1=Var,Hayır,Klinik bulgu,
+halsizlik,Kronik yorgunluk/halsizlik,kategorik,0=Yok 1=Var 9=Kayıt yok,Hayır,Klinik bulgu,
+test_istendi,Çölyak serolojisi istendi mi,kategorik,0=Hayır 1=Evet,Evet,BİRİNCİL SONUÇ,Ana sonuç değişkeni
+test_tarihi_gun,İstem - başvuru arası gün,tam sayı,gün,Hayır,Çölyak testi,
+ttg_iga_deger,Anti-tTG IgA değeri,ondalık,U/mL,Hayır,Çölyak testi,
+ttg_iga_uln,Kitin ULN değeri,ondalık,U/mL,Hayır,Çölyak testi,ULN katı hesabı için ZORUNLU
+ttg_uln_kati,tTG / ULN oranı,ondalık,kat,Hayır,Çölyak testi,Türetilmiş
+ttg_iga_sonuc,Anti-tTG IgA sonucu,kategorik,0=Negatif 1=Pozitif 9=İstenmedi,Evet,BİRİNCİL SONUÇ,
+ttg_10uln,tTG >=10x ULN,kategorik,0=Hayır 1=Evet 9=Uygulanamaz,Hayır,Çölyak testi,
+ttg_igg_sonuc,Anti-tTG IgG sonucu,kategorik,0=Negatif 1=Pozitif 9=İstenmedi,Hayır,Çölyak testi,IgA eksikliğinde
+ema_sonuc,EMA sonucu,kategorik,0=Negatif 1=Pozitif 9=İstenmedi,Hayır,Çölyak testi,
+dgp_sonuc,DGP sonucu,kategorik,0=Negatif 1=Pozitif 9=İstenmedi,Hayır,Çölyak testi,
+aga_istendi,AGA (anti-gliadin) istendi mi,kategorik,0=Hayır 1=Evet,Evet,Çölyak testi,VARSA = G2 gereksizlik kategorisi
+kit_markasi,tTG kit markası,metin,serbest,Hayır,Çölyak testi,Kit heterojenliği duyarlılık analizi
+seroloji_pozitif,Seroloji pozitif,kategorik,0=Hayır 1=Evet,Evet,BİRİNCİL SONUÇ,Türetilmiş
+hla_yapildi,HLA DQ2/DQ8 bakıldı mı,kategorik,0=Hayır 1=Evet,Hayır,Çölyak testi,
+hla_sonuc,HLA sonucu,kategorik,0=Negatif 1=DQ2 2=DQ8 3=Her ikisi 9=Bakılmadı,Hayır,Çölyak testi,
+biyopsi_yapildi,Duodenal biyopsi yapıldı mı,kategorik,0=Hayır 1=Evet,Evet,Doğrulama,
+marsh,Marsh evresi,kategorik,0=Marsh 0 1=Marsh 1 2=Marsh 2 3=Marsh 3a 4=Marsh 3b 5=Marsh 3c 9=Biyopsi yok,Hayır,Doğrulama,
+tani_dogrulandi,Çölyak tanısı doğrulandı,kategorik,0=Hayır 1=Evet,Evet,BİRİNCİL SONUÇ,Marsh>=2 VEYA (tTG>=10xULN + EMA+)
+tani_yolu,Tanı yolu,kategorik,1=Biyopsi 2=Biyopsisiz (ESPGHAN 2020) 9=Tanı yok,Hayır,Doğrulama,
+yalanci_pozitif,Yalancı pozitif,kategorik,0=Hayır 1=Evet 9=Uygulanamaz,Hayır,Doğrulama,Seroloji+ ama biyopsi normal/seroloji normale döndü
+glutensiz_diyet,İstem sırasında glutensiz diyette,kategorik,0=Hayır 1=Evet 9=Bilinmiyor,Evet,Gereksizlik,VARSA = G7 kategorisi
+tekrar_istem,12 ay içinde gerekçesiz tekrar istem,kategorik,0=Hayır 1=Evet,Evet,Gereksizlik,VARSA = G3 kategorisi
+panel_genis,İlk basamakta tTG+EMA+DGP birlikte,kategorik,0=Hayır 1=Evet,Evet,Gereksizlik,VARSA = G4 kategorisi
+pozitif_takipsiz,Pozitif seroloji ileri tetkiksiz kaldı,kategorik,0=Hayır 1=Evet 9=Uygulanamaz,Evet,Gereksizlik,VARSA = G5 kategorisi
+risk_bulgusu_yok,Hiçbir ek risk bulgusu yok,kategorik,0=Hayır 1=Evet,Evet,Gereksizlik,VARSA (+BGG doğrulanamıyorsa) = G6 kategorisi
+gereksiz_kategori,Gereksizlik kategorisi,metin,G1;G2;G3;G4;G5;G6;G7 (çoklu ise noktalı virgülle),Evet,Gereksizlik,İki araştırmacı bağımsız kodlar
+gereksiz_G1_G5_G7,Gereksiz istem (birincil tanım),kategorik,0=Hayır 1=Evet,Evet,BİRİNCİL SONUÇ,G1-G5 + G7 birleşimi (G6 hariç)
+kodlayici1,1. kodlayıcı kararı,metin,serbest,Evet,Kalite,Cohen kappa hesabı için
+kodlayici2,2. kodlayıcı kararı,metin,serbest,Evet,Kalite,
+uyusmazlik_cozuldu,Uyuşmazlık çözüldü mü,kategorik,0=Uyuşmazlık yok 1=Çözüldü,Hayır,Kalite,
+izlem_ay,İzlem süresi,tam sayı,ay,Hayır,İzlem,Test istenmeyenlerde sonradan tanı için
+sonradan_tani,İzlemde çölyak tanısı aldı mı,kategorik,0=Hayır 1=Evet 9=İzlem yok,Hayır,İzlem,İndikasyon yanlılığı analizi için KRİTİK
+dislama_nedeni,Dışlama nedeni,kategorik,0=Dışlanmadı 1=Önceden çölyak tanılı 2=Glutensiz diyette 3=Bilinen kronik hastalık 4=Antropometri eksik,Evet,Kalite,STROBE akış şeması için
