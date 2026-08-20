@@ -22,8 +22,9 @@
 
 Aracı kurumlar 57–68 TL hedeflerle "AL" diyor; ben **şimdilik almam**. Nedenleri veride:
 2Ç26 FAVÖK yıllık **-%48,5** (marj %5,9'a düştü), iki çeyrek üst üste beklenti altı sonuç,
-**143,3 milyar TL net borç** zayıflayan FAVÖK'e karşı, geri alım programı Şubat'ta bitti ve
-yenilenmedi, cam ev eşyası segmenti zarar yazıyor. PD/DD 0,46 gerçekten ucuz ve Macaristan/Tarsus
+**143,3 milyar TL net borç** (Mart'taki 132,3 milyardan yükseldi) ve doğrulama turunda teyit
+edilen kritik veri: **net borç/FAVÖK 5,8x'ten 7,4x'e çıktı** — bu, listedeki en yüksek kaldıraç.
+Geri alım programı Şubat'ta bitti ve yenilenmedi, cam ev eşyası segmenti zarar yazıyor. PD/DD 0,46 gerçekten ucuz ve Macaristan/Tarsus
 kapasiteleri ile ABD soda yatırımı gerçek katalizörler — ama "ucuz" ile "dibe yakın" aynı şey
 değil. Marj dönüşünün rakamla (3Ç26) teyidini görmeden girmek, düşen bıçağı tutmak olur.
 İzleme listemin en üstünde; teyit gelirse hızla "al"a döner.
@@ -60,9 +61,10 @@ elde tutmayı ödüllendiriyor.
 
 **4. AEFES — iskontolu ama iskontosu sebepsiz değil.** Operasyonel taraf iyi: 2Ç26 FAVÖK +%15,3
 (marj %20,5), net borç/FAVÖK 1,2x, F/K 11,5, PD/DD 0,92, Ekim'de ikinci temettü taksidi var,
-CCI hacim +%9,8. Ama Rusya'daki AB InBev Efes ortaklığına Rus devleti kayyım atadı ve varlıklar
-"finansal yatırımlar"a taşındı — bu, bilançodaki değerin bir kısmının fiilen erişim dışı olması
-demek; Türkiye bira hacmi de %8 daralmış. Sonuç: alınabilir, fakat Rusya haber akışına açık
+CCI hacim +%9,8. Rusya'daki AB InBev Efes ortaklığına Rus devleti kayyım atadı (kararname
+30 Aralık tarihli — yani ~8 aydır bilinen ve kısmen fiyatlanmış bir risk; sonrasında şirketin
+adı/logosu da değiştirildi) ve varlıklar "finansal yatırımlar"a taşındı — bilançodaki değerin
+bir kısmı fiilen erişim dışı; Türkiye bira hacmi de %8 daralmış. Sonuç: alınabilir, fakat Rusya haber akışına açık
 olduğu için portföyde sınırlı ağırlıkla.
 
 **5. TATGD — gerçek bir dönüşüm hikâyesi (küçük pozisyon).** İlk turda "pahalı" görünüyordu;
@@ -107,7 +109,10 @@ bunu telafi etmiyor.
 hemen ardından VBTS tedbirleri + **yönetim kurulu üyelerinin zirve sonrası milyonlarca lot pay
 satışı** (Temmuz 2025 bildirimleri) + halka arzdan beri biriken SPK cezaları. Bugün PD/DD ~0,96
 ile "ucuzlamış" görünmesi önemli değil; içeriden satışın bu ölçekte olduğu bir kâğıtta azınlık
-ortağı olmam.
+ortağı olmam. (Veri notu: 18.08.2026'da KAP'a verilen 2Ç26 raporunun rakamları haber dizinlerine
+henüz yansımadı; kararım 1Ç26 finansalları + kurumsal sicile dayanıyor. Ayrıca dikkat: "Tureks
+Turunç Madencilik" adlı farklı bir şirketin 1Y26 verileri arama sonuçlarında TUREX ile
+karışabiliyor — bu rapora alınmadı.)
 **KRSTL** — finansallar sanıldığından iyi (1Y26: 121 milyon TL net kâr, %12,7 FAVÖK marjı,
 F/K ~6,6) ama Haziran'da devre kesici tetiklenmiş, geçmişte üç kez VBTS tedbiri almış, %89 fiili
 dolaşımla tamamen akışkan spekülasyon zemini. Bu bir yatırım aracı değil trade kâğıdı; yatırım
