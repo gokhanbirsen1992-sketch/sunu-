@@ -170,6 +170,19 @@ sorusuna cevabım hayır.
 | TUREX | 6,91 | 12,3 | 0,8 | — | 6,37–50,95 |
 | YUNSA | 8,57 | 9,7 | 0,8 | 4,26 | 4,70–11,20 |
 
+## Teknik Katman (Borsa MCP, 20.08.2026 17:30, günlük grafik)
+
+| Hisse | Fiyat | RSI(14) | MACD | Fiyat vs SMA20/EMA50 | Teknik okuma |
+|---|---|---|---|---|---|
+| SAHOL | 90,15 | 75,8 (aşırı alım) | Yukarı kesişim | Üstünde (87,7/88,5) | Güçlü trend ama ısınmış; geri çekilmede al |
+| LOGO | 135,90 | 49,8 (nötr) | Yeni yukarı kesişim | Üst üste (sıkışma) | Geri alım bandıyla (132–137) örtüşen giriş bölgesi |
+| ENJSA | 109,10 | 50,5 (nötr) | Aşağı kesişim | SMA20 hafif altı | Momentum soğuyor; 100–104 bölgesini bekle |
+| AEFES | 19,15 | **22,8 (aşırı satım)** | Negatif | Belirgin altında (20,7) | Tepki alımı bölgesi; küçük ve stoplu |
+| TATGD | 17,66 | 48,0 (nötr) | Histogram pozitife döndü | Hafif altında (18,0–18,1) | Birikim; 18,10 üstü kapanış teyit |
+| YUNSA | 8,54 | 43,7 | Negatif | Altında (8,83–8,88) | Zayıf momentum; acele yok |
+| GOLTS | 320,25 | **77,0 (aşırı alım)** | Histogram güçlü pozitif | %8 üstünde (296) | Fırın haberi sonrası ısınmış; 296–302'ye çekilmede al |
+| SISE | 40,00 | 40,1 | Negatif | Altında (41,3) | Dip teyidi yok; temel görüşle uyumlu: bekle |
+
 **Veri kaynağı notu:** Fiyat/çarpan tablosu ve TUREX 30.06.2026 bilançosu Borsa MCP bağlayıcısı
 üzerinden (KAP + piyasa veri akışı) canlı çekilmiştir; metindeki 2Ç26 bilanço anlatıları KAP
 bildirimlerinin haber yansımalarından derlenmiştir. İşlem öncesi KAP orijinal bildirimiyle teyit
