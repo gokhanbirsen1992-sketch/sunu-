@@ -1,107 +1,126 @@
-# 15 BIST Şirketi Değerlendirmesi — Ağustos 2026
+# 15 BIST Şirketi — Kendi Değerlendirmem (Ağustos 2026)
 
-> Bu rapor 20 Ağustos 2026 tarihinde, kamuya açık analist raporları ve 2Ç26 bilanço verileri
-> derlenerek hazırlanmıştır. **Yatırım tavsiyesi değildir**; yalnızca genel bilgilendirme amaçlıdır.
+> 20 Ağustos 2026. Bu rapor, KAP bildirimleri, 2Ç26 finansalları ve kurumsal olayların
+> birincil kaynaklardan derlenmesiyle oluşturulmuş **bağımsız bir değerlendirmedir** —
+> aracı kurum hedef fiyatları aktarımı değildir, yer yer konsensüsten ayrışır.
+> Yatırım tavsiyesi değildir; nihai karar ve risk okuyucuya aittir.
 
-## Makro Arka Plan (Ağustos 2026)
+## Sonuç Sıralaması (kendi görüşüm)
 
-- BIST-100 için 12 aylık kurum hedefi ~16.500 puan; genel öneri "seçici ve kademeli alım".
-- TCMB'nin Eylül PPK'sında politika faizini %37'ye indirmesi bekleniyor; yıl sonu enflasyon
-  beklentisi ~%29,4.
-- Piyasayı şekillendiren başlıklar: faiz indirim döngüsü, jeopolitik gelişmeler, petrol
-  fiyatları ve 2Ç26 bilançoları.
+| Sıra | Karar | Hisse | Tek cümlelik gerekçe |
+|---|---|---|---|
+| 1 | Al (kademeli) | SAHOL | %53 NAV iskontosu + portföy sadeleşmesi (Akçansa/CarrefourSA satışı) + Akbank'ta parasal kayıpların azalması |
+| 2 | Al (kademeli) | LOGO | %39 FAVÖK marjlı yazılım işi 52 haftalık dibinde, F/K ~10, aktif geri alım — büyüme yavaşlaması tek risk |
+| 3 | Al (geri çekilmede) | ENJSA | Zarardan kâra döndü, 2026 beklentileri yukarı revize, RAB 110–120 milyar TL'ye büyüyor — ama 1 yılda %106 ralli yapmış |
+| 4 | Al (orta boy) | AEFES | F/K 11,5 / PD/DD 0,92 ile ucuz, FAVÖK marjı genişliyor — Rusya kayyım riski iskontoyu hak ediyor, o yüzden büyük pozisyon değil |
+| 5 | Küçük pozisyon | TATGD | Memişoğlu devri sonrası gerçek dönüşüm: 1Y26'da -123 mn zarardan +340 mn kâra, net borç -%29, düzeltilmiş F/K ~8 |
+| 6 | Küçük pozisyon | YUNSA | Net nakit, ~%4,2 temettü, 6,5 mn EUR kapasite yatırımı — küçük ama temiz bilanço |
+| — | Bekle/izle | SISE, ENERY, BRISA, BAKAB | Aşağıda gerekçeli |
+| — | Uzak dur | BAGFS, GOLTS, BASGZ, TUREX, KRSTL | Aşağıda gerekçeli |
 
-## Özet Sıralama
+## Konsensüsten ayrıştığım en önemli nokta: SISE
 
-| Kademe | Hisseler |
-|---|---|
-| Öne çıkanlar (güçlü temel + analist desteği) | SAHOL, SISE, LOGO, AEFES |
-| İzlemeye değer (koşullu olumlu) | ENJSA, BRISA, ENERY, BAKAB |
-| Nötr / zayıf | YUNSA, GOLTS, TATGD |
-| Riskli / uzak durulası | BAGFS, BASGZ, KRSTL, TUREX |
+Aracı kurumlar 57–68 TL hedeflerle "AL" diyor; ben **şimdilik almam**. Nedenleri veride:
+2Ç26 FAVÖK yıllık **-%48,5** (marj %5,9'a düştü), iki çeyrek üst üste beklenti altı sonuç,
+**143,3 milyar TL net borç** zayıflayan FAVÖK'e karşı, geri alım programı Şubat'ta bitti ve
+yenilenmedi, cam ev eşyası segmenti zarar yazıyor. PD/DD 0,46 gerçekten ucuz ve Macaristan/Tarsus
+kapasiteleri ile ABD soda yatırımı gerçek katalizörler — ama "ucuz" ile "dibe yakın" aynı şey
+değil. Marj dönüşünün rakamla (3Ç26) teyidini görmeden girmek, düşen bıçağı tutmak olur.
+İzleme listemin en üstünde; teyit gelirse hızla "al"a döner.
 
-## Şirket Bazında Değerlendirme
+## Şirket Bazında Görüşlerim
 
-### Öne çıkanlar
+### Alınabilir bulduklarım
 
-**SAHOL — Sabancı Holding.** 2Ç26'da 14,16 milyar TL ana ortaklık net kârı ile piyasa
-beklentisinin (~7,1 milyar TL) yaklaşık iki katını açıkladı. Kurum hedef fiyatları
-139,5–183 TL bandında; GCM 155 TL, Tacirler 183 TL. NAV iskontosu ve faiz indirim
-döngüsünde banka/enerji iştiraklerinin kaldıraç etkisiyle en dengeli holding seçeneklerinden.
+**1. SAHOL — en iyi risk/getiri dengesi.** 2Ç26'daki 14,16 milyar TL kârın büyük kısmının tek
+seferlik Akçansa satış kârı (~9–10 milyar TL) olduğunu görüyorum; manşet rakama aldanmıyorum.
+Beni ikna eden manşet değil, yapı: holding Akçansa'yı 1,1 milyar USD değerleme üzerinden satıp
+~428 milyon USD nakit aldı, CarrefourSA devri tamamlandı, Akbank'ın parasal kayıpları 14,3'ten
+9,7 milyar TL'ye geriledi, yenilenebilir enerji tarafı (269 MW yeni RES, Teksas'ta 286 MWdc
+finansmanı kapanmış GES) büyüyor. Buna karşılık hisse defter değerinin yarısının altında
+(PD/DD 0,48) ve NAV'a ~%53 iskontolu. Faiz indirim döngüsü banka + enerji iştiraklerini aynı
+anda destekler. Risk: NAV iskontosu Türkiye'de yapısal olarak kapanmayabilir — bu yüzden
+"katlanır" değil "kademeli" alım.
 
-**SISE — Şişecam.** 2Ç26 net kârı 3,35 milyar TL ile beklentinin (3,53–3,59 milyar TL) hafif
-altında; buna rağmen Halk Yatırım 68,50 TL hedefle "AL" tavsiyesini, Şeker Yatırım 65 TL
-hedefini korudu (güncel fiyat ~38–44 TL → belirgin getiri potansiyeli). Döngüsel toparlanma
-ve ihracat tarafı faiz indirimleriyle desteklenebilir; kısa vadede cam sektörü marj baskısı riski.
+**2. LOGO — kaliteli iş, kötü fiyatlanmış.** 1Y26: 3,37 milyar TL ciro, ~%39 FAVÖK marjı,
+510 milyon TL net kâr, SaaS gelirleri 1,6 milyar TL, Romanya iştiraki Euro bazında %27 büyüyor.
+Hisse 52 haftalık aralığın (129–195) dibinde, F/K ~10 — yazılım şirketi için düşük. Şirket kendi
+hissesini almaya devam ediyor (sermayenin %2,75'i) ve Haziran'da 425 milyon TL net temettü ödedi;
+yönetim fiyatı ucuz buluyor ve parasını ona göre koyuyor. Dürüst olduğum risk: faturalanan
+gelirler reel %4 daraldı — büyüme hikâyesi şu an zayıf. Bu bir "büyüme" alımı değil, "kaliteli
+varlığı dipten toplama" alımı.
 
-**LOGO — Logo Yazılım.** Fiyat ~138 TL'ye karşılık kurum hedefleri 211–253 TL bandında
-(ortalama ~239 TL) — listedeki en yüksek yüzdesel getiri potansiyellerinden. Yinelenen
-gelir modeli (abonelik/SaaS) enflasyonist ortamda dayanıklı; teknoloji hisselerinde
-likidite ve momentum zayıflığı temel risk.
+**3. ENJSA — döngünün doğru tarafında.** 1Y25'te -361 milyon TL zarardan 1Y26'da +2,75 milyar TL
+kâra; yönetim 2026 beklentilerini yukarı revize etti (faaliyet geliri 80–85 milyar TL, düzeltilmiş
+net kâr 13–15 milyar TL). Net borç/FAVÖK 1,4x yönetilebilir; düzenlenmiş varlık tabanı 2026
+sonunda 110–120 milyar TL'ye çıkacak — regüle, enflasyona endeksli, faiz düştükçe finansman
+gideri eriyen bir model. Çekince: 1 yılda +%106 gelmiş ve F/K 21 optik olarak pahalı; bu yüzden
+zirve kovalamak yerine geri çekilmelerde pozisyon. Temettü politikası (düzeltilmiş kârın ≥%60'ı)
+elde tutmayı ödüllendiriyor.
 
-**AEFES — Anadolu Efes.** 2Ç26: satış 154,3 milyar TL, FAVÖK 26,1 milyar TL. Bilanço sonrası
-hedef revizyonları yukarı yönlü: Ak Yatırım 29→32 TL, İş Yatırım 31,60 TL, Deniz 29 TL
-(ortalama ~27 TL). Defansif tüketim + bira/meşrubat çeşitlendirmesi; Rusya operasyonları
-jeopolitik risk unsuru.
+**4. AEFES — iskontolu ama iskontosu sebepsiz değil.** Operasyonel taraf iyi: 2Ç26 FAVÖK +%15,3
+(marj %20,5), net borç/FAVÖK 1,2x, F/K 11,5, PD/DD 0,92, Ekim'de ikinci temettü taksidi var,
+CCI hacim +%9,8. Ama Rusya'daki AB InBev Efes ortaklığına Rus devleti kayyım atadı ve varlıklar
+"finansal yatırımlar"a taşındı — bu, bilançodaki değerin bir kısmının fiilen erişim dışı olması
+demek; Türkiye bira hacmi de %8 daralmış. Sonuç: alınabilir, fakat Rusya haber akışına açık
+olduğu için portföyde sınırlı ağırlıkla.
 
-### İzlemeye değer
+**5. TATGD — gerçek bir dönüşüm hikâyesi (küçük pozisyon).** İlk turda "pahalı" görünüyordu;
+KAP verisi fikri değiştirdi: 1Y25'te -122,7 milyon TL zarardan 1Y26'da +340,5 milyon TL kâra,
+FAVÖK +%745, net borç çeyreklik -%29, PD/DD 0,67 ve dönüşüm sonrası kârla F/K ~8. Koç'un %49'u
+Memişoğlu'na satması sonrası yeni ana ortak ihracat kanalını (Tat Bakliyat'ın 100+ ülke ağı)
+devreye alıyor. Riskler gerçek: geçmiş yıl zararları yüzünden temettü yok, yeni ortağın icra
+sicili halka açık şirkette henüz kısa. Bu yüzden "küçük, sabırlı pozisyon" diyorum.
 
-**ENJSA — Enerjisa.** Regüle iş modeli ve öngörülebilir nakit akışı; 2026 faaliyet geliri
-beklentisi 75–80 milyar TL. Hedefler geniş bantta: Deniz 130,70 TL — İş Yatırım 174 TL.
-Faiz indirim döngüsünün doğrudan lehine (borçluluk yüksek); temettü dağıtım oranının
-sürdürülebilirliği sorgulanıyor. Temettü odaklı yatırımcı için uygun, agresif büyüme beklenmemeli.
+**6. YUNSA — küçük ama sağlam.** Net nakit pozisyonu, Nisan'da ödenen ~%4,2 verimli temettü,
+6,5 milyon EUR yeni kapasite yatırımı, premium yün kumaşta Avrupa'nın en büyük entegre üreticisi.
+2Ç26'da çeyreklik kâr geriledi (65 → 35 milyon TL) ve FAVÖK marjı ince (%5) — bu yüzden ancak
+küçük tutarla. Tedbir/VBTS sicili temiz; bu listede sicili temiz az şirket var.
 
-**BRISA — Brisa Bridgestone.** Kurum hedefleri 100–110 TL civarında ve mevcut fiyata yakın —
-getiri potansiyeli sınırlı. Güçlü marka ve pazar konumu; zayıf iç talep ve düşük araç
-lastiği yenileme döngüsü baskı unsuru. Uzun vadeli defansif tutulabilir, kısa vadeli katalizör az.
+### Bekle/izle dediklerim
 
-**ENERY — Enerya Enerji.** Son bilançoda ~4,36 milyar TL kâr; F/K ~7,5 ile makul çarpan.
-Doğalgaz dağıtımı regüle ve enflasyona endeksli. Ancak fiili dolaşım oranı düşük (~%20) —
-likidite ve fiyat oynaklığı riski. Küçük pozisyonla, uzun vadeli izlenebilir.
+**SISE** — yukarıda; 3Ç26'da marj dönüşü teyidi ararım.
+**ENERY** — FAVÖK +%28, 6 ayda 6,9 milyar TL borç azaltımı, sermayenin %4'üne ulaşan geri alım:
+hepsi olumlu. Ama net kâr sadece +%2 (marj/parasal pozisyon baskısı), temettü sembolik
+(150 milyon TL) ve ana ortak %72,86 ile dolaşım sığ. Kötü değil; aciliyet de yok.
+**BRISA** — bilanço güçlü (net borç/FAVÖK 0,76x, 6 ayda 3 milyar TL borç ödendi) ve 2Ç26'da kâra
+dönüldü; ama net marj ~%1, TTM F/K ~53, 2025 zararı yüzünden temettü yok ve üstüne 6 milyar TL
+yeni tahvil ihracı geliyor. Dönüşüm birkaç çeyrek daha kanıt istiyor.
+**BAKAB** — 1Ç26'da kâra dönüş (46 milyon TL) olumlu ama 2Ç26 bilançosu ortada yok, TTM F/K ~92
+ve fiyat 52 haftalık zirvede. Kanıtsız momentum; 2Ç26 açıklanınca yeniden bakarım.
 
-**BAKAB — Bak Ambalaj.** Esnek ambalajda ihracat ağırlıklı iş modeli; kur geçişkenliğinden
-faydalanır. Kapsamlı kurum takibi zayıf (hedefler ağırlıkla model bazlı, ~52–59 TL).
-Reel TL değerlenmesi marjlar için risk. Orta risk profiliyle izleme listesine uygun.
+### Uzak durduklarım
 
-### Nötr / zayıf
+**BAGFS** — %1000 bedelli sermaye artırımı SPK onayında (135 → 1.485 milyon TL): mevcut ortaklar
+için ağır sulandırma ve aylarca fiyat baskısı demek. Üstüne genel kurul kararlarına iptal davaları
+(İstanbul 19. ATM 2026/1462 E.), zayıf kârlılık, doğalgaza %90 bağımlı maliyet yapısı, 52 haftalık
+dip. PD/DD 0,47 ucuzluğu değil sorunları fiyatlıyor.
+**GOLTS** — klinker kapasitesinin %35'ini temsil eden fırın geçici durdurulmuş ve duruş 6 hafta
+uzatılmış; bir çeyrekte FAVÖK negatif veri noktası var; 2025 tam yıl kârı (187 milyon TL) 5,3
+milyar TL piyasa değerine bölününce gerçek F/K yayımlanan 12,8'in çok üstüne çıkıyor. PD/DD 0,50
+cazip görünse de üretim normalleşmeden dokunmam.
+**BASGZ** — kâğıt üstünde F/K 11, %4 temettü; ama 2Ç26'da **brüt zarar** yazıp (tarife baskısı)
+net kârı finansal kalemlerle üreten bir gelir tablosu, %15,3 fiili dolaşımla sığ derinlik ve
+halka arz döneminden kalma manipülasyon soruşturması sicili var. Kazanç kalitesi düşük; temettü
+bunu telafi etmiyor.
+**TUREX** — çöküşün anatomisi KAP'ta yazıyor: %900 bedelsiz + zirve (50,95 TL, Mayıs 2025) +
+hemen ardından VBTS tedbirleri + **yönetim kurulu üyelerinin zirve sonrası milyonlarca lot pay
+satışı** (Temmuz 2025 bildirimleri) + halka arzdan beri biriken SPK cezaları. Bugün PD/DD ~0,96
+ile "ucuzlamış" görünmesi önemli değil; içeriden satışın bu ölçekte olduğu bir kâğıtta azınlık
+ortağı olmam.
+**KRSTL** — finansallar sanıldığından iyi (1Y26: 121 milyon TL net kâr, %12,7 FAVÖK marjı,
+F/K ~6,6) ama Haziran'da devre kesici tetiklenmiş, geçmişte üç kez VBTS tedbiri almış, %89 fiili
+dolaşımla tamamen akışkan spekülasyon zemini. Bu bir yatırım aracı değil trade kâğıdı; yatırım
+sorusuna cevabım hayır.
 
-**YUNSA — Yünsa.** Kârlı ancak momentum zayıf (son dönem net kârı ~35,3 milyon TL,
-F/K ~14). Tekstilde zayıf Avrupa talebi ve TL maliyet baskısı sürüyor. Belirgin katalizör yok.
+## Portföy Çerçevesi (Ağustos 2026)
 
-**GOLTS — Göltaş Çimento.** Son bilançoda ~110,6 milyon TL kâr; PD/DD 0,66 ile ucuz görünüyor,
-fakat çimentoda hacim/marj daralması ve deprem bölgesi talebinin normalleşmesi büyümeyi
-sınırlıyor. Değer hissesi olarak izlenebilir, aktif katalizör zayıf.
+- Çekirdek: SAHOL + LOGO + ENJSA (+ AEFES sınırlı) — kademeli, Eylül PPK öncesi/sonrası bölünmüş giriş
+- Uydu (küçük): TATGD, YUNSA
+- Tetikleyici bekleyen: SISE (3Ç26 marjı), BAKAB (2Ç26 bilançosu), BRISA (kârlılık serisi)
+- Hiç: BAGFS, GOLTS, BASGZ, TUREX, KRSTL
 
-**TATGD — Tat Gıda.** Çeyreklik net kâr geriliyor (184,5 → 117 milyon TL); F/K ~31 ile
-gıda sektörü için pahalı. Marka gücü var ama mevcut fiyatlamada cazip değil.
-
-### Riskli / uzak durulası
-
-**BAGFS — Bagfaş.** Son bilanço zararda (-3,1 milyon TL); gübre marjları küresel olarak baskı
-altında. PD/DD 0,47 "ucuzluk" tuzak olabilir — kârlılığa dönüş kanıtı görülmeden uzak durulması
-daha ihtiyatlı.
-
-**BASGZ — Başkent Doğalgaz GMYO.** Fiyat (~46–47 TL) OYAK Yatırım'ın 29,98 TL hedefinin çok
-üzerinde; 52 haftalık zirvenin üstünde spekülatif fiyatlama. Temel değerlemeyle desteklenmeyen
-prim riski yüksek.
-
-**KRSTL — Kristal Kola.** Küçük ölçek, sınırlı kurumsal takip, son seansta %8'i aşan düşüş ve
-yüksek oynaklık. Spekülatif karakterli; temel analizle pozisyon gerekçelendirmek zor.
-
-**TUREX — Tureks Turizm.** İki ayda 15,86 → 50,95 TL yükselişin ardından art arda taban
-serileriyle ~7 TL'ye çöküş; SPK'ya yatırımcı şikâyetleri mevcut, net kâr da geriliyor.
-Klasik "uçuran hisse" döngüsünün çözülme evresi — mevcut aşamada yüksek risk.
-
-## Ağustos 2026 İçin Sonuç
-
-Yatırıma en uygun görünenler (temel görünüm + analist konsensüsü + getiri potansiyeli):
-
-1. **SAHOL** — beklenti üstü kâr, yüksek hedef fiyat bandı, faiz döngüsü kaldıraçı
-2. **LOGO** — en yüksek yüzdesel getiri potansiyeli, yinelenen gelir modeli
-3. **SISE** — kurumların koruduğu AL tavsiyeleri, döngüsel toparlanma adayı
-4. **AEFES** — bilanço sonrası yukarı revizyonlar, defansif karakter
-5. *(Temettü/defansif tercih için)* **ENJSA**
-
-Kademeli alım (Eylül PPK öncesi/sonrası bölünmüş giriş) ve portföyde tek hisseye aşırı
-yoğunlaşmadan kaçınmak, kurumların "seçici ve kademeli" genel duruşuyla uyumludur.
-BAGFS, BASGZ, KRSTL ve TUREX bu dönemde temel analizle savunulması güç risk profilleri taşıyor.
+**Veri uyarısı:** KAP ve fintables'a doğrudan erişim bu ortamda ağ katmanında engellendiği için
+rakamlar arama dizinlerine yansıyan içeriklerden derlendi; tekil rakamlarda (özellikle KRSTL/YUNSA
+dönem atamaları, ENERY güncel fiyatı) kaynak çelişkileri raporda işaretlendi. İşlem öncesi KAP
+orijinal bildirimiyle teyit edilmelidir.
