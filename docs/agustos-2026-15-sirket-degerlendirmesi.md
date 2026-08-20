@@ -24,7 +24,11 @@ Aracı kurumlar 57–68 TL hedeflerle "AL" diyor; ben **şimdilik almam**. Neden
 2Ç26 FAVÖK yıllık **-%48,5** (marj %5,9'a düştü), iki çeyrek üst üste beklenti altı sonuç,
 **143,3 milyar TL net borç** (Mart'taki 132,3 milyardan yükseldi) ve doğrulama turunda teyit
 edilen kritik veri: **net borç/FAVÖK 5,8x'ten 7,4x'e çıktı** — bu, listedeki en yüksek kaldıraç.
-Geri alım programı Şubat'ta bitti ve yenilenmedi, cam ev eşyası segmenti zarar yazıyor. PD/DD 0,46 gerçekten ucuz ve Macaristan/Tarsus
+Geri alım programı Şubat'ta bitti ve yenilenmedi, cam ev eşyası segmenti zarar yazıyor.
+Teyitli iki ek sinyal daha: 1Y26'da faaliyet nakit akışı **negatife** döndü ve şirket 20 Ağustos'ta
+2029/2032 eurobondlarında **FAVÖK tanımının "düzeltilmiş FAVÖK" ile değiştirilmesi için tahvil
+yatırımcılarından onay istedi** — anapara/kupon/vade değişmiyor, ama kovenant esnekliği ihtiyacı
+tek başına bir stres işaretidir. PD/DD 0,46 gerçekten ucuz ve Macaristan/Tarsus
 kapasiteleri ile ABD soda yatırımı gerçek katalizörler — ama "ucuz" ile "dibe yakın" aynı şey
 değil. Marj dönüşünün rakamla (3Ç26) teyidini görmeden girmek, düşen bıçağı tutmak olur.
 İzleme listemin en üstünde; teyit gelirse hızla "al"a döner.
@@ -66,7 +70,9 @@ elde tutmayı ödüllendiriyor.
 CCI hacim +%9,8. Rusya'daki AB InBev Efes ortaklığına Rus devleti kayyım atadı (kararname
 30 Aralık tarihli — yani ~8 aydır bilinen ve kısmen fiyatlanmış bir risk; sonrasında şirketin
 adı/logosu da değiştirildi) ve varlıklar "finansal yatırımlar"a taşındı — bilançodaki değerin
-bir kısmı fiilen erişim dışı; Türkiye bira hacmi de %8 daralmış. Sonuç: alınabilir, fakat Rusya haber akışına açık
+bir kısmı fiilen erişim dışı; Türkiye bira hacmi de %8 daralmış. Ayrıca (teyitli) yönetim
+2Ç26 sonuçlarıyla birlikte **2026 bira hacmi ve marj beklentilerini aşağı revize etti** —
+geçmiş çeyrek iyi, ileri sinyal zayıf; bu yüzden pozisyon "sınırlı"nın da alt bandında tutulmalı. Sonuç: alınabilir, fakat Rusya haber akışına açık
 olduğu için portföyde sınırlı ağırlıkla.
 
 **5. TATGD — gerçek bir dönüşüm hikâyesi (küçük pozisyon).** İlk turda "pahalı" görünüyordu;
@@ -93,7 +99,11 @@ hepsi olumlu. Ama net kâr sadece +%2 (marj/parasal pozisyon baskısı), temett�
 **BRISA** — bilanço güçlü (net borç/FAVÖK 0,76x, 6 ayda 3 milyar TL borç ödendi) ve 2Ç26'da kâra
 dönüldü; ama net marj ~%1, 2025 zararı yüzünden temettü yok ve üstüne 6 milyar TL yeni tahvil
 ihracı geliyor. Canlı veri: fiyat 94 değil **79,40 TL** — bilanço sonrasında sert satılmış,
-piyasa da dönüşümü henüz satın almıyor. Birkaç çeyrek kanıt istiyor.
+piyasa da dönüşümü henüz satın almıyor. Kritik ek (teyitli): Rekabet Kurumu 10 Haziran'da
+Brisa'ya **1.019 milyar TL idari para cezası** kesti (peşin ödemede %25 indirimle ~764 milyon TL) —
+indirimli tutar bile 1Y26 net kârının ~2,9 katı ve ayrılan 392 milyon TL karşılığın üzerinde
+~372 milyon TL ek yük potansiyeli var. Fiyattaki sert düşüşün asıl açıklaması muhtemelen bu.
+Birkaç çeyrek kanıt istiyor.
 **BAKAB** — 1Ç26'da kâra dönüş (46 milyon TL) olumlu ama 2Ç26 bilançosu ortada yok ve canlı
 veriye göre 12 aylık kümülatif hâlâ zararda (TTM hisse başı kâr -0,40 TL). Fiyat 42,50 TL —
 önceki taslaktaki "52 haftalık zirvede" tespiti bayat veriymiş, gerçekte zirvenin (59,25) ~%28
@@ -101,9 +111,11 @@ altında. 2Ç26 açıklanınca yeniden bakarım.
 **GOLTS** — *(canlı veriyle "uzak dur"dan buraya taşındı)* Önceki taslaktaki "gerçek F/K çok
 daha yüksek" tespitim yanlış çıktı: canlı veriye göre 12 aylık hisse başı kâr 33,90 TL → F/K 8,2
 ve son 12 ay kârı (~580 milyon TL) 2025 tam yılının (187 milyon TL) çok üzerinde; PD/DD 0,5 ve
-%2,85 temettü verimi de var. Yani kâğıt sanıldığından ucuz. Ama alım için değil izleme için:
-klinker kapasitesinin %35'ini taşıyan fırının duruşu (6 hafta uzatıldı) 3Ç26 rakamlarına
-yansıyacak — o bilançoyu görmeden girmem. Fiyat 321 TL, 52 haftalık zirvenin (468) ~%31 altında.
+%2,85 temettü verimi de var. Yani kâğıt sanıldığından ucuz. Fırın konusunda düzeltme (teyitli):
+duruş **planlı revizyondu ve erken tamamlanarak fırın Temmuz başında yeniden devreye girdi** —
+önceki taslaktaki "duruş uzatıldı, 3Ç26'yı vuracak" endişesi bayat habere dayanıyormuş. 1Y26 net
+kârı 260,9 milyon TL (+%869) ile güçlü. Bu düzeltmeyle GOLTS izleme listemin en üstünde, alım
+adayı: 3Ç26'da marjın korunduğu görülürse girilebilir. Fiyat 321 TL, zirvenin (468) ~%31 altında.
 
 ### Uzak durduklarım
 
