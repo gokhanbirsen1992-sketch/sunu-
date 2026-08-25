@@ -1,162 +1,176 @@
-# Çocuk Gastroenteroloji Ders Programı — 2026–2027 Dönemi
+# Çocuk Gastroenteroloji Akademik Ders Programı — 2026–2027 Dönemi
 
 **Dönem:** 15 Eylül 2026 – 15 Haziran 2027
-**Ders günleri:** Salı ve Perşembe
-**Toplam ders günü:** 79 (1 resmî tatil, 3 beklenen dini bayram/telafi günü dahil)
+**Ders günleri:** Salı ve Perşembe (45–60 dk/oturum; olgu saatleri ve pratik oturumlar 60 dk)
+**Hedef kitle:** Çocuk gastroenteroloji yan dal araştırma görevlileri (fellow) ve öğretim üyeleri
+**Toplam takvim günü:** 79 — 75 eğitim oturumu, 1 resmî tatil, 3 beklenen dini bayram/telafi günü
+
+## Oturum Formatları ve Düzeyler
+
+| Kısaltma | Format |
+|---|---|
+| D | Didaktik ders |
+| OT | Olgu temelli tartışma |
+| JC | Journal Club (kritik makale değerlendirme) |
+| KO | Kılavuz okuma oturumu (ESPGHAN / NASPGHAN / AASLD) |
+| P | Pratik / beceri oturumu (test yorumlama, histopatoloji, ortak disiplin) |
+
+**Düzey:** Ç = Fellow çekirdek müfredatı, İ = İleri düzey (kıdemli fellow / öğretim üyesi semineri)
 
 ## Modül Özeti
 
-| Modül | Konu Alanı | Dönem |
-|---|---|---|
-| 1 | Giriş ve Temel Bilimler | Eylül |
-| 2 | Semptomlara Yaklaşım | Ekim |
-| 3 | Özofagus ve Mide Hastalıkları | Ekim – Kasım |
-| 4 | İnce Bağırsak ve Malabsorpsiyon | Kasım |
-| 5 | Çölyak, Besin Alerjileri ve İnflamatuvar Bağırsak Hastalıkları | Aralık |
-| 6 | Fonksiyonel GİS Hastalıkları ve Motilite | Ocak |
-| 7 | Pankreas Hastalıkları | Şubat |
-| 8 | Hepatoloji | Şubat – Nisan |
-| 9 | Beslenme | Nisan – Mayıs |
-| 10 | Endoskopi ve Özel Konular | Mayıs – Haziran |
+| Modül | Konu Alanı | Dönem | Oturum |
+|---|---|---|---|
+| 1 | Temel Bilimler | Eylül | 5 |
+| 2 | Semptomlara Yaklaşım ve Görüntüleme | Ekim | 8 |
+| 3 | Özofagus ve Mide | Kasım | 8 |
+| 4 | İnce Bağırsak, Malabsorpsiyon, Çölyak ve Besin Alerjileri | Aralık | 10 |
+| 5 | İnflamatuvar Bağırsak Hastalıkları | Ocak | 8 |
+| 6 | Fonksiyonel GİS Hastalıkları ve Motilite | Şubat | 8 |
+| 7 | Pankreas | Mart | 2 |
+| 8 | Hepatoloji ve Safra Yolları | Mart – Mayıs | 16 |
+| 9 | Beslenme | Mayıs | 5 |
+| 10 | Endoskopi, Özel Konular ve Kapanış | Haziran | 5 |
 
 ---
 
 ## Haftalık Program
 
-### Eylül 2026 — Modül 1: Giriş ve Temel Bilimler
+### Eylül 2026 — Modül 1: Temel Bilimler
 
-| # | Tarih | Gün | Konu |
-|---|---|---|---|
-| 1 | 15 Eylül 2026 | Salı | Programa giriş, dönem hedefleri; GİS embriyolojisi ve gelişimi |
-| 2 | 17 Eylül 2026 | Perşembe | GİS anatomisi ve histolojisi |
-| 3 | 22 Eylül 2026 | Salı | GİS fizyolojisi: sindirim ve emilim mekanizmaları |
-| 4 | 24 Eylül 2026 | Perşembe | GİS immünolojisi ve bağırsak bariyeri |
-| 5 | 29 Eylül 2026 | Salı | Çocukta karın ağrısına yaklaşım (akut ve kronik) |
+| # | Tarih | Gün | Konu | Format | Düzey |
+|---|---|---|---|---|---|
+| 1 | 15 Eylül | Salı | Açılış: program hedefleri ve fellow yetkinlik çerçevesi; GİS embriyolojisi ve gelişimsel anomalilere genel bakış | D | Ç |
+| 2 | 17 Eylül | Perşembe | GİS anatomi ve histolojisi: endoskopik-mikroskobik korelasyon | D | Ç |
+| 3 | 22 Eylül | Salı | Sindirim fizyolojisi I: motilite, sekresyon, sindirim | D | Ç |
+| 4 | 24 Eylül | Perşembe | Sindirim fizyolojisi II: makro/mikro besin emilimi, enterohepatik dolaşım | D | Ç |
+| 5 | 29 Eylül | Salı | GİS immünolojisi, bağırsak bariyeri ve mikrobiyotaya giriş | D | Ç |
 
-### Ekim 2026 — Modül 2: Semptomlara Yaklaşım / Modül 3 Başlangıcı
+### Ekim 2026 — Modül 2: Semptomlara Yaklaşım ve Görüntüleme
 
-| # | Tarih | Gün | Konu |
-|---|---|---|---|
-| 6 | 1 Ekim 2026 | Perşembe | Kusma ve bulantıya yaklaşım |
-| 7 | 6 Ekim 2026 | Salı | Akut ishale yaklaşım ve dehidratasyon yönetimi |
-| 8 | 8 Ekim 2026 | Perşembe | Kronik ishale yaklaşım |
-| 9 | 13 Ekim 2026 | Salı | Kabızlığa yaklaşım |
-| 10 | 15 Ekim 2026 | Perşembe | GİS kanamalı çocuğa yaklaşım (üst ve alt GİS) |
-| 11 | 20 Ekim 2026 | Salı | Disfaji, odinofaji ve yutma bozuklukları |
-| 12 | 22 Ekim 2026 | Perşembe | Gastroözofageal reflü ve reflü hastalığı (GÖRH) |
-| 13 | 27 Ekim 2026 | Salı | Eozinofilik özofajit ve eozinofilik GİS hastalıkları |
-| — | 29 Ekim 2026 | Perşembe | **Cumhuriyet Bayramı — ders yok** |
+| # | Tarih | Gün | Konu | Format | Düzey |
+|---|---|---|---|---|---|
+| 6 | 1 Ekim | Perşembe | Akut ve kronik karın ağrısı: ayırıcı tanı, alarm bulguları | OT | Ç |
+| 7 | 6 Ekim | Salı | Kusmalı çocuğa yaklaşım: yaşa göre ayırıcı tanı | OT | Ç |
+| 8 | 8 Ekim | Perşembe | Akut ishal: enfeksiyöz etiyoloji, dehidratasyon ve ORS yönetimi | D | Ç |
+| 9 | 13 Ekim | Salı | Kronik ishale basamaklı yaklaşım; bağırsak parazitozları | OT | Ç |
+| 10 | 15 Ekim | Perşembe | Kabızlık ve dışkılama bozukluklarına ilk yaklaşım | OT | Ç |
+| 11 | 20 Ekim | Salı | GİS kanaması: yaşa göre ayırıcı tanı ve akut yönetim | OT | Ç |
+| 12 | 22 Ekim | Perşembe | Disfaji-odinofaji; beslenme güçlüğü olan süt çocuğu | OT | Ç |
+| 13 | 27 Ekim | Salı | Pediatrik GİS'te görüntüleme: hangi test, ne zaman? (radyoloji ile ortak oturum) | P | Ç |
+| — | 29 Ekim | Perşembe | **Cumhuriyet Bayramı — ders yok** | | |
 
-### Kasım 2026 — Modül 3: Özofagus-Mide / Modül 4: İnce Bağırsak
+### Kasım 2026 — Modül 3: Özofagus ve Mide
 
-| # | Tarih | Gün | Konu |
-|---|---|---|---|
-| 14 | 3 Kasım 2026 | Salı | Özofagus anomalileri (atrezi, TÖF), akalazya ve özofagus motilite bozuklukları |
-| 15 | 5 Kasım 2026 | Perşembe | Koroziv madde alımı ve GİS yabancı cisimleri |
-| 16 | 10 Kasım 2026 | Salı | Helicobacter pylori enfeksiyonu |
-| 17 | 12 Kasım 2026 | Perşembe | Gastritler ve peptik ülser hastalığı |
-| 18 | 17 Kasım 2026 | Salı | GİS enfeksiyonları ve bağırsak parazitozları |
-| 19 | 19 Kasım 2026 | Perşembe | Malabsorpsiyon sendromlarına genel yaklaşım |
-| 20 | 24 Kasım 2026 | Salı | Karbonhidrat malabsorpsiyonları ve laktoz intoleransı |
-| 21 | 26 Kasım 2026 | Perşembe | Konjenital ishaller ve enteropatiler |
+| # | Tarih | Gün | Konu | Format | Düzey |
+|---|---|---|---|---|---|
+| 14 | 3 Kasım | Salı | GÖR ve GÖRH: tanı, medikal tedavi, fundoplikasyon endikasyonları | D | Ç |
+| 15 | 5 Kasım | Perşembe | pH-metre, pH-impedans ve özofagus manometrisi: trase yorumlama pratiği | P | İ |
+| 16 | 10 Kasım | Salı | Eozinofilik özofajit ve eozinofilik GİS hastalıkları | D | Ç |
+| 17 | 12 Kasım | Perşembe | Özofagus anomalileri ve akalazya; koroziv özofajit ve yabancı cisimler | D | Ç |
+| 18 | 17 Kasım | Salı | Helicobacter pylori: ESPGHAN/NASPGHAN kılavuzu eşliğinde tanı ve tedavi | KO | Ç |
+| 19 | 19 Kasım | Perşembe | Gastritler, peptik ülser ve mide çıkış obstrüksiyonları | D | Ç |
+| 20 | 24 Kasım | Salı | Olgu saati I: özofagus-mide olguları | OT | Ç |
+| 21 | 26 Kasım | Perşembe | Journal Club I: makale nasıl okunur — kritik değerlendirme yöntemi | JC | Ç |
 
-### Aralık 2026 — Modül 5: Çölyak, Besin Alerjileri ve İBH
+### Aralık 2026 — Modül 4: İnce Bağırsak, Malabsorpsiyon, Çölyak ve Besin Alerjileri
 
-| # | Tarih | Gün | Konu |
-|---|---|---|---|
-| 22 | 1 Aralık 2026 | Salı | Çölyak hastalığı: patogenez ve klinik bulgular |
-| 23 | 3 Aralık 2026 | Perşembe | Çölyak hastalığı: tanı, tedavi ve izlem (ESPGHAN kriterleri) |
-| 24 | 8 Aralık 2026 | Salı | Besin alerjileri ve inek sütü protein alerjisi |
-| 25 | 10 Aralık 2026 | Perşembe | FPIES ve diğer non-IgE aracılı besin reaksiyonları |
-| 26 | 15 Aralık 2026 | Salı | İnflamatuvar bağırsak hastalıkları: epidemiyoloji ve patogenez |
-| 27 | 17 Aralık 2026 | Perşembe | Crohn hastalığı: klinik, tanı ve sınıflama |
-| 28 | 22 Aralık 2026 | Salı | Ülseratif kolit: klinik, tanı ve sınıflama |
-| 29 | 24 Aralık 2026 | Perşembe | Çok erken başlangıçlı İBH (VEO-IBD) ve monogenik nedenler |
-| 30 | 29 Aralık 2026 | Salı | İBH tedavisi: konvansiyonel tedaviler ve biyolojik ajanlar |
-| 31 | 31 Aralık 2026 | Perşembe | İBH izlemi, komplikasyonlar ve cerrahi endikasyonlar; Olgu sunumları I |
+| # | Tarih | Gün | Konu | Format | Düzey |
+|---|---|---|---|---|---|
+| 22 | 1 Aralık | Salı | Malabsorpsiyona yaklaşım; karbonhidrat malabsorpsiyonları (laktoz, fruktoz, sükraz-izomaltaz) | D | Ç |
+| 23 | 3 Aralık | Perşembe | Konjenital ishaller ve enteropatiler | D | İ |
+| 24 | 8 Aralık | Salı | İmmün baskılanmış çocukta GİS: primer immün yetmezlikler, GVHD, nötropenik enterokolit | D | İ |
+| 25 | 10 Aralık | Perşembe | Çölyak hastalığı I: patogenez, genetik ve klinik spektrum | D | Ç |
+| 26 | 15 Aralık | Salı | Çölyak hastalığı II: seroloji, histoloji, ESPGHAN tanı algoritması, izlem ve diyet uyumu | KO | Ç |
+| 27 | 17 Aralık | Perşembe | İnek sütü protein alerjisi ve IgE aracılı besin alerjileri | D | Ç |
+| 28 | 22 Aralık | Salı | Non-IgE aracılı reaksiyonlar: FPIES, alerjik proktokolit, enteropati | D | Ç |
+| 29 | 24 Aralık | Perşembe | Protein kaybettiren enteropati ve intestinal lenfanjiektazi | D | İ |
+| 30 | 29 Aralık | Salı | Olgu saati II: malabsorpsiyon ve çölyak olguları | OT | Ç |
+| 31 | 31 Aralık | Perşembe | GİS histopatolojisi I: ince bağırsak biyopsisi yorumlama (patoloji ile ortak oturum) | P | İ |
 
-### Ocak 2027 — Modül 6: Fonksiyonel GİS Hastalıkları ve Motilite
+### Ocak 2027 — Modül 5: İnflamatuvar Bağırsak Hastalıkları
 
-| # | Tarih | Gün | Konu |
-|---|---|---|---|
-| 32 | 5 Ocak 2027 | Salı | Roma IV kriterleri; fonksiyonel GİS hastalıklarına genel bakış |
-| 33 | 7 Ocak 2027 | Perşembe | Süt çocuğunda fonksiyonel bozukluklar: infantil kolik, regürjitasyon, diskezi |
-| 34 | 12 Ocak 2027 | Salı | Fonksiyonel karın ağrısı ve irritabl bağırsak sendromu |
-| 35 | 14 Ocak 2027 | Perşembe | Fonksiyonel kabızlık, dışkılama bozuklukları ve enkoprezis |
-| 36 | 19 Ocak 2027 | Salı | Siklik kusma sendromu, ruminasyon ve aerofaji |
-| 37 | 21 Ocak 2027 | Perşembe | Hirschsprung hastalığı |
-| 38 | 26 Ocak 2027 | Salı | Kronik intestinal psödo-obstrüksiyon ve bağırsak motilite bozuklukları |
-| 39 | 28 Ocak 2027 | Perşembe | Makale saati (Journal Club) I |
+| # | Tarih | Gün | Konu | Format | Düzey |
+|---|---|---|---|---|---|
+| 32 | 5 Ocak | Salı | İBH: epidemiyoloji, genetik ve patogenez | D | Ç |
+| 33 | 7 Ocak | Perşembe | Crohn hastalığı: klinik, Paris sınıflaması, tanısal değerlendirme | D | Ç |
+| 34 | 12 Ocak | Salı | Ülseratif kolit: klinik, tanı; akut şiddetli kolit yönetimi | D | Ç |
+| 35 | 14 Ocak | Perşembe | Çok erken başlangıçlı İBH (VEO-IBD) ve monogenik nedenler | D | İ |
+| 36 | 19 Ocak | Salı | İBH tedavisi I: ekslusif enteral beslenme, 5-ASA, kortikosteroidler, immünomodülatörler | D | Ç |
+| 37 | 21 Ocak | Perşembe | İBH tedavisi II: biyolojik ajanlar, küçük moleküller, treat-to-target stratejisi | D | İ |
+| 38 | 26 Ocak | Salı | İBH: ekstraintestinal bulgular, komplikasyonlar, cerrahi, aşılama ve erişkine geçiş | D | Ç |
+| 39 | 28 Ocak | Perşembe | Olgu saati III: İBH olguları | OT | Ç |
 
-### Şubat 2027 — Modül 7: Pankreas / Modül 8: Hepatoloji Başlangıcı
+### Şubat 2027 — Modül 6: Fonksiyonel GİS Hastalıkları ve Motilite
 
-| # | Tarih | Gün | Konu |
-|---|---|---|---|
-| 40 | 2 Şubat 2027 | Salı | Akut pankreatit |
-| 41 | 4 Şubat 2027 | Perşembe | Kronik pankreatit ve ekzokrin pankreas yetmezliği |
-| 42 | 9 Şubat 2027 | Salı | Kistik fibroziste GİS ve pankreas tutulumu |
-| 43 | 11 Şubat 2027 | Perşembe | Karaciğer fonksiyon testleri ve hiperbilirubinemili çocuğa yaklaşım |
-| 44 | 16 Şubat 2027 | Salı | Yenidoğan kolestazına yaklaşım |
-| 45 | 18 Şubat 2027 | Perşembe | Biliyer atrezi ve koledok kistleri |
-| 46 | 23 Şubat 2027 | Salı | Progresif familyal intrahepatik kolestaz (PFIC) ve Alagille sendromu |
-| 47 | 25 Şubat 2027 | Perşembe | Olgu sunumları II |
+| # | Tarih | Gün | Konu | Format | Düzey |
+|---|---|---|---|---|---|
+| 40 | 2 Şubat | Salı | Roma IV kriterleri; beyin-bağırsak etkileşimi bozukluklarına genel bakış | D | Ç |
+| 41 | 4 Şubat | Perşembe | Süt çocuğu fonksiyonel bozuklukları: infantil kolik, regürjitasyon, diskezi | OT | Ç |
+| 42 | 9 Şubat | Salı | Fonksiyonel karın ağrısı bozuklukları ve İBS: biyopsikososyal yönetim | D | Ç |
+| 43 | 11 Şubat | Perşembe | Fonksiyonel kabızlık ve enkoprezis; tedaviye dirençli kabızlık | OT | Ç |
+| 44 | 16 Şubat | Salı | Siklik kusma sendromu, ruminasyon, aerofaji ve gastroparezi | D | Ç |
+| 45 | 18 Şubat | Perşembe | Hirschsprung hastalığı ve anorektal malformasyonlar; anorektal manometri | P | Ç |
+| 46 | 23 Şubat | Salı | Kronik intestinal psödo-obstrüksiyon; kolonik ve antroduodenal manometri | D | İ |
+| 47 | 25 Şubat | Perşembe | Journal Club II + fellow araştırma projeleri ara değerlendirmesi | JC | Ç |
 
-### Mart 2027 — Modül 8: Hepatoloji
+### Mart 2027 — Modül 7: Pankreas / Modül 8: Hepatolojiye Giriş
 
-| # | Tarih | Gün | Konu |
-|---|---|---|---|
-| 48 | 2 Mart 2027 | Salı | Viral hepatitler: Hepatit A ve E |
-| 49 | 4 Mart 2027 | Perşembe | Viral hepatitler: Hepatit B, C ve D |
-| 50 | 9 Mart 2027 | Salı | *Ramazan Bayramı (beklenen)* — telafi/serbest çalışma günü |
-| 51 | 11 Mart 2027 | Perşembe | *Ramazan Bayramı (beklenen)* — telafi/serbest çalışma günü |
-| 52 | 16 Mart 2027 | Salı | Otoimmün hepatit ve primer sklerozan kolanjit |
-| 53 | 18 Mart 2027 | Perşembe | Wilson hastalığı |
-| 54 | 23 Mart 2027 | Salı | Metabolik karaciğer hastalıkları (galaktozemi, tirozinemi, glikojen depo hastalıkları) |
-| 55 | 25 Mart 2027 | Perşembe | Çocukta yağlı karaciğer hastalığı (MASLD/NAFLD) |
-| 56 | 30 Mart 2027 | Salı | Akut karaciğer yetmezliği |
+| # | Tarih | Gün | Konu | Format | Düzey |
+|---|---|---|---|---|---|
+| 48 | 2 Mart | Salı | Akut pankreatit; ekzokrin pankreas fonksiyon testleri | D | Ç |
+| 49 | 4 Mart | Perşembe | Akut rekürren ve kronik pankreatit, genetik; ekzokrin yetmezlik ve kistik fibrozis | D | Ç |
+| — | 9 Mart | Salı | *Ramazan Bayramı (beklenen)* — telafi/serbest çalışma günü | | |
+| — | 11 Mart | Perşembe | *Ramazan Bayramı (beklenen)* — telafi/serbest çalışma günü | | |
+| 50 | 16 Mart | Salı | Karaciğer fonksiyon testleri ve hiperbilirubinemiye yaklaşım; noninvaziv fibroz değerlendirme (elastografi) | D | Ç |
+| 51 | 18 Mart | Perşembe | Yenidoğan kolestazına sistematik yaklaşım | D | Ç |
+| 52 | 23 Mart | Salı | Biliyer atrezi, koledok kisti ve safra yolu hastalıkları; safra taşları | D | Ç |
+| 53 | 25 Mart | Perşembe | Genetik kolestatik hastalıklar: PFIC, Alagille; IBAT inhibitörleri ve yeni tedaviler | D | İ |
+| 54 | 30 Mart | Salı | Hepatit A ve E; akut viral hepatit yönetimi | D | Ç |
 
-### Nisan 2027 — Modül 8: Hepatoloji Devamı / Modül 9: Beslenme
+### Nisan 2027 — Modül 8: Hepatoloji
 
-| # | Tarih | Gün | Konu |
-|---|---|---|---|
-| 57 | 1 Nisan 2027 | Perşembe | Siroz, portal hipertansiyon ve komplikasyonları |
-| 58 | 6 Nisan 2027 | Salı | Karaciğer transplantasyonu: endikasyonlar, hazırlık ve izlem |
-| 59 | 8 Nisan 2027 | Perşembe | Karaciğer kitleleri ve tümörleri |
-| 60 | 13 Nisan 2027 | Salı | Safra taşları ve safra kesesi hastalıkları |
-| 61 | 15 Nisan 2027 | Perşembe | İlaç ve toksinlere bağlı karaciğer hasarı |
-| 62 | 20 Nisan 2027 | Salı | Olgu sunumları III |
-| 63 | 22 Nisan 2027 | Perşembe | Sağlıklı çocukta beslenme: anne sütü ve tamamlayıcı beslenme |
-| 64 | 27 Nisan 2027 | Salı | Malnütrisyon: değerlendirme, sınıflama ve yönetim |
-| 65 | 29 Nisan 2027 | Perşembe | Çocukluk çağı obezitesi ve metabolik sendrom |
+| # | Tarih | Gün | Konu | Format | Düzey |
+|---|---|---|---|---|---|
+| 55 | 1 Nisan | Perşembe | Hepatit B ve D: doğal seyir, tedavi endikasyonları, perinatal korunma | D | Ç |
+| 56 | 6 Nisan | Salı | Hepatit C ve diğer hepatotrop virüsler; direkt etkili antiviraller | D | Ç |
+| 57 | 8 Nisan | Perşembe | Otoimmün hepatit ve otoimmün sklerozan kolanjit | D | Ç |
+| 58 | 13 Nisan | Salı | Wilson hastalığı ve alfa-1 antitripsin eksikliği | D | Ç |
+| 59 | 15 Nisan | Perşembe | Metabolik karaciğer hastalıkları: galaktozemi, tirozinemi, fruktozemi, glikojen depo, mitokondriyal hepatopatiler | D | İ |
+| 60 | 20 Nisan | Salı | Çocukta yağlı karaciğer hastalığı (MASLD) ve obeziteyle ilişkili karaciğer hastalığı | D | Ç |
+| 61 | 22 Nisan | Perşembe | Akut karaciğer yetmezliği | D | Ç |
+| 62 | 27 Nisan | Salı | Portal hipertansiyon ve siroz komplikasyonları: varis kanaması, asit, SBP, hepatorenal sendrom, ensefalopati | D | Ç |
+| 63 | 29 Nisan | Perşembe | Karaciğer transplantasyonu: endikasyon, zamanlama, immünosüpresyon ve uzun dönem izlem | D | İ |
 
-### Mayıs 2027 — Modül 9: Beslenme / Modül 10: Endoskopi
+### Mayıs 2027 — Modül 8 Kapanış / Modül 9: Beslenme
 
-| # | Tarih | Gün | Konu |
-|---|---|---|---|
-| 66 | 4 Mayıs 2027 | Salı | Enteral beslenme: endikasyonlar, ürünler ve uygulama teknikleri |
-| 67 | 6 Mayıs 2027 | Perşembe | Parenteral beslenme ve intestinal yetmezlik |
-| 68 | 11 Mayıs 2027 | Salı | Kısa bağırsak sendromu ve intestinal rehabilitasyon |
-| 69 | 13 Mayıs 2027 | Perşembe | Vitamin ve eser element eksiklikleri |
-| 70 | 18 Mayıs 2027 | Salı | *Kurban Bayramı (beklenen)* — telafi/serbest çalışma günü |
-| 71 | 20 Mayıs 2027 | Perşembe | Pediatrik endoskopi: endikasyonlar, hazırlık ve temel teknikler |
-| 72 | 25 Mayıs 2027 | Salı | Girişimsel endoskopi: PEG, dilatasyon, polipektomi, ERCP ve EUS |
-| 73 | 27 Mayıs 2027 | Perşembe | GİS polipleri ve polipozis sendromları |
+| # | Tarih | Gün | Konu | Format | Düzey |
+|---|---|---|---|---|---|
+| 64 | 4 Mayıs | Salı | Karaciğer kitleleri; karaciğer biyopsisi endikasyonları ve histopatoloji II (patoloji ile ortak oturum) | P | İ |
+| 65 | 6 Mayıs | Perşembe | Olgu saati IV: hepatoloji olguları | OT | Ç |
+| 66 | 11 Mayıs | Salı | Sağlıklı çocukta beslenme: anne sütü, tamamlayıcı beslenme, büyüme izlemi | D | Ç |
+| 67 | 13 Mayıs | Perşembe | Malnütrisyon; nörolojik engelli çocukta beslenme ve GİS sorunları | D | Ç |
+| — | 18 Mayıs | Salı | *Kurban Bayramı (beklenen)* — telafi/serbest çalışma günü | | |
+| 68 | 20 Mayıs | Perşembe | Enteral beslenme ve beslenme destek ekibi; vitamin ve eser element eksiklikleri | D | Ç |
+| 69 | 25 Mayıs | Salı | Parenteral beslenme, intestinal yetmezlik ve kısa bağırsak sendromu; intestinal rehabilitasyon ve transplantasyon | D | İ |
+| 70 | 27 Mayıs | Perşembe | Obezite, metabolik sendrom ve adölesanda bariatrik yaklaşımlar | D | Ç |
 
-### Haziran 2027 — Modül 10: Özel Konular ve Kapanış
+### Haziran 2027 — Modül 10: Endoskopi, Özel Konular ve Kapanış
 
-| # | Tarih | Gün | Konu |
-|---|---|---|---|
-| 74 | 1 Haziran 2027 | Salı | Protein kaybettiren enteropati ve intestinal lenfanjiektazi |
-| 75 | 3 Haziran 2027 | Perşembe | Bağırsak mikrobiyotası, probiyotikler ve fekal mikrobiyota transplantasyonu |
-| 76 | 8 Haziran 2027 | Salı | Makale saati (Journal Club) II; Olgu sunumları IV |
-| 77 | 10 Haziran 2027 | Perşembe | Genel tekrar ve dönem sonu değerlendirme sınavı |
-| 78 | 15 Haziran 2027 | Salı | Sınav geri bildirimi, program değerlendirmesi ve dönem kapanışı |
+| # | Tarih | Gün | Konu | Format | Düzey |
+|---|---|---|---|---|---|
+| 71 | 1 Haziran | Salı | Pediatrik endoskopi: endikasyonlar, sedasyon, komplikasyonlar ve eğitim standartları | D | Ç |
+| 72 | 3 Haziran | Perşembe | Girişimsel endoskopi: PEG, dilatasyon, polipektomi, kanama kontrolü; pediatride ERCP ve EUS | D | İ |
+| 73 | 8 Haziran | Salı | Kapsül endoskopi ve enteroskopi; GİS polipleri ve polipozis sendromları | D | Ç |
+| 74 | 10 Haziran | Perşembe | Dönem sonu değerlendirme sınavı ve OSCE tarzı olgu istasyonları | — | Ç |
+| 75 | 15 Haziran | Salı | Sınav geri bildirimi, portfolyo değerlendirmesi, program geri bildirimi ve kapanış | — | Ç |
 
 ---
 
 ## Notlar
 
 - **29 Ekim 2026 Perşembe** Cumhuriyet Bayramı'na denk geldiği için ders yapılmayacaktır.
-- **9–11 Mart 2027** (Ramazan Bayramı) ve **18 Mayıs 2027** (Kurban Bayramı) tarihleri dini bayramların *beklenen* tarihleridir; Diyanet takvimi kesinleştiğinde bu günler telafi dersi veya serbest çalışma olarak güncellenmelidir.
-- Olgu sunumu ve makale saati oturumları, kliniğin güncel vakalarına göre esnek biçimde kullanılabilir.
-- Her modül sonunda kısa bilgi değerlendirmesi (quiz) yapılması önerilir.
+- **9–11 Mart 2027** (Ramazan Bayramı) ve **18 Mayıs 2027** (Kurban Bayramı) beklenen tarihlerdir; Diyanet takvimi kesinleştiğinde telafi dersi/serbest çalışma olarak güncellenmelidir.
+- Olgu saatleri ve Journal Club oturumları kliniğin güncel vakalarına ve literatüre göre esnek kullanılabilir.
+- Her modül sonunda kısa bilgi değerlendirmesi (quiz) önerilir; dönem sonunda yazılı sınav + OSCE yapılır.
+- Ortak oturumlar (radyoloji, patoloji, çocuk cerrahisi) ilgili anabilim dallarıyla en az 4 hafta önceden planlanmalıdır.
