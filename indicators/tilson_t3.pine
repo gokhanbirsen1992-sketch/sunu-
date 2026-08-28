@@ -1,0 +1,112 @@
+//@version=6
+indicator("Tilson T3", overlay=true)
+
+// ============================================================
+// Tilson T3 moving average function
+// ============================================================
+_tilson(src, _len) =>
+    e1 = ta.ema(src, _len)
+    e2 = ta.ema(e1, _len)
+    e3 = ta.ema(e2, _len)
+    e4 = ta.ema(e3, _len)
+    e5 = ta.ema(e4, _len)
+    e6 = ta.ema(e5, _len)
+    ab  = 0.7
+    ab2 = ab * ab
+    ab3 = ab2 * ab
+    c1 = -ab3
+    c2 = 3 * ab2 + 3 * ab3
+    c3 = -6 * ab2 - 3 * ab - 3 * ab3
+    c4 = 1 + 3 * ab + ab3 + 3 * ab2
+    c1 * e6 + c2 * e5 + c3 * e4 + c4 * e3
+
+// ============================================================
+// T3 input settings
+// ============================================================
+showSet1 = input.bool(true, title="Show Set 1 (Short-Term)", group="T3 Display Options")
+showSet2 = input.bool(true, title="Show Set 2 (Mid-Term)", group="T3 Display Options")
+showSet3 = input.bool(true, title="Show Set 3 (Long-Term)", group="T3 Display Options")
+
+showGap1 = input.bool(false, title="Set 1 HL Gap", group="T3 HL Gap")
+showGap2 = input.bool(false, title="Set 2 HL Gap", group="T3 HL Gap")
+showGap3 = input.bool(false, title="Set 3 HL Gap", group="T3 HL Gap")
+
+len1Fast = input.int(6,   title="Fast", minval=1, group="T3 Set 1 (Short-Term)")
+len1Slow = input.int(8,   title="Slow", minval=1, group="T3 Set 1 (Short-Term)")
+len2Fast = input.int(30,  title="Fast", minval=1, group="T3 Set 2 (Mid-Term)")
+len2Slow = input.int(40,  title="Slow", minval=1, group="T3 Set 2 (Mid-Term)")
+len3Fast = input.int(480, title="Fast", minval=1, group="T3 Set 3 (Long-Term)")
+len3Slow = input.int(640, title="Slow", minval=1, group="T3 Set 3 (Long-Term)")
+
+// ============================================================
+// T3 calculation
+// ============================================================
+ma1Fast = _tilson(close, len1Fast)
+ma1Slow = _tilson(close, len1Slow)
+ma2Fast = _tilson(close, len2Fast)
+ma2Slow = _tilson(close, len2Slow)
+ma3Fast = _tilson(close, len3Fast)
+ma3Slow = _tilson(close, len3Slow)
+
+// Track the price level at each fast/slow crossover, used to draw the HL Gap
+var float h1A = na, var float h1B = na
+var float h2A = na, var float h2B = na
+var float h3A = na, var float h3B = na
+
+if ta.crossover(ma1Fast, ma1Slow)
+    h1A := ma1Fast
+if ta.crossunder(ma1Fast, ma1Slow)
+    h1B := ma1Fast
+if ta.crossover(ma2Fast, ma2Slow)
+    h2A := ma2Fast
+if ta.crossunder(ma2Fast, ma2Slow)
+    h2B := ma2Fast
+if ta.crossover(ma3Fast, ma3Slow)
+    h3A := ma3Fast
+if ta.crossunder(ma3Fast, ma3Slow)
+    h3B := ma3Fast
+
+highest1 = math.max(h1A, h1B)
+lowest1  = math.min(h1A, h1B)
+highest2 = math.max(h2A, h2B)
+lowest2  = math.min(h2A, h2B)
+highest3 = math.max(h3A, h3B)
+lowest3  = math.min(h3A, h3B)
+
+col1 = ma1Fast > ma1Slow ? color.new(color.blue,   50) :
+       ma1Fast < ma1Slow ? color.new(color.black,  70) : na
+col2 = ma2Fast > ma2Slow ? color.new(color.lime,   70) :
+       ma2Fast < ma2Slow ? color.new(color.purple, 70) : na
+col3 = ma3Fast > ma3Slow ? color.new(#0ba800,      60) :
+       ma3Fast < ma3Slow ? color.new(color.red,    60) : na
+
+gapCol1 = color.new(color.blue,   70)
+gapCol2 = color.new(color.orange, 70)
+gapCol3 = color.new(color.yellow, 70)
+
+// ============================================================
+// Plot - T3
+// ============================================================
+p1Fast = plot(showSet1 ? ma1Fast : na, title="Set1 Fast", color=color.new(color.gray, 100))
+p1Slow = plot(showSet1 ? ma1Slow : na, title="Set1 Slow", color=color.new(color.gray, 100))
+fill(p1Fast, p1Slow, color=showSet1 ? col1 : na, title="Set1 Fill")
+
+p1High = plot(showGap1 ? highest1 : na, title="Set1 High", color=color.new(color.gray, 100))
+p1Low  = plot(showGap1 ? lowest1  : na, title="Set1 Low",  color=color.new(color.gray, 100))
+fill(p1High, p1Low, color=showGap1 ? gapCol1 : na, title="Set1 HL Gap")
+
+p2Fast = plot(showSet2 ? ma2Fast : na, title="Set2 Fast", color=color.new(color.gray, 100))
+p2Slow = plot(showSet2 ? ma2Slow : na, title="Set2 Slow", color=color.new(color.gray, 100))
+fill(p2Fast, p2Slow, color=showSet2 ? col2 : na, title="Set2 Fill")
+
+p2High = plot(showGap2 ? highest2 : na, title="Set2 High", color=color.new(color.gray, 100))
+p2Low  = plot(showGap2 ? lowest2  : na, title="Set2 Low",  color=color.new(color.gray, 100))
+fill(p2High, p2Low, color=showGap2 ? gapCol2 : na, title="Set2 HL Gap")
+
+p3Fast = plot(showSet3 ? ma3Fast : na, title="Set3 Fast", color=color.new(color.gray, 100))
+p3Slow = plot(showSet3 ? ma3Slow : na, title="Set3 Slow", color=color.new(color.gray, 100))
+fill(p3Fast, p3Slow, color=showSet3 ? col3 : na, title="Set3 Fill")
+
+p3High = plot(showGap3 ? highest3 : na, title="Set3 High", color=color.new(color.gray, 100))
+p3Low  = plot(showGap3 ? lowest3  : na, title="Set3 Low",  color=color.new(color.gray, 100))
+fill(p3High, p3Low, color=showGap3 ? gapCol3 : na, title="Set3 HL Gap")
