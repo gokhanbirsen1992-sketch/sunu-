@@ -1,0 +1,109 @@
+//@version=6
+strategy("Tilson T3 Strategy", overlay=true,
+     initial_capital=100000,
+     default_qty_type=strategy.percent_of_equity, default_qty_value=10,
+     commission_type=strategy.commission.percent, commission_value=0.1)
+
+// ============================================================
+// Tilson T3 moving average function
+// ============================================================
+_tilson(src, _len) =>
+    e1 = ta.ema(src, _len)
+    e2 = ta.ema(e1, _len)
+    e3 = ta.ema(e2, _len)
+    e4 = ta.ema(e3, _len)
+    e5 = ta.ema(e4, _len)
+    e6 = ta.ema(e5, _len)
+    ab  = 0.7
+    ab2 = ab * ab
+    ab3 = ab2 * ab
+    c1 = -ab3
+    c2 = 3 * ab2 + 3 * ab3
+    c3 = -6 * ab2 - 3 * ab - 3 * ab3
+    c4 = 1 + 3 * ab + ab3 + 3 * ab2
+    c1 * e6 + c2 * e5 + c3 * e4 + c4 * e3
+
+// ============================================================
+// Inputs
+// ============================================================
+len1Fast = input.int(6,   title="Fast", minval=1, group="Set 1 - Tetik (Kisa Vade)")
+len1Slow = input.int(8,   title="Slow", minval=1, group="Set 1 - Tetik (Kisa Vade)")
+len2Fast = input.int(30,  title="Fast", minval=1, group="Set 2 - Filtre (Orta Vade)")
+len2Slow = input.int(40,  title="Slow", minval=1, group="Set 2 - Filtre (Orta Vade)")
+len3Fast = input.int(480, title="Fast", minval=1, group="Set 3 - Filtre (Uzun Vade)")
+len3Slow = input.int(640, title="Slow", minval=1, group="Set 3 - Filtre (Uzun Vade)")
+
+useSet2Filter = input.bool(true,  title="Set 2 trend filtresi", group="Strateji Ayarlari")
+useSet3Filter = input.bool(false, title="Set 3 trend filtresi (cok bar gecmisi ister)", group="Strateji Ayarlari")
+allowShort    = input.bool(false, title="Short islemlere izin ver", group="Strateji Ayarlari")
+exitMode      = input.string("Set 1", title="Cikis sinyali", options=["Set 1", "Set 2"], group="Strateji Ayarlari")
+
+stopPct = input.float(3.0, title="Stop-loss % (0 = kapali)",   minval=0, step=0.5, group="Risk Yonetimi")
+tpPct   = input.float(0.0, title="Take-profit % (0 = kapali)", minval=0, step=0.5, group="Risk Yonetimi")
+
+// ============================================================
+// T3 calculation
+// ============================================================
+ma1Fast = _tilson(close, len1Fast)
+ma1Slow = _tilson(close, len1Slow)
+ma2Fast = _tilson(close, len2Fast)
+ma2Slow = _tilson(close, len2Slow)
+ma3Fast = _tilson(close, len3Fast)
+ma3Slow = _tilson(close, len3Slow)
+
+// ============================================================
+// Signals
+// ============================================================
+trendUp   = (not useSet2Filter or ma2Fast > ma2Slow) and (not useSet3Filter or ma3Fast > ma3Slow)
+trendDown = (not useSet2Filter or ma2Fast < ma2Slow) and (not useSet3Filter or ma3Fast < ma3Slow)
+
+longTrigger  = ta.crossover(ma1Fast, ma1Slow)
+shortTrigger = ta.crossunder(ma1Fast, ma1Slow)
+
+longExit  = exitMode == "Set 1" ? ta.crossunder(ma1Fast, ma1Slow) : ta.crossunder(ma2Fast, ma2Slow)
+shortExit = exitMode == "Set 1" ? ta.crossover(ma1Fast, ma1Slow)  : ta.crossover(ma2Fast, ma2Slow)
+
+// ============================================================
+// Orders
+// ============================================================
+if longTrigger and trendUp
+    strategy.entry("Long", strategy.long)
+if longExit and strategy.position_size > 0
+    strategy.close("Long")
+
+if allowShort and shortTrigger and trendDown
+    strategy.entry("Short", strategy.short)
+if allowShort and shortExit and strategy.position_size < 0
+    strategy.close("Short")
+
+// Percent-based stop-loss / take-profit on the open position
+if strategy.position_size > 0 and (stopPct > 0 or tpPct > 0)
+    strategy.exit("Long SL/TP", from_entry="Long",
+         stop  = stopPct > 0 ? strategy.position_avg_price * (1 - stopPct / 100) : na,
+         limit = tpPct   > 0 ? strategy.position_avg_price * (1 + tpPct   / 100) : na)
+if strategy.position_size < 0 and (stopPct > 0 or tpPct > 0)
+    strategy.exit("Short SL/TP", from_entry="Short",
+         stop  = stopPct > 0 ? strategy.position_avg_price * (1 + stopPct / 100) : na,
+         limit = tpPct   > 0 ? strategy.position_avg_price * (1 - tpPct   / 100) : na)
+
+// ============================================================
+// Plots
+// ============================================================
+col1 = ma1Fast > ma1Slow ? color.new(color.blue,   50) :
+       ma1Fast < ma1Slow ? color.new(color.black,  70) : na
+col2 = ma2Fast > ma2Slow ? color.new(color.lime,   70) :
+       ma2Fast < ma2Slow ? color.new(color.purple, 70) : na
+col3 = ma3Fast > ma3Slow ? color.new(#0ba800,      60) :
+       ma3Fast < ma3Slow ? color.new(color.red,    60) : na
+
+p1Fast = plot(ma1Fast, title="Set1 Fast", color=color.new(color.gray, 100))
+p1Slow = plot(ma1Slow, title="Set1 Slow", color=color.new(color.gray, 100))
+fill(p1Fast, p1Slow, color=col1, title="Set1 Fill")
+
+p2Fast = plot(ma2Fast, title="Set2 Fast", color=color.new(color.gray, 100))
+p2Slow = plot(ma2Slow, title="Set2 Slow", color=color.new(color.gray, 100))
+fill(p2Fast, p2Slow, color=col2, title="Set2 Fill")
+
+p3Fast = plot(useSet3Filter ? ma3Fast : na, title="Set3 Fast", color=color.new(color.gray, 100))
+p3Slow = plot(useSet3Filter ? ma3Slow : na, title="Set3 Slow", color=color.new(color.gray, 100))
+fill(p3Fast, p3Slow, color=useSet3Filter ? col3 : na, title="Set3 Fill")
