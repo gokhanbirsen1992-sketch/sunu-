@@ -41,6 +41,14 @@ esik = input.string("Alt kenar", title="Bant esigi (kapanis karsilastirmasi)",
      options=["Alt kenar", "Ust kenar"], group="Strateji",
      tooltip="Alt kenar: bant ici kapanis AL sayilir (toleransli). Ust kenar: bant ici kapanis SAT sayilir (siki).")
 
+useAdx   = input.bool(true, title="ADX trend filtresi", group="Giris dogrulama",
+     tooltip="ADX esigin altindaysa piyasa yatay kabul edilir, alim sinyali yok sayilir.")
+adxLen   = input.int(14, title="ADX periyodu", minval=1, group="Giris dogrulama")
+adxTh    = input.float(20, title="ADX esigi", minval=5, step=1, group="Giris dogrulama")
+useSlope = input.bool(true, title="Orta bant yukari egimli olsun", group="Giris dogrulama",
+     tooltip="Orta Tilson son barlarda yukselmiyorsa alim sinyali yok sayilir.")
+slopeLen = input.int(5, title="Egim bakis suresi (bar)", minval=1, group="Giris dogrulama")
+
 // ============================================================
 // Calculation
 // ============================================================
@@ -65,9 +73,16 @@ if (not shortSat or not precond) and strategy.position_size == 0
     armed := false
 
 // ============================================================
+// Giris dogrulama filtreleri
+// ============================================================
+[diPlus, diMinus, adxVal] = ta.dmi(adxLen, adxLen)
+adxOk   = not useAdx or (adxVal > adxTh and diPlus > diMinus)
+slopeOk = not useSlope or ma2Fast > ma2Fast[slopeLen]
+
+// ============================================================
 // Orders (kapanista sinyal, ertesi bar acilisinda islem)
 // ============================================================
-buySig  = armed and shortSat and close >= level and strategy.position_size == 0
+buySig  = armed and shortSat and close >= level and adxOk and slopeOk and strategy.position_size == 0
 sellSig = strategy.position_size > 0 and close < level
 
 if buySig
