@@ -93,3 +93,39 @@ fill(p2Fast, p2Slow, color=col2, title="Orta Bant")
 
 plot(level, title="Esik", color=color.new(color.orange, 40), linewidth=1)
 bgcolor(armed and strategy.position_size == 0 ? color.new(color.yellow, 92) : na, title="Izleme modu")
+
+// ============================================================
+// Ozet tablosu (grafik ustunde)
+// ============================================================
+// Maksimum dusus yuzdesini ozsermaye tepesine gore izle
+var float peakEq = strategy.initial_capital
+var float maxDdPct = 0.0
+peakEq := math.max(peakEq, strategy.equity)
+maxDdPct := math.min(maxDdPct, (strategy.equity - peakEq) / peakEq * 100)
+
+if barstate.islast
+    var table t = table.new(position.top_right, 2, 8, bgcolor=color.new(color.black, 15), border_width=1, border_color=color.new(color.gray, 60))
+    kazanma  = strategy.closedtrades > 0 ? strategy.wintrades / strategy.closedtrades * 100 : na
+    netPct   = strategy.netprofit / strategy.initial_capital * 100
+    ortPct   = strategy.closedtrades > 0 ? netPct / strategy.closedtrades : na
+    pf       = strategy.grossloss > 0 ? strategy.grossprofit / strategy.grossloss : na
+    acikPct  = strategy.openprofit / strategy.initial_capital * 100
+    npCol    = strategy.netprofit  >= 0 ? color.lime : color.red
+    opCol    = strategy.openprofit >= 0 ? color.lime : color.red
+
+    table.cell(t, 0, 0, "OZET",            text_color=color.white, text_size=size.small, bgcolor=color.new(color.blue, 40))
+    table.cell(t, 1, 0, syminfo.ticker + " · " + timeframe.period, text_color=color.white, text_size=size.small, bgcolor=color.new(color.blue, 40))
+    table.cell(t, 0, 1, "Islem sayisi",    text_color=color.silver, text_size=size.small)
+    table.cell(t, 1, 1, str.tostring(strategy.closedtrades), text_color=color.white, text_size=size.small)
+    table.cell(t, 0, 2, "Kazanan",         text_color=color.silver, text_size=size.small)
+    table.cell(t, 1, 2, str.tostring(strategy.wintrades) + " (%" + str.tostring(kazanma, "#.#") + ")", text_color=color.white, text_size=size.small)
+    table.cell(t, 0, 3, "Net kar/zarar",   text_color=color.silver, text_size=size.small)
+    table.cell(t, 1, 3, "%" + str.tostring(netPct, "#.##"), text_color=npCol, text_size=size.small)
+    table.cell(t, 0, 4, "Ort. islem",      text_color=color.silver, text_size=size.small)
+    table.cell(t, 1, 4, "%" + str.tostring(ortPct, "#.##"), text_color=color.white, text_size=size.small)
+    table.cell(t, 0, 5, "Profit factor",   text_color=color.silver, text_size=size.small)
+    table.cell(t, 1, 5, str.tostring(pf, "#.##"), text_color=color.white, text_size=size.small)
+    table.cell(t, 0, 6, "Maks. dusus",     text_color=color.silver, text_size=size.small)
+    table.cell(t, 1, 6, "%" + str.tostring(maxDdPct, "#.##"), text_color=color.orange, text_size=size.small)
+    table.cell(t, 0, 7, "Acik islem K/Z",  text_color=color.silver, text_size=size.small)
+    table.cell(t, 1, 7, strategy.position_size > 0 ? "%" + str.tostring(acikPct, "#.##") : "-", text_color=opCol, text_size=size.small)
