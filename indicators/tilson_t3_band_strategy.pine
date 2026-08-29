@@ -49,6 +49,17 @@ useSlope = input.bool(true, title="Orta bant yukari egimli olsun", group="Giris 
      tooltip="Orta Tilson son barlarda yukselmiyorsa alim sinyali yok sayilir.")
 slopeLen = input.int(5, title="Egim bakis suresi (bar)", minval=1, group="Giris dogrulama")
 
+useRegime = input.bool(true, title="Rejim filtresi (Faber: fiyat > uzun SMA)", group="Giris dogrulama",
+     tooltip="Fiyat uzun donem ortalamasinin altindayken hic alim yapilmaz. Buyuk dususleri disarida bekleyerek gecirir.")
+regimeLen = input.int(200, title="Rejim SMA periyodu", minval=10, group="Giris dogrulama")
+bufAtrK   = input.float(0.25, title="Giris tamponu (ATR carpani, 0 = kapali)", minval=0, step=0.05, group="Giris dogrulama",
+     tooltip="Kapanis, esigi en az bu kadar ATR asarak gecmeli. Bant kenarindaki testere sinyallerini eler.")
+
+useChand  = input.bool(true, title="Chandelier Exit (ATR iz suren stop)", group="Cikis",
+     tooltip="Girissten sonraki en yuksek tepeden N x ATR asagida iz suren stop. Kari kilitler, oynakliga uyum saglar.")
+chandLen  = input.int(22, title="Chandelier periyodu", minval=1, group="Cikis")
+chandMult = input.float(3.0, title="Chandelier ATR carpani", minval=0.5, step=0.5, group="Cikis")
+
 // ============================================================
 // Calculation
 // ============================================================
@@ -76,19 +87,37 @@ if (not shortSat or not precond) and strategy.position_size == 0
 // Giris dogrulama filtreleri
 // ============================================================
 [diPlus, diMinus, adxVal] = ta.dmi(adxLen, adxLen)
-adxOk   = not useAdx or (adxVal > adxTh and diPlus > diMinus)
-slopeOk = not useSlope or ma2Fast > ma2Fast[slopeLen]
+atr14    = ta.atr(14)
+adxOk    = not useAdx or (adxVal > adxTh and diPlus > diMinus)
+slopeOk  = not useSlope or ma2Fast > ma2Fast[slopeLen]
+regimeOk = not useRegime or close > ta.sma(close, regimeLen)
+bufOk    = close >= level + bufAtrK * atr14
 
 // ============================================================
 // Orders (kapanista sinyal, ertesi bar acilisinda islem)
 // ============================================================
-buySig  = armed and shortSat and close >= level and adxOk and slopeOk and strategy.position_size == 0
+buySig  = armed and shortSat and bufOk and adxOk and slopeOk and regimeOk and strategy.position_size == 0
 sellSig = strategy.position_size > 0 and close < level
 
 if buySig
     strategy.entry("Long", strategy.long)
 if sellSig
     strategy.close("Long")
+
+// Chandelier Exit: girissten sonraki en yuksek tepeden chandMult x ATR asagi,
+// sadece yukari cekilir (ratchet)
+chandAtr  = ta.atr(chandLen)
+rawStop   = ta.highest(high, chandLen) - chandMult * chandAtr
+var float trailStop = na
+if strategy.position_size > 0
+    trailStop := na(trailStop) ? rawStop : math.max(trailStop, rawStop)
+else
+    trailStop := na
+if useChand and strategy.position_size > 0
+    strategy.exit("Chandelier", from_entry="Long", stop=trailStop)
+
+plot(strategy.position_size > 0 and useChand ? trailStop : na, title="Chandelier Stop",
+     color=color.new(color.red, 30), style=plot.style_linebr)
 
 // ============================================================
 // Plots
