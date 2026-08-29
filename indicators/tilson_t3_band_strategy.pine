@@ -5,12 +5,10 @@ strategy("Tilson T3 Band Strategy", overlay=true,
      commission_type=strategy.commission.percent, commission_value=0.1)
 
 // Kurallar:
-//   On kosul : orta Tilson bandi uzun Tilson bandinin ustunde
-//   Kurulum  : orta Tilson AL'dan SAT durumuna gecince izlemeye basla
-//   AL       : fiyat bant esiginde ya da ustunde KAPANIRSA
-//   SAT      : fiyat bant esiginin altinda KAPANIRSA
-// "Bandinda kapanis" icin esik secilebilir: bant ALT kenari (toleransli)
-// veya UST kenari (siki).
+//   On kosul : kisa Tilson bandi (6/8) orta Tilson bandinin (30/40) ustunde
+//   Kurulum  : kisa Tilson AL'dan SAT durumuna gecince izlemeye basla
+//   AL       : fiyat kisa bant esiginde ya da ustunde KAPANIRSA
+//   SAT      : fiyat kisa bant esiginin altinda KAPANIRSA
 
 // ============================================================
 // Tilson T3 moving average function
@@ -34,10 +32,10 @@ _tilson(src, _len) =>
 // ============================================================
 // Inputs
 // ============================================================
-len2Fast = input.int(30,  title="Orta Fast", minval=1, group="Orta Tilson (sinyal bandi)")
-len2Slow = input.int(40,  title="Orta Slow", minval=1, group="Orta Tilson (sinyal bandi)")
-len3Fast = input.int(480, title="Uzun Fast", minval=1, group="Uzun Tilson (trend filtresi)")
-len3Slow = input.int(640, title="Uzun Slow", minval=1, group="Uzun Tilson (trend filtresi)")
+len1Fast = input.int(6,  title="Kisa Fast", minval=1, group="Kisa Tilson (sinyal bandi)")
+len1Slow = input.int(8,  title="Kisa Slow", minval=1, group="Kisa Tilson (sinyal bandi)")
+len2Fast = input.int(30, title="Orta Fast", minval=1, group="Orta Tilson (trend filtresi)")
+len2Slow = input.int(40, title="Orta Slow", minval=1, group="Orta Tilson (trend filtresi)")
 
 esik = input.string("Alt kenar", title="Bant esigi (kapanis karsilastirmasi)",
      options=["Alt kenar", "Ust kenar"], group="Strateji",
@@ -46,30 +44,30 @@ esik = input.string("Alt kenar", title="Bant esigi (kapanis karsilastirmasi)",
 // ============================================================
 // Calculation
 // ============================================================
+ma1Fast = _tilson(close, len1Fast)
+ma1Slow = _tilson(close, len1Slow)
 ma2Fast = _tilson(close, len2Fast)
 ma2Slow = _tilson(close, len2Slow)
-ma3Fast = _tilson(close, len3Fast)
-ma3Slow = _tilson(close, len3Slow)
 
-band2Lo = math.min(ma2Fast, ma2Slow)
+band1Lo = math.min(ma1Fast, ma1Slow)
+band1Hi = math.max(ma1Fast, ma1Slow)
 band2Hi = math.max(ma2Fast, ma2Slow)
-band3Hi = math.max(ma3Fast, ma3Slow)
 
-precond = band2Lo > band3Hi              // orta bant uzun bandin ustunde
-midSat  = ma2Fast < ma2Slow              // orta Tilson SAT durumunda
-level   = esik == "Alt kenar" ? band2Lo : band2Hi
+precond  = band1Lo > band2Hi             // kisa bant orta bandin ustunde
+shortSat = ma1Fast < ma1Slow             // kisa Tilson SAT durumunda
+level    = esik == "Alt kenar" ? band1Lo : band1Hi
 
-// Kurulum: orta Tilson AL'dan SAT'a gecti ve on kosul saglaniyor
+// Kurulum: kisa Tilson AL'dan SAT'a gecti ve on kosul saglaniyor
 var bool armed = false
-if ta.crossunder(ma2Fast, ma2Slow) and precond
+if ta.crossunder(ma1Fast, ma1Slow) and precond
     armed := true
-if (not midSat or not precond) and strategy.position_size == 0
+if (not shortSat or not precond) and strategy.position_size == 0
     armed := false
 
 // ============================================================
 // Orders (kapanista sinyal, ertesi bar acilisinda islem)
 // ============================================================
-buySig  = armed and midSat and close >= level and strategy.position_size == 0
+buySig  = armed and shortSat and close >= level and strategy.position_size == 0
 sellSig = strategy.position_size > 0 and close < level
 
 if buySig
@@ -80,18 +78,18 @@ if sellSig
 // ============================================================
 // Plots
 // ============================================================
+col1 = ma1Fast > ma1Slow ? color.new(color.blue,  60) :
+       ma1Fast < ma1Slow ? color.new(color.black, 70) : na
 col2 = ma2Fast > ma2Slow ? color.new(color.lime,   70) :
        ma2Fast < ma2Slow ? color.new(color.purple, 70) : na
-col3 = ma3Fast > ma3Slow ? color.new(#0ba800,      60) :
-       ma3Fast < ma3Slow ? color.new(color.red,    60) : na
+
+p1Fast = plot(ma1Fast, title="Kisa Fast", color=color.new(color.gray, 100))
+p1Slow = plot(ma1Slow, title="Kisa Slow", color=color.new(color.gray, 100))
+fill(p1Fast, p1Slow, color=col1, title="Kisa Bant")
 
 p2Fast = plot(ma2Fast, title="Orta Fast", color=color.new(color.gray, 100))
 p2Slow = plot(ma2Slow, title="Orta Slow", color=color.new(color.gray, 100))
 fill(p2Fast, p2Slow, color=col2, title="Orta Bant")
-
-p3Fast = plot(ma3Fast, title="Uzun Fast", color=color.new(color.gray, 100))
-p3Slow = plot(ma3Slow, title="Uzun Slow", color=color.new(color.gray, 100))
-fill(p3Fast, p3Slow, color=col3, title="Uzun Bant")
 
 plot(level, title="Esik", color=color.new(color.orange, 40), linewidth=1)
 bgcolor(armed and strategy.position_size == 0 ? color.new(color.yellow, 92) : na, title="Izleme modu")
