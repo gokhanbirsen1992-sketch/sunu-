@@ -158,6 +158,18 @@ Depo kökündeki `.mcp.json`, [BorsaMCP](https://borsamcp.fastmcp.app/mcp) MCP s
 (BIST/borsa verilerine erişim sağlayan araçlar). Depoyu Claude Code ile açtığınızda bu sunucunun
 araçları otomatik olarak kullanılabilir hale gelir; ayrıca kurulum gerekmez.
 
+## Zamanlama: "dipten al, tepeden sat" sınaması
+
+`zamanlama/` paketi, hareketli-ortalama zamanlaması, gecikme maliyeti (sinyal dipten ne kadar
+yukarıda alıyor, tepeden ne kadar aşağıda satıyor), yürüyen-pencere parametre kalıcılığı ve
+"mükemmel zamanlama" üst sınırını Shiller aylık S&P 500 verisinde (1871–2026) ölçer:
+
+```bash
+python -m zamanlama --bas 1950 --toplam-getiri --maliyet 0.002
+```
+
+Literatür taraması ve sonuçların yorumu: [docs/dip_al_tepe_sat_literatur_raporu.md](docs/dip_al_tepe_sat_literatur_raporu.md).
+
 ## Lisans
 
 MIT (uygulama kodu). Academic Research Skills eklentisi kendi deposunda CC-BY-NC 4.0 ile lisanslıdır.
