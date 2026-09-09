@@ -1,7 +1,7 @@
 # Lomber Disk Hernisi ile Haftada 4 Gün Antrenman Programı — v4
 ## Amaç: kas kazanımı + genel sağlık + aerobik kapasite · Kural: yalnızca literatürde uygulanmış hareket ve dozlar
 
-Tarih: 2026-09-09 · Kaynak: PubMed/PMC (DOI'ler §7) · Sürüm: v4 ("çıkarım hareketleri" çıkarıldı, yeniden denetim yapıldı)
+Tarih: 2026-09-09 · Kaynak: PubMed/PMC (DOI'ler §7) · Sürüm: v4.1 (çıkarım hareketleri çıkarıldı; squat/deadlift kullanıcı kararıyla çıkarıldı)
 
 > Tıbbi öneri değil, literatüre dayalı tasarım. Bu sürümde **hiçbir hareket benim çıkarımım değildir**; her satırda kaynak ve o kaynağın popülasyonu yazar.
 > Popülasyon etiketleri: **[LDH]** lomber disk hernisi tanılı · **[KNSBA]** kronik nonspesifik bel ağrısı, herni **dışlanmış veya belirtilmemiş** · **[MSK]** karışık kas-iskelet ağrısı · **[sağlıklı]** hipertrofi/VO2 literatürü.
@@ -85,7 +85,7 @@ Faz 1'e geçiş: 4 hafta boyunca ağrı ≤3/10, bacak semptomu yok (Berglund'un
 
 | Gün | İçerik | Kaynak |
 |---|---|---|
-| **1 (Pzt)** | Isınma 5 dk bisiklet → **Bisiklet HIIT** 5×1 dk @ %100 VO2max iş yükü / 1 dk @ %50 → **Derin squat**, **bench press**, **lat pulldown**: her biri 1 set ≤12 @ %80 1RM → **Lomber ekstansiyon makinesi** 1 set → Core statik 6 hareket 1×10×10 sn | HIIT+direnç+core dozu: [R8]; hareket adları: [R34]; lomber ekstansiyon: [R36, R50] |
+| **1 (Pzt)** | Isınma 5 dk bisiklet → **Bisiklet HIIT** 5×1 dk @ %100 VO2max iş yükü / 1 dk @ %50 → **Yatay leg press**, **bench press**, **lat pulldown**: her biri 1 set ≤12 @ %80 1RM → **Lomber ekstansiyon makinesi** 1 set → Core statik 6 hareket 1×10×10 sn | HIIT+direnç+core dozu: [R8]; leg press: [R48]; bench/pulldown adları: [R34]; lomber ekstansiyon: [R36, R50] |
 | **2 (Sal)** | Isınma → **Yatay leg press** 3×8-10 @ %75 → makine üst vücut 2 hareket 1 set ≤12 @ %80 (adsız, [R8]/[R48]) → Core: plank, yan plank, bird dog, dead bug, köprü (tükenene kadar 1'er set) → Yürüyüş 30 dk | leg press: [R48]; core: [R55, R56] |
 | **3 (Per)** | Gün 1 ile aynı | |
 | **4 (Cum/Cmt)** | Gün 2 ile aynı; yürüyüş yerine **spinning HIIT 4×4 dk @ ~%90 HRmax / 3 dk ara** (Hov) yapılabilir | [R48] |
@@ -96,23 +96,20 @@ Faz 1'e geçiş: 4 hafta boyunca ağrı ≤3/10, bacak semptomu yok (Berglund'un
 ### Faz 2 — Hafta 5-8: Liu dozu [KNSBA] + hacim artışı
 | Hareket | Doz | Kaynak |
 |---|---|---|
-| Derin squat | 4×15 @ %70 1RM, 90 sn ara (Gün 1, 3) | [R34] |
 | Bench press | 4×15 @ %70 (Gün 1, 3) | [R34] |
 | Lat pulldown | 4×15 @ %70 (Gün 2, 4) | [R34] |
-| Yatay leg press | 3×8-10 @ %75 (Gün 2, 4) | [R48] |
+| Yatay leg press | 3×8-10 @ %75, 4 gün/hafta (sıklık: Liu/Kell 4 gün [R34, R53]) | [R48] |
 | Lomber ekstansiyon makinesi | 1 set tükenmeye @ %80, haftada 1 | [R50] |
 | Makine üst vücut (adsız) | 1-2 set ≤12 @ %80 | [R8] |
 | Core | Devorski/Zhang/Alqhtani listesi; Alqhtani başlangıcı 2×5-7/taraf → ilerle | [R55-R57] |
 | HIIT | Verbrugghe protokolü 13. seanstan itibaren yeni test yüküyle; veya Hov 4×4 | [R8, R48] |
 
-Haftalık doğrudan set sayısı (hesap): quadriceps 8 (squat) + 6 (leg press) = 14; göğüs 8; sırt 8 (+ adsız makine); lomber ekstansör 1-2 (+ squat/deadlift dolaylı). Hipertrofi için 10+ set/kas eşiği [R10] quadriceps ve göğüste sağlanıyor; sırt 8'de, adsız makine row/pulldown ile 10'a çıkar.
+Haftalık doğrudan set sayısı (hesap): quadriceps 3×4 = 12 (leg press); göğüs 8; sırt 8 (+ adsız makine); lomber ekstansör 1-2. Hipertrofi için 10+ set/kas eşiği [R10] quadriceps'te sağlanıyor; göğüs/sırt 8'de, adsız makine hareketiyle 10'a çıkar.
 
-### Faz 3 — Hafta 9-12: Hov MST + deadlift kapısı
+### Faz 3 — Hafta 9-12: Hov MST
 | Hareket | Doz | Kaynak / koşul |
 |---|---|---|
 | Yatay leg press | 4×4 @ ~%90 1RM, maksimal niyetli konsantrik, yavaş eksantrik; son sette >4 → +4.5 kg | [R48] |
-| Derin squat | 4×15 @ %70 | [R34] |
-| **Konvansiyonel deadlift** (yalnızca kriter sağlanırsa) | Aasa protokolü: 12 seans/8 hafta; set-tekrar özette yok → haftada 1, Verbrugghe kuralıyla (1-2 set ≤12 @ %80) | [R28]; koşul: ağrı düşük + Biering-Sørensen iyi [R6]. LDH'de test edilmedi. |
 | Bench, pulldown, makine üst | Faz 2 gibi | |
 | Lomber ekstansiyon makinesi | 1 set tükenmeye, haftada 1-2 | [R50, R36] |
 | Core | tükenene kadar setler | [R55] |
@@ -122,6 +119,7 @@ Haftalık doğrudan set sayısı (hesap): quadriceps 8 (squat) + 6 (leg press) =
 Verbrugghe/Hov programlarında planlı deload yok; Kim 2010'da 6 hafta tamamen bırakınca kuvvet kaybı [R36]. → Tamamen bırakma; set sayısını yarıya indir (bu ayar benimdir, literatür deload kuralı vermiyor).
 
 ### Literatürde olup **tercih etmediğim** hareketler (gerekçe literatürden)
+- **Derin squat** [R34] ve **konvansiyonel deadlift** [R28, R49]: ikisi de herni dışlanmış/belirtilmemiş popülasyonlarda; LDH'de test edilmemiş. Kullanıcı kararıyla çıkarıldı (v4.1). Literatürde leg press'in squat/deadlift'ten daha güvenli olduğunu gösteren bel ağrısı karşılaştırması **yok**; leg press yalnızca "kalan literatür hareketi" olarak seçildi [R48]. Kaybedilen: 24 aylık deadlift verisi [R28] ve posterior zincir üstünlüğü [R4, herni dışlanmış].
 - **Makine oturarak crunch** [R34]: diskektomi sonrası ekstansiyon programı fleksiyon programına üstün [R35]; tercih dışı.
 - **Topta crunch** [R57]: aynı gerekçe.
 - **Koşu** (Hov'da aerobik modlar arasında): koşu bisiklete göre daha fazla hipertrofi girişimi [R14, R15]; bisiklet seçildi.
@@ -158,6 +156,9 @@ Deadlift kapısı, koşu/kürek çıkarılması, set rampası, direnç→aerobik
 2. 25+ hareket çıkarıldı; kalan her hareketin kaynağı ve popülasyonu yazıldı.
 3. Dozlar çalışma protokollerinden birebir alındı (Verbrugghe 1 set/%80, Liu 4×15/%70, Hov 4×4/%90, Steele 1 set tükenme).
 4. "Yüklü fleksiyon yasak" kuralı çıkarımdı; yerine literatür karşılaştırması (ekstansiyon > fleksiyon, Abdi 2022) kondu.
+
+### v4→v4.1: kullanıcı kararı
+Derin squat ve deadlift, LDH kanıtı olmadığı gerekçesiyle kullanıcı tarafından reddedildi. Yerine yatay leg press [R48] (4 gün/hafta) ve lomber ekstansiyon makinesi [R36, LDH] ağırlık kazandı. Hipertrofi hacmi korunuyor (quadriceps 12 set/hafta).
 
 ### v4→v5 denemesi
 Kontrol ettiklerim:
