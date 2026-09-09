@@ -2,7 +2,7 @@
 ### Hedef: kas kazanımı · genel sağlık · aerobik (efor) kapasitesi
 ### Kural: programdaki her hareket, doz ve ilerleme kuralı yayımlanmış bir müdahale çalışmasından alınmıştır
 
-Sürüm: **5.0 (sıfırdan)** · Tarih: 2026-09-09 · Kaynak: PubMed/PMC tam metin ve özetler, ClinicalTrials.gov kayıtları · DOI'ler §8
+Sürüm: **5.1** (5.0 sıfırdan; 5.1 makine hareketleri Vincent 2014 ile adlandırıldı) · Tarih: 2026-09-09 · Kaynak: PubMed/PMC tam metin ve özetler, ClinicalTrials.gov kayıtları · DOI'ler §8
 
 > Tıbbi öneri değil, literatür sentezi. Klinik karar sende.
 > **Etiketler:** [LDH] herni tanılı popülasyonda test edilmiş · [KNSBA] kronik nonspesifik bel ağrısı, herni/radikülopati **dışlanmış** · [MSK] karışık kas-iskelet ağrısı · [sağlıklı] sağlıklı yetişkin hipertrofi/VO2 literatürü · **[benim]** literatürün vermediği, benim koyduğum düzenleme (her biri açıkça işaretli).
@@ -48,6 +48,7 @@ Sürüm: **5.0 (sıfırdan)** · Tarih: 2026-09-09 · Kaynak: PubMed/PMC tam met
 |---|---|---|---|
 | Verbrugghe 2019/2020, Meus 2024 [16-18]; kayıt NCT02911987 [19] | **Radikülopati dışlanmış**; mikrocerrahi >18 ay kabul; NPRS >8 dışlanmış | **Bisiklet ergometresi HIIT**; 3 üst + 3 alt vücut **makine** egzersizi (adlar tabloda, erişilemedi); 6 statik core (adlar erişilemedi) | HIIT: 5 dk ısınma, 5×1 dk @ %100 VO2max iş yükü, 110 rpm; 1 dk @ %50; her 2 seansta +10 sn → 1:50; 13. seansta yük yeniden test. Direnç: 1 set ≤12 @ %80 1RM; iki ardışık seansta >10 tekrar → yük ↑. Core: 1×10×10 sn statik. 2×/hafta, 12 hafta. Advers olay yok; VO2max +%14 (yüksek) vs +%4 (orta) |
 | Hov 2024 [20] | Nonspesifik MSK (bel ağrısı dahil) | **Yatay leg press**; üst vücut ~%75 1RM (adsız); **spinning HIIT** | Leg press: 4×4 @ ~%90 1RM, maksimal niyetli konsantrik, yavaş eksantrik, son sette >4 → +4.5 kg; veya 3×8-10 @ %75. HIIT: 4×4 dk @ ~%90 HRmax / 3 dk aktif. 4 hafta; advers olay yok; VO2peak +%12, 1RM +%43 |
+| Vincent 2014 [52] (PMC4137474) | Obez, 60–85 yaş, kronik bel ağrısı; **akut disk hernisi dışlanmış** | **Tüm vücut makine programı (MedX):** leg press, leg curl, leg extension, chest press, seated row, overhead press, triceps, biceps curl, calf press, abdominal curl, lumbar extension | 1 set × 15 tekrar @ %60 1RM, Borg 16–18, yük haftada ~%2 ↑, 3×/hafta, 4 ay. TOTRX dizabiliteyi yalnız lomber ekstansiyondan fazla azalttı. Advers olay: herhangi bir AE 8/22 (TOTRX), 3/20 (LEXT), 0 (kontrol); ciddi AE %9 (bel ağrısı alevlenmesi, tıbbi müdahale) |
 | Liu 2025 [21] | KNSBA erkek sporcu | **Derin squat, lat pulldown, bench press, makine oturarak crunch** | 4 gün/hafta; %70 1RM, 4×15, 90 sn ara; 4 hafta |
 | Steele 2013/2015 [22, 23] | KNSBA | **İzole lomber ekstansiyon makinesi** (pelvis sabit) | 1×/hafta, 1 set tükenmeye @ %80 maksimal tork, 12 hafta; klinik anlamlı ağrı/dizabilite ↓ |
 | Kell 2009/2011 [24, 25] | KNSBA | "Tüm vücut periyodize direnç" (adlar yok) | **4 gün > 3 > 2 gün**; 13 hafta |
@@ -89,44 +90,65 @@ Hacim–hipertrofi: azalan getiri, 10+ set/kas/hafta [39, 40] · Yük: 30-80+ %1
 
 Çıkış: Berglund'un "düşük ağrı" koşulu [31] ve Verbrugghe'nin "radikülopati yok" koşulu [19]. Sayısal eşik literatürde yok; **[benim]**: 4 hafta bacak semptomu yok + istirahat ağrısı ≤3/10.
 
-### Faz 1 — Hafta 1-4: Verbrugghe dozu [KNSBA] · teknik ve taban
-
-4 gün, 60-75 dk. Hangi hareketin hangi güne konduğu **[benim]**; sıklık 4 gün Kell [25] ve Liu [21].
-
-| Gün | Sıra | Kaynak |
+### Hareket havuzu ve kaynakları
+| Hareket | Kaynak (adıyla geçtiği çalışma) | Popülasyon |
 |---|---|---|
-| **1** | 5 dk bisiklet ısınma → **Bisiklet HIIT** 5×1 dk @ %100 VO2max iş yükü / 1 dk @ %50 → **Yatay leg press** 1×≤12 @ %80 → **Bench press** 1×≤12 @ %80 → **Lat pulldown** 1×≤12 @ %80 → **Lomber ekstansiyon makinesi** 1 set → Core: plank, yan plank, bird dog, dead bug, köprü (1'er set) | HIIT ve direnç dozu [16-18]; leg press [20]; bench/pulldown [21]; lomber ekstansiyon [4, 22]; core [26, 27] |
-| **2** | Isınma → **Yatay leg press** 3×8-10 @ %75 → makine üst vücut 2 hareket 1×≤12 @ %80 (adsız; Verbrugghe/Hov) → Core (Alqhtani listesi: köprü, dead bug 2×5-7/taraf, quadruped, yan destek) → **Yürüyüş 30 dk** | [20], [18], [28], [35] |
-| **3** | Gün 1 | |
-| **4** | Gün 2; yürüyüş yerine **spinning HIIT 4×4 dk @ ~%90 HRmax / 3 dk** (Hov) opsiyonel | [20] |
-| Diğer | Yürüyüş ≥3×/hafta → 12 haftada ≥5×/hafta ≥30 dk | [35] |
+| Bisiklet ergometresi HIIT | Verbrugghe [16-18] | KNSBA |
+| Spinning HIIT 4×4 | Hov [20] | MSK |
+| Yatay leg press | Hov [20], Vincent [52] | MSK, KNSBA |
+| Leg curl, leg extension, calf press | Vincent [52] | KNSBA |
+| Chest press (makine), seated row, overhead press (makine), triceps, biceps curl | Vincent [52] | KNSBA |
+| Bench press, lat pulldown | Liu [21] | KNSBA sporcu |
+| Lomber ekstansiyon makinesi | Kim [4] (LDH), Steele [22], Vincent [52] | LDH, KNSBA |
+| Plank, yan plank, bird dog, dead bug, köprü, quadruped, yan destek | Devorski [26], Zhang [27], Alqhtani [28] | KNSBA |
+| Yürüyüş | WalkBack [34, 35] | Nonspesifik bel ağrısı |
 
-Direnç ilerlemesi: iki ardışık seansta >10 tekrar → yük ↑ [18]. HIIT: her 2 seansta +10 sn iş [16].
+Doz kaynakları: set başına tekrar ve yüzde 1RM çalışmalardan (Vincent 1×15 @ %60; Verbrugghe 1×≤12 @ %80; Liu 4×15 @ %70; Hov 3×8-10 @ %75 ve 4×4 @ %90; Tataryn'ın dahil ettiği programlar 2-3 set × 8-12 tekrar [33]). **Set sayısının fazlara göre artışı** hipertrofi hacim literatüründen [39, 40] [sağlıklı]. Gün yerleşimi **[benim]**.
 
-### Faz 2 — Hafta 5-8: Liu/Hov dozları · hacim artışı
+### Faz 1 — Hafta 1-4: Vincent/Verbrugghe dozu (tek set, teknik, taban)
+4 gün, 60-70 dk. Notasyon: **set × tekrar @ %1RM**. "1×15 @ %60" = 1 set, 15 tekrar, 1RM'nin %60'ı.
 
-| Hareket | Doz | Gün | Kaynak |
+| Gün | Sıra | Doz | Kaynak |
 |---|---|---|---|
-| Yatay leg press | 3×8-10 @ %75 | 1-4 | Hov MG [20] |
-| Bench press | 4×15 @ %70, 90 sn ara | 1, 3 | Liu [21] |
+| **1 (Pzt)** | 5 dk bisiklet ısınma → **Bisiklet HIIT** → **Leg press** → **Chest press** → **Seated row** → **Leg curl** → **Lomber ekstansiyon** → Core: plank, yan plank, bird dog, dead bug (1'er set, tükenene kadar) | HIIT 5×1 dk @ %100 VO2max iş yükü / 1 dk @ %50; makineler 1×15 @ %60, Borg 16-18; lomber ekstansiyon 1×15 @ %60 | HIIT [16]; makineler [52]; core [26] |
+| **2 (Sal)** | Isınma → **Leg press** → **Bench press** → **Lat pulldown** → **Overhead press** → **Leg extension** → **Biceps curl** → **Triceps** → Core: köprü, dead bug 2×5-7/taraf, quadruped, yan destek → **Yürüyüş 30 dk** | makineler 1×15 @ %60; bench/pulldown 1×15 @ %60 | [52], [21], [28], [35] |
+| **3 (Per)** | Gün 1 + **Calf press** 1×15 | | [52] |
+| **4 (Cum/Cmt)** | Gün 2; yürüyüş yerine **spinning HIIT** 4×4 dk @ ~%90 HRmax / 3 dk opsiyonel | | [20] |
+| Diğer günler | Yürüyüş ≥3×/hafta → 12 haftada ≥5×/hafta ≥30 dk | | [35] |
+
+İlerleme: yük haftada ~%2 ↑, Borg 16-18 korunur [52]; alternatif kural: iki ardışık seansta >10 tekrar → yük ↑ [18]. HIIT: her 2 seansta iş süresi +10 sn [16].
+
+### Faz 2 — Hafta 5-8: çok set (Tataryn 2-3×8-12, Liu 4×15, Hov 3×8-10)
+| Hareket | Set × tekrar @ %1RM | Gün | Kaynak |
+|---|---|---|---|
+| Leg press | 3×8-10 @ %75 | 1-4 | Hov MG [20] |
+| Chest press | 3×8-12 @ %70-80 | 1, 3 | tekrar aralığı Tataryn [33]; hareket Vincent [52] |
+| Seated row | 3×8-12 @ %70-80 | 1, 3 | [33], [52] |
+| Leg curl | 3×8-12 | 1, 3 | [33], [52] |
+| Lomber ekstansiyon | 1 set tükenmeye @ %80 | 1 veya 3 (haftada 1-2) | Steele [22]; Kim 2×/hafta [4] |
+| Calf press | 2×15 @ %60 | 1, 3 | [52] |
+| Bench press | 4×15 @ %70, 90 sn ara | 2, 4 | Liu [21] |
 | Lat pulldown | 4×15 @ %70, 90 sn ara | 2, 4 | Liu [21] |
-| Makine üst vücut (adsız) | 1-2×≤12 @ %80 | 2, 4 | Verbrugghe [18] |
-| Lomber ekstansiyon makinesi | 1 set tükenmeye @ %80 | haftada 1 | Steele [22]; LDH'de 2×/hafta Kim [4] |
-| Core | Devorski/Zhang/Alqhtani; ilerleme: hold süresi ve postür zorluğu ↑ | 1-4 | [26-28]; ilerleme kuralı Verbrugghe [18] |
+| Overhead press (makine) | 3×8-12 | 2, 4 | [33], [52] |
+| Leg extension | 2×8-12 | 2, 4 | [33], [52] |
+| Biceps curl, triceps | 2×8-12 her biri | 2, 4 | [33], [52] |
+| Core | Devorski/Zhang/Alqhtani listesi; hold süresi ve postür zorluğu ↑ | 1-4 | [26-28]; ilerleme [18] |
 | HIIT | Verbrugghe protokolü, 13. seanstan yeni yükle | 1, 3 | [16] |
 
-Haftalık doğrudan set (hesap): quadriceps 3×4 = 12; göğüs 8; sırt 8 (+ adsız makine ile 10); lomber ekstansör 1-2 + core. 10+ set eşiği [40] quadriceps'te sağlanır; göğüs/sırt adsız makine hareketiyle 10'a çıkar.
+Haftalık doğrudan set (hesap): quadriceps leg press 12 + leg extension 4 = 16; hamstring 6; göğüs chest press 6 + bench 8 = 14; sırt seated row 6 + pulldown 8 = 14; omuz 6 (+ itme/çekmeden dolaylı); kol 4+4; lomber ekstansör 1-2; baldır 4. 10+ set eşiği [40] quadriceps, göğüs, sırtta sağlanır.
 
-### Faz 3 — Hafta 9-12: Hov MST · zirve
-
-| Hareket | Doz | Kaynak |
-|---|---|---|
-| Yatay leg press | 4×4 @ ~%90 1RM, maksimal niyetli konsantrik, yavaş eksantrik; son sette >4 → +4.5 kg (Gün 1, 3); 3×8-10 @ %75 (Gün 2, 4) | Hov HG/MG [20] |
-| Bench press, lat pulldown | 4×15 @ %70 | Liu [21] |
-| Makine üst vücut | 2×≤12 @ %80 | [18] |
-| Lomber ekstansiyon makinesi | 1 set tükenmeye, 1-2×/hafta | [22, 4] |
-| Core | tükenene kadar setler | [26] |
-| HIIT | Hov 4×4 @ %90 HRmax ×2/hafta; veya Verbrugghe | [20, 16] |
+### Faz 3 — Hafta 9-12: Hov maksimal kuvvet + hacim zirvesi
+| Hareket | Set × tekrar @ %1RM | Gün | Kaynak |
+|---|---|---|---|
+| Leg press | 4×4 @ ~%90, maksimal niyetli konsantrik, yavaş eksantrik; son sette >4 → +4.5 kg | 1, 3 | Hov HG [20] |
+| Leg press | 3×8-10 @ %75 | 2, 4 | Hov MG [20] |
+| Chest press, seated row, leg curl | 3×8-12 | 1, 3 | [33], [52] |
+| Bench press, lat pulldown | 4×15 @ %70 | 2, 4 | Liu [21] |
+| Overhead press, leg extension, biceps, triceps | 3×8-12 / 2×8-12 | 2, 4 | [33], [52] |
+| Lomber ekstansiyon | 1 set tükenmeye, 1-2×/hafta | | [22, 4] |
+| Calf press | 2×15 | 1, 3 | [52] |
+| Core | tükenene kadar setler | 1-4 | [26] |
+| HIIT | Hov 4×4 @ %90 HRmax ×2/hafta; veya Verbrugghe | 1, 3 | [20, 16] |
 
 ### Hafta 13 — deload **[benim]**
 Literatürde deload kuralı yok. Kim 2010: 6 hafta tam bırakma → kuvvet kaybı [4]. Tamamen bırakma; set sayısını yarıya indir, HIIT yerine Zone-2 bisiklet. Sonra §7 ölçümleri, ikinci 12 hafta.
@@ -194,10 +216,13 @@ Verbrugghe, Hov, Liu, Steele, Kell dozları alındı.
 - Deload kuralı: literatürde yok; **[benim]** olarak işaretli.
 **Yakınsama:** Literatürle düzeltilebilecek madde kalmadı. Kalan boşluklar (a) herni popülasyonunda direnç/HIIT çalışması yokluğu, (b) erişilemeyen tam metinler. Program bu iki sınırın içinde "en makul" olan; "en doğru" bu boşluklar dolmadan tanımsız.
 
+### Tur 6 — kullanıcı itirazı: "adsız makine" satırları kullanılamaz
+Haklı itiraz. Yeni tarama: Vincent 2014 [52] kronik bel ağrısında tüm vücut makine programını adıyla veriyor. Adsız satırlar kaldırıldı; chest press, seated row, overhead press, leg curl, leg extension, biceps, triceps, calf press eklendi. Set artışı hipertrofi literatüründen [39, 40], tekrar aralığı Tataryn'ın dahil ettiği programlardan [33]. Vincent'ın herni dışlaması ve %9 ciddi advers olayı §2b'ye yazıldı.
+
 ### Zayıf halkalar (senin denetlemen için)
 1. Direnç ve HIIT iskeleti tamamen herni-dışı popülasyondan; herni-spesifik tek direnç verisi lomber ekstansiyon makinesi [4].
 2. Hipertrofi hacim kuralları sağlıklı popülasyondan; bel ağrılılarda tek hacim-yanıt verisi Kell 2011 (4 gün > 2-3 gün) [25].
-3. Üst vücut için adı geçen hareket iki tane (bench, pulldown; tek çalışma, 4 hafta, sporcu).
+3. Üst vücut makine hareketleri Vincent 2014'ten: obez 60-85 yaş, akut herni dışlanmış; TOTRX grubunda ciddi advers olay %9 (bel ağrısı alevlenmesi).
 4. Cochrane'in "yüksek yoğunluk üstün" bulgusu 2 RKÇ, n=103, çok düşük kesinlik [1].
 
 ---
@@ -254,3 +279,4 @@ Verbrugghe, Hov, Liu, Steele, Kell dozları alındı.
 49. Morton RW et al. Protein supplementation and RT gains: meta-regression. Br J Sports Med 2017/2018. https://doi.org/10.1136/bjsports-2017-097608
 50. Bull FC et al. WHO 2020 physical activity guidelines. Br J Sports Med 2020. https://doi.org/10.1136/bjsports-2020-102955
 51. Kreiner DS et al. NASS guideline: LDH with radiculopathy. Spine J 2014. https://doi.org/10.1016/j.spinee.2013.08.003
+52. Vincent HK et al. Resistance exercise, disability, and pain catastrophizing in obese adults with back pain. Med Sci Sports Exerc 2014 (PMC4137474). https://doi.org/10.1249/MSS.0000000000000294
