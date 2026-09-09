@@ -1,7 +1,7 @@
 # Lomber Disk Hernisi ile Haftada 4 Gün Antrenman Programı
 ## Amaç: kas kazanımı + genel sağlık + aerobik (efor) kapasitesi
 
-Tarih: 2026-09-09 · Kaynak tabanı: PubMed araması (DOI'ler kaynakçada) · Sürüm: v3 (yakınsadı)
+Tarih: 2026-09-09 · Kaynak tabanı: PubMed araması (DOI'ler kaynakçada) · Sürüm: v3.1 (yakınsadı; §2b itiraz turu eklendi)
 
 > **Bu belge tıbbi öneri değil, literatüre dayalı bir antrenman tasarımıdır.** Hekim olduğun için klinik karar sende.
 > Program, aşağıdaki varsayımlar altında yazıldı; varsayım tutmuyorsa "Varsayımlar" bölümündeki değişiklik kurallarını uygula.
@@ -68,6 +68,31 @@ Ek: WHO 2020: haftada 150-300 dk orta veya 75-150 dk şiddetli aerobik + kas gü
 
 ---
 
+## 2b. İtiraz: "Deadlift, suitcase carry, hip thrust — bu program fıtık yapmak için mi?"
+
+Hareket hareket, kaynağa bakarak:
+
+| Hareket | Bulduğum kanıt | Hüküm |
+|---|---|---|
+| **Deadlift** | Mekanik bel ağrılı hastalarda 8 haftalık ağır deadlift vs düşük yüklü motor kontrol: ağrı/dizabilitede fark yok, 2-12-24 ayda da yok, her iki kolda %50-80 iyileşme [R28, RKÇ n=70]; deadlift grubunda multifidus kalınlığı motor kontrol kadar arttı [R29]. Posterior zincir programlarında (deadlift dahil) advers olay genel egzersizden fazla değil [R4]. Deadlift'te yaralanma için en tutarlı öngörücü **ani yük artışı**, nötr omurgadan sapma değil [R30, anlatısal derleme]. **Disk hernisi popülasyonunda deadlift RKÇ'si yok** (yeniden aradım: yok). | Yönden eminim: kontrollü, kademeli deadlift bel ağrılı hastada zararlı çıkmadı [kesin, mekanik bel ağrısı için]. Herni için **[çıkarım]**. Bu yüzden zaten Faz 0 kapısı + trap bar + RIR 2-3 + haftada 1 ağır. |
+| **Hip thrust** | 1RM'de erektör spina aktivasyonu barbell deadlift ve hex bar ile **aynı** [R31, EMG, n=13]. Bel ağrılı popülasyonda sonuç verisi **bulamadım**. | Önceki sürümde örtük "omurgaya hafif" varsayımım **desteklenmiyor**; düzelttim. Omurga fleksiyon döngüsü içermez ama ekstansör yükü deadlift düzeyinde. Faz 1'de hafif, üstte hiperekstansiyon yok; alternatif: yer köprüsü. [doğrulanmalı] |
+| **Suitcase / farmer's carry** | PubMed'de omurga kompresyon/EMG verisi **bulamadım** (McGill'in kitap materyali, indekslenmiş çalışma yakalayamadım). | Mekanik gerekçe: nötr omurga, anti-lateral fleksiyon, fleksiyon döngüsü yok [çıkarım]. Kanıt zayıf olduğu için **opsiyonel**; yan plank + Pallof aynı işi görür. |
+
+**İtirazdaki mantık hatası:** Herniasyon mekanizması deneysel olarak *tekrarlı fleksiyon + kompresyon* [R20]; bu üç hareketin hiçbiri fleksiyon döngüsü değil. Fleksiyon döngüsü olan hareketler (sit-up, kürek, yuvarlak sırtla kaldırma) zaten programda yok. Yüklememenin de maliyeti var: lomber ekstansör dekondisyonu bel ağrısıyla ilişkili ve yaralanma öngörücüsü [R32, derleme].
+
+**Sen yine de istemiyorsan — Varyant B (düşük omurga yükü):**
+
+| Orijinal | Alternatif | Ne kaybedersin |
+|---|---|---|
+| Trap bar deadlift / RDL | Leg curl + cable pull-through hafif + (Faz 3) nötr omurgada yüksüz 45° back extension | Sırt ekstansör kuvvet/dayanıklılığı; deadlift faydasının öngörücüsü olan Sørensen kapasitesi [R6, R32] |
+| Safety-bar / front squat | Leg press (pelvis dönmeden), belt squat, Bulgarian split squat | Aksiyel yüklü kuvvet; hipertrofi farkı muhtemelen küçük [doğrulanmalı, kaynak taramadım] |
+| Hip thrust | Yer köprüsü (vücut ağırlığı → hafif plaka), cable kickback | Glute hipertrofi uyarısı |
+| Carry'ler | Yan plank, Pallof press | Az |
+
+Varyant B ile kas kazanımı ve aerobik hedef korunur; kaybedilen, posterior zincir kuvveti (12-16 haftada genel egzersize üstünlüğü gösterilen bileşen [R4]).
+
+---
+
 ## 3. Faz yapısı
 
 | Faz | Süre | Amaç | Giriş kriteri |
@@ -111,10 +136,10 @@ Notasyon: set × tekrar @ RIR. "Çift ilerleme": tüm setlerde tekrar aralığı
 |---|---|---|---|---|
 | Trap bar deadlift (yüksek kol) veya bloktan RDL | 3×8 @3 | 4×6-8 @2 | 4×6 @2 | Yük gövdeye yakın, nötr omurga; bacak semptomu varsa dizler bükük, RDL yok |
 | Leg press (ayaklar yüksek, derinlik: pelvis masadan kalkmadan) | 3×10-12 @3 | 3×10-12 @2 | 4×10-12 @1-2 | Sırt yastığa tam temas |
-| Hip thrust / glute bridge | 3×10-12 @2 | 3×10-12 @1 | 4×8-12 @1 | Lomber hiperekstansiyona kaçma |
+| Hip thrust / glute bridge | 3×10-12 @3 (hafif) | 3×10-12 @2 | 4×8-12 @1 | Erektör yükü deadlift düzeyinde [R31]; hiperekstansiyon yok, çene içeride, kaburga aşağıda |
 | Leg curl (oturarak/yatarak) | 3×12 @2 | 3×12 @1 | 4×10-12 @0-1 | — |
 | Bulgarian split squat / step-up | 2×10/bacak @3 | 3×10 @2 | 2×8-10 @2 | Dumbbell yanlarda |
-| Farmer's carry | 3×30 m | 3×40 m | 3×40 m ağır | Omuz geri, nefes |
+| Farmer's carry (opsiyonel; yerine yan plank) | 3×30 m | 3×40 m | 3×40 m ağır | Omuz geri, nefes; kanıt zayıf, bkz. §2b |
 | Core: McGill curl-up + yan plank + kuş-köpek | 2×(8 / 30 sn / 8) | 3× | 3× | Anti-hareket |
 
 ### Üst A – İtme
@@ -139,7 +164,7 @@ Notasyon: set × tekrar @ RIR. "Çift ilerleme": tüm setlerde tekrar aralığı
 | Leg curl | 3×12 @2 | 3×12 @1 | 3×12 @0-1 | — |
 | Reverse lunge (destekli) | 2×10/bacak @3 | 3×10 @2 | 3×10 @2 | — |
 | Calf raise (oturarak/makine) | 3×15 @1 | 3×15 @0-1 | 4×12-15 @0 | — |
-| Suitcase carry | 3×30 m/taraf | 3×40 m | 3×40 m ağır | Anti-lateral fleksiyon |
+| Suitcase carry (opsiyonel; yerine Pallof) | 3×30 m/taraf | 3×40 m | 3×40 m ağır | Anti-lateral fleksiyon; kanıt zayıf, bkz. §2b |
 | Core: yan plank + kuş-köpek + dead bug | 2× | 3× | 3× | — |
 
 ### Üst B – Çekme
@@ -214,6 +239,12 @@ Kontrol ettiğim adaylar ve neden değiştirmedim:
 - **Aynı seans vs ayrı gün concurrent** (Schumann: aynı seans yalnızca patlayıcı kuvveti etkiler [R13]): hedef hipertrofi/aerobik; aynı seans kalır.
 - **Yüksek yoğunluk/düşük sıklık ekstansör çalışması** (Mader de Oliveira 2026 [R27]: >%60 1RM, haftada 1, sırt ekstansörü; düşük-çok düşük kesinlik): programda ağır menteşe zaten haftada 1 (Alt A), Alt B hafif. Uyumlu, değişiklik yok.
 
+### v3 → v3.1: kullanıcı itirazı ("deadlift, carry, hip thrust fıtık yapar")
+1. **Hip thrust'ı örtük olarak "omurgaya hafif" saymıştım.** EMG verisi erektör aktivasyonunun deadlift ile aynı olduğunu gösteriyor [R31]. → Faz 1 yükü hafifletildi, not düzeltildi, yer köprüsü alternatifi eklendi. Bu bir hata idi.
+2. **Deadlift** için itiraz kanıtla çelişiyor: 24 aylık RKÇ'de motor kontrol egzersizinden kötü değil [R28]. Değişiklik yok; herni-spesifik boşluk zaten etiketliydi.
+3. **Carry'ler** için kanıt bulamadım; "kanıtsız ama mantıklı" hareketleri zorunlu tutmak yanlış. → Opsiyonel yapıldı.
+4. Risk toleransı bireysel karar olduğu için **Varyant B** eklendi; ne kaybedildiği açıkça yazıldı.
+
 **Yakınsama kararı:** Kalan belirsizlikler kanıt eksikliği değil, **senin verinin eksikliği** (§0 tablosu). Kanıtla düzeltilebilecek bir madde bulamadım; bu yüzden v3 son sürüm. "En doğru" program, §0'daki bilinmeyenler dolmadan tanımlı değil; bu belge o bilinmeyenlerin her biri için ne değişeceğini yazarak bunu telafi ediyor.
 
 ### Bu programın zayıf halkaları (senin denetlemen için)
@@ -253,4 +284,9 @@ Kontrol ettiğim adaylar ve neden değiştirmedim:
 - [R25] Trybulski R et al. Isolated lumbar extension strength training in nonspecific LBP: meta-analysis. Sci Rep 2025. https://doi.org/10.1038/s41598-025-90699-5
 - [R26] Wu H et al. Aquatic and land-based exercise for CLBP: network meta-analysis. Front Med 2026. https://doi.org/10.3389/fmed.2026.1739263
 - [R27] Mader de Oliveira G et al. Strength exercise dosage on pain and disability in LBP: systematic review. Eur Spine J 2026. https://doi.org/10.1007/s00586-026-09901-5
+- [R28] Michaelson P et al. High load lifting exercise and low load motor control exercises for mechanical LBP: RCT with 24-month follow-up. J Rehabil Med 2016. https://doi.org/10.2340/16501977-2091
+- [R29] Berglund L et al. Low-load motor control exercises and a high-load lifting exercise on lumbar multifidus thickness: RCT. Spine 2017. https://doi.org/10.1097/BRS.0000000000001989
+- [R30] Cherni B et al. Beyond the neutral spine: narrative review for low back injury prevention in deadlifting. Sports 2026. https://doi.org/10.3390/sports14040151
+- [R31] Andersen V et al. Electromyographic comparison of barbell deadlift, hex bar deadlift, and hip thrust. J Strength Cond Res 2018. https://doi.org/10.1519/JSC.0000000000001826
+- [R32] Steele J et al. A reappraisal of the deconditioning hypothesis in low back pain: lumbar extensor deconditioning. Curr Med Res Opin 2014. https://doi.org/10.1185/03007995.2013.875465
 - Ek: Chiu CC et al. Probability of spontaneous regression of lumbar herniated disc. Clin Rehabil 2015. https://doi.org/10.1177/0269215514540919 · Aasa B et al. Low-load motor control vs high-load lifting in LBP: RCT. JOSPT 2015. https://doi.org/10.2519/jospt.2015.5021 · Fernandez M et al. Advice to stay active or structured exercise in sciatica. Spine 2015. https://doi.org/10.1097/BRS.0000000000001036 · Schoenfeld BJ et al. Resistance training frequency and hypertrophy. Sports Med 2016. https://doi.org/10.1007/s40279-016-0543-8 · Arslan S et al. Aerobic vs core-stabilization after caudal epidural injection for LDH: RCT. Am J Phys Med Rehabil 2026. https://doi.org/10.1097/PHM.0000000000002971
