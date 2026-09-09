@@ -1,292 +1,227 @@
-# Lomber Disk Hernisi ile Haftada 4 Gün Antrenman Programı
-## Amaç: kas kazanımı + genel sağlık + aerobik (efor) kapasitesi
+# Lomber Disk Hernisi ile Haftada 4 Gün Antrenman Programı — v4
+## Amaç: kas kazanımı + genel sağlık + aerobik kapasite · Kural: yalnızca literatürde uygulanmış hareket ve dozlar
 
-Tarih: 2026-09-09 · Kaynak tabanı: PubMed araması (DOI'ler kaynakçada) · Sürüm: v3.1 (yakınsadı; §2b itiraz turu eklendi)
+Tarih: 2026-09-09 · Kaynak: PubMed/PMC (DOI'ler §7) · Sürüm: v4 ("çıkarım hareketleri" çıkarıldı, yeniden denetim yapıldı)
 
-> **Bu belge tıbbi öneri değil, literatüre dayalı bir antrenman tasarımıdır.** Hekim olduğun için klinik karar sende.
-> Program, aşağıdaki varsayımlar altında yazıldı; varsayım tutmuyorsa "Varsayımlar" bölümündeki değişiklik kurallarını uygula.
+> Tıbbi öneri değil, literatüre dayalı tasarım. Bu sürümde **hiçbir hareket benim çıkarımım değildir**; her satırda kaynak ve o kaynağın popülasyonu yazar.
+> Popülasyon etiketleri: **[LDH]** lomber disk hernisi tanılı · **[KNSBA]** kronik nonspesifik bel ağrısı, herni **dışlanmış veya belirtilmemiş** · **[MSK]** karışık kas-iskelet ağrısı · **[sağlıklı]** hipertrofi/VO2 literatürü.
+> Yerleşim (hangi gün ne) benim düzenlememdir; hareket, doz ve ilerleme kuralları çalışmalardan alınmıştır.
 
 ---
 
-## 0. Varsayımlar ve tek soru
+## 0. Yeniden denetim: v3'te bulduğum hatalar
 
-Bilmediğim, programı değiştirebilecek şeyler:
-
-| Bilinmeyen | Varsayımım | Tutmazsa ne değişir |
+| # | Hata | Düzeltme |
 |---|---|---|
-| Nörolojik defisit / kauda ekina | Yok, ilerleyici motor kayıp yok | Varsa program başlamaz; önce cerrahi/nöroloji değerlendirmesi |
-| Aktif radiküler bacak ağrısı | Hafif veya yok, son 4 haftada kötüleşme yok | Varsa Faz 0 zorunlu; düz bacaklı kalça menteşesi (RDL) 6-8 hafta ertelenir |
-| Herniasyon tipi | Bilinmiyor | Ekstrüzyon/sekestrasyonda spontan gerileme olasılığı yüksek (Chiu 2015: sekestrasyon %96, ekstrüzyon %70, protrüzyon %41, bulging %13) [kesin, derleme] |
-| Cerrahi öyküsü | Yok | Diskektomi sonrası ise ilk 6 haftada Faz 0 + fizyoterapist eşliği |
-| Antrenman geçmişi | Yeni başlayan / uzun ara vermiş | Deneyimliysen Faz 1'i 2 haftaya kısalt |
-| Ağrı düzeyi | ≤3/10 istirahatte | >5/10 ise Faz 0'da kal |
-| Yaş / kilo | Yetişkin, ~30'lu yaşlar [çıkarım: e-posta] | Program yaşa duyarsız; protein hedefi kiloya bağlı |
-
-**Tek sorum:** Şu an bacağa yayılan ağrı/uyuşma/güç kaybı var mı ve son ağrılı atak ne zamandı? Cevap "var / <4 hafta" ise Faz 0 zorunlu, "yok / >3 ay" ise doğrudan Faz 1.
-
----
-
-## 1. Kanıt özeti — programı taşıyan 12 olgu
-
-Her satırda güven etiketi: **[kesin]** = birden çok meta-analiz/RKÇ ile tutarlı; **[doğrulanmalı]** = tek çalışma/düşük kesinlik; **[çıkarım]** = kanıttan benim türettiğim uygulama kuralı.
-
-| # | Olgu | Kaynak | Etiket |
-|---|---|---|---|
-| 1 | Kronik bel ağrısında egzersiz ağrıyı klinik anlamlı azaltır (orta kesinlik); yan etkiler çoğunlukla kas ağrısı düzeyinde | Hayden 2021 Cochrane [R1] | kesin |
-| 2 | Disk hernisi + radikülopatide stabilizasyon egzersizi tedavi yokluğuna üstün (orta kanıt); "aktif kal" tavsiyesi uzun vadede cerrahiyle eşdeğer | Hahne 2010 [R2] | kesin |
-| 3 | Kronik bel ağrısında direnç antrenmanı ağrı ve dizabiliteyi düzeltir (orta kesinlik) | Rodríguez-Domínguez 2025 [R3] | kesin |
-| 4 | Posterior zincir direnç antrenmanı 12-16 haftada genel egzersizden daha etkili; advers olay farkı yok | Tataryn 2021 [R4] | kesin (I² yüksek) |
-| 5 | Dış yüklü direnç antrenmanı yüksüz egzersize göre güvenli/uygulanabilir; ağrı etkisi küçük (>7 hafta: −0.52/10) | Ranzani 2025 [R5] | doğrulanmalı |
-| 6 | Deadlift'ten fayda görenler: daha düşük ağrı, daha az dizabilite ve daha iyi Biering-Sørensen (sırt ekstansör dayanıklılığı) olanlar | Berglund 2015 [R6] | doğrulanmalı (n=35, sekonder analiz) |
-| 7 | Yüksek yoğunluklu antrenman (HIIT + direnç) kronik bel ağrısında uygulanabilir; dizabilite ve VO2max'ta orta yoğunluğa üstün (VO2max +%14 vs +%4) | Verbrugghe 2019, 2020 [R7, R8] | doğrulanmalı (tek merkez, n=38/80) |
-| 8 | Hipertrofi haftalık set sayısıyla artar, azalan getiriyle; sıklık hipertrofi için ihmal edilebilir, kuvvet için önemli | Pelland 2025 [R9], Schoenfeld 2017 [R10] | kesin |
-| 9 | Hipertrofi 30-80+ %1RM aralığında benzer (setler tükenmeye yakınsa); maksimal kuvvet ağır yük ister | Schoenfeld 2017 [R11] | kesin |
-| 10 | Tükenmeye yakın bitirilen setler hipertrofiyi artırır; kuvvet için RIR aralığı geniş | Robinson 2024 [R12] | doğrulanmalı (keşifsel meta-regresyon) |
-| 11 | Eşzamanlı aerobik + direnç antrenmanı hipertrofi ve maksimal kuvveti bozmaz; patlayıcı kuvveti (özellikle aynı seansta) azaltır; koşu bisiklete göre daha fazla girişim yapar | Schumann 2022 [R13], Lundberg 2022 [R14], Wilson 2012 [R15] | kesin (yön), doğrulanmalı (koşu-bisiklet farkı) |
-| 12 | Protein ~1.6 g/kg/gün üstü ek yağsız kütle kazandırmaz | Morton 2018 [R16] | kesin |
-
-Ek: WHO 2020: haftada 150-300 dk orta veya 75-150 dk şiddetli aerobik + kas güçlendirme [R17, kesin]. HIIT VO2max'ı sürekli antrenmandan biraz fazla artırır (~+1.2 mL/kg/dk) [R18, kesin]. Bireyselleştirilmiş yürüyüş programı bel ağrısı nüksünü azaltır (HR 0.72) [R19, kesin; nonspesifik bel ağrısı popülasyonu, herni değil]. Disk hernisi domuz modelinde tekrarlı fleksiyon-ekstansiyon döngüsüyle oluşuyor, kompresyon tek başına değil [R20, doğrulanmalı: hayvan, servikal segment]. Yükü gövdeye yakın kaldırmak disk içi basıncı belirgin düşürür (20 kg: yuvarlak sırt 2.3 MPa, gövdeye yakın 1.1 MPa) [R21, doğrulanmalı: tek denek].
-
-**Bulamadığım şey (boşluk):** Disk hernisi tanılı popülasyonda ağır bileşik kaldırış (deadlift/squat) test eden RKÇ yok. Tüm "yük" kanıtı nonspesifik kronik bel ağrısından ekstrapolasyon. Bu, programdaki her bileşik kaldırış kararının **[çıkarım]** olduğu anlamına gelir.
+| 1 | **Tataryn 2021 posterior zincir meta-analizini herni için destek gibi kullandım.** Tam metin: dahil edilen çalışmalar "disc protrusions/herniations" ifadesiyle hastaları **dışlamış** [R4, tam metin]. | Herni-dışı kanıt olarak yeniden etiketlendi; §1'de "LDH dışlanmış" sütununa taşındı. |
+| 2 | **Verbrugghe HIIT çalışmalarını** herni için ekstrapole ettim; tam metin: nörolojik nedenli parezi/duyu bozukluğu olanlar dışlanmış, tanı "spesifik patolojiye bağlanamayan" bel ağrısı [R8, tam metin]. | [KNSBA] etiketi; herni için doğrudan kanıt değil. |
+| 3 | **Aasa/Michaelson deadlift** çalışmalarının dışlama kriterlerini bilmiyordum. Kayıt (NCT01061632): dahil etme "ağrı lokal, nosiseptif"; dışlama listesi boş [R33]. Radiküler ağrı dahil edilmemiş görünüyor. | [KNSBA]; herni-spesifik değil. |
+| 4 | **Trap bar deadlift, RDL, safety-bar/front/goblet squat, Bulgarian split squat, lunge, hip thrust, leg curl, leg extension, calf raise, carry'ler, Pallof, DB bench/incline, shoulder/landmine press, lateral raise, triceps, chest-supported row, cable row, face pull, curl, McGill curl-up**: hiçbiri bel ağrısı/herni müdahale çalışmasında adıyla geçmiyor (aradım, bulamadım). | Programdan çıkarıldı. Leg curl/extension muhtemelen Verbrugghe'nin "6 makine egzersizi" içinde ama tablo erişilebilir metinde yok → "bulamadım". |
+| 5 | **Verbrugghe'nin makine egzersizlerinin adları** metinde yok ("three upper- and three lower-body exercises on fitness devices", tablo). | Adsız "makine üst/alt vücut" olarak yazıldı; adı geçen üst vücut hareketleri yalnızca Liu 2025'ten (lat pulldown, bench press). |
+| 6 | **WalkBack** için advers olay verisini atlamıştım: alt ekstremite olayları müdahale grubunda daha fazla (100 vs 54) [R19]. | Eklendi. |
+| 7 | **Kaynak künyeleri:** R22 umbrella yazarı eksikti (Held S 2026); R10 Schoenfeld hacim makalesi PubMed'de 2016 (baskı 2017); R16 Morton PubMed 2017 (baskı 2018). | Düzeltildi. |
+| 8 | **"Yüklü fleksiyon yasak" kuralı** domuz modelinden çıkarımdı [R20]. Literatürde ise KNSBA sporcularda makine crunch kullanılmış [R34]. | Kural kaldırıldı; makine crunch literatür listesine alındı, ancak diskektomi sonrası ekstansiyon programının fleksiyon programına üstün çıkması [R35] nedeniyle **tercih edilmedi** (bu tercih literatüre dayalı, çıkarım değil). |
+| 9 | Hip thrust erektör yükü notu (v3.1'de düzeltilmişti) → hareket zaten çıkarıldı. | — |
 
 ---
 
-## 2. Tasarım kararları ve gerekçeleri
+## 1. Kanıt katmanları (kullandığım her müdahale çalışması)
 
-| Karar | Gerekçe |
-|---|---|
-| **Üst/Alt bölünmesi ×2** (her kas grubu haftada 2×) | Hipertrofi için sıklık nötr, ama 4 günde 10-16 seti bölmek seans kalitesini korur [R9, R10]; kuvvet için sıklık yararlı [R9] |
-| **Set başlangıcı 8-10, hedef 12-16 set/kas/hafta** | Azalan getiri eğrisi; bel yükünü gereksiz artırmamak [R9] [çıkarım] |
-| **Orta yük (8-15 tekrar), omurga yükleyen hareketlerde 6-10 tekrar ve RIR 2-3** | Hipertrofi yükten bağımsız → aynı uyarıyı daha düşük mutlak omurga kompresyonuyla al [R11] [çıkarım]; izolasyonlarda RIR 0-1 [R12] |
-| **Aerobik = bisiklet (HIIT + Zone 2) + günlük yürüyüş**, koşu/kürek yok | Koşu daha fazla girişim + darbe [R14, R15]; kürek tekrarlı yüklü lomber fleksiyon [R20] [çıkarım]; yürüyüş nüksü azaltır [R19] |
-| **Direnç önce, aerobik sonra, aynı seansta** | Hipertrofi/maks kuvvet korunur, patlayıcı kuvvet hedef değil [R13]; direnç önce kuvvet/hipertrofiyi kayırma eğilimi [R22, doğrulanmalı] |
-| **HIIT, alt vücut gününün ertesinde (üst günü sonunda)** | Kaldırış kalitesi önceliği; HIIT'in bacak yorgunluğu kaldırışa taşmasın [çıkarım] |
-| **Kalça menteşesi: trap bar / bloktan RDL → şartlar sağlanınca konvansiyonel deadlift** | Deadlift faydası düşük ağrı + iyi ekstansör dayanıklılığına bağlı [R6]; yük gövdeye yakın [R21] |
-| **Yüklü gövde fleksiyonu yok (sit-up, yuvarlak sırt), core = anti-hareket** | Fleksiyon döngüsü mekanizması [R20]; stabilizasyon egzersizi herni kanıtı [R2] |
-| **12 hafta + 1 hafta deload, sonra yeniden değerlendirme** | Posterior zincir etkisi 12-16 haftada belirginleşiyor [R4] |
-| **Protein 1.6 g/kg/gün, hafif enerji fazlası** | [R16]; enerji fazlası miktarı için kaynak vermiyorum [doğrulanmalı] |
+### 1a. LDH popülasyonunda test edilmiş müdahaleler [LDH]
 
----
-
-## 2b. İtiraz: "Deadlift, suitcase carry, hip thrust — bu program fıtık yapmak için mi?"
-
-Hareket hareket, kaynağa bakarak:
-
-| Hareket | Bulduğum kanıt | Hüküm |
-|---|---|---|
-| **Deadlift** | Mekanik bel ağrılı hastalarda 8 haftalık ağır deadlift vs düşük yüklü motor kontrol: ağrı/dizabilitede fark yok, 2-12-24 ayda da yok, her iki kolda %50-80 iyileşme [R28, RKÇ n=70]; deadlift grubunda multifidus kalınlığı motor kontrol kadar arttı [R29]. Posterior zincir programlarında (deadlift dahil) advers olay genel egzersizden fazla değil [R4]. Deadlift'te yaralanma için en tutarlı öngörücü **ani yük artışı**, nötr omurgadan sapma değil [R30, anlatısal derleme]. **Disk hernisi popülasyonunda deadlift RKÇ'si yok** (yeniden aradım: yok). | Yönden eminim: kontrollü, kademeli deadlift bel ağrılı hastada zararlı çıkmadı [kesin, mekanik bel ağrısı için]. Herni için **[çıkarım]**. Bu yüzden zaten Faz 0 kapısı + trap bar + RIR 2-3 + haftada 1 ağır. |
-| **Hip thrust** | 1RM'de erektör spina aktivasyonu barbell deadlift ve hex bar ile **aynı** [R31, EMG, n=13]. Bel ağrılı popülasyonda sonuç verisi **bulamadım**. | Önceki sürümde örtük "omurgaya hafif" varsayımım **desteklenmiyor**; düzelttim. Omurga fleksiyon döngüsü içermez ama ekstansör yükü deadlift düzeyinde. Faz 1'de hafif, üstte hiperekstansiyon yok; alternatif: yer köprüsü. [doğrulanmalı] |
-| **Suitcase / farmer's carry** | PubMed'de omurga kompresyon/EMG verisi **bulamadım** (McGill'in kitap materyali, indekslenmiş çalışma yakalayamadım). | Mekanik gerekçe: nötr omurga, anti-lateral fleksiyon, fleksiyon döngüsü yok [çıkarım]. Kanıt zayıf olduğu için **opsiyonel**; yan plank + Pallof aynı işi görür. |
-
-**İtirazdaki mantık hatası:** Herniasyon mekanizması deneysel olarak *tekrarlı fleksiyon + kompresyon* [R20]; bu üç hareketin hiçbiri fleksiyon döngüsü değil. Fleksiyon döngüsü olan hareketler (sit-up, kürek, yuvarlak sırtla kaldırma) zaten programda yok. Yüklememenin de maliyeti var: lomber ekstansör dekondisyonu bel ağrısıyla ilişkili ve yaralanma öngörücüsü [R32, derleme].
-
-**Sen yine de istemiyorsan — Varyant B (düşük omurga yükü):**
-
-| Orijinal | Alternatif | Ne kaybedersin |
-|---|---|---|
-| Trap bar deadlift / RDL | Leg curl + cable pull-through hafif + (Faz 3) nötr omurgada yüksüz 45° back extension | Sırt ekstansör kuvvet/dayanıklılığı; deadlift faydasının öngörücüsü olan Sørensen kapasitesi [R6, R32] |
-| Safety-bar / front squat | Leg press (pelvis dönmeden), belt squat, Bulgarian split squat | Aksiyel yüklü kuvvet; hipertrofi farkı muhtemelen küçük [doğrulanmalı, kaynak taramadım] |
-| Hip thrust | Yer köprüsü (vücut ağırlığı → hafif plaka), cable kickback | Glute hipertrofi uyarısı |
-| Carry'ler | Yan plank, Pallof press | Az |
-
-Varyant B ile kas kazanımı ve aerobik hedef korunur; kaybedilen, posterior zincir kuvveti (12-16 haftada genel egzersize üstünlüğü gösterilen bileşen [R4]).
-
----
-
-## 3. Faz yapısı
-
-| Faz | Süre | Amaç | Giriş kriteri |
-|---|---|---|---|
-| **Faz 0 – Hareket kontrolü** | 2-4 hafta (gerekirse) | Nötr omurga altında menteşe/squat paterni, gövde dayanıklılığı, yürüyüş tabanı | Ağrı >3/10, bacak semptomu var, veya ilk kez kaldırış |
-| **Faz 1 – Teknik + taban** | Hafta 1-4 | Hareketleri öğren, 8-10 set/kas, RIR 3, aerobik tabanı | Ağrı ≤3/10, bacak semptomu yok/stabil, yan plank 2×30 sn ve kuş-köpek 10×10 sn tolere |
-| **Faz 2 – Yükleme** | Hafta 5-8 | 10-12 set/kas, RIR 2, HIIT 4×4'e geçiş | Faz 1'de ağrı kötüleşmesi olmadı |
-| **Faz 3 – Birikim** | Hafta 9-12 | 12-16 set/kas, RIR 1-2 (izolasyonda 0-1), aerobik hacim zirve | Faz 2'de kötüleşme yok |
-| **Deload** | Hafta 13 | Set sayısı yarıya, yük %10-20 aşağı, HIIT yerine Zone 2 | Otomatik |
-| **Yeniden değerlendirme** | Hafta 14 | Ağrı, Biering-Sørensen, yürüme/bisiklet testi, vücut ölçüleri | — |
-
-**Konvansiyonel deadlift'e geçiş kriteri (Faz 2+):** trap bar / blok RDL'de 8 hafta ağrısız ilerleme + Biering-Sørensen ≥ kişisel Faz 0 değerinin belirgin üstü + ağrı ≤2/10. Eşik sayısı vermiyorum; Berglund verisi yön gösterir, kesme noktası vermez [R6].
-
----
-
-## 4. Haftalık iskelet (4 gün)
-
-| Gün | Seans | Süre |
-|---|---|---|
-| Pzt | **Alt A** (menteşe ağırlıklı) + 15-20 dk Zone 2 bisiklet | 70-80 dk |
-| Sal | **Üst A** (itme ağırlıklı) + **HIIT** bisiklet | 70-80 dk |
-| Çar | Dinlenme; 30+ dk yürüyüş | — |
-| Per | **Alt B** (squat ağırlıklı) + 15-20 dk Zone 2 bisiklet | 70-80 dk |
-| Cum/Cmt | **Üst B** (çekme ağırlıklı) + **HIIT** bisiklet | 70-80 dk |
-| Diğer günler | 30+ dk yürüyüş, günde toplam ≥7-8 bin adım hedef [çıkarım] | — |
-
-Haftalık aerobik yük (Faz 3): 2×HIIT (~16 dk şiddetli iş) + 2×20 dk Zone 2 + ≥150 dk yürüyüş → WHO eşiğini karşılar [R17].
-
----
-
-## 5. Seans içerikleri
-
-Notasyon: set × tekrar @ RIR. "Çift ilerleme": tüm setlerde tekrar aralığının üstüne hedef RIR ile ulaşınca yükü %2.5-5 artır [çıkarım, konvansiyon].
-
-### Isınma (her seans, 8-10 dk)
-5 dk hafif bisiklet → kedi-deve (yüksüz, ağrısız aralıkta) 8× → kuş-köpek 2×8 → yan plank 2×20 sn → kalça menteşesi çubukla 2×10 → ilk hareketin 2 hafif seti.
-
-### Alt A – Menteşe
-
-| Hareket | Faz 1 | Faz 2 | Faz 3 | Not |
+| Çalışma | Popülasyon | Müdahale (metinden) | Doz | Sonuç |
 |---|---|---|---|---|
-| Trap bar deadlift (yüksek kol) veya bloktan RDL | 3×8 @3 | 4×6-8 @2 | 4×6 @2 | Yük gövdeye yakın, nötr omurga; bacak semptomu varsa dizler bükük, RDL yok |
-| Leg press (ayaklar yüksek, derinlik: pelvis masadan kalkmadan) | 3×10-12 @3 | 3×10-12 @2 | 4×10-12 @1-2 | Sırt yastığa tam temas |
-| Hip thrust / glute bridge | 3×10-12 @3 (hafif) | 3×10-12 @2 | 4×8-12 @1 | Erektör yükü deadlift düzeyinde [R31]; hiperekstansiyon yok, çene içeride, kaburga aşağıda |
-| Leg curl (oturarak/yatarak) | 3×12 @2 | 3×12 @1 | 4×10-12 @0-1 | — |
-| Bulgarian split squat / step-up | 2×10/bacak @3 | 3×10 @2 | 2×8-10 @2 | Dumbbell yanlarda |
-| Farmer's carry (opsiyonel; yerine yan plank) | 3×30 m | 3×40 m | 3×40 m ağır | Omuz geri, nefes; kanıt zayıf, bkz. §2b |
-| Core: McGill curl-up + yan plank + kuş-köpek | 2×(8 / 30 sn / 8) | 3× | 3× | Anti-hareket |
+| Kim 2010 [R36] | Diskektomi sonrası, erkek, L3-S1 | **Makinede progresif lomber ekstansiyon** vs su içinde geri yürüme | 2×/hafta, 6+6 hafta | Her iki grupta 12 haftada ekstansör kuvveti ↑; 6 hafta bırakınca kayıp |
+| Danielsen 2000 [R37] | Diskektomi sonrası 4. hafta | "Yoğun lomber stabilizasyon egzersizleri" | 8 hafta | Dizabilite ve ağrı azaldı; klinik son nokta farkı yok → "erken yoğun antrenmanın tehlikesi neredeyse yok" |
+| Hebert 2015 [R38] | Diskektomi sonrası 2. hafta | Genel gövde vs spesifik (multifidus) egzersiz | 8 hafta | Fark yok, ikisi de iyileşti |
+| Abdi 2022 [R35] | Diskektomi sonrası 6. hafta | Fleksiyon-tabanlı vs **ekstansiyon-tabanlı (McKenzie)** ev egzersizi | 8 hafta | Ekstansiyon programı ağrı ve dizabilitede üstün |
+| França 2019 [R39] | LDH + radikülopati | **Motor kontrol egzersizi** vs TENS | 2×/hafta, 8 hafta | Ağrı −3.3, dizabilite −8.4 lehine |
+| Bayraktar 2016 [R40] | LDH ≥3 ay | **Core stabilizasyon** (kara/su) | 3×/hafta, 8 hafta | Ağrı, dizabilite, gövde dayanıklılığı düzeldi; ortam farkı yok |
+| Taşpınar 2022 [R41] | Semptomatik LDH | **Klinik Pilates** | 3×/hafta, 6 hafta | Ağrı, ODI, yan köprü ve sit-up dayanıklılığı düzeldi; "güvenli" |
+| Ameri 2025 [R42] | Kronik LDH, kadın 30-40 | DNS egzersizi | 3×/hafta 45-60 dk, 8 hafta | Ağrı −4.0, ODI −26 |
+| Arslan 2026 [R43] | LDH + radiküler ağrı, epidural steroid sonrası | **Aerobik 20 dk** veya **core stabilizasyon 20 dk** + fizyoterapi | 6 hafta | İkisi de kontrolden iyi; 12. haftada eşdeğer |
+| Kilpikoski 2023 [R44] | MR-doğrulu LDH siyatik | McKenzie 7 seans vs tek seans tavsiye | 24 ay | Cerrahi oranı ve sonuçlar eşdeğer |
+| Bakhtiary 2005 (Du 2025 tablosu) [R45] | LDH | Lomber stabilizasyon | 4 hafta | Günlük yaşam aktivitesi ↑ (PubMed'de bulamadım; Du 2025'ten aktarıldı) |
+| Hahne 2010 [R2], Du 2025 [R45], Linhares 2026 [R46] | LDH derlemeleri | Stabilizasyon > tedavisizlik (orta kanıt); egzersiz ağrıyı azaltır (SMD −0.68, I²=%89); 8 RKÇ'de advers olay bildirilmedi | — | — |
 
-### Üst A – İtme
+**Bu katmanın sınırı:** LDH çalışmalarının hiçbirinde ağır bileşik kaldırış, HIIT veya hipertrofi hedefli hacim yok. Egzersiz adları çoğu çalışmada özette yok; erişebildiğim tam metinlerde de tablo halinde eksik.
 
-| Hareket | Faz 1 | Faz 2 | Faz 3 |
+### 1b. Bel ağrısı popülasyonunda test edilmiş, herni dışlanmış/belirtilmemiş [KNSBA] / [MSK]
+
+| Çalışma | Popülasyon | Adı geçen hareketler | Doz |
 |---|---|---|---|
-| Dumbbell bench press (düz) | 3×8-10 @3 | 4×8 @2 | 4×6-8 @1-2 |
-| Incline DB press / makine göğüs | 3×10-12 @2 | 3×10-12 @1 | 3×10-12 @0-1 |
-| Oturarak (sırt destekli) DB shoulder press veya landmine press | 3×8-10 @3 | 3×8-10 @2 | 4×8 @2 |
-| Lateral raise | 3×12-15 @1 | 3×12-15 @0-1 | 4×12-15 @0 |
-| Triceps pushdown / overhead ext. (oturarak) | 3×12 @1 | 3×12 @0-1 | 3×10-12 @0 |
-| Pallof press | 3×10/yön | 3×12 | 3×12 ağır |
-| **HIIT bisiklet** | 6×1 dk sert / 1 dk hafif | 4×3 dk / 2 dk | 4×4 dk / 3 dk |
+| Verbrugghe 2019/2020, Meus 2024 [R7, R8, R47] | KNSBA (nörolojik defisit dışlanmış) | **Bisiklet ergometresi HIIT**: 5 dk ısınma, 5×1 dk @ %100 VO2max iş yükü (110 rpm), 1 dk aktif dinlenme @ %50; her 2 seansta +10 sn, 12 seansta 1:50'ye; 13. seansta yük yenilenir. **Genel direnç**: 3 üst + 3 alt vücut makine egzersizi (adlar yok), 1 set ≤12 tekrar @ %80 1RM, iki ardışık seansta >10 tekrar → yük artır. **Core**: 6 statik egzersiz (adlar yok), 1×10 tekrar × 10 sn, son tekrar mümkün olduğunca uzun | 2×/hafta, 1.5 saat, 12 hafta; advers olay yok; VO2max +%14 |
+| Liu 2025 [R34] | KNSBA erkek üniversite sporcuları | **Derin squat, lat pulldown, bench press, makine oturarak crunch** | 4×/hafta, 4 hafta; ağır kol: %70 1RM, 4×15, 90 sn ara; ağrı ve dizabilite ↓ |
+| Hov 2024 [R48] | Nonspesifik MSK (bel ağrısı dahil), rehabilitasyon | **Yatay leg press**: 4×4 @ ~%90 1RM (maksimal niyetli hız, yavaş eksantrik; son sette >4 tekrar → +4.5 kg) veya 3×8-10 @ %75; **üst vücut ~%75 1RM** (adsız); **spinning HIIT 4×4 dk @ ~%90 HRmax, 3 dk aktif ara** | 4 hafta; advers olay yok; VO2peak +%12, 1RM +%43 |
+| Aasa 2015, Michaelson 2016, Berglund 2015/2017 [R28, R29, R6, R49] | Mekanik (nosiseptif, lokal) bel ağrısı | **Konvansiyonel deadlift** ("high-load lifting") vs düşük yüklü motor kontrol | 12 seans / 8 hafta; 24 ayda fark yok; fayda öngörücüsü: düşük ağrı + iyi Biering-Sørensen |
+| Steele 2013/2015 [R50, R51] | KNSBA | **İzole lomber ekstansiyon makinesi** (pelvis sabit) | 1×/hafta, 1 set tükenmeye @ %80 maksimal tork, 12 hafta; ağrı/dizabilite klinik anlamlı ↓ |
+| Kell 2009/2011, Jackson 2011 [R52, R53, R54] | KNSBA | "Tüm vücut periyodize direnç antrenmanı" (hareket adları özette yok) | 2-3-4 gün/hafta; **4 gün en etkili**; 13 hafta |
+| Devorski 2024 [R55] | Nonspesifik bel ağrısı, ev | **Plank, yan plank, ayak yükseltilmiş yan plank, dead bug, bird dog** — her biri tükenene kadar | 6 hafta |
+| Zhang 2022 [R56] | KNSBA (n=17) | **Köprü, tek bacak köprü, yan köprü, bird-dog, bear crawl, dead bug** | 6 seans |
+| Alqhtani 2024 [R57] | KNSBA erkek 25-55 | Core: **köprü (yer/top), dead bug (2×5-7/taraf başlangıç), quadruped çapraz kol-bacak, topta crunch, yan destek, topta prone ekstansiyon, top destekli squat** | 3 gün/hafta, 6 hafta |
+| Tataryn 2021 [R4] | KNSBA, **herni dışlanmış** | Posterior zincir programları (deadlift, hip lift vb.), 2-3 set × 8-12 tekrar | 12-16 hafta genel egzersizden üstün; advers olay farkı yok |
 
-### Alt B – Squat
-
-| Hareket | Faz 1 | Faz 2 | Faz 3 | Not |
-|---|---|---|---|---|
-| Goblet squat → safety-bar/front squat (kutuya) | 3×8-10 @3 | 4×8 @2 | 4×6-8 @2 | Derinlik: pelvis dönmeden; kutu derinlik sınırı |
-| Trap bar deadlift hafif (teknik) veya kettlebell deadlift | 3×8 @4 | 3×8 @3 | 3×6 @3 | Ağır menteşe haftada 1 |
-| Leg extension | 3×12 @2 | 3×12 @1 | 3×10-12 @0-1 | — |
-| Leg curl | 3×12 @2 | 3×12 @1 | 3×12 @0-1 | — |
-| Reverse lunge (destekli) | 2×10/bacak @3 | 3×10 @2 | 3×10 @2 | — |
-| Calf raise (oturarak/makine) | 3×15 @1 | 3×15 @0-1 | 4×12-15 @0 | — |
-| Suitcase carry (opsiyonel; yerine Pallof) | 3×30 m/taraf | 3×40 m | 3×40 m ağır | Anti-lateral fleksiyon; kanıt zayıf, bkz. §2b |
-| Core: yan plank + kuş-köpek + dead bug | 2× | 3× | 3× | — |
-
-### Üst B – Çekme
-
-| Hareket | Faz 1 | Faz 2 | Faz 3 |
-|---|---|---|---|
-| Göğüs destekli row (makine/incline DB) | 3×8-10 @3 | 4×8 @2 | 4×6-8 @1-2 |
-| Lat pulldown → pull-up | 3×8-10 @2 | 3×8-10 @1 | 4×6-10 @1 |
-| Cable row (oturarak, dik gövde) | 3×10-12 @2 | 3×10-12 @1 | 3×10-12 @0-1 |
-| Face pull / rear delt | 3×15 @1 | 3×15 @0-1 | 3×15 @0 |
-| Biceps curl | 3×12 @1 | 3×12 @0-1 | 3×10-12 @0 |
-| Makine göğüs press (hafif, Üst A'yı dengelemek için) | 2×12 @2 | 2×12 @1 | 3×10-12 @1 |
-| Bird-dog row / Pallof | 3× | 3× | 3× |
-| **HIIT bisiklet** | 6×1 dk / 1 dk | 4×3 dk / 2 dk | 4×4 dk / 3 dk |
-
-Haftalık set toplamı (Faz 3, sayım: Üst A + Üst B, Alt A + Alt B): göğüs 10 (7+3), sırt 11 + 3 arka omuz, omuz 11 (press 4 + lateral 4 + face pull 3), quadriceps 16 (leg press 4 + split squat 2 + squat 4 + leg extension 3 + lunge 3), hamstring 14 (leg curl 4+3, menteşe 4+3), glute ~16-20 (çoğu bileşik hareketlerden), kol 6 doğrudan + itme/çekmeden dolaylı. Hepsi [R9]'un azalan getiri bölgesinde, üst sınırı zorlamadan.
-
-**Hariç tutulanlar ve nedenleri:** sit-up/crunch (yüklü fleksiyon döngüsü [R20]); ayakta barbell overhead press ve bent-over barbell row (lomber ekstansiyon/shear yükü, alternatifler eşdeğer hipertrofi verir [çıkarım]); good morning ve yuvarlak sırtlı back extension (Faz 3'e kadar); koşu ve kürek ergometresi (bkz. §2); Faz 1-2'de konvansiyonel yerden deadlift.
-
-### Aerobik yoğunluk tanımı
-- **Zone 2:** konuşabilirsin, cümle kurabilirsin; RPE 3-4/10.
-- **HIIT iş aralığı:** yalnızca birkaç kelime; RPE 8-9/10; Milanović'te kalp hızı yüzdesi belirtilmemiş, bu yüzden RPE/konuşma testi birincil ölçüt [R18]; % HRmax hedefi verirsen [doğrulanmalı].
-- Bisiklet ayarı: sele yüksekliği dizde hafif bükülme, gidon yüksek (dik gövde), lomber fleksiyona eğilmeden [çıkarım].
+### 1c. Doz kuralları [sağlıklı popülasyon]
+Hacim–hipertrofi azalan getiri [R9, R10]; yük 30-80+ %1RM eşdeğer hipertrofi [R11]; tükenmeye yakınlık hipertrofiyi artırır [R12]; sıklık ≥2/hafta [R58]; eşzamanlı aerobik hipertrofiyi bozmaz, koşu > bisiklet girişim [R13, R14, R15]; HIIT VO2max'ta sürekli antrenmandan ~1.2 mL/kg/dk fazla [R18]; protein 1.6 g/kg/gün [R16]; WHO 150-300 dk orta / 75-150 dk şiddetli + kas güçlendirme [R17].
 
 ---
 
-## 6. Ağrı yönetimi ve durdurma kuralları
+## 2. Program v4 (12 hafta + deload)
 
-Bunlar klinik konvansiyon; RKÇ ile test edilmiş eşikler değil [çıkarım].
+**Ön koşul (literatürden):** Danielsen [R37] yoğun stabilizasyona cerrahiden 4 hafta sonra başladı; Berglund [R6] deadlift faydası için düşük ağrı + iyi ekstansör dayanıklılığı; Verbrugghe [R8] nörolojik defisitli hastaları almadı. → Nörolojik defisit/kauda ekina varsa program yok. Aktif radiküler ağrı varsa Faz 0.
 
-- **Trafik ışığı:** egzersiz sırasında ağrı ≤3/10 ve seans sonrası 24 saatte başlangıç düzeyine dönüyorsa devam. 4-5/10 veya 24 saatten uzun artış → o hareketin yükünü %20-30 düşür, tekrar aralığını yükselt. >5/10 veya bacağa yayılan yeni semptom → hareketi çıkar, Faz 0 hareketlerine dön.
-- **Periferalizasyon** (semptomun bacağa doğru yayılması) herhangi bir harekette → o hareketi bırak. **Santralizasyon** (bele doğru toplanması) iyi işaret.
-- **Kırmızı bayrak → antrenmanı durdur, hekime:** ilerleyici motor güç kaybı, perianal his kaybı, mesane/bağırsak disfonksiyonu, bilateral bacak semptomu. (Genel klinik bilgi; NASS kılavuzu özetinde madde bazında listelenmiyor [R23].)
-- Ağrı semptomu olmayan disk görüntü bulgusu tek başına yük kısıtlaması sebebi değil; belirleyici, semptom ve fonksiyondur [çıkarım, R2/R1 çerçevesi].
+### Faz 0 (yalnızca radiküler semptom veya ağrı >3/10 varsa; 2-6 hafta) — LDH kanıtı
+| Bileşen | Kaynak | Doz (çalışmadan) |
+|---|---|---|
+| Motor kontrol / core stabilizasyon | França [R39], Bayraktar [R40], Arslan [R43] | 2-3×/hafta, 20-60 dk, 6-8 hafta |
+| Ekstansiyon-tabanlı ev egzersizi (McKenzie tipi) | Abdi [R35], Kilpikoski [R44] | Ev programı; Kilpikoski'de tavsiyeyle eşdeğer |
+| Aerobik 20 dk | Arslan [R43] | Mod belirtilmemiş; yürüyüş için WalkBack [R19] |
+| Klinik Pilates (alternatif) | Taşpınar [R41] | 3×/hafta, 6 hafta |
+
+Faz 1'e geçiş: 4 hafta boyunca ağrı ≤3/10, bacak semptomu yok (Berglund'un "düşük ağrı" koşulu; sayısal eşik çalışmada yok).
+
+### Faz 1 — Hafta 1-4: Verbrugghe dozu [KNSBA] + LDH core
+4 gün, ~60-75 dk.
+
+| Gün | İçerik | Kaynak |
+|---|---|---|
+| **1 (Pzt)** | Isınma 5 dk bisiklet → **Bisiklet HIIT** 5×1 dk @ %100 VO2max iş yükü / 1 dk @ %50 → **Derin squat**, **bench press**, **lat pulldown**: her biri 1 set ≤12 @ %80 1RM → **Lomber ekstansiyon makinesi** 1 set → Core statik 6 hareket 1×10×10 sn | HIIT+direnç+core dozu: [R8]; hareket adları: [R34]; lomber ekstansiyon: [R36, R50] |
+| **2 (Sal)** | Isınma → **Yatay leg press** 3×8-10 @ %75 → makine üst vücut 2 hareket 1 set ≤12 @ %80 (adsız, [R8]/[R48]) → Core: plank, yan plank, bird dog, dead bug, köprü (tükenene kadar 1'er set) → Yürüyüş 30 dk | leg press: [R48]; core: [R55, R56] |
+| **3 (Per)** | Gün 1 ile aynı | |
+| **4 (Cum/Cmt)** | Gün 2 ile aynı; yürüyüş yerine **spinning HIIT 4×4 dk @ ~%90 HRmax / 3 dk ara** (Hov) yapılabilir | [R48] |
+| Diğer günler | Yürüyüş; hedef 12 hafta sonunda ≥5×/hafta ≥30 dk | [R19, protokol R59] |
+
+İlerleme: iki ardışık seansta >10 tekrar → yük artır [R8]. HIIT: her 2 seansta iş süresi +10 sn, 12 seansta 1:50 [R8].
+
+### Faz 2 — Hafta 5-8: Liu dozu [KNSBA] + hacim artışı
+| Hareket | Doz | Kaynak |
+|---|---|---|
+| Derin squat | 4×15 @ %70 1RM, 90 sn ara (Gün 1, 3) | [R34] |
+| Bench press | 4×15 @ %70 (Gün 1, 3) | [R34] |
+| Lat pulldown | 4×15 @ %70 (Gün 2, 4) | [R34] |
+| Yatay leg press | 3×8-10 @ %75 (Gün 2, 4) | [R48] |
+| Lomber ekstansiyon makinesi | 1 set tükenmeye @ %80, haftada 1 | [R50] |
+| Makine üst vücut (adsız) | 1-2 set ≤12 @ %80 | [R8] |
+| Core | Devorski/Zhang/Alqhtani listesi; Alqhtani başlangıcı 2×5-7/taraf → ilerle | [R55-R57] |
+| HIIT | Verbrugghe protokolü 13. seanstan itibaren yeni test yüküyle; veya Hov 4×4 | [R8, R48] |
+
+Haftalık doğrudan set sayısı (hesap): quadriceps 8 (squat) + 6 (leg press) = 14; göğüs 8; sırt 8 (+ adsız makine); lomber ekstansör 1-2 (+ squat/deadlift dolaylı). Hipertrofi için 10+ set/kas eşiği [R10] quadriceps ve göğüste sağlanıyor; sırt 8'de, adsız makine row/pulldown ile 10'a çıkar.
+
+### Faz 3 — Hafta 9-12: Hov MST + deadlift kapısı
+| Hareket | Doz | Kaynak / koşul |
+|---|---|---|
+| Yatay leg press | 4×4 @ ~%90 1RM, maksimal niyetli konsantrik, yavaş eksantrik; son sette >4 → +4.5 kg | [R48] |
+| Derin squat | 4×15 @ %70 | [R34] |
+| **Konvansiyonel deadlift** (yalnızca kriter sağlanırsa) | Aasa protokolü: 12 seans/8 hafta; set-tekrar özette yok → haftada 1, Verbrugghe kuralıyla (1-2 set ≤12 @ %80) | [R28]; koşul: ağrı düşük + Biering-Sørensen iyi [R6]. LDH'de test edilmedi. |
+| Bench, pulldown, makine üst | Faz 2 gibi | |
+| Lomber ekstansiyon makinesi | 1 set tükenmeye, haftada 1-2 | [R50, R36] |
+| Core | tükenene kadar setler | [R55] |
+| HIIT | Hov 4×4 @ %90 HRmax ×2/hafta | [R48] |
+
+### Deload — Hafta 13
+Verbrugghe/Hov programlarında planlı deload yok; Kim 2010'da 6 hafta tamamen bırakınca kuvvet kaybı [R36]. → Tamamen bırakma; set sayısını yarıya indir (bu ayar benimdir, literatür deload kuralı vermiyor).
+
+### Literatürde olup **tercih etmediğim** hareketler (gerekçe literatürden)
+- **Makine oturarak crunch** [R34]: diskektomi sonrası ekstansiyon programı fleksiyon programına üstün [R35]; tercih dışı.
+- **Topta crunch** [R57]: aynı gerekçe.
+- **Koşu** (Hov'da aerobik modlar arasında): koşu bisiklete göre daha fazla hipertrofi girişimi [R14, R15]; bisiklet seçildi.
+- **Su içinde geri yürüme** [R36]: makine ekstansiyonla eşdeğer; erişim varsa alternatif.
+
+### Aerobik yoğunluk tanımı (çalışmalardan)
+- Verbrugghe: iş yükü = maksimal kardiyopulmoner testte VO2max'a karşılık gelen watt; kadans 110 rpm [R8]. Test yoksa Hov'un %90 HRmax hedefi [R48] veya konuşma testi (bu ikame benim).
+- Yürüyüş: WalkBack'te başlangıç ≥3×/hafta, hedef ≥5×/hafta ≥30 dk, sonra hız/yokuş [R59].
 
 ---
 
-## 7. Beslenme, uyku, takip
+## 3. Ağrı yönetimi ve durdurma (literatürde ne var, ne yok)
+- Verbrugghe: "red flag" tarama formu, advers olay kaydı; sayısal ağrı eşiği yok [R8].
+- Hov: "unsettled medical investigations" dışlandı [R48].
+- Danielsen: erken yoğun egzersizde klinik son nokta farkı yok [R37].
+- **Kırmızı bayraklar** (ilerleyici motor kayıp, perianal his kaybı, sfinkter disfonksiyonu): genel klinik bilgi; NASS kılavuz özetinde madde madde yok [R23]. Varsa dur.
+- Ağrı eşiği (3/10, 24 saat kuralı): literatürde test edilmiş bir kesme noktası **bulamadım**; v3'teki değerler klinik konvansiyondu, artık "kural" olarak sunulmuyor.
 
-- Protein: **1.6 g/kg/gün** (80 kg için 128 g; hesap: 1.6×80), 3-4 öğüne dağıt [R16]. Üstü zararlı değil, ek kazanç yok.
-- Enerji: hafif fazla (kas kazanımı hedefi). Miktar için kaynak vermiyorum; 2 haftada ~0.25-0.5 kg/hafta artış hedefi yaygın pratik [doğrulanmalı].
-- Uyku: kaynak taramadım; 7-9 saat genel öneri [doğrulanmalı].
-- **Takip (her 4 haftada):** ağrı 0-10 (istirahat/en kötü), bacak semptomu var/yok, Biering-Sørensen süresi, yan plank süresi (her taraf), ana kaldırışlarda 8 tekrar yükü, bisiklette sabit güçte kalp hızı veya 6 dk'da alınan mesafe, bel/kalça/kol çevresi, vücut ağırlığı.
+## 4. Beslenme
+Protein 1.6 g/kg/gün [R16] (80 kg → 128 g). Enerji fazlası miktarı için kaynak yok.
 
----
-
-## 8. Öz-eleştiri döngüsü (yakınsama kaydı)
-
-### v1 → v2: neyi yanlış yaptım
-1. **Konvansiyonel deadlift 1. haftadan** koymuştum. Berglund 2015: deadlift faydası düşük ağrı ve iyi ekstansör dayanıklılığına bağlı [R6]. → Faz 0 kapısı + trap bar/blok RDL; konvansiyonele geçiş kriteri eklendi.
-2. **Koşu ve kürek** aerobik seçenekleriydi. Koşu bisiklete göre daha çok hipertrofi girişimi [R14, R15]; kürek tekrarlı yüklü lomber fleksiyon [R20]. → Bisiklet + yürüyüş.
-3. **16-20 set/kas/hafta** ile başlıyordu. Azalan getiri + bel yükü [R9]. → 8-10'dan 12-16'ya rampa.
-4. **HIIT kaldırış öncesindeydi.** Direnç önce → kuvvet/hipertrofi lehine eğilim [R22]. → Sıra ters çevrildi.
-5. **Yürüyüş yoktu.** WalkBack: nüksü azaltır [R19]. → Eklendi.
-6. **Protein hedefi yoktu.** → 1.6 g/kg [R16].
-7. Sit-up ve ayakta barbell OHP vardı. → Çıkarıldı (§5 gerekçeleri).
-
-### v2 → v3: neyi hâlâ yanlış yaptım
-1. **HIIT'i alt vücut gününün sonuna** koymuştum: ağır menteşe + 4×4 HIIT aynı seansta hem uzun hem bacak yorgunluğu kaldırış kalitesini bir sonraki alt günde düşürür. → HIIT üst günlerine, Zone 2 alt günlerine. Ödünleşim: HIIT alt gününün ertesinde, bacaklar tam dinlenmiş değil; kas kazanımı öncelik olduğu için kaldırışı korudum [çıkarım].
-2. **4×4 HIIT'e doğrudan** başlıyordu. Bel ağrısı popülasyonunda kanıt kademeli programlarda [R7]; Milanović'te uzun tekrarlar hafif avantajlı ama başlangıç için değil [R18]. → 6×1 dk → 4×3 → 4×4 progresyonu.
-3. **Bacak semptomu senaryosu** işlenmemişti: düz bacaklı RDL siyatik siniri gerer; radiküler semptomda uygunsuz [çıkarım]. → Dizler bükük menteşe kuralı eklendi.
-4. **Durdurma kuralları ve kırmızı bayraklar** yoktu. → §6 eklendi, eşiklerin konvansiyon olduğu etiketlendi.
-5. **"Her 4 haftada deload"** kural gibi yazılmıştı, kaynağı yok. → Tek deload (hafta 13), otoregülasyonla erken deload izni.
-6. Leg press derinliği ve bisiklet pozisyonu tanımsızdı (pelvis dönmesi = lomber fleksiyon altında yük). → Tanımlandı.
-7. Göğüs/sırt set dengesi Üst A/B'de asimetrikti. → Üst B'ye hafif itme, Üst A'ya Pallof eklendi.
-
-### v3 → v4 denemesi: değiştirecek kanıt kalmadı mı?
-Kontrol ettiğim adaylar ve neden değiştirmedim:
-- **Pilates/core-stabilizasyon üstünlüğü** (Guo 2025 [R24]: Pilates ağrıda, core-direnç fonksiyonda sayısal olarak önde, fark anlamsız p=0.24): program zaten core-direnç + stabilizasyon karışımı; Pilates eklemek 4 günlük bütçeyi bozar. Değişiklik yok.
-- **İzole lomber ekstansiyon makinesi** (Trybulski 2025 [R25]: ağrıda etki, dizabilitede değil, çok düşük kesinlik): Faz 3'te opsiyonel, çekirdek programa girmedi.
-- **Su içi egzersiz** (Wu 2026 ağ meta-analizi [R26], çok düşük kesinlik): hipertrofi hedefiyle uyumsuz; yok.
-- **Aynı seans vs ayrı gün concurrent** (Schumann: aynı seans yalnızca patlayıcı kuvveti etkiler [R13]): hedef hipertrofi/aerobik; aynı seans kalır.
-- **Yüksek yoğunluk/düşük sıklık ekstansör çalışması** (Mader de Oliveira 2026 [R27]: >%60 1RM, haftada 1, sırt ekstansörü; düşük-çok düşük kesinlik): programda ağır menteşe zaten haftada 1 (Alt A), Alt B hafif. Uyumlu, değişiklik yok.
-
-### v3 → v3.1: kullanıcı itirazı ("deadlift, carry, hip thrust fıtık yapar")
-1. **Hip thrust'ı örtük olarak "omurgaya hafif" saymıştım.** EMG verisi erektör aktivasyonunun deadlift ile aynı olduğunu gösteriyor [R31]. → Faz 1 yükü hafifletildi, not düzeltildi, yer köprüsü alternatifi eklendi. Bu bir hata idi.
-2. **Deadlift** için itiraz kanıtla çelişiyor: 24 aylık RKÇ'de motor kontrol egzersizinden kötü değil [R28]. Değişiklik yok; herni-spesifik boşluk zaten etiketliydi.
-3. **Carry'ler** için kanıt bulamadım; "kanıtsız ama mantıklı" hareketleri zorunlu tutmak yanlış. → Opsiyonel yapıldı.
-4. Risk toleransı bireysel karar olduğu için **Varyant B** eklendi; ne kaybedildiği açıkça yazıldı.
-
-**Yakınsama kararı:** Kalan belirsizlikler kanıt eksikliği değil, **senin verinin eksikliği** (§0 tablosu). Kanıtla düzeltilebilecek bir madde bulamadım; bu yüzden v3 son sürüm. "En doğru" program, §0'daki bilinmeyenler dolmadan tanımlı değil; bu belge o bilinmeyenlerin her biri için ne değişeceğini yazarak bunu telafi ediyor.
-
-### Bu programın zayıf halkaları (senin denetlemen için)
-1. Herni popülasyonunda ağır kaldırış RKÇ'si yok; tüm yük kararları ekstrapolasyon [çıkarım].
-2. Disk içi basınç verisi tek denek (Wilke) ve herni mekanizması domuz servikal segmenti (Callaghan-McGill); insan lomber herni için doğrudan kanıt değil.
-3. Verbrugghe HIIT verileri tek merkez, küçük örneklem; herni popülasyonu değil.
-4. Ağrı eşikleri (3/10, 24 saat) test edilmiş kesme noktaları değil.
+## 5. Takip (çalışmalarda kullanılan ölçütler)
+NPRS/VAS, ODI, Biering-Sørensen ve yan köprü süresi [R6, R41], leg press 1RM [R48], bisiklet testi/VO2max veya süre [R8], multifidus USG (opsiyonel, [R29]).
 
 ---
 
-## 9. Kaynakça (PubMed üzerinden alındı; DOI bağlantıları)
+## 6. Öz-eleştiri döngüsü
 
-- [R1] Hayden JA et al. Exercise therapy for chronic low back pain. Cochrane 2021. https://doi.org/10.1002/14651858.CD009790.pub2
-- [R2] Hahne AJ et al. Conservative management of lumbar disc herniation with associated radiculopathy: a systematic review. Spine 2010. https://doi.org/10.1097/BRS.0b013e3181cc3f56
-- [R3] Rodríguez-Domínguez ÁJ et al. Does resistance training improve pain intensity, quality of life, and disability in people with chronic nonspecific low back pain? Disabil Rehabil 2025. https://doi.org/10.1080/09638288.2025.2566275
-- [R4] Tataryn N et al. Posterior-chain resistance training compared to general exercise and walking programmes for CLBP. Sports Med Open 2021. https://doi.org/10.1186/s40798-021-00306-w
-- [R5] Ranzani M et al. Is resistance training with external loads superior to unloaded exercise in CLBP? Arch Physiother 2025. https://doi.org/10.33393/aop.2025.3533
-- [R6] Berglund L et al. Which patients with low back pain benefit from deadlift training? J Strength Cond Res 2015. https://doi.org/10.1519/JSC.0000000000000837
-- [R7] Verbrugghe J et al. Exercise intensity matters in chronic nonspecific low back pain rehabilitation. Med Sci Sports Exerc 2019. https://doi.org/10.1249/MSS.0000000000002078
-- [R8] Verbrugghe J et al. High intensity training to treat chronic nonspecific low back pain: effectiveness of various exercise modes. J Clin Med 2020. https://doi.org/10.3390/jcm9082401
-- [R9] Pelland JC et al. The resistance training dose response: meta-regressions on weekly volume and frequency. Sports Med 2025. https://doi.org/10.1007/s40279-025-02344-w
-- [R10] Schoenfeld BJ et al. Dose-response relationship between weekly resistance training volume and muscle mass. J Sports Sci 2017. https://doi.org/10.1080/02640414.2016.1210197
-- [R11] Schoenfeld BJ et al. Strength and hypertrophy adaptations between low- vs. high-load resistance training. J Strength Cond Res 2017. https://doi.org/10.1519/JSC.0000000000002200
-- [R12] Robinson ZP et al. Dose-response between estimated proximity to failure, strength gain, and hypertrophy. Sports Med 2024. https://doi.org/10.1007/s40279-024-02069-2
-- [R13] Schumann M et al. Compatibility of concurrent aerobic and strength training for skeletal muscle size and function. Sports Med 2022. https://doi.org/10.1007/s40279-021-01587-7
-- [R14] Lundberg TR et al. Effects of concurrent aerobic and strength training on muscle fiber hypertrophy. Sports Med 2022. https://doi.org/10.1007/s40279-022-01688-x
-- [R15] Wilson JM et al. Concurrent training: a meta-analysis examining interference. J Strength Cond Res 2012. https://doi.org/10.1519/JSC.0b013e31823a3e2d
-- [R16] Morton RW et al. Protein supplementation on resistance training-induced gains: meta-regression. Br J Sports Med 2018. https://doi.org/10.1136/bjsports-2017-097608
-- [R17] Bull FC et al. WHO 2020 guidelines on physical activity and sedentary behaviour. Br J Sports Med 2020. https://doi.org/10.1136/bjsports-2020-102955
-- [R18] Milanović Z et al. HIT and continuous endurance training for VO2max improvements: meta-analysis. Sports Med 2015. https://doi.org/10.1007/s40279-015-0365-0
-- [R19] Pocovi NC et al. WalkBack: individualised, progressive walking and education for prevention of LBP recurrence. Lancet 2024. https://doi.org/10.1016/S0140-6736(24)00755-4
-- [R20] Callaghan JP, McGill SM. Intervertebral disc herniation: porcine model, repetitive flexion/extension with compression. Clin Biomech 2001. https://doi.org/10.1016/s0268-0033(00)00063-2
-- [R21] Wilke HJ et al. New in vivo measurements of pressures in the intervertebral disc in daily life. Spine 1999. https://doi.org/10.1097/00007632-199904150-00005
-- [R22] Maximizing adaptations in concurrent training: umbrella review of meta-analyses. Sports Med 2026. https://doi.org/10.1007/s40279-026-02401-y
-- [R23] Kreiner DS et al. Evidence-based clinical guideline for lumbar disc herniation with radiculopathy (NASS). Spine J 2014. https://doi.org/10.1016/j.spinee.2013.08.003
-- [R24] Guo XB et al. Different types of core training in CNSLBP: meta-analysis. Front Physiol 2025. https://doi.org/10.3389/fphys.2025.1672010
-- [R25] Trybulski R et al. Isolated lumbar extension strength training in nonspecific LBP: meta-analysis. Sci Rep 2025. https://doi.org/10.1038/s41598-025-90699-5
-- [R26] Wu H et al. Aquatic and land-based exercise for CLBP: network meta-analysis. Front Med 2026. https://doi.org/10.3389/fmed.2026.1739263
-- [R27] Mader de Oliveira G et al. Strength exercise dosage on pain and disability in LBP: systematic review. Eur Spine J 2026. https://doi.org/10.1007/s00586-026-09901-5
-- [R28] Michaelson P et al. High load lifting exercise and low load motor control exercises for mechanical LBP: RCT with 24-month follow-up. J Rehabil Med 2016. https://doi.org/10.2340/16501977-2091
-- [R29] Berglund L et al. Low-load motor control exercises and a high-load lifting exercise on lumbar multifidus thickness: RCT. Spine 2017. https://doi.org/10.1097/BRS.0000000000001989
-- [R30] Cherni B et al. Beyond the neutral spine: narrative review for low back injury prevention in deadlifting. Sports 2026. https://doi.org/10.3390/sports14040151
-- [R31] Andersen V et al. Electromyographic comparison of barbell deadlift, hex bar deadlift, and hip thrust. J Strength Cond Res 2018. https://doi.org/10.1519/JSC.0000000000001826
-- [R32] Steele J et al. A reappraisal of the deconditioning hypothesis in low back pain: lumbar extensor deconditioning. Curr Med Res Opin 2014. https://doi.org/10.1185/03007995.2013.875465
-- Ek: Chiu CC et al. Probability of spontaneous regression of lumbar herniated disc. Clin Rehabil 2015. https://doi.org/10.1177/0269215514540919 · Aasa B et al. Low-load motor control vs high-load lifting in LBP: RCT. JOSPT 2015. https://doi.org/10.2519/jospt.2015.5021 · Fernandez M et al. Advice to stay active or structured exercise in sciatica. Spine 2015. https://doi.org/10.1097/BRS.0000000000001036 · Schoenfeld BJ et al. Resistance training frequency and hypertrophy. Sports Med 2016. https://doi.org/10.1007/s40279-016-0543-8 · Arslan S et al. Aerobic vs core-stabilization after caudal epidural injection for LDH: RCT. Am J Phys Med Rehabil 2026. https://doi.org/10.1097/PHM.0000000000002971
+### v1→v2, v2→v3, v3→v3.1: önceki turlar (özet)
+Deadlift kapısı, koşu/kürek çıkarılması, set rampası, direnç→aerobik sırası, HIIT günü, radiküler senaryo, durdurma kuralları, hip thrust düzeltmesi, carry'lerin opsiyonelleşmesi.
+
+### v3.1→v4: "çıkarım yok" turu
+1. §0'daki 9 hata düzeltildi; en ağırı Tataryn'ın herniyi dışlamış olması.
+2. 25+ hareket çıkarıldı; kalan her hareketin kaynağı ve popülasyonu yazıldı.
+3. Dozlar çalışma protokollerinden birebir alındı (Verbrugghe 1 set/%80, Liu 4×15/%70, Hov 4×4/%90, Steele 1 set tükenme).
+4. "Yüklü fleksiyon yasak" kuralı çıkarımdı; yerine literatür karşılaştırması (ekstansiyon > fleksiyon, Abdi 2022) kondu.
+
+### v4→v5 denemesi
+Kontrol ettiklerim:
+- LDH'de HIIT RKÇ'si var mı? Aradım: yok. Arslan'ın "aerobik 20 dk" modu belirsiz. → HIIT [KNSBA] kalır.
+- LDH'de squat/leg press/bench RKÇ'si var mı? Aradım: yok. Kim 2010 (lomber ekstansiyon makinesi) tek LDH direnç çalışması.
+- Verbrugghe'nin makine adları başka yayında var mı (2018 fizibilite, 2019 MSSE)? Erişemedim (PMC'de yok). → "bulamadım" kalır.
+- Bayraktar/França/Taşpınar egzersiz listeleri? Tam metinlere erişemedim. → Adsız kalır.
+
+**Yakınsama:** Literatürle düzeltilebilecek madde kalmadı. Kalan boşluklar veri erişimi (kapalı tam metinler) ve LDH'de direnç/HIIT RKÇ'lerinin yokluğu.
+
+### v4'ün zayıf halkaları
+1. Program iskeletinin büyük kısmı [KNSBA] çalışmalarından; LDH'de yalnızca stabilizasyon/motor kontrol/Pilates/ekstansiyon ve diskektomi sonrası lomber ekstansiyon makinesi test edilmiş.
+2. Hipertrofi hacim/RIR kuralları sağlıklı popülasyondan; bel ağrılılarda hacim-yanıt çalışması Kell 2011 dışında yok (4 gün > 2-3 gün).
+3. Üst vücut için adı geçen hareket yalnızca lat pulldown ve bench press (tek çalışma, sporcu, 4 hafta).
+4. Verbrugghe HIIT dozu maksimal test gerektirir; testsiz ikame benim.
+
+---
+
+## 7. Kaynakça (PubMed/PMC; DOI bağlantıları)
+- [R2] Hahne AJ 2010 Spine. https://doi.org/10.1097/BRS.0b013e3181cc3f56
+- [R4] Tataryn N 2021 Sports Med Open (tam metin PMC7940464). https://doi.org/10.1186/s40798-021-00306-w
+- [R6] Berglund L 2015 J Strength Cond Res. https://doi.org/10.1519/JSC.0000000000000837
+- [R7] Verbrugghe J 2019 Med Sci Sports Exerc. https://doi.org/10.1249/MSS.0000000000002078
+- [R8] Verbrugghe J 2020 J Clin Med (tam metin PMC7465397). https://doi.org/10.3390/jcm9082401
+- [R9] Pelland JC 2025 Sports Med. https://doi.org/10.1007/s40279-025-02344-w
+- [R10] Schoenfeld BJ 2016/2017 J Sports Sci. https://doi.org/10.1080/02640414.2016.1210197
+- [R11] Schoenfeld BJ 2017 J Strength Cond Res. https://doi.org/10.1519/JSC.0000000000002200
+- [R12] Robinson ZP 2024 Sports Med. https://doi.org/10.1007/s40279-024-02069-2
+- [R13] Schumann M 2022 Sports Med. https://doi.org/10.1007/s40279-021-01587-7
+- [R14] Lundberg TR 2022 Sports Med. https://doi.org/10.1007/s40279-022-01688-x
+- [R15] Wilson JM 2012 J Strength Cond Res. https://doi.org/10.1519/JSC.0b013e31823a3e2d
+- [R16] Morton RW 2017/2018 Br J Sports Med. https://doi.org/10.1136/bjsports-2017-097608
+- [R17] Bull FC 2020 Br J Sports Med. https://doi.org/10.1136/bjsports-2020-102955
+- [R18] Milanović Z 2015 Sports Med. https://doi.org/10.1007/s40279-015-0365-0
+- [R19] Pocovi NC 2024 Lancet (WalkBack). https://doi.org/10.1016/S0140-6736(24)00755-4
+- [R20] Callaghan JP, McGill SM 2001 Clin Biomech. https://doi.org/10.1016/s0268-0033(00)00063-2
+- [R23] Kreiner DS 2014 Spine J (NASS). https://doi.org/10.1016/j.spinee.2013.08.003
+- [R28] Michaelson P 2016 J Rehabil Med. https://doi.org/10.2340/16501977-2091
+- [R29] Berglund L 2017 Spine. https://doi.org/10.1097/BRS.0000000000001989
+- [R33] ClinicalTrials.gov NCT01061632 (Aasa/Michaelson deadlift çalışması kaydı). https://clinicaltrials.gov/study/NCT01061632
+- [R34] Liu Y 2025 Front Public Health (tam metin PMC11752914). https://doi.org/10.3389/fpubh.2024.1496482
+- [R35] Abdi A 2022 Neurol Res. https://doi.org/10.1080/01616412.2022.2116686
+- [R36] Kim YS 2010 Arch Phys Med Rehabil. https://doi.org/10.1016/j.apmr.2009.10.014
+- [R37] Danielsen JM 2000 Spine. https://doi.org/10.1097/00007632-200004150-00017
+- [R38] Hebert JJ 2015 Br J Sports Med. https://doi.org/10.1136/bjsports-2013-092402
+- [R39] França FJR 2019 Am J Phys Med Rehabil. https://doi.org/10.1097/PHM.0000000000001048
+- [R40] Bayraktar D 2016 Disabil Rehabil. https://doi.org/10.3109/09638288.2015.1075608
+- [R41] Taşpınar G 2022 J Comp Eff Res. https://doi.org/10.2217/cer-2022-0144
+- [R42] Ameri B 2025 Health Sci Rep. https://doi.org/10.1002/hsr2.71611
+- [R43] Arslan S 2026 Am J Phys Med Rehabil. https://doi.org/10.1097/PHM.0000000000002971
+- [R44] Kilpikoski S 2023 Clin Rehabil. https://doi.org/10.1177/02692155231196393
+- [R45] Du S 2025 Front Med (tam metin PMC11985520; Bakhtiary 2005 tablo 2'de). https://doi.org/10.3389/fmed.2025.1531637
+- [R46] Linhares DG 2026 Musculoskeletal Care. https://doi.org/10.1002/msc.70231
+- [R47] Meus T 2024 J Clin Med (HITHOME, tam metin PMC11676959). https://doi.org/10.3390/jcm13247599
+- [R48] Hov H 2024 Eur J Sport Sci (tam metin PMC11235885). https://doi.org/10.1002/ejsc.12126
+- [R49] Aasa B 2015 J Orthop Sports Phys Ther. https://doi.org/10.2519/jospt.2015.5021
+- [R50] Steele J 2013 Spine. https://doi.org/10.1097/BRS.0b013e318291b526
+- [R51] Steele J 2015 PM R. https://doi.org/10.1016/j.pmrj.2015.06.012
+- [R52] Kell RT 2009 J Strength Cond Res. https://doi.org/10.1519/JSC.0b013e3181918a6e
+- [R53] Kell RT 2011 J Strength Cond Res. https://doi.org/10.1519/JSC.0b013e3181d09df7
+- [R54] Jackson JK 2011 J Strength Cond Res. https://doi.org/10.1519/JSC.0b013e3181b2c83d
+- [R55] Devorski L 2024 Disabil Rehabil. https://doi.org/10.1080/09638288.2024.2368694
+- [R56] Zhang Z 2022 Lipids Health Dis. https://doi.org/10.1186/s12944-022-01737-4
+- [R57] Alqhtani RS 2024 J Clin Med (tam metin PMC10816614). https://doi.org/10.3390/jcm13020475
+- [R58] Schoenfeld BJ 2016 Sports Med (sıklık). https://doi.org/10.1007/s40279-016-0543-8
+- [R59] Pocovi NC 2020 BMJ Open (WalkBack protokolü, tam metin PMC7545638). https://doi.org/10.1136/bmjopen-2020-037149
+- Ek (önceki sürümlerden, hâlâ geçerli): Hayden 2021 Cochrane https://doi.org/10.1002/14651858.CD009790.pub2 · Rodríguez-Domínguez 2025 https://doi.org/10.1080/09638288.2025.2566275 · Ranzani 2025 https://doi.org/10.33393/aop.2025.3533 · Held S 2026 umbrella https://doi.org/10.1007/s40279-026-02401-y · Andersen 2018 EMG https://doi.org/10.1519/JSC.0000000000001826 · Chiu 2015 https://doi.org/10.1177/0269215514540919 · Wilke 1999 https://doi.org/10.1097/00007632-199904150-00005 · Steele 2014 dekondisyon https://doi.org/10.1185/03007995.2013.875465 · Guo 2025 https://doi.org/10.3389/fphys.2025.1672010 · Trybulski 2025 https://doi.org/10.1038/s41598-025-90699-5
