@@ -149,11 +149,11 @@
     {k:'pref',label:'Aileyle birlikte seçilen tedavi?',hint:'Öneri 17: üçü de ilk basamak, tercih kanıtı yok.',show:function(s){return s.phase==='ind'&&!!s.atopy;},opts:[['tcs','Topikal steroid'],['ppi','Proton pompası inhibitörü'],['diet','Diyet'],['aaf','Aminoasit formülü'],['unk','Kararsız']]},
 
     {k:'tx',step:'Yanıt',label:'Hangi tedaviyi aldı?',show:function(s){return s.phase==='resp';},opts:[['tcs','Topikal steroid'],['ppi','Proton pompası inhibitörü'],['diet','Diyet'],['aaf','Aminoasit formülü']]},
-    {k:'wk',label:'Kaç hafta?',show:function(s){return s.phase==='resp'&&!!s.tx;},opts:[['early','4–7 hafta'],['std','8–12 hafta veya daha uzun']]},
+    {k:'wk',label:'Kaç hafta?',show:function(s){return s.phase==='resp'&&!!s.tx;},opts:[['early','4–7 hafta'],['w8','8–11 hafta'],['std','12 hafta veya daha uzun']]},
     {k:'histo',label:'Histoloji?',show:function(s){return s.phase==='resp'&&!!s.wk;},opts:[['rem','<15/alan, bazal hiperplazi düzelmiş'],['remb','<15/alan, bazal hiperplazi sürüyor'],['part','>%50 azalma ama ≥15'],['none','<%50 azalma']]},
     {k:'clin',label:'Belirti ve endoskopi?',hint:'Remisyon için majör belirti yok ve Endoskopik Referans Skoru ≤2.',show:function(s){return s.phase==='resp'&&(s.histo==='rem'||s.histo==='remb');},opts:[['y','Belirtisiz, skor ≤2'],['sym','Belirti sürüyor'],['eref','Belirtisiz ama skor >2']]},
-    {k:'adh',label:'Uyum ve doz uygun muydu?',hint:'Topikal steroidde uygulama hatası sık; diyette gizli alerjen ve çapraz bulaşma.',show:function(s){return s.phase==='resp'&&(s.histo==='none'||s.histo==='part')&&!(s.wk==='early'&&s.tx!=='aaf');},opts:[['y','Evet, uyumlu'],['n','Hayır / şüpheli']]},
-    {k:'bio',label:'1 yaşından büyük ve en az 15 kg mı?',hint:'Dupilumab ölçütü (Öneri 23.1).',show:function(s){return s.phase==='resp'&&s.adh==='y';},opts:[['y','Evet'],['n','Hayır']]},
+    {k:'adh',label:'Uyum ve doz uygun muydu?',hint:'Topikal steroidde uygulama hatası sık; diyette gizli alerjen ve çapraz bulaşma.',show:function(s){return s.phase==='resp'&&(s.histo==='none'||s.histo==='part')&&!(s.wk==='early'&&s.tx!=='aaf')&&!(s.histo==='part'&&s.wk==='w8'&&s.tx!=='aaf');},opts:[['y','Evet, uyumlu'],['n','Hayır / şüpheli']]},
+    {k:'bio',label:'1 yaşından büyük ve >15 kg mı?',hint:'Dupilumab ölçütü (Öneri 23.1).',show:function(s){return s.phase==='resp'&&s.adh==='y';},opts:[['y','Evet'],['n','Hayır']]},
 
     {k:'mstat',step:'İdame',label:'Şu anki durum?',show:function(s){return s.phase==='maint';},opts:[['stable','Belirtisiz, stabil'],['flare','Belirti alevlenmesi'],['change','Tedavi azaltıldı / kesildi / değişti']]},
     {k:'mdur',label:'Remisyon süresi ve son endoskopi?',show:function(s){return s.phase==='maint'&&s.mstat==='stable';},opts:[['lt1','Remisyon <1 yıl'],['recent','≥1 yıl, son endoskopi <1 yıl önce'],['due','≥1 yıl, son endoskopi 1–3 yıl önce'],['over','≥1 yıl, son endoskopi >3 yıl önce']]}
@@ -197,11 +197,13 @@
         ['Kanıt çok düşük (İfade 25.3): tek, kontrolsüz, geriye dönük 20 hastalık çalışma.',s.str==='sev'?'Şekil 1 ağır darlığı belirtiden bağımsız sistemik steroide yönlendiriyor; Öneri 25.2 "orta–ağır darlık ve ağır belirti" diyor.':'']);
       if(!s.gerd||!s.multi||!s.atopy||!s.pref) return null;
       var strict=s.str!=='none', flags=[], pick=s.pref;
-      if(s.atopy==='y'&&(pick==='tcs'||pick==='unk')) flags.push('Toplam steroid yükünü hesapla; inhaler + nazal + cilt + yutulan steroid adrenal baskılanma riskini artırır (Öneri 14).');
       if(pick==='unk'){ pick=(strict||s.gerd!=='y')?'tcs':'ppi'; flags.push('Aile kararsız: araç '+(pick==='ppi'?'reflü bulgusu nedeniyle proton pompası inhibitörünü':'topikal steroidi')+' öne çıkardı. Bu makalenin önerisi değil, aracın kuralı (Öneri 17: tercih kanıtı yok; metin topikal steroidin yanıt oranını daha yüksek buluyor).'); }
-      if(pick==='ppi'&&strict){ flags.push('Darlıkta proton pompası inhibitörü topikal steroide göre zayıf, tek başına önerilmez (Tablo 3 dipnot d). Araç seçimi topikal steroide çevirdi; bu aracın kuralı.'); pick='tcs'; }
-      if(strict&&(pick==='diet'||pick==='aaf')) flags.push('Şekil 1\'de hafif/orta darlık topikal steroid veya sistemik steroide yönleniyor; diyetle darlık yanıtı hakkında makalede ayrı veri yok.');
+      if(pick==='ppi'&&s.str==='mod'){ flags.push('Orta darlıkta proton pompası inhibitörü topikal steroide göre zayıf, önerilmez (Tablo 3 dipnot d); Şekil 1 hafif/orta darlığı topikal steroid veya sistemik steroide yönlendiriyor. Araç seçimi topikal steroide çevirdi (aracın kuralı).'); pick='tcs'; }
+      else if(pick==='ppi'&&s.str==='mild') flags.push('Makale içi çelişki: Tablo 3 dipnot d darlıkta proton pompası inhibitörünü önermiyor; s.423 hafif inflamatuvar darlığın ilaç (proton pompası inhibitörü ve/veya topikal steroid) veya diyetle gerilediğini, s.415 halka/darlıkların bu ilaçla gerileyebildiğini söylüyor. Aile seçimi korundu; yanıtı yakından izle.');
+      if(strict&&(pick==='diet'||pick==='aaf')) flags.push(s.str==='mild'?'Hafif inflamatuvar darlık standart ilaç veya diyet tedavisiyle gerileyebilir (s.423).':'Orta darlık: Şekil 1 topikal steroid veya sistemik steroide yönlendiriyor; diyet seçimi bu akışın dışında.');
+      if(s.atopy==='y'&&pick==='tcs') flags.push('Toplam steroid yükünü hesapla; inhaler + nazal + cilt + yutulan steroid adrenal baskılanma riskini artırır (Öneri 14).');
       if(s.multi==='y'&&pick!=='aaf') flags.push('Çoklu besin alerjisi / büyüme geriliği / ağır hastalık: aminoasit formülü bir seçenek (Öneri 12, zayıf; ikinci seçenek).');
+      if(pick==='aaf'&&s.multi!=='y') flags.push('Aminoasit formülü ikinci seçenek tedavidir (İfade 12); Öneri 12 endikasyonu (çoklu besin alerjisi, büyüme geriliği, kısıtlı diyete uyamayan ağır hastalık) bu hastada işaretlenmedi.');
       var rev='8–12 hafta sonra biyopsili endoskopi (Öneri 18)';
       if(pick==='aaf') return R('bireysel','Aminoasit formülü','en az 4 hafta, sonra biyopsili endoskopi',
         ['Çoklu besin alerjisi, büyüme geriliği veya kısıtlı diyete uyamayan ağır hastalıkta seçenek (Öneri 12).','Bebek ve küçük çocukta oral motor beceriyi aminoasit bazlı yarı katılarla koru; remisyonda ilk katı gıda grubuna geç.'],
@@ -225,7 +227,7 @@
       if(s.histo==='rem'||s.histo==='remb'){
         if(!s.clin) return null;
         if(s.histo==='rem'&&s.clin==='y') return R('kons','Remisyon','idameye geç',
-          ['İdame tüm hastalara, en az 1 yıl (Öneri 19, 20.1).',main,'Başlangıç idame dozu genelde indüksiyonun yarısı, 3–6 ay; sonra %25–50 daha azaltılabilir (Tablo 3 dipnot a).',GOR],
+          ['İdame tüm hastalara, en az 1 yıl (Öneri 19, 20.1).',main,(s.tx==='tcs'||s.tx==='ppi')?'Başlangıç idame dozu genelde indüksiyonun yarısı, 3–6 ay; sonra %25–50 daha azaltılabilir (Tablo 3 dipnot a).':'',GOR],
           ['Remisyon: belirti yok + <15 eozinofil/alan ve bazal hiperplazi düzelmiş + Endoskopik Referans Skoru ≤2 (Şekil 1).']);
         var a=['Histolojik yanıt var: idameye geç (Öneri 19). '+main];
         if(s.histo==='remb') a.push('Bazal hiperplazi sürüyor: Şekil 1 remisyon tanımını tam karşılamıyor; tedaviyi sürdür, yeniden değerlendir.');
@@ -233,6 +235,7 @@
         if(s.clin==='eref') a.push('Endoskopik skor >2: aynı hastada zaman içindeki değişim tek ölçümden daha anlamlı (s.406).');
         return R('elektif','Kısmi remisyon','histoloji düzeldi, diğer alanlar tam değil',a,['Eozinofili tamamen temizleyen benralizumab belirtiyi düzeltmedi: eozinofil dışı inflamasyon belirtide önemli rol oynuyor (s.421).']);
       }
+      if(s.histo==='part'&&s.wk==='w8'&&s.tx!=='aaf') return R('info','Kısmi yanıt, 8. hafta','tedaviyi değiştirmeden 12–16. haftaya uzatmayı düşün',['Proton pompası inhibitörüyle 12. haftada remisyon 8. haftadan yüksek bulundu (s.417); diyette kısmi yanıtta süreyi uzatmak remisyonu artırdı.','Durum izin veriyorsa tedaviyi sürdür, 12–16. haftada tekrar biyopsili endoskopi.']);
       if(s.wk==='early'&&s.tx!=='aaf') return R('info',s.histo==='part'?'Kısmi yanıt, erken kontrol':'Erken kontrol: süre yetersiz','tedaviyi değiştirme, uzat',
         ['İndüksiyon en az 8–12 hafta olmalı (Öneri 18).','Durum izin veriyorsa tedaviyi sürdür ve 12–16. haftada tekrar endoskopi (pratik nokta 18).','Klinik kötüleşme varsa bireysel karar.'],
         ['Diyette 6. haftada kısmi yanıt olanlarda ortanca 13 haftaya uzatmak remisyonu anlamlı artırdı.']);
@@ -240,12 +243,12 @@
       if(s.adh==='n') return R('elektif','Önce uyumu ve dozu düzelt','sonra tekrar değerlendir',
         ['Topikal steroid: uygulama tekniğini yeniden öğret. '+TCSHOW,'Proton pompası inhibitörü: dozu artır; CYP2C19 hızlı metabolize edici olabilir.','Diyet: gizli alerjen ve çapraz bulaşma.']);
       if(!s.bio) return null;
-      var act=['Tanıyı yeniden değerlendir.','Başka bir ilk basamak tedaviye geç veya diyeti genişlet.','Tedavileri birleştir; reflü varsa proton pompası inhibitörü ekle.'];
-      act.push(s.bio==='y'?'Konvansiyonel tedaviye dirençliyse dupilumab (Öneri 23.1, güçlü); biyolojik onaylı eşlik eden atopik hastalık da gerekçe olabilir. Doz "Doz" sekmesinde.':'Dupilumab önerisi 1 yaş üstü ve 15 kg üstü için; bu çocuk kapsam dışında.');
-      act.push('Değişiklikten 8–12 hafta sonra tekrar biyopsili endoskopi (Şekil 1).','Diğer biyolojikler yalnız klinik çalışma veya uzman merkezde (Öneri 23.2).');
+      var act=['Tanıyı yeniden değerlendir.',s.tx==='aaf'?'Topikal steroid veya proton pompası inhibitörüne geç.':s.tx==='diet'?'Diyeti genişlet veya ilaca geç.':'Başka bir ilk basamak tedaviye geç (diğer ilaç veya diyet).','Tedavileri birleştir; reflü varsa proton pompası inhibitörü ekle.'];
+      act.push(s.bio==='y'?'Konvansiyonel tedaviye dirençliyse dupilumab (Öneri 23.1, güçlü); biyolojik onaylı eşlik eden atopik hastalık da gerekçe olabilir. Doz "Doz" sekmesinde.':'Dupilumab önerisi 1 yaş üstü ve >15 kg için (Öneri 23.1); bu çocuk kapsam dışında.');
+      act.push('Değişiklikten 8–12 hafta sonra (aminoasit formülünde 4 hafta) tekrar biyopsili endoskopi (Şekil 1, Öneri 18).','Diğer biyolojikler yalnız klinik çalışma veya uzman merkezde (Öneri 23.2).');
       return R('acil','Yanıtsızlık / dirençli hastalık','Şekil 1 yanıtsızlık seçenekleri',act,
-        ['Dupilumab faz 3 (≥12 yaş): histolojik remisyon %59–60; klinik yanıt yalnız haftalık dozda anlamlı.','Omalizumab, montelukast, kromolin, OC000459 etkisiz; tiyopürin rutin değil.'],
-        ['1–11 yaş dupilumab onayı kongre sunumlarına dayanıyor. Avrupa ve ABD onayı ≥12 yaş ve ≥40 kg için (s.421).']);
+        ['Dupilumab faz 3 (≥12 yaş): histolojik remisyon (<6 eozinofil/alan tanımıyla) %59–60; klinik yanıt yalnız haftalık dozda anlamlı.','Omalizumab, montelukast, kromolin, OC000459 etkisiz; tiyopürin rutin değil.'],
+        ['Onay: 2022\'de ABD ve Avrupa ≥12 yaş ve ≥40 kg için; ABD daha sonra 1–11 yaşa genişletti, makale bunun için kongre sunumlarını kaynak gösteriyor (s.421).']);
     }
 
     if(s.phase==='maint'){
@@ -270,15 +273,17 @@
   // ---------- DOZ ----------
   var $=function(s){return document.querySelector(s);};
   var r1=function(x){return Math.round(x*10)/10;}, fmt=function(x){return r1(x).toLocaleString('tr-TR');};
-  var r5=function(x){return Math.max(5,Math.round(x/5)*5);};
+  var r5=function(x){return x<10?Math.round(x):Math.round(x/5)*5;};
+  var rng=function(a,b){return a===b?fmt(a):fmt(a)+'–'+fmt(b);};
   function dose(age,wt,ph){
-    if(!(age>=0)||!(wt>0)) return {err:'Yaş ve kilo gir.'};
+    if(isNaN(age)||isNaN(wt)) return {err:'Yaş ve kilo gir.'};
+    if(age<0||wt<=0) return {err:'Aralık dışı: yaş 1–18, kilo 3–150 kg.'};
     if(age<1) return {err:'Tablo 3 yalnız 1 yaş ve üstü için doz veriyor.'};
     if(age>18||wt<3||wt>150) return {err:'Aralık dışı: yaş 1–18, kilo 3–150 kg.'};
     var g=age<4?'inf':age<11?'child':'ado', sev=ph!=='mild', str=ph==='str', out=[], warn=[];
     var gName={inf:'1–3 yaş',child:'4–10 yaş',ado:'11–18 yaş'}[g];
-    var exp=age<1?0:(age<=10?2*age+8:3*age+7); // kaba beklenen kilo (aracın kuralı)
-    if(wt>exp*1.8||wt<exp*0.55) warn.push('Kilo bu yaş için beklenenden çok farklı ('+fmt(wt)+' kg). Yaş ve kiloyu kontrol et.');
+    var exp=age<=10?2*age+8:3*age-2, up=age<=5?1.6:age<=12?2.0:1.8; // kaba beklenen kilo ve tolerans (aracın kuralı, yazım hatası yakalamak için)
+    if(wt>exp*up||wt<exp*0.6) warn.push('Kilo bu yaş için beklenenden çok farklı ('+fmt(wt)+' kg). Yaş ve kiloyu kontrol et.');
     var bud={inf:['0,5 mg × 1 – 0,5 mg × 2 /gün','0,5 mg × 2 /gün','0,25 mg × 1 – 0,5 mg × 2 /gün'],child:['1 mg × 1 /gün','1 mg × 2 /gün','0,5 mg × 1 – 1 mg × 1 /gün'],ado:['1 mg × 2 /gün','1 mg × 2 – 2 mg × 2 /gün','0,5 mg × 1 – 1 mg × 1 /gün']}[g];
     out.push({h:'Budesonid (yutulan, viskoz)',rows:[['İndüksiyon',sev?bud[1]:bud[0]],['Başlangıç idame (3–6 ay)',bud[2]]],note:TCSHOW});
     var flu={inf:['88 µg × 1 – 250 µg × 1 /gün','88 µg × 2 – 250 µg × 2 /gün','44 µg × 1 – 125 µg × 1 /gün (bazen 125 µg × 2)'],child:['250 µg × 1 – 250 µg × 2 /gün','500 µg × 1 – 500 µg × 2 /gün','250 µg × 1 – 500 µg × 1 /gün'],ado:['500 µg × 1 – 500 µg × 2 /gün','500 µg × 2 – 500 µg × 3 /gün','500 µg × 1 /gün']}[g];
@@ -287,14 +292,14 @@
     var per=function(mgkg){return Math.min(wt*mgkg*2,maxDay)/2;};
     var lo=per(1), hi=per(sev?2:1);
     var ind=(lo===hi?fmt(lo):fmt(lo)+'–'+fmt(hi))+' mg × 2 /gün (≈ '+(lo===hi?r5(lo):r5(lo)+'–'+r5(hi))+' mg) · '+(sev?'1–2':'1')+' mg/kg × 2, '+capNote;
-    var mt=g==='inf'?fmt(Math.min(wt,40))+' mg × 1 /gün (1 mg/kg)':g==='child'?fmt(Math.min(wt*0.5,30))+'–'+fmt(Math.min(wt,30))+' mg/gün (0,5–1 mg/kg, en fazla 30 mg)':fmt(Math.min(wt,40))+' mg × 1 /gün sabah (1 mg/kg, en fazla 40 mg)';
+    var mt=g==='inf'?fmt(Math.min(wt,40))+' mg × 1 /gün (1 mg/kg'+(wt>40?'; metindeki 40 mg üst sınırı uygulandı':'')+')':g==='child'?rng(Math.min(wt*0.5,30),Math.min(wt,30))+' mg/gün (≈ '+(r5(Math.min(wt*0.5,30))===r5(Math.min(wt,30))?r5(Math.min(wt,30)):r5(Math.min(wt*0.5,30))+'–'+r5(Math.min(wt,30)))+' mg; 0,5–1 mg/kg, en fazla 30 mg)':fmt(Math.min(wt,40))+' mg × 1 /gün sabah (1 mg/kg, en fazla 40 mg)';
     out.push({h:'Proton pompası inhibitörü (omeprazol eşdeğeri)',rows:[['İndüksiyon',ind],['Başlangıç idame (3–6 ay)',mt]],
       note:'Metin "1–2 mg/kg/gün, iki doza bölünmüş, günde iki kez 20–40 mg\'a kadar" diyor; Tablo 3 "1 mg/kg × 2" veriyor. Hesap Tablo 3\'e göre; 1–3 yaşta Tablo 3 üst sınır vermediği için metindeki 40 mg × 2 uygulandı.',
       warn:str?'Darlıkta proton pompası inhibitörü topikal steroide göre zayıf, tek başına önerilmez (Tablo 3 dipnot d). Reflü özofajiti varsa düşük doz, topikal steroide ek.':''});
     var dup;
-    if(wt<15) dup={h:'Dupilumab',rows:[['Doz','Kapsam dışı: öneri 1 yaş üstü ve en az 15 kg için']]};
+    if(wt<15) dup={h:'Dupilumab',rows:[['Doz','Kapsam dışı: öneri 1 yaş üstü ve >15 kg için']]};
     else dup={h:'Dupilumab (dirençli hastalık)',rows:[['Doz (indüksiyon = idame)',wt<30?'200 mg / 2 haftada bir':wt<=40?'300 mg / 2 haftada bir':'300 mg / haftada bir']],
-      note:'Konvansiyonel tedaviye dirençli seçilmiş vakalarda (Öneri 23.1). Tablo 3 bantları 30 kg\'da çakışıyor; araç 30 kg\'ı 300 mg grubuna koyar.'};
+      note:'Konvansiyonel tedaviye dirençli seçilmiş vakalarda (Öneri 23.1). Öneri 23.1 ">15 kg", Tablo 3 bandı "15–30 kg" diyor; bantlar 30 kg\'da da çakışıyor, araç 30 kg\'ı 300 mg grubuna koyar.'};
     out.push(dup);
     return {g:gName,out:out,warn:warn};
   }
