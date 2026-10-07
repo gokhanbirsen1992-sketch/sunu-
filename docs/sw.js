@@ -1,5 +1,5 @@
 /* Çevrimdışı destek: kendi dosyalarımız için önce ağ, olmazsa önbellek; yazı tipleri için önce önbellek. */
-var C='gis-araclari-v1';
+var C='gis-araclari-v2';
 var FILES=['./','./index.html','./ortak.css','./ortak.js','./manifest.webmanifest','./icon-192.png','./icon-512.png',
   './yabanci-cisim/','./yabanci-cisim/index.html','./eozinofilik-ozofajit/','./eozinofilik-ozofajit/index.html'];
 self.addEventListener('install',function(e){e.waitUntil(caches.open(C).then(function(c){return c.addAll(FILES);}).then(function(){return self.skipWaiting();}));});

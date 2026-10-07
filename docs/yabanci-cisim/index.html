@@ -135,6 +135,7 @@
   var bluntish=function(s){return ['blunt','food','lead'].indexOf(s.obj)>=0||(s.obj==='magnet'&&s.mag==='single');};
   var LOC=function(s){return s.obj==='food'?'eso':s.loc;};
   var noLoc=function(s){return s.obj==='sap'||s.obj==='toxic'||s.obj==='food';};
+  var BW=function(s){return s.t12==='lt'?s.bwit:'n';};
   var batCrit=function(s){return s.obj==='battery'&&(s.loc==='sto'||s.loc==='post')&&s.bmag==='n'&&!(s.loc==='sto'&&s.sym==='y');};
 
   var Q=[
@@ -156,8 +157,8 @@
     {k:'delay',label:'Gecikmiş başvuru veya rastlantısal bulgu mu?',hint:'Tomografi ve cerrahi destek ihtiyacını belirler (Şekil 1A).',show:function(s){return LOC(s)==='eso'&&s.obj!=='battery'&&!(bluntish(s)&&s.obs==='y')&&(multiMag(s)||isSharp(s)||s.sym!==undefined);},opts:[['n','Hayır'],['y','Evet']]},
     {k:'age5',label:'Çocuk 5 yaşından küçük mü?',show:batCrit,opts:[['y','Evet'],['n','Hayır']]},
     {k:'b20',label:'Pil çapı 20 mm veya üstü mü?',show:batCrit,opts:[['y','Evet'],['n','Hayır']]},
-    {k:'bwit',label:'Yutmayı gören oldu mu VE 15 dk içindeki grafide pil midede mi?',hint:'"Hayır": tanıksız yutma, yutmadan >12 saat veya süre bilinmiyor, ya da mideye geçiş >15 dk.',show:batCrit,opts:[['y','Evet'],['n','Hayır']]},
-    {k:'banat',label:'Bağırsak cerrahisi öyküsü veya bilinen anatomik anomali?',show:function(s){return batCrit(s)&&!!s.age5&&!!s.b20&&!!s.bwit&&!(s.age5==='y'&&s.b20==='y'&&s.bwit==='n');},opts:[['n','Yok'],['y','Var']]},
+    {k:'bwit',label:'Yutmayı gören oldu mu VE 15 dk içindeki grafide pil midede mi?',hint:'"Hayır": tanıksız yutma veya mideye geçiş >15 dk. Süre >12 saat / bilinmiyor seçildiyse bu soru sorulmaz.',show:function(s){return batCrit(s)&&s.t12==='lt';},opts:[['y','Evet'],['n','Hayır']]},
+    {k:'banat',label:'Bağırsak cerrahisi öyküsü veya bilinen anatomik anomali?',show:function(s){return batCrit(s)&&!!s.age5&&!!s.b20&&!!BW(s)&&!(s.age5==='y'&&s.b20==='y'&&BW(s)==='n');},opts:[['n','Yok'],['y','Var']]},
     {k:'big',label:'Çap >25 mm veya uzunluk >60 mm mi?',show:function(s){return s.loc==='sto'&&s.sym==='n'&&(s.obj==='blunt'||(s.obj==='magnet'&&s.mag==='single'));},opts:[['n','Hayır'],['y','Evet']]},
     {k:'reach',label:'Gastroskop erişiminde mi?',show:function(s){return s.loc==='post'&&(multiMag(s)||(isSharp(s)&&s.sym==='y'));},opts:[['y','Evet'],['n','Hayır']]},
     {k:'crohn',label:'Crohn, karın cerrahisi veya lümen darlığı riski var mı?',optional:true,show:function(s){return isSharp(s)&&(s.loc==='sto'||s.loc==='post')&&(s.sym==='n'||(s.loc==='post'&&s.reach==='n'));},opts:[['y','Var']]},
@@ -245,8 +246,8 @@
       if(o==='battery'){
         if(!s.sym) return null;
         if(s.sym==='y') return R('ivedi','',[AIR,'Endoskopide yemek borusunu da değerlendir (aracın önerisi; makalede bu dal için ayrıca yazılmamış).']);
-        if(!s.age5||!s.b20||!s.bwit) return null;
-        var hi=s.age5==='y'&&s.b20==='y'&&s.bwit==='n';
+        if(!s.age5||!s.b20||!BW(s)) return null;
+        var hi=s.age5==='y'&&s.b20==='y'&&BW(s)==='n';
         if(!hi&&!s.banat) return null;
         if(hi||s.banat==='y') return R('elektif',hi?'yemek borusu değerlendirmesi için':'cerrahi öykü / anomali',['Amaç pilin geçerken yemek borusunda bıraktığı hasarı görmek; pili de al.',AIR],
           ['Yemek borusu hasarıyla ilişkili: <5 yaş, ≥20 mm, tanıksız yutma (s.546).','Midedeki pilin kendisi minimal klinik sekel yapar (meta-analiz).'],
@@ -280,7 +281,7 @@
       }
       if(o==='battery'){
         if(!s.sym) return null;
-        var known=!!(s.age5&&s.b20&&s.bwit), hi2=known&&s.age5==='y'&&s.b20==='y'&&s.bwit==='n';
+        var known=!!(s.age5&&s.b20&&BW(s)), hi2=known&&s.age5==='y'&&s.b20==='y'&&BW(s)==='n';
         var act=[known?(hi2?'Yaş/boyut/süre kriteri: gastroskopiyle yemek borusu hasarını değerlendir (Şekil 1C).':'Klinik endişe veya şüphe varsa yemek borusu değerlendirmesi düşün (Şekil 1C).'):'',
           'İnce/kalın bağırsaktaki pil cerrahi destekle yönetilir; tekrar görüntülemeyle geçişi doğrula, geçmezse cerrahi düşün (s.547).'];
         if(s.sym==='y') return R('izlem','belirtili: cerrahi destek',['İlerlemiyorsa veya lokal komplikasyon kanıtı varsa cerrahi (s.547).'].concat(act),[],[],'CERRAHİ DESTEKLE İZLEM');
