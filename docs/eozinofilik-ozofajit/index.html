@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Çocukta eozinofilik özofajit için ESPGHAN 2024 güncellemesine dayalı karar ağacı ve doz hesaplayıcı.">
+<title>Eozinofilik Özofajit Karar Ağacı</title>
+<style>:root{color-scheme:light dark}html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap">
+<style>
+/* Layout: tek sütun klinik akış; adım sekmeleri, her adımda soru düğmeleri ve altta renkli karar kartı. */
+:root{
+  --bg:#f7f6f3; --panel:#ffffff; --fg:#1f1d1a; --muted:#625d55; --line:#dcd7cf;
+  --accent:#8a3b5c; --accent-fg:#ffffff;
+  --ok:#2e7d32; --warn:#a15c00; --stop:#b3261e; --info:#1d4ed8; --alt:#6b21a8;
+  --sev-fg:#ffffff;
+  --font-body:"Atkinson Hyperlegible",system-ui,sans-serif;
+  --font-display:"Source Serif 4",Georgia,serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#171615; --panel:#211f1d; --fg:#ece8e2; --muted:#a39c92; --line:#36322e;
+  --accent:#e08fb0; --accent-fg:#1b1014;
+  --ok:#6fc277; --warn:#e0a54a; --stop:#ef6a63; --info:#7ea2ff; --alt:#c08cf0;
+  --sev-fg:#121110; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#171615; --panel:#211f1d; --fg:#ece8e2; --muted:#a39c92; --line:#36322e;
+  --accent:#e08fb0; --accent-fg:#1b1014;
+  --ok:#6fc277; --warn:#e0a54a; --stop:#ef6a63; --info:#7ea2ff; --alt:#c08cf0;
+  --sev-fg:#121110; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16px;line-height:1.5;margin:0}
+.wrap{max-width:780px;margin:0 auto;padding-block:20px 48px;padding-inline:16px}
+header h1{font-family:var(--font-display);font-size:1.7rem;margin:0 0 4px;text-wrap:balance}
+header p{margin:0;color:var(--muted);font-size:.9rem}
+nav.tabs{display:flex;flex-wrap:wrap;gap:4px;margin:18px 0 14px;border-bottom:1px solid var(--line)}
+nav.tabs button{background:none;border:0;border-bottom:3px solid transparent;color:var(--muted);font:inherit;font-weight:700;padding:8px 10px;cursor:pointer}
+nav.tabs button[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.step{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700;margin:18px 0 0}
+.q{border-top:1px solid var(--line);padding:12px 0}
+.q .label{font-weight:700;margin-bottom:6px}
+.q .hint{color:var(--muted);font-size:.85rem;margin:-2px 0 8px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opts button{background:var(--panel);border:1.5px solid var(--line);border-radius:999px;color:var(--fg);font:inherit;padding:7px 14px;cursor:pointer;text-align:left}
+.opts button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-fg);font-weight:700}
+
+.result{margin-top:20px;border:1px solid var(--line);border-radius:10px;background:var(--panel);overflow:hidden}
+.result .band{padding:14px 16px;color:var(--sev-fg)}
+.result .band .lvl{font-family:var(--font-display);font-size:1.4rem;font-weight:700;line-height:1.15}
+.result .band .sub{font-size:.9rem;margin-top:2px}
+.result .body{padding:14px 16px;display:grid;gap:12px}
+.result h3{font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+.result ul{margin:0;padding-left:20px}
+.result li{margin:3px 0}
+.flag{border-left:3px solid var(--warn);padding:6px 10px;background:color-mix(in srgb,var(--warn) 10%,transparent);font-size:.92rem}
+.result.empty .band{background:var(--line);color:var(--fg)}
+.s-ok{background:var(--ok)} .s-warn{background:var(--warn)} .s-stop{background:var(--stop)} .s-info{background:var(--info)} .s-alt{background:var(--alt)}
+.tools{display:flex;gap:8px;margin-top:10px}
+.tools button{background:none;border:1px solid var(--line);border-radius:6px;color:var(--fg);font:inherit;font-size:.9rem;padding:6px 12px;cursor:pointer}
+
+.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin:8px 0 4px}
+.form label{display:grid;gap:4px;font-weight:700;font-size:.9rem}
+.form input,.form select{font:inherit;padding:8px 10px;border:1.5px solid var(--line);border-radius:8px;background:var(--panel);color:var(--fg);min-width:0}
+.dose{display:grid;gap:10px;margin-top:14px}
+.drow{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:12px 14px}
+.drow h4{margin:0 0 6px;font-family:var(--font-display);font-size:1.1rem}
+.kv{display:grid;grid-template-columns:minmax(120px,190px) 1fr;gap:4px 12px;font-size:.93rem}
+.kv dt{color:var(--muted)} .kv dd{margin:0;font-variant-numeric:tabular-nums}
+.big{font-variant-numeric:tabular-nums;font-size:1.25rem;font-weight:700}
+
+table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:560px}
+.tscroll{overflow-x:auto;margin:10px 0 20px;border:1px solid var(--line);border-radius:8px}
+th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:color-mix(in srgb,var(--accent) 8%,var(--panel))}
+tr:last-child td{border-bottom:0}
+td.num{font-variant-numeric:tabular-nums}
+h2{font-family:var(--font-display);font-size:1.25rem;margin:22px 0 6px}
+.note{color:var(--muted);font-size:.85rem}
+footer{margin-top:28px;color:var(--muted);font-size:.8rem;border-top:1px solid var(--line);padding-top:12px}
+@media (prefers-reduced-motion:no-preference){.opts button,.tabs button{transition:background .12s,color .12s}}
+</style>
+<link rel="icon" href="data:,">
+</head>
+<body>
+
+
+<div class="wrap">
+<header>
+  <h1>Eozinofilik Özofajit Karar Ağacı</h1>
+  <p>Çocukta tanı, darlık, indüksiyon, yanıt ve idame. ESPGHAN 2024 güncellemesi, JPGN 2024;79:394–437 (doi:10.1002/jpn3.12188), Şekil 1 ve Tablo 3'e dayanır.</p>
+</header>
+
+<nav class="tabs" role="tablist">
+  <button role="tab" id="tab-karar" aria-selected="true" aria-controls="p-karar">Karar ağacı</button>
+  <button role="tab" id="tab-doz" aria-selected="false" aria-controls="p-doz">Doz hesapla</button>
+  <button role="tab" id="tab-eos" aria-selected="false" aria-controls="p-eos">Eozinofil sayısı</button>
+  <button role="tab" id="tab-izlem" aria-selected="false" aria-controls="p-izlem">İzlem ve tablolar</button>
+</nav>
+
+<!-- KARAR -->
+<section id="p-karar" role="tabpanel" aria-labelledby="tab-karar">
+  <div id="form"></div>
+  <div class="tools"><button id="reset" type="button">Sıfırla</button></div>
+  <div id="result" class="result empty"><div class="band"><div class="lvl">Hangi aşamadasın?</div><div class="sub">İlk soruyu cevapla; akış buna göre açılır.</div></div></div>
+</section>
+
+<!-- DOZ -->
+<section id="p-doz" role="tabpanel" aria-labelledby="tab-doz" hidden>
+  <p class="note">Tablo 3'e göre. Dozlar yazarların klinik deneyimine dayanır, bazıları endikasyon dışıdır; hasta bazında doğrula.</p>
+  <div class="form">
+    <label for="d-age">Yaş (yıl)<input id="d-age" type="number" min="0" max="18" step="0.5" value="7" inputmode="decimal"></label>
+    <label for="d-wt">Kilo (kg)<input id="d-wt" type="number" min="3" max="150" step="0.5" value="22" inputmode="decimal"></label>
+    <label for="d-ph">Fenotip
+      <select id="d-ph">
+        <option value="mild">Darlıksız, hafif belirti</option>
+        <option value="sev">Darlıklı veya ağır belirti</option>
+      </select>
+    </label>
+  </div>
+  <div id="dose" class="dose"></div>
+</section>
+
+<!-- EOS -->
+<section id="p-eos" role="tabpanel" aria-labelledby="tab-eos" hidden>
+  <p class="note">Tanı eşiği tepe 15 eozinofil/büyük büyütme alanı, 0,27 mm² standart alanda (Öneri 8.1, 8.3). Alanın yüzölçümü mikroskoba göre değişir; patolog raporunda yazmalı.</p>
+  <div class="form">
+    <label for="e-n">Tepe eozinofil sayısı (alan başına)<input id="e-n" type="number" min="0" step="1" value="15" inputmode="numeric"></label>
+    <label for="e-a">Mikroskop alanı (mm²)<input id="e-a" type="number" min="0.05" max="1" step="0.001" value="0.24" inputmode="decimal"></label>
+  </div>
+  <div id="eos" class="dose"></div>
+</section>
+
+<!-- IZLEM -->
+<section id="p-izlem" role="tabpanel" aria-labelledby="tab-izlem" hidden>
+  <h2>Remisyon tanımı (Şekil 1)</h2>
+  <p>Üç alanda birden düzelme: majör belirti yok; histoloji &lt;15 eozinofil/alan ve bazal hiperplazide düzelme; Endoskopik Referans Skoru ≤2.</p>
+  <div class="tscroll"><table>
+    <tr><th>Endoskopik Referans Skoru</th><th>Yorum</th></tr>
+    <tr><td class="num">≤2</td><td>Endoskopik yanıt</td></tr>
+    <tr><td class="num">3–4</td><td>Kısmi yanıt</td></tr>
+    <tr><td class="num">≥5</td><td>Yanıtsızlık</td></tr>
+  </table></div>
+
+  <h2>İzlem endoskopisi ne zaman?</h2>
+  <ul>
+    <li>Klinik nüks olduğunda (Öneri 21.2, güçlü).</li>
+    <li>Tedavide büyük değişiklik olduğunda (Şekil 1).</li>
+    <li>Stabil remisyonda 1–3 yıl sonra (Öneri 21.3, zayıf; Şekil 1'de "&gt;1 yıl").</li>
+    <li>Tedavi azaltıldıktan veya kesildikten sonra yakın klinik ve endoskopik izlem.</li>
+  </ul>
+
+  <h2>İdame boyunca güvenlik takibi</h2>
+  <div class="tscroll"><table>
+    <tr><th>Tedavi</th><th>Bak</th></tr>
+    <tr><td>Topikal steroid</td><td>Ağız/yemek borusu kandidiyazisi (%2–15); adrenal baskılanma; toplam steroid yükü (inhaler, nazal, cilt)</td></tr>
+    <tr><td>Diyet</td><td>Büyüme, malnütrisyon; kaçıngan/kısıtlayıcı besin alımı bozukluğu; geri vermede anlık reaksiyon (IgE testi yardımcı)</td></tr>
+    <tr><td>Proton pompası inhibitörü</td><td>Kemik sağlığı; enfeksiyon; CYP2C19 hızlı metabolize edicide yanıt kaybı (%36'ya karşı %6)</td></tr>
+  </table></div>
+
+  <h2>Darlık şiddeti (pratik nokta, Soru 26)</h2>
+  <div class="tscroll"><table>
+    <tr><th>Şiddet</th><th>Tanım</th></tr>
+    <tr><td>Hafif</td><td>Standart gastroskop (9 mm) dirençle geçer</td></tr>
+    <tr><td>Orta</td><td>Pediatrik gastroskop (6 mm) geçer, standart geçmez</td></tr>
+    <tr><td>Ağır</td><td>Pediatrik gastroskop (6 mm) geçmez</td></tr>
+  </table></div>
+  <p>Dilatasyon: balon veya Savary-Gilliard; "küçükten başla, yavaş git", seansta en fazla 3 dilatasyon, 1 mm artışla. Perforasyon %0 ile &lt;%0,3.</p>
+
+  <h2>Kullanma (Soru 9, 10, 23)</h2>
+  <ul>
+    <li>Prik testi, spesifik IgE veya yama testine göre diyet (pozitif öngörü değeri &lt;%50).</li>
+    <li>Biyobelirteci tek başına tanı veya izlem için.</li>
+    <li>pH-impedansı tanı için (seçilmiş vakada eşlik eden reflü için olabilir).</li>
+    <li>Omalizumab, montelukast, kromolin, OC000459; tiyopürin rutin değil.</li>
+  </ul>
+</section>
+
+<footer>Tüm öneriler uzlaşıya dayalı pozisyon bildirisinden; makale ESPGHAN politikası değildir. Araç klinik yargının yerine geçmez. Bilinen iç tutarsızlıklar kartlarda sarı şeritle işaretlidir.</footer>
+</div>
+
+<script>
+(function(){
+  const $=s=>document.querySelector(s);
+  const S={};
+
+  // ---------- KARAR AĞACI ----------
+  const Q=[
+    {k:'phase',step:'Aşama',label:'Hasta hangi aşamada?',opts:[['dx','Tanı aşaması'],['ind','Tanı kesin, tedavi seçilecek'],['resp','İndüksiyon sonrası kontrol endoskopisi'],['maint','İdamede']]},
+
+    // TANI
+    {k:'sym',step:'Tanı',label:'Yemek borusu işlev bozukluğu belirtisi var mı?',hint:'Büyük çocuk: katı yutma güçlüğü, lokma takılması. Küçük çocuk/bebek: kusma, yemeği reddetme, yavaş yeme, yemekte su içme, beslenirken öksürük, büyüme geriliği.',show:s=>s.phase==='dx',opts:[['y','Var'],['n','Yok']]},
+    {k:'bx',label:'Biyopsi üst ve alt yemek borusundan, en az 6 parça alındı mı?',hint:'Endoskopi normal görünse bile biyopsi alınmalı; üçte biri normal görünür.',show:s=>s.phase==='dx'&&s.sym==='y',opts:[['y','Evet'],['n','Hayır / emin değilim']]},
+    {k:'ppi',label:'Endoskopi sırasında proton pompası inhibitörü, topikal steroid veya diyet alıyor muydu?',show:s=>s.phase==='dx'&&s.bx==='y',opts:[['y','Evet'],['n','Hayır']]},
+    {k:'eos',label:'Tepe eozinofil sayısı en az 15/alan mı (0,27 mm² standardında)?',hint:'Alan farklıysa "Eozinofil sayısı" sekmesinde çevir.',show:s=>s.phase==='dx'&&s.bx==='y',opts:[['y','Evet, ≥15'],['n','Hayır, <15']]},
+    {k:'alt',label:'Başka eozinofili nedeni dışlandı mı?',hint:'Örnek: reflü özofajiti, enfeksiyon, ilaç, hipereozinofilik sendrom, vaskülit, Crohn.',show:s=>s.phase==='dx'&&s.eos==='y',opts:[['y','Dışlandı'],['n','Dışlanmadı']]},
+    {k:'seg',label:'Baskın belirti yemek borusundan mı, başka segmentten mi?',show:s=>s.phase==='dx'&&s.alt==='y',opts:[['eso','Yemek borusundan'],['oth','Mide / bağırsak']]},
+
+    // INDUKSIYON
+    {k:'str',step:'Darlık',label:'Darlık veya dar kalibreli yemek borusu var mı?',hint:'Anatomi endoskopla net değilse dilatasyondan önce baryumlu grafi (Öneri 24.1).',show:s=>s.phase==='ind',opts:[['none','Yok'],['mild','Hafif (9 mm dirençle geçer)'],['mod','Orta (6 mm geçer, 9 mm geçmez)'],['sev','Ağır (6 mm geçmez)']]},
+    {k:'sevsym',label:'Ağır belirti var mı (ağır yutma güçlüğü, lokma takılması)?',show:s=>s.phase==='ind'&&(s.str==='mod'||s.str==='sev'),opts:[['y','Var'],['n','Yok']]},
+    {k:'gerd',step:'İndüksiyon',label:'Reflü bulgusu veya patolojik pH izlemi var mı?',show:s=>s.phase==='ind'&&!!s.str,opts:[['y','Var'],['n','Yok / bilinmiyor']]},
+    {k:'multi',label:'Çoklu besin alerjisi, büyüme geriliği veya kısıtlı diyete uyamayacak ağır hastalık?',show:s=>s.phase==='ind'&&!!s.gerd,opts:[['y','Evet'],['n','Hayır']]},
+    {k:'atopy',label:'Astım, rinit veya egzama için inhaler/nazal/cilt steroidi kullanıyor mu?',show:s=>s.phase==='ind'&&!!s.multi,opts:[['y','Evet'],['n','Hayır']]},
+    {k:'pref',label:'Aile neyi tercih ediyor?',hint:'Öneri 17: üçü de ilk basamak, tercih kanıtı yok. Karar aileyle.',show:s=>s.phase==='ind'&&!!s.atopy,opts:[['ppi','İlaç: proton pompası inhibitörü'],['tcs','İlaç: topikal steroid'],['diet','Diyet'],['unk','Kararsız']]},
+
+    // YANIT
+    {k:'wk',step:'Yanıt',label:'Kaç hafta tedavi aldı?',show:s=>s.phase==='resp',opts:[['early','4–7 hafta'],['std','8–12 hafta'],['aaf','≥4 hafta, yalnızca aminoasit formülü']]},
+    {k:'histo',label:'Histoloji?',show:s=>s.phase==='resp'&&!!s.wk,opts:[['rem','<15 eozinofil/alan'],['part','>%50 azalma ama ≥15'],['none','<%50 azalma']]},
+    {k:'clin',label:'Belirti ve endoskopi?',hint:'Remisyon için majör belirti yok + Endoskopik Referans Skoru ≤2.',show:s=>s.phase==='resp'&&s.histo==='rem',opts:[['y','Belirtisiz ve skor ≤2'],['n','Belirti sürüyor veya skor >2']]},
+    {k:'adh',label:'Uyum ve doz uygun muydu?',hint:'Topikal steroidde uygulama hatası sık; diyette gizli alerjen.',show:s=>s.phase==='resp'&&(s.histo==='none'||(s.histo==='part'&&s.wk!=='early')),opts:[['y','Evet, uyumlu'],['n','Hayır / şüpheli']]},
+    {k:'bio',label:'Çocuk 1 yaşından büyük ve 15 kg üstü mü?',show:s=>s.phase==='resp'&&s.adh==='y',opts:[['y','Evet'],['n','Hayır']]},
+
+    // IDAME
+    {k:'mstat',step:'İdame',label:'Şu anki durum?',show:s=>s.phase==='maint',opts:[['stable','Belirtisiz, stabil'],['flare','Belirti alevlenmesi'],['change','Tedavi azaltıldı / kesildi / değişti']]},
+    {k:'mdur',label:'Remisyondan bu yana süre?',show:s=>s.phase==='maint'&&s.mstat==='stable',opts:[['lt1','<1 yıl'],['gt1','≥1 yıl, son endoskopi 1–3 yıl önce'],['recent','Son endoskopi <1 yıl önce']]},
+  ];
+
+  const air='',
+  P=(t)=>t;
+
+  function decide(s){
+    const R=(cls,lvl,sub,act=[],ev=[],flags=[])=>({cls,lvl,sub,act,ev,flags});
+
+    // ----- TANI -----
+    if(s.phase==='dx'){
+      if(!s.sym) return null;
+      if(s.sym==='n') return R('info','Tanı ölçütü karşılanmıyor','belirti olmadan tanı konmaz',
+        ['Tanım: yemek borusu işlev bozukluğu belirtisi + histolojide baskın eozinofil infiltrasyonu + başka neden yok (İfade 1.1).','Rastlantısal eozinofili: izle, belirti çıkarsa yeniden değerlendir.'],
+        [],['Küçük çocukta belirtiler nonspesifik; kusma, beslenme güçlüğü ve büyüme geriliği de belirti sayılır (İfade 3). Uyum davranışlarını sor: yavaş yeme, su içme, lokma küçültme.']);
+      if(!s.bx) return null;
+      if(s.bx==='n') return R('warn','Biyopsi yetersiz','tekrar endoskopi düşün',
+        ['Üst ve alt yemek borusundan en az 6 biyopsi; görünür lezyonları hedefle (Öneri 5.3).','Yalnız distal biyopsi bazı hastaları kaçırır.'],
+        [],['İfade 5.1 "en az 6 (her seviyeden en az 2)" diyor: 2×2=4 eder. Makale kalan 2 parçanın yerini açıklamıyor.']);
+      if(!s.ppi||!s.eos) return null;
+      if(s.eos==='n'){
+        if(s.ppi==='y') return R('warn','Tanı dışlanamaz','tedavi altında yapılmış endoskopi',
+          ['Proton pompası inhibitörü, steroid veya diyet altında eozinofil baskılanmış olabilir.','Tedaviyi kes, sonra tekrar endoskopi düşün (İfade 5.3).']);
+        return R('info','Tanı ölçütü karşılanmıyor','<15 eozinofil/alan',
+          ['Alan yüzölçümünü kontrol et: büyük alanlı mikroskopta 15 altı sayı, standartta eşiğin üstünde olabilir ("Eozinofil sayısı" sekmesi).','Yalnız alt yemek borusu eozinofilisi daha zor tanıdır; reflüyle ayır.']);
+      }
+      if(!s.alt) return null;
+      if(s.alt==='n') return R('warn','Önce diğer nedenleri dışla','',
+        ['Reflü özofajiti, enfeksiyon, ilaç, hipereozinofilik sendrom, vaskülit, Crohn.','pH-impedans tanı için önerilmez; eşlik eden reflü şüphesinde seçilmiş vakada kullanılabilir (Öneri 7).']);
+      if(!s.seg) return null;
+      if(s.seg==='oth') return R('alt','Eozinofilik gastrit / enterit / kolit','yemek borusu tutulumlu',
+        ['Baskın belirti başka segmentten ise tanı eozinofilik özofajit değil, "yemek borusu tutulumlu eozinofilik gastrit/enterit/kolit" olur.']);
+      return R('ok','Eozinofilik özofajit tanısı kesin','"Tanı kesin, tedavi seçilecek" aşamasına geç',
+        ['Proton pompası inhibitörüne yanıt tanıyı dışlamaz; artık tedavi seçeneği (İfade 1.2).','Pediatrik Belirti Skoru (PEESS v2.0) ile başlangıç şiddetini kaydet (Öneri 4).','Alerji testine göre diyet planlama (Öneri 9).','Ailede eozinofilik özofajit sıklığı artmış; kardeşlerde şüpheyi koru (Öneri 2.1).'],
+        ['Tanı: ≥15 eozinofil/alan + yemek borusu işlev bozukluğu belirtisi (Şekil 1).']);
+    }
+
+    // ----- INDUKSIYON -----
+    if(s.phase==='ind'){
+      if(!s.str) return null;
+      if((s.str==='mod'||s.str==='sev')&&!s.sevsym) return null;
+      if((s.str==='mod'||s.str==='sev')&&s.sevsym==='y') return R('stop','Kısa süreli sistemik steroid','2–4 hafta, sonra hızlı azalt ve standart tedaviye geç',
+        ['Dilatasyona alternatif olarak sistemik steroid düşün (Öneri 25.2, zayıf).','Ardından topikal steroidle indüksiyon ve idame (Şekil 1).','Medikal tedavi başarısızsa veya hızlı düzelme şartsa dilatasyon (Öneri 25.1).','Dilatasyon inflamasyonu etkilemez; standart tedaviyle birlikte yapılmalı.','Darlıkta proton pompası inhibitörü önerilmez (Tablo 3, dipnot d).'],
+        ['20 çocukta: tüm hastalarda belirti düzelmesi, %95 tam endoskopik çözülme, yalnız 3 hastada sonradan dilatasyon.'],
+        ['Kanıt çok düşük (İfade 25.3): tek, kontrolsüz, geriye dönük 20 hastalık çalışma.']);
+      if(!s.gerd||!s.multi||!s.atopy||!s.pref) return null;
+
+      const flags=[], ev=[], act=[];
+      const strict = s.str!=='none';
+      if(strict) flags.push('Darlık var: proton pompası inhibitörü topikal steroide göre daha zayıf görünüyor, tek başına önerilmez (Tablo 3 dipnot d; fibrostenotik bulgu yanıtı düşürür).');
+      if(s.atopy==='y') flags.push('Topikal steroid seçilirse toplam steroid yükünü hesapla; inhaler + nazal + yutulan steroid adrenal baskılanma riskini artırır (Öneri 14).');
+      if(s.multi==='y'){
+        return R('alt','Aminoasit formülü seçeneği','en az 4 hafta, sonra endoskopi',
+          ['Çoklu besin alerjisi, büyüme geriliği veya kısıtlı diyete uyamayan ağır hastalıkta seçenek (Öneri 12, zayıf).','Bebek/küçük çocukta oral motor beceriyi aminoasit bazlı yarı katılarla koru; remisyonda ilk katı gıda grubuna geç.','Alternatif: topikal steroid veya proton pompası inhibitörü.'],
+          ['Histolojik remisyon çocukta %90,4. Dezavantaj: lezzet, uyum, maliyet, uzun geri verme süreci.'],flags);
+      }
+      let pick=s.pref;
+      if(pick==='unk'){ pick = strict ? 'tcs' : (s.gerd==='y' ? 'ppi' : 'tcs'); flags.push('Aile kararsız: araç '+(pick==='ppi'?'reflü bulgusu nedeniyle proton pompası inhibitörünü':'topikal steroidi')+' öne çıkardı. Bu makalenin önerisi değil, metnin yan bulgularına dayanan bir seçim (Öneri 17: tercih kanıtı yok).'); }
+      if(pick==='ppi'&&strict){ flags.push('Darlıklı hastada proton pompası inhibitörü yerine topikal steroid daha uygun; reflü varsa düşük doz proton pompası inhibitörü topikal steroide eklenebilir.'); pick='tcs'; }
+
+      if(pick==='ppi') return R('ok','Proton pompası inhibitörü ile indüksiyon','8–12 hafta, sonra biyopsili endoskopi',
+        ['Doz: "Doz hesapla" sekmesi (omeprazol eşdeğeri).','Günde iki doz, tek dozdan daha iyi eğilimde (%55,9 / %49,7).','12. haftada remisyon 8. haftadan yüksek olabilir.'],
+        ['Meta-analiz: histolojik remisyon %50,5. Patolojik pH izleminde %65,4 / normalde %49,3.','Çocukta (n=51) 8 haftada %68,6 yanıt.'],
+        flags.concat(['Metin dozu "1–2 mg/kg/gün, iki doza bölünmüş" diyor; Tablo 3 "1 mg/kg × 2/gün" (= 2 mg/kg/gün) veriyor. Araç Tablo 3\'ü kullanır.']));
+      if(pick==='tcs') return R('ok','Topikal steroid ile indüksiyon','8–12 hafta, sonra biyopsili endoskopi',
+        ['Doz: "Doz hesapla" sekmesi (budesonid veya flutikazon).','Yemekten en az 10 dk sonra al, sonra 30–60 dk yeme içme.','İnhaler doğrudan ağza, spacer yok; nefes tut, yut.','Viskoz budesonid yavaş yutulmalı.','Tek dozsa yatarken, diş fırçaladıktan sonra.', s.gerd==='y'?'Reflü bulgusu varsa başlangıçta düşük doz proton pompası inhibitörü eklenebilir.':''].filter(Boolean),
+        ['Gerçek dünya (n=173): belirti remisyonu %71, histolojik %59. Kandidiyaz %2–15.','11 yaş altında topikal steroid endikasyon dışı.'],flags);
+      // diet
+      return R('ok','Aşamalı ampirik eliminasyon diyeti','8–12 hafta, sonra biyopsili endoskopi',
+        ['1. basamak: yalnız inek sütü (randomize çalışmada dört besinli diyetle aynı histoloji, daha iyi ruh hali) veya süt + buğday.','Yanıtsızsa: süt, buğday, yumurta (+ soya veya baklagil).','Sonra altı besin: süt, buğday, yumurta, soya, yer fıstığı/kuruyemiş, balık/deniz ürünü.','Deneyimli diyetisyen; etiket okuma, çapraz bulaşma; ikame besinler.','Kaçıngan/kısıtlayıcı besin alımı bozukluğu açısından izle; varsa çocuk psikoloğu.','Remisyonda besinleri tek tek geri ver; anlık reaksiyon riskini IgE testiyle değerlendir.'],
+        ['Tetikleyiciler: süt %85, yumurta %35, buğday %33, soya %19. Hastaların %62–74\'ünde tek tetikleyici.','2-4-6 yaklaşımı endoskopi sayısını ve tanı süresini %35 azalttı.'],
+        flags.concat(['Öneri 11.2: Tablo 1 "glutenli tahıl", metin "buğday" diyor; metin buğdayı daha önemli buluyor.','2-4-6 çalışmasının 130 hastasından yalnız 25\'i çocuk.']));
+    }
+
+    // ----- YANIT -----
+    if(s.phase==='resp'){
+      if(!s.wk||!s.histo) return null;
+      if(s.histo==='rem'){
+        if(!s.clin) return null;
+        if(s.clin==='y') return R('ok','Remisyon','idameye geç',
+          ['İdame tüm hastalara, en az 1 yıl (Öneri 19, 20.1).','Başlangıç idame dozu genelde indüksiyonun yarısı, 3–6 ay; sonra %25–50 daha azaltılabilir.','Diyette besinleri kademeli geri ver, en az kısıtlayıcı rejimi bul.','Gün aşırı topikal steroid nüksü artırır.'],
+          ['Remisyon: belirti yok + <15 eozinofil/alan ve bazal hiperplazi düzelmiş + Endoskopik Referans Skoru ≤2 (Şekil 1).']);
+        return R('warn','Histolojik yanıt var, belirti veya endoskopi sürüyor','eozinofil dışı neden ara',
+          ['Fibrostenotik darlık veya dismotilite: baryumlu grafi; gerekirse dilatasyon (histoloji düzeldiği halde süren yutma güçlüğü).','Eşlik eden reflü: pH-impedans düşünülebilir (pratik nokta 7).','Yaşam kalitesi ve belirti skoru ile tekrar değerlendir.'],
+          ['Eozinofili tamamen temizleyen benralizumab belirtiyi düzeltmedi: eozinofil dışı inflamasyon belirtide önemli rol oynuyor.']);
+      }
+      if(s.histo==='part'&&s.wk==='early') return R('info','Kısmi yanıt, erken kontrol','tedaviyi değiştirme, uzat',
+        ['Hastanın durumu izin veriyorsa indüksiyonu uzat ve 12–16. haftada tekrar endoskopi (pratik nokta 18).'],
+        ['Diyette 6. haftada kısmi yanıt olanlarda ortanca 13 haftaya uzatmak remisyonu anlamlı artırdı.']);
+      if(!s.adh) return null;
+      if(s.adh==='n') return R('warn','Önce uyumu ve dozu düzelt','sonra tekrar değerlendir',
+        ['Topikal steroid: uygulama tekniğini yeniden öğret (spacer yok, yavaş yut, sonrasında 30–60 dk aç kal).','Proton pompası inhibitörü: dozu artır; CYP2C19 hızlı metabolize edici olabilir.','Diyet: gizli alerjen ve çapraz bulaşma.']);
+      if(!s.bio) return null;
+      const act=['Tanıyı yeniden değerlendir.','Başka ilk basamak tedaviye geç veya diyeti genişlet.','Tedavileri birleştir; reflü varsa proton pompası inhibitörü ekle.'];
+      if(s.bio==='y') act.push('Konvansiyonel tedaviye dirençliyse dupilumab (Öneri 23.1, güçlü); doz "Doz hesapla" sekmesinde.');
+      else act.push('Dupilumab önerisi 1 yaş üstü ve 15 kg üstü için; bu çocuk kapsam dışında.');
+      act.push('Diğer biyolojikler yalnız klinik çalışma veya uzman merkezde (Öneri 23.2).');
+      return R('stop','Yanıtsızlık / dirençli hastalık','Şekil 1 yanıtsızlık seçenekleri',act,
+        ['Dupilumab faz 3 (≥12 yaş): histolojik remisyon %59–60; klinik yanıt yalnız haftalık dozda anlamlı.','Omalizumab, montelukast, kromolin, OC000459 etkisiz; tiyopürin rutin değil.'],
+        ['1–11 yaş dupilumab onayı kongre sunumlarına dayanıyor, hakemli yayın değil.']);
+    }
+
+    // ----- IDAME -----
+    if(s.phase==='maint'){
+      if(!s.mstat) return null;
+      if(s.mstat==='flare') return R('stop','Biyopsili endoskopi','klinik nüks',
+        ['Endoskopik ve histolojik değerlendirme (Öneri 21.2, güçlü).','Sonra "İndüksiyon sonrası kontrol" dalındaki yanıtsızlık seçenekleri.']);
+      if(s.mstat==='change') return R('warn','Yakın izlem ve endoskopi','tedavi azaltıldı, kesildi veya değişti',
+        ['Klinik ve endoskopik/histolojik yakın izlem (pratik nokta 20).','Tedaviyi bırakanların çoğu histolojik remisyonda kalmaz; klinik remisyon daha uzun sürer, yani sessiz aktif hastalık olabilir.'],
+        ['Erişkinde tedavisiz kalıcı birleşik remisyon yalnız %1,3.']);
+      if(!s.mdur) return null;
+      const base=['Doğrulanmış belirti ve yaşam kalitesi anketleriyle düzenli klinik değerlendirme.','Tedaviye özgü güvenlik takibi ("İzlem ve tablolar" sekmesi).'];
+      if(s.mdur==='gt1') return R('info','İzlem endoskopisi düşün','stabil remisyonda 1–3 yıl',
+        base.concat(['Belirti ile doku iyileşmesi uyumsuz olabilir; fibrozis riski nedeniyle (Öneri 21.3, zayıf).','Sürdürme, azaltma veya bırakma kararı şiddet ve ihtiyaca göre (Öneri 20.2).']),
+        [],['Şekil 1 "&gt;1 yıl", Öneri 21.3 "1–3 yıl" diyor.']);
+      return R('ok','İdameye devam','',
+        base.concat(s.mdur==='lt1'?['İdame en az 1 yıl sürmeli (Öneri 20.1).']:[]));
+    }
+    return null;
+  }
+
+  function render(){
+    const f=$('#form'); f.innerHTML=''; let lastStep='';
+    for(const q of Q){
+      if(q.show&&!q.show(S)){ delete S[q.k]; continue; }
+      if(q.step&&q.step!==lastStep&&q.k!=='phase'){ const h=document.createElement('div'); h.className='step'; h.textContent=q.step; f.appendChild(h); lastStep=q.step; }
+      const d=document.createElement('div'); d.className='q';
+      d.innerHTML=`<div class="label">${q.label}</div>`+(q.hint?`<div class="hint">${q.hint}</div>`:'')+'<div class="opts"></div>';
+      const o=d.querySelector('.opts');
+      for(const [v,t] of q.opts){
+        const b=document.createElement('button'); b.type='button'; b.id='q-'+q.k+'-'+v; b.textContent=t;
+        b.setAttribute('aria-pressed',S[q.k]===v?'true':'false');
+        b.onclick=()=>{ S[q.k]=v; let after=false; for(const qq of Q){ if(after) delete S[qq.k]; if(qq.k===q.k) after=true; } render(); };
+        o.appendChild(b);
+      }
+      f.appendChild(d);
+    }
+    const r=decide(S), box=$('#result');
+    if(!r){ box.className='result empty'; box.innerHTML=`<div class="band"><div class="lvl">${S.phase?'Devam et':'Hangi aşamadasın?'}</div><div class="sub">${S.phase?'Karar için kalan soruları cevapla.':'İlk soruyu cevapla; akış buna göre açılır.'}</div></div>`; return; }
+    const sec=(t,a)=>a&&a.length?`<div><h3>${t}</h3><ul>${a.map(x=>`<li>${x}</li>`).join('')}</ul></div>`:'';
+    box.className='result';
+    box.innerHTML=`<div class="band s-${r.cls}"><div class="lvl">${r.lvl}</div>${r.sub?`<div class="sub">${r.sub}</div>`:''}</div><div class="body">${sec('Yap',r.act)}${sec('Dayanak (makaleden)',r.ev)}${r.flags.map(x=>`<div class="flag">${x}</div>`).join('')}</div>`;
+  }
+  $('#reset').onclick=()=>{ for(const k in S) delete S[k]; render(); };
+
+  // ---------- DOZ ----------
+  const fmt=x=>(Math.round(x*10)/10).toLocaleString('tr-TR');
+  function dose(age,wt,ph){
+    const out=[]; const sev=ph==='sev';
+    if(!(age>=1)) return {err:'Tablo 3 yalnız 1 yaş ve üstü için doz veriyor.'};
+    const g = age<4?'inf':age<11?'child':'ado';
+    const gName={inf:'1–3 yaş',child:'4–10 yaş',ado:'11–18 yaş'}[g];
+    // budesonid
+    const bud={inf:['0,5 mg × 1 – 0,5 mg × 2 /gün','0,5 mg × 2 /gün','0,25 mg × 1 – 0,5 mg × 2 /gün'],
+               child:['1 mg × 1 /gün','1 mg × 2 /gün','0,5 mg × 1 – 1 mg × 1 /gün'],
+               ado:['1 mg × 2 /gün','1 mg × 2 – 2 mg × 2 /gün','0,5 mg × 1 – 1 mg × 1 /gün']}[g];
+    out.push({h:'Budesonid (yutulan, viskoz)',rows:[['İndüksiyon',sev?bud[1]:bud[0]],['Başlangıç idame (3–6 ay)',bud[2]]],note:'11 yaş altında endikasyon dışı. Tek dozda gece, diş fırçaladıktan sonra.'});
+    const flu={inf:['88 µg × 1 – 250 µg × 1 /gün','88 µg × 2 – 250 µg × 2 /gün','44 µg × 1 – 125 µg × 1 /gün (bazen 125 µg × 2)'],
+               child:['250 µg × 1 – 250 µg × 2 /gün','500 µg × 1 – 500 µg × 2 /gün','250 µg × 1 – 500 µg × 1 /gün'],
+               ado:['500 µg × 1 – 500 µg × 2 /gün','500 µg × 2 – 500 µg × 3 /gün','500 µg × 1 /gün']}[g];
+    out.push({h:'Flutikazon propiyonat (inhalerden yutulan)',rows:[['İndüksiyon',sev?flu[1]:flu[0]],['Başlangıç idame (3–6 ay)',flu[2]]],note:'Spacer kullanma; doğrudan ağza sık, nefes tut, yut. İnhaler dozları ülkeye göre değişir.'});
+    // PPI
+    const maxDay={inf:null,child:60,ado:80}[g];
+    const cap=(v,m)=>m?Math.min(v,m):v;
+    let ind;
+    if(!sev){ const per=cap(wt*2,maxDay)/2; ind=`${fmt(per)} mg × 2 /gün (1 mg/kg × 2${maxDay?`, en fazla ${maxDay} mg/gün`:''})`; }
+    else { const lo=cap(wt*2,maxDay)/2, hi=cap(wt*4,maxDay)/2; ind=`${lo===hi?fmt(lo):fmt(lo)+'–'+fmt(hi)} mg × 2 /gün (1–2 mg/kg × 2${maxDay?`, en fazla ${maxDay} mg/gün`:''}${lo===hi?'; üst sınıra ulaşıldı':''})`; }
+    let mt;
+    if(g==='inf') mt=`${fmt(wt)} mg × 1 /gün (1 mg/kg)`;
+    else if(g==='child') mt=`${fmt(Math.min(wt*0.5,30))}–${fmt(Math.min(wt,30))} mg/gün (0,5–1 mg/kg, en fazla 30 mg)`;
+    else mt=`${fmt(Math.min(wt,40))} mg × 1 /gün sabah (1 mg/kg, en fazla 40 mg)`;
+    out.push({h:'Proton pompası inhibitörü (omeprazol eşdeğeri)',rows:[['İndüksiyon',ind],['Başlangıç idame (3–6 ay)',mt]],
+      note:'Eşdeğer dozla diğer ilaçlar kullanılabilir.',warn: sev?'Darlıkta proton pompası inhibitörü topikal steroide göre zayıf; tek başına önerilmez (Tablo 3 dipnot d). Reflü varsa düşük doz, topikal steroide ek.':'Metin "1–2 mg/kg/gün, iki doza bölünmüş" diyor; Tablo 3 "1 mg/kg × 2/gün". Bu hesap Tablo 3\'e göre.'});
+    // dupilumab
+    let dup;
+    if(wt<15) dup={h:'Dupilumab',rows:[['Doz','Kapsam dışı: öneri 1 yaş üstü ve 15 kg üstü için']]};
+    else dup={h:'Dupilumab (dirençli hastalık)',rows:[['Doz (indüksiyon = idame)', wt<30?'200 mg / 2 haftada bir':wt<=40?'300 mg / 2 haftada bir':'300 mg / haftada bir']],note:'Konvansiyonel tedaviye dirençli seçilmiş vakalarda (Öneri 23.1).'};
+    out.push(dup);
+    return {g:gName,out};
+  }
+  function renderDose(){
+    const age=parseFloat($('#d-age').value), wt=parseFloat($('#d-wt').value), ph=$('#d-ph').value, el=$('#dose');
+    if(!(wt>0)){ el.innerHTML='<div class="flag">Kilo gir.</div>'; return; }
+    const r=dose(age,wt,ph);
+    if(r.err){ el.innerHTML=`<div class="flag">${r.err}</div>`; return; }
+    el.innerHTML=`<p class="note">Yaş grubu: <strong>${r.g}</strong> · ${fmt(wt)} kg · ${ph==='sev'?'darlıklı / ağır':'darlıksız / hafif'}</p>`+
+      r.out.map(d=>`<div class="drow"><h4>${d.h}</h4><dl class="kv">${d.rows.map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl>${d.note?`<p class="note">${d.note}</p>`:''}${d.warn?`<div class="flag">${d.warn}</div>`:''}</div>`).join('');
+  }
+  ['d-age','d-wt','d-ph'].forEach(id=>$('#'+id).addEventListener('input',renderDose));
+
+  // ---------- EOS ----------
+  function renderEos(){
+    const n=parseFloat($('#e-n').value), a=parseFloat($('#e-a').value), el=$('#eos');
+    if(!(n>=0)||!(a>0)){ el.innerHTML='<div class="flag">Sayı ve alan gir.</div>'; return; }
+    const mm2=n/a, std=mm2*0.27, ok=std>=15;
+    el.innerHTML=`<div class="drow"><dl class="kv">
+      <dt>Yoğunluk</dt><dd class="big">${fmt(mm2)} eozinofil/mm²</dd>
+      <dt>0,27 mm² standardında</dt><dd class="big">${fmt(std)} eozinofil/alan</dd>
+      <dt>Tanı eşiği (15)</dt><dd><strong>${ok?'Eşiğin üstünde':'Eşiğin altında'}</strong></dd>
+      <dt>Remisyon (&lt;15)</dt><dd>${std<15?'Histolojik remisyon ölçütünü karşılıyor':'Karşılamıyor'}</dd></dl>
+      <p class="note">Formül: sayı ÷ alan (mm²) = eozinofil/mm² (Öneri 8.3). 15/alan ≈ 55,6/mm² (0,27 mm²).</p></div>`;
+  }
+  ['e-n','e-a'].forEach(id=>$('#'+id).addEventListener('input',renderEos));
+
+  // tabs
+  document.querySelectorAll('nav.tabs button').forEach(b=>b.onclick=()=>{
+    document.querySelectorAll('nav.tabs button').forEach(x=>x.setAttribute('aria-selected','false'));
+    document.querySelectorAll('[role=tabpanel]').forEach(p=>p.hidden=true);
+    b.setAttribute('aria-selected','true'); $('#'+b.getAttribute('aria-controls')).hidden=false;
+  });
+
+  render(); renderDose(); renderEos();
+})();
+</script>
+
+</body>
+</html>
