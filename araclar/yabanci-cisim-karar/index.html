@@ -1,329 +1,524 @@
 <title>Yabancı Cisim Karar Aracı</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap">
 <style>
-/* Layout: tek sütun klinik form; solda adım adım sorular, cevap altta büyük aciliyet kartı. */
+/* Ortak tasarım: tek sütun klinik akış. Renkler tokendan; her araç vurgu rengini body[data-tool] ile seçer. */
 :root{
-  --bg:#f6f7f5; --panel:#ffffff; --fg:#1b2420; --muted:#5d6a63; --line:#d6dbd7;
+  --bg:#f6f7f5; --panel:#ffffff; --fg:#1d2420; --muted:#58645d; --line:#d3d9d4;
   --accent:#1f6f78; --accent-fg:#ffffff;
-  --acil:#b3261e; --ivedi:#c2410c; --elektif:#9a6700; --konservatif:#2e7d32; --izlem:#1d4ed8; --bireysel:#6b21a8;
-  --sev-fg:#ffffff;
-  --font-body:"Atkinson Hyperlegible",system-ui,sans-serif;
-  --font-display:"Source Serif 4",Georgia,serif;
+  --acil:#b3261e; --ivedi:#c2410c; --elektif:#946200; --kons:#2e7d32; --izlem:#1d4ed8; --bireysel:#6b21a8; --info:#475569;
+  --sev-fg:#ffffff; --flag:#946200;
+  --font-body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --font-display:"Source Serif 4",Georgia,"Times New Roman",serif;
+  color-scheme:light;
 }
-@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
-  --bg:#141917; --panel:#1c2320; --fg:#e8ece9; --muted:#9aa69f; --line:#2e3834;
-  --accent:#5fb7bf; --accent-fg:#0d1a1b;
-  --acil:#ef6a63; --ivedi:#f08a4b; --elektif:#d9a93a; --konservatif:#6fc277; --izlem:#7ea2ff; --bireysel:#c08cf0;
-  --sev-fg:#0f1412; color-scheme:dark } }
+body[data-tool="eoe"]{--accent:#8a3b5c}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#141917; --panel:#1c2320; --fg:#e8ece9; --muted:#9ca8a1; --line:#2f3935;
+    --accent:#5fb7bf; --accent-fg:#0d1a1b;
+    --acil:#ef6a63; --ivedi:#f08a4b; --elektif:#d9a93a; --kons:#6fc277; --izlem:#7ea2ff; --bireysel:#c08cf0; --info:#94a3b8;
+    --sev-fg:#0f1412; --flag:#d9a93a; color-scheme:dark }
+  :root:not([data-theme="light"]) body[data-tool="eoe"]{--accent:#e08fb0; --accent-fg:#1b1014}
+}
 :root[data-theme="dark"]{
-  --bg:#141917; --panel:#1c2320; --fg:#e8ece9; --muted:#9aa69f; --line:#2e3834;
+  --bg:#141917; --panel:#1c2320; --fg:#e8ece9; --muted:#9ca8a1; --line:#2f3935;
   --accent:#5fb7bf; --accent-fg:#0d1a1b;
-  --acil:#ef6a63; --ivedi:#f08a4b; --elektif:#d9a93a; --konservatif:#6fc277; --izlem:#7ea2ff; --bireysel:#c08cf0;
-  --sev-fg:#0f1412; color-scheme:dark }
+  --acil:#ef6a63; --ivedi:#f08a4b; --elektif:#d9a93a; --kons:#6fc277; --izlem:#7ea2ff; --bireysel:#c08cf0; --info:#94a3b8;
+  --sev-fg:#0f1412; --flag:#d9a93a; color-scheme:dark }
+:root[data-theme="dark"] body[data-tool="eoe"]{--accent:#e08fb0; --accent-fg:#1b1014}
 
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16px;line-height:1.5;margin:0}
-.wrap{max-width:760px;margin:0 auto;padding-block:20px 48px;padding-inline:16px}
-header h1{font-family:var(--font-display);font-size:1.7rem;margin:0 0 4px;text-wrap:balance}
-header p{margin:0;color:var(--muted);font-size:.9rem}
-nav.tabs{display:flex;gap:6px;margin:18px 0 14px;border-bottom:1px solid var(--line)}
-nav.tabs button{background:none;border:0;border-bottom:3px solid transparent;color:var(--muted);font:inherit;font-weight:700;padding:8px 10px;cursor:pointer}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16px;line-height:1.5}
+.wrap{max-width:780px;margin:0 auto;padding-block:12px 96px;padding-inline:16px}
+a{color:var(--accent)}
+.crumb{display:flex;flex-wrap:wrap;gap:0 14px;font-size:.92rem}
+.crumb a{display:inline-flex;align-items:center;min-height:44px;text-decoration:none;font-weight:700}
+header h1{font-family:var(--font-display);font-size:1.7rem;line-height:1.15;margin:4px 0 6px;text-wrap:balance}
+header p{margin:0 0 4px;color:var(--muted);font-size:.9rem}
+header .warn{color:var(--fg);font-size:.85rem}
+nav.tabs{display:flex;flex-wrap:wrap;gap:2px;margin:14px 0 6px;border-bottom:1px solid var(--line)}
+nav.tabs button{background:none;border:0;border-bottom:3px solid transparent;color:var(--muted);font:inherit;font-weight:700;min-height:44px;padding:8px 10px;cursor:pointer}
 nav.tabs button[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
-nav.tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
-.q{border-top:1px solid var(--line);padding:14px 0}
+.step{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700;margin:16px 0 0}
+.q{border-top:1px solid var(--line);padding:12px 0}
 .q:first-child{border-top:0}
-.q .label{font-weight:700;margin-bottom:8px}
-.q .hint{color:var(--muted);font-size:.85rem;margin:-4px 0 8px}
-.opts{display:flex;flex-wrap:wrap;gap:8px}
-.opts button{background:var(--panel);border:1.5px solid var(--line);border-radius:999px;color:var(--fg);font:inherit;padding:7px 14px;cursor:pointer}
+.q .label{font-weight:700;margin-bottom:6px}
+.q .hint{color:var(--muted);font-size:.85rem;margin:-2px 0 8px}
+.q.opt .label::after{content:" (isteğe bağlı)";font-weight:400;color:var(--muted);font-size:.85rem}
+.opts{display:flex;flex-wrap:wrap;gap:10px}
+.opts button{background:var(--panel);border:1.5px solid var(--line);border-radius:999px;color:var(--fg);font:inherit;min-height:44px;padding:9px 16px;cursor:pointer;text-align:left}
 .opts button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-fg);font-weight:700}
-.opts button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
-.result{margin-top:22px;border:1px solid var(--line);border-radius:10px;background:var(--panel);overflow:hidden}
+.tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.tools button,.btn{background:var(--panel);border:1px solid var(--line);border-radius:8px;color:var(--fg);font:inherit;font-size:.95rem;min-height:44px;padding:8px 14px;cursor:pointer}
+
+.result{margin-top:18px;border:1px solid var(--line);border-radius:10px;background:var(--panel);overflow:hidden;scroll-margin-top:12px}
 .result .band{padding:14px 16px;color:var(--sev-fg)}
-.result .band .lvl{font-family:var(--font-display);font-size:1.5rem;font-weight:700;line-height:1.1}
-.result .band .sub{font-size:.9rem;opacity:.95;margin-top:2px}
+.result .band .lvl{font-family:var(--font-display);font-size:1.45rem;font-weight:700;line-height:1.15}
+.result .band .sub{font-size:.95rem;margin-top:2px}
 .result .body{padding:14px 16px;display:grid;gap:12px}
-.result h3{font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+.result h3{font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
 .result ul{margin:0;padding-left:20px}
-.result li{margin:3px 0}
-.flag{border-left:3px solid var(--elektif);padding:6px 10px;background:color-mix(in srgb,var(--elektif) 10%,transparent);font-size:.92rem}
+.result li{margin:4px 0}
+.result details summary{cursor:pointer;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700;min-height:32px}
+.result .more{font-size:.92rem;color:var(--muted)}
+.result .more button{background:none;border:0;padding:0;color:var(--accent);font:inherit;text-decoration:underline;cursor:pointer}
+.flag{border-left:3px solid var(--flag);padding:6px 10px;background:color-mix(in srgb,var(--flag) 11%,transparent);font-size:.92rem}
 .result.empty .band{background:var(--line);color:var(--fg)}
-.sev-acil{background:var(--acil)} .sev-ivedi{background:var(--ivedi)} .sev-elektif{background:var(--elektif)}
-.sev-konservatif{background:var(--konservatif)} .sev-izlem{background:var(--izlem)} .sev-bireysel{background:var(--bireysel)}
+.result.empty .band button{background:none;border:0;padding:0;font:inherit;color:inherit;text-decoration:underline;cursor:pointer;text-align:left}
+.k-acil{background:var(--acil)} .k-ivedi{background:var(--ivedi)} .k-elektif{background:var(--elektif)}
+.k-kons{background:var(--kons)} .k-izlem{background:var(--izlem)} .k-bireysel{background:var(--bireysel)} .k-info{background:var(--info)}
+.copybox{width:100%;min-height:160px;font:inherit;font-size:.85rem;margin-top:8px}
 
-.tools{display:flex;gap:8px;margin-top:10px}
-.tools button{background:none;border:1px solid var(--line);border-radius:6px;color:var(--fg);font:inherit;font-size:.9rem;padding:6px 12px;cursor:pointer}
+.sticky{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;justify-content:center;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));color:var(--sev-fg);border:0;width:100%;font:inherit;font-weight:700;cursor:pointer;box-shadow:0 -2px 10px rgb(0 0 0 / .18)}
+
+.form{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:8px 0 4px}
+.form .full{grid-column:1/-1}
+.form label{display:grid;gap:4px;font-weight:700;font-size:.9rem;min-width:0}
+.form input,.form select{font:inherit;min-height:44px;padding:8px 10px;border:1.5px solid var(--line);border-radius:8px;background:var(--panel);color:var(--fg);min-width:0;width:100%}
+.dose{display:grid;gap:10px;margin-top:14px}
+.drow{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:12px 14px}
+.drow h4{margin:0 0 6px;font-family:var(--font-display);font-size:1.1rem}
+.kv{display:grid;grid-template-columns:minmax(110px,180px) 1fr;gap:4px 12px;font-size:.93rem;margin:0}
+.kv dt{color:var(--muted)} .kv dd{margin:0;font-variant-numeric:tabular-nums}
+.big{font-variant-numeric:tabular-nums;font-size:1.25rem;font-weight:700}
 
 table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:560px}
-.tscroll{overflow-x:auto;margin:10px 0 22px;border:1px solid var(--line);border-radius:8px}
+.tscroll{overflow-x:auto;margin:10px 0 20px;border:1px solid var(--line);border-radius:8px}
 th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
-th{background:color-mix(in srgb,var(--accent) 8%,var(--panel));font-weight:700}
+th{background:color-mix(in srgb,var(--accent) 8%,var(--panel))}
 tr:last-child td{border-bottom:0}
+td.num{font-variant-numeric:tabular-nums}
 .pill{display:inline-block;border-radius:999px;color:var(--sev-fg);font-size:.78rem;font-weight:700;padding:2px 9px;white-space:nowrap}
 h2{font-family:var(--font-display);font-size:1.25rem;margin:22px 0 6px}
 .note{color:var(--muted);font-size:.85rem}
 footer{margin-top:28px;color:var(--muted);font-size:.8rem;border-top:1px solid var(--line);padding-top:12px}
-@media (prefers-reduced-motion:no-preference){.opts button,.tabs button{transition:background .12s,color .12s}}
-</style>
+@media (max-width:420px){.kv{grid-template-columns:1fr}.kv dt{margin-top:4px}}
+@media (prefers-reduced-motion:no-preference){.opts button,nav.tabs button{transition:background .12s,color .12s}}
+@media print{
+  nav.tabs,.tools,.crumb,.sticky,.opts button[aria-pressed="false"],.result .more,.copyrow{display:none!important}
+  [role=tabpanel][hidden]{display:none!important}
+  body{font-size:11pt;background:#fff;color:#000}
+  .result{break-inside:avoid;border:2px solid #000}
+  .result .band{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .result details{display:block}.result details>*{display:block}
+}
 
+</style>
+<script>document.body&&document.body.setAttribute("data-tool","fb");</script>
+<div data-tool-wrap="fb">
 <div class="wrap">
+<nav class="crumb" aria-label="Gezinme"><a href="https://gokhanbirsen1992-sketch.github.io/sunu-/">← Tüm araçlar</a><a href="https://gokhanbirsen1992-sketch.github.io/sunu-/eozinofilik-ozofajit/">Eozinofilik Özofajit</a></nav>
 <header>
   <h1>Yabancı Cisim Karar Aracı</h1>
-  <p>Çocuk ve ergende yutulan yabancı cisim. ESPGHAN Endoskopi ÖİG pozisyon bildirisi, JPGN 2026;83:539–554 (doi:10.1002/jpn3.70485). Sürelerin tamamı <strong>başvurudan</strong> itibaren.</p>
+  <p>Çocuk ve ergende yutulan yabancı cisim. ESPGHAN Endoskopi Özel İlgi Grubu pozisyon bildirisi, JPGN 2026;83:539–554 (doi:10.1002/jpn3.70485).</p>
+  <p class="warn">Sağlık profesyonelleri içindir. Aciliyet sınıfları başvurudan sayılır; düğme pilde süreler yutmadan sayılır.</p>
 </header>
 
 <nav class="tabs" role="tablist">
-  <button role="tab" id="tab-karar" aria-selected="true" aria-controls="p-karar">Karar</button>
-  <button role="tab" id="tab-tablo" aria-selected="false" aria-controls="p-tablo">Tablolar</button>
-  <button role="tab" id="tab-pil" aria-selected="false" aria-controls="p-pil">Pil izlemi</button>
+  <button role="tab" id="tab-karar" data-h="karar" aria-controls="p-karar">Karar</button>
+  <button role="tab" id="tab-tablo" data-h="tablo" aria-controls="p-tablo">Tablolar</button>
+  <button role="tab" id="tab-pil" data-h="pil" aria-controls="p-pil">Pil izlemi</button>
 </nav>
 
 <section id="p-karar" role="tabpanel" aria-labelledby="tab-karar">
   <div id="form"></div>
   <div class="tools"><button id="reset" type="button">Sıfırla</button></div>
-  <div id="result" class="result empty">
-    <div class="band"><div class="lvl">Soruları cevapla</div><div class="sub">Cisim türü, yer, belirti ve süre girildikçe karar burada görünür.</div></div>
-  </div>
+  <div id="result" class="result empty" aria-live="polite"><div class="band"><div class="lvl">Soruları cevapla</div></div></div>
 </section>
 
 <section id="p-tablo" role="tabpanel" aria-labelledby="tab-tablo" hidden>
-  <p class="note">Zaman tanımları: <span class="pill sev-acil">ACİL</span> &lt;2 saat · <span class="pill sev-ivedi">İVEDİ</span> &lt;24 saat · <span class="pill sev-elektif">ELEKTİF</span> &gt;24 saat · <span class="pill sev-konservatif">KONSERVATİF</span> izlem · <span class="pill sev-izlem">GÜNLÜK GÖRÜNTÜLEME</span> · <span class="pill sev-bireysel">BİREYSEL</span> risk değerlendirmesi</p>
+  <p class="note">Aciliyet: <span class="pill k-acil">ACİL</span> &lt;2 saat · <span class="pill k-ivedi">İVEDİ</span> &lt;24 saat · <span class="pill k-elektif">ELEKTİF</span> &gt;24 saat · <span class="pill k-kons">KONSERVATİF</span> · <span class="pill k-izlem">GÜNLÜK GÖRÜNTÜLEME</span> · <span class="pill k-bireysel">BİREYSEL</span>. Süreler başvurudan; düğme pilde yutmadan (s.541, 546).</p>
 
-  <h2>A. Yemek borusu</h2>
+  <h2>A. Yemek borusu (Şekil 1A)</h2>
   <div class="tscroll"><table>
-  <tr><th>Cisim</th><th>Belirti</th><th>Karar</th><th>Ek</th></tr>
-  <tr><td>Düğme pil</td><td>Her durumda</td><td><span class="pill sev-acil">ACİL</span></td><td>Açlığa bakma. &gt;12 ay ise bal/sukralfat 10 mL, 10 dk'da bir, maks 6 doz (yutmadan &lt;12 s). &gt;12 s gecikme / kanama → önce tomografi, kalp‑damar + girişimsel ekip hazır. Klavikula üstü → KBB rijit. Negatif kutbu belgele; perforasyon yoksa 50–150 mL %0,25 asetik asit; ağır hasarda NG tüp + NPO.</td></tr>
-  <tr><td>Mıknatıs (çoklu / + metal)</td><td>Her durumda</td><td><span class="pill sev-acil">ACİL</span></td><td>2 yönlü grafi ile sayıyı belirle. MR kontrendike.</td></tr>
-  <tr><td>Keskin</td><td>Her durumda</td><td><span class="pill sev-acil">ACİL</span></td><td>Keskin uç proksimale bakıyorsa mideye it, döndür. Grafi negatif + belirti → yine endoskopi.</td></tr>
-  <tr><td>Benign / besin bolusu</td><td>Belirtili, tıkalı</td><td><span class="pill sev-acil">ACİL</span></td><td></td></tr>
-  <tr><td>Benign / besin bolusu</td><td>Belirtili, tıkalı değil</td><td><span class="pill sev-ivedi">İVEDİ</span></td><td>4 s vs 12 s komplikasyon farkı yok (n=273).</td></tr>
-  <tr><td>Benign / besin bolusu</td><td>Belirtisiz</td><td><span class="pill sev-ivedi">İVEDİ</span></td><td>Gecikmiş / rastlantısal → tomografi + cerrahi destek.</td></tr>
-  <tr><td>Besin bolusu, ek</td><td></td><td></td><td>Proksimal + distal biyopsi (bası yeri hariç) → EoE. Glukagon verme.</td></tr>
+  <tr><th>Cisim</th><th>Durum</th><th>Karar</th><th>Ek</th></tr>
+  <tr><td>Düğme pil</td><td>Her durumda</td><td><span class="pill k-acil">ACİL</span></td><td>Açlığa bakma; ideali yutmadan &lt;2 saat. &gt;12 ay ve yutmadan &lt;12 saat: bal veya sukralfat. &gt;12 saat veya kanama/ağır belirti → önce ivedi tomografi, kalp-damar cerrahisi / girişimsel radyoloji, kanama hazırlığı. Klavikula hizası/üstü → KBB.</td></tr>
+  <tr><td>Mıknatıs (çoklu veya + metal)</td><td>Her durumda</td><td><span class="pill k-acil">ACİL</span></td><td>En az 2 yönlü grafi ile say; MR kontrendike. Gecikmiş başvuruda tomografi ve cerrahi destek düşün.</td></tr>
+  <tr><td>Keskin cisim</td><td>Her durumda</td><td><span class="pill k-acil">ACİL</span></td><td>Keskin uç proksimale bakıyorsa mideye it, döndür, distale çevirerek çıkar. Klavikula üstü → KBB.</td></tr>
+  <tr><td>Künt (para vb.), besin, tek mıknatıs, kurşun</td><td>Belirtili + tıkanma</td><td><span class="pill k-acil">ACİL</span></td><td></td></tr>
+  <tr><td>Künt (para vb.), besin, tek mıknatıs, kurşun</td><td>Belirtili, tıkanma yok / belirtisiz</td><td><span class="pill k-ivedi">İVEDİ</span></td><td>4 ile 12 saat arasında komplikasyon farkı yok (n=273). Gecikmiş başvuru / rastlantısal bulgu → tomografi ve cerrahi destek düşün.</td></tr>
+  <tr><td>Besin bolusu, ek</td><td></td><td></td><td>Proksimal + distal biyopsi (takılma yeri hariç) → eozinofilik özofajit. Darlık/halka: aynı seansta dilatasyon düşünülebilir; lokal inflamasyon veya açık eozinofilik özofajit varsa ertele. Glukagon önerilmez.</td></tr>
   </table></div>
 
-  <h2>B. Mide</h2>
+  <h2>B. Mide (Şekil 1B)</h2>
   <div class="tscroll"><table>
-  <tr><th>Cisim</th><th>Koşul</th><th>Karar</th><th>Ek</th></tr>
-  <tr><td>Mıknatıs çoklu / + metal</td><td>Her durumda</td><td><span class="pill sev-acil">ACİL</span></td><td>Tek mıknatıs kesinse benign gibi.</td></tr>
-  <tr><td>Düğme pil</td><td>Belirtili veya + mıknatıs</td><td><span class="pill sev-ivedi">İVEDİ</span></td><td></td></tr>
-  <tr><td>Düğme pil</td><td>Belirtisiz; &lt;5 yaş ve ≥20 mm ve (tanıksız / &gt;12 s / mideye &gt;15 dk)</td><td><span class="pill sev-ivedi">ENDOSKOPİ DÜŞÜN</span></td><td>Amaç yemek borusunu değerlendirmek. Metin/Şekil 1B kriterleri farklı.</td></tr>
-  <tr><td>Düğme pil</td><td>Belirtisiz, kriter dışı</td><td><span class="pill sev-konservatif">KONSERVATİF</span></td><td>7–14 günde grafi. Cerrahi öyküsü / anomali → endoskopi düşün.</td></tr>
-  <tr><td>Keskin</td><td>Belirtili</td><td><span class="pill sev-ivedi">İVEDİ</span></td><td></td></tr>
-  <tr><td>Keskin</td><td>Belirtisiz</td><td><span class="pill sev-bireysel">BİREYSEL</span></td><td>Eşik çok düşük. Konservatifse günlük grafi, tercihen yatarak. Ortak karar.</td></tr>
-  <tr><td>Benign</td><td>Belirtili</td><td><span class="pill sev-ivedi">İVEDİ</span></td><td></td></tr>
-  <tr><td>Benign</td><td>Belirtisiz; çap &gt;25 mm veya boy &gt;60 mm</td><td><span class="pill sev-elektif">ELEKTİF</span></td><td>Eşikler erişkin verisi.</td></tr>
-  <tr><td>Benign</td><td>Belirtisiz; küçük</td><td><span class="pill sev-konservatif">KONSERVATİF</span></td><td>1 ay sonra grafi.</td></tr>
-  <tr><td>Kurşun</td><td></td><td><span class="pill sev-konservatif">KONSERVATİF</span></td><td>Asit baskılama, 48 s grafi. Çıkar: geçmezse / belirti / Pb &gt;55 µg/dL.</td></tr>
-  <tr><td>Süper emici polimer</td><td>Tanıklı / şüpheli</td><td><span class="pill sev-acil">ACİL</span></td><td>Grafide görünmez. Tam alınamazsa yatır + cerrahi.</td></tr>
+  <tr><th>Cisim</th><th>Durum</th><th>Karar</th><th>Ek</th></tr>
+  <tr><td>Mıknatıs (çoklu veya + metal / pil)</td><td>Her durumda</td><td><span class="pill k-acil">ACİL</span></td><td>Tek mıknatıs kesinse künt cisim gibi. Pil + mıknatısta metin "ivedi" (s.546) ile "acil" (s.549) çelişiyor.</td></tr>
+  <tr><td>Düğme pil</td><td>Belirtili</td><td><span class="pill k-ivedi">İVEDİ</span></td><td></td></tr>
+  <tr><td>Düğme pil</td><td>Belirtisiz; &lt;5 yaş ve ≥20 mm ve (tanıksız / yutmadan &gt;12 saat / mideye &gt;15 dk)</td><td><span class="pill k-elektif">ENDOSKOPİ DÜŞÜN</span></td><td>Amaç yemek borusunu değerlendirmek. Şekil 1B elektif (&gt;24 saat); metin zamanlama vermiyor.</td></tr>
+  <tr><td>Düğme pil</td><td>Belirtisiz, kriter dışı</td><td><span class="pill k-kons">KONSERVATİF</span></td><td>Ayaktan; 7–14 günde grafi, geçmezse çıkar. Klinik endişe veya şüphe varsa yemek borusu değerlendirmesi düşün. Bağırsak cerrahisi / anomali → endoskopi düşün.</td></tr>
+  <tr><td>Keskin cisim</td><td>Belirtili</td><td><span class="pill k-acil">ACİL</span></td><td>Öneri 5.7 "acil"; Şekil 1B "ivedi" gösteriyor.</td></tr>
+  <tr><td>Keskin cisim</td><td>Belirtisiz</td><td><span class="pill k-bireysel">BİREYSEL</span></td><td>Çıkarma eşiği çok düşük; boyut, şekil, yaş. Konservatifse günlük grafi + belirti takibi.</td></tr>
+  <tr><td>Künt (para vb.)</td><td>Belirtili</td><td><span class="pill k-ivedi">İVEDİ</span></td><td></td></tr>
+  <tr><td>Künt (para vb.)</td><td>Belirtisiz; çap &gt;25 mm veya boy &gt;60 mm</td><td><span class="pill k-elektif">ELEKTİF</span></td><td>Eşikler erişkin verisine dayalı uzman görüşü.</td></tr>
+  <tr><td>Künt (para vb.)</td><td>Belirtisiz; küçük</td><td><span class="pill k-kons">KONSERVATİF</span></td><td>1 ay sonra grafi; hâlâ midedeyse elektif çıkar.</td></tr>
+  <tr><td>Kurşun</td><td>Belirtisiz</td><td><span class="pill k-kons">KONSERVATİF</span></td><td>Asit baskılama, 48 saat sonra grafi. Çıkar: geçmezse / belirti / kan kurşunu &gt;55 µg/dL.</td></tr>
+  <tr><td>Su boncuğu (süper emici polimer)</td><td>Tanıklı / şüpheli</td><td><span class="pill k-acil">ACİL</span></td><td>Grafide görünmez. Tam alınamazsa yatır + cerrahi destek.</td></tr>
   </table></div>
 
-  <h2>C. Pilor sonrası</h2>
+  <h2>C. Pilor sonrası (Şekil 1C)</h2>
   <div class="tscroll"><table>
-  <tr><th>Cisim</th><th>Koşul</th><th>Karar</th><th>Ek</th></tr>
-  <tr><td>Çoklu mıknatıs</td><td>Erişimde</td><td><span class="pill sev-acil">ACİL</span></td><td>Masada floroskopi ile sayım.</td></tr>
-  <tr><td>Çoklu mıknatıs</td><td>Erişim dışı</td><td><span class="pill sev-izlem">GÜNLÜK GÖRÜNTÜLEME</span></td><td>İlerlemezse cerrahi.</td></tr>
-  <tr><td>Düğme pil</td><td>Mide kriterleri</td><td>—</td><td>Pil + mıknatıs bağırsakta → cerrahi destek.</td></tr>
-  <tr><td>Keskin</td><td>Belirtili, erişimde</td><td><span class="pill sev-ivedi">İVEDİ</span></td><td></td></tr>
-  <tr><td>Keskin</td><td>Belirtili, erişim dışı</td><td><span class="pill sev-izlem">GÜNLÜK GÖRÜNTÜLEME</span></td><td>Cerrahi ekip.</td></tr>
-  <tr><td>Keskin</td><td>Belirtisiz</td><td><span class="pill sev-izlem">GÜNLÜK GÖRÜNTÜLEME</span></td><td>Crohn / karın cerrahisi → ek dikkat.</td></tr>
-  <tr><td>Benign</td><td></td><td><span class="pill sev-konservatif">KONSERVATİF</span></td><td></td></tr>
+  <tr><th>Cisim</th><th>Durum</th><th>Karar</th><th>Ek</th></tr>
+  <tr><td>Çoklu mıknatıs (veya + pil/metal)</td><td>Gastroskop erişiminde</td><td><span class="pill k-acil">ACİL</span></td><td></td></tr>
+  <tr><td>Çoklu mıknatıs (veya + pil/metal)</td><td>Erişim dışı</td><td><span class="pill k-izlem">GÜNLÜK GÖRÜNTÜLEME</span></td><td>Cerrahi ekip; ilerlemezse cerrahi.</td></tr>
+  <tr><td>Düğme pil</td><td>Mideyle aynı yaş/boyut/süre kriteri</td><td><span class="pill k-elektif">ENDOSKOPİ DÜŞÜN</span> / <span class="pill k-kons">KONSERVATİF</span></td><td>Belirti veya ilerlememe → cerrahi destek; tekrar görüntüleme.</td></tr>
+  <tr><td>Keskin cisim</td><td>Belirtili, erişimde</td><td><span class="pill k-acil">ACİL</span></td><td>Öneri 5.7; Şekil 1C "ivedi".</td></tr>
+  <tr><td>Keskin cisim</td><td>Belirtili, erişim dışı / belirtisiz</td><td><span class="pill k-izlem">GÜNLÜK GÖRÜNTÜLEME</span></td><td>Konservatif / cerrahi ekip. Crohn veya karın cerrahisi öyküsüne özel dikkat.</td></tr>
+  <tr><td>Künt, kurşun, tek mıknatıs</td><td></td><td><span class="pill k-kons">KONSERVATİF</span></td><td>Tıkanma belirtisi → cerrahi ekip.</td></tr>
   </table></div>
+
+  <h2>Grafide görülmeyen cisim</h2>
+  <ul>
+    <li>Plastik, cam, balık kılçığı, ahşap radyolusent olabilir.</li>
+    <li>Belirtili + keskin cisim şüphesi: grafi negatif olsa da acil endoskopi (s.549).</li>
+    <li>Belirtisiz + yutma belirsiz: kontrastlı çalışma veya tomografi düşünülebilir (s.550).</li>
+  </ul>
 
   <h2>İşlem sırasında, her vakada</h2>
   <ul>
-    <li>Entübasyonla hava yolu koru (varsayılan).</li>
-    <li>Acil olmayan vakada işlemden hemen önce grafi: cisim hâlâ erişimde mi?</li>
+    <li>Hava yolunu entübasyonla koru (varsayılan).</li>
+    <li>Acil olmayan çıkarımda yakın zamanda görüntüleme yoksa işlemden hemen önce grafi: cisim hâlâ erişimde mi?</li>
     <li>Mide tamamen temizlenip retrofleksiyonla bakılmadan "çıktı" deme (grafide 6, endoskopide 10 mıknatıs).</li>
-    <li>Pil / keskin / gecikmiş benign: cisim tıkaç olabilir; çekmeden tomografi + cerrahi hazırlık.</li>
-    <li>Tutucu, ağ, snare, balon hazır; yabancı cisimse vücut dışında dene.</li>
+    <li>Pil, keskin cisim, mıknatıs veya geç fark edilen yemek borusu cisminde altta yatan hasar çıkarımla açığa çıkabilir: tomografi ve cerrahi / kalp-damar desteği düşün (s.551).</li>
+    <li>Tutucu, ağ, snare, balon hazır olsun; tanımadık bir cisimse benzerinde vücut dışında dene.</li>
+    <li>Tüm mıknatısların alındığından şüphe varsa masada floroskopi.</li>
+  </ul>
+
+  <h2>Özel durumlar</h2>
+  <ul>
+    <li><strong>Ergen, kasıtlı / tekrarlayan yutma:</strong> ergen hekimliği ve psikiyatri/psikoloji ile ortak yönetim; uygun tedavi kararı değişmemeli (s.542).</li>
+    <li><strong>Toksik cisim (ör. uyuşturucu paketi):</strong> bireysel değerlendirme; sızıntı/emilim riski yüksekse çıkarım genelde endike, çıkarma riskiyle tart; zehir danışma ile görüş (s.541, 544).</li>
+    <li><strong>Kurşun:</strong> belirtiler kan kurşunu &gt;30 µg/dL'de görülebilir; ensefalopati &lt;100 µg/dL'de beklenmez; şelasyon &gt;55 µg/dL (s.544).</li>
+    <li><strong>Isıtılmış tütün çubuğu (susceptor):</strong> diğer keskin metallerden daha riskli görünmüyor; yemek borusunda keskin cisim gibi çıkar, mide ve distalde seri görüntülemeyle geçişi doğrula (s.550).</li>
+    <li><strong>Mıknatısa bağlı perforasyon:</strong> klips veya cerrahi girdi + antibiyotikle konservatif; endoskopi başarısız veya büyük perforasyon → cerrahi. Geniş spektrum: piperasilin/tazobaktam veya meropenem (s.549).</li>
   </ul>
 </section>
 
 <section id="p-pil" role="tabpanel" aria-labelledby="tab-pil" hidden>
-  <h2>Düğme pil, çıkarım sonrası (Tablo 2)</h2>
+  <h2>Düğme pil, çıkarım öncesi / sırası / sonrası (Tablo 2)</h2>
   <div class="tscroll"><table>
   <tr><th>Zaman</th><th>Yap</th></tr>
-  <tr><td>24–48 saat</td><td>Ağır mukoza hasarında kontrastlı göğüs tomografisi. MR ikinci sıra (korozyon artığı, teorik ısınma).</td></tr>
-  <tr><td>48–72 saat</td><td>Hasar büyük damara yakınsa tekrar görüntüleme; iyileşme başlayana kadar tekrarla.</td></tr>
-  <tr><td>Damara ilerleme</td><td>Kalp‑damar cerrahisi ile profilaktik flep / damar ayırma.</td></tr>
-  <tr><td>28. güne kadar</td><td>Aorto‑özofageal fistül, trakeoözofageal fistül, ses teli felci, mediastinit, spondilodiskit izlemi.</td></tr>
-  <tr><td>3–4 hafta</td><td>Belirti veya yüksek darlık riski → özofagogram / tekrar endoskopi.</td></tr>
-  <tr><td>Taburculuk</td><td>Yazılı talimat: hematemez, yutma güçlüğü, ateş → hemen geri gel.</td></tr>
+  <tr><td>Öncesi</td><td>&gt;12 ay ve yutmadan &lt;12 saat: 10 mL bal veya sukralfat, 10 dk'da bir, en fazla 6 doz (evde, nakilde, hastanede). Bal/sukralfat yoksa reçel ikincil seçenek. Nakli bal için geciktirme. Yemek borusundaysa acil endoskopi planı. &gt;12 saat gecikmede tomografi. Kanamayla geliyorsa kateter laboratuvarı / ameliyathane hazırlığı.</td></tr>
+  <tr><td>Sırası</td><td>Açlıktan bağımsız hızlı ardışık entübasyon. Hasarın seviyesi, yaygınlığı ve negatif kutbun yönü belgelenir. Perforasyon, trakeoözofageal fistül, ses teli felci, masif kanama öngörülür. Perforasyon yoksa 50–150 mL %0,25 asetik asit. Endoskopi eşliğinde nazogastrik tüp kuvvetle düşünülür.</td></tr>
+  <tr><td>24–48 saat</td><td>Ağır mukoza hasarı saptandıysa göğsün kontrastlı tomografisi veya manyetik rezonansı (tomografi tercih edilebilir: korozyon artığı, teorik ısınma).</td></tr>
+  <tr><td>48–72 saat</td><td>Hasar büyük damara yakınsa yatırarak izle, tekrar görüntüle; iyileşme başlayana kadar tekrarla. Damara ilerleme → kalp-damar cerrahisi ile profilaktik flep / damar ayırma.</td></tr>
+  <tr><td>Geç komplikasyon</td><td>Perforasyon, trakeoözofageal fistül, aorto-özofageal fistül (28. güne kadar), ses teli felci, mediastinit, spondilodiskit.</td></tr>
+  <tr><td>3–4 hafta</td><td>Belirti veya yüksek darlık riski → özofagogram (veya tekrar endoskopi).</td></tr>
+  <tr><td>Taburculuk</td><td>Ebeveyne yazılı taburculuk talimatı (makale içeriğini belirtmiyor).</td></tr>
   </table></div>
   <h2>Süre–risk verisi (makaleden)</h2>
   <ul>
-    <li>≥10 saat: komplikasyon OR 3,71 (%95 GA 1,11–12,42). ≥12 saat: OR 5,12 (1,79–14,67).</li>
-    <li>Ölümcül vakalarda ortanca kalma 144 saat; sağ kalanlarda 11 saat.</li>
-    <li>3125 çocuk: mukoza hasarı %46, darlık %10.</li>
+    <li>Yemek borusunda ≥10 saat kalma: komplikasyon olasılık oranı 3,71 (%95 güven aralığı 1,11–12,42); ≥12 saat: 5,12 (1,79–14,67).</li>
+    <li>Damar komplikasyonlu çocuklarda: ölümcül vakalarda ortanca kalma 144 saat, sağ kalanlarda 11 saat.</li>
+    <li>3125 çocuk: mukoza hasarı %46, yemek borusu darlığı %10.</li>
+    <li>Risk faktörleri: pil &gt;20 mm, &lt;6 yaş, tanıksız yutma (gecikmiş tanı).</li>
   </ul>
 </section>
 
-<footer>Tüm sayısal eşikler (25 mm, 60 mm, 20 mm, 5 yaş, 15 dk, 12 s) uzman uzlaşısıdır; makale ESPGHAN politikası değildir. Araç klinik yargının yerine geçmez.</footer>
+<footer>Kaynak: Ledder O ve ark. J Pediatr Gastroenterol Nutr 2026;83:539–554. Pozisyon bildirisi ESPGHAN politikası değildir. 25/60 mm gibi eşiklerin bir kısmı uzman görüşüdür; pil risk faktörleri literatüre dayanır. Bilinen çelişkiler sarı şeritle işaretlidir. Karar desteğidir; klinik yargının yerine geçmez. Son güncelleme: 7 Ekim 2026.</footer>
 </div>
+<button id="sticky" class="sticky" type="button" hidden></button>
 
 <script>
+/* Ortak arayüz: sekmeler (#bağlantı), soru sihirbazı, sonuç kartı, yapışık özet, özet kopyalama. */
 (function(){
-  const S = {};
-  const $ = s => document.querySelector(s);
+  'use strict';
+  var SRC=(document.currentScript&&document.currentScript.src)||'';
+  var $=function(s){return document.querySelector(s);};
+  var reduce=function(){try{return matchMedia('(prefers-reduced-motion: reduce)').matches;}catch(e){return false;}};
+  var strip=function(h){var d=document.createElement('div');d.innerHTML=h;return (d.textContent||'').replace(/\s+/g,' ').trim();};
 
-  // ---- soru tanımları (sırayla; show() false dönerse gizlenir) ----
-  const Q = [
-    {k:'obj', label:'Ne yuttu?', opts:[['battery','Düğme pil'],['magnet','Mıknatıs'],['sharp','Keskin cisim'],['benign','Benign / künt'],['food','Besin bolusu'],['lead','Kurşun'],['sap','Süper emici polimer']]},
-    {k:'mag', label:'Mıknatıs sayısı?', hint:'Başka metal cisimle birlikte yutma = çoklu sayılır. İkinci mıknatıs şüphesi varsa çoklu seç.', show:s=>s.obj==='magnet', opts:[['single','Tek, kesin'],['multi','Çoklu / + metal / şüphe']]},
-    {k:'loc', label:'Nerede?', hint:'İki yönlü grafi. Mıknatısta MR kontrendike.', show:s=>!!s.obj && !(s.obj==='lead'||s.obj==='sap'), opts:[['eso','Yemek borusu'],['sto','Mide'],['post','Pilor sonrası']]},
-    {k:'sym', label:'Belirti var mı?', show:s=>!!s.loc, opts:[['y','Var'],['n','Yok']]},
-    {k:'obs', label:'Tıkanıklık bulgusu?', hint:'Salya, içememe, solunum sıkıntısı.', show:s=>s.loc==='eso' && s.sym==='y' && isBenign(s), opts:[['y','Var'],['n','Yok']]},
-    {k:'delay', label:'Başvuru gecikmiş mi (>12 saat) veya rastlantısal bulgu mu?', show:s=>s.loc==='eso' && (s.obj==='battery'||isBenign(s)||s.obj==='sharp') , opts:[['y','Evet'],['n','Hayır']]},
-    {k:'age12', label:'Çocuk 12 aydan büyük mü?', show:s=>s.obj==='battery'&&s.loc==='eso', opts:[['y','Evet'],['n','Hayır']]},
-    {k:'bmag', label:'Pille birlikte mıknatıs da yutuldu mu?', show:s=>s.obj==='battery'&&(s.loc==='sto'||s.loc==='post'), opts:[['y','Evet'],['n','Hayır']]},
-    {k:'age5', label:'Çocuk 5 yaşından küçük mü?', show:s=>s.obj==='battery'&&(s.loc==='sto'||s.loc==='post')&&s.sym==='n'&&s.bmag==='n', opts:[['y','Evet'],['n','Hayır']]},
-    {k:'b20', label:'Pil çapı 20 mm veya üstü mü?', show:s=>s.obj==='battery'&&(s.loc==='sto'||s.loc==='post')&&s.sym==='n'&&s.bmag==='n', opts:[['y','Evet'],['n','Hayır']]},
-    {k:'bwit', label:'Yutma tanıklı ve grafi 15 dk içinde midede gösterdi mi?', hint:'Hayır = tanıksız, >12 saat önce veya mideye geçiş >15 dk.', show:s=>s.obj==='battery'&&(s.loc==='sto'||s.loc==='post')&&s.sym==='n'&&s.bmag==='n', opts:[['y','Evet'],['n','Hayır']]},
-    {k:'banat', label:'Bağırsak cerrahisi öyküsü veya anatomik anomali?', show:s=>s.obj==='battery'&&(s.loc==='sto'||s.loc==='post')&&s.sym==='n'&&s.bmag==='n', opts:[['y','Var'],['n','Yok']]},
-    {k:'big', label:'Çap >25 mm veya uzunluk >60 mm?', show:s=>isBenign(s)&&s.loc==='sto'&&s.sym==='n', opts:[['y','Evet'],['n','Hayır']]},
-    {k:'reach', label:'Gastroskop erişiminde mi?', show:s=>s.loc==='post'&&((s.obj==='magnet'&&s.mag==='multi')||s.obj==='sharp'), opts:[['y','Evet'],['n','Hayır']]},
-    {k:'crohn', label:'Crohn, önceki karın cerrahisi veya lümen daralması riski?', show:s=>s.obj==='sharp'&&(s.loc==='sto'||s.loc==='post'), opts:[['y','Var'],['n','Yok']]},
+  function tabs(){
+    var btns=[].slice.call(document.querySelectorAll('nav.tabs [role=tab]'));
+    function act(b,focus,keepHash){
+      btns.forEach(function(x){var on=x===b;x.setAttribute('aria-selected',on?'true':'false');x.tabIndex=on?0:-1;
+        document.getElementById(x.getAttribute('aria-controls')).hidden=!on;});
+      if(focus)b.focus();
+      if(!keepHash){try{history.replaceState(null,'','#'+b.dataset.h);}catch(e){}}
+    }
+    btns.forEach(function(b,i){
+      b.addEventListener('click',function(){act(b);});
+      b.addEventListener('keydown',function(e){var j=null,n=btns.length;
+        if(e.key==='ArrowRight')j=(i+1)%n; else if(e.key==='ArrowLeft')j=(i-1+n)%n; else if(e.key==='Home')j=0; else if(e.key==='End')j=n-1;
+        if(j!==null){e.preventDefault();act(btns[j],true);}});
+    });
+    var h=(location.hash||'').slice(1), t=btns.filter(function(b){return b.dataset.h===h;})[0]||btns[0];
+    act(t,false,true);
+    return function(name){var b=btns.filter(function(x){return x.dataset.h===name;})[0]; if(b)act(b);};
+  }
+
+  function copyText(t,btn,label){
+    var done=function(){btn.textContent='Kopyalandı ✓';setTimeout(function(){btn.textContent=label;},2000);};
+    var fallback=function(){
+      var ta=document.createElement('textarea');ta.value=t;ta.setAttribute('readonly','');ta.style.cssText='position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);ta.select();var ok=false;try{ok=document.execCommand('copy');}catch(e){}ta.remove();
+      if(ok){done();return;}
+      var box=btn.parentNode.querySelector('.copybox');
+      if(!box){box=document.createElement('textarea');box.className='copybox';btn.parentNode.appendChild(box);}
+      box.value=t;box.focus();box.select();btn.textContent='Metni seçip kopyalayın';
+    };
+    try{ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,fallback);} else fallback(); }catch(e){fallback();}
+  }
+
+  /* cfg: {Q, decide, LV, tool, source, form, result, reset, sticky}
+     Q: [{k,label,hint,step,show(S),opts:[[v,text]],optional}]
+     decide(S) -> null | {k, lvl?, sub?, act:[], ev:[], flags:[]} */
+  function wizard(cfg){
+    var S={}, form=$(cfg.form), box=$(cfg.result), sticky=$(cfg.sticky), lastKey='';
+    function visibleQs(){var out=[];cfg.Q.forEach(function(q){if(q.show&&!q.show(S)){delete S[q.k];return;}out.push(q);});return out;}
+    function scrollToQ(k){var el=form.querySelector('[data-k="'+k+'"]');if(el)el.scrollIntoView({behavior:reduce()?'auto':'smooth',block:'center'});}
+    function answers(qs){return qs.filter(function(q){return S[q.k]!==undefined;}).map(function(q){
+      var t=q.opts.filter(function(o){return o[0]===S[q.k];})[0];return [q.label,t?t[1]:S[q.k]];});}
+    function summary(r,lvl,sub,qs){
+      var d=new Date(), p=function(n){return (n<10?'0':'')+n;};
+      var L=[cfg.tool+' — '+p(d.getDate())+'.'+p(d.getMonth()+1)+'.'+d.getFullYear()+' '+p(d.getHours())+':'+p(d.getMinutes()),''];
+      answers(qs).forEach(function(a){L.push(a[0]+' '+a[1]);});
+      L.push('','KARAR: '+lvl+(sub?' — '+sub:''));
+      (r.act||[]).forEach(function(a){L.push('- '+strip(a));});
+      (r.flags||[]).forEach(function(a){L.push('Not: '+strip(a));});
+      L.push('','Kaynak: '+cfg.source,'Karar desteğidir; klinik yargının yerine geçmez.');
+      return L.join('\n');
+    }
+    function render(){
+      var qs=visibleQs(); form.innerHTML=''; var lastStep='';
+      qs.forEach(function(q){
+        if(q.step&&q.step!==lastStep){var h=document.createElement('div');h.className='step';h.textContent=q.step;form.appendChild(h);lastStep=q.step;}
+        var d=document.createElement('div');d.className='q'+(q.optional?' opt':'');d.dataset.k=q.k;
+        d.innerHTML='<div class="label">'+q.label+'</div>'+(q.hint?'<div class="hint">'+q.hint+'</div>':'')+'<div class="opts" role="group"></div>';
+        var o=d.querySelector('.opts');
+        q.opts.forEach(function(op){var b=document.createElement('button');b.type='button';b.id='q-'+q.k+'-'+op[0];b.textContent=op[1];
+          b.setAttribute('aria-pressed',S[q.k]===op[0]?'true':'false');
+          b.addEventListener('click',function(){
+            if(S[q.k]===op[0]&&q.optional){delete S[q.k];} else S[q.k]=op[0];
+            var after=false; cfg.Q.forEach(function(qq){if(after&&!qq.keep)delete S[qq.k]; if(qq.k===q.k)after=true;});
+            render();});
+          o.appendChild(b);});
+        form.appendChild(d);
+      });
+      var r=cfg.decide(S), pending=qs.filter(function(q){return S[q.k]===undefined&&!q.optional;});
+      if(!r){
+        box.className='result empty';
+        var nx=pending[0];
+        box.innerHTML='<div class="band"><div class="lvl">'+(Object.keys(S).length?'Devam et':'Soruları cevapla')+'</div>'+
+          (nx?'<div class="sub">Sıradaki: <button type="button" data-go="'+nx.k+'">'+strip(nx.label)+'</button></div>':'')+'</div>';
+        var g=box.querySelector('[data-go]'); if(g)g.addEventListener('click',function(){scrollToQ(g.dataset.go);});
+        lastKey=''; updSticky(null); return;
+      }
+      var lv=cfg.LV[r.k]||['',''], lvl=r.lvl||lv[0], sub=(r.sub!==undefined&&r.sub!==null)?r.sub:lv[1];
+      var sec=function(t,a){return a&&a.length?'<div><h3>'+t+'</h3><ul>'+a.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul></div>':'';};
+      var ev=r.ev&&r.ev.length?'<details><summary>Kanıt (makaleden)</summary><ul>'+r.ev.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul></details>':'';
+      var more=pending.length?'<div class="more">Ayrıntı için cevapla: '+pending.map(function(q){return '<button type="button" data-go="'+q.k+'">'+strip(q.label)+'</button>';}).join(' · ')+'</div>':'';
+      box.className='result';
+      box.innerHTML='<div class="band k-'+r.k+'"><div class="lvl">'+lvl+'</div>'+(sub?'<div class="sub">'+sub+'</div>':'')+'</div>'+
+        '<div class="body">'+sec('Yap',r.act)+(r.flags||[]).map(function(x){return '<div class="flag">'+x+'</div>';}).join('')+ev+more+
+        '<div class="copyrow"><button type="button" class="btn" id="copy">Özeti kopyala</button></div></div>';
+      [].forEach.call(box.querySelectorAll('[data-go]'),function(g){g.addEventListener('click',function(){scrollToQ(g.dataset.go);});});
+      var cb=box.querySelector('#copy'); cb.addEventListener('click',function(){copyText(summary(r,lvl,sub,qs),cb,'Özeti kopyala');});
+      var key=r.k+'|'+lvl+'|'+sub;
+      if(key!==lastKey){lastKey=key; if(Object.keys(S).length) setTimeout(function(){box.scrollIntoView({behavior:reduce()?'auto':'smooth',block:'start'});},30);}
+      updSticky({k:r.k,lvl:lvl,sub:sub});
+    }
+    var cur=null;
+    function inView(){var r=box.getBoundingClientRect(),h=window.innerHeight||document.documentElement.clientHeight;return r.top<h-60&&r.bottom>60;}
+    function updSticky(x){if(x!==undefined)cur=x; if(!sticky)return; if(!cur||inView()||box.offsetParent===null){sticky.hidden=true;return;}
+      sticky.className='sticky k-'+cur.k; sticky.textContent=cur.lvl+(cur.sub?' · '+cur.sub:'')+'  ▸'; sticky.hidden=false;}
+    if(sticky){
+      sticky.addEventListener('click',function(){box.scrollIntoView({behavior:reduce()?'auto':'smooth',block:'start'});});
+      var tk=false; var onS=function(){if(tk)return;tk=true;requestAnimationFrame(function(){tk=false;updSticky();});};
+      window.addEventListener('scroll',onS,{passive:true}); window.addEventListener('resize',onS);
+      document.addEventListener('click',function(){setTimeout(onS,50);});
+    }
+    if(cfg.reset)$(cfg.reset).addEventListener('click',function(){Object.keys(S).forEach(function(k){delete S[k];});lastKey='';render();window.scrollTo({top:0,behavior:reduce()?'auto':'smooth'});});
+    render();
+    return {S:S,render:render,set:function(k,v){S[k]=v;render();}};
+  }
+
+  function store(key){
+    return {get:function(){try{var v=JSON.parse(localStorage.getItem(key)||'null');if(v&&Date.now()-v.t<12*3600e3)return v;}catch(e){}return null;},
+      set:function(o){try{o.t=Date.now();localStorage.setItem(key,JSON.stringify(o));}catch(e){}},
+      clear:function(){try{localStorage.removeItem(key);}catch(e){}}};
+  }
+
+  try{ if(SRC&&'serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost')){navigator.serviceWorker.register(new URL('sw.js',SRC).href).catch(function(){});} }catch(e){}
+
+  window.Ortak={tabs:tabs,wizard:wizard,copyText:copyText,store:store,strip:strip};
+})();
+
+</script>
+<script>
+(function(){
+  var isSharp=function(s){return ['sharp','pin','tobacco'].indexOf(s.obj)>=0;};
+  var multiMag=function(s){return (s.obj==='magnet'&&s.mag==='multi')||(s.obj==='battery'&&s.bmag==='y');};
+  var bluntish=function(s){return ['blunt','food','lead'].indexOf(s.obj)>=0||(s.obj==='magnet'&&s.mag==='single');};
+  var LOC=function(s){return s.obj==='food'?'eso':s.loc;};
+  var noLoc=function(s){return s.obj==='sap'||s.obj==='toxic'||s.obj==='food';};
+  var batCrit=function(s){return s.obj==='battery'&&(s.loc==='sto'||s.loc==='post')&&s.bmag==='n'&&!(s.loc==='sto'&&s.sym==='y');};
+
+  var Q=[
+    {k:'obj',label:'Ne yuttu?',opts:[['blunt','Künt (bozuk para, oyuncak…)'],['battery','Düğme pil'],['magnet','Mıknatıs'],['sharp','Keskin / sivri'],['food','Besin takılması'],['pin','Başörtüsü iğnesi'],['tobacco','Isıtılmış tütün çubuğu'],['lead','Kurşun (olta/perde ağırlığı)'],['sap','Su boncuğu (süper emici polimer)'],['toxic','Toksik / ilaç paketi']]},
+    {k:'mag',label:'Kaç mıknatıs?',hint:'Başka metal cisimle birlikte = çoklu. İkinci mıknatıs veya metalden şüphe varsa çoklu seç (s.549).',show:function(s){return s.obj==='magnet';},opts:[['single','Tek, kesin'],['multi','Çoklu / + metal / şüphe']]},
+    {k:'age12',label:'Çocuk 12 aydan büyük mü?',hint:'Bal önerisi için.',show:function(s){return s.obj==='battery';},opts:[['y','Evet'],['n','Hayır']]},
+    {k:'t12',label:'Yutmadan bu yana süre?',show:function(s){return s.obj==='battery';},opts:[['lt','<12 saat'],['gt','>12 saat / bilinmiyor / rastlantısal']]},
+    {k:'loc',label:'Grafide nerede?',hint:'İki yönlü (ön-arka + yan) boyun, göğüs, karın grafisi.',show:function(s){return !!s.obj&&!noLoc(s)&&(s.obj!=='magnet'||!!s.mag)&&(s.obj!=='battery'||(!!s.age12&&!!s.t12));},opts:[['eso','Yemek borusu'],['sto','Mide'],['post','Pilor sonrası'],['unk','Görülmüyor / yer belirsiz']]},
+    {k:'bmag',label:'Pille birlikte mıknatıs da yutuldu mu?',show:function(s){return s.obj==='battery'&&(s.loc==='sto'||s.loc==='post');},opts:[['n','Hayır'],['y','Evet']]},
+    {k:'bleed',label:'Kanama veya ağır belirti var mı?',show:function(s){return s.obj==='battery'&&s.loc==='eso';},opts:[['n','Yok'],['y','Var']]},
+    {k:'sym',label:'Belirti var mı?',hint:'Yemek borusu: salya, yutamama, göğüs ağrısı, öksürük, kusma. Mide / bağırsak: kusma, karın ağrısı, kanama, tıkanma.',
+      show:function(s){var L=LOC(s); if(!L||s.obj==='sap'||s.obj==='toxic')return false;
+        if(s.obj==='battery') return s.loc==='sto'||s.loc==='post' ? s.bmag==='n' : s.loc==='unk';
+        if(multiMag(s)) return false;
+        if(isSharp(s)&&L==='eso') return false;
+        return true;},opts:[['n','Yok'],['y','Var']]},
+    {k:'obs',label:'Tıkanma bulgusu var mı?',hint:'Salyasını yutamama, hiç içememe, solunum sıkıntısı.',show:function(s){return LOC(s)==='eso'&&bluntish(s)&&s.sym==='y';},opts:[['n','Yok'],['y','Var']]},
+    {k:'delay',label:'Gecikmiş başvuru veya rastlantısal bulgu mu?',hint:'Tomografi ve cerrahi destek ihtiyacını belirler (Şekil 1A).',show:function(s){return LOC(s)==='eso'&&s.obj!=='battery'&&!(bluntish(s)&&s.obs==='y')&&(multiMag(s)||isSharp(s)||s.sym!==undefined);},opts:[['n','Hayır'],['y','Evet']]},
+    {k:'age5',label:'Çocuk 5 yaşından küçük mü?',show:batCrit,opts:[['y','Evet'],['n','Hayır']]},
+    {k:'b20',label:'Pil çapı 20 mm veya üstü mü?',show:batCrit,opts:[['y','Evet'],['n','Hayır']]},
+    {k:'bwit',label:'Yutmayı gören oldu mu VE 15 dk içindeki grafide pil midede mi?',hint:'"Hayır": tanıksız yutma, yutmadan >12 saat, ya da mideye geçiş >15 dk.',show:batCrit,opts:[['y','Evet'],['n','Hayır']]},
+    {k:'banat',label:'Bağırsak cerrahisi öyküsü veya bilinen anatomik anomali?',show:batCrit,opts:[['n','Yok'],['y','Var']]},
+    {k:'big',label:'Çap >25 mm veya uzunluk >60 mm mi?',show:function(s){return s.loc==='sto'&&s.sym==='n'&&(s.obj==='blunt'||(s.obj==='magnet'&&s.mag==='single'));},opts:[['n','Hayır'],['y','Evet']]},
+    {k:'reach',label:'Gastroskop erişiminde mi?',show:function(s){return s.loc==='post'&&(multiMag(s)||(isSharp(s)&&s.sym==='y'));},opts:[['y','Evet'],['n','Hayır']]},
+    {k:'crohn',label:'Crohn, karın cerrahisi veya lümen darlığı riski var mı?',optional:true,show:function(s){return isSharp(s)&&(s.loc==='sto'||s.loc==='post')&&s.sym!==undefined;},opts:[['y','Var']]},
+    {k:'adol',label:'Ergen ve kasıtlı / tekrarlayan yutma mı?',optional:true,show:function(s){return !!s.obj;},opts:[['y','Evet']]}
   ];
-  function isBenign(s){ return s.obj==='benign'||s.obj==='food'||(s.obj==='magnet'&&s.mag==='single'); }
 
-  // ---- karar motoru ----
+  var LV={acil:['ACİL ENDOSKOPİ','< 2 saat'],ivedi:['İVEDİ ENDOSKOPİ','< 24 saat'],elektif:['ELEKTİF ÇIKARIM','> 24 saat, en iyi koşulda'],
+    kons:['KONSERVATİF İZLEM',''],izlem:['GÜNLÜK GÖRÜNTÜLEME','cerrahi ekiple'],bireysel:['BİREYSEL RİSK DEĞERLENDİRMESİ',''],info:['ÖNCE BUNU YAP','']};
+
+  var AIR='Hava yolunu entübasyonla koru.';
+  var KBB='Klavikula hizası veya üstündeyse KBB (rijit özofagoskopi / laringoskopi).';
+  var CTCONS='Altta yatan hasar çıkarımla açığa çıkabilir: tomografi ve cerrahi destek düşün (Şekil 1A, s.551).';
+
+  function honey(s){
+    if(s.age12==='y'&&s.t12==='lt') return 'Hemen bal: 10 mL (2 tatlı kaşığı), 10 dk\'da bir, en fazla 6 doz; yoksa sukralfat; ikisi de yoksa reçel (ikincil). Bal için nakli geciktirme.';
+    if(s.age12==='n') return '12 ay ve altında bal önerilmiyor (makale >12 ay diyor).';
+    return 'Yutmadan >12 saat geçtiyse veya süre bilinmiyorsa bal verme (perforasyon riski).';
+  }
+
   function decide(s){
-    const R = (lvl, sub, act=[], ev=[], flags=[]) => ({lvl, sub, act, ev, flags});
-    const L = {acil:['acil','ACİL ENDOSKOPİ','< 2 saat'], ivedi:['ivedi','İVEDİ ENDOSKOPİ','< 24 saat'], elektif:['elektif','ELEKTİF ÇIKARIM','> 24 saat, en iyi koşulda'],
-               kons:['konservatif','KONSERVATİF İZLEM',''], izlem:['izlem','GÜNLÜK GÖRÜNTÜLEME','cerrahi ekiple izlem'], bireysel:['bireysel','BİREYSEL RİSK DEĞERLENDİRMESİ','']};
-    const mk=(key,sub,act,ev,flags)=>{const l=L[key];return R(l,sub||l[2],act,ev,flags);};
-    const airway='Entübasyonla hava yolu koru.';
-    const tikac='Cisim tıkaç olabilir: çekmeden önce tomografi ve cerrahi hazırlık.';
-    const o=s.obj;
+    var o=s.obj; if(!o) return null;
+    var L=LOC(s), extra=[];
+    if(s.adol==='y') extra.push('Ergen, kasıtlı/tekrarlayan yutma: ergen hekimliği ve psikiyatri/psikoloji ile ortak yönetim. İşlemin davranışı pekiştirme ihtimali uygun tedavi kararını değiştirmemeli (s.542).');
+    if(o==='pin') extra.push('Başörtüsü iğnesi (~3,5 cm): 208 hastalık seride midedekilerin %36\'sı ilerlemediği için endoskopiyle çıkarıldı; çoğu gözlemde komplikasyonsuz geçti (s.549–550).');
+    if(o==='tobacco') extra.push('Susceptor diğer keskin metallerden daha riskli görünmüyor; yüzlerce vakada ciddi yaralanma bildirilmemiş (s.550).');
+    var R=function(k,sub,act,ev,flags,lvl){return {k:k,sub:sub,lvl:lvl,act:(act||[]).filter(Boolean).concat(extra),ev:ev||[],flags:flags||[]};};
 
-    if(o==='lead') return mk('kons','asit baskılama + 48 saatte grafi',
-      ['Zehir danışma / toksikoloji ile görüş.','Asit baskılama başla.','48 saat sonra grafi.','Çıkar: geçmezse, belirti verirse veya kan kurşunu >55 µg/dL.'],
-      ['Kurşun mide asidinde çözünür. Bildirilen 2 ölümde cisim ≥10 gün ve 4 hafta midede kalmış.'],
-      ['Asit baskılamanın emilimi azalttığına dair klinik veri makalede yok; mekanizmaya dayalı.']);
-    if(o==='sap') return mk('acil','tanıklı veya şüpheli yutmada',
-      ['Acil endoskopi ile materyali al.','Tam alınamazsa yatır + cerrahi destekle yakın gözlem.'],
-      ['Ağırlığının 100 katı su tutar; grafide görünmez. Zaman geçtikçe büyür, erişim penceresi kapanır.']);
-    if(!s.loc||!s.sym) return null;
+    if(o==='toxic') return R('bireysel','zehir danışma ile',['Zehir danışma merkezi veya toksikologla görüş (Türkiye: UZEM 114; numara makalede değil, yerel bilgi).','Sızıntı veya emilim riski yüksekse çıkarım genelde endike; çıkarmanın riskiyle dengele (s.541).','Kurşun ise "Kurşun"u, pil ise "Düğme pil"i seç.']);
+    if(o==='sap') return R('acil','tanıklı veya şüpheli yutmada',['Acil endoskopiyle materyali almaya çalış.','Başarısız veya eksikse yatır, cerrahi destekle yakın gözlem.'],['Ağırlığının 100 katına kadar su tutar; tıkanma, bası nekrozu, ölüm bildirilmiş. Saydam olduğu için grafide yalnız sonuçları görülür (s.545).']);
 
-    // --- YEMEK BORUSU ---
-    if(s.loc==='eso'){
+    if(o==='battery'&&!L){
+      if(!s.age12||!s.t12) return null;
+      return R('info','grafi beklenirken',[honey(s),'Hemen iki yönlü boyun, göğüs ve karın grafisi; yemek borusundaysa acil çıkarım.'],[],[]);
+    }
+    if(!L) return null;
+
+    // ---------- YEMEK BORUSU ----------
+    if(L==='eso'){
       if(o==='battery'){
-        if(!s.delay||!s.age12) return null;
-        const act=[ 'Açlığa bakmadan hemen çıkar; ideali yutmadan 2 saat içinde. Genel anestezi + entübasyon, hızlı ardışık.',
-          s.age12==='y'?'Yutmadan <12 saat ise: 10 mL bal veya sukralfat, 10 dk\'da bir, en fazla 6 doz. Nakli geciktirme.':'<12 ay: bal verme (makale ≥12 ay şartı koyuyor).',
-          'Klavikula hizası/üstü → KBB, rijit özofagoskopi.',
-          'Tutucu ile al (ağ pili saramaz). Negatif kutup tarafını ve hasar seviyesini belgele.',
-          'Perforasyon yoksa 50–150 mL %0,25 asetik asit yıkaması (lokal protokol).',
-          'Ağır hasar: endoskopi eşliğinde NG tüp, perforasyon dışlanana kadar NPO.',
-          '24–48 saatte kontrastlı göğüs tomografisi; "Pil izlemi" sekmesine bak.'];
-        if(s.delay==='y') act.splice(1,0,'GECİKMİŞ: pili çekmeden önce ivedi tomografi. Kalp‑damar cerrahisi / girişimsel radyoloji hazır, çift geniş damar yolu, kan hazır (zaman yoksa O negatif). Bal verme (>12 saat).');
-        return mk('acil', s.delay==='y'?'gecikmiş başvuru, kanama hazırlığıyla':'< 2 saat', act,
-          ['Negatif kutupta hidroksit → pH yükselir → likefaksiyon nekrozu; 15 dk\'da hasar, 2 saatte ağır hasar.','≥12 saat kalmada komplikasyon OR 5,12. Ölümcül vakalarda ortanca kalma 144 saat.']);
+        var sev=s.bleed==='y'||s.t12==='gt';
+        return R('acil',sev?'yutmadan itibaren; kanama hazırlığıyla':'ideali yutmadan itibaren < 2 saat',[
+          sev?'Gecikmiş (>12 saat) veya kanama/ağır belirti: pili çıkarmadan önce ivedi tomografi; kalp-damar cerrahisi ve/veya girişimsel radyoloji/kardiyoloji dahil. Masif kanamaya hazırlık: çift geniş damar yolu, kan (zaman yoksa O Rh negatif) (s.546).':'',
+          honey(s),
+          'Açlığa bakmadan genel anestezi + entübasyon (hızlı ardışık).',KBB,
+          'Tutucuyla al (ağ cihazı pili saramaz). Hasarın derinliğini ve negatif kutup tarafını belgele.',
+          'Perforasyon yoksa 50–150 mL %0,25 asetik asit yıkaması (lokal protokol izin veriyorsa).',
+          'Ağır hasar: endoskopi eşliğinde nazogastrik tüp (köprü fiksasyonu), perforasyon dışlanana kadar ağızdan bir şey verme.',
+          'Sonrası için "Pil izlemi" sekmesi.'],
+          ['Negatif kutupta hidroksit oluşur → pH yükselir → likefaksiyon nekrozu; 15 dk\'da hasar, 2 saatte ağır hasar (s.546).','≥12 saat kalmada komplikasyon olasılık oranı 5,12. Damar komplikasyonlu ölümcül vakalarda ortanca kalma 144 saat.'],
+          s.bleed===undefined?[]:[]);
       }
-      if(o==='magnet'&&s.mag==='multi') return mk('acil','',[airway,'İki yönlü grafi ile sayıyı doğrula; MR yapma.','Tutucu/ağ ile iki taraftan ayır; ayrılamazsa cerrahi.','Masada floroskopi ile tam sayım.'],
-        ['Duvar katmanları arasından çekim → bası iskemisi → nekroz → perforasyon/fistül.']);
-      if(o==='sharp'){
-        if(!s.delay) return null;
-        return mk('acil','',[airway, s.delay==='y'?tikac:'','Keskin uç proksimale bakıyorsa mideye it, döndür, distalde çıkar; ya da ucu forseps içine al.','Grafi negatif + belirti → yine endoskopi (radyolusent olabilir).'].filter(Boolean),
-          ['Keskin cisimde perforasyon %15\'e kadar (künt <%1).']);
-      }
-      // benign / food / tek mıknatıs
+      if(multiMag(s)) return R('acil','',[AIR,'Sayıyı en az iki yönlü grafiyle doğrula; MR kontrendike.',KBB+' Üst hava yolunda KBB ve göğüs hastalıkları.',s.delay==='y'?CTCONS:'','Tutucu/ağ ile iki taraftan ayır; ayrılamazsa laparoskopi dahil cerrahi.','Şüphe varsa masada floroskopi ile sayım.'],
+        ['Duvar katmanları arasından çekim → damar basısı → iskemi → nekroz → perforasyon/fistül (s.548).']);
+      if(isSharp(s)) return R('acil','',[AIR,KBB,s.delay==='y'?CTCONS+' Gecikmiş keskin cisimde tomografi özellikle (s.541).':'','Keskin uç proksimale bakıyorsa mideye it, döndür, distale çevirerek çıkar; ya da ucu forseps içine al.','Keskin ucu tutucu içine al veya künt ucu tutup keskin ucu arkadan sürükle; sürekli insüfle.'],
+        ['Keskin cisimde perforasyon %15\'e kadar (künt cisimde <%1). Vakaların %50\'ye kadarı perforasyonda bile haftalarca belirtisiz kalabilir (s.549).']);
+      // künt / besin / tek mıknatıs / kurşun
+      if(!s.sym) return null;
+      var food=o==='food'?['Takılmayı çıkardıktan sonra proksimal + distal biyopsi (takılma yeri hariç) → eozinofilik özofajit (çocukların %55–74\'ü).','Mideye itme nazik olmalı; distalde darlık şüphesinde zorlama.','Darlık/halka: aynı seansta dilatasyon düşünülebilir; lokal inflamasyon veya açık eozinofilik özofajit varsa ertele.','Glukagon önerilmez (meta-analiz: %30 / %33, p=0,42).','<a href="https://gokhanbirsen1992-sketch.github.io/sunu-/eozinofilik-ozofajit/#karar">Eozinofilik özofajit aracına git →</a>']:[];
+      var lead=o==='lead'?['Kurşun: yemek borusunda diğer künt cisimler gibi çıkar; mideye geçtiyse asit baskılama ve izlem planı geçerli. Kan kurşunu ölçmeyi düşün.']:[];
+      var ev=['İlk 4 saatte çıkarım ile 12 saate kadar bekleme arasında komplikasyon farkı yok (n=273, s.544).','24 saatten sonra göreli risk 1,88; 72 saatten sonra 6,83 (s.541).'];
+      if(s.sym==='y'&&s.obs==='y') return R('acil','tıkanma bulgusu',[AIR,KBB].concat(food,lead),ev);
       if(s.sym==='y'&&!s.obs) return null;
-      if(!s.delay) return null;
-      const extra = o==='food'?['Çıkarınca proksimal + distal biyopsi (bası yeri hariç) → eozinofilik özofajit (%55–74).','Nazikçe mideye itme kabul; distalde darlık şüphesinde zorlama.','Darlık/halka varsa dilatasyonu inflamasyon geçince yap.','Glukagon verme (meta‑analiz: %30 vs %33, p=0,42).']:[];
-      const ev=['4 saat içinde çıkarım ile 12 saate kadar bekleme arasında komplikasyon farkı yok (n=273).','24 saatten sonra göreli risk 1,88; 72 saatten sonra 6,83.'];
-      if(s.sym==='y'&&s.obs==='y') return mk('acil','tıkanıklık bulgusu',[airway,...extra],ev);
-      const act=[airway, s.delay==='y'?'Gecikmiş/rastlantısal: tomografi ve cerrahi destek düşün. '+tikac:'', 'Acil endikasyon yoksa gece mesai dışı ekip çağırmak şart değil.',...extra].filter(Boolean);
-      return mk('ivedi','',act,ev);
+      return R('ivedi','',[AIR,KBB,s.delay==='y'?CTCONS:'','Acil endikasyon yoksa gece mesai dışı ekip çağırmak şart değil.'].concat(food,lead),ev);
     }
 
-    // --- MİDE ---
-    if(s.loc==='sto'){
-      if(o==='magnet'&&s.mag==='multi') return mk('acil','',[airway,'Açlık yoksa mideyi tamamen temizle; retrofleksiyonla bak.','Ağ ile sabitle, tutucuyla ayır; ayrılamazsa laparoskopi.','Masada floroskopi ile sayım.'],['Grafide 6, endoskopide 10 mıknatıs (Şekil 3).']);
+    // ---------- GÖRÜLMÜYOR ----------
+    if(L==='unk'){
+      if(o==='battery') return R('info','pil radyoopaktır',['Görüntüleme alanını genişlet (boyun, göğüs, karın, iki yön); pil görülmüyorsa yutma şüphesini yeniden değerlendir.',honey(s)]);
+      if(!s.sym) return null;
+      if(isSharp(s)&&s.sym==='y') return R('acil','grafi negatif olsa da',[AIR,'Plastik, cam, kılçık, ahşap radyolusent olabilir; belirtili çocukta keskin cisim şüphesinde acil endoskopi (s.549).']);
+      if(s.sym==='y') return R('ivedi','yer belirlenemedi',['Radyolusent cisimde yer grafiyle belirlenemez; endoskopik çıkarım yaygın uygulama (s.550).','Tıkanma bulgusu varsa acil.',AIR]);
+      return R('info','yutma belirsiz, belirti yok',['Kontrastlı çalışma veya tomografi düşünülebilir (s.550).','Belirti gelişirse yeniden değerlendir.']);
+    }
+
+    // ---------- MİDE ----------
+    if(L==='sto'){
+      if(o==='battery'&&!s.bmag) return null;
+      if(multiMag(s)) return R('acil','',[AIR,'Açlık beklenmeden: mideyi tamamen temizle, retrofleksiyon dahil incele; yeterli insüflasyon, pozisyon değişikliği.','Ağ ile bir grubu sabitle, tutucuyla ayır; ayrılamazsa laparoskopi.','Şüphe varsa masada floroskopi.'],
+        ['Grafide 6, endoskopide 10 mıknatıs çıkan olgu (Şekil 3).'],
+        o==='battery'?['Pil + mıknatıs: metin s.546 "ivedi", s.549 "acil (erişimdeyse)" diyor. Araç güvenli tarafı seçti.']:[]);
       if(o==='battery'){
-        if(!s.bmag) return null;
-        if(s.sym==='y'||s.bmag==='y') return mk('ivedi','',[airway,'Yemek borusunu da değerlendir; negatif kutup hasarı ara.']);
+        if(!s.sym) return null;
+        if(s.sym==='y') return R('ivedi','',[AIR,'Yemek borusunu da değerlendir (negatif kutup hasarı).']);
         if(!s.age5||!s.b20||!s.bwit||!s.banat) return null;
-        const crit = s.age5==='y'&&s.b20==='y'&&s.bwit==='n';
-        if(crit||s.banat==='y') return mk('ivedi','endoskopi düşün',[ 'Amaç: pilin geçerken yemek borusunda bıraktığı hasarı görmek; pili de al.', airway],
-          ['Yemek borusu hasarı ile ilişkili: <5–6 yaş, ≥20 mm, tanıksız yutma.','Midedeki pilin kendisi minimal klinik sekel yapar (meta‑analiz).'],
-          ['Metin ve Şekil 1B burada farklı eşik kullanıyor (≥20 vs >20 mm; 12 saat vs 15 dk). Araç ikisini birleştirdi.']);
-        return mk('kons','ayaktan izlem',['7–14 günde karın grafisi (belirti çıkarsa hemen).','Geçmediyse endoskopik çıkarım.'],
-          ['Tanıklı + 15 dk içinde midede → küçük çocukta büyük pilde bile yemek borusu riski düşük.']);
+        var hi=s.age5==='y'&&s.b20==='y'&&s.bwit==='n';
+        if(hi||s.banat==='y') return R('elektif',hi?'yemek borusu değerlendirmesi için':'cerrahi öykü / anomali',['Amaç pilin geçerken yemek borusunda bıraktığı hasarı görmek; pili de al.',AIR],
+          ['Yemek borusu hasarıyla ilişkili: <5 yaş, ≥20 mm, tanıksız yutma (s.546).','Midedeki pilin kendisi minimal klinik sekel yapar (meta-analiz).'],
+          ['Zamanlama: Şekil 1B elektif (>24 saat) gösteriyor; metin yalnız "düşünülmeli" diyor. Metin ≥20 mm + tanıksız / >12 saat; şekil >20 mm + >15 dk kullanıyor.'],'ENDOSKOPİ DÜŞÜN');
+        return R('kons','ayaktan',['7–14 günde karın grafisi (belirti çıkarsa hemen); geçmediyse endoskopik çıkarım.','Klinik endişe veya herhangi bir şüphe varsa yemek borusu değerlendirmesi düşün (Şekil 1B).'],
+          ['Tanıklı yutma + 15 dk içinde midede: küçük çocukta büyük pilde bile yemek borusu riski düşük (s.547).']);
       }
-      if(o==='sharp'){
-        if(!s.crohn) return null;
-        if(s.sym==='y') return mk('ivedi','',[airway,'Keskin ucu tutucu içine al veya künt ucu tutup keskin ucu arkadan sürükle; sürekli insüfle.']);
-        return mk('bireysel','eşik çok düşük',[ 'Boyut, şekil, yaş ve ekibin deneyimine göre: ivedi / elektif / konservatif.','Ebeveynle ortak karar.','Konservatifse günlük grafi + belirti takibi, tercihen yatarak.', s.crohn==='y'?'Lümen daralması riski: konservatif eşiğini düşür.':''].filter(Boolean),
-          ['Çocuk serisi (n=580, 270 keskin): perforasyon yok; %4,6 çıkarım zorluğu.','Başörtüsü iğnesi (n=208): midedekilerin %36\'sı ilerlemediği için çıkarıldı.','ESGE/ESPGHAN 2017: belirtisizde bile acil; NASPGHAN: ağır künt uçlu kısa cisimde gözlem.'],
-          ['Vakaların %50\'ye kadarı perforasyonda bile haftalarca belirtisiz olabilir.']);
+      if(isSharp(s)){
+        if(!s.sym) return null;
+        if(s.sym==='y') return R('acil','belirtili keskin cisim',[AIR,'Keskin ucu tutucu içine al veya künt ucu tutup sürükle; endoskop başlığı yardımcı olabilir.'],[],['Öneri 5.7 "acil" diyor; Şekil 1B "ivedi" gösteriyor. Araç öneriyi izledi.']);
+        if(o==='tobacco') return R('kons','seri görüntüleme',['Mide veya distalde seri görüntülemeyle geçişi doğrula (s.550).']);
+        return R('bireysel','çıkarma eşiği çok düşük',['Boyut, şekil, yaş ve ekibin deneyimine göre: ivedi / elektif çıkarım veya konservatif.','Ebeveynle ortak karar.','Konservatifse günlük grafi + belirti takibi, tercihen yatarak.',s.crohn==='y'?'Crohn / karın cerrahisi / lümen darlığı riski: özel dikkat (s.550).':''],
+          ['Çocuk serisi (n=580, 270 keskin): uzun takılma veya perforasyon yok; çıkarımların %4,6\'sında zorluk (s.549).','ESGE/ESPGHAN 2017: belirtisizde bile acil; NASPGHAN: ağır künt uçlu kısa cisimde gözlem (s.550).']);
       }
-      // benign / food / tek mıknatıs
-      if(s.sym==='y') return mk('ivedi','',[airway]);
+      if(!s.sym) return null;
+      if(s.sym==='y') return R('ivedi','',[AIR]);
+      if(o==='lead') return R('kons','asit baskılama + 48 saatte grafi',['Zehir danışma / toksikolog ile görüş.','Asit baskılama başla; 48 saat sonra grafi.','Kan kurşunu: belirti >30 µg/dL\'de görülebilir; ensefalopati <100\'de beklenmez.','Çıkar: geçmezse, belirti verirse veya kan kurşunu >55 µg/dL.'],
+        ['Kurşun mide asidinde çözünür. Bildirilen 2 ölümde cisim ≥10 gün ve 4 hafta midede kalmış (s.545).'],['Asit baskılamanın emilimi azalttığına dair klinik veri makalede yok; öneri mekanizmaya dayalı.']);
       if(!s.big) return null;
-      if(s.big==='y') return mk('elektif','',['Deneyimli ekip, optimal koşul.','İşlemden hemen önce grafi: hâlâ erişimde mi?'],['Çap >25 mm / boy >6 cm pilor veya C‑kıvrımında takılabilir.'],['Eşikler erişkin verisine dayalı uzman görüşü; küçük çocukta kendin ayarla.']);
-      return mk('kons','',['1 ay sonra grafi; hâlâ midedeyse elektif çıkar.'],['Uzun bırakmanın zarar verdiğine dair kanıt yok.']);
+      if(s.big==='y') return R('elektif','',['Deneyimli ekip, en uygun koşul.','İşlemden hemen önce grafi: hâlâ erişimde mi?'],['Çap >25 mm veya boy >6 cm pilor / C-kıvrımında takılabilir (s.544).'],['Eşikler erişkin verisine dayalı uzman görüşü; küçük çocukta kendin değerlendir.']);
+      return R('kons','1 ay sonra grafi',['1 ay sonra grafi; hâlâ midedeyse elektif çıkar.'],['Daha uzun bırakmanın zarar verdiğine dair kanıt yok (s.544).']);
     }
 
-    // --- PİLOR SONRASI ---
-    if(s.loc==='post'){
-      if(o==='magnet'&&s.mag==='multi'){
+    // ---------- PİLOR SONRASI ----------
+    if(L==='post'){
+      if(o==='battery'&&!s.bmag) return null;
+      if(multiMag(s)){
         if(!s.reach) return null;
-        if(s.reach==='y') return mk('acil','gastroskop erişiminde',[airway,'Masada floroskopi.']);
-        return mk('izlem','erişim dışı',['Günlük görüntüleme, cerrahi ekiple.','İlerlemezse veya komplikasyon bulgusu → cerrahi.']);
+        if(s.reach==='y') return R('acil','gastroskop erişiminde',[AIR,'Şüphe varsa masada floroskopi.'],[],o==='battery'?['Pil + mıknatıs: s.547 "cerrahi destek", s.549 "erişimdeyse acil" diyor.']:[]);
+        return R('izlem','erişim dışı',['Günlük görüntüleme, çocuk cerrahisiyle.','İlerlemezse veya komplikasyon bulgusu → cerrahi; tekrar kesitsel görüntüleme (Öneri 4.4).']);
       }
       if(o==='battery'){
-        if(!s.bmag) return null;
-        if(s.bmag==='y'||s.sym==='y') return mk('izlem','cerrahi destekle',['Pil + mıknatıs veya belirti: cerrahi ekip; ilerlemezse / lokal komplikasyon → cerrahi.']);
-        if(!s.age5||!s.b20||!s.bwit||!s.banat) return null;
-        const crit = s.age5==='y'&&s.b20==='y'&&s.bwit==='n';
-        if(crit||s.banat==='y') return mk('ivedi','yemek borusunu değerlendir',['Gastroskopi ile yemek borusu hasarını ara.','Pil için tekrar görüntüleme ile geçişi doğrula.'],[],['Metin/Şekil 1C kriter farkı: araç birleştirdi.']);
-        return mk('kons','',['Tekrar görüntüleme ile geçişi doğrula; geçmezse cerrahi düşün.']);
+        if(!s.sym||!s.age5||!s.b20||!s.bwit||!s.banat) return null;
+        var hi2=s.age5==='y'&&s.b20==='y'&&s.bwit==='n';
+        var act=[hi2?'Yaş/boyut/süre kriteri: gastroskopiyle yemek borusu hasarını değerlendir (Şekil 1C).':'Klinik endişe veya şüphe varsa yemek borusu değerlendirmesi düşün.','Tekrar görüntülemeyle geçişi doğrula; geçmezse cerrahi düşün (s.547).'];
+        if(s.sym==='y') return R('izlem','belirtili: cerrahi destek',['Cerrahi destekle yönet; ilerlemiyorsa veya lokal komplikasyon varsa cerrahi (s.547).'].concat(act),[],[],'CERRAHİ DESTEKLE İZLEM');
+        if(hi2||s.banat==='y') return R('elektif','yemek borusu değerlendirmesi için',act,[],['Zamanlama Şekil 1C\'de elektif; metin zamanlama vermiyor.'],'ENDOSKOPİ DÜŞÜN');
+        return R('kons','',act);
       }
-      if(o==='sharp'){
-        if(!s.crohn) return null;
+      if(isSharp(s)){
+        if(!s.sym) return null;
         if(s.sym==='y'){ if(!s.reach) return null;
-          if(s.reach==='y') return mk('ivedi','erişimde',[airway]);
-          return mk('izlem','erişim dışı',['Günlük görüntüleme, cerrahi ekip.']); }
-        return mk('izlem','belirtisiz',['Günlük görüntüleme; yatarak tercih.','Treitz sonrası: enteroskopi/cerrahi tartışılır, genelde konservatif.', s.crohn==='y'?'Lümen daralması riski: ek dikkat.':''].filter(Boolean));
+          if(s.reach==='y') return R('acil','erişimde',[AIR],[],['Öneri 5.7 "acil"; Şekil 1C "ivedi".']);
+          return R('izlem','erişim dışı',['Günlük görüntüleme, cerrahi ekip.','Treitz sonrası: enteroskopi/cerrahi tartışılır; genelde seri görüntülemeyle konservatif (s.550).']); }
+        return R('izlem','belirtisiz',['Seri görüntüleme; genelde yatarak.','Görüntüleme sıklığı için kanıt yok; günlük uygun olabilir.',s.crohn==='y'?'Crohn / karın cerrahisi / lümen darlığı riski: özel dikkat.':'']);
       }
-      return mk('kons','',['Tıkanıklık belirtisi → cerrahi ekip.']);
+      if(!s.sym) return null;
+      if(s.sym==='y') return R('izlem','tıkanma bulgusu',['Çocuk cerrahisiyle değerlendir.'],[],[],'CERRAHİ EKİP');
+      return R('kons','',[o==='lead'?'Kurşun: seri görüntülemeyle geçişi izle; kan kurşunu ölçmeyi düşün.':'Kendiliğinden geçmesi beklenir; tıkanma belirtisi gelişirse başvuru.']);
     }
     return null;
   }
 
-  // ---- render ----
-  function render(){
-    const f=$('#form'); f.innerHTML='';
-    for(const q of Q){
-      if(q.show && !q.show(S)){ delete S[q.k]; continue; }
-      const d=document.createElement('div'); d.className='q';
-      d.innerHTML=`<div class="label">${q.label}</div>`+(q.hint?`<div class="hint">${q.hint}</div>`:'')+`<div class="opts"></div>`;
-      const o=d.querySelector('.opts');
-      for(const [v,t] of q.opts){ const b=document.createElement('button'); b.type='button'; b.textContent=t; b.id='q-'+q.k+'-'+v;
-        b.setAttribute('aria-pressed', S[q.k]===v?'true':'false');
-        b.onclick=()=>{ S[q.k]=v; // sonraki cevapları temizle
-          let after=false; for(const qq of Q){ if(after) delete S[qq.k]; if(qq.k===q.k) after=true; } render(); };
-        o.appendChild(b); }
-      f.appendChild(d);
-    }
-    const r=decide(S), box=$('#result');
-    if(!r){ box.className='result empty'; box.innerHTML='<div class="band"><div class="lvl">Devam et</div><div class="sub">Karar için kalan soruları cevapla.</div></div>'; return; }
-    box.className='result';
-    const sec=(t,items)=>items&&items.length?`<div><h3>${t}</h3><ul>${items.map(i=>`<li>${i}</li>`).join('')}</ul></div>`:'';
-    box.innerHTML=`<div class="band sev-${r.lvl[0]}"><div class="lvl">${r.lvl[1]}</div><div class="sub">${r.sub}</div></div>
-      <div class="body">${sec('Yap',r.act)}${sec('Dayanak (makaleden)',r.ev)}${(r.flags||[]).map(x=>`<div class="flag">${x}</div>`).join('')}</div>`;
-  }
-  $('#reset').onclick=()=>{ for(const k in S) delete S[k]; render(); };
-
-  // sekmeler
-  document.querySelectorAll('nav.tabs button').forEach(b=>b.onclick=()=>{
-    document.querySelectorAll('nav.tabs button').forEach(x=>x.setAttribute('aria-selected','false'));
-    document.querySelectorAll('[role=tabpanel]').forEach(p=>p.hidden=true);
-    b.setAttribute('aria-selected','true'); $('#'+b.getAttribute('aria-controls')).hidden=false;
-  });
-  render();
+  Ortak.tabs();
+  Ortak.wizard({Q:Q,decide:decide,LV:LV,tool:'Yabancı cisim karar aracı',source:'ESPGHAN, JPGN 2026;83:539–554',form:'#form',result:'#result',reset:'#reset',sticky:'#sticky'});
+  window.__fb={decide:decide,Q:Q};
 })();
 </script>
+</div>
+<script>document.body.setAttribute("data-tool","fb");</script>

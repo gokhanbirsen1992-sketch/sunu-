@@ -5,7 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Çocuk gastroenterolojisi için ESPGHAN kılavuzlarına dayalı karar araçları.">
 <title>Pediatrik GİS Karar Araçları</title>
-<link rel="icon" href="data:,">
+<link rel="icon" href="icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#1f6f78">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap">
 <style>
 /* Layout: tek sütun; başlık, iki araç kartı, uyarı notu. */
@@ -31,19 +34,21 @@ a.card:focus-visible{outline:2px solid var(--c);outline-offset:2px}
 a.card h2{font-family:var(--font-display);font-size:1.3rem;margin:0;color:var(--c)}
 a.card p{margin:0;color:var(--muted);font-size:.95rem}
 a.card .src{font-size:.82rem}
+.warn{margin:-14px 0 24px;font-size:.92rem}
 .note{margin-top:28px;border-top:1px solid var(--line);padding-top:14px;color:var(--muted);font-size:.85rem}
 </style>
 </head>
 <body>
 <div class="wrap">
   <h1>Pediatrik GİS Karar Araçları</h1>
-  <p class="lead">ESPGHAN kılavuzlarını adım adım soru akışına çeviren araçlar. Hesap veya kurulum gerektirmez; telefonda da çalışır.</p>
+  <p class="lead">ESPGHAN kılavuzlarını adım adım soru akışına çeviren araçlar. Hesap veya kurulum gerektirmez; telefonda çalışır, bir kez açıldıktan sonra internet olmadan da açılır.</p>
+  <p class="warn"><strong>Sağlık profesyonelleri içindir;</strong> hasta ve ebeveyn kullanımı için değildir. Acil durumda 112'yi arayın.</p>
 
   <div class="cards">
     <a class="card" href="yabanci-cisim/" style="--c:var(--a1)">
       <h2>Yabancı Cisim Yutma</h2>
       <p>Cisim türü, yer, belirti ve süreye göre aciliyet: acil, ivedi, elektif veya konservatif. Düğme pil izlemi dahil.</p>
-      <p class="src">ESPGHAN Endoskopi ÖİG, JPGN 2026;83:539–554</p>
+      <p class="src">ESPGHAN Endoskopi Özel İlgi Grubu, JPGN 2026;83:539–554</p>
     </a>
     <a class="card" href="eozinofilik-ozofajit/" style="--c:var(--a2)">
       <h2>Eozinofilik Özofajit</h2>
@@ -53,6 +58,8 @@ a.card .src{font-size:.82rem}
   </div>
 
   <p class="note">Eğitim ve karar desteği amaçlıdır; klinik yargının yerine geçmez. Kaynak bildirgeler ESPGHAN politikası değildir. Eşiklerin çoğu uzman uzlaşısına dayanır; bilinen iç tutarsızlıklar araçlarda sarı şeritle işaretlidir.</p>
+  <p class="note">Telefona uygulama gibi eklemek için: tarayıcı menüsünden "Ana ekrana ekle". Son güncelleme: 7 Ekim 2026 · <a href="https://github.com/gokhanbirsen1992-sketch/sunu-/issues">hata bildir</a></p>
 </div>
+<script>try{if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))navigator.serviceWorker.register('sw.js').catch(function(){});}catch(e){}</script>
 </body>
 </html>
