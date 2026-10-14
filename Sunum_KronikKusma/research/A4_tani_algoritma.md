@@ -126,5 +126,3 @@
 - **Basamak 3 — 2 ayda standart tedaviye yanıt yok / refrakter:** tanıyı yeniden gözden geçir [A4-04]; sonraki atakta batın US, öyküye göre sinüs BT ve idrar toksikolojisi [A4-21]; metabolik/genetik araştırma [A4-07].
 - **Basamak 4 — Seçilmiş motilite testleri (ileri merkez):** efor gerektirmeyen regürjitasyon, atipik/şüpheli → postprandiyal HRIM (test öğünü + 30–60 dk) [A4-33, A4-35, A4-34, A4-36]; tedaviye dirençli reflü-benzeri tablo → pH-MII (ruminasyon paterni dahil) [A4-38, A4-37]; ağır kusma / belirsiz tanı / inatçı bulantı / inatçı PDS → 4 sa katı öğün GES, pediatrik normlarla yorum [A4-26, A4-27, A4-39, A4-40, A4-41]; psödoobstrüksiyon şüphesi, enteral beslenme intoleransı, ruminasyon–kusma ayrımı → yapısal nedenler dışlandıktan sonra ADM [A4-42].
 - **Kutu — Aşırı tetkikten kaçınma:** [A4-43, A4-44, A4-45, A4-46, A4-47, A4-29]; kırmızı bayrak yokluğu tek başına güvence değildir [A4-44].
-</content>
-</invoke>
