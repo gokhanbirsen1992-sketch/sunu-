@@ -24,7 +24,7 @@ Tarih: 2026-10-14 · Dosyalar: `output/KronikKusmaYaklasim.pptx`, `output/Kronik
 | AI-tell taraması | 0 (uzun tireler iki nokta/noktalı virgülle değiştirildi) |
 | Grafik paleti | dataviz validator: teal 00938A + mercan D9573B → tüm kontroller PASS (CVD ΔE 12,1) |
 | Bilinen pptxgenjs hatası | Paragraf içi çoklu `<a:pPr>` → `tools/fix_ppr.py` ile her paragrafta tek pPr |
-| Görsel QA | Bağımsız denetçi raporu: `qc/visual_qa.md` |
+| Görsel QA | Bağımsız denetçi raporu: `qc/visual_qa.md`; 33 kusur düzeltildi. Sayı aralığı ve kaynak üst simgesi satır sonunda kopmasın diye U+2060 (görünmez kelime birleştirici) kullanıldı |
 
 ## Yeniden üretim
 ```

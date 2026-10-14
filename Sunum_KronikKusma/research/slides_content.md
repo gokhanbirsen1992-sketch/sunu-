@@ -155,7 +155,7 @@ Dayanak: A3-16, A4-23, A3-19 (V2b), A3-20
 - OTC eksikliğinde heterozigot kızlarda ağırlık değişken [@22642880]
 - Atakta hipoketotik hipoglisemi, asidoz, transaminaz/CK/laktat ↑ → YAOB [@26678622]
 - Organik asidemilerde en sık yatış nedeni kusma [@41232196]; adolesanda AİP [@26678622]
-Dipnot: Häberle öneri derecesi C–D; mitokondri için tek sayı verilmedi (biyokimyasal anormallik ≠ tanı).
+Dipnot: Häberle öneri derecesi C–D; mitokondri için tek sayı verilmedi (biyokimyasal anormallik tanı değildir).
 Dayanak: A3-23 (V2b), A3-24 (V2b: 2. cümle silindi), A3-26 (V2b), A3-27, A3-28
 
 ### S18 · Endokrin, renal, toksik nedenler ve başkasına yüklenen yapay bozukluk
@@ -249,7 +249,7 @@ Dayanak: A4-43 (V2b), A4-46, A4-12 (V2b)
 - Çölyakta GFD'ye uyumlu 191 çocuğun %43'ünde DGBI [@40544377]
 Dayanak: A5-01, A5-04 (V2c), A5-09, A7-21
 
-### S29 · Kusma alanında Rome IV → V: beş değişiklik (TABLO)
+### S29 · Kusma alanında Rome IV'ten Rome V'e: beş değişiklik (TABLO)
 | Rome IV | Rome V |
 |---|---|
 | Fonksiyonel bulantı | Kronik bulantı sendromu; kriterler benzer, kusma tanım dışı [@41713704] |
@@ -266,7 +266,7 @@ Dayanak: A5-24, A5-19, A5-30, A5-34, A5-08, A5-07, V3-26
 3. Ataklar arası en az 1 hafta
 4. Ataklar arasında bazal sağlığa dönüş
 5. Uygun değerlendirmeden sonra başka bir durumla **tam olarak** açıklanamaz [@41713704]
-Gri kutu — "Eşlik eden özellikler (kutu başlığı doğrulanmadı)": migren öyküsü/aile öyküsü; ataklarda halsizlik-durgunluk, terleme, fotofobi, dinmeyen bulantı, karın ağrısı ve/veya mide boşaldıktan sonra da süren öğürme; ataklar arası daha hafif/aralıklı karın ağrısı ve bulantı olabilir.
+Gri kutu — "Kutudaki ikinci liste (statüsü tam metinde belirtilmemiş)": migren öyküsü/aile öyküsü; ataklarda halsizlik-durgunluk, terleme, fotofobi, dinmeyen bulantı, karın ağrısı ve/veya mide boşaldıktan sonra da süren öğürme; ataklar arası daha hafif/aralıklı karın ağrısı ve bulantı olabilir.
 Görsel: `fig_cvs_kriter.png` (zaman çizelgesi)
 Dayanak: A5-13 (V2c düzeltmesi), V3-24
 

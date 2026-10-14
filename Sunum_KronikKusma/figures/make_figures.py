@@ -43,10 +43,13 @@ def fig_patern():
         ax.grid(axis="y", color=GRID, linewidth=0.6)
         ax.set_axisbelow(True)
         ax.set_title(name, loc="left", color=INK, fontsize=15, fontweight="bold")
-        ax.text(90.5, 4.4, "≥4 kusma/saat", ha="right", va="bottom", color=INK, fontsize=12)
-    axes[0].text(46, 7.5, "neredeyse her gün, düşük yoğunluk", ha="center", color=MUTED, fontsize=12)
-    axes[1].annotate("", xy=(36.5, 6.5), xytext=(11.5, 6.5), arrowprops=dict(arrowstyle="<->", color=MUTED, lw=1.1))
-    axes[1].text(24, 7.2, "ataklar arası iyilik", ha="center", color=MUTED, fontsize=12)
+        ax.text(90.5, 4.4, "≥4 kusma/saat", ha="right", va="bottom", color=INK, fontsize=12,
+                bbox=dict(facecolor="white", edgecolor="none", pad=1.5))
+    axes[0].text(46, 9.6, "neredeyse her gün, düşük yoğunluk", ha="center", color=MUTED, fontsize=12,
+                 bbox=dict(facecolor="white", edgecolor="none", pad=1.5))
+    axes[1].annotate("", xy=(36.5, 8.6), xytext=(11.5, 8.6), arrowprops=dict(arrowstyle="<->", color=MUTED, lw=1.1))
+    axes[1].text(24, 9.6, "ataklar arası iyilik", ha="center", color=MUTED, fontsize=12,
+                 bbox=dict(facecolor="white", edgecolor="none", pad=1.5))
     axes[1].set_xlabel("Gün")
     fig.text(0.02, 0.5, "Pik yoğunluk (kusma/saat)", rotation=90, va="center", color=MUTED, fontsize=13)
     fig.text(0.99, 0.005, f"Şematik çizim, hasta verisi değil · eşikler [{REF['8604272']}]",

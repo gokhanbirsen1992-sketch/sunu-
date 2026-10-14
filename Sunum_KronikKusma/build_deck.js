@@ -55,19 +55,19 @@ pres.defineSlideMaster({
 	title: "ICERIK",
 	background: { color: C.background1 },
 	objects: [
-		{ placeholder: { options: { name: "section", type: "body", x: MX, y: 0.25, w: 9.0, h: 0.32, fontSize: 12, bold: true, color: C.accent1, margin: 0 }, text: "" } },
-		{ placeholder: { options: { name: "title", type: "title", x: MX, y: 0.58, w: 12.13, h: 1.0, fontSize: 26, bold: true, color: C.text1, valign: "top", align: "left", margin: 0 }, text: "" } },
-		{ placeholder: { options: { name: "src", type: "body", x: MX, y: 6.98, w: 11.2, h: 0.3, fontSize: 10, color: C.accent4, margin: 0 }, text: "" } },
+		{ placeholder: { options: { name: "section", type: "body", x: MX, y: 0.4, w: 9.0, h: 0.32, fontSize: 12, bold: true, color: C.accent1, margin: 0 }, text: "" } },
+		{ placeholder: { options: { name: "title", type: "title", x: MX, y: 0.7, w: 12.13, h: 1.0, fontSize: 26, bold: true, color: C.text1, valign: "top", align: "left", margin: 0 }, text: "" } },
+		{ placeholder: { options: { name: "src", type: "body", x: MX, y: 6.86, w: 11.2, h: 0.3, fontSize: 11, color: C.accent4, margin: 0 }, text: "" } },
 	],
-	slideNumber: { x: 12.15, y: 6.98, w: 0.6, h: 0.3, fontSize: 10, color: HEX.accent4, align: "right" },
+	slideNumber: { x: 12.15, y: 6.86, w: 0.6, h: 0.3, fontSize: 11, color: HEX.accent4, align: "right" },
 });
 pres.defineSlideMaster({
 	title: "KAYNAK",
 	background: { color: C.background1 },
 	objects: [
-		{ placeholder: { options: { name: "title", type: "title", x: MX, y: 0.35, w: 12.13, h: 0.6, fontSize: 24, bold: true, color: C.text1, align: "left", margin: 0 }, text: "" } },
+		{ placeholder: { options: { name: "title", type: "title", x: MX, y: 0.7, w: 12.13, h: 0.6, fontSize: 24, bold: true, color: C.text1, align: "left", margin: 0 }, text: "" } },
 	],
-	slideNumber: { x: 12.15, y: 6.98, w: 0.6, h: 0.3, fontSize: 10, color: HEX.accent4, align: "right" },
+	slideNumber: { x: 12.15, y: 6.86, w: 0.6, h: 0.3, fontSize: 11, color: HEX.accent4, align: "right" },
 });
 pres.defineSlideMaster({
 	title: "KOYU",
@@ -95,11 +95,21 @@ const pm = (...pmids) => pmids.map((p) => {
 });
 
 // runs → pptxgenjs metin nesneleri
+const NBSP_UNIT = /(\d)\s+(?=(yaş|gün|ay|saat|hafta|yıl|dk|mg|kg|y\b|y\)|aylık))/g;
 function textObjs(runs, base) {
 	const out = [];
+	runs = runs.map((r, i) => {
+		if (!r.t) return r;
+		// sayı aralığı (5,3–5,8) tireden bölünmesin: U+2060 kelime birleştirici
+		let t = r.t.replace(NBSP_UNIT, "$1\u00A0").replace(/(\d)–(?=\d)/g, "$1–\u2060");
+		// kaynak üst simgesinden önceki son sözcük satır sonunda yalnız kalmasın
+		if (runs[i + 1] && runs[i + 1].cite) t = t.replace(/\s+(\S+)$/, "\u00A0$1");
+		return { ...r, t };
+	});
 	for (const r of runs) {
 		const citeColor = base.color === C.background1 ? C.background1 : C.accent4;
-		if (r.cite) out.push({ text: `[${compress(r.cite)}]`, options: { ...base, bold: false, superscript: true, color: citeColor } });
+		// U+2060: "(SR)" + "[83]" gibi noktalama sonrası kırılmayı engeller
+		if (r.cite) out.push({ text: `\u2060[${compress(r.cite)}]`, options: { ...base, bold: false, superscript: true, color: citeColor } });
 		else if (r.t) out.push({ text: r.t, options: { ...base, bold: !!(r.b || base.bold) } });
 	}
 	return out;
@@ -194,7 +204,7 @@ async function iconCard(slide, name, label, y = 1.75, kind = "teal") {
 function etiketChips(slide, s, y = 4.5) {
 	if (!s.etiket) return;
 	slide.addText(`Kanıt notu: ${s.etiket}`, {
-		x: 8.75, y, w: 3.98, h: 0.9, fontSize: 12, color: C.text1, fill: { color: "FDF3DC" }, margin: 6,
+		x: 8.75, y, w: 3.98, h: 0.95, fontSize: 12, color: C.text1, fill: { color: "FDF3DC" }, margin: 10,
 		valign: "top", isTextBox: true, objectName: oid("kanit-notu"),
 	});
 }
@@ -207,9 +217,16 @@ function bulletsBox(slide, list, opt = {}) {
 function newSlide(master, section) {
 	return pres.addSlide({ masterName: master, sectionTitle: section });
 }
+function balance(title) {
+	if (title.length < 66) return title;
+	const mid = title.length / 2;
+	let best = -1;
+	for (const m of title.matchAll(/[;:] /g)) if (best < 0 || Math.abs(m.index - mid) < Math.abs(best - mid)) best = m.index;
+	return best > 15 ? title.slice(0, best + 1) + "\n" + title.slice(best + 2) : title;
+}
 function head(slide, s, section) {
 	slide.addText(section, { placeholder: "section" });
-	slide.addText(s.title, { placeholder: "title" });
+	slide.addText(balance(s.title), { placeholder: "title" });
 }
 function table(slide, rows, colW, opt = {}) {
 	const tbl = rows.map((row, ri) => row.map((cell) => ({
@@ -330,7 +347,7 @@ function yasHaritasi() {
 	const last = s.bullets[3];
 	slide.addText(textObjs(last, { fontSize: 17, color: C.background1, bold: false }), {
 		shape: pres.shapes.ROUNDED_RECTANGLE, rectRadius: 0.1, x: MX, y: 5.5, w: 12.13, h: 0.7, fill: { color: C.accent2 },
-		valign: "middle", margin: [4, 14, 4, 14], isTextBox: true, objectName: oid("her-yas"),
+		valign: "middle", margin: [14, 14, 4, 4], isTextBox: true, objectName: oid("her-yas"),
 	});
 	dipnot(slide, s, 6.38);
 	srcLine(slide, s);
@@ -353,7 +370,7 @@ function acilDallar() {
 		const [trig, act] = splitRuns(runs, "→");
 		slide.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y, w: 5.95, h: 2.0, rectRadius: 0.12, fill: { color: C.accent6 }, line: { type: "none" }, objectName: oid("acil-kart") });
 		slide.addText(textObjs(trimRuns(trig), { fontSize: 17, bold: true, color: C.text1 }), { x: x + 0.3, y: y + 0.18, w: 5.4, h: 0.85, valign: "top", margin: 0, isTextBox: true, objectName: oid("acil-tetik") });
-		slide.addText([{ text: "→ ", options: { fontSize: 18, bold: true, color: C.accent2 } }, ...textObjs(trimRuns(act), { fontSize: 18, bold: true, color: C.accent2 })], { x: x + 0.3, y: y + 1.05, w: 5.4, h: 0.8, valign: "top", margin: 0, isTextBox: true, objectName: oid("acil-eylem") });
+		slide.addText([{ text: "→ ", options: { fontSize: 18, bold: true, color: C.accent2 } }, ...textObjs(trimRuns(act), { fontSize: 18, bold: true, color: C.text1 })], { x: x + 0.3, y: y + 1.05, w: 5.4, h: 0.8, valign: "top", margin: 0, isTextBox: true, objectName: oid("acil-eylem") });
 	});
 	dipnot(slide, s, 6.25);
 	srcLine(slide, s);
@@ -371,7 +388,7 @@ function kritikOrnek() {
 		slide.addText(textObjs(trimRuns(body), { fontSize: 19, color: C.text1 }), { x: x + 0.25, y: 2.5, w: 3.4, h: 2.35, valign: "top", margin: 0, isTextBox: true, objectName: oid("kit-govde") });
 	});
 	slide.addText(textObjs(s.bullets[3], { fontSize: 18, bold: true, color: C.background1 }), {
-		shape: pres.shapes.ROUNDED_RECTANGLE, rectRadius: 0.1, x: MX, y: 5.15, w: 7.9, h: 0.75, fill: { color: C.accent1 }, valign: "middle", margin: [4, 14, 4, 14], isTextBox: true, objectName: oid("dekstroz"),
+		shape: pres.shapes.ROUNDED_RECTANGLE, rectRadius: 0.1, x: MX, y: 5.15, w: 7.9, h: 0.75, fill: { color: C.accent1 }, valign: "middle", margin: [14, 14, 4, 4], isTextBox: true, objectName: oid("dekstroz"),
 	});
 	slide.addText("Dekstroz tanı için geciktirilmez", {
 		shape: pres.shapes.ROUNDED_RECTANGLE, rectRadius: 0.1, x: 8.75, y: 5.15, w: 3.98, h: 0.75, fill: { color: C.accent2 }, fontSize: 17, bold: true, color: C.background1, align: "center", valign: "middle", margin: 4, isTextBox: true, objectName: oid("uyari"),
@@ -389,27 +406,27 @@ function algoritma() {
 		const line = kind === "amber" ? { color: HEX.accent3, width: 1.5, dashType: "dash" } : { type: "none" };
 		slide.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y, w, h, rectRadius: 0.1, fill: { color: fill }, line, objectName: oid("algo-kutu") });
 		slide.addText([
-			{ text: title, options: { fontSize: 15, bold: true, color: kind === "coral" ? C.accent2 : C.text2, breakLine: true } },
-			{ text: body, options: { fontSize: 14, color: C.text1 } },
-			{ text: ` [${compress(cites)}]`, options: { fontSize: 14, superscript: true, color: C.accent4 } },
+			{ text: title, options: { fontSize: 16, bold: true, color: C.text2, breakLine: true } },
+			{ text: body, options: { fontSize: 15, color: C.text1 } },
+			{ text: `\u00A0[${compress(cites)}]`, options: { fontSize: 15, superscript: true, color: C.accent4 } },
 		], { x: x + 0.15, y: y + 0.08, w: w - 0.3, h: h - 0.16, valign: "top", margin: 0, isTextBox: true, objectName: oid("algo-yazi") });
 	};
 	const arrow = (x, y1, y2) => slide.addShape(pres.shapes.LINE, { x, y: y1, w: 0, h: y2 - y1, line: { color: HEX.accent4, width: 1.5, endArrowType: "triangle" }, objectName: oid("ok") });
 	const X = MX, FW = 12.13;
-	box(X, 1.6, FW, 0.85, "Basamak 0 · Acil (aynı saat)", "Safralı kusma + karın bulgusu → acil grafi + cerrahi · Ensefalopati → glukoz, kan gazı, amonyak · Na↓/glukoz↓ → ACTH + kortizol · Nörolojik bulgu → beyin MR", pm("23818085", "2769545", "22642880", "26678622", "33224097", "25957977"), "coral");
-	arrow(X + FW / 2, 2.45, 2.65);
+	box(X, 1.5, FW, 1.0, "Basamak 0 · Acil (aynı saat)", "Safralı kusma + karın bulgusu → acil grafi + cerrahi · Ensefalopati → glukoz, kan gazı, amonyak · Na↓/glukoz↓ → ACTH + kortizol · Nörolojik bulgu → beyin MR", pm("23818085", "2769545", "22642880", "26678622", "33224097", "25957977"), "coral");
+	arrow(X + FW / 2, 2.5, 2.65);
 	const w3 = (FW - 0.4) / 3;
-	box(X, 2.65, w3, 1.1, "Basamak 1 · Siklik patern", "Kan + idrar tarama, üst GİS pasaj grafisi", pm("40836301"), "teal");
-	box(X + w3 + 0.2, 2.65, w3, 1.1, "Basamak 1 · Kronik günlük (ÇIKARIM)", "Endoskopi + biyopsi öncelikli; anatomi için grafi", pm("8604272", "36056317"), "amber");
-	box(X + 2 * (w3 + 0.2), 2.65, w3, 1.1, "Basamak 1 · Eforsuz regürjitasyon", "Öğün sonrası gözlem; atipikse HRIM-empedans", pm("41713704"), "teal");
-	arrow(X + FW / 2, 3.75, 3.95);
-	box(X, 3.95, FW, 0.85, "Basamak 2 · Bayrağa göre hedefe yönelik", "Metabolik bayrak → atakta kritik örnek (dekstrozu geciktirmeden) · Ataklar arası üst GİS yakınması → endoskopi · Aralıklı UPJ şüphesi → atak sırasında US", pm("41713704", "26678622", "33224097", "16396871"), "teal");
-	arrow(X + FW / 2, 4.8, 5.0);
-	box(X, 5.0, FW, 0.6, "Basamak 3 · Bayrak ya da 2 ayda yanıtsızlık (SKS)", "  Tanıyı testlerle destekle", pm("41713704"), "gray");
-	arrow(X + FW / 4, 5.6, 5.8);
-	arrow(X + 3 * FW / 4, 5.6, 5.8);
-	box(X, 5.8, FW / 2 - 0.1, 0.95, "Rome V pozitif tanı", "SKS · ruminasyon · KBS · FD", pm("41713704"), "teal");
-	box(X + FW / 2 + 0.1, 5.8, FW / 2 - 0.1, 0.95, "Kronik günlük kusma (ÇIKARIM)", "Rome V pediatrikte karşılığı yok → araştırmayı sürdür", pm("41713704"), "amber");
+	box(X, 2.65, w3, 1.25, "Basamak 1 · Siklik patern", "Kan + idrar tarama, üst GİS pasaj grafisi", pm("40836301"), "teal");
+	box(X + w3 + 0.2, 2.65, w3, 1.25, "Basamak 1 · Kronik günlük (ÇIKARIM)", "Endoskopi + biyopsi öncelikli; anatomi için grafi", pm("8604272", "36056317"), "amber");
+	box(X + 2 * (w3 + 0.2), 2.65, w3, 1.25, "Basamak 1 · Eforsuz regürjitasyon", "Öğün sonrası gözlem; atipikse HRIM-empedans", pm("41713704"), "teal");
+	arrow(X + FW / 2, 3.9, 4.05);
+	box(X, 4.05, FW, 0.95, "Basamak 2 · Bayrağa göre hedefe yönelik", "Metabolik bayrak → atakta kritik örnek (dekstrozu geciktirmeden) · Ataklar arası üst GİS yakınması → endoskopi · Aralıklı UPJ şüphesi → atak sırasında US", pm("41713704", "26678622", "33224097", "16396871"), "teal");
+	arrow(X + FW / 2, 5.0, 5.12);
+	box(X, 5.12, FW, 0.62, "Basamak 3 · Bayrak ya da 2 ayda yanıtsızlık (SKS): tanıyı testlerle destekle", "", pm("41713704"), "gray");
+	arrow(X + FW / 4, 5.74, 5.86);
+	arrow(X + 3 * FW / 4, 5.74, 5.86);
+	box(X, 5.86, FW / 2 - 0.1, 0.9, "Rome V pozitif tanı", "SKS · ruminasyon · KBS · FD", pm("41713704"), "teal");
+	box(X + FW / 2 + 0.1, 5.86, FW / 2 - 0.1, 0.9, "Kronik günlük kusma (ÇIKARIM)", "Rome V pediatrikte karşılığı yok → araştırmayı sürdür", pm("41713704"), "amber");
 	srcLine(slide, s, pm("23818085", "2769545", "22642880", "26678622", "33224097", "25957977", "40836301", "8604272", "36056317", "41713704", "16396871"));
 }
 function kriterSKS() {
@@ -423,7 +440,7 @@ function kriterSKS() {
 	slide.addText([
 		{ text: `${s.gri_title}: `, options: { fontSize: 14, bold: true, color: C.text2 } },
 		...textObjs(s.gri, { fontSize: 14, color: C.text1 }),
-	], { shape: pres.shapes.ROUNDED_RECTANGLE, rectRadius: 0.1, x: MX, y: 5.05, w: 12.13, h: 1.25, fill: { color: "F1F3F4" }, valign: "top", margin: [6, 12, 6, 12], isTextBox: true, objectName: oid("gri") });
+	], { shape: pres.shapes.ROUNDED_RECTANGLE, rectRadius: 0.1, x: MX, y: 5.05, w: 12.13, h: 1.25, fill: { color: "F1F3F4" }, valign: "top", margin: [12, 12, 6, 6], isTextBox: true, objectName: oid("gri") });
 	srcLine(slide, s);
 }
 function ucSutun() {
@@ -441,7 +458,7 @@ function ucSutun() {
 	const band = stripPrefix(s.bullets[3], /^Alt şerit:\s*/);
 	slide.addText(textObjs(band, { fontSize: 17, color: C.text1 }), {
 		shape: pres.shapes.ROUNDED_RECTANGLE, rectRadius: 0.1, x: MX, y: 5.5, w: 12.13, h: 0.72, fill: { color: "FDF3DC" }, line: { color: HEX.accent3, width: 1.5, dashType: "dash" },
-		valign: "middle", margin: [4, 14, 4, 14], isTextBox: true, objectName: oid("band"),
+		valign: "middle", margin: [14, 14, 4, 4], isTextBox: true, objectName: oid("band"),
 	});
 	dipnot(slide, s, 6.36);
 	srcLine(slide, s);
@@ -471,7 +488,7 @@ function profilaksi() {
 	slide.addText([
 		{ text: "Tarihsel · ", options: { fontSize: 15, bold: true, color: C.accent4 } },
 		...textObjs(s.gri, { fontSize: 15, color: C.accent4 }),
-	], { shape: pres.shapes.ROUNDED_RECTANGLE, rectRadius: 0.1, x: MX, y: 5.45, w: 12.13, h: 0.7, fill: { color: "F1F3F4" }, valign: "middle", margin: [4, 14, 4, 14], isTextBox: true, objectName: oid("tarihsel") });
+	], { shape: pres.shapes.ROUNDED_RECTANGLE, rectRadius: 0.1, x: MX, y: 5.45, w: 12.13, h: 0.7, fill: { color: "F1F3F4" }, valign: "middle", margin: [14, 14, 4, 4], isTextBox: true, objectName: oid("tarihsel") });
 	srcLine(slide, s);
 }
 async function mesajlar() {
@@ -493,15 +510,16 @@ function kaynaklar() {
 		[chunk.slice(0, per / 2), chunk.slice(per / 2)].forEach((col, ci) => {
 			if (!col.length) return;
 			const objs = col.map((r, i) => ({ text: `${r.n}. ${r.text}`, options: { fontSize: 10, color: C.text1, paraSpaceAfter: 4, breakLine: i < col.length - 1 } }));
-			slide.addText(objs, { x: MX + ci * 6.2, y: 1.05, w: 5.95, h: 5.85, valign: "top", margin: 0, isTextBox: true, objectName: oid("kaynak") });
+			slide.addText(objs, { x: MX + ci * 6.2, y: 1.45, w: 5.95, h: 5.3, valign: "top", margin: 0, isTextBox: true, objectName: oid("kaynak") });
 		});
 	}
 }
 function tesekkur() {
-	const slide = newSlide("KOYU", "Kaynaklar");
+	const slide = newSlide("KAPAK", "Kaynaklar");
 	slide.addText("Teşekkürler", { placeholder: "title" });
-	slide.addText("Sorular ve tartışma", {
-		x: MX, y: 1.7, w: 12.13, h: 0.9, fontSize: 24, color: C.accent5, margin: 0, isTextBox: true, objectName: oid("not"),
+	slide.addText("Sorular ve tartışma", { placeholder: "sub" });
+	slide.addText(" ", {
+		x: MX, y: 6.6, w: 1, h: 0.3, fontSize: 10, color: C.accent5, margin: 0, isTextBox: true, objectName: oid("not"),
 	});
 }
 

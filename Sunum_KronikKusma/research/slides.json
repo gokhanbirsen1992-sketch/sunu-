@@ -1151,7 +1151,7 @@
   "table": [],
   "dipnot": [
    {
-    "t": "Häberle öneri derecesi C–D; mitokondri için tek sayı verilmedi (biyokimyasal anormallik ≠ tanı).",
+    "t": "Häberle öneri derecesi C–D; mitokondri için tek sayı verilmedi (biyokimyasal anormallik tanı değildir).",
     "b": false
    }
   ],
@@ -1963,7 +1963,7 @@
  },
  {
   "id": "S29",
-  "title": "Kusma alanında Rome IV → V: beş değişiklik",
+  "title": "Kusma alanında Rome IV'ten Rome V'e: beş değişiklik",
   "bullets": [],
   "numbered": [],
   "table": [
@@ -2153,7 +2153,7 @@
   "cites": [
    8
   ],
-  "gri_title": "Eşlik eden özellikler (kutu başlığı doğrulanmadı)"
+  "gri_title": "Kutudaki ikinci liste (statüsü tam metinde belirtilmemiş)"
  },
  {
   "id": "S31",
