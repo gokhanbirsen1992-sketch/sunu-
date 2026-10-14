@@ -1,0 +1,965 @@
+{
+ "10228291": {
+  "key": "Li1999a",
+  "agent_keys": [
+   "A1:Li1999a"
+  ]
+ },
+ "10490033": {
+  "key": "Li1999b",
+  "agent_keys": [
+   "A1:Li1999b"
+  ]
+ },
+ "10490038": {
+  "key": "Miller1999",
+  "agent_keys": [
+   "A1:Miller1999"
+  ]
+ },
+ "10959442": {
+  "key": "Li2000",
+  "agent_keys": [
+   "A1:Li2000"
+  ]
+ },
+ "11286016": {
+  "key": "Takeda2001",
+  "agent_keys": [
+   "A1:Takeda2001"
+  ]
+ },
+ "11999680": {
+  "key": "VanCalcar2002",
+  "agent_keys": [
+   "A6:VanCalcar2002"
+  ]
+ },
+ "12410206": {
+  "key": "Olson2002",
+  "agent_keys": [
+   "A1:Olson2002",
+   "A4:Olson2002"
+  ]
+ },
+ "15152792": {
+  "key": "Moldavsky2003",
+  "agent_keys": [
+   "A3:Moldavsky2003"
+  ]
+ },
+ "15735476": {
+  "key": "DiLorenzo2005",
+  "agent_keys": [
+   "A2:DiLorenzo2005"
+  ]
+ },
+ "16396871": {
+  "key": "Tsai2006",
+  "agent_keys": [
+   "A3:Tsai2006",
+   "A4:Tsai2006"
+  ]
+ },
+ "16707974": {
+  "key": "Biank2006",
+  "agent_keys": [
+   "A3:Biank2006"
+  ]
+ },
+ "1678009": {
+  "key": "Johnson1991",
+  "agent_keys": [
+   "A2:Johnson1991"
+  ]
+ },
+ "17063107": {
+  "key": "Ertekin2006",
+  "agent_keys": [
+   "A1:Ertekin2006"
+  ]
+ },
+ "17465476": {
+  "key": "Haghighat2007",
+  "agent_keys": [
+   "A1:Haghighat2007"
+  ]
+ },
+ "17588965": {
+  "key": "Fitzpatrick2007",
+  "agent_keys": [
+   "A1:Fitzpatrick2007"
+  ]
+ },
+ "17644483": {
+  "key": "Wilne2007",
+  "agent_keys": [
+   "A2:Wilne2007",
+   "A3:Wilne2007"
+  ]
+ },
+ "17885698": {
+  "key": "Allen2007",
+  "agent_keys": [
+   "A1:Allen2007"
+  ]
+ },
+ "18081819": {
+  "key": "Tarbell2007",
+  "agent_keys": [
+   "A2:Tarbell2007"
+  ]
+ },
+ "18728540": {
+  "key": "Li2008",
+  "agent_keys": [
+   "A1:Li2008",
+   "A2:Li2008",
+   "A3:Li2008",
+   "A4:Li2008",
+   "A6:Li2008"
+  ]
+ },
+ "19220304": {
+  "key": "Zaki2009",
+  "agent_keys": [
+   "A3:Zaki2009"
+  ]
+ },
+ "19368653": {
+  "key": "Boles2009",
+  "agent_keys": [
+   "A3:Boles2009"
+  ]
+ },
+ "19386455": {
+  "key": "Michael2009",
+  "agent_keys": [
+   "A3:Michael2009"
+  ]
+ },
+ "19596010": {
+  "key": "Saps2009",
+  "agent_keys": [
+   "A6:Saps2009"
+  ]
+ },
+ "20109231": {
+  "key": "Boles2010",
+  "agent_keys": [
+   "A6:Boles2010"
+  ]
+ },
+ "20181253": {
+  "key": "Venkatesan2010",
+  "agent_keys": [
+   "A1:Venkatesan2010"
+  ]
+ },
+ "21147834": {
+  "key": "Hikita2010",
+  "agent_keys": [
+   "A6:Hikita2010"
+  ]
+ },
+ "22314391": {
+  "key": "Waseem2012",
+  "agent_keys": [
+   "A3:Waseem2012"
+  ]
+ },
+ "22634989": {
+  "key": "Lee2012",
+  "agent_keys": [
+   "A1:Lee2012",
+   "A2:Lee2012",
+   "A6:Lee2012"
+  ]
+ },
+ "22642880": {
+  "key": "Haberle2012",
+  "agent_keys": [
+   "A3:Haberle2012"
+  ]
+ },
+ "22762244": {
+  "key": "Drumm2012",
+  "agent_keys": [
+   "A1:Drumm2012"
+  ]
+ },
+ "22986032": {
+  "key": "Sparks2012",
+  "agent_keys": [
+   "A3:Sparks2012"
+  ]
+ },
+ "23160646": {
+  "key": "Dekker2012",
+  "agent_keys": [
+   "A3:Dekker2012"
+  ]
+ },
+ "23419589": {
+  "key": "Rodriguez2013",
+  "agent_keys": [
+   "A6:Rodriguez2013"
+  ]
+ },
+ "23485030": {
+  "key": "Tarbell2013",
+  "agent_keys": [
+   "A2:Tarbell2013"
+  ]
+ },
+ "23818085": {
+  "key": "Parashette2013",
+  "agent_keys": [
+   "A1:Parashette2013",
+   "A3:Parashette2013"
+  ]
+ },
+ "23979088": {
+  "key": "Flaherty2013",
+  "agent_keys": [
+   "A3:Flaherty2013"
+  ]
+ },
+ "24535228": {
+  "key": "Teo2014",
+  "agent_keys": [
+   "A4:Teo2014"
+  ]
+ },
+ "24726541": {
+  "key": "Wong2014",
+  "agent_keys": [
+   "A4:Wong2014"
+  ]
+ },
+ "24842256": {
+  "key": "Moses2014",
+  "agent_keys": [
+   "A4:Moses2014"
+  ]
+ },
+ "24898244": {
+  "key": "Cristofori2014",
+  "agent_keys": [
+   "A6:Cristofori2014"
+  ]
+ },
+ "25222805": {
+  "key": "Fortunato2014",
+  "agent_keys": [
+   "A6:Fortunato2014"
+  ]
+ },
+ "25557417": {
+  "key": "Wong2015",
+  "agent_keys": [
+   "A4:Wong2015"
+  ]
+ },
+ "25632624": {
+  "key": "Treepongkaruna2014",
+  "agent_keys": [
+   "A6:Treepongkaruna2014"
+  ]
+ },
+ "26095286": {
+  "key": "Tarbell2015",
+  "agent_keys": [
+   "A2:Tarbell2015"
+  ]
+ },
+ "26267844": {
+  "key": "Malik2016",
+  "agent_keys": [
+   "A4:Malik2016"
+  ]
+ },
+ "26394370": {
+  "key": "Raitio2015",
+  "agent_keys": [
+   "A2:Raitio2015",
+   "A3:Raitio2015"
+  ]
+ },
+ "26510083": {
+  "key": "EgritaGrkan2015",
+  "agent_keys": [
+   "A1:EgritasGurkan2015"
+  ]
+ },
+ "26678622": {
+  "key": "Gelfand2015",
+  "agent_keys": [
+   "A3:Gelfand2015"
+  ]
+ },
+ "27144631": {
+  "key": "Benninga2016",
+  "agent_keys": [
+   "A5:Benninga2016"
+  ]
+ },
+ "27144632": {
+  "key": "Hyams2016",
+  "agent_keys": [
+   "A5:Hyams2016"
+  ]
+ },
+ "27185077": {
+  "key": "Barba2016",
+  "agent_keys": [
+   "A6:Barba2016"
+  ]
+ },
+ "27302967": {
+  "key": "Sezer2016",
+  "agent_keys": [
+   "A6:Sezer2016"
+  ]
+ },
+ "27578853": {
+  "key": "Arthur2016",
+  "agent_keys": [
+   "A3:Arthur2016"
+  ]
+ },
+ "2769545": {
+  "key": "Powell1989",
+  "agent_keys": [
+   "A4:Powell1989"
+  ]
+ },
+ "28002887": {
+  "key": "Rosen2017",
+  "agent_keys": [
+   "A4:Rosen2017"
+  ]
+ },
+ "28719594": {
+  "key": "Badihian2017",
+  "agent_keys": [
+   "A6:Badihian2017"
+  ]
+ },
+ "29072581": {
+  "key": "RighiniGrunder2017",
+  "agent_keys": [
+   "A4:RighiniGrunder2017"
+  ]
+ },
+ "29137006": {
+  "key": "Morra2017",
+  "agent_keys": [
+   "A1:Morra2017"
+  ]
+ },
+ "29178261": {
+  "key": "Rosen2018a",
+  "agent_keys": [
+   "A4:Rosen2018b"
+  ]
+ },
+ "29206813": {
+  "key": "Pauwels2017",
+  "agent_keys": [
+   "A6:Pauwels2017"
+  ]
+ },
+ "29358999": {
+  "key": "Haghighat2017",
+  "agent_keys": [
+   "A6:Haghighat2017"
+  ]
+ },
+ "29373437": {
+  "key": "LuciaCasadonte2018",
+  "agent_keys": [
+   "A4:LuciaCasadonte2018"
+  ]
+ },
+ "29470322": {
+  "key": "Rosen2018b",
+  "agent_keys": [
+   "A1:Rosen2018",
+   "A3:Rosen2018",
+   "A4:Rosen2018a"
+  ]
+ },
+ "29570554": {
+  "key": "Thapar2018",
+  "agent_keys": [
+   "A3:Thapar2018"
+  ]
+ },
+ "29697487": {
+  "key": "WangHall2018",
+  "agent_keys": [
+   "A2:WangHall2018"
+  ]
+ },
+ "30009819": {
+  "key": "Dellon2018",
+  "agent_keys": [
+   "A4:Dellon2018"
+  ]
+ },
+ "30076469": {
+  "key": "Li2018",
+  "agent_keys": [
+   "A4:Li2018",
+   "A6:Li2018"
+  ]
+ },
+ "30360666": {
+  "key": "Browne2018",
+  "agent_keys": [
+   "A6:Browne2018"
+  ]
+ },
+ "30613204": {
+  "key": "Bagherian2019",
+  "agent_keys": [
+   "A6:Bagherian2019"
+  ]
+ },
+ "31241819": {
+  "key": "Venkatesan2019",
+  "agent_keys": [
+   "A6:Venkatesan2019"
+  ]
+ },
+ "31540764": {
+  "key": "Gui2019",
+  "agent_keys": [
+   "A6:Gui2019"
+  ]
+ },
+ "31568151": {
+  "key": "Husby2020",
+  "agent_keys": [
+   "A4:Husby2020"
+  ]
+ },
+ "31689788": {
+  "key": "Xiang2019",
+  "agent_keys": [
+   "A3:Xiang2019"
+  ]
+ },
+ "31690395": {
+  "key": "Watts2019",
+  "agent_keys": [
+   "A3:Watts2019"
+  ]
+ },
+ "32079888": {
+  "key": "Nikaki2020",
+  "agent_keys": [
+   "A4:Nikaki2020"
+  ]
+ },
+ "32107138": {
+  "key": "McAbee2019",
+  "agent_keys": [
+   "A2:McAbee2019"
+  ]
+ },
+ "32532651": {
+  "key": "Tarbell2020",
+  "agent_keys": [
+   "A4:Tarbell2020"
+  ]
+ },
+ "32569429": {
+  "key": "Dean2020",
+  "agent_keys": [
+   "A6:Dean2020"
+  ]
+ },
+ "33160719": {
+  "key": "Ruberto2020",
+  "agent_keys": [
+   "A6:Ruberto2020"
+  ]
+ },
+ "33224097": {
+  "key": "Raucci2020",
+  "agent_keys": [
+   "A1:Raucci2020",
+   "A2:Raucci2020",
+   "A4:Raucci2020"
+  ]
+ },
+ "33259858": {
+  "key": "Abdulkader2020",
+  "agent_keys": [
+   "A6:Abdulkader2020"
+  ]
+ },
+ "33484633": {
+  "key": "Husebye2021",
+  "agent_keys": [
+   "A3:Husebye2021"
+  ]
+ },
+ "33619730": {
+  "key": "Kovacic2021",
+  "agent_keys": [
+   "A4:Kovacic2021"
+  ]
+ },
+ "33865828": {
+  "key": "Anderson2021",
+  "agent_keys": [
+   "A4:Anderson2021"
+  ]
+ },
+ "34071460": {
+  "key": "Zhong2021",
+  "agent_keys": [
+   "A1:Zhong2021"
+  ]
+ },
+ "34316439": {
+  "key": "Sahin2021",
+  "agent_keys": [
+   "A3:Sahin2021"
+  ]
+ },
+ "34431167": {
+  "key": "Dipasquale2021",
+  "agent_keys": [
+   "A1:Dipasquale2021"
+  ]
+ },
+ "34490165": {
+  "key": "Martinez2021",
+  "agent_keys": [
+   "A1:Martinez2021",
+   "A6:Martinez2021"
+  ]
+ },
+ "34718171": {
+  "key": "Browne2021",
+  "agent_keys": [
+   "A6:Browne2021"
+  ]
+ },
+ "35188625": {
+  "key": "IglesiasEscabi2022",
+  "agent_keys": [
+   "A6:IglesiasEscabi2022"
+  ]
+ },
+ "35211650": {
+  "key": "Reedy2019",
+  "agent_keys": [
+   "A4:Reedy2019"
+  ]
+ },
+ "35687569": {
+  "key": "Lamparyk2022",
+  "agent_keys": [
+   "A6:Lamparyk2022"
+  ]
+ },
+ "35978327": {
+  "key": "Trapani2022",
+  "agent_keys": [
+   "A3:Trapani2022"
+  ]
+ },
+ "36056317": {
+  "key": "Wang2022",
+  "agent_keys": [
+   "A4:Wang2022"
+  ]
+ },
+ "36252454": {
+  "key": "Iijima2022",
+  "agent_keys": [
+   "A3:Iijima2022"
+  ]
+ },
+ "36800281": {
+  "key": "GosalvezTejada2023",
+  "agent_keys": [
+   "A1:GosalvezTejada2023",
+   "A6:GosalvezTejada2023"
+  ]
+ },
+ "36878454": {
+  "key": "StamuOBrien2023",
+  "agent_keys": [
+   "A2:StamuOBrien2023"
+  ]
+ },
+ "36943582": {
+  "key": "Gupta2023",
+  "agent_keys": [
+   "A6:Gupta2023"
+  ]
+ },
+ "36989184": {
+  "key": "Partovi2023",
+  "agent_keys": [
+   "A6:Partovi2023"
+  ]
+ },
+ "37010583": {
+  "key": "Kankam2023",
+  "agent_keys": [
+   "A3:Kankam2023"
+  ]
+ },
+ "37052354": {
+  "key": "Thavamani2023",
+  "agent_keys": [
+   "A2:Thavamani2023",
+   "A6:Thavamani2023"
+  ]
+ },
+ "37237297": {
+  "key": "Zheng2023",
+  "agent_keys": [
+   "A2:Zheng2023",
+   "A3:Zheng2023"
+  ]
+ },
+ "37355425": {
+  "key": "Michelson2023",
+  "agent_keys": [
+   "A3:Michelson2023"
+  ]
+ },
+ "37364137": {
+  "key": "Karrento2023",
+  "agent_keys": [
+   "A6:Karrento2023"
+  ]
+ },
+ "37867371": {
+  "key": "Falsaperla2023",
+  "agent_keys": [
+   "A6:Falsaperla2023"
+  ]
+ },
+ "38385686": {
+  "key": "Puoti2024",
+  "agent_keys": [
+   "A4:Puoti2024"
+  ]
+ },
+ "38454301": {
+  "key": "Kaul2024",
+  "agent_keys": [
+   "A3:Kaul2024"
+  ]
+ },
+ "38562024": {
+  "key": "OSullivan2024",
+  "agent_keys": [
+   "A3:OSullivan2024"
+  ]
+ },
+ "38615942": {
+  "key": "Shah2024",
+  "agent_keys": [
+   "A1:Shah2024"
+  ]
+ },
+ "39022754": {
+  "key": "Shah2023",
+  "agent_keys": [
+   "A3:Shah2023"
+  ]
+ },
+ "39046665": {
+  "key": "Lamport2024",
+  "agent_keys": [
+   "A3:Lamport2024"
+  ]
+ },
+ "39148213": {
+  "key": "Homan2024",
+  "agent_keys": [
+   "A3:Homan2024",
+   "A4:Homan2024"
+  ]
+ },
+ "39726527": {
+  "key": "Tersteeg2024",
+  "agent_keys": [
+   "A2:Tersteeg2024"
+  ]
+ },
+ "39728392": {
+  "key": "Thavamani2024",
+  "agent_keys": [
+   "A6:Thavamani2024"
+  ]
+ },
+ "39737559": {
+  "key": "Bujarska2024",
+  "agent_keys": [
+   "A1:Bujarska2024",
+   "A5:Bujarska2024"
+  ]
+ },
+ "39754724": {
+  "key": "Malagelada2025",
+  "agent_keys": [
+   "A1:Malagelada2025",
+   "A2:Malagelada2025",
+   "A4:Malagelada2025"
+  ]
+ },
+ "39803885": {
+  "key": "Khoo2025",
+  "agent_keys": [
+   "A4:Khoo2025"
+  ]
+ },
+ "39868747": {
+  "key": "Jack2025",
+  "agent_keys": [
+   "A2:Jack2025"
+  ]
+ },
+ "40223700": {
+  "key": "Karrento2025a",
+  "agent_keys": [
+   "A5:Karrento2025b",
+   "A6:Karrento2025"
+  ]
+ },
+ "40401049": {
+  "key": "Sinan2025",
+  "agent_keys": [
+   "A2:Sinan2025"
+  ]
+ },
+ "40544377": {
+  "key": "Krueger2025",
+  "agent_keys": [
+   "A3:Krueger2025"
+  ]
+ },
+ "40575359": {
+  "key": "Goh2025",
+  "agent_keys": [
+   "A2:Goh2025"
+  ]
+ },
+ "40581515": {
+  "key": "Itriyeva2025",
+  "agent_keys": [
+   "A3:Itriyeva2025"
+  ]
+ },
+ "40692192": {
+  "key": "Spatuzzo2025",
+  "agent_keys": [
+   "A2:Spatuzzo2025",
+   "A3:Spatuzzo2025",
+   "A4:Spatuzzo2025"
+  ]
+ },
+ "40836301": {
+  "key": "Karrento2025b",
+  "agent_keys": [
+   "A1:Karrento2025",
+   "A4:Karrento2025",
+   "A5:Karrento2025a"
+  ]
+ },
+ "40868416": {
+  "key": "Altunta2025",
+  "agent_keys": [
+   "A6:Altuntas2025"
+  ]
+ },
+ "40965394": {
+  "key": "Sigal2025",
+  "agent_keys": [
+   "A6:Sigal2025"
+  ]
+ },
+ "41054967": {
+  "key": "Hernandez2025",
+  "agent_keys": [
+   "A6:Hernandez2025"
+  ]
+ },
+ "41088881": {
+  "key": "Bloom2025",
+  "agent_keys": [
+   "A3:Bloom2025"
+  ]
+ },
+ "41232196": {
+  "key": "Chapman2025",
+  "agent_keys": [
+   "A3:Chapman2025"
+  ]
+ },
+ "41345676": {
+  "key": "Schmolly2025",
+  "agent_keys": [
+   "A4:Schmolly2025"
+  ]
+ },
+ "41553265": {
+  "key": "Puoti2026",
+  "agent_keys": [
+   "A4:Puoti2026"
+  ]
+ },
+ "41567250": {
+  "key": "Waisfeld2026",
+  "agent_keys": [
+   "A1:Waisfeld2026",
+   "A3:Waisfeld2026"
+  ]
+ },
+ "41713704": {
+  "key": "Rosen2026a",
+  "agent_keys": [
+   "A2:Rosen2026",
+   "A4:Rosen2026",
+   "A5:Rosen2026a",
+   "A6:Rosen2026"
+  ]
+ },
+ "41713707": {
+  "key": "DiLorenzo2026",
+  "agent_keys": [
+   "A5:DiLorenzo2026"
+  ]
+ },
+ "41713709": {
+  "key": "Palsson2026",
+  "agent_keys": [
+   "A5:Palsson2026"
+  ]
+ },
+ "41719916": {
+  "key": "Hikita2026",
+  "agent_keys": [
+   "A6:Hikita2026"
+  ]
+ },
+ "41807274": {
+  "key": "Henriksen2026",
+  "agent_keys": [
+   "A3:Henriksen2026"
+  ]
+ },
+ "42026408": {
+  "key": "Ananthashayana2026",
+  "agent_keys": [
+   "A1:Ananthashayana2026",
+   "A2:Ananthashayana2026"
+  ]
+ },
+ "42217214": {
+  "key": "daSilva2026",
+  "agent_keys": [
+   "A3:DaSilva2026"
+  ]
+ },
+ "42530324": {
+  "key": "Rajindrajith2026",
+  "agent_keys": [
+   "A5:Rajindrajith2026"
+  ]
+ },
+ "42554323": {
+  "key": "Rosen2026b",
+  "agent_keys": [
+   "A5:Rosen2026b"
+  ]
+ },
+ "42613193": {
+  "key": "Nurko2026",
+  "agent_keys": [
+   "A1:Nurko2026",
+   "A2:Nurko2026",
+   "A5:Nurko2026"
+  ]
+ },
+ "42613194": {
+  "key": "Sperber2026",
+  "agent_keys": [
+   "A5:Sperber2026"
+  ]
+ },
+ "42638421": {
+  "key": "RodriguezManchon2026",
+  "agent_keys": [
+   "A3:RodriguezManchon2026"
+  ]
+ },
+ "42823909": {
+  "key": "ElChammas2026",
+  "agent_keys": [
+   "A2:ElChammas2026"
+  ]
+ },
+ "8145089": {
+  "key": "Fleisher1993",
+  "agent_keys": [
+   "A1:Fleisher1993"
+  ]
+ },
+ "8583299": {
+  "key": "AbuArafeh1995",
+  "agent_keys": [
+   "A1:AbuArafeh1995"
+  ]
+ },
+ "8604272": {
+  "key": "Pfau1996",
+  "agent_keys": [
+   "A1:Pfau1996",
+   "A2:Pfau1996"
+  ]
+ },
+ "8708872": {
+  "key": "Li1995",
+  "agent_keys": [
+   "A1:Li1995",
+   "A2:Li1995"
+  ]
+ },
+ "8855716": {
+  "key": "Matsuki1996",
+  "agent_keys": [
+   "A1:Matsuki1996"
+  ]
+ },
+ "9095015": {
+  "key": "Shemie1997",
+  "agent_keys": [
+   "A4:Shemie1997"
+  ]
+ },
+ "9226529": {
+  "key": "Gokhale1997",
+  "agent_keys": [
+   "A6:Gokhale1997"
+  ]
+ },
+ "9738180": {
+  "key": "Li1998",
+  "agent_keys": [
+   "A1:Li1998",
+   "A4:Li1998"
+  ]
+ }
+}

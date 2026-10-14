@@ -1,0 +1,4683 @@
+{
+ "summary": {
+  "unique_pmids": 154,
+  "bib_entries": 193,
+  "VERIFIED": 143,
+  "MINOR": 11,
+  "MISMATCH": 0,
+  "FABRICATED": 0,
+  "retracted": 0,
+  "duplicates": 5,
+  "submission_safe": true
+ },
+ "audit_meta": {
+  "audit_date": "2026-10-14",
+  "auditor": "V1 referans denetçisi",
+  "method": [
+   "Her benzersiz PMID için mcp__PubMed__get_article_metadata (8 batch: 7×20 + 1×14; 39875217 pozitif kontrol olarak son batch'e eklendi).",
+   "PMCID: metadata identifiers.pmc; eski 20 PMID için ayrıca mcp__PubMed__convert_article_ids (hiçbirinde PMCID yok).",
+   "Karşılaştırma kuralı: başlık/yazar/dergi büyük-küçük harf, noktalama, LaTeX kaçışı ve aksan normalize edilerek; sayfa aralığı standart kısaltma açılımıyla (ör. 427-71 = 427--471) karşılaştırıldı. Bu normalizasyonla eşit olanlar fark sayılmadı.",
+   "MINOR: normalizasyon sonrası kalan yalnız biçim farkları (ISO dergi kısaltması, quiz sayfaları, e-yayın/basılı yıl, DOI alanında serbest metin, kaçışsız &).",
+   "Yıl farkları için basılı yıl PubMed search_articles [Date - Publication] filtresiyle ayrıca doğrulandı (negatif kontrol dahil).",
+   "Geri çekilme: (1) 154 kaydın article_types alanı; (2) konu taraması '(retracted publication[pt] OR expression of concern[pt]) AND (vomiting OR emesis OR nausea OR rumination OR gastroparesis)' → 283 kayıt, bib PMID'leriyle kesişim 0 (39875217 listede: pozitif kontrol); (3) 'published erratum[pt] AND (cyclic vomiting OR rumination OR cannabinoid hyperemesis OR \"Rome V\" OR ...)' → 19 düzeltme notu, hiçbiri bib makalelerine ait değil; (4) şüpheli 2 kayıt (Waisfeld2026, Pfau1996) için başlık + (retraction OR erratum OR correction) → 0."
+  ],
+  "scite": "mcp__Scite__search_literature denendi (3 DOI): \"MCP tools require a paid scite plan or an active free trial\" — erişilemedi; editorialNotices kontrolü yapılamadı.",
+  "maaloul_39875217": {
+   "pubmed_article_types": [
+    "Journal Article",
+    "Retracted Publication"
+   ],
+   "pubmed_title": "Primary adrenal insufficiency in children excluding congenital adrenal hyperplasia: insights from 33-year single-center experience in Tunisia.",
+   "in_any_bib_entry": false,
+   "bib_mentions": [
+    "A2.bib:3 — yalnız yorum satırı (% ...): \"Maaloul 2025 (PMID 39875217) \\\"Retracted Publication\\\" -> DIŞLANDI, bu dosyada yok.\""
+   ],
+   "research_mentions": [
+    "A2_oyku_muayene.md:35 — arama kaydı tablosu (dışlandı notu)",
+    "A2_oyku_muayene.md:71 — A2-27 satırının Not sütunu: kaynak Zheng 2023 (PMID 37237297); Maaloul yalnız \"kullanılmadı\" notu",
+    "A2_oyku_muayene.md:108 — dışlanan kaynaklar listesi"
+   ],
+   "used_as_evidence": false,
+   "verdict": "Temiz: hiçbir bib kaydında ve hiçbir iddia satırının PMID/kaynak sütununda yok."
+  },
+  "duplicate_details": [
+   {
+    "type": "same_key_different_pmid",
+    "key": "Karrento2025",
+    "pmids": [
+     "40223700",
+     "40836301"
+    ],
+    "where": [
+     "A1.bib→40836301",
+     "A4.bib→40836301",
+     "A6.bib→40223700"
+    ],
+    "note": "Aynı anahtar iki farklı makaleye işaret ediyor; bib dosyaları birleştirilirse BibTeX ilkini tutar ve diğer dosyadaki \\cite yanlış makaleye gider."
+   },
+   {
+    "type": "same_pmid_different_keys",
+    "pmid": "40836301",
+    "keys": [
+     "Karrento2025",
+     "Karrento2025a"
+    ],
+    "where": [
+     "A1.bib:Karrento2025",
+     "A4.bib:Karrento2025",
+     "A5.bib:Karrento2025a"
+    ],
+    "note": "Aynı makale farklı anahtarlarla; birleştirilmiş kaynakçada iki ayrı kayıt olarak basılır."
+   },
+   {
+    "type": "same_pmid_different_keys",
+    "pmid": "29470322",
+    "keys": [
+     "Rosen2018",
+     "Rosen2018a"
+    ],
+    "where": [
+     "A1.bib:Rosen2018",
+     "A3.bib:Rosen2018",
+     "A4.bib:Rosen2018a"
+    ],
+    "note": "Aynı makale farklı anahtarlarla; birleştirilmiş kaynakçada iki ayrı kayıt olarak basılır."
+   },
+   {
+    "type": "same_pmid_different_keys",
+    "pmid": "41713704",
+    "keys": [
+     "Rosen2026",
+     "Rosen2026a"
+    ],
+    "where": [
+     "A2.bib:Rosen2026",
+     "A4.bib:Rosen2026",
+     "A5.bib:Rosen2026a",
+     "A6.bib:Rosen2026"
+    ],
+    "note": "Aynı makale farklı anahtarlarla; birleştirilmiş kaynakçada iki ayrı kayıt olarak basılır."
+   },
+   {
+    "type": "same_pmid_different_keys",
+    "pmid": "40223700",
+    "keys": [
+     "Karrento2025",
+     "Karrento2025b"
+    ],
+    "where": [
+     "A5.bib:Karrento2025b",
+     "A6.bib:Karrento2025"
+    ],
+    "note": "Aynı makale farklı anahtarlarla; birleştirilmiş kaynakçada iki ayrı kayıt olarak basılır."
+   }
+  ],
+  "cross_file_format_inconsistencies": [
+   {
+    "pmid": "8604272",
+    "field": "doi",
+    "values": [
+     "A1.bib:Pfau1996=''",
+     "A2.bib:Pfau1996='DOI yok'"
+    ]
+   },
+   {
+    "pmid": "18728540",
+    "field": "journal",
+    "values": [
+     "A1.bib:Li2008='Journal of Pediatric Gastroenterology and Nutrition'",
+     "A2.bib:Li2008='Journal of Pediatric Gastroenterology and Nutrition'",
+     "A3.bib:Li2008='Journal of Pediatric Gastroenterology and Nutrition'",
+     "A4.bib:Li2008='Journal of Pediatric Gastroenterology and Nutrition'",
+     "A6.bib:Li2008='Journal of pediatric gastroenterology and nutrition'"
+    ]
+   },
+   {
+    "pmid": "18728540",
+    "field": "pages",
+    "values": [
+     "A1.bib:Li2008='379--393'",
+     "A2.bib:Li2008='379--393'",
+     "A3.bib:Li2008='379--393'",
+     "A4.bib:Li2008='379--393'",
+     "A6.bib:Li2008='379--93'"
+    ]
+   },
+   {
+    "pmid": "36800281",
+    "field": "journal",
+    "values": [
+     "A1.bib:GosalvezTejada2023='Journal of Pediatric Gastroenterology and Nutrition'",
+     "A6.bib:GosalvezTejada2023='Journal of pediatric gastroenterology and nutrition'"
+    ]
+   },
+   {
+    "pmid": "22634989",
+    "field": "journal",
+    "values": [
+     "A1.bib:Lee2012='European Journal of Gastroenterology \\\\& Hepatology'",
+     "A2.bib:Lee2012='European Journal of Gastroenterology \\\\& Hepatology'",
+     "A6.bib:Lee2012='European journal of gastroenterology & hepatology'"
+    ]
+   },
+   {
+    "pmid": "22634989",
+    "field": "pages",
+    "values": [
+     "A1.bib:Lee2012='1001--1006'",
+     "A2.bib:Lee2012='1001--1006'",
+     "A6.bib:Lee2012='1001--6'"
+    ]
+   },
+   {
+    "pmid": "34490165",
+    "field": "journal",
+    "values": [
+     "A1.bib:Martinez2021='Frontiers in Pediatrics'",
+     "A6.bib:Martinez2021='Frontiers in pediatrics'"
+    ]
+   },
+   {
+    "pmid": "37052354",
+    "field": "journal",
+    "values": [
+     "A2.bib:Thavamani2023='The American Journal of Gastroenterology'",
+     "A6.bib:Thavamani2023='The American journal of gastroenterology'"
+    ]
+   },
+   {
+    "pmid": "39148213",
+    "field": "author",
+    "values": [
+     "A3.bib:Homan2024='Homan, Matja{\\\\v z} and Jones, Nicola L and Bontems, Patrick and others'",
+     "A4.bib:Homan2024='Homan, Matja{\\\\v{z}} and Jones, Nicola L and Bontems, Patrick and others'"
+    ]
+   },
+   {
+    "pmid": "30076469",
+    "field": "journal",
+    "values": [
+     "A4.bib:Li2018='European Journal of Pediatrics'",
+     "A6.bib:Li2018='European journal of pediatrics'"
+    ]
+   },
+   {
+    "pmid": "40223700",
+    "field": "journal",
+    "values": [
+     "A5.bib:Karrento2025b='Journal of Pediatric Gastroenterology and Nutrition'",
+     "A6.bib:Karrento2025='Journal of pediatric gastroenterology and nutrition'"
+    ]
+   }
+  ],
+  "note_pmid_checked": {
+   "pmid": "30982989",
+   "context": "A3.bib Haberle2012 note alanı",
+   "pubmed": "Häberle 2019, \"Suggested guidelines for the diagnosis and management of urea cycle disorders: First revision.\", J Inherit Metab Dis 42(6):1192-1230, DOI 10.1002/jimd.12100",
+   "status": "not ile uyumlu"
+  }
+ },
+ "entries": [
+  {
+   "pmid": "1678009",
+   "keys": [
+    "Johnson1991"
+   ],
+   "files": [
+    "A2.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Johnson",
+    "title": "Hemorrhagic colitis and pseudomelanosis coli in ipecac ingestion by proxy.",
+    "year": "1991",
+    "journal": "Journal of pediatric gastroenterology and nutrition",
+    "journal_iso": "J Pediatr Gastroenterol Nutr",
+    "doi": "10.1097/00005176-199105000-00015",
+    "pmcid": null,
+    "volume": "12",
+    "issue": "4",
+    "pages": "501-6",
+    "article_types": [
+     "Case Reports",
+     "Journal Article",
+     "Review"
+    ]
+   }
+  },
+  {
+   "pmid": "2769545",
+   "keys": [
+    "Powell1989"
+   ],
+   "files": [
+    "A4.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Powell",
+    "title": "Malrotation of the intestines in children: the effect of age on presentation and therapy.",
+    "year": "1989",
+    "journal": "Journal of pediatric surgery",
+    "journal_iso": "J Pediatr Surg",
+    "doi": "10.1016/s0022-3468(89)80535-4",
+    "pmcid": null,
+    "volume": "24",
+    "issue": "8",
+    "pages": "777-80",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "8145089",
+   "keys": [
+    "Fleisher1993"
+   ],
+   "files": [
+    "A1.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Fleisher",
+    "title": "The cyclic vomiting syndrome: a report of 71 cases and literature review.",
+    "year": "1993",
+    "journal": "Journal of pediatric gastroenterology and nutrition",
+    "journal_iso": "J Pediatr Gastroenterol Nutr",
+    "doi": null,
+    "pmcid": null,
+    "volume": "17",
+    "issue": "4",
+    "pages": "361-9",
+    "article_types": [
+     "Journal Article",
+     "Review"
+    ]
+   }
+  },
+  {
+   "pmid": "8583299",
+   "keys": [
+    "AbuArafeh1995"
+   ],
+   "files": [
+    "A1.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Abu-Arafeh",
+    "title": "Cyclical vomiting syndrome in children: a population-based study.",
+    "year": "1995",
+    "journal": "Journal of pediatric gastroenterology and nutrition",
+    "journal_iso": "J Pediatr Gastroenterol Nutr",
+    "doi": "10.1097/00005176-199511000-00014",
+    "pmcid": null,
+    "volume": "21",
+    "issue": "4",
+    "pages": "454-8",
+    "article_types": [
+     "Journal Article",
+     "Research Support, Non-U.S. Gov't"
+    ]
+   }
+  },
+  {
+   "pmid": "8604272",
+   "keys": [
+    "Pfau1996"
+   ],
+   "files": [
+    "A1.bib",
+    "A2.bib"
+   ],
+   "verdict": "MINOR",
+   "diffs": [
+    {
+     "file": "A2.bib",
+     "key": "Pfau1996",
+     "field": "doi",
+     "bib": "DOI yok",
+     "pubmed": "(PubMed kaydında DOI yok)",
+     "severity": "minor",
+     "note": "DOI alanına serbest metin yazılmış; BibTeX çıktısında 'doi: DOI yok' / kırık bağlantı üretir. Alan boş bırakılmalı (A1.bib'deki Pfau1996 gibi)"
+    }
+   ],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Pfau",
+    "title": "Differentiating cyclic from chronic vomiting patterns in children: quantitative criteria and diagnostic implications.",
+    "year": "1996",
+    "journal": "Pediatrics",
+    "journal_iso": "Pediatrics",
+    "doi": null,
+    "pmcid": null,
+    "volume": "97",
+    "issue": "3",
+    "pages": "364-8",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "8708872",
+   "keys": [
+    "Li1995"
+   ],
+   "files": [
+    "A1.bib",
+    "A2.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Li",
+    "title": "Cyclic vomiting: the pattern and syndrome paradigm.",
+    "year": "1995",
+    "journal": "Journal of pediatric gastroenterology and nutrition",
+    "journal_iso": "J Pediatr Gastroenterol Nutr",
+    "doi": "10.1097/00005176-199501001-00004",
+    "pmcid": null,
+    "volume": "21 Suppl 1",
+    "issue": null,
+    "pages": "S6-10",
+    "article_types": [
+     "Comparative Study",
+     "Journal Article",
+     "Review"
+    ]
+   }
+  },
+  {
+   "pmid": "8855716",
+   "keys": [
+    "Matsuki1996"
+   ],
+   "files": [
+    "A1.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Matsuki",
+    "title": "[Mechanisms of cytotoxic drug-induced emesis and its prevention].",
+    "year": "1996",
+    "journal": "Yakugaku zasshi : Journal of the Pharmaceutical Society of Japan",
+    "journal_iso": "Yakugaku Zasshi",
+    "doi": "10.1248/yakushi1947.116.9_710",
+    "pmcid": null,
+    "volume": "116",
+    "issue": "9",
+    "pages": "710-8",
+    "article_types": [
+     "English Abstract",
+     "Journal Article",
+     "Review"
+    ]
+   }
+  },
+  {
+   "pmid": "9095015",
+   "keys": [
+    "Shemie1997"
+   ],
+   "files": [
+    "A4.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Shemie",
+    "title": "Acute obstructive hydrocephalus and sudden death in children.",
+    "year": "1997",
+    "journal": "Annals of emergency medicine",
+    "journal_iso": "Ann Emerg Med",
+    "doi": "10.1016/s0196-0644(97)70227-0",
+    "pmcid": null,
+    "volume": "29",
+    "issue": "4",
+    "pages": "524-8",
+    "article_types": [
+     "Case Reports",
+     "Journal Article",
+     "Research Support, Non-U.S. Gov't",
+     "Review"
+    ]
+   }
+  },
+  {
+   "pmid": "9226529",
+   "keys": [
+    "Gokhale1997"
+   ],
+   "files": [
+    "A6.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Gokhale",
+    "title": "Use of barbiturates in the treatment of cyclic vomiting during childhood.",
+    "year": "1997",
+    "journal": "Journal of pediatric gastroenterology and nutrition",
+    "journal_iso": "J Pediatr Gastroenterol Nutr",
+    "doi": "10.1097/00005176-199707000-00010",
+    "pmcid": null,
+    "volume": "25",
+    "issue": "1",
+    "pages": "64-7",
+    "article_types": [
+     "Comparative Study",
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "9738180",
+   "keys": [
+    "Li1998"
+   ],
+   "files": [
+    "A1.bib",
+    "A4.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Li",
+    "title": "Heterogeneity of diagnoses presenting as cyclic vomiting.",
+    "year": "1998",
+    "journal": "Pediatrics",
+    "journal_iso": "Pediatrics",
+    "doi": "10.1542/peds.102.3.583",
+    "pmcid": null,
+    "volume": "102",
+    "issue": "3 Pt 1",
+    "pages": "583-7",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "10228291",
+   "keys": [
+    "Li1999a"
+   ],
+   "files": [
+    "A1.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Li",
+    "title": "Is cyclic vomiting syndrome related to migraine?",
+    "year": "1999",
+    "journal": "The Journal of pediatrics",
+    "journal_iso": "J Pediatr",
+    "doi": "10.1016/s0022-3476(99)70242-8",
+    "pmcid": null,
+    "volume": "134",
+    "issue": "5",
+    "pages": "567-72",
+    "article_types": [
+     "Journal Article",
+     "Research Support, Non-U.S. Gov't"
+    ]
+   }
+  },
+  {
+   "pmid": "10490033",
+   "keys": [
+    "Li1999b"
+   ],
+   "files": [
+    "A1.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Li",
+    "title": "Cyclic vomiting syndrome: features to be explained by a pathophysiologic model.",
+    "year": "1999",
+    "journal": "Digestive diseases and sciences",
+    "journal_iso": "Dig Dis Sci",
+    "doi": null,
+    "pmcid": null,
+    "volume": "44",
+    "issue": "8 Suppl",
+    "pages": "13S-18S",
+    "article_types": [
+     "Journal Article",
+     "Research Support, Non-U.S. Gov't",
+     "Review"
+    ]
+   }
+  },
+  {
+   "pmid": "10490038",
+   "keys": [
+    "Miller1999"
+   ],
+   "files": [
+    "A1.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Miller",
+    "title": "Central mechanisms of vomiting.",
+    "year": "1999",
+    "journal": "Digestive diseases and sciences",
+    "journal_iso": "Dig Dis Sci",
+    "doi": null,
+    "pmcid": null,
+    "volume": "44",
+    "issue": "8 Suppl",
+    "pages": "39S-43S",
+    "article_types": [
+     "Journal Article",
+     "Research Support, U.S. Gov't, P.H.S.",
+     "Review"
+    ]
+   }
+  },
+  {
+   "pmid": "10959442",
+   "keys": [
+    "Li2000"
+   ],
+   "files": [
+    "A1.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Li",
+    "title": "Cyclic vomiting syndrome: evolution in our understanding of a brain-gut disorder.",
+    "year": "2000",
+    "journal": "Advances in pediatrics",
+    "journal_iso": "Adv Pediatr",
+    "doi": null,
+    "pmcid": null,
+    "volume": "47",
+    "issue": null,
+    "pages": "117-60",
+    "article_types": [
+     "Journal Article",
+     "Research Support, Non-U.S. Gov't",
+     "Research Support, U.S. Gov't, P.H.S.",
+     "Review"
+    ]
+   }
+  },
+  {
+   "pmid": "11286016",
+   "keys": [
+    "Takeda2001"
+   ],
+   "files": [
+    "A1.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Takeda",
+    "title": "Neural mechanisms of motion sickness.",
+    "year": "2001",
+    "journal": "The journal of medical investigation : JMI",
+    "journal_iso": "J Med Invest",
+    "doi": null,
+    "pmcid": null,
+    "volume": "48",
+    "issue": "1-2",
+    "pages": "44-59",
+    "article_types": [
+     "Journal Article",
+     "Review"
+    ]
+   }
+  },
+  {
+   "pmid": "11999680",
+   "keys": [
+    "VanCalcar2002"
+   ],
+   "files": [
+    "A6.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Van Calcar",
+    "title": "L-carnitine administration reduces number of episodes in cyclic vomiting syndrome.",
+    "year": "2002",
+    "journal": "Clinical pediatrics",
+    "journal_iso": "Clin Pediatr (Phila)",
+    "doi": "10.1177/000992280204100307",
+    "pmcid": null,
+    "volume": "41",
+    "issue": "3",
+    "pages": "171-4",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "12410206",
+   "keys": [
+    "Olson2002"
+   ],
+   "files": [
+    "A1.bib",
+    "A4.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Olson",
+    "title": "The diagnostic evaluation of children with cyclic vomiting: a cost-effectiveness assessment.",
+    "year": "2002",
+    "journal": "The Journal of pediatrics",
+    "journal_iso": "J Pediatr",
+    "doi": "10.1067/mpd.2002.129300",
+    "pmcid": null,
+    "volume": "141",
+    "issue": "5",
+    "pages": "724-8",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "15152792",
+   "keys": [
+    "Moldavsky2003"
+   ],
+   "files": [
+    "A3.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Moldavsky",
+    "title": "Munchausen Syndrome by Proxy: two case reports and an update of the literature.",
+    "year": "2003",
+    "journal": "International journal of psychiatry in medicine",
+    "journal_iso": "Int J Psychiatry Med",
+    "doi": "10.2190/MHGG-WQPP-FGQN-WRNH",
+    "pmcid": null,
+    "volume": "33",
+    "issue": "4",
+    "pages": "411-23",
+    "article_types": [
+     "Case Reports",
+     "Comparative Study",
+     "Journal Article",
+     "Review"
+    ]
+   }
+  },
+  {
+   "pmid": "15735476",
+   "keys": [
+    "DiLorenzo2005"
+   ],
+   "files": [
+    "A2.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Di Lorenzo",
+    "title": "Chronic Abdominal Pain In Children: a Technical Report of the American Academy of Pediatrics and the North American Society for Pediatric Gastroenterology, Hepatology and Nutrition.",
+    "year": "2005",
+    "journal": "Journal of pediatric gastroenterology and nutrition",
+    "journal_iso": "J Pediatr Gastroenterol Nutr",
+    "doi": "10.1097/01.mpg.0000154661.39488.ac",
+    "pmcid": null,
+    "volume": "40",
+    "issue": "3",
+    "pages": "249-61",
+    "article_types": [
+     "Journal Article",
+     "Systematic Review"
+    ]
+   }
+  },
+  {
+   "pmid": "16396871",
+   "keys": [
+    "Tsai2006"
+   ],
+   "files": [
+    "A3.bib",
+    "A4.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Tsai",
+    "title": "Intermittent hydronephrosis secondary to ureteropelvic junction obstruction: clinical and imaging features.",
+    "year": "2006",
+    "journal": "Pediatrics",
+    "journal_iso": "Pediatrics",
+    "doi": "10.1542/peds.2005-0583",
+    "pmcid": null,
+    "volume": "117",
+    "issue": "1",
+    "pages": "139-46",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "16707974",
+   "keys": [
+    "Biank2006"
+   ],
+   "files": [
+    "A3.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Biank",
+    "title": "Superior mesenteric artery syndrome in children: a 20-year experience.",
+    "year": "2006",
+    "journal": "Journal of pediatric gastroenterology and nutrition",
+    "journal_iso": "J Pediatr Gastroenterol Nutr",
+    "doi": "10.1097/01.mpg.0000221888.36501.f2",
+    "pmcid": null,
+    "volume": "42",
+    "issue": "5",
+    "pages": "522-5",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "17063107",
+   "keys": [
+    "Ertekin2006"
+   ],
+   "files": [
+    "A1.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Ertekin",
+    "title": "Prevalence of cyclic vomiting syndrome in a sample of Turkish school children in an urban area.",
+    "year": "2006",
+    "journal": "Journal of clinical gastroenterology",
+    "journal_iso": "J Clin Gastroenterol",
+    "doi": "10.1097/01.mcg.0000212627.83746.0b",
+    "pmcid": null,
+    "volume": "40",
+    "issue": "10",
+    "pages": "896-8",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "17465476",
+   "keys": [
+    "Haghighat2007"
+   ],
+   "files": [
+    "A1.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Haghighat",
+    "title": "Cyclic vomiting syndrome in children: experience with 181 cases from southern Iran.",
+    "year": "2007",
+    "journal": "World journal of gastroenterology",
+    "journal_iso": "World J Gastroenterol",
+    "doi": "10.3748/wjg.v13.i12.1833",
+    "pmcid": "PMC4149962",
+    "volume": "13",
+    "issue": "12",
+    "pages": "1833-6",
+    "article_types": [
+     "Journal Article",
+     "Randomized Controlled Trial"
+    ]
+   }
+  },
+  {
+   "pmid": "17588965",
+   "keys": [
+    "Fitzpatrick2007"
+   ],
+   "files": [
+    "A1.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Fitzpatrick",
+    "title": "Outcome for children with cyclical vomiting syndrome.",
+    "year": "2007",
+    "journal": "Archives of disease in childhood",
+    "journal_iso": "Arch Dis Child",
+    "doi": "10.1136/adc.2007.116608",
+    "pmcid": "PMC2083597",
+    "volume": "92",
+    "issue": "11",
+    "pages": "1001-4",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "17644483",
+   "keys": [
+    "Wilne2007"
+   ],
+   "files": [
+    "A2.bib",
+    "A3.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Wilne",
+    "title": "Presentation of childhood CNS tumours: a systematic review and meta-analysis.",
+    "year": "2007",
+    "journal": "The Lancet. Oncology",
+    "journal_iso": "Lancet Oncol",
+    "doi": "10.1016/S1470-2045(07)70207-3",
+    "pmcid": null,
+    "volume": "8",
+    "issue": "8",
+    "pages": "685-95",
+    "article_types": [
+     "Journal Article",
+     "Meta-Analysis",
+     "Research Support, Non-U.S. Gov't",
+     "Systematic Review"
+    ]
+   }
+  },
+  {
+   "pmid": "17885698",
+   "keys": [
+    "Allen2007"
+   ],
+   "files": [
+    "A1.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Allen",
+    "title": "The vomiting child--what to do and when to consult.",
+    "year": "2007",
+    "journal": "Australian family physician",
+    "journal_iso": "Aust Fam Physician",
+    "doi": null,
+    "pmcid": null,
+    "volume": "36",
+    "issue": "9",
+    "pages": "684-7",
+    "article_types": [
+     "Journal Article",
+     "Review"
+    ]
+   }
+  },
+  {
+   "pmid": "18081819",
+   "keys": [
+    "Tarbell2007"
+   ],
+   "files": [
+    "A2.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Tarbell",
+    "title": "Psychiatric symptoms in children and adolescents with cyclic vomiting syndrome and their parents.",
+    "year": "2007",
+    "journal": "Headache",
+    "journal_iso": "Headache",
+    "doi": "10.1111/j.1526-4610.2007.00997.x",
+    "pmcid": null,
+    "volume": "48",
+    "issue": "2",
+    "pages": "259-66",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "18728540",
+   "keys": [
+    "Li2008"
+   ],
+   "files": [
+    "A1.bib",
+    "A2.bib",
+    "A3.bib",
+    "A4.bib",
+    "A6.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Li",
+    "title": "North American Society for Pediatric Gastroenterology, Hepatology, and Nutrition consensus statement on the diagnosis and management of cyclic vomiting syndrome.",
+    "year": "2008",
+    "journal": "Journal of pediatric gastroenterology and nutrition",
+    "journal_iso": "J Pediatr Gastroenterol Nutr",
+    "doi": "10.1097/MPG.0b013e318173ed39",
+    "pmcid": null,
+    "volume": "47",
+    "issue": "3",
+    "pages": "379-93",
+    "article_types": [
+     "Consensus Statement",
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "19220304",
+   "keys": [
+    "Zaki2009"
+   ],
+   "files": [
+    "A3.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Zaki",
+    "title": "Two common mitochondrial DNA polymorphisms are highly associated with migraine headache and cyclic vomiting syndrome.",
+    "year": "2009",
+    "journal": "Cephalalgia : an international journal of headache",
+    "journal_iso": "Cephalalgia",
+    "doi": "10.1111/j.1468-2982.2008.01793.x",
+    "pmcid": null,
+    "volume": "29",
+    "issue": "7",
+    "pages": "719-28",
+    "article_types": [
+     "Journal Article",
+     "Research Support, Non-U.S. Gov't"
+    ]
+   }
+  },
+  {
+   "pmid": "19368653",
+   "keys": [
+    "Boles2009"
+   ],
+   "files": [
+    "A3.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Boles",
+    "title": "Are pediatric and adult-onset cyclic vomiting syndrome (CVS) biologically different conditions? Relationship of adult-onset CVS with the migraine and pediatric CVS-associated common mtDNA polymorphisms 16519T and 3010A.",
+    "year": "2009",
+    "journal": "Neurogastroenterology and motility",
+    "journal_iso": "Neurogastroenterol Motil",
+    "doi": "10.1111/j.1365-2982.2009.01305.x",
+    "pmcid": null,
+    "volume": "21",
+    "issue": "9",
+    "pages": "936-e72",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "19386455",
+   "keys": [
+    "Michael2009"
+   ],
+   "files": [
+    "A3.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Michael",
+    "title": "Panayiotopoulos syndrome: an important childhood autonomic epilepsy to be differentiated from occipital epilepsy and acute non-epileptic disorders.",
+    "year": "2009",
+    "journal": "Brain & development",
+    "journal_iso": "Brain Dev",
+    "doi": "10.1016/j.braindev.2009.03.002",
+    "pmcid": null,
+    "volume": "32",
+    "issue": "1",
+    "pages": "4-9",
+    "article_types": [
+     "Journal Article",
+     "Review"
+    ]
+   }
+  },
+  {
+   "pmid": "19596010",
+   "keys": [
+    "Saps2009"
+   ],
+   "files": [
+    "A6.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Saps",
+    "title": "Multicenter, randomized, placebo-controlled trial of amitriptyline in children with functional gastrointestinal disorders.",
+    "year": "2009",
+    "journal": "Gastroenterology",
+    "journal_iso": "Gastroenterology",
+    "doi": "10.1053/j.gastro.2009.06.060",
+    "pmcid": "PMC2827243",
+    "volume": "137",
+    "issue": "4",
+    "pages": "1261-9",
+    "article_types": [
+     "Journal Article",
+     "Multicenter Study",
+     "Randomized Controlled Trial",
+     "Research Support, N.I.H., Extramural",
+     "Research Support, Non-U.S. Gov't"
+    ]
+   }
+  },
+  {
+   "pmid": "20109231",
+   "keys": [
+    "Boles2010"
+   ],
+   "files": [
+    "A6.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Boles",
+    "title": "Treatment of cyclic vomiting syndrome with co-enzyme Q10 and amitriptyline, a retrospective study.",
+    "year": "2010",
+    "journal": "BMC neurology",
+    "journal_iso": "BMC Neurol",
+    "doi": "10.1186/1471-2377-10-10",
+    "pmcid": "PMC2825193",
+    "volume": "10",
+    "issue": null,
+    "pages": "10",
+    "article_types": [
+     "Comparative Study",
+     "Journal Article",
+     "Research Support, Non-U.S. Gov't"
+    ]
+   }
+  },
+  {
+   "pmid": "20181253",
+   "keys": [
+    "Venkatesan2010"
+   ],
+   "files": [
+    "A1.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Venkatesan",
+    "title": "A survey of emergency department use in patients with cyclic vomiting syndrome.",
+    "year": "2010",
+    "journal": "BMC emergency medicine",
+    "journal_iso": "BMC Emerg Med",
+    "doi": "10.1186/1471-227X-10-4",
+    "pmcid": "PMC2841069",
+    "volume": "10",
+    "issue": null,
+    "pages": "4",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "21147834",
+   "keys": [
+    "Hikita2010"
+   ],
+   "files": [
+    "A6.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Hikita",
+    "title": "Sumatriptan as a treatment for cyclic vomiting syndrome: a clinical trial.",
+    "year": "2010",
+    "journal": "Cephalalgia : an international journal of headache",
+    "journal_iso": "Cephalalgia",
+    "doi": "10.1177/0333102410390398",
+    "pmcid": null,
+    "volume": "31",
+    "issue": "4",
+    "pages": "504-7",
+    "article_types": [
+     "Clinical Trial",
+     "Comparative Study",
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "22314391",
+   "keys": [
+    "Waseem2012"
+   ],
+   "files": [
+    "A3.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Waseem",
+    "title": "Spectrum of gastroparesis in children.",
+    "year": "2012",
+    "journal": "Journal of pediatric gastroenterology and nutrition",
+    "journal_iso": "J Pediatr Gastroenterol Nutr",
+    "doi": "10.1097/MPG.0b013e31824cf06e",
+    "pmcid": null,
+    "volume": "55",
+    "issue": "2",
+    "pages": "166-72",
+    "article_types": [
+     "Journal Article",
+     "Research Support, N.I.H., Extramural"
+    ]
+   }
+  },
+  {
+   "pmid": "22634989",
+   "keys": [
+    "Lee2012"
+   ],
+   "files": [
+    "A1.bib",
+    "A2.bib",
+    "A6.bib"
+   ],
+   "verdict": "MINOR",
+   "diffs": [
+    {
+     "file": "A6.bib",
+     "key": "Lee2012",
+     "field": "journal_latex",
+     "bib": "European journal of gastroenterology & hepatology",
+     "pubmed": "European journal of gastroenterology & hepatology",
+     "severity": "minor",
+     "note": "Kaçışsız '&' — LaTeX/BibTeX derlemesinde hata verir; '\\&' olmalı"
+    }
+   ],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Lee",
+    "title": "The management of cyclic vomiting syndrome: a systematic review.",
+    "year": "2012",
+    "journal": "European journal of gastroenterology & hepatology",
+    "journal_iso": "Eur J Gastroenterol Hepatol",
+    "doi": "10.1097/MEG.0b013e328355638f",
+    "pmcid": null,
+    "volume": "24",
+    "issue": "9",
+    "pages": "1001-6",
+    "article_types": [
+     "Journal Article",
+     "Systematic Review"
+    ]
+   }
+  },
+  {
+   "pmid": "22642880",
+   "keys": [
+    "Haberle2012"
+   ],
+   "files": [
+    "A3.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Häberle",
+    "title": "Suggested guidelines for the diagnosis and management of urea cycle disorders.",
+    "year": "2012",
+    "journal": "Orphanet journal of rare diseases",
+    "journal_iso": "Orphanet J Rare Dis",
+    "doi": "10.1186/1750-1172-7-32",
+    "pmcid": "PMC3488504",
+    "volume": "7",
+    "issue": null,
+    "pages": "32",
+    "article_types": [
+     "Journal Article",
+     "Research Support, Non-U.S. Gov't",
+     "Review"
+    ]
+   }
+  },
+  {
+   "pmid": "22762244",
+   "keys": [
+    "Drumm2012"
+   ],
+   "files": [
+    "A1.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Drumm",
+    "title": "Cyclical vomiting syndrome in children: a prospective study.",
+    "year": "2012",
+    "journal": "Neurogastroenterology and motility",
+    "journal_iso": "Neurogastroenterol Motil",
+    "doi": "10.1111/j.1365-2982.2012.01960.x",
+    "pmcid": null,
+    "volume": "24",
+    "issue": "10",
+    "pages": "922-7",
+    "article_types": [
+     "Journal Article",
+     "Research Support, Non-U.S. Gov't"
+    ]
+   }
+  },
+  {
+   "pmid": "22986032",
+   "keys": [
+    "Sparks2012"
+   ],
+   "files": [
+    "A3.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Sparks",
+    "title": "Evaluation of differential renal function and renographic patterns in patients with dietl crisis.",
+    "year": "2012",
+    "journal": "The Journal of urology",
+    "journal_iso": "J Urol",
+    "doi": "10.1016/j.juro.2012.09.051",
+    "pmcid": null,
+    "volume": "189",
+    "issue": "2",
+    "pages": "684-9",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "23160646",
+   "keys": [
+    "Dekker2012"
+   ],
+   "files": [
+    "A3.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Dekker",
+    "title": "Contrast meals and malrotation in children-metal markers for improved accuracy.",
+    "year": "2012",
+    "journal": "Pediatric radiology",
+    "journal_iso": "Pediatr Radiol",
+    "doi": "10.1007/s00247-012-2503-2",
+    "pmcid": null,
+    "volume": "43",
+    "issue": "1",
+    "pages": "115-8",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "23419589",
+   "keys": [
+    "Rodriguez2013"
+   ],
+   "files": [
+    "A6.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Rodriguez",
+    "title": "Safety and efficacy of cyproheptadine for treating dyspeptic symptoms in children.",
+    "year": "2013",
+    "journal": "The Journal of pediatrics",
+    "journal_iso": "J Pediatr",
+    "doi": "10.1016/j.jpeds.2012.12.096",
+    "pmcid": "PMC3661691",
+    "volume": "163",
+    "issue": "1",
+    "pages": "261-7",
+    "article_types": [
+     "Journal Article",
+     "Research Support, N.I.H., Extramural"
+    ]
+   }
+  },
+  {
+   "pmid": "23485030",
+   "keys": [
+    "Tarbell2013"
+   ],
+   "files": [
+    "A2.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Tarbell",
+    "title": "Health-related quality of life in children and adolescents with cyclic vomiting syndrome: a comparison with published data on youth with irritable bowel syndrome and organic gastrointestinal disorders.",
+    "year": "2013",
+    "journal": "The Journal of pediatrics",
+    "journal_iso": "J Pediatr",
+    "doi": "10.1016/j.jpeds.2013.01.025",
+    "pmcid": null,
+    "volume": "163",
+    "issue": "2",
+    "pages": "493-7",
+    "article_types": [
+     "Comparative Study",
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "23818085",
+   "keys": [
+    "Parashette2013"
+   ],
+   "files": [
+    "A1.bib",
+    "A3.bib"
+   ],
+   "verdict": "MINOR",
+   "diffs": [
+    {
+     "file": "A1.bib",
+     "key": "Parashette2013",
+     "field": "pages",
+     "bib": "307--319",
+     "pubmed": "307-19; quiz 320-1",
+     "severity": "minor",
+     "note": "Makale sayfaları aynı; PubMed ek quiz sayfalarını da listeliyor"
+    },
+    {
+     "file": "A3.bib",
+     "key": "Parashette2013",
+     "field": "pages",
+     "bib": "307--319",
+     "pubmed": "307-19; quiz 320-1",
+     "severity": "minor",
+     "note": "Makale sayfaları aynı; PubMed ek quiz sayfalarını da listeliyor"
+    }
+   ],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Parashette",
+    "title": "Vomiting.",
+    "year": "2013",
+    "journal": "Pediatrics in review",
+    "journal_iso": "Pediatr Rev",
+    "doi": "10.1542/pir.34-7-307",
+    "pmcid": null,
+    "volume": "34",
+    "issue": "7",
+    "pages": "307-19; quiz 320-1",
+    "article_types": [
+     "Journal Article",
+     "Review"
+    ]
+   }
+  },
+  {
+   "pmid": "23979088",
+   "keys": [
+    "Flaherty2013"
+   ],
+   "files": [
+    "A3.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Flaherty",
+    "title": "Caregiver-fabricated illness in a child: a manifestation of child maltreatment.",
+    "year": "2013",
+    "journal": "Pediatrics",
+    "journal_iso": "Pediatrics",
+    "doi": "10.1542/peds.2013-2045",
+    "pmcid": null,
+    "volume": "132",
+    "issue": "3",
+    "pages": "590-7",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "24535228",
+   "keys": [
+    "Teo2014"
+   ],
+   "files": [
+    "A4.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Teo",
+    "title": "The gut or the brain?--Gastrointestinal misdiagnoses of infantile brain tumors.",
+    "year": "2014",
+    "journal": "Child's nervous system : ChNS : official journal of the International Society for Pediatric Neurosurgery",
+    "journal_iso": "Childs Nerv Syst",
+    "doi": "10.1007/s00381-014-2386-7",
+    "pmcid": null,
+    "volume": "30",
+    "issue": "8",
+    "pages": "1449-53",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "24726541",
+   "keys": [
+    "Wong2014"
+   ],
+   "files": [
+    "A4.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Wong",
+    "title": "Relationship of gastrointestinal symptoms and psychosocial distress to gastric retention in children.",
+    "year": "2014",
+    "journal": "The Journal of pediatrics",
+    "journal_iso": "J Pediatr",
+    "doi": "10.1016/j.jpeds.2014.02.063",
+    "pmcid": "PMC4272924",
+    "volume": "165",
+    "issue": "1",
+    "pages": "85-91.e1",
+    "article_types": [
+     "Journal Article",
+     "Research Support, N.I.H., Extramural",
+     "Research Support, Non-U.S. Gov't",
+     "Research Support, U.S. Gov't, Non-P.H.S."
+    ]
+   }
+  },
+  {
+   "pmid": "24842256",
+   "keys": [
+    "Moses2014"
+   ],
+   "files": [
+    "A4.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Moses",
+    "title": "Approach to the diagnosis and treatment of cyclic vomiting syndrome: a large single-center experience with 106 patients.",
+    "year": "2014",
+    "journal": "Pediatric neurology",
+    "journal_iso": "Pediatr Neurol",
+    "doi": "10.1016/j.pediatrneurol.2014.02.009",
+    "pmcid": null,
+    "volume": "50",
+    "issue": "6",
+    "pages": "569-73",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "24898244",
+   "keys": [
+    "Cristofori2014"
+   ],
+   "files": [
+    "A6.bib"
+   ],
+   "verdict": "MINOR",
+   "diffs": [
+    {
+     "file": "A6.bib",
+     "key": "Cristofori2014",
+     "field": "journal_latex",
+     "bib": "Alimentary pharmacology & therapeutics",
+     "pubmed": "Alimentary pharmacology & therapeutics",
+     "severity": "minor",
+     "note": "Kaçışsız '&' — LaTeX/BibTeX derlemesinde hata verir; '\\&' olmalı"
+    }
+   ],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Cristofori",
+    "title": "Efficacy of the neurokinin-1 receptor antagonist aprepitant in children with cyclical vomiting syndrome.",
+    "year": "2014",
+    "journal": "Alimentary pharmacology & therapeutics",
+    "journal_iso": "Aliment Pharmacol Ther",
+    "doi": "10.1111/apt.12822",
+    "pmcid": null,
+    "volume": "40",
+    "issue": "3",
+    "pages": "309-17",
+    "article_types": [
+     "Clinical Trial",
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "25222805",
+   "keys": [
+    "Fortunato2014"
+   ],
+   "files": [
+    "A6.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Fortunato",
+    "title": "Effect of fludrocortisone acetate on chronic unexplained nausea and abdominal pain in children with orthostatic intolerance.",
+    "year": "2014",
+    "journal": "Journal of pediatric gastroenterology and nutrition",
+    "journal_iso": "J Pediatr Gastroenterol Nutr",
+    "doi": "10.1097/MPG.0000000000000305",
+    "pmcid": null,
+    "volume": "59",
+    "issue": "1",
+    "pages": "39-43",
+    "article_types": [
+     "Journal Article",
+     "Research Support, Non-U.S. Gov't"
+    ]
+   }
+  },
+  {
+   "pmid": "25557417",
+   "keys": [
+    "Wong2015"
+   ],
+   "files": [
+    "A4.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Wong",
+    "title": "Gastric emptying scintigraphy results in children are affected by age, anthropometric factors, and study duration.",
+    "year": "2015",
+    "journal": "Neurogastroenterology and motility",
+    "journal_iso": "Neurogastroenterol Motil",
+    "doi": "10.1111/nmo.12499",
+    "pmcid": "PMC4339628",
+    "volume": "27",
+    "issue": "3",
+    "pages": "356-62",
+    "article_types": [
+     "Journal Article",
+     "Research Support, N.I.H., Extramural",
+     "Research Support, Non-U.S. Gov't"
+    ]
+   }
+  },
+  {
+   "pmid": "25632624",
+   "keys": [
+    "Treepongkaruna2014"
+   ],
+   "files": [
+    "A6.bib"
+   ],
+   "verdict": "MINOR",
+   "diffs": [
+    {
+     "file": "A6.bib",
+     "key": "Treepongkaruna2014",
+     "field": "doi",
+     "bib": "DOI yok",
+     "pubmed": "(PubMed kaydında DOI yok)",
+     "severity": "minor",
+     "note": "DOI alanına serbest metin yazılmış; BibTeX çıktısında 'doi: DOI yok' / kırık bağlantı üretir. Alan boş bırakılmalı (A1.bib'deki Pfau1996 gibi)"
+    }
+   ],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Treepongkaruna",
+    "title": "Short- and long-term outcomes of children with cyclic vomiting syndrome.",
+    "year": "2014",
+    "journal": "Journal of the Medical Association of Thailand = Chotmaihet thangphaet",
+    "journal_iso": "J Med Assoc Thai",
+    "doi": null,
+    "pmcid": null,
+    "volume": "97",
+    "issue": "10",
+    "pages": "1077-83",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "26095286",
+   "keys": [
+    "Tarbell2015"
+   ],
+   "files": [
+    "A2.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Tarbell",
+    "title": "Anxiety Measures Predict Health-Related Quality of Life in Children and Adolescents with Cyclic Vomiting Syndrome.",
+    "year": "2015",
+    "journal": "The Journal of pediatrics",
+    "journal_iso": "J Pediatr",
+    "doi": "10.1016/j.jpeds.2015.05.032",
+    "pmcid": null,
+    "volume": "167",
+    "issue": "3",
+    "pages": "633-8.e1",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "26267844",
+   "keys": [
+    "Malik2016"
+   ],
+   "files": [
+    "A4.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Malik",
+    "title": "Assessment of gastric emptying in children: Establishment of control values utilizing a standardized vegetarian meal.",
+    "year": "2016",
+    "journal": "Journal of gastroenterology and hepatology",
+    "journal_iso": "J Gastroenterol Hepatol",
+    "doi": "10.1111/jgh.13145",
+    "pmcid": null,
+    "volume": "31",
+    "issue": "2",
+    "pages": "319-25",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "26394370",
+   "keys": [
+    "Raitio2015"
+   ],
+   "files": [
+    "A2.bib",
+    "A3.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Raitio",
+    "title": "Malrotation: Age-Related Differences in Reoperation Rate.",
+    "year": "2015",
+    "journal": "European journal of pediatric surgery : official journal of Austrian Association of Pediatric Surgery ... [et al] = Zeitschrift fur Kinderchirurgie",
+    "journal_iso": "Eur J Pediatr Surg",
+    "doi": "10.1055/s-0035-1563677",
+    "pmcid": null,
+    "volume": "26",
+    "issue": "1",
+    "pages": "34-7",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "26510083",
+   "keys": [
+    "EgritasGurkan2015"
+   ],
+   "files": [
+    "A1.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Egritaş Gürkan",
+    "title": "Rare disorders can be an underlying cause of cyclic vomiting: Familial Mediterranean fever, Helicobacter pylori gastritis, and cavernous transformation of the portal vein.",
+    "year": "2015",
+    "journal": "The Turkish journal of gastroenterology : the official journal of Turkish Society of Gastroenterology",
+    "journal_iso": "Turk J Gastroenterol",
+    "doi": "10.5152/tjg.2015.0015",
+    "pmcid": null,
+    "volume": "26",
+    "issue": "6",
+    "pages": "461-7",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "26678622",
+   "keys": [
+    "Gelfand2015"
+   ],
+   "files": [
+    "A3.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Gelfand",
+    "title": "Cyclic vomiting syndrome versus inborn errors of metabolism: A review with clinical recommendations.",
+    "year": "2015",
+    "journal": "Headache",
+    "journal_iso": "Headache",
+    "doi": "10.1111/head.12749",
+    "pmcid": "PMC4728152",
+    "volume": "56",
+    "issue": "1",
+    "pages": "215-21",
+    "article_types": [
+     "Journal Article",
+     "Research Support, N.I.H., Extramural",
+     "Research Support, Non-U.S. Gov't"
+    ]
+   }
+  },
+  {
+   "pmid": "27144631",
+   "keys": [
+    "Benninga2016"
+   ],
+   "files": [
+    "A5.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Benninga",
+    "title": "Childhood Functional Gastrointestinal Disorders: Neonate/Toddler.",
+    "year": "2016",
+    "journal": "Gastroenterology",
+    "journal_iso": "Gastroenterology",
+    "doi": "10.1053/j.gastro.2016.02.016",
+    "pmcid": null,
+    "volume": null,
+    "issue": null,
+    "pages": null,
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "27144632",
+   "keys": [
+    "Hyams2016"
+   ],
+   "files": [
+    "A5.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Hyams",
+    "title": "Functional Disorders: Children and Adolescents.",
+    "year": "2016",
+    "journal": "Gastroenterology",
+    "journal_iso": "Gastroenterology",
+    "doi": "10.1053/j.gastro.2016.02.015",
+    "pmcid": null,
+    "volume": null,
+    "issue": null,
+    "pages": null,
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "27185077",
+   "keys": [
+    "Barba2016"
+   ],
+   "files": [
+    "A6.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Barba",
+    "title": "Randomized, Placebo-Controlled Trial of Biofeedback for the Treatment of Rumination.",
+    "year": "2016",
+    "journal": "The American journal of gastroenterology",
+    "journal_iso": "Am J Gastroenterol",
+    "doi": "10.1038/ajg.2016.197",
+    "pmcid": null,
+    "volume": "111",
+    "issue": "7",
+    "pages": "1007-13",
+    "article_types": [
+     "Journal Article",
+     "Randomized Controlled Trial",
+     "Research Support, Non-U.S. Gov't"
+    ]
+   }
+  },
+  {
+   "pmid": "27302967",
+   "keys": [
+    "Sezer2016"
+   ],
+   "files": [
+    "A6.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Sezer",
+    "title": "A New Approach to the Prophylaxis of Cyclic Vomiting: Topiramate.",
+    "year": "2016",
+    "journal": "Journal of neurogastroenterology and motility",
+    "journal_iso": "J Neurogastroenterol Motil",
+    "doi": "10.5056/jnm16035",
+    "pmcid": "PMC5056575",
+    "volume": "22",
+    "issue": "4",
+    "pages": "656-660",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "27578853",
+   "keys": [
+    "Arthur2016"
+   ],
+   "files": [
+    "A3.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Arthur",
+    "title": "Malrotation in infancy and childhood.",
+    "year": "2016",
+    "journal": "Scottish medical journal",
+    "journal_iso": "Scott Med J",
+    "doi": "10.1177/0036933016649870",
+    "pmcid": null,
+    "volume": "61",
+    "issue": "2",
+    "pages": "69-73",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "28002887",
+   "keys": [
+    "Rosen2017"
+   ],
+   "files": [
+    "A4.bib"
+   ],
+   "verdict": "MINOR",
+   "diffs": [
+    {
+     "file": "A4.bib",
+     "key": "Rosen2017",
+     "field": "year",
+     "bib": "2017",
+     "pubmed": "2016",
+     "severity": "minor",
+     "note": "PubMed metadata yılı e-yayın tarihi ({'year': '2016', 'month': '12', 'day': '21'}); bib basılı sayı yılını kullanıyor. Basılı yıl PubMed [dp] aramasıyla doğrulandı: 28002887[uid] AND 2017/01/01:2017/12/31[Date - Publication] -> 1 kayıt"
+    }
+   ],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Rosen",
+    "title": "Pediatric rumination subtypes: A study using high-resolution esophageal manometry with impedance.",
+    "year": "2016",
+    "journal": "Neurogastroenterology and motility",
+    "journal_iso": "Neurogastroenterol Motil",
+    "doi": "10.1111/nmo.12998",
+    "pmcid": "PMC5393952",
+    "volume": "29",
+    "issue": "5",
+    "pages": null,
+    "article_types": [
+     "Journal Article",
+     "Research Support, N.I.H., Extramural",
+     "Research Support, Non-U.S. Gov't"
+    ]
+   }
+  },
+  {
+   "pmid": "28719594",
+   "keys": [
+    "Badihian2017"
+   ],
+   "files": [
+    "A6.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Badihian",
+    "title": "Prophylactic Therapy of Cyclic Vomiting Syndrome in Children: Comparison of Amitriptyline and Cyproheptadine: A Randomized Clinical Trial.",
+    "year": "2017",
+    "journal": "The American journal of gastroenterology",
+    "journal_iso": "Am J Gastroenterol",
+    "doi": "10.1038/ajg.2017.194",
+    "pmcid": null,
+    "volume": "113",
+    "issue": "1",
+    "pages": "135-140",
+    "article_types": [
+     "Comparative Study",
+     "Journal Article",
+     "Randomized Controlled Trial",
+     "Research Support, Non-U.S. Gov't"
+    ]
+   }
+  },
+  {
+   "pmid": "29072581",
+   "keys": [
+    "RighiniGrunder2017"
+   ],
+   "files": [
+    "A4.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Righini Grunder",
+    "title": "High-resolution Esophageal Manometry Patterns in Children and Adolescents With Rumination Syndrome.",
+    "year": "2017",
+    "journal": "Journal of pediatric gastroenterology and nutrition",
+    "journal_iso": "J Pediatr Gastroenterol Nutr",
+    "doi": "10.1097/MPG.0000000000001618",
+    "pmcid": null,
+    "volume": "65",
+    "issue": "6",
+    "pages": "627-632",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "29137006",
+   "keys": [
+    "Morra2017"
+   ],
+   "files": [
+    "A1.bib"
+   ],
+   "verdict": "MINOR",
+   "diffs": [
+    {
+     "file": "A1.bib",
+     "key": "Morra2017",
+     "field": "journal",
+     "bib": "Medicine (Baltimore)",
+     "pubmed": "Medicine (ISO: Medicine (Baltimore))",
+     "severity": "minor",
+     "note": "NLM ISO kısaltma biçimi; içerik aynı, düzeltme gerekmez"
+    }
+   ],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Morra",
+    "title": "Definition of \"persistent vomiting\" in current medical literature: A systematic review.",
+    "year": "2017",
+    "journal": "Medicine",
+    "journal_iso": "Medicine (Baltimore)",
+    "doi": "10.1097/MD.0000000000008025",
+    "pmcid": "PMC5690699",
+    "volume": "96",
+    "issue": "45",
+    "pages": "e8025",
+    "article_types": [
+     "Journal Article",
+     "Systematic Review"
+    ]
+   }
+  },
+  {
+   "pmid": "29178261",
+   "keys": [
+    "Rosen2018b"
+   ],
+   "files": [
+    "A4.bib"
+   ],
+   "verdict": "MINOR",
+   "diffs": [
+    {
+     "file": "A4.bib",
+     "key": "Rosen2018b",
+     "field": "year",
+     "bib": "2018",
+     "pubmed": "2017",
+     "severity": "minor",
+     "note": "PubMed metadata yılı e-yayın tarihi ({'year': '2017', 'month': '11', 'day': '27'}); bib basılı sayı yılını kullanıyor. Basılı yıl PubMed [dp] aramasıyla doğrulandı: 29178261[uid] AND 2018/01/01:2018/12/31[Date - Publication] -> 1 kayıt; 2019 negatif kontrol -> 0"
+    }
+   ],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Rosen",
+    "title": "An ANMS-NASPGHAN consensus document on esophageal and antroduodenal manometry in children.",
+    "year": "2017",
+    "journal": "Neurogastroenterology and motility",
+    "journal_iso": "Neurogastroenterol Motil",
+    "doi": "10.1111/nmo.13239",
+    "pmcid": "PMC5823717",
+    "volume": "30",
+    "issue": "3",
+    "pages": null,
+    "article_types": [
+     "Journal Article",
+     "Research Support, N.I.H., Extramural",
+     "Review",
+     "Consensus Statement"
+    ]
+   }
+  },
+  {
+   "pmid": "29206813",
+   "keys": [
+    "Pauwels2017"
+   ],
+   "files": [
+    "A6.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Pauwels",
+    "title": "A Randomized Double-Blind, Placebo-Controlled, Cross-Over Study Using Baclofen in the Treatment of Rumination Syndrome.",
+    "year": "2017",
+    "journal": "The American journal of gastroenterology",
+    "journal_iso": "Am J Gastroenterol",
+    "doi": "10.1038/ajg.2017.441",
+    "pmcid": null,
+    "volume": "113",
+    "issue": "1",
+    "pages": "97-104",
+    "article_types": [
+     "Journal Article",
+     "Randomized Controlled Trial",
+     "Research Support, Non-U.S. Gov't"
+    ]
+   }
+  },
+  {
+   "pmid": "29358999",
+   "keys": [
+    "Haghighat2017"
+   ],
+   "files": [
+    "A6.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Haghighat",
+    "title": "The efficacy and duration of treatment with propranolol in children with cyclic vomiting syndrome in southern Iran.",
+    "year": "2017",
+    "journal": "Przeglad gastroenterologiczny",
+    "journal_iso": "Prz Gastroenterol",
+    "doi": "10.5114/pg.2017.72105",
+    "pmcid": "PMC5771454",
+    "volume": "12",
+    "issue": "4",
+    "pages": "291-295",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "29373437",
+   "keys": [
+    "LuciaCasadonte2018"
+   ],
+   "files": [
+    "A4.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Lucia-Casadonte",
+    "title": "Yield and Costs of Evaluating Children With Cyclic Vomiting Syndrome.",
+    "year": "2018",
+    "journal": "Journal of pediatric gastroenterology and nutrition",
+    "journal_iso": "J Pediatr Gastroenterol Nutr",
+    "doi": "10.1097/MPG.0000000000001901",
+    "pmcid": "PMC6425719",
+    "volume": "67",
+    "issue": "1",
+    "pages": "13-17",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "29470322",
+   "keys": [
+    "Rosen2018",
+    "Rosen2018a"
+   ],
+   "files": [
+    "A1.bib",
+    "A3.bib",
+    "A4.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Rosen",
+    "title": "Pediatric Gastroesophageal Reflux Clinical Practice Guidelines: Joint Recommendations of the North American Society for Pediatric Gastroenterology, Hepatology, and Nutrition and the European Society for Pediatric Gastroenterology, Hepatology, and Nutrition.",
+    "year": "2018",
+    "journal": "Journal of pediatric gastroenterology and nutrition",
+    "journal_iso": "J Pediatr Gastroenterol Nutr",
+    "doi": "10.1097/MPG.0000000000001889",
+    "pmcid": "PMC5958910",
+    "volume": "66",
+    "issue": "3",
+    "pages": "516-554",
+    "article_types": [
+     "Journal Article",
+     "Practice Guideline",
+     "Research Support, N.I.H., Extramural"
+    ]
+   }
+  },
+  {
+   "pmid": "29570554",
+   "keys": [
+    "Thapar2018"
+   ],
+   "files": [
+    "A3.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Thapar",
+    "title": "Paediatric Intestinal Pseudo-obstruction: Evidence and Consensus-based Recommendations From an ESPGHAN-Led Expert Group.",
+    "year": "2018",
+    "journal": "Journal of pediatric gastroenterology and nutrition",
+    "journal_iso": "J Pediatr Gastroenterol Nutr",
+    "doi": "10.1097/MPG.0000000000001982",
+    "pmcid": null,
+    "volume": "66",
+    "issue": "6",
+    "pages": "991-1019",
+    "article_types": [
+     "Consensus Statement",
+     "Journal Article",
+     "Practice Guideline",
+     "Research Support, Non-U.S. Gov't"
+    ]
+   }
+  },
+  {
+   "pmid": "29697487",
+   "keys": [
+    "WangHall2018"
+   ],
+   "files": [
+    "A2.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Wang-Hall",
+    "title": "Family Health-related Quality of Life in Pediatric Cyclic Vomiting Syndrome.",
+    "year": "2018",
+    "journal": "Journal of pediatric gastroenterology and nutrition",
+    "journal_iso": "J Pediatr Gastroenterol Nutr",
+    "doi": "10.1097/MPG.0000000000001797",
+    "pmcid": null,
+    "volume": "66",
+    "issue": "5",
+    "pages": "738-743",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "30009819",
+   "keys": [
+    "Dellon2018"
+   ],
+   "files": [
+    "A4.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Dellon",
+    "title": "Updated International Consensus Diagnostic Criteria for Eosinophilic Esophagitis: Proceedings of the AGREE Conference.",
+    "year": "2018",
+    "journal": "Gastroenterology",
+    "journal_iso": "Gastroenterology",
+    "doi": "10.1053/j.gastro.2018.07.009",
+    "pmcid": "PMC6174113",
+    "volume": "155",
+    "issue": "4",
+    "pages": "1022-1033.e10",
+    "article_types": [
+     "Consensus Statement",
+     "Journal Article",
+     "Practice Guideline",
+     "Research Support, N.I.H., Extramural",
+     "Research Support, Non-U.S. Gov't",
+     "Review"
+    ]
+   }
+  },
+  {
+   "pmid": "30076469",
+   "keys": [
+    "Li2018"
+   ],
+   "files": [
+    "A4.bib",
+    "A6.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Li",
+    "title": "Managing cyclic vomiting syndrome in children: beyond the guidelines.",
+    "year": "2018",
+    "journal": "European journal of pediatrics",
+    "journal_iso": "Eur J Pediatr",
+    "doi": "10.1007/s00431-018-3218-7",
+    "pmcid": "PMC6153591",
+    "volume": "177",
+    "issue": "10",
+    "pages": "1435-1442",
+    "article_types": [
+     "Journal Article",
+     "Review"
+    ]
+   }
+  },
+  {
+   "pmid": "30360666",
+   "keys": [
+    "Browne2018"
+   ],
+   "files": [
+    "A6.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Browne",
+    "title": "Pharmacological treatments for functional nausea and functional dyspepsia in children: a systematic review.",
+    "year": "2018",
+    "journal": "Expert review of clinical pharmacology",
+    "journal_iso": "Expert Rev Clin Pharmacol",
+    "doi": "10.1080/17512433.2018.1540298",
+    "pmcid": null,
+    "volume": "11",
+    "issue": "12",
+    "pages": "1195-1208",
+    "article_types": [
+     "Comparative Study",
+     "Journal Article",
+     "Systematic Review"
+    ]
+   }
+  },
+  {
+   "pmid": "30613204",
+   "keys": [
+    "Bagherian2019"
+   ],
+   "files": [
+    "A6.bib"
+   ],
+   "verdict": "MINOR",
+   "diffs": [
+    {
+     "file": "A6.bib",
+     "key": "Bagherian2019",
+     "field": "doi",
+     "bib": "DOI yok",
+     "pubmed": "(PubMed kaydında DOI yok)",
+     "severity": "minor",
+     "note": "DOI alanına serbest metin yazılmış; BibTeX çıktısında 'doi: DOI yok' / kırık bağlantı üretir. Alan boş bırakılmalı (A1.bib'deki Pfau1996 gibi)"
+    }
+   ],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Bagherian",
+    "title": "Comparison of the Efficacy of Amitriptyline and Topiramate in Prophylaxis of Cyclic Vomiting Syndrome.",
+    "year": "2019",
+    "journal": "Iranian journal of child neurology",
+    "journal_iso": "Iran J Child Neurol",
+    "doi": null,
+    "pmcid": "PMC6296701",
+    "volume": "13",
+    "issue": "1",
+    "pages": "37-44",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "31241819",
+   "keys": [
+    "Venkatesan2019"
+   ],
+   "files": [
+    "A6.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Venkatesan",
+    "title": "Guidelines on management of cyclic vomiting syndrome in adults by the American Neurogastroenterology and Motility Society and the Cyclic Vomiting Syndrome Association.",
+    "year": "2019",
+    "journal": "Neurogastroenterology and motility",
+    "journal_iso": "Neurogastroenterol Motil",
+    "doi": "10.1111/nmo.13604",
+    "pmcid": "PMC6899751",
+    "volume": "31 Suppl 2",
+    "issue": "Suppl 2",
+    "pages": "e13604",
+    "article_types": [
+     "Guideline",
+     "Journal Article",
+     "Research Support, Non-U.S. Gov't",
+     "Review"
+    ]
+   }
+  },
+  {
+   "pmid": "31540764",
+   "keys": [
+    "Gui2019"
+   ],
+   "files": [
+    "A6.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Gui",
+    "title": "Acute Management of Pediatric Cyclic Vomiting Syndrome: A Systematic Review.",
+    "year": "2019",
+    "journal": "The Journal of pediatrics",
+    "journal_iso": "J Pediatr",
+    "doi": "10.1016/j.jpeds.2019.06.057",
+    "pmcid": null,
+    "volume": "214",
+    "issue": null,
+    "pages": "158-164.e4",
+    "article_types": [
+     "Journal Article",
+     "Systematic Review"
+    ]
+   }
+  },
+  {
+   "pmid": "31568151",
+   "keys": [
+    "Husby2020"
+   ],
+   "files": [
+    "A4.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Husby",
+    "title": "European Society Paediatric Gastroenterology, Hepatology and Nutrition Guidelines for Diagnosing Coeliac Disease 2020.",
+    "year": "2020",
+    "journal": "Journal of pediatric gastroenterology and nutrition",
+    "journal_iso": "J Pediatr Gastroenterol Nutr",
+    "doi": "10.1097/MPG.0000000000002497",
+    "pmcid": null,
+    "volume": "70",
+    "issue": "1",
+    "pages": "141-156",
+    "article_types": [
+     "Journal Article",
+     "Research Support, Non-U.S. Gov't"
+    ]
+   }
+  },
+  {
+   "pmid": "31689788",
+   "keys": [
+    "Xiang2019"
+   ],
+   "files": [
+    "A3.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Xiang",
+    "title": "Clinical characteristics of gastrointestinal tract duplications in children: A single-institution series review.",
+    "year": "2019",
+    "journal": "Medicine",
+    "journal_iso": "Medicine (Baltimore)",
+    "doi": "10.1097/MD.0000000000017682",
+    "pmcid": "PMC6946480",
+    "volume": "98",
+    "issue": "44",
+    "pages": "e17682",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "31690395",
+   "keys": [
+    "Watts2019"
+   ],
+   "files": [
+    "A3.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Watts",
+    "title": "Eosinophilic esophagitis.",
+    "year": "2019",
+    "journal": "Allergy and asthma proceedings",
+    "journal_iso": "Allergy Asthma Proc",
+    "doi": "10.2500/aap.2019.40.4272",
+    "pmcid": null,
+    "volume": "40",
+    "issue": "6",
+    "pages": "462-464",
+    "article_types": [
+     "Journal Article",
+     "Research Support, Non-U.S. Gov't",
+     "Review"
+    ]
+   }
+  },
+  {
+   "pmid": "32079888",
+   "keys": [
+    "Nikaki2020"
+   ],
+   "files": [
+    "A4.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Nikaki",
+    "title": "Rumination Syndrome in Children Presenting With Refractory Gastroesophageal Reflux Symptoms.",
+    "year": "2020",
+    "journal": "Journal of pediatric gastroenterology and nutrition",
+    "journal_iso": "J Pediatr Gastroenterol Nutr",
+    "doi": "10.1097/MPG.0000000000002569",
+    "pmcid": null,
+    "volume": "70",
+    "issue": "3",
+    "pages": "330-335",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "32107138",
+   "keys": [
+    "McAbee2019"
+   ],
+   "files": [
+    "A2.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "McAbee",
+    "title": "Neurological Etiologies and Pathophysiology of Cyclic Vomiting Syndrome.",
+    "year": "2019",
+    "journal": "Pediatric neurology",
+    "journal_iso": "Pediatr Neurol",
+    "doi": "10.1016/j.pediatrneurol.2019.12.001",
+    "pmcid": null,
+    "volume": "106",
+    "issue": null,
+    "pages": "4-9",
+    "article_types": [
+     "Journal Article",
+     "Review"
+    ]
+   }
+  },
+  {
+   "pmid": "32532651",
+   "keys": [
+    "Tarbell2020"
+   ],
+   "files": [
+    "A4.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Tarbell",
+    "title": "Children with Functional Nausea-Comorbidities outside the Gastrointestinal Tract.",
+    "year": "2020",
+    "journal": "The Journal of pediatrics",
+    "journal_iso": "J Pediatr",
+    "doi": "10.1016/j.jpeds.2020.04.019",
+    "pmcid": null,
+    "volume": "225",
+    "issue": null,
+    "pages": "103-108.e1",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "32569429",
+   "keys": [
+    "Dean2020"
+   ],
+   "files": [
+    "A6.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Dean",
+    "title": "A Pilot Trial of Topical Capsaicin Cream for Treatment of Cannabinoid Hyperemesis Syndrome.",
+    "year": "2020",
+    "journal": "Academic emergency medicine : official journal of the Society for Academic Emergency Medicine",
+    "journal_iso": "Acad Emerg Med",
+    "doi": "10.1111/acem.14062",
+    "pmcid": null,
+    "volume": "27",
+    "issue": "11",
+    "pages": "1166-1172",
+    "article_types": [
+     "Journal Article",
+     "Randomized Controlled Trial",
+     "Research Support, Non-U.S. Gov't"
+    ]
+   }
+  },
+  {
+   "pmid": "33160719",
+   "keys": [
+    "Ruberto2020"
+   ],
+   "files": [
+    "A6.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Ruberto",
+    "title": "Intravenous Haloperidol Versus Ondansetron for Cannabis Hyperemesis Syndrome (HaVOC): A Randomized, Controlled Trial.",
+    "year": "2020",
+    "journal": "Annals of emergency medicine",
+    "journal_iso": "Ann Emerg Med",
+    "doi": "10.1016/j.annemergmed.2020.08.021",
+    "pmcid": null,
+    "volume": "77",
+    "issue": "6",
+    "pages": "613-619",
+    "article_types": [
+     "Journal Article",
+     "Randomized Controlled Trial"
+    ]
+   }
+  },
+  {
+   "pmid": "33224097",
+   "keys": [
+    "Raucci2020"
+   ],
+   "files": [
+    "A1.bib",
+    "A2.bib",
+    "A4.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Raucci",
+    "title": "Cyclic Vomiting Syndrome in Children.",
+    "year": "2020",
+    "journal": "Frontiers in neurology",
+    "journal_iso": "Front Neurol",
+    "doi": "10.3389/fneur.2020.583425",
+    "pmcid": "PMC7667239",
+    "volume": "11",
+    "issue": null,
+    "pages": "583425",
+    "article_types": [
+     "Systematic Review",
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "33259858",
+   "keys": [
+    "Abdulkader2020"
+   ],
+   "files": [
+    "A6.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Abdulkader",
+    "title": "Predictors of Hospital Admission for Pediatric Cyclic Vomiting Syndrome.",
+    "year": "2020",
+    "journal": "The Journal of pediatrics",
+    "journal_iso": "J Pediatr",
+    "doi": "10.1016/j.jpeds.2020.11.055",
+    "pmcid": null,
+    "volume": "232",
+    "issue": null,
+    "pages": "154-158",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "33484633",
+   "keys": [
+    "Husebye2021"
+   ],
+   "files": [
+    "A3.bib"
+   ],
+   "verdict": "MINOR",
+   "diffs": [
+    {
+     "file": "A3.bib",
+     "key": "Husebye2021",
+     "field": "journal",
+     "bib": "Lancet",
+     "pubmed": "Lancet (London, England) (ISO: Lancet)",
+     "severity": "minor",
+     "note": "NLM ISO kısaltma biçimi; içerik aynı, düzeltme gerekmez"
+    }
+   ],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Husebye",
+    "title": "Adrenal insufficiency.",
+    "year": "2021",
+    "journal": "Lancet (London, England)",
+    "journal_iso": "Lancet",
+    "doi": "10.1016/S0140-6736(21)00136-7",
+    "pmcid": null,
+    "volume": "397",
+    "issue": "10274",
+    "pages": "613-629",
+    "article_types": [
+     "Journal Article",
+     "Review"
+    ]
+   }
+  },
+  {
+   "pmid": "33619730",
+   "keys": [
+    "Kovacic2021"
+   ],
+   "files": [
+    "A4.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Kovacic",
+    "title": "Cyclic vomiting syndrome: A narrative review and guide to management.",
+    "year": "2021",
+    "journal": "Headache",
+    "journal_iso": "Headache",
+    "doi": "10.1111/head.14073",
+    "pmcid": null,
+    "volume": "61",
+    "issue": "2",
+    "pages": "231-243",
+    "article_types": [
+     "Journal Article",
+     "Review"
+    ]
+   }
+  },
+  {
+   "pmid": "33865828",
+   "keys": [
+    "Anderson2021"
+   ],
+   "files": [
+    "A4.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Anderson",
+    "title": "Biochemical Diagnosis of Acute Hepatic Porphyria: Updated Expert Recommendations for Primary Care Physicians.",
+    "year": "2021",
+    "journal": "The American journal of the medical sciences",
+    "journal_iso": "Am J Med Sci",
+    "doi": "10.1016/j.amjms.2021.03.004",
+    "pmcid": null,
+    "volume": "362",
+    "issue": "2",
+    "pages": "113-121",
+    "article_types": [
+     "Journal Article",
+     "Research Support, Non-U.S. Gov't",
+     "Review"
+    ]
+   }
+  },
+  {
+   "pmid": "34071460",
+   "keys": [
+    "Zhong2021"
+   ],
+   "files": [
+    "A1.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Zhong",
+    "title": "Mechanisms of Nausea and Vomiting: Current Knowledge and Recent Advances in Intracellular Emetic Signaling Systems.",
+    "year": "2021",
+    "journal": "International journal of molecular sciences",
+    "journal_iso": "Int J Mol Sci",
+    "doi": "10.3390/ijms22115797",
+    "pmcid": "PMC8198651",
+    "volume": "22",
+    "issue": "11",
+    "pages": null,
+    "article_types": [
+     "Journal Article",
+     "Review"
+    ]
+   }
+  },
+  {
+   "pmid": "34316439",
+   "keys": [
+    "Sahin2021"
+   ],
+   "files": [
+    "A3.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Sahin",
+    "title": "Celiac disease in children: A review of the literature.",
+    "year": "2021",
+    "journal": "World journal of clinical pediatrics",
+    "journal_iso": "World J Clin Pediatr",
+    "doi": "10.5409/wjcp.v10.i4.53",
+    "pmcid": "PMC8290992",
+    "volume": "10",
+    "issue": "4",
+    "pages": "53-71",
+    "article_types": [
+     "Journal Article",
+     "Review"
+    ]
+   }
+  },
+  {
+   "pmid": "34431167",
+   "keys": [
+    "Dipasquale2021"
+   ],
+   "files": [
+    "A1.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Dipasquale",
+    "title": "Clinical features and long-term outcomes in pediatric cyclic vomiting syndrome: A 9-year experience at three tertiary academic centers.",
+    "year": "2021",
+    "journal": "Neurogastroenterology and motility",
+    "journal_iso": "Neurogastroenterol Motil",
+    "doi": "10.1111/nmo.14224",
+    "pmcid": null,
+    "volume": "34",
+    "issue": "3",
+    "pages": "e14224",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "34490165",
+   "keys": [
+    "Martinez2021"
+   ],
+   "files": [
+    "A1.bib",
+    "A6.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Martinez",
+    "title": "Rumination Syndrome in Children and Adolescents: A Mini Review.",
+    "year": "2021",
+    "journal": "Frontiers in pediatrics",
+    "journal_iso": "Front Pediatr",
+    "doi": "10.3389/fped.2021.709326",
+    "pmcid": "PMC8416921",
+    "volume": "9",
+    "issue": null,
+    "pages": "709326",
+    "article_types": [
+     "Journal Article",
+     "Review"
+    ]
+   }
+  },
+  {
+   "pmid": "34718171",
+   "keys": [
+    "Browne2021"
+   ],
+   "files": [
+    "A6.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Browne",
+    "title": "Skills or Pills: Randomized Trial Comparing Hypnotherapy to Medical Treatment in Children With Functional Nausea.",
+    "year": "2021",
+    "journal": "Clinical gastroenterology and hepatology : the official clinical practice journal of the American Gastroenterological Association",
+    "journal_iso": "Clin Gastroenterol Hepatol",
+    "doi": "10.1016/j.cgh.2021.10.029",
+    "pmcid": null,
+    "volume": "20",
+    "issue": "8",
+    "pages": "1847-1856.e6",
+    "article_types": [
+     "Journal Article",
+     "Randomized Controlled Trial",
+     "Research Support, Non-U.S. Gov't"
+    ]
+   }
+  },
+  {
+   "pmid": "35188625",
+   "keys": [
+    "IglesiasEscabi2022"
+   ],
+   "files": [
+    "A6.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Iglesias-Escabi",
+    "title": "Effect of Mirtazapine on Nausea in Children with Functional Nausea and Functional Dyspepsia Postprandial Distress Syndrome.",
+    "year": "2022",
+    "journal": "Paediatric drugs",
+    "journal_iso": "Paediatr Drugs",
+    "doi": "10.1007/s40272-022-00494-2",
+    "pmcid": null,
+    "volume": "24",
+    "issue": "2",
+    "pages": "155-161",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "35211650",
+   "keys": [
+    "Reedy2019"
+   ],
+   "files": [
+    "A4.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Reedy",
+    "title": "Utility of Esophagogastroduodenoscopy in the Evaluation of Uncomplicated Abdominal Pain in Children.",
+    "year": "2019",
+    "journal": "Global pediatric health",
+    "journal_iso": "Glob Pediatr Health",
+    "doi": "10.1177/2333794X19898345",
+    "pmcid": "PMC8862188",
+    "volume": "6",
+    "issue": null,
+    "pages": "2333794X19898345",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "35687569",
+   "keys": [
+    "Lamparyk2022"
+   ],
+   "files": [
+    "A6.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Lamparyk",
+    "title": "Protocol and Outcome Evaluation of Comprehensive Outpatient Treatment of Adolescent Rumination Syndrome.",
+    "year": "2022",
+    "journal": "Journal of pediatric gastroenterology and nutrition",
+    "journal_iso": "J Pediatr Gastroenterol Nutr",
+    "doi": "10.1097/MPG.0000000000003524",
+    "pmcid": null,
+    "volume": "75",
+    "issue": "3",
+    "pages": "e38-e42",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "35978327",
+   "keys": [
+    "Trapani2022"
+   ],
+   "files": [
+    "A3.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Trapani",
+    "title": "Diencephalic syndrome in childhood, a challenging cause of failure to thrive: miniseries and literature review.",
+    "year": "2022",
+    "journal": "Italian journal of pediatrics",
+    "journal_iso": "Ital J Pediatr",
+    "doi": "10.1186/s13052-022-01316-4",
+    "pmcid": "PMC9387003",
+    "volume": "48",
+    "issue": "1",
+    "pages": "147",
+    "article_types": [
+     "Journal Article",
+     "Review"
+    ]
+   }
+  },
+  {
+   "pmid": "36056317",
+   "keys": [
+    "Wang2022"
+   ],
+   "files": [
+    "A4.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Wang",
+    "title": "Pediatric esophagogastroduodenoscopy in china: indications, diagnostic yield, and factors associated with findings.",
+    "year": "2022",
+    "journal": "BMC pediatrics",
+    "journal_iso": "BMC Pediatr",
+    "doi": "10.1186/s12887-022-03558-x",
+    "pmcid": "PMC9438071",
+    "volume": "22",
+    "issue": "1",
+    "pages": "522",
+    "article_types": [
+     "Journal Article",
+     "Observational Study"
+    ]
+   }
+  },
+  {
+   "pmid": "36252454",
+   "keys": [
+    "Iijima2022"
+   ],
+   "files": [
+    "A3.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Iijima",
+    "title": "A simple screening method for heterozygous female patients with ornithine transcarbamylase deficiency.",
+    "year": "2022",
+    "journal": "Molecular genetics and metabolism",
+    "journal_iso": "Mol Genet Metab",
+    "doi": "10.1016/j.ymgme.2022.10.003",
+    "pmcid": null,
+    "volume": "137",
+    "issue": "3",
+    "pages": "301-307",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "36800281",
+   "keys": [
+    "GosalvezTejada2023"
+   ],
+   "files": [
+    "A1.bib",
+    "A6.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Gosalvez-Tejada",
+    "title": "Natural History of Pediatric Cyclic Vomiting Syndrome: Progression to Dysautonomia.",
+    "year": "2023",
+    "journal": "Journal of pediatric gastroenterology and nutrition",
+    "journal_iso": "J Pediatr Gastroenterol Nutr",
+    "doi": "10.1097/MPG.0000000000003738",
+    "pmcid": null,
+    "volume": "76",
+    "issue": "6",
+    "pages": "737-742",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "36878454",
+   "keys": [
+    "StamuOBrien2023"
+   ],
+   "files": [
+    "A2.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Stamu-O'Brien",
+    "title": "Through the looking glass: Skin signs that help diagnose eating disorders.",
+    "year": "2023",
+    "journal": "Clinics in dermatology",
+    "journal_iso": "Clin Dermatol",
+    "doi": "10.1016/j.clindermatol.2023.03.005",
+    "pmcid": null,
+    "volume": "41",
+    "issue": "1",
+    "pages": "67-74",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "36943582",
+   "keys": [
+    "Gupta2023"
+   ],
+   "files": [
+    "A6.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Gupta",
+    "title": "A Retrospective Review of Baclofen Treatment for Children with Rumination Syndrome at a Single Center.",
+    "year": "2023",
+    "journal": "Paediatric drugs",
+    "journal_iso": "Paediatr Drugs",
+    "doi": "10.1007/s40272-023-00567-w",
+    "pmcid": null,
+    "volume": "25",
+    "issue": "3",
+    "pages": "359-363",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "36989184",
+   "keys": [
+    "Partovi2023"
+   ],
+   "files": [
+    "A6.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Partovi",
+    "title": "Clinical characteristics and long-term outcomes in patients with cyclic vomiting syndrome: A 15-year experience at a tertiary referral center.",
+    "year": "2023",
+    "journal": "Neurogastroenterology and motility",
+    "journal_iso": "Neurogastroenterol Motil",
+    "doi": "10.1111/nmo.14571",
+    "pmcid": null,
+    "volume": "35",
+    "issue": "7",
+    "pages": "e14571",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "37010583",
+   "keys": [
+    "Kankam2023"
+   ],
+   "files": [
+    "A3.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Kankam",
+    "title": "Odd presentation of shunt malfunction: a case series and review of literature.",
+    "year": "2023",
+    "journal": "Child's nervous system : ChNS : official journal of the International Society for Pediatric Neurosurgery",
+    "journal_iso": "Childs Nerv Syst",
+    "doi": "10.1007/s00381-023-05946-9",
+    "pmcid": null,
+    "volume": "39",
+    "issue": "9",
+    "pages": "2479-2485",
+    "article_types": [
+     "Review",
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "37052354",
+   "keys": [
+    "Thavamani2023"
+   ],
+   "files": [
+    "A2.bib",
+    "A6.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Thavamani",
+    "title": "Association of Anxiety and Gastrointestinal Comorbidities in Repeat Hospital Admissions in Pediatric Cyclic Vomiting Syndrome.",
+    "year": "2023",
+    "journal": "The American journal of gastroenterology",
+    "journal_iso": "Am J Gastroenterol",
+    "doi": "10.14309/ajg.0000000000002292",
+    "pmcid": null,
+    "volume": "118",
+    "issue": "8",
+    "pages": "1439-1445",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "37237297",
+   "keys": [
+    "Zheng2023"
+   ],
+   "files": [
+    "A2.bib",
+    "A3.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Zheng",
+    "title": "Clinical and genetic characteristics of 42 Chinese paediatric patients with X-linked adrenal hypoplasia congenita.",
+    "year": "2023",
+    "journal": "Orphanet journal of rare diseases",
+    "journal_iso": "Orphanet J Rare Dis",
+    "doi": "10.1186/s13023-023-02737-y",
+    "pmcid": "PMC10214642",
+    "volume": "18",
+    "issue": "1",
+    "pages": "126",
+    "article_types": [
+     "Journal Article",
+     "Research Support, Non-U.S. Gov't"
+    ]
+   }
+  },
+  {
+   "pmid": "37355425",
+   "keys": [
+    "Michelson2023"
+   ],
+   "files": [
+    "A3.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Michelson",
+    "title": "OUTCOMES OF MISSED DIAGNOSIS OF PEDIATRIC APPENDICITIS, NEW-ONSET DIABETIC KETOACIDOSIS, AND SEPSIS IN FIVE PEDIATRIC HOSPITALS.",
+    "year": "2023",
+    "journal": "The Journal of emergency medicine",
+    "journal_iso": "J Emerg Med",
+    "doi": "10.1016/j.jemermed.2023.04.006",
+    "pmcid": "PMC10527892",
+    "volume": "65",
+    "issue": "1",
+    "pages": "e9-e18",
+    "article_types": [
+     "Journal Article",
+     "Research Support, U.S. Gov't, P.H.S."
+    ]
+   }
+  },
+  {
+   "pmid": "37364137",
+   "keys": [
+    "Karrento2023"
+   ],
+   "files": [
+    "A6.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Karrento",
+    "title": "Percutaneous Electrical Nerve Field Stimulation for Drug-Refractory Pediatric Cyclic Vomiting Syndrome.",
+    "year": "2023",
+    "journal": "Journal of pediatric gastroenterology and nutrition",
+    "journal_iso": "J Pediatr Gastroenterol Nutr",
+    "doi": "10.1097/MPG.0000000000003876",
+    "pmcid": null,
+    "volume": "77",
+    "issue": "3",
+    "pages": "347-353",
+    "article_types": [
+     "Journal Article",
+     "Research Support, Non-U.S. Gov't"
+    ]
+   }
+  },
+  {
+   "pmid": "37867371",
+   "keys": [
+    "Falsaperla2023"
+   ],
+   "files": [
+    "A6.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Falsaperla",
+    "title": "Treatment Options for Cyclic Vomiting Syndrome: A Real-World, Single-Center Experience with Systematic Literature Review and Meta-Analysis.",
+    "year": "2023",
+    "journal": "Journal of clinical pharmacology",
+    "journal_iso": "J Clin Pharmacol",
+    "doi": "10.1002/jcph.2374",
+    "pmcid": null,
+    "volume": "64",
+    "issue": "2",
+    "pages": "227-239",
+    "article_types": [
+     "Systematic Review",
+     "Meta-Analysis",
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "38385686",
+   "keys": [
+    "Puoti2024"
+   ],
+   "files": [
+    "A4.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Puoti",
+    "title": "The role of high-resolution impedance manometry to identify rumination syndrome in children with unexplained foregut symptoms.",
+    "year": "2024",
+    "journal": "Journal of pediatric gastroenterology and nutrition",
+    "journal_iso": "J Pediatr Gastroenterol Nutr",
+    "doi": "10.1002/jpn3.12164",
+    "pmcid": null,
+    "volume": "78",
+    "issue": "5",
+    "pages": "1082-1090",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "38454301",
+   "keys": [
+    "Kaul2024"
+   ],
+   "files": [
+    "A3.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Kaul",
+    "title": "Avoidant/restrictive food intake disorder prevalence is high in children with gastroparesis and functional dyspepsia.",
+    "year": "2024",
+    "journal": "Neurogastroenterology and motility",
+    "journal_iso": "Neurogastroenterol Motil",
+    "doi": "10.1111/nmo.14777",
+    "pmcid": "PMC11149999",
+    "volume": "36",
+    "issue": "5",
+    "pages": "e14777",
+    "article_types": [
+     "Journal Article",
+     "Research Support, Non-U.S. Gov't"
+    ]
+   }
+  },
+  {
+   "pmid": "38562024",
+   "keys": [
+    "OSullivan2024"
+   ],
+   "files": [
+    "A3.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "O'Sullivan",
+    "title": "Eosinophilic esophagitis: Does age matter?",
+    "year": "2024",
+    "journal": "Journal of pediatric gastroenterology and nutrition",
+    "journal_iso": "J Pediatr Gastroenterol Nutr",
+    "doi": "10.1002/jpn3.12201",
+    "pmcid": null,
+    "volume": "78",
+    "issue": "6",
+    "pages": "1329-1336",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "38615942",
+   "keys": [
+    "Shah2024"
+   ],
+   "files": [
+    "A1.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Shah",
+    "title": "Distinguishing Clinical Features of Cannabinoid Hyperemesis Syndrome and Cyclic Vomiting Syndrome: A Retrospective Cohort Study.",
+    "year": "2024",
+    "journal": "The Journal of pediatrics",
+    "journal_iso": "J Pediatr",
+    "doi": "10.1016/j.jpeds.2024.114054",
+    "pmcid": null,
+    "volume": "271",
+    "issue": null,
+    "pages": "114054",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "39022754",
+   "keys": [
+    "Shah2023"
+   ],
+   "files": [
+    "A3.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Shah",
+    "title": "Food protein-induced enterocolitis syndrome (FPIES): Beyond the guidelines.",
+    "year": "2023",
+    "journal": "Journal of food allergy",
+    "journal_iso": "J Food Allergy",
+    "doi": "10.2500/jfa.2023.5.230014",
+    "pmcid": "PMC11250192",
+    "volume": "5",
+    "issue": "2",
+    "pages": "55-64",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "39046665",
+   "keys": [
+    "Lamport2024"
+   ],
+   "files": [
+    "A3.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Lamport",
+    "title": "Association between underweight status or low body mass index and the risk of developing superior mesenteric artery syndrome following scoliosis corrective surgery in pediatric patients: a review of the literature.",
+    "year": "2024",
+    "journal": "Spine deformity",
+    "journal_iso": "Spine Deform",
+    "doi": "10.1007/s43390-024-00929-5",
+    "pmcid": "PMC11499333",
+    "volume": "12",
+    "issue": "6",
+    "pages": "1529-1543",
+    "article_types": [
+     "Journal Article",
+     "Review"
+    ]
+   }
+  },
+  {
+   "pmid": "39148213",
+   "keys": [
+    "Homan2024"
+   ],
+   "files": [
+    "A3.bib",
+    "A4.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Homan",
+    "title": "Updated joint ESPGHAN/NASPGHAN guidelines for management of Helicobacter pylori infection in children and adolescents (2023).",
+    "year": "2024",
+    "journal": "Journal of pediatric gastroenterology and nutrition",
+    "journal_iso": "J Pediatr Gastroenterol Nutr",
+    "doi": "10.1002/jpn3.12314",
+    "pmcid": null,
+    "volume": "79",
+    "issue": "3",
+    "pages": "758-785",
+    "article_types": [
+     "Journal Article",
+     "Practice Guideline",
+     "Research Support, Non-U.S. Gov't"
+    ]
+   }
+  },
+  {
+   "pmid": "39726527",
+   "keys": [
+    "Tersteeg2024"
+   ],
+   "files": [
+    "A2.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Tersteeg",
+    "title": "School absenteeism as a predictor of functional gastrointestinal disorders in children.",
+    "year": "2024",
+    "journal": "Frontiers in pediatrics",
+    "journal_iso": "Front Pediatr",
+    "doi": "10.3389/fped.2024.1503783",
+    "pmcid": "PMC11669597",
+    "volume": "12",
+    "issue": null,
+    "pages": "1503783",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "39728392",
+   "keys": [
+    "Thavamani2024"
+   ],
+   "files": [
+    "A6.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Thavamani",
+    "title": "Utility of Aprepitant in the Management of Pediatric Patients with Cyclical Vomiting Syndrome.",
+    "year": "2024",
+    "journal": "Medicines (Basel, Switzerland)",
+    "journal_iso": "Medicines (Basel)",
+    "doi": "10.3390/medicines11080021",
+    "pmcid": "PMC11677684",
+    "volume": "11",
+    "issue": "8",
+    "pages": null,
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "39737559",
+   "keys": [
+    "Bujarska2024"
+   ],
+   "files": [
+    "A1.bib",
+    "A5.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Bujarska",
+    "title": "Diagnostic characteristics of pediatric cyclic vomiting syndrome.",
+    "year": "2024",
+    "journal": "Journal of pediatric gastroenterology and nutrition",
+    "journal_iso": "J Pediatr Gastroenterol Nutr",
+    "doi": "10.1002/jpn3.12448",
+    "pmcid": null,
+    "volume": "80",
+    "issue": "3",
+    "pages": "417-425",
+    "article_types": [
+     "Journal Article",
+     "Observational Study",
+     "Research Support, Non-U.S. Gov't"
+    ]
+   }
+  },
+  {
+   "pmid": "39754724",
+   "keys": [
+    "Malagelada2025"
+   ],
+   "files": [
+    "A1.bib",
+    "A2.bib",
+    "A4.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Malagelada",
+    "title": "European Guideline on Chronic Nausea and Vomiting-A UEG and ESNM Consensus for Clinical Management.",
+    "year": "2025",
+    "journal": "United European gastroenterology journal",
+    "journal_iso": "United European Gastroenterol J",
+    "doi": "10.1002/ueg2.12711",
+    "pmcid": "PMC11999049",
+    "volume": "13",
+    "issue": "3",
+    "pages": "427-471",
+    "article_types": [
+     "Journal Article",
+     "Practice Guideline",
+     "Research Support, Non-U.S. Gov't"
+    ]
+   }
+  },
+  {
+   "pmid": "39803885",
+   "keys": [
+    "Khoo2025"
+   ],
+   "files": [
+    "A4.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Khoo",
+    "title": "Impact of diagnostic testing on outcomes of children with rumination syndrome.",
+    "year": "2025",
+    "journal": "Journal of pediatric gastroenterology and nutrition",
+    "journal_iso": "J Pediatr Gastroenterol Nutr",
+    "doi": "10.1002/jpn3.12449",
+    "pmcid": null,
+    "volume": "80",
+    "issue": "4",
+    "pages": "611-616",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "39868747",
+   "keys": [
+    "Jack2025"
+   ],
+   "files": [
+    "A2.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Jack",
+    "title": "Increasing trends of cannabinoid hyperemesis syndrome in youth: The grass is not always greener.",
+    "year": "2025",
+    "journal": "Journal of pediatric gastroenterology and nutrition",
+    "journal_iso": "J Pediatr Gastroenterol Nutr",
+    "doi": "10.1002/jpn3.12469",
+    "pmcid": null,
+    "volume": "80",
+    "issue": "4",
+    "pages": "638-643",
+    "article_types": [
+     "Journal Article",
+     "Research Support, U.S. Gov't, Non-P.H.S."
+    ]
+   }
+  },
+  {
+   "pmid": "40223700",
+   "keys": [
+    "Karrento2025",
+    "Karrento2025b"
+   ],
+   "files": [
+    "A5.bib",
+    "A6.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Karrento",
+    "title": "North American Society for Pediatric Gastroenterology, Hepatology, and Nutrition 2025 guidelines for management of cyclic vomiting syndrome in children.",
+    "year": "2025",
+    "journal": "Journal of pediatric gastroenterology and nutrition",
+    "journal_iso": "J Pediatr Gastroenterol Nutr",
+    "doi": "10.1002/jpn3.70020",
+    "pmcid": null,
+    "volume": "80",
+    "issue": "6",
+    "pages": "1028-1061",
+    "article_types": [
+     "Journal Article",
+     "Practice Guideline",
+     "Research Support, Non-U.S. Gov't"
+    ]
+   }
+  },
+  {
+   "pmid": "40401049",
+   "keys": [
+    "Sinan2025"
+   ],
+   "files": [
+    "A2.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Sinan",
+    "title": "The Clinical Conundrum of Cyclic Vomiting in the Cannabinoid User: Simply Cannabinoid Hyperemesis or Could It Be More?",
+    "year": "2025",
+    "journal": "ACG case reports journal",
+    "journal_iso": "ACG Case Rep J",
+    "doi": "10.14309/crj.0000000000001711",
+    "pmcid": "PMC12094406",
+    "volume": "12",
+    "issue": "5",
+    "pages": "e01711",
+    "article_types": [
+     "Case Reports",
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "40544377",
+   "keys": [
+    "Krueger2025"
+   ],
+   "files": [
+    "A3.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Krueger",
+    "title": "The prevalence and predictive factors of overlapping disorders of gut-brain interaction and celiac disease in children.",
+    "year": "2025",
+    "journal": "Journal of pediatric gastroenterology and nutrition",
+    "journal_iso": "J Pediatr Gastroenterol Nutr",
+    "doi": "10.1002/jpn3.70118",
+    "pmcid": "PMC12265883",
+    "volume": "81",
+    "issue": "3",
+    "pages": "596-605",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "40575359",
+   "keys": [
+    "Goh2025"
+   ],
+   "files": [
+    "A2.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Goh",
+    "title": "Disease characteristics and long-term outcomes of cyclic vomiting syndrome in Singaporean children.",
+    "year": "2025",
+    "journal": "World journal of gastrointestinal pharmacology and therapeutics",
+    "journal_iso": "World J Gastrointest Pharmacol Ther",
+    "doi": "10.4292/wjgpt.v16.i2.103971",
+    "pmcid": "PMC12188913",
+    "volume": "16",
+    "issue": "2",
+    "pages": "103971",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "40581515",
+   "keys": [
+    "Itriyeva2025"
+   ],
+   "files": [
+    "A3.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Itriyeva",
+    "title": "Adolescents and cannabis in the 21st century: Current Problems in Pediatric and Adolescent Health Care.",
+    "year": "2025",
+    "journal": "Current problems in pediatric and adolescent health care",
+    "journal_iso": "Curr Probl Pediatr Adolesc Health Care",
+    "doi": "10.1016/j.cppeds.2025.101754",
+    "pmcid": null,
+    "volume": "55",
+    "issue": "3",
+    "pages": "101754",
+    "article_types": [
+     "Journal Article",
+     "Review"
+    ]
+   }
+  },
+  {
+   "pmid": "40692192",
+   "keys": [
+    "Spatuzzo2025"
+   ],
+   "files": [
+    "A2.bib",
+    "A3.bib",
+    "A4.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Spatuzzo",
+    "title": "Endoscopy and noninvasive tests in pediatric disorders of gut-brain interaction: A multicenter retrospective study of the Italian Society of Pediatric Gastroenterology, Hepatology, and Nutrition.",
+    "year": "2025",
+    "journal": "Journal of pediatric gastroenterology and nutrition",
+    "journal_iso": "J Pediatr Gastroenterol Nutr",
+    "doi": "10.1002/jpn3.70167",
+    "pmcid": "PMC12484704",
+    "volume": "81",
+    "issue": "4",
+    "pages": "1089-1099",
+    "article_types": [
+     "Journal Article",
+     "Multicenter Study"
+    ]
+   }
+  },
+  {
+   "pmid": "40836301",
+   "keys": [
+    "Karrento2025",
+    "Karrento2025a"
+   ],
+   "files": [
+    "A1.bib",
+    "A4.bib",
+    "A5.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Karrento",
+    "title": "North American Society for Pediatric Gastroenterology, Hepatology, and Nutrition 2025 guidelines on the diagnosis of cyclic vomiting syndrome in children.",
+    "year": "2025",
+    "journal": "Journal of pediatric gastroenterology and nutrition",
+    "journal_iso": "J Pediatr Gastroenterol Nutr",
+    "doi": "10.1002/jpn3.70193",
+    "pmcid": null,
+    "volume": "81",
+    "issue": "5",
+    "pages": "1346-1359",
+    "article_types": [
+     "Journal Article",
+     "Practice Guideline"
+    ]
+   }
+  },
+  {
+   "pmid": "40868416",
+   "keys": [
+    "Altuntas2025"
+   ],
+   "files": [
+    "A6.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Altuntaş",
+    "title": "Lifestyle and SSRI Interventions in Pediatric Cyclic Vomiting Syndrome: Rethinking First-Line Management.",
+    "year": "2025",
+    "journal": "Children (Basel, Switzerland)",
+    "journal_iso": "Children (Basel)",
+    "doi": "10.3390/children12080964",
+    "pmcid": "PMC12384603",
+    "volume": "12",
+    "issue": "8",
+    "pages": null,
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "40965394",
+   "keys": [
+    "Sigal2025"
+   ],
+   "files": [
+    "A6.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Sigal",
+    "title": "Cannabinoid Hyperemesis Syndrome in Adolescents: The Role of Aprepitant as a New Treatment Option for Rapid Symptom Relief.",
+    "year": "2025",
+    "journal": "The Journal of adolescent health : official publication of the Society for Adolescent Medicine",
+    "journal_iso": "J Adolesc Health",
+    "doi": "10.1016/j.jadohealth.2025.08.004",
+    "pmcid": null,
+    "volume": "77",
+    "issue": "6",
+    "pages": "1223-1225",
+    "article_types": [
+     "Journal Article",
+     "Case Reports"
+    ]
+   }
+  },
+  {
+   "pmid": "41054967",
+   "keys": [
+    "Hernandez2025"
+   ],
+   "files": [
+    "A6.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Hernandez",
+    "title": "Clinical guidelines highlight for the hospitalist: Management of cyclic vomiting syndrome in children.",
+    "year": "2025",
+    "journal": "Journal of hospital medicine",
+    "journal_iso": "J Hosp Med",
+    "doi": "10.1002/jhm.70190",
+    "pmcid": "PMC12954363",
+    "volume": "21",
+    "issue": "3",
+    "pages": "291-293",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "41088881",
+   "keys": [
+    "Bloom2025"
+   ],
+   "files": [
+    "A3.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Bloom",
+    "title": "Cannabis Use Patterns and Blood Profiles in Adolescent Cannabinoid Hyperemesis Syndrome.",
+    "year": "2025",
+    "journal": "Pediatric emergency care",
+    "journal_iso": "Pediatr Emerg Care",
+    "doi": "10.1097/PEC.0000000000003495",
+    "pmcid": null,
+    "volume": "42",
+    "issue": "1",
+    "pages": "e13-e19",
+    "article_types": [
+     "Journal Article",
+     "Observational Study"
+    ]
+   }
+  },
+  {
+   "pmid": "41232196",
+   "keys": [
+    "Chapman2025"
+   ],
+   "files": [
+    "A3.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Chapman",
+    "title": "Propionic acidemia and methylmalonic aciduria: A portrait of the first 3 years-Admissions and complications.",
+    "year": "2025",
+    "journal": "Molecular genetics and metabolism",
+    "journal_iso": "Mol Genet Metab",
+    "doi": "10.1016/j.ymgme.2025.109289",
+    "pmcid": null,
+    "volume": "146",
+    "issue": "4",
+    "pages": "109289",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "41345676",
+   "keys": [
+    "Schmolly2025"
+   ],
+   "files": [
+    "A4.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Schmolly",
+    "title": "Recommendations for recognizing and diagnosing Acute Hepatic Porphyria in atypical patient populations.",
+    "year": "2025",
+    "journal": "Orphanet journal of rare diseases",
+    "journal_iso": "Orphanet J Rare Dis",
+    "doi": "10.1186/s13023-025-04067-7",
+    "pmcid": "PMC12676783",
+    "volume": "20",
+    "issue": "1",
+    "pages": "539",
+    "article_types": [
+     "Journal Article",
+     "Research Support, N.I.H., Extramural"
+    ]
+   }
+  },
+  {
+   "pmid": "41553265",
+   "keys": [
+    "Puoti2026"
+   ],
+   "files": [
+    "A4.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Puoti",
+    "title": "Role of Gastric Motor Abnormalities in Pathophysiology of Rumination Syndrome in Children.",
+    "year": "2026",
+    "journal": "Neurogastroenterology and motility",
+    "journal_iso": "Neurogastroenterol Motil",
+    "doi": "10.1111/nmo.70239",
+    "pmcid": null,
+    "volume": "38",
+    "issue": "1",
+    "pages": "e70239",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "41567250",
+   "keys": [
+    "Waisfeld2026"
+   ],
+   "files": [
+    "A1.bib",
+    "A3.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Waisfeld",
+    "title": "Etiologies of Cyclic Vomiting Syndrome in Children: A Systematic Review of 1,373 Patients.",
+    "year": "2026",
+    "journal": "Pediatric gastroenterology, hepatology & nutrition",
+    "journal_iso": "Pediatr Gastroenterol Hepatol Nutr",
+    "doi": "10.5223/pghn.2026.29.1.62",
+    "pmcid": "PMC12816364",
+    "volume": "29",
+    "issue": "1",
+    "pages": "62-70",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "41713704",
+   "keys": [
+    "Rosen2026",
+    "Rosen2026a"
+   ],
+   "files": [
+    "A2.bib",
+    "A4.bib",
+    "A5.bib",
+    "A6.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Rosen",
+    "title": "Rome V Pediatric Upper Gastrointestinal Disorders of Gut-Brain Interaction.",
+    "year": "2026",
+    "journal": "Gastroenterology",
+    "journal_iso": "Gastroenterology",
+    "doi": "10.1053/j.gastro.2026.01.039",
+    "pmcid": "PMC13202739",
+    "volume": "170",
+    "issue": "6",
+    "pages": "1347-1366",
+    "article_types": [
+     "Journal Article",
+     "Review"
+    ]
+   }
+  },
+  {
+   "pmid": "41713707",
+   "keys": [
+    "DiLorenzo2026"
+   ],
+   "files": [
+    "A5.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Di Lorenzo",
+    "title": "Lower and Biliary Disorders of Gut-Brain Interaction: Child and Adolescent.",
+    "year": "2026",
+    "journal": "Gastroenterology",
+    "journal_iso": "Gastroenterology",
+    "doi": "10.1053/j.gastro.2026.01.036",
+    "pmcid": null,
+    "volume": "170",
+    "issue": "6",
+    "pages": "1367-1387",
+    "article_types": [
+     "Journal Article",
+     "Review"
+    ]
+   }
+  },
+  {
+   "pmid": "41713709",
+   "keys": [
+    "Palsson2026"
+   ],
+   "files": [
+    "A5.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Palsson",
+    "title": "Development of the Rome V Diagnostic Questionnaires.",
+    "year": "2026",
+    "journal": "Gastroenterology",
+    "journal_iso": "Gastroenterology",
+    "doi": "10.1053/j.gastro.2026.01.041",
+    "pmcid": null,
+    "volume": "170",
+    "issue": "6",
+    "pages": "1408-1416",
+    "article_types": [
+     "Journal Article",
+     "Review"
+    ]
+   }
+  },
+  {
+   "pmid": "41719916",
+   "keys": [
+    "Hikita2026"
+   ],
+   "files": [
+    "A6.bib"
+   ],
+   "verdict": "MINOR",
+   "diffs": [
+    {
+     "file": "A6.bib",
+     "key": "Hikita2026",
+     "field": "journal_latex",
+     "bib": "Brain & development",
+     "pubmed": "Brain & development",
+     "severity": "minor",
+     "note": "Kaçışsız '&' — LaTeX/BibTeX derlemesinde hata verir; '\\&' olmalı"
+    }
+   ],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Hikita",
+    "title": "Cyclic vomiting syndrome.",
+    "year": "2026",
+    "journal": "Brain & development",
+    "journal_iso": "Brain Dev",
+    "doi": "10.1016/j.braindev.2026.104515",
+    "pmcid": null,
+    "volume": "48",
+    "issue": "2",
+    "pages": "104515",
+    "article_types": [
+     "Journal Article",
+     "Review"
+    ]
+   }
+  },
+  {
+   "pmid": "41807274",
+   "keys": [
+    "Henriksen2026"
+   ],
+   "files": [
+    "A3.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Henriksen",
+    "title": "Avoidant-Restrictive Food Intake Disorder in Patients With Gastrointestinal Disorders: A Systematic Review.",
+    "year": "2026",
+    "journal": "Journal of human nutrition and dietetics : the official journal of the British Dietetic Association",
+    "journal_iso": "J Hum Nutr Diet",
+    "doi": "10.1111/jhn.70226",
+    "pmcid": "PMC12975708",
+    "volume": "39",
+    "issue": "2",
+    "pages": "e70226",
+    "article_types": [
+     "Journal Article",
+     "Systematic Review"
+    ]
+   }
+  },
+  {
+   "pmid": "42026408",
+   "keys": [
+    "Ananthashayana2026"
+   ],
+   "files": [
+    "A1.bib",
+    "A2.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Ananthashayana",
+    "title": "Clinical features, response to therapy and outcome in pediatric cyclical vomiting syndrome: Experience from the developing world.",
+    "year": "2026",
+    "journal": "Indian journal of gastroenterology : official journal of the Indian Society of Gastroenterology",
+    "journal_iso": "Indian J Gastroenterol",
+    "doi": "10.1007/s12664-026-01998-2",
+    "pmcid": null,
+    "volume": null,
+    "issue": null,
+    "pages": null,
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "42217214",
+   "keys": [
+    "DaSilva2026"
+   ],
+   "files": [
+    "A3.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "da Silva",
+    "title": "Rumination Syndrome in Adolescents: Clinical and Psychiatric Correlates From a Case Series.",
+    "year": "2026",
+    "journal": "Clinical child psychology and psychiatry",
+    "journal_iso": "Clin Child Psychol Psychiatry",
+    "doi": "10.1177/13591045261456470",
+    "pmcid": null,
+    "volume": null,
+    "issue": null,
+    "pages": "13591045261456470",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "42530324",
+   "keys": [
+    "Rajindrajith2026"
+   ],
+   "files": [
+    "A5.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Rajindrajith",
+    "title": "Rome V criteria for pediatric disorders of gut-brain interaction: key updates and clinical implications.",
+    "year": "2026",
+    "journal": "Expert review of gastroenterology & hepatology",
+    "journal_iso": "Expert Rev Gastroenterol Hepatol",
+    "doi": "10.1080/17474124.2026.2712930",
+    "pmcid": null,
+    "volume": "20",
+    "issue": "8",
+    "pages": "721-732",
+    "article_types": [
+     "Journal Article",
+     "Review"
+    ]
+   }
+  },
+  {
+   "pmid": "42554323",
+   "keys": [
+    "Rosen2026b"
+   ],
+   "files": [
+    "A5.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Rosen",
+    "title": "The Road from Rome V to the Pediatric Clinic: New Perspectives in 2026.",
+    "year": "2026",
+    "journal": "The American journal of gastroenterology",
+    "journal_iso": "Am J Gastroenterol",
+    "doi": "10.14309/ajg.0000000000004181",
+    "pmcid": null,
+    "volume": null,
+    "issue": null,
+    "pages": null,
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "42613193",
+   "keys": [
+    "Nurko2026"
+   ],
+   "files": [
+    "A1.bib",
+    "A2.bib",
+    "A5.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Nurko",
+    "title": "Multinational prevalence and burden of paediatric disorders of gut-brain interaction: results of the Rome Foundation paediatric global study.",
+    "year": "2026",
+    "journal": "Gut",
+    "journal_iso": "Gut",
+    "doi": "10.1136/gutjnl-2026-339667",
+    "pmcid": "PMC13638314",
+    "volume": "75",
+    "issue": "10",
+    "pages": "1898-1909",
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "42613194",
+   "keys": [
+    "Sperber2026"
+   ],
+   "files": [
+    "A5.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Sperber",
+    "title": "Rome V global epidemiology and validation survey: prevalence of disorders of gut-brain interaction and comparison with the Rome IV global epidemiology study.",
+    "year": "2026",
+    "journal": "Gut",
+    "journal_iso": "Gut",
+    "doi": "10.1136/gutjnl-2026-339666",
+    "pmcid": "PMC13638347",
+    "volume": "75",
+    "issue": "10",
+    "pages": "1887-1897",
+    "article_types": [
+     "Journal Article",
+     "Comparative Study",
+     "Validation Study"
+    ]
+   }
+  },
+  {
+   "pmid": "42638421",
+   "keys": [
+    "RodriguezManchon2026"
+   ],
+   "files": [
+    "A3.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "Rodríguez-Manchón",
+    "title": "Food protein-induced enterocolitis syndrome in Spanish children: Results from a multicentre prospective study.",
+    "year": "2026",
+    "journal": "Journal of pediatric gastroenterology and nutrition",
+    "journal_iso": "J Pediatr Gastroenterol Nutr",
+    "doi": "10.1002/jpn3.70547",
+    "pmcid": null,
+    "volume": null,
+    "issue": null,
+    "pages": null,
+    "article_types": [
+     "Journal Article"
+    ]
+   }
+  },
+  {
+   "pmid": "42823909",
+   "keys": [
+    "ElChammas2026"
+   ],
+   "files": [
+    "A2.bib"
+   ],
+   "verdict": "VERIFIED",
+   "diffs": [],
+   "retraction_flags": [],
+   "pubmed": {
+    "first_author": "El-Chammas",
+    "title": "Functional Nausea Is Not Just Nausea: A Multi-Center, Cross-Sectional Study of Children and Young Adults.",
+    "year": "2026",
+    "journal": "Neurogastroenterology and motility",
+    "journal_iso": "Neurogastroenterol Motil",
+    "doi": "10.1111/nmo.70447",
+    "pmcid": null,
+    "volume": "38",
+    "issue": "10",
+    "pages": "e70447",
+    "article_types": [
+     "Journal Article",
+     "Multicenter Study",
+     "Observational Study"
+    ]
+   }
+  }
+ ]
+}
