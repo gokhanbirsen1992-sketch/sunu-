@@ -42,9 +42,9 @@ TENS = {"twenty": 20, "thirty": 30, "forty": 40, "fifty": 50, "sixty": 60, "seve
 WORD_RE = re.compile(r"\b(" + "|".join(list(TENS) + UNITS) + r")(?:-(" + "|".join(UNITS[1:10]) + r"))?\b", re.I)
 
 
-def numbers(text):
+def numbers(text, words=True):
     found = {norm_num(n) for n in NUM_RE.findall(text)}
-    for m in WORD_RE.finditer(text):  # İngilizce yazıyla sayı: "four", "Sixty-one"
+    for m in (WORD_RE.finditer(text) if words else ()):  # İngilizce yazıyla sayı: "four", "Sixty-one"
         w = m.group(1).lower()
         v = TENS.get(w, UNITS.index(w) if w in UNITS else 0)
         if m.group(2):
@@ -131,7 +131,7 @@ def main():
                     issues.append(f"DOI uyuşmazlığı satır={doi} bib={bdois}")
             if not quote or len(quote) < 15:
                 issues.append("verbatim alıntı yok/çok kısa")
-            missing_nums = sorted(numbers(claim) - numbers(quote))
+            missing_nums = sorted(numbers(claim, words=False) - numbers(quote))  # Türkçe metinde "ten" gibi ekler sayı sayılmaz
             if missing_nums:
                 issues.append(f"iddiadaki sayılar alıntıda yok: {missing_nums}")
             if issues:

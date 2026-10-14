@@ -1,15 +1,15 @@
 {
   "bib": {
-    "entries": 193,
-    "unique_pmids": 154,
+    "entries": 197,
+    "unique_pmids": 157,
     "problems": [],
     "conflicts": [
       "PMID 8604272: çelişkili DOI/yıl {'', 'doi yok'} {'1996'} (['A1.bib', 'A2.bib'])",
-      "DOI doi yok: çelişkili PMID {'8604272', '25632624', '30613204'}"
+      "DOI doi yok: çelişkili PMID {'25632624', '8604272', '30613204'}"
     ]
   },
   "claims": {
-    "n": 281,
+    "n": 303,
     "issues": [
       {
         "file": "A1_patern_epidemiyoloji.md",
@@ -418,14 +418,62 @@
           "iddiadaki sayılar alıntıda yok: ['2008']"
         ],
         "claim": "NASPGHAN 2008'deki 4 kırmızı bayraktan biri, ilerleyici kötüleşme ya da atak paterninin değişmesi: izlemde tanının yeniden düşünülme nedeni"
+      },
+      {
+        "file": "A7_hakem_ekleri.md",
+        "id": "A7-01",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['126', '13']"
+        ],
+        "claim": "Çocuk akalazyasında (n=126, 13 merkez) en sık başvuru bulguları disfaji %73,8, kusma %53,2, kilo kaybı %38,9; semptomdan tanıya medyan 11 ay."
+      },
+      {
+        "file": "A7_hakem_ekleri.md",
+        "id": "A7-10",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['2025']"
+        ],
+        "claim": "NASPGHAN 2025 (ikincil özet): TSA standart dozu 1,0–1,5 mg/kg/gün; sedasyon, kilo alımı, QTc uzaması, davranış değişikliği ve intihar düşüncesi nedeniyle dikkat"
+      },
+      {
+        "file": "A7_hakem_ekleri.md",
+        "id": "A7-12",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['2025']"
+        ],
+        "claim": "NASPGHAN 2025 (ikincil özet): profilakside beta-bloker, 5-HT2A antagonisti (ör. siproheptadin), NK-1 antagonisti (ör. aprepitant), TSA (ör. amitriptilin) — koşu"
+      },
+      {
+        "file": "A7_hakem_ekleri.md",
+        "id": "A7-13",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['2025']"
+        ],
+        "claim": "NASPGHAN 2025 (ikincil özet): antikonvülzanlar (ör. topiramat, valproat) yalnız refrakter hastada (koşullu, çok düşük kesinlik)."
+      },
+      {
+        "file": "A7_hakem_ekleri.md",
+        "id": "A7-20",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['12', '38', '50']"
+        ],
+        "claim": "Türkiye retrospektif serisinde (≥12 ay tedavi, n=38) ataktan tam kurtulma topiramatla %81, propranololle %59; ≥%50 azalmayı da kapsayan yanıt %94 ve %81."
+      },
+      {
+        "file": "A7_hakem_ekleri.md",
+        "id": "A7-22",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['41']"
+        ],
+        "claim": "Ebeveynlerin %78'i (32/41) pozitif tanı ve bilgilendirmenin kusma şiddetinde anlamlı etki yaptığını düşündü (algı, kontrolsüz)."
       }
     ]
   },
   "summary": {
-    "bib_entries": 193,
+    "bib_entries": 197,
     "bib_problems": 0,
     "bib_conflicts": 2,
-    "claims": 281,
-    "claims_with_issues": 51
+    "claims": 303,
+    "claims_with_issues": 57
   }
 }
