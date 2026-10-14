@@ -37,8 +37,20 @@ def norm_num(s):
     return f"{f:g}"
 
 
+UNITS = "zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen".split()
+TENS = {"twenty": 20, "thirty": 30, "forty": 40, "fifty": 50, "sixty": 60, "seventy": 70, "eighty": 80, "ninety": 90}
+WORD_RE = re.compile(r"\b(" + "|".join(list(TENS) + UNITS) + r")(?:-(" + "|".join(UNITS[1:10]) + r"))?\b", re.I)
+
+
 def numbers(text):
-    return {norm_num(n) for n in NUM_RE.findall(text)}
+    found = {norm_num(n) for n in NUM_RE.findall(text)}
+    for m in WORD_RE.finditer(text):  # İngilizce yazıyla sayı: "four", "Sixty-one"
+        w = m.group(1).lower()
+        v = TENS.get(w, UNITS.index(w) if w in UNITS else 0)
+        if m.group(2):
+            v += UNITS.index(m.group(2).lower())
+        found.add(str(v))
+    return found
 
 
 def split_row(line):
@@ -97,7 +109,7 @@ def main():
                 continue
             cells = split_row(line)
             if cells and cells[0] == "ID":
-                header = [c.lower() for c in cells]
+                header = [c.replace("İ", "i").lower() for c in cells]
                 continue
             if not header or not re.match(r"A\d-\d+", cells[0] if cells else ""):
                 continue

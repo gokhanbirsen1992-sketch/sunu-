@@ -5,18 +5,427 @@
     "problems": [],
     "conflicts": [
       "PMID 8604272: çelişkili DOI/yıl {'', 'doi yok'} {'1996'} (['A1.bib', 'A2.bib'])",
-      "DOI doi yok: çelişkili PMID {'8604272', '30613204', '25632624'}"
+      "DOI doi yok: çelişkili PMID {'8604272', '25632624', '30613204'}"
     ]
   },
   "claims": {
     "n": 281,
-    "issues": []
+    "issues": [
+      {
+        "file": "A1_patern_epidemiyoloji.md",
+        "id": "A1-12",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['2025']"
+        ],
+        "claim": "NASPGHAN 2025, CVS tanı ölçütlerini atak sıklığı, süresi ve eşlik eden semptomlara dayandırmıştır."
+      },
+      {
+        "file": "A1_patern_epidemiyoloji.md",
+        "id": "A1-34",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['181']"
+        ],
+        "claim": "İran'da 181 çocukta ilk atak ile tanı arasındaki süre ortalama 2 ± 1,81 yıl; ortalama başlangıç 4,9 yaş; 88 erkek/93 kız."
+      },
+      {
+        "file": "A2_oyku_muayene.md",
+        "id": "A2-06",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['4']"
+        ],
+        "claim": "CVS'de prodrom ~%90; atakların ~3/4'ünde tetikleyici var: duygusal stres, enfeksiyon, besinler, açlık, uykusuzluk, menstrüasyon."
+      },
+      {
+        "file": "A2_oyku_muayene.md",
+        "id": "A2-15",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['2008']"
+        ],
+        "claim": "NASPGHAN 2008: \"av tüfeği\" tetkik yerine 4 kırmızı bayrağa göre hedefli tetkik — batın bulgusu, tetikleyici olay, anormal nörolojik muayene, ilerleyici/değişen "
+      },
+      {
+        "file": "A3_organik_ayirici.md",
+        "id": "A3-05",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['22']"
+        ],
+        "claim": "SMA sendromu: 22 çocukta kusma oranı %50. Kilo kaybı şart değildir. Birincil tanı aracı üst GİS grafisidir."
+      },
+      {
+        "file": "A3_organik_ayirici.md",
+        "id": "A3-06",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['72']"
+        ],
+        "claim": "GİS duplikasyonu: 72 çocukta ağrı ve bulantı/kusma görüldü. Tümüne USG ile tanı kondu."
+      },
+      {
+        "file": "A3_organik_ayirici.md",
+        "id": "A3-13",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['239']"
+        ],
+        "claim": "Çocuk gastroparezisinde (n=239) en sık başvuru yakınması kusmadır (%68). Olguların %70'i idiopatik, %18'i ilaca bağlı, yalnız %4'ü diyabetiktir."
+      },
+      {
+        "file": "A3_organik_ayirici.md",
+        "id": "A3-14",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['24']"
+        ],
+        "claim": "Altın standart katı faz gastrik boşalma sintigrafisidir. Prognoz iyidir: ortalama 24 aylık izlemde ortalama %60 belirgin düzelme."
+      },
+      {
+        "file": "A3_organik_ayirici.md",
+        "id": "A3-27",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['3']"
+        ],
+        "claim": "Propiyonik asidemi ve metilmalonik asidemide ilk 3 yaştaki yatışların en sık nedeni kusmadır."
+      },
+      {
+        "file": "A3_organik_ayirici.md",
+        "id": "A3-46",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['500']"
+        ],
+        "claim": "DGBI şüpheli 500 çocukta hastaların %45'inde kırmızı bayrak vardı. Kırmızı bayraklılarda endoskopi daha sık yapıldı ama organik tanı oranı artmadı. Tek başına y"
+      },
+      {
+        "file": "A4_tani_algoritma.md",
+        "id": "A4-01",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['2025']"
+        ],
+        "claim": "NASPGHAN 2025: CVS düşünülen her çocukta serum + idrar laboratuvarı ve üst GI kontrast grafisi; diğer tarama testlerinin verimi ve maliyet-etkinliği düşük."
+      },
+      {
+        "file": "A4_tani_algoritma.md",
+        "id": "A4-02",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['2008']"
+        ],
+        "claim": "NASPGHAN 2008: \"Av tüfeği\" (shotgun) tetkik yerine 4 kırmızı bayrağa göre hedefe yönelik tetkik."
+      },
+      {
+        "file": "A4_tani_algoritma.md",
+        "id": "A4-12",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['135']"
+        ],
+        "claim": "Metabolik testlerin verimi akut atak sırasında daha yüksektir; yine de 135 CVS'li çocukta metabolik testler yalnız 2 hastada (%1,4) tanı koydurdu (letarji, büyü"
+      },
+      {
+        "file": "A4_tani_algoritma.md",
+        "id": "A4-13",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['106']"
+        ],
+        "claim": "106 CVS'li çocukta iyi dönem ve atak sırasında plazma aminoasit, açilkarnitin, idrar organik asit bakıldı: %38'de mitokondriyal disfonksiyonu düşündüren anormal"
+      },
+      {
+        "file": "A4_tani_algoritma.md",
+        "id": "A4-17",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['70']"
+        ],
+        "claim": "Malrotasyonlu 70 çocuğun %50'si 2 aydan büyüktü; büyük çocuklarda aralıklı safrasız kusma ve kronik karın ağrısı; UGI tanıyı %41'de koydu; volvulus yaştan ve sü"
+      },
+      {
+        "file": "A4_tani_algoritma.md",
+        "id": "A4-18",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['225']"
+        ],
+        "claim": "Siklik kusma paterniyle gelen 225 çocuğun %88'i idiyopatik CVS; %12'de ciddi cerrahi (malrotasyon, akut hidronefroz, SSS tümörü), %2'de ciddi endokrin (Addison)"
+      },
+      {
+        "file": "A4_tani_algoritma.md",
+        "id": "A4-30",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['2268']"
+        ],
+        "claim": "2268 çocukta endoskopik verim %62,5, histolojik verim %30,4; çok değişkenli analizde endoskopik verim tekrarlayan kusma ile ilişkili."
+      },
+      {
+        "file": "A4_tani_algoritma.md",
+        "id": "A4-35",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['60']"
+        ],
+        "claim": "HRM ruminasyonda ADM'ye üstün (sedasyonsuz, kısa, hasta tetikleyici öğünü seçer); test öğünü sonrası 30–60 dk gözlem şart, çünkü epizodların %40'ı yalnız öğünde"
+      },
+      {
+        "file": "A4_tani_algoritma.md",
+        "id": "A4-44",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['2025']"
+        ],
+        "claim": "**Spatuzzo 2025 (doğrulandı):** DGBI şüpheli 500 çocukta %45 kırmızı bayrak; son tanı %19 organik ve bunların yalnız %62'sinde başlangıçta kırmızı bayrak vardı;"
+      },
+      {
+        "file": "A4_tani_algoritma.md",
+        "id": "A4-45",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['2025']"
+        ],
+        "claim": "Spatuzzo 2025 test kullanımı: kırmızı bayraklılara daha çok EGD (%28,9 vs %12,5) ama anormal EGD oranı anlamlı farklı değil; US %19 yapılmış, %4,4 anormal; pH-i"
+      },
+      {
+        "file": "A5_romeV.md",
+        "id": "A5-06",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['2016']"
+        ],
+        "claim": "Rome IV (2016) çocuk/adolesan belgesi \"organik hastalık kanıtı yok\" ifadesini kaldırıp \"uygun tıbbi değerlendirme sonrası başka bir duruma bağlanamaz\" ifadesini"
+      },
+      {
+        "file": "A5_romeV.md",
+        "id": "A5-18",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['4']"
+        ],
+        "claim": "Rome V pediatrik global çalışmada (4 ülke) gastroduodenal DGBI prevalansları: CVS %1,1; kronik bulantı sendromu %0,7; ruminasyon %0,7; FD %5,5. KHS tanısı alan "
+      },
+      {
+        "file": "A5_romeV.md",
+        "id": "A5-23",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['2025']"
+        ],
+        "claim": "NASPGHAN 2025 tanı kılavuzu pediatrik KHS'yi CVS ile ilişkili ama ayrı bir antite olarak ele alıyor (Rome V'te alt grup)."
+      },
+      {
+        "file": "A5_romeV.md",
+        "id": "A5-42",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['6']"
+        ],
+        "claim": "(A6 için) CVS tedavisinde Rome V komitesi NASPGHAN yaklaşımını destekliyor: atak şiddeti, yeti yitimi ve psikososyal etkiye göre basamaklı, bireysel tedavi. Abo"
+      },
+      {
+        "file": "A5_romeV.md",
+        "id": "A5-43",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['6']"
+        ],
+        "claim": "(A6 için) KHS tedavisi CVS gibidir (abortif + koruyucu). Uzun dönemde temel, kannabisi bırakmak ve amitriptilin gibi TSA'dır. Ani bırakma yoksunluk ve relaps ya"
+      },
+      {
+        "file": "A5_romeV.md",
+        "id": "A5-44",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['6']"
+        ],
+        "claim": "(A6 için) Kronik bulantı sendromunun standart tedavisi yok. Hipnoterapi kısa dönemde standart bakımdan etkili olabilir. Ondansetron, domperidon, siproheptadin, "
+      },
+      {
+        "file": "A5_romeV.md",
+        "id": "A5-45",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['6']"
+        ],
+        "claim": "(A6 için) Ruminasyon tedavisi: ilk adım mekanizmayı açıklamak ve güvence vermek (yalnız ilk danışmanlıkla %23'ü kendiliğinden düzeldi). Birinci basamak diyafrag"
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-01",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['2008', '2025']"
+        ],
+        "claim": "NASPGHAN 2025 yönetim kılavuzu (GRADE, 16 öneri) 2008 uzman konsensüsünün yerini aldı"
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-03",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['2025']"
+        ],
+        "claim": "NASPGHAN 2025: tetikleyiciden kaçınma, psikolojik tedavi, yaşam tarzı ve tedavi uyumu müdahaleleri koşullu öneriler (kesinlik çok düşük). Tetikleyiciler: açlık,"
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-05",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['119']"
+        ],
+        "claim": "Türkiye kohortu (n=119): yaşam tarzı uyumu %73,9 ve başarıyı öngördürüyor. Siproheptadin, etkili yaşam tarzı değişikliğine ek fayda sağlamadı"
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-06",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['2025']"
+        ],
+        "claim": "NASPGHAN 2025: kişisel ya da ailesel migren öyküsü varsa atak kesmede antimigren ajanlar **güçlü öneri**. Oral/IV 5-HT3 ve NK-1 antagonistleri ve IV gerektiğind"
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-09",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['12']"
+        ],
+        "claim": "Sumatriptan (kontrolsüz, n=12): SC uygulamada 35 atağın 19'unda yanıt; migren aile öyküsü olanlarda daha etkili. Nazal sprey 6 atağın 2'sinde tam yanıt"
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-12",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['41']"
+        ],
+        "claim": "Refrakter CVS'de aprepitant (n=41): akut kullanımda %76, profilaktik kullanımda %81 tam ya da kısmi yanıt"
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-13",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['2008']"
+        ],
+        "claim": "NASPGHAN 2008: IV hidrasyon gerektiğinde %10 dekstroz ve ondansetron; abortif tedavide triptan"
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-14",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['2025', '24']"
+        ],
+        "claim": "NASPGHAN 2025: D10 ya da D5 seçimi yaşa, şiddete ve olası metabolik hastalığa göre klinisyene bırakıldı; panel üstünlük yargısına varamadı. >24 saat gecikmiş ba"
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-16",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['2008']"
+        ],
+        "claim": "NASPGHAN 2008 profilaksi: ≤5 yaşta siproheptadin, >5 yaşta amitriptilin"
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-17",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['2025']"
+        ],
+        "claim": "NASPGHAN 2025 profilaksi: beta-bloker, NK-1 ve 5-HT2A antagonisti (siproheptadin), TSA koşullu öneri. Antikonvülzan yalnız refrakter CVS'de. Takviyeler, biyodav"
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-18",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['2025']"
+        ],
+        "claim": "NASPGHAN 2025: koenzim Q10, riboflavin ve magnezyum takviyesi koşullu öneri (kesinlik çok düşük–orta)"
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-20",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['15']"
+        ],
+        "claim": "RCT (3–15 yaş, 3 ay): amitriptilin 1 mg/kg/gün ile %68, topiramat 1–2 mg/kg/gün ile %39 hastada atak kesildi (p=0,016)"
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-21",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['1093', '25']"
+        ],
+        "claim": "SR (25 çalışma, 1093 olgu): kontrolsüz kohortlarda TSA ile klinik yanıt erişkinde %75,5, çocukta %67,6. Propranolol çocuklarda yararlı"
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-26",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['12']"
+        ],
+        "claim": "SSRI: orta–ağır anksiyetesi olan 34 hastanın tamamında 12. haftada tedavi başarısı"
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-27",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['30']"
+        ],
+        "claim": "İlaca dirençli CVS'de aurikuler nöromodülasyon (PENFS, 6 hafta, n=30, 8–18 yaş): izlemde %80 yanıt"
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-31",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['18', '23', '8']"
+        ],
+        "claim": "Ayaktan kapsamlı davranışsal tedavi (CBT-R; 8–18 yaş; 23 hasta değerlendirildi): %87 düzelme, %73,9 tam çözülme. Psikolojik etkenler kötü sonuçla ilişkili"
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-33",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['24']"
+        ],
+        "claim": "EMG-biofeedback RCT (n=24): ruminasyonda %74 azalma; plasebo grubunda %1"
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-34",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['3']"
+        ],
+        "claim": "Baklofen 10 mg günde 3 kez, çift kör çapraz RCT (n=20): regurgitasyon ve ruminasyon epizodları azaldı"
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-36",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['90']"
+        ],
+        "claim": "Çok merkezli RCT (IBS/FAP/FD, n=90): amitriptilin plaseboya üstün değil (%63 vs %57,5 \"daha iyi\"; P=.63)"
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-37",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['80']"
+        ],
+        "claim": "Dispeptik semptomlu çocuklarda siproheptadin (n=80): %55 yanıt; %30'da hafif yan etki"
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-40",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['100']"
+        ],
+        "claim": "RCT (n=100, 8–18 yaş, FN/FD): 12. ayda başarı hipnoterapiyle %60, standart tedaviyle %55 (fark yok). FN'de hipnoterapi daha başarılı, FD'de fark yok"
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-44",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['30']"
+        ],
+        "claim": "CHS akut tedavisi, RCT (n=30): IV haloperidol (0,05 veya 0,1 mg/kg) 8 mg ondansetrondan üstün. Yüksek doz grubunda 2 akut distoni"
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-47",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['1370']"
+        ],
+        "claim": "Pediatrik CVS'de (PHIS, 1370 hasta) 90 günde tekrar başvuru/yatış %28,5. Anksiyete, GÖRH, FD ve abdominal migren tekrar yatışla ilişkili"
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-52",
+        "issues": [
+          "iddiadaki sayılar alıntıda yok: ['2008']"
+        ],
+        "claim": "NASPGHAN 2008'deki 4 kırmızı bayraktan biri, ilerleyici kötüleşme ya da atak paterninin değişmesi: izlemde tanının yeniden düşünülme nedeni"
+      }
+    ]
   },
   "summary": {
     "bib_entries": 193,
     "bib_problems": 0,
     "bib_conflicts": 2,
     "claims": 281,
-    "claims_with_issues": 0
+    "claims_with_issues": 51
   }
 }
