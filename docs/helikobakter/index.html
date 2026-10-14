@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Çocukta Helicobacter pylori için ESPGHAN/NASPGHAN 2023 rehberine dayalı karar ağacı ve kiloya göre doz.">
+<title>H. pylori Karar Ağacı</title>
+<link rel="icon" href="../icon-192.png">
+<link rel="manifest" href="../manifest.webmanifest">
+<meta name="theme-color" content="#1f6f78">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap">
+<link rel="stylesheet" href="../ortak.css">
+</head>
+<body data-tool="hp">
+<div class="wrap">
+<nav class="crumb" aria-label="Gezinme"><a href="../">← Tüm araçlar</a><a href="../yabanci-cisim/">Yabancı Cisim</a><a href="../eozinofilik-ozofajit/">Eozinofilik Özofajit</a></nav>
+<header>
+  <h1>Helicobacter pylori Karar Ağacı</h1>
+  <p>Çocukta kimi test etmeli, tanı, tedavi seçimi, eradikasyon kontrolü ve başarısızlık. ESPGHAN/NASPGHAN 2023 rehberi, JPGN 2024;79:758–785 (doi:10.1002/jpn3.12314); Tablo 4–7, Şekil 1.</p>
+  <p class="warn">Sağlık profesyonelleri içindir. Kurtarma tedavisi bölümü yalnız uzman görüşüdür. Rehberdeki iç tutarsızlıklar sarı şeritle işaretlidir.</p>
+</header>
+
+<nav class="tabs" role="tablist">
+  <button role="tab" id="tab-karar" data-h="karar" aria-controls="p-karar">Karar ağacı</button>
+  <button role="tab" id="tab-doz" data-h="doz" aria-controls="p-doz">Doz</button>
+  <button role="tab" id="tab-test" data-h="test" aria-controls="p-test">Testler</button>
+  <button role="tab" id="tab-not" data-h="not" aria-controls="p-not">Rehber notları</button>
+</nav>
+
+<section id="p-karar" role="tabpanel" aria-labelledby="tab-karar">
+  <div id="form"></div>
+  <div class="tools"><button id="reset" type="button">Sıfırla</button></div>
+  <div id="result" class="result empty" aria-live="polite"><div class="band"><div class="lvl">Soruları cevapla</div></div></div>
+</section>
+
+<section id="p-doz" role="tabpanel" aria-labelledby="tab-doz" hidden>
+  <p class="note">Tablo 5: kiloya göre sabit dozlar. Tablo 15 kg altını kapsamıyor. mg/kg/gün değerleri aracın hesabıdır, rehberde yok.</p>
+  <div id="restore" class="flag" hidden></div>
+  <div class="form">
+    <label for="d-wt">Kilo (kg)<input id="d-wt" type="number" min="3" max="150" step="0.1" placeholder="ör. 28" inputmode="decimal"></label>
+    <label for="d-age">Yaş (yıl)<input id="d-age" type="number" min="0" max="18" step="1" placeholder="ör. 9" inputmode="numeric"></label>
+  </div>
+  <div id="dose" class="dose"></div>
+  <div class="tools copyrow"><button id="dcopy" type="button" class="btn" hidden>Dozları kopyala</button></div>
+</section>
+
+<section id="p-test" role="tabpanel" aria-labelledby="tab-test" hidden>
+  <h2>Kimi test etmeli (Tablo 7)</h2>
+  <div class="tscroll"><table>
+    <tr><th>Durum</th><th>Test</th><th>Güç</th></tr>
+    <tr><td>Fonksiyonel karın ağrısı (beyin–bağırsak etkileşim bozukluğu)</td><td>Hayır</td><td>Güçlü</td></tr>
+    <tr><td>Başka GİS hastalığı için endoskopi (çölyak, inflamatuvar bağırsak hastalığı, eozinofilik özofajit)</td><td>Hayır (özel biyopsi yok)</td><td>Koşullu</td></tr>
+    <tr><td>Ülser / erozyon</td><td>Evet</td><td>Güçlü</td></tr>
+    <tr><td>Birinci derece akrabada mide kanseri</td><td>Evet, noninvaziv</td><td>Koşullu</td></tr>
+    <tr><td>Kuzey Amerika/Avrupa'da yüksek riskli etnik grupları tarama</td><td>Hayır</td><td>Güçlü</td></tr>
+    <tr><td>Demir eksikliği anemisi, ilk değerlendirme</td><td>Hayır</td><td>Güçlü</td></tr>
+    <tr><td>Açıklanamayan, demire dirençli anemi (endoskopi yapılıyorsa)</td><td>Evet</td><td>Koşullu</td></tr>
+    <tr><td>Kronik immün trombositopeni</td><td>Hayır</td><td>Koşullu</td></tr>
+    <tr><td>Kısa boy</td><td>Hayır</td><td>Güçlü</td></tr>
+  </table></div>
+
+  <h2>Biyopsi protokolü (Öneri 10)</h2>
+  <ul>
+    <li>En az 6 biyopsi, yerine göre etiketli: antrum 3, korpus 3.</li>
+    <li>Histopatoloji (güncellenmiş Sydney): antrum ön + arka, korpus ön + arka duvar.</li>
+    <li>Kültür/PCR veya hızlı üreaz testi: antrum 1 + korpus 1. Kültür için serum fizyolojik değil özel transport ortamı, 4°C. İki bölgeden almak karışık suşları (heterorezistans) yakalar.</li>
+    <li>Tanı: kültür veya PCR pozitif, <strong>ya da</strong> H. pylori gastriti + hızlı üreaz testi pozitif. Hızlı üreaz testi tek başına yetmez (duyarlılık %87, özgüllük %65).</li>
+    <li>Aktif kanama biyopsi testlerinin duyarlılığını düşürür. Nodüler antral gastrit sık ama özgül değil.</li>
+    <li>Ek biyopsi yalnız sonuç pozitif çıkarsa tedavi verilecekse alınır.</li>
+  </ul>
+
+  <h2>Bekleme süreleri (Öneri 11, 17)</h2>
+  <div class="tscroll"><table>
+    <tr><th>Ne zaman</th><th>Kural</th></tr>
+    <tr><td>Proton pompası inhibitörü sonrası</td><td>≥2 hafta. Kesilemiyorsa H2 reseptör antagonistine geç, testten 2 gün önce kes.</td></tr>
+    <tr><td>Antibiyotik ve bizmut sonrası</td><td>≥4 hafta</td></tr>
+    <tr><td>Antasit</td><td>Üre nefes testini ve gaita antijen testini etkilemez</td></tr>
+    <tr><td>Eradikasyon kontrolü</td><td>Tedavi bitiminden 6–8 hafta sonra</td></tr>
+  </table></div>
+
+  <h2>Eradikasyon kontrol testleri (Öneri 14–16)</h2>
+  <div class="tscroll"><table>
+    <tr><th>Test</th><th>Durum</th><th>Not</th></tr>
+    <tr><td>¹³C-üre nefes testi</td><td>Önerilir</td><td>Duyarlılık %97,7, özgüllük %96,1. 6 yaş altında yalancı pozitif olabilir. Çocukta bazı çalışmalar DOB eşiği %2,4 kullanmış (genel >%4).</td></tr>
+    <tr><td>İki basamaklı monoklonal gaita antijen testi</td><td>Önerilir</td><td>Tedavi sonrası duyarlılık %100, özgüllük %92,3</td></tr>
+    <tr><td>Poliklonal gaita antijen testi</td><td>Diğer ikisi yoksa</td><td>Doğruluğu daha düşük</td></tr>
+    <tr><td>Ofiste hızlı gaita testi</td><td>Hayır</td><td>Laboratuvar testinden zayıf</td></tr>
+    <tr><td>Seroloji (kan, idrar, tükürük antikoru)</td><td>Hayır</td><td>Aktif enfeksiyonu göstermez, aylarca pozitif kalır</td></tr>
+    <tr><td>Kan/idrar/tükürük/diş plağı moleküler test</td><td>Hayır</td><td></td></tr>
+    <tr><td>Gaitadan PCR veya kültür</td><td>Hayır</td><td>Amplifikasyon inhibitörleri; kültür antijen testinden az duyarlı (Öneri 13)</td></tr>
+    <tr><td>¹⁴C-üre nefes testi, nefes amonyak testi</td><td>Hayır</td><td></td></tr>
+  </table></div>
+  <p class="note">Komplike peptik ülserde eradikasyon endoskopi ve biyopsiyle doğrulanır. Belirtinin geçmesi başarı göstergesi değildir. Yeniden enfeksiyon yılda %5,4–6 (5 yaş altı kardeşle temas riski artırır).</p>
+
+  <h2>Duyarlılık testi (Öneri 12, 18, 19)</h2>
+  <ul>
+    <li>Klaritromisin direnci: biyopsiden real-time PCR (daha duyarlı ve hızlı) veya kültür. PCR duyarlılığı %94,3–100, özgüllüğü %74–99,3.</li>
+    <li>Metronidazol duyarlılık testi kullanılmaz: tekrarlanabilir değil, in vivo direnci öngörmüyor. Direnç 14 gün ve yüksek dozla aşılabilir.</li>
+    <li>Yeni nesil dizileme şimdilik araştırma aracı.</li>
+  </ul>
+</section>
+
+<section id="p-not" role="tabpanel" aria-labelledby="tab-not" hidden>
+  <h2>Rehberin kendi tutarsızlıkları</h2>
+  <p class="note">Araç bunları düzeltmez, işaretler. Her biri PDF'ten kontrol edildi.</p>
+  <ul>
+    <li><strong>15 kg altı için doz yok.</strong> Tablo 5 15 kg'dan başlar; rehber bunu açıkça söylemez ("6 yaş altında eradikasyon nadiren endike").</li>
+    <li><strong>49–50 kg bandı tanımsız.</strong> Tablo "35–49" ve "&gt;50" der. Araç 49,x kg'ı 35–49, 50 kg ve üstünü "&gt;50" bandına koyar.</li>
+    <li><strong>Metronidazol üst sınırı.</strong> Öneri 19 "30 mg/kg/gün'e kadar (en fazla 1500 mg)" der; Tablo 5 15 kg'a 500 mg/gün verir (33,3 mg/kg/gün).</li>
+    <li><strong>Klaritromisin</strong> alt kilo sınırlarında 30–33 mg/kg/gün'e çıkar; rehber mg/kg belirtmez.</li>
+    <li><strong>Tetrasiklin yaşı.</strong> Tablo 4 ve Tablo 5 dipnotu "&gt;8 yaş", Öneri 23 tartışması "≥8 yaş", Öneri 23b "ergenlerde" der.</li>
+    <li><strong>Kinolon.</strong> Tablo 3 yorumu "çocukta kinolon önerilmez" der; Öneri 23 tartışması 8 yaş altı penisilin alerjisi + klaritromisin direncinde "daha önce almamışsa ve bölgesel direnç düşükse düşünülebilir" der.</li>
+    <li><strong>Kaynak hatası.</strong> Metin Maastricht VI'yı ref 5 ile gösterir; ref 5 Maastricht III (Gut 2007).</li>
+    <li><strong>Desteklenmeyen atıf olasılığı.</strong> "Vonoprazan ergenlerde mide mikrobiyotasını az etkiler" cümlesi ref 123'e dayanır; ref 123 bir farmakovijilans güvenlilik çalışmasıdır (başlığa göre, tam metin incelenmedi).</li>
+    <li><strong>GRADE dili.</strong> Öneri 6b "We do not recommend" ile "weak recommendation" birlikte; rehberin tanımında koşullu öneri "suggest" ile yazılır.</li>
+    <li><strong>Kurtarma tablosu (Tablo 6) eksik.</strong> Bizmutlu dörtlü sonrası başarısızlık ve "klaritromisin duyarlılığı bilinmiyor + önceki rejim klaritromisinli" satırı yok. Araç bu durumlarda rehberin genel kurallarını uygular ve bunu belirtir.</li>
+  </ul>
+
+  <h2>Kanıt düzeyine dikkat</h2>
+  <ul>
+    <li>Duyarlılık testi yoksa ampirik bizmutlu dörtlü (Öneri 22): koşullu, düşük kanıt. Pediatrik veri çoğunlukla randomize olmayan çalışmalardan.</li>
+    <li>Yüksek doz proton pompası inhibitörü + yüksek doz amoksisilin + 14 gün (Öneri 20): koşullu, çok düşük kanıt; erişkin verisinden.</li>
+    <li>Duyarlılık testi (Öneri 12): güçlü, yüksek kanıt, uzlaşı tam %80 sınırında.</li>
+    <li>Tarama 2016–2021; sonrası GRADE değerlendirmesine girmedi. Pediatrik vonoprazan RKÇ'si (VONTAPE 2025) rehberde yok.</li>
+  </ul>
+
+  <h2>Rehberin söylediği ama araçta karar dalı olmayanlar</h2>
+  <ul>
+    <li>Probiyotik: pediatride belirli suş önerecek veri yok.</li>
+    <li>Sıralı/konkomitan tedavi yerine duyarlılık testine göre üçlü tedavi (Öneri 21): ikiden fazla antibiyotikten kaçın.</li>
+    <li>P-CAB (vonoprazan): rehber "çocukta veri az, çalışma bekleniyor" der; erişkinde onaylı.</li>
+    <li>Birinci basamak tedavinin etkinliği ulusal/bölgesel merkezlerde izlenmeli.</li>
+  </ul>
+</section>
+
+<footer>Kaynak: Homan M, Jones NL ve ark. J Pediatr Gastroenterol Nutr 2024;79:758–785. Karar desteğidir; klinik yargının yerine geçmez. Türkiye'ye özgü direnç oranları ve bizmut/tetrasiklin erişimi araçta yoktur. Son güncelleme: 14 Ekim 2026.</footer>
+</div>
+<button id="sticky" class="sticky" type="button" hidden></button>
+
+<script src="../ortak.js"></script>
+<script>
+(function(){
+  // ---------- Tablo 5 ----------
+  var BANDS=['15–24 kg','25–34 kg','35–49 kg','≥50 kg'];
+  var D={
+    BIS:{n:'Bizmut subsitrat (kolloidal)',d:[[60,60,60],[120,60,60],[120,120,120],[180,120,120]]},
+    PPI:{n:'Proton pompası inhibitörü',d:[[20,0,20],[30,0,30],[40,0,40],[40,0,40]]},
+    AMO:{n:'Amoksisilin',d:[[500,500,500],[750,750,750],[1000,1000,1000],[1000,1000,1000]]},
+    MET:{n:'Metronidazol',d:[[250,0,250],[500,0,250],[500,0,500],[750,0,750]]},
+    CLA:{n:'Klaritromisin',d:[[250,0,250],[500,0,250],[500,0,500],[500,0,500]]}
+  };
+  var REG={
+    PAC:{n:'Proton pompası inhibitörü + amoksisilin + klaritromisin',drugs:['PPI','AMO','CLA'],dur:'14 gün'},
+    PAM:{n:'Proton pompası inhibitörü + amoksisilin + metronidazol',drugs:['PPI','AMO','MET'],dur:'14 gün (metronidazolde en az 14 gün)'},
+    BPAM:{n:'Bizmut + proton pompası inhibitörü + amoksisilin + metronidazol',drugs:['BIS','PPI','AMO','MET'],dur:'10–14 gün (ikisi benzer, Öneri 22)'},
+    PMC:{n:'Proton pompası inhibitörü + metronidazol + klaritromisin',drugs:['PPI','MET','CLA'],dur:'14 gün'},
+    BPMT:{n:'Bizmut + proton pompası inhibitörü + metronidazol + tetrasiklin',drugs:['BIS','PPI','MET','TET'],dur:'Öneri 23b süre vermiyor; bizmutlu dörtlü için 10–14 gün (Öneri 22)'}
+  };
+  var tot=function(a){return a[0]+a[1]+a[2];};
+  function fd(a){ if(a[1]) return (a[0]===a[1]&&a[1]===a[2]?a[0]+' mg × 3':a[0]+' – '+a[1]+' – '+a[2]+' mg (sabah–öğle–akşam)')+' = '+tot(a)+' mg/gün';
+    return (a[0]===a[2]?a[0]+' mg × 2':a[0]+' mg sabah, '+a[2]+' mg akşam')+' = '+tot(a)+' mg/gün'; }
+  var TETTXT='25–50 mg/kg/gün, 6 saatte bir, en fazla 3 g/gün (yalnız 8 yaş üstü)';
+  function regLines(code,bi){
+    var r=REG[code], L=['<strong>'+r.n+'</strong>, '+r.dur+'.'];
+    if(bi<0){L.push('Tablo 5 15 kg altı için doz vermiyor: dozu ayrıca hesapla ve doğrula.');return L;}
+    r.drugs.forEach(function(k){ if(k==='TET') L.push('Tetrasiklin: '+TETTXT+'.'); else L.push(D[k].n+' ('+BANDS[bi]+'): '+fd(D[k].d[bi])+'.'); });
+    return L;
+  }
+  function common(code){return ['Uyumun önemini aileye anlat; yazılı plan ver (Öneri 20, 24).',
+    (REG[code].drugs.indexOf('AMO')>=0?'Amoksisilin günde 3 doz. ':'')+'Proton pompası inhibitörleri eşdeğer değil; varsa esomeprazol tercih edilebilir (Tablo 5 dipnotu).',
+    'Kontrol: tedavi bitiminden 6–8 hafta sonra ¹³C-üre nefes testi veya monoklonal gaita antijen testi; öncesinde 2 hafta proton pompası inhibitörü yok.'];}
+
+  var Q=[
+    {k:'phase',step:'Aşama',label:'Hangi aşamadasın?',opts:[['who','Test etmeli miyim?'],['dx','Biyopsi sonucu: tanı kesin mi?'],['tx','Tanı kesin: tedavi seçimi'],['ctrl','Eradikasyon kontrolü'],['resc','Tedavi başarısız']]},
+
+    {k:'sc',step:'Endikasyon',label:'Klinik durum?',show:function(s){return s.phase==='who';},opts:[
+      ['ulc','Endoskopide ülser veya erozyon'],['fap','Tekrarlayan karın ağrısı, alarm bulgusu yok'],['oth','Başka GİS hastalığı için endoskopi (çölyak, İBH, EoE)'],
+      ['inc','Endoskopide tesadüfen H. pylori gastriti'],['ida','Demir eksikliği anemisi'],['gro','Kısa boy / büyüme geriliği'],['itp','Kronik immün trombositopeni'],
+      ['gc','Birinci derece akrabada mide kanseri'],['eth','Yüksek mide kanseri riskli etnik grup / göçmen'],['asx','Belirtisiz çocuk, aile test istiyor']]},
+    {k:'ida2',label:'Demir tedavisine yanıt?',show:function(s){return s.phase==='who'&&s.sc==='ida';},opts:[['first','İlk değerlendirme / henüz tedavi yok'],['ref','Uygun demir tedavisine dirençli, diğer nedenler dışlandı']]},
+    {k:'gro2',label:'H. pylori biliniyor mu?',show:function(s){return s.phase==='who'&&s.sc==='gro';},opts:[['unk','Bilinmiyor, nedeni araştırıyorum'],['pos','Biyopside pozitif bulundu']]},
+    {k:'itp2',label:'GİS kanaması nedeniyle endoskopi yapılıyor mu?',show:function(s){return s.phase==='who'&&s.sc==='itp';},opts:[['n','Hayır'],['y','Evet']]},
+    {k:'gc2',label:'Noninvaziv test sonucu?',show:function(s){return s.phase==='who'&&s.sc==='gc';},opts:[['none','Henüz yapılmadı'],['neg','Negatif'],['pos','Pozitif']]},
+
+    {k:'drug',step:'Tanı',label:'Endoskopiden önce ilaç?',hint:'Öneri 11: proton pompası inhibitörü için 2, antibiyotik ve bizmut için 4 hafta ara.',show:function(s){return s.phase==='dx';},opts:[['n','Uygun aralık / ilaç yok'],['ppi','Son 2 haftada proton pompası inhibitörü'],['ab','Son 4 haftada antibiyotik veya bizmut']]},
+    {k:'bleed',label:'Aktif kanama var mıydı?',show:function(s){return s.phase==='dx'&&!!s.drug;},opts:[['n','Hayır'],['y','Evet']]},
+    {k:'cul',label:'Kültür veya PCR?',show:function(s){return s.phase==='dx'&&!!s.bleed;},opts:[['pos','Pozitif'],['neg','Negatif'],['nd','Yapılmadı']]},
+    {k:'his',label:'Histopatoloji (Sydney)?',show:function(s){return s.phase==='dx'&&!!s.cul&&s.cul!=='pos';},opts:[['pos','H. pylori gastriti'],['neg','Negatif'],['nd','Yapılmadı']]},
+    {k:'rut',label:'Hızlı üreaz testi?',show:function(s){return s.phase==='dx'&&!!s.his;},opts:[['pos','Pozitif'],['neg','Negatif'],['nd','Yapılmadı']]},
+    {k:'ni',label:'Noninvaziv test (¹³C-üre nefes / monoklonal gaita antijeni)?',hint:'Histoloji tek pozitif invaziv testse destekleyici olabilir (s.773).',show:function(s){return s.phase==='dx'&&s.his==='pos'&&!!s.rut&&s.rut!=='pos';},opts:[['pos','Pozitif'],['neg','Negatif'],['nd','Yapılmadı']]},
+
+    {k:'pen',step:'Tedavi',label:'Penisilin alerjisi?',show:function(s){return s.phase==='tx';},opts:[['n','Yok'],['sus','Bildiriliyor, doğrulanmadı'],['y','Alerji testiyle doğrulandı']]},
+    {k:'ast',label:'Klaritromisin duyarlılık testi (kültür veya PCR)?',show:function(s){return s.phase==='tx'&&!!s.pen&&s.pen!=='sus';},opts:[['s','Duyarlı'],['r','Dirençli'],['u','Yapılmadı / sonuç yok']]},
+    {k:'bis',label:'Bizmut erişilebilir mi?',show:function(s){return s.phase==='tx'&&s.pen==='n'&&(s.ast==='r'||s.ast==='u');},opts:[['y','Evet'],['n','Hayır']]},
+    {k:'age8',label:'Yaş?',hint:'Tetrasiklin 8 yaş altında kullanılmaz.',show:function(s){return s.phase==='tx'&&s.pen==='y'&&(s.ast==='r'||s.ast==='u');},opts:[['lt8','8 yaşından küçük'],['8','8 yaş'],['gt8','8 yaşından büyük']]},
+    {k:'wb',label:'Kilo?',hint:'Dozlar Tablo 5\'ten gelir.',keep:true,show:function(s){return s.phase==='tx'&&txReady(s);},opts:[['lt15','<15 kg'],['0','15–24'],['1','25–34'],['2','35–49'],['3','≥50']]},
+
+    {k:'tt',step:'Kontrol',label:'Hangi test?',show:function(s){return s.phase==='ctrl';},opts:[['ubt','¹³C-üre nefes testi'],['sat','Monoklonal gaita antijen testi'],['psat','Poliklonal gaita antijen testi'],['bad','Seroloji / ofiste hızlı test / ¹⁴C-üre nefes testi'],['endo','Endoskopi + biyopsi']]},
+    {k:'wk',label:'Tedavi bitiminden bu yana?',show:function(s){return s.phase==='ctrl'&&!!s.tt&&s.tt!=='bad';},opts:[['lt6','6 haftadan az'],['ok','6–8 hafta'],['gt8','8 haftadan fazla']]},
+    {k:'off',label:'Testten önceki 2 haftada proton pompası inhibitörü?',show:function(s){return s.phase==='ctrl'&&!!s.wk&&s.wk!=='lt6';},opts:[['n','Almadı'],['y','Aldı']]},
+    {k:'u6',label:'6 yaşından küçük mü?',show:function(s){return s.phase==='ctrl'&&s.tt==='ubt'&&s.off==='n';},opts:[['n','Hayır'],['y','Evet']]},
+    {k:'cpud',label:'Komplike peptik ülser miydi (kanama, perforasyon, darlık)?',show:function(s){return s.phase==='ctrl'&&s.off==='n'&&(s.tt!=='ubt'||!!s.u6);},opts:[['n','Hayır'],['y','Evet']]},
+    {k:'res',label:'Sonuç?',show:function(s){return s.phase==='ctrl'&&!!s.cpud&&!(s.cpud==='y'&&s.tt!=='endo');},opts:[['neg','Negatif'],['pos','Pozitif']]},
+
+    {k:'why',step:'Başarısızlık',label:'Başarısızlığın olası nedeni?',hint:'Rehber önce nedeni sorgulamayı öneriyor.',show:function(s){return s.phase==='resc';},opts:[['adh','Uyumsuzluk / yan etkiyle erken bırakma'],['dose','Doz yetersiz veya duyarlılık testine göre değildi'],['none','Belirgin neden yok']]},
+    {k:'n',label:'Kaçıncı başarısızlık?',show:function(s){return s.phase==='resc'&&!!s.why;},opts:[['1','Birinci'],['2','İkinci veya daha fazla']]},
+    {k:'prev',label:'Son kullanılan rejim?',show:function(s){return s.phase==='resc'&&!!s.n;},opts:[['PAC','PPI + amoksisilin + klaritromisin'],['PAM','PPI + amoksisilin + metronidazol'],['BQ','Bizmutlu dörtlü'],['oth','Diğer']]},
+    {k:'ast2',label:'Klaritromisin duyarlılığı?',show:function(s){return s.phase==='resc'&&(s.prev==='PAC'||s.prev==='PAM');},opts:[['s','Duyarlı'],['u','Dirençli / bilinmiyor']]},
+    {k:'mac',label:'Daha önce makrolid veya florokinolon kullanımı (herhangi bir nedenle)?',show:function(s){return s.phase==='resc'&&(!!s.ast2||s.prev==='BQ'||s.prev==='oth');},opts:[['n','Yok / bilinmiyor'],['mac','Makrolid'],['fq','Florokinolon'],['both','İkisi de']]},
+    {k:'wb2',label:'Kilo?',keep:true,show:function(s){return s.phase==='resc'&&!!s.mac;},opts:[['lt15','<15 kg'],['0','15–24'],['1','25–34'],['2','35–49'],['3','≥50']]}
+  ];
+  function txReady(s){ if(!s.pen||s.pen==='sus'||!s.ast) return false;
+    if(s.pen==='n'&&s.ast!=='s') return !!s.bis;
+    if(s.pen==='y'&&s.ast!=='s') return !!s.age8;
+    return true; }
+
+  var LV={kons:['',''],elektif:['',''],acil:['',''],izlem:['',''],bireysel:['',''],info:['','']};
+  var GOTX='<button type="button" class="btn" data-phase="tx">Tedavi seçimine geç →</button>';
+  var GORE='<button type="button" class="btn" data-phase="resc">Başarısızlık dalına geç →</button>';
+  var GODX='<button type="button" class="btn" data-phase="dx">Biyopsi sonucunu yorumla →</button>';
+  var bi=function(v){return v==='lt15'?-1:parseInt(v,10);};
+
+  function decide(s){
+    var R=function(k,lvl,sub,act,ev,flags){return {k:k,lvl:lvl,sub:sub,act:(act||[]).filter(Boolean),ev:ev||[],flags:(flags||[]).filter(Boolean)};};
+    if(!s.phase) return null;
+
+    if(s.phase==='who'){
+      if(!s.sc) return null;
+      switch(s.sc){
+        case 'ulc': return R('kons','Test et; pozitifse tedavi et','eradikasyonu doğrula',['Biyopsi temelli tanı: en az 6 biyopsi; kültür/PCR + histoloji (Öneri 2, 10). Klaritromisin direncine bak (Öneri 12).','Pozitifse tedavi ver ve eradikasyonu doğrula. Eradikasyon ülser nüksünü önler.',GODX],['Güçlü öneri, uzlaşı %100.']);
+        case 'fap': return R('info','Test etme','fonksiyonel karın ağrısı',['Noninvaziv veya invaziv test yapma (Öneri 3, güçlü).','Pozitif test kaygı ve gereksiz endoskopi doğurur. Fonksiyonel bozukluğu standart bakımla yönet.','Endoskopi yapıldı ve H. pylori bulunduysa: eradikasyonun belirtiyi düzelttiği gösterilmedi; aileyle yarar–zarar konuş.'],['Ülser/erozyon yokken H. pylori çocukta belirti yapmıyor; "test et ve tedavi et" stratejisinin kanıtı yok.']);
+        case 'oth': return R('info','H. pylori için özel biyopsi alma','çölyak, İBH veya EoE endoskopisi',['Bu endoskopide H. pylori\'ye yönelik Sydney biyopsileri gerekmez (Öneri 4a, koşullu, kanıt çok düşük–düşük).','Rutin biyopside tesadüfen bulunursa "Endoskopide tesadüfen H. pylori" seçeneğine bak.'],['"H. pylori koruyucu" verisi ters ilişki; nedensellik gösterilmedi. EoE için meta-analiz OR 0,63, ama İspanyol vaka-kontrol çalışmasında OR 0,97 (0,73–1,30).']);
+        case 'inc': return R('elektif','Aileyle yarar–zarar konuş','tedavi düşünülebilir',['Mukoza lezyonu yoksa tedavi tartışmalı (Öneri 4b, koşullu, kanıt düşük).','Olası yarar: gelecekte ülser, atrofi/intestinal metaplazi, MALT lenfoma, mide kanseri önleme; ailenin kaygısını azaltma. Kimin ilerleyeceğini gösteren biyobelirteç yok.','Olası zarar: antibiyotik direnci, yan etki, mikrobiyota, tedavi başarısızlığı, yeniden enfeksiyon (yüksek prevalanslı bölgede %10\'a kadar).','Tedavi kararı verildiyse duyarlılık testi ile.',GOTX]);
+        case 'ida':
+          if(!s.ida2) return null;
+          if(s.ida2==='first') return R('info','Test etme','ilk değerlendirme',['Demir eksikliği anemisini güncel rehberine göre tedavi et (Öneri 5a, güçlü).','Noninvaziv H. pylori testi ilk değerlendirmenin parçası değil.'],['Nepal\'deki popülasyon çalışmasında ve İran/Türkiye\'deki küçük çalışmalarda anemisi olan ve olmayanlarda H. pylori sıklığı farksız.']);
+          return R('elektif','Endoskopi yapılıyorsa test et; pozitifse tedavi et','demire dirençli anemi',['Diğer nedenler dışlandıysa endoskopide H. pylori testi düşünülebilir (Öneri 5b) ve bulunursa tedavi önerilir (Öneri 5c, koşullu).','Noninvaziv test değil, biyopsi.',GODX],['Dirençli anemide demir + eradikasyon ferritin ve hemoglobini artırabilir (ref 43).']);
+        case 'gro':
+          if(!s.gro2) return null;
+          if(s.gro2==='unk') return R('info','Test etme','kısa boy',['Kısa boy araştırmasında H. pylori testi yok (Öneri 6a, güçlü).','Yerel standarda göre değerlendir.'],['Tek longitudinal çalışmada fark −0,0264 cm/ay (aracın hesabı: yılda ≈0,3 cm).']);
+          return R('elektif','Önce başka nedenleri dışla','eradikasyonun büyümeyi düzelttiği gösterilmedi',['Diğer olası büyüme geriliği nedenlerini dışlamadan rutin tedavi verme (Öneri 6b).','Aileyle enfeksiyonun anlamını konuş.'],[],['Öneri 6b "We do not recommend" ile "weak recommendation" birlikte yazılmış; GRADE dilinde tutarsız.']);
+        case 'itp':
+          if(!s.itp2) return null;
+          if(s.itp2==='n') return R('info','Test etme','kronik immün trombositopeni',['Kronik İTP araştırmasında invaziv veya noninvaziv test önerilmez (Öneri 7a, önceki rehberin tersi).','Trombositi yükseltmek için H. pylori tedavisi önerilmez (Öneri 7b).'],['Çocuk RKÇ meta-analizi: 103 tedavi, 96 kontrol; trombositte anlamlı fark yok. Çocuk İTP\'sinin %50–70\'i 6–12 ayda kendiliğinden düzelir.'],['Erişkin rehberleri (Maastricht VI, ACG) tersini söylüyor: İTP\'de test ve tedavi. Ayrışma çocuk İTP biyolojisine dayanıyor.']);
+          return R('elektif','Biyopsi alınabilir; pozitifse tedavi düşünülebilir','GİS kanaması için endoskopi',['İTP\'li çocukta GİS kanaması için yapılan endoskopide H. pylori testi ve pozitifse tedavi düşünülebilir (s.769).','Aktif kanama biyopsi testlerinin duyarlılığını düşürür.',GODX]);
+        case 'gc':
+          if(!s.gc2) return null;
+          if(s.gc2==='none') return R('kons','Noninvaziv test yap','¹³C-üre nefes testi veya monoklonal gaita antijeni',['Öneri 8 (koşullu, kanıt düşük–orta, uzlaşı %80).','Öncesinde 2 hafta proton pompası inhibitörü, 4 hafta antibiyotik/bizmut yok.'],['Birinci derece akrabada mide kanseri riski 2–3 kat. Erişkin meta-analizinde bir mide kanserini önlemek için tedavi edilmesi gereken sayı 45 (35–74).']);
+          if(s.gc2==='neg') return R('info','İşlem gerekmez','test negatif',['Belirti olursa standart değerlendirme.']);
+          return R('kons','Endoskopi + duyarlılık testi düşün; tedavi et ve doğrula','test pozitif',['Mide kanseri tanılı birinci derece akrabayla aynı evde yaşayan pozitif çocukta invaziv test (duyarlılık testiyle) gerekebilir (s.771).','Tedavi sonrası eradikasyonu doğrula.',GOTX],['Aile öyküsünde eradikasyon mide kanseri insidansını azalttı, mortaliteyi azaltmadı (tek çalışma).']);
+        case 'eth': return R('info','Tarama yapma','yüksek riskli etnik grup',['Kuzey Amerika/Avrupa\'da yaşayan yüksek mide kanseri riskli gruplardan çocukları tarama (Öneri 9, güçlü, kanıt düşük).','Birinci derece akrabada mide kanseri varsa o dala bak.'],['Gerekçe: tarama DSÖ kriterlerini karşılamıyor; enfekte çocukta kanseri öngören yüksek pozitif öngörülü test yok.'],['Öneri Kuzey Amerika ve Avrupa için yazıldı; orta–yüksek mide kanseri insidanslı ülkelere doğrudan uyarlanamaz.']);
+        case 'asx': return R('info','Test etme','"test et ve tedavi et" çocukta önerilmez',['Belirtisiz çocukta tarama veya "test et ve tedavi et" stratejisinin kanıtı yok (s.765).','İstisna: birinci derece akrabada mide kanseri.']);
+      }
+      return null;
+    }
+
+    if(s.phase==='dx'){
+      if(!s.drug||!s.bleed||!s.cul) return null;
+      var fl=[];
+      if(s.drug==='ppi') fl.push('Son 2 haftada proton pompası inhibitörü: tüm testlerde yalancı negatif olabilir (Öneri 11).');
+      if(s.drug==='ab') fl.push('Son 4 haftada antibiyotik veya bizmut: tüm testlerde yalancı negatif olabilir (Öneri 11).');
+      if(s.bleed==='y') fl.push('Aktif kanama biyopsi testlerinin duyarlılığını düşürür; negatif sonuç güvenilir değil.');
+      var neg=function(){var a=['En az iki test negatif veya kanıt yetersiz.'];
+        if(fl.length) a.push('Yalancı negatif şüphesi: ilaçsız aradan sonra ¹³C-üre nefes testi veya monoklonal gaita antijeni yardımcı olabilir (s.773).');
+        return R('info','H. pylori gösterilemedi','tanı konmadı',a,[],fl);};
+      if(s.cul==='pos') return R('kons','Tanı kesin','kültür veya PCR pozitif',['Duyarlılık sonucunu (klaritromisin) tedavi seçiminde kullan.',GOTX],[],fl);
+      if(!s.his||!s.rut) return null;
+      if(s.his==='pos'&&s.rut==='pos') return R('kons','Tanı kesin','histoloji + hızlı üreaz testi pozitif',['Duyarlılık testi yoksa klaritromisin kullanma (Öneri 18b).',GOTX],[],fl);
+      if(s.his==='pos'){
+        if(!s.ni) return null;
+        if(s.ni==='pos') return R('kons','Tanı kabul edilebilir','histoloji + noninvaziv test pozitif',['Histoloji tek pozitif invaziv testken pozitif noninvaziv test tanıyı destekler (s.773).',GOTX],[],fl);
+        return R('elektif','Tanı kesin değil','yalnız histoloji pozitif',['Rehber tanı için histoloji + en az bir başka pozitif test veya pozitif kültür ister (Öneri 10).','İlaçsız aradan sonra ¹³C-üre nefes testi veya monoklonal gaita antijeni yap.'],[],fl);
+      }
+      if(s.rut==='pos') return R('elektif','Tanı kesin değil','yalnız hızlı üreaz testi pozitif',['Hızlı üreaz testinin özgüllüğü %65; tek başına tanı koymaz.','Histoloji negatifse sonuç büyük olasılıkla yalancı pozitif. Gerekirse noninvaziv testle doğrula.'],[],fl);
+      if(s.cul==='nd'&&s.his==='nd'&&s.rut==='nd') return R('info','Test yapılmamış','',['Biyopsi temelli test yok: tanı için en az 6 biyopsi (Öneri 10).']);
+      return neg();
+    }
+
+    if(s.phase==='tx'){
+      if(!s.pen) return null;
+      if(s.pen==='sus') return R('elektif','Önce alerjiyi doğrula','bildirilen penisilin alerjisi çoğu zaman gerçek değil',['Resmi alerji değerlendirmesiyle gerçek amoksisilin alerjisini doğrula (Öneri 23 tartışması).','Alerji dışlanırsa amoksisilinli rejimler kullanılabilir; sonra "Yok" seçeneğiyle devam et.']);
+      if(!s.ast) return null;
+      if(!txReady(s)||!s.wb) return null;
+      var b=bi(s.wb), code, k='kons', lvl, sub, act, ev=[], flags=[];
+      if(b<0) flags.push('Tablo 5 15 kg altını kapsamıyor. Rehber 6 yaş altında eradikasyonun nadiren endike olduğunu söylüyor.');
+      if(s.wb==='3') flags.push('Tablo "35–49" ve "&gt;50" diyor; 49–50 kg tanımsız. Araç 50 kg\'ı "&gt;50" bandına koyar.');
+      if(s.pen==='n'){
+        if(s.ast==='s'){code='PAC';lvl='Duyarlılık testine göre üçlü';sub='klaritromisin duyarlı';ev=['Duyarlılık testine göre tedavide eradikasyon %98 (14 gün), ampirik üçlüde %71 (647/911). Hedef ≥%90.','Öneri 18a güçlü; Öneri 20 (yüksek doz, 14 gün) koşullu, çok düşük kanıt.'];}
+        else {code=s.bis==='y'?'BPAM':'PAM'; lvl=s.bis==='y'?'Bizmutlu dörtlü':'Metronidazollü üçlü';
+          sub=s.ast==='r'?'klaritromisin dirençli':'duyarlılık testi yok: klaritromisin kullanma';
+          ev=['Şekil 1 ve Tablo 4: bizmutlu dörtlü veya proton pompası inhibitörü + amoksisilin + metronidazol; bizmut varsa tercih edilir (eradikasyon daha yüksek).','Pediatrik bizmutlu veriler: Çin 288 çocuk %89,8 vs standart üçlü %74 (randomize değil); Belçika 36 çocuk %97.'];
+          if(s.ast==='u') flags.push('Duyarlılık testi yokken klaritromisin kullanma (Öneri 18b, güçlü). Öneri 22 (ampirik bizmutlu dörtlü) koşullu, kanıt düşük.');
+          if(s.bis==='n') flags.push('Metronidazol direnci 14 gün ve yüksek dozla aşılabilir (Öneri 19); metronidazol duyarlılık testine bakma.');
+        }
+      } else {
+        if(s.ast==='s'){code='PMC';lvl='Klaritromisin + metronidazollü üçlü';sub='penisilin alerjisi, klaritromisin duyarlı';ev=['Öneri 23a koşullu, çok düşük kanıt. 1–15 yaş RKÇ: klaritromisin + metronidazol + omeprazol %93 (37/40), klaritromisin + amoksisilin + omeprazol %87 (34/39); küçük çalışma, fark yorumlanamaz.'];}
+        else if(s.age8==='lt8'){
+          return R('bireysel','Seçenek çok sınırlı','8 yaş altı, penisilin alerjisi, klaritromisin dirençli veya bilinmiyor',
+            ['Tetrasiklin 8 yaş altında kullanılmaz.','Rehber: daha önce almamışsa ve bölgesel direnç düşükse florokinolonlu rejim düşünülebilir (Öneri 23 tartışması).','Tedavi zorunluluğunu yeniden tart (ülser var mı?); uzman merkezle karar ver.'],[],
+            ['Çelişki: Tablo 3 yorumu "çocukta kinolon önerilmez" diyor; Öneri 23 tartışması "düşünülebilir" diyor.'].concat(flags));
+        } else {code='BPMT';lvl='Tetrasiklinli bizmutlu dörtlü';sub='penisilin alerjisi, klaritromisin dirençli veya bilinmiyor';
+          ev=['Öneri 23b koşullu, çok düşük kanıt. Tartışma: yalnız kanıtlanmış ülser hastalığında ve alerji belgelendikten sonra.','Bizmut subsitrat + metronidazol + tetrasiklin kombine preparatının 18 yaş altında etkinlik ve güvenlik verisi yok.'];
+          flags.push('Öneri 23b "ergenlerde" diyor; tartışma yalnız kanıtlanmış ülser hastalığında kullanılmasını söylüyor.');
+          if(s.age8==='8') flags.push('Tablo 4 ve Tablo 5 dipnotu "&gt;8 yaş", Öneri 23 tartışması "≥8 yaş" diyor; tam 8 yaş rehberde belirsiz.');
+        }
+      }
+      act=regLines(code,b).concat(common(code));
+      return R(k,lvl,sub,act,ev,flags);
+    }
+
+    if(s.phase==='ctrl'){
+      if(!s.tt) return null;
+      if(s.tt==='bad') return R('acil','Bu test eradikasyonu göstermez','geçerli testle tekrarla',['Seroloji aktif enfeksiyonu göstermez, aylarca pozitif kalır (Öneri 15).','Ofiste hızlı gaita testi laboratuvar testinden zayıf; ¹⁴C-üre nefes testi çocukta önerilmez (Öneri 14).','6–8. haftada ¹³C-üre nefes testi veya iki basamaklı monoklonal gaita antijen testi yap.']);
+      if(!s.wk) return null;
+      if(s.wk==='lt6') return R('izlem','Bekle','6 haftadan önce yalancı negatif',['Testi tedavi bitiminden 6–8 hafta sonraya planla (Öneri 17).']);
+      if(!s.off) return null;
+      if(s.off==='y') return R('izlem','Proton pompası inhibitörünü kes, 2 hafta sonra test et','yalancı negatif riski',['Testten önce en az 2 hafta proton pompası inhibitörü yok (Öneri 11).','Belirti nedeniyle kesilemiyorsa H2 reseptör antagonistine geç, testten 2 gün önce kes.','Bu süreçte antibiyotik veya bizmut aldıysa 4 hafta bekle.']);
+      if(s.tt==='ubt'&&!s.u6) return null;
+      if(!s.cpud) return null;
+      var cf=[];
+      if(s.tt==='psat') cf.push('Poliklonal gaita antijen testi daha az doğru; yalnız diğer iki test yoksa (s.774).');
+      if(s.u6==='y') cf.push('6 yaş altında ¹³C-üre nefes testi yalancı pozitif verebilir: pozitifse monoklonal gaita antijen testiyle doğrula.');
+      if(s.wk==='gt8') cf.push('8 haftadan sonra pozitiflik yeniden enfeksiyona da bağlı olabilir. Ancak rehberin verdiği yıllık %5,4–6 hıza göre birkaç haftalık gecikmenin ek riski küçük (aracın hesabı: ayda ≈%0,5).');
+      if(s.cpud==='y'&&s.tt!=='endo') return R('elektif','Endoskopiyle doğrula','komplike peptik ülser',['Komplike peptik ülserde eradikasyon endoskopi ve biyopsiyle doğrulanır (Öneri 14, uygulama noktası 3).'],[],cf);
+      if(!s.res) return null;
+      if(s.res==='neg') return R('kons','Eradikasyon başarılı','',['Belirtinin geçmesi değil, test sonucu esas (Öneri 14).','Yeniden enfeksiyon yılda %5,4–6; 5 yaş altı kardeşle temas riski artırır.'],[],cf);
+      if(s.u6==='y') return R('elektif','Pozitif, ama doğrula','6 yaş altında üre nefes testi',['Monoklonal gaita antijen testiyle doğrula; o da pozitifse tedavi başarısız.',GORE],[],cf);
+      return R('acil','Tedavi başarısız','persistan enfeksiyon',['Başarısızlık nedenini sorgula ve alternatif rejimle tedavi et.',GORE],[],cf);
+    }
+
+    if(s.phase==='resc'){
+      if(!s.why||!s.n||!s.prev) return null;
+      if((s.prev==='PAC'||s.prev==='PAM')&&!s.ast2) return null;
+      if(!s.mac||!s.wb2) return null;
+      var b2=bi(s.wb2), f=[], a=[], code2=null, kk='bireysel', l2, sb;
+      if(s.why==='adh') a.push('Uyumsuzluk veya erken bırakma: uyumu ve yan etkiyi konuş, yazılı plan ver.');
+      if(s.why==='dose') a.push('Bu kez Tablo 5 dozlarını kullan ve duyarlılık testine göre seç.');
+      var avoidC=(s.mac==='mac'||s.mac==='both'), avoidF=(s.mac==='fq'||s.mac==='both');
+      if(s.prev==='PAC'&&s.ast2==='s'){ code2='PAM'; kk='elektif'; l2='Metronidazollü üçlü'; sb='Tablo 6: klaritromisin duyarlı, önceki rejim klaritromisinli'; }
+      else if(s.prev==='PAM'&&s.ast2==='s'){
+        if(avoidC){ code2='BPAM'; l2='Bizmutlu dörtlü (araç kararı)'; sb='Tablo 6 klaritromisinli üçlü diyor, ama önceki makrolid kullanımı var';
+          f.push('Rehber: önceki makrolid kullanımında klaritromisinden kaçın (s.779). Tablo 6 bu çakışmayı ele almıyor; araç bizmutlu dörtlüyü seçti. Güncel duyarlılık testi daha doğru.'); }
+        else { code2='PAC'; kk='elektif'; l2='Klaritromisinli üçlü'; sb='Tablo 6: klaritromisin duyarlı, önceki rejim metronidazollü'; }
+      }
+      else if(s.prev==='PAM'){ code2='BPAM'; kk='elektif'; l2='Bizmutlu dörtlü'; sb='Tablo 6: klaritromisin dirençli/bilinmiyor, önceki rejim metronidazollü';
+        a.push('Direnç için endoskopi düşün (Tablo 6). 8 yaş üstünde tetrasiklin amoksisilinin yerine geçebilir; pediatrik veri yok.'); }
+      else if(s.prev==='PAC'){ code2='BPAM'; l2='Bizmutlu dörtlü (araç kararı)'; sb='Tablo 6\'da bu satır yok';
+        f.push('Duyarlılık testi olmadan klaritromisin verilmiş (Öneri 18b\'ye aykırı) ve Tablo 6 bu durumu kapsamıyor. Araç klaritromisini dışlayıp Tablo 4\'teki "dirençli/bilinmiyor" rejimini seçti. Endoskopi + duyarlılık testi daha doğru.'); }
+      else {
+        l2='Rehberde hazır rejim yok'; sb=s.prev==='BQ'?'bizmutlu dörtlü sonrası':'diğer rejim sonrası';
+        a.push('Tablo 6 bu durumu kapsamıyor. Genel kurallar (s.779): endoskopi + duyarlılık testi; amoksisilin direnci nadir (günde 3 doz); metronidazol direnci daha uzun süre ve yüksek dozla aşılabilir; daha güçlü asit baskılama.');
+        a.push('Uzman merkezle karar ver; aileyle yarar–zararı konuş.');
+      }
+      if(code2) a=a.concat(regLines(code2,b2));
+      if(s.n==='2') a.push('<strong>İki başarısızlık:</strong> uyum doğrulandıysa duyarlılık testini yeniden yap (endoskopi) ve sonraki rejimi ona göre seç (s.779).');
+      if(avoidC) a.push('Önceki makrolid kullanımı: klaritromisinli rejimlerden kaçın.');
+      if(avoidF) a.push('Önceki florokinolon kullanımı: levofloksasinli rejimlerden kaçın.');
+      a.push('Yüksek doz ve daha güçlü asit baskılayıcı düşün (yetersiz asit baskılama başarısızlıkla ilişkili). P-CAB (vonoprazan) çocukta veri sınırlı, erişkinde onaylı.');
+      a.push('Kontrol yine 6–8. haftada ¹³C-üre nefes testi veya monoklonal gaita antijeni.');
+      if(b2<0) f.push('Tablo 5 15 kg altını kapsamıyor.');
+      return R(kk,l2,sb,a,['Kurtarma bölümü yalnız uzman görüşü; öneri gücü verilmemiş (s.779).'],f);
+    }
+    return null;
+  }
+
+  Ortak.tabs();
+  var W=Ortak.wizard({Q:Q,decide:decide,LV:LV,tool:'H. pylori karar ağacı',source:'ESPGHAN/NASPGHAN, JPGN 2024;79:758–785',form:'#form',result:'#result',reset:'#reset',sticky:'#sticky'});
+  document.getElementById('result').addEventListener('click',function(e){var b=e.target.closest('[data-phase]');if(!b)return;
+    Object.keys(W.S).forEach(function(k){delete W.S[k];}); W.set('phase',b.dataset.phase); window.scrollTo({top:0});});
+
+  // ---------- DOZ ----------
+  var $=function(s){return document.querySelector(s);};
+  var fmt=function(x){return (Math.round(x*10)/10).toLocaleString('tr-TR');};
+  function band(wt){return wt<15?-1:wt<25?0:wt<35?1:wt<50?2:3;}
+  function dose(wt,age){
+    if(isNaN(wt)) return {err:'Kilo gir.'};
+    if(wt<3||wt>150) return {err:'Aralık dışı: kilo 3–150 kg.'};
+    var b=band(wt), out=[], warn=[];
+    if(b<0) return {err:'Tablo 5 15 kg altı için doz vermiyor. Rehber 6 yaş altında eradikasyonun nadiren endike olduğunu söylüyor; dozu ayrıca hesapla ve doğrula.'};
+    if(wt>=49&&wt<51) warn.push('Tablo "35–49" ve "&gt;50" diyor; 49–50 kg tanımsız. Araç 49,x kg\'ı 35–49, 50 kg ve üstünü "&gt;50" bandına koyar.');
+    ['PPI','AMO','CLA','MET','BIS'].forEach(function(k){
+      var d=D[k].d[b], mk=tot(d)/wt, row={h:D[k].n,rows:[['Doz',fd(d)],['mg/kg/gün (hesap)',fmt(mk)]]};
+      if(k==='MET'&&mk>30) row.warn='Öneri 19 "30 mg/kg/gün\'e kadar" diyor; Tablo 5 bu kiloda '+fmt(mk)+' mg/kg/gün veriyor.';
+      if(k==='CLA'&&mk>20) row.note='Rehber klaritromisin için mg/kg sınırı vermiyor; bu değer alışılmış pediatrik dozun üstünde olabilir, doğrula.';
+      if(k==='PPI') row.note='Proton pompası inhibitörleri eşdeğer değil; varsa esomeprazol tercih edilebilir (Tablo 5 dipnot b).';
+      if(k==='BIS'){ var ss=isNaN(age)?'yaş girilirse gösterilir':age<10?'262 mg × 4 /gün':age>10?'524 mg × 4 /gün':'tam 10 yaş tanımsız (&lt;10: 262 mg × 4; &gt;10: 524 mg × 4)'; row.rows.push(['Bizmut subsalisilat alternatifi',ss]); }
+      out.push(row);
+    });
+    var tet;
+    if(isNaN(age)) tet={h:'Tetrasiklin',rows:[['Doz','Yaş gir']]};
+    else if(age<8) tet={h:'Tetrasiklin',rows:[['Doz','8 yaş altında kullanılmaz']]};
+    else { var lo=Math.min(wt*25,3000), hi=Math.min(wt*50,3000);
+      tet={h:'Tetrasiklin',rows:[['Doz',fmt(lo)+'–'+fmt(hi)+' mg/gün, 6 saatte bir ('+fmt(lo/4)+'–'+fmt(hi/4)+' mg × 4)'],['Kural','25–50 mg/kg/gün, en fazla 3 g/gün']],
+        note:'Pediatrik veri yok; yalnız penisilin alerjisi + klaritromisin direncinde (Öneri 23b) veya kurtarma tedavisinde amoksisilin yerine.',
+        warn:age===8?'Tablo "&gt;8 yaş", tartışma "≥8 yaş" diyor; tam 8 yaş belirsiz.':''}; }
+    out.push(tet);
+    return {b:BANDS[b],out:out,warn:warn};
+  }
+  var st=Ortak.store('hp.dose'), lastText='';
+  function renderDose(save){
+    var wt=parseFloat(String($('#d-wt').value).replace(',','.')), ageRaw=$('#d-age').value, age=ageRaw===''?NaN:parseInt(ageRaw,10), el=$('#dose'), cb=$('#dcopy');
+    var r=dose(wt,age);
+    if(r.err){el.innerHTML='<p class="note">'+r.err+'</p>';cb.hidden=true;return;}
+    if(save)st.set({wt:wt,age:ageRaw});
+    el.innerHTML='<p class="note">Kilo bandı: <strong>'+r.b+'</strong> · '+fmt(wt)+' kg'+(isNaN(age)?'':' · '+age+' yaş')+'</p>'+r.warn.map(function(w){return '<div class="flag">'+w+'</div>';}).join('')+
+      r.out.map(function(d){return '<div class="drow"><h4>'+d.h+'</h4><dl class="kv">'+d.rows.map(function(x){return '<dt>'+x[0]+'</dt><dd>'+x[1]+'</dd>';}).join('')+'</dl>'+(d.note?'<p class="note">'+d.note+'</p>':'')+(d.warn?'<div class="flag">'+d.warn+'</div>':'')+'</div>';}).join('')+
+      '<p class="note">Rejim seçimi "Karar ağacı" sekmesinde. Amoksisilin günde 3 doz; üçlü tedaviler 14 gün, bizmutlu dörtlü 10–14 gün.</p>';
+    lastText='H. pylori dozları (Tablo 5, JPGN 2024;79:758–785)\n'+r.b+', '+fmt(wt)+' kg'+(isNaN(age)?'':', '+age+' yaş')+'\n'+r.out.map(function(d){return d.h+': '+d.rows.map(function(x){return x[0]+' '+Ortak.strip(x[1]);}).join('; ');}).join('\n')+'\nDozu hasta bazında doğrula.';
+    cb.hidden=false;
+  }
+  ['d-wt','d-age'].forEach(function(id){$('#'+id).addEventListener('input',function(){renderDose(true);});});
+  $('#dcopy').addEventListener('click',function(){Ortak.copyText(lastText,$('#dcopy'),'Dozları kopyala');});
+  var prev=st.get();
+  if(prev){$('#d-wt').value=prev.wt;$('#d-age').value=prev.age;var dd=new Date(prev.t);
+    var rs=$('#restore');rs.hidden=false;rs.innerHTML='Son girilen değerler yüklendi ('+('0'+dd.getHours()).slice(-2)+':'+('0'+dd.getMinutes()).slice(-2)+'). Başka hasta ise <button type="button" class="btn" id="dclear">Temizle</button>';
+    $('#dclear').addEventListener('click',function(){st.clear();$('#d-wt').value='';$('#d-age').value='';rs.hidden=true;renderDose(false);});}
+  renderDose(false);
+  window.__hp={decide:decide,dose:dose,Q:Q};
+})();
+</script>
+</body>
+</html>

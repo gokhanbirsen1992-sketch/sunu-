@@ -12,6 +12,7 @@ DOCS = KOK / "docs"
 HEDEF = {
     "yabanci-cisim/index.html": "araclar/yabanci-cisim-karar/index.html",
     "eozinofilik-ozofajit/index.html": "araclar/eoe-karar/index.html",
+    "helikobakter/index.html": "araclar/hp-karar/index.html",
 }
 
 
@@ -28,6 +29,7 @@ def derle(kaynak: pathlib.Path) -> str:
     site = "https://gokhanbirsen1992-sketch.github.io/sunu-/"
     govde = govde.replace('href="../eozinofilik-ozofajit/', 'href="' + site + "eozinofilik-ozofajit/")
     govde = govde.replace('href="../yabanci-cisim/', 'href="' + site + "yabanci-cisim/")
+    govde = govde.replace('href="../helikobakter/', 'href="' + site + "helikobakter/")
     govde = govde.replace('href="../"', 'href="' + site + '"')
     return (
         baslik + "\n" + fontlar + "\n<style>\n" + css + "\n</style>\n"

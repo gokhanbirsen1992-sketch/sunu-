@@ -1,7 +1,8 @@
 /* Çevrimdışı destek: kendi dosyalarımız için önce ağ, olmazsa önbellek; yazı tipleri için önce önbellek. */
-var C='gis-araclari-v2';
+var C='gis-araclari-v3';
 var FILES=['./','./index.html','./ortak.css','./ortak.js','./manifest.webmanifest','./icon-192.png','./icon-512.png',
-  './yabanci-cisim/','./yabanci-cisim/index.html','./eozinofilik-ozofajit/','./eozinofilik-ozofajit/index.html'];
+  './yabanci-cisim/','./yabanci-cisim/index.html','./eozinofilik-ozofajit/','./eozinofilik-ozofajit/index.html',
+  './helikobakter/','./helikobakter/index.html'];
 self.addEventListener('install',function(e){e.waitUntil(caches.open(C).then(function(c){return c.addAll(FILES);}).then(function(){return self.skipWaiting();}));});
 self.addEventListener('activate',function(e){e.waitUntil(caches.keys().then(function(ks){return Promise.all(ks.filter(function(k){return k!==C;}).map(function(k){return caches.delete(k);}));}).then(function(){return self.clients.claim();}));});
 self.addEventListener('fetch',function(e){
