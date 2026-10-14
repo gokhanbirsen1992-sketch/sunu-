@@ -77,6 +77,8 @@ def main():
             bib_problems.append(f"{e['_file']}:{e['key']} verified != true")
         if e.get("pmid"):
             by_pmid[e["pmid"]].append(e)
+        if e.get("doi", "").lower().startswith("doi yok"):
+            e["doi"] = ""  # V3-39: "DOI yok" serbest metni boş DOI ile aynıdır
         if e.get("doi"):
             by_doi[e["doi"].lower()].append(e)
 

@@ -3,10 +3,7 @@
     "entries": 197,
     "unique_pmids": 157,
     "problems": [],
-    "conflicts": [
-      "PMID 8604272: çelişkili DOI/yıl {'', 'doi yok'} {'1996'} (['A1.bib', 'A2.bib'])",
-      "DOI doi yok: çelişkili PMID {'25632624', '8604272', '30613204'}"
-    ]
+    "conflicts": []
   },
   "claims": {
     "n": 303,
@@ -472,7 +469,7 @@
   "summary": {
     "bib_entries": 197,
     "bib_problems": 0,
-    "bib_conflicts": 2,
+    "bib_conflicts": 0,
     "claims": 303,
     "claims_with_issues": 57
   }

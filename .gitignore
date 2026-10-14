@@ -15,3 +15,6 @@ data/
 *.sav
 !tests/fixtures/*.sav
 *.egg-info/
+
+# Üretilebilir slayt görüntüleri (tools/render.sh)
+Sunum_KronikKusma/output/slides_png/

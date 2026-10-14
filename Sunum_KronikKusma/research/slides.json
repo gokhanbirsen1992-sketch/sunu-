@@ -1,0 +1,3052 @@
+[
+ {
+  "id": "S1",
+  "title": "Kronik kusma bir tanı değil, bir paterndir; çocukta standart süre tanımı yok",
+  "bullets": [
+   [
+    {
+     "t": "\"Persistan kusma\" literatürde tanımsız; 15 çalışmalık sistematik derleme ortak tanım bulamadı",
+     "b": false
+    },
+    {
+     "cite": [
+      1
+     ]
+    }
+   ],
+   [
+    {
+     "t": "UEG/ESNM 2025: >4 hafta = kronik; pediatriye özgü değil",
+     "b": false
+    },
+    {
+     "cite": [
+      2
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Araştırma tanımı örneği: 3 ayda 3 kusma epizodu",
+     "b": false
+    },
+    {
+     "cite": [
+      3
+     ]
+    }
+   ]
+  ],
+  "numbered": [],
+  "table": [],
+  "dipnot": null,
+  "etiket": null,
+  "gri": null,
+  "gorsel": null,
+  "cites": [
+   1,
+   2,
+   3
+  ]
+ },
+ {
+  "id": "S2",
+  "title": "Sorun yaygın, tanı ise yıllarca gecikebiliyor",
+  "bullets": [
+   [
+    {
+     "t": "4 ülke, n=7718 (bakım veren anketi): DGBI %28,0; üst GİS DGBI %8,7",
+     "b": false
+    },
+    {
+     "cite": [
+      4
+     ]
+    }
+   ],
+   [
+    {
+     "t": "SKS: Türkiye okul taraması %1,9",
+     "b": false
+    },
+    {
+     "cite": [
+      5
+     ]
+    },
+    {
+     "t": "; Rome V anketi ≈%1",
+     "b": false
+    },
+    {
+     "cite": [
+      4
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Tanıya kadar: ort. 2 ± 1,8 yıl (İran)",
+     "b": false
+    },
+    {
+     "cite": [
+      6
+     ]
+    },
+    {
+     "t": " · medyan 1,2 yıl (Hindistan)",
+     "b": false
+    },
+    {
+     "cite": [
+      7
+     ]
+    }
+   ]
+  ],
+  "numbered": [],
+  "table": [],
+  "dipnot": [
+   {
+    "t": "Rome V anketi hekim tanısına karşı valide değil; Nurko tablo sayıları ≈%1,4 veriyor (raporlanan %1,1).",
+    "b": false
+   }
+  ],
+  "etiket": null,
+  "gri": null,
+  "gorsel": null,
+  "cites": [
+   4,
+   5,
+   6,
+   7
+  ]
+ },
+ {
+  "id": "S3",
+  "title": "İlk soru: kusma mı, regürjitasyon mu, ruminasyon mu?",
+  "bullets": [
+   [
+    {
+     "t": "Kusma aktif bir süreçtir, çoğu zaman bulantı önce gelir; regürjitasyon pasif geri akıştır",
+     "b": false
+    },
+    {
+     "cite": [
+      2
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Ruminasyon: yemek sırasında/hemen sonra, görünüşte zahmetsiz; uykuda olmaz",
+     "b": false
+    },
+    {
+     "cite": [
+      8
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Disfaji + kusma + kilo kaybı → akalazya: kusma %53,2; tanıya medyan 11 ay",
+     "b": false
+    },
+    {
+     "cite": [
+      9
+     ]
+    }
+   ]
+  ],
+  "numbered": [],
+  "table": [],
+  "dipnot": null,
+  "etiket": "ilk madde ERİŞKİN/pediatriye özgü değil.",
+  "gri": null,
+  "gorsel": null,
+  "cites": [
+   2,
+   8,
+   9
+  ]
+ },
+ {
+  "id": "S4",
+  "title": "İki sayı paterni ayırır: pikte ≥4 kusma/saat ve ayda ≤9 atak",
+  "bullets": [
+   [
+    {
+     "t": "Sevkli 106 çocuk: bu eşiklerle siklik (n=34) ve kronik (n=72) patern ayrıldı",
+     "b": false
+    },
+    {
+     "cite": [
+      3
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Yazarların sonucu: siklikte abdominal migren, kronikte peptik/enfeksiyöz GİS hastalığı baskın",
+     "b": false
+    }
+   ],
+   [
+    {
+     "t": "Prospektif tek merkez: en iyi eşik 12 ayda 4–10 atak, süre >2 saat",
+     "b": false
+    },
+    {
+     "cite": [
+      10
+     ]
+    }
+   ]
+  ],
+  "numbered": [],
+  "table": [],
+  "dipnot": [
+   {
+    "t": "Pfau özetindeki oranlar ve sıklık SD'si bozuk → yalnız eşikler kullanıldı.",
+    "b": false
+   }
+  ],
+  "etiket": null,
+  "gri": null,
+  "gorsel": "`fig_patern.png` (şematik; kronik düşük yoğunluk ↔ siklik yüksek yoğunluk + iyilik aralığı)",
+  "cites": [
+   3,
+   10
+  ]
+ },
+ {
+  "id": "S5",
+  "title": "Siklik patern SKS ile aynı şey değildir",
+  "bullets": [
+   [
+    {
+     "t": "Siklik paternle gelen 225 çocuğun %88'i idiyopatik SKS",
+     "b": false
+    },
+    {
+     "cite": [
+      11
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Geri kalan ~%12: malrotasyon, akut hidronefroz, SSS tümörü, Addison hastalığı, YAOB",
+     "b": false
+    },
+    {
+     "cite": [
+      11
+     ]
+    }
+   ],
+   [
+    {
+     "t": "NASPGHAN 2008: \"av tüfeği\" tetkik yerine bayraklara göre hedefe yönelik tetkik",
+     "b": false
+    },
+    {
+     "cite": [
+      12
+     ]
+    }
+   ]
+  ],
+  "numbered": [],
+  "table": [],
+  "dipnot": [
+   {
+    "t": "Özetteki alt oranlar (%12 cerrahi / %2 endokrin-metabolik; %7 + %5) birbiriyle tutarsız → yalnız %88 ve kalan ~%12 verildi.",
+    "b": false
+   }
+  ],
+  "etiket": null,
+  "gri": null,
+  "gorsel": null,
+  "cites": [
+   11,
+   12
+  ]
+ },
+ {
+  "id": "S6",
+  "title": "Patern zamanla değişebilir: siklikten günlük semptomlara",
+  "bullets": [
+   [
+    {
+     "t": "Üçüncü basamak SKS merkezinde 100 çocuğun %40'ında adolesanda disotonomi semptomları; kronik semptom başlangıcı medyan 14 yaş",
+     "b": false
+    },
+    {
+     "cite": [
+      13
+     ]
+    }
+   ],
+   [
+    {
+     "t": "İrlanda kohortu: 9 ayda 22 çocuğun 17'si hâlâ kusuyor, ancak sıklık ve şiddet azaldı",
+     "b": false
+    },
+    {
+     "cite": [
+      14
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Tanılı 41 çocuğun izleminde %61'inde kusma geçmiş",
+     "b": false
+    },
+    {
+     "cite": [
+      15
+     ]
+    }
+   ]
+  ],
+  "numbered": [],
+  "table": [],
+  "dipnot": [
+   {
+    "t": "%40'ın yalnız %20'si kapsamlı otonom testle doğrulandı.",
+    "b": false
+   }
+  ],
+  "etiket": null,
+  "gri": null,
+  "gorsel": null,
+  "cites": [
+   13,
+   14,
+   15
+  ]
+ },
+ {
+  "id": "S7",
+  "title": "Yaşa göre olası nedenler farklıdır",
+  "bullets": [
+   [
+    {
+     "t": "Süt çocuğu:",
+     "b": true
+    },
+    {
+     "t": " fizyolojik regürjitasyon sık; >6 ay başlangıç ya da >12 ay süreklilik alternatif tanı düşündürür",
+     "b": false
+    },
+    {
+     "cite": [
+      16
+     ]
+    },
+    {
+     "t": "; İSPA GÖRH'ten ayırt edilemeyebilir",
+     "b": false
+    },
+    {
+     "cite": [
+      16
+     ]
+    },
+    {
+     "t": "; <2 yaşta EoE'nin en sık başvurusu kusma",
+     "b": false
+    },
+    {
+     "cite": [
+      17
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Okul çağı:",
+     "b": true
+    },
+    {
+     "t": " SKS ort. başlangıç 5,3–5,8 yaş",
+     "b": false
+    },
+    {
+     "cite": [
+      18,
+      15
+     ]
+    },
+    {
+     "t": "; Panayiotopoulos sendromu ~3–6 yaş",
+     "b": false
+    },
+    {
+     "cite": [
+      19
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Adolesan:",
+     "b": true
+    },
+    {
+     "t": " KHS (SKS'den daha büyük yaş)",
+     "b": false
+    },
+    {
+     "cite": [
+      20
+     ]
+    },
+    {
+     "t": "; ruminasyon + yeme bozukluğu",
+     "b": false
+    },
+    {
+     "cite": [
+      21
+     ]
+    },
+    {
+     "t": "; disotonomi",
+     "b": false
+    },
+    {
+     "cite": [
+      13
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Her yaşta:",
+     "b": true
+    },
+    {
+     "t": " safralı kusma aksi kanıtlanana dek obstrüksiyon",
+     "b": false
+    },
+    {
+     "cite": [
+      22
+     ]
+    }
+   ]
+  ],
+  "numbered": [],
+  "table": [],
+  "dipnot": [
+   {
+    "t": "Yaşa göre nicel neden dağılımı veren kaynak bulunamadı; harita anlatı düzeyinde.",
+    "b": false
+   }
+  ],
+  "etiket": null,
+  "gri": null,
+  "gorsel": "`fig_yas_haritasi.png`. Tablo/görsel slaytı (kelime sınırı istisnası).",
+  "cites": [
+   13,
+   15,
+   16,
+   17,
+   18,
+   19,
+   20,
+   21,
+   22
+  ]
+ },
+ {
+  "id": "S8",
+  "title": "Öykü: prodrom, tetikleyici, saat, menstrüasyon, kannabis, ilaç",
+  "bullets": [
+   [
+    {
+     "t": "SKS'de ~%90 prodrom; hastaların ~3/4'ünde tetikleyici: stres, enfeksiyon, besin, açlık, uykusuzluk, menstrüasyon",
+     "b": false
+    },
+    {
+     "cite": [
+      23
+     ]
+    }
+   ],
+   [
+    {
+     "t": "%75'e varanında gece/sabah başlar, sıklıkla safralı → saat ve safra tek başına ayırt etmez",
+     "b": false
+    },
+    {
+     "cite": [
+      23
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Atakları siklusla eşle; adolesan kannabisi eksik bildirebilir",
+     "b": false
+    },
+    {
+     "cite": [
+      8
+     ]
+    }
+   ],
+   [
+    {
+     "t": "İlaç/toksin sor",
+     "b": false
+    },
+    {
+     "cite": [
+      24
+     ]
+    }
+   ]
+  ],
+  "numbered": [],
+  "table": [],
+  "dipnot": null,
+  "etiket": "UZMAN (Raucci), son madde DOLAYLI (hipoglisemi kılavuzu).",
+  "gri": null,
+  "gorsel": null,
+  "cites": [
+   8,
+   23,
+   24
+  ]
+ },
+ {
+  "id": "S9",
+  "title": "Muayene: göz dibi, baş çevresi, yürüyüş, tansiyon, deri, büyüme",
+  "bullets": [
+   [
+    {
+     "t": "Beyin tümörlü çocukların yarıdan fazlasında KİBAS bulgusu yok; posterior fossada bulantı-kusma %75; <4 yaşta makrosefali %41",
+     "b": false
+    },
+    {
+     "cite": [
+      25
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Sato varyantı: atakta hipertansiyon, hiponatremi",
+     "b": false
+    },
+    {
+     "cite": [
+      26
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Hiperpigmentasyon: X'e bağlı adrenal hipoplazide %90",
+     "b": false
+    },
+    {
+     "cite": [
+      27
+     ]
+    }
+   ],
+   [
+    {
+     "t": "32 SKS'li çocuğun 12'si organik neden olmadan düşük kilolu",
+     "b": false
+    },
+    {
+     "cite": [
+      28
+     ]
+    }
+   ]
+  ],
+  "numbered": [],
+  "table": [],
+  "dipnot": null,
+  "etiket": null,
+  "gri": null,
+  "gorsel": null,
+  "cites": [
+   25,
+   26,
+   27,
+   28
+  ]
+ },
+ {
+  "id": "S10",
+  "title": "Kırmızı bayraklar: kaynağına göre",
+  "bullets": [],
+  "numbered": [],
+  "table": [
+   [
+    [
+     {
+      "t": "Bayrak",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "Kaynak",
+      "b": false
+     }
+    ]
+   ],
+   [
+    [
+     {
+      "t": "Karın bulgusu (safralı kusma, hassasiyet)",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "NASPGHAN 2008",
+      "b": false
+     },
+     {
+      "cite": [
+       12
+      ]
+     }
+    ]
+   ],
+   [
+    [
+     {
+      "t": "Açlık / yüksek protein / araya giren hastalıkla tetiklenen atak",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "NASPGHAN 2008",
+      "b": false
+     },
+     {
+      "cite": [
+       12
+      ]
+     }
+    ]
+   ],
+   [
+    [
+     {
+      "t": "Anormal nörolojik muayene (bilinç değişikliği, papilödem)",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "NASPGHAN 2008",
+      "b": false
+     },
+     {
+      "cite": [
+       12
+      ]
+     }
+    ]
+   ],
+   [
+    [
+     {
+      "t": "İlerleyici kötüleşen ya da değişen patern",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "NASPGHAN 2008",
+      "b": false
+     },
+     {
+      "cite": [
+       12
+      ]
+     }
+    ]
+   ],
+   [
+    [
+     {
+      "t": "Hepatomegali; 2 ayda standart tedaviye yanıtsızlık",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "Rome V",
+      "b": false
+     },
+     {
+      "cite": [
+       8
+      ]
+     }
+    ]
+   ],
+   [
+    [
+     {
+      "t": "Hematokezi/melena, kafa travması öyküsü",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "Raucci 2020",
+      "b": false
+     },
+     {
+      "cite": [
+       23
+      ]
+     }
+    ]
+   ]
+  ],
+  "dipnot": [
+   {
+    "t": "NASPGHAN 2025 güncel algoritması tam metinden doğrulanmadı.",
+    "b": false
+   }
+  ],
+  "etiket": null,
+  "gri": null,
+  "gorsel": null,
+  "cites": [
+   8,
+   12,
+   23
+  ]
+ },
+ {
+  "id": "S11",
+  "title": "Kırmızı bayrak yokluğu güvence değildir; ama bu kanıt kusmaya özgü değil",
+  "bullets": [
+   [
+    {
+     "t": "DGBI şüpheli 500 çocuk (çoğu karın ağrısı/kabızlık): %45'inde bayrak, %19'unda organik tanı (çoğu GÖRH/peptik)",
+     "b": false
+    },
+    {
+     "cite": [
+      29
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Organik tanılıların %38'inde başlangıçta bayrak yoktu",
+     "b": false
+    },
+    {
+     "cite": [
+      29
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Hiçbir tek test yeterli değil; en iyi model AUC 0,711",
+     "b": false
+    },
+    {
+     "cite": [
+      29
+     ]
+    }
+   ]
+  ],
+  "numbered": [],
+  "table": [],
+  "dipnot": [
+   {
+    "t": "Kohortta bulantı-kusma fenotipi %21,8, SKS şüphesi %1,2; model valide edilmemiş.",
+    "b": false
+   }
+  ],
+  "etiket": null,
+  "gri": null,
+  "gorsel": null,
+  "cites": [
+   29
+  ]
+ },
+ {
+  "id": "S12",
+  "title": "Psikososyal değerlendirme tanı koydurmaz; hastalık yükünü ve yatışları belirler",
+  "bullets": [
+   [
+    {
+     "t": "SKS'de anksiyete %15–59 (ölçüm aracı ve yaşa göre)",
+     "b": false
+    },
+    {
+     "cite": [
+      30,
+      26
+     ]
+    }
+   ],
+   [
+    {
+     "t": "SKS'li çocukların yaşam kalitesi organik GİS hastalığı olanlardan farksız",
+     "b": false
+    },
+    {
+     "cite": [
+      31
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Anksiyete 90 günlük tekrar yatışla ilişkili (n=1370; tekrar yatış %28,5)",
+     "b": false
+    },
+    {
+     "cite": [
+      32
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Psikososyal bulgu organik/fonksiyonel ayırmaz (karın ağrısı verisi)",
+     "b": false
+    },
+    {
+     "cite": [
+      33
+     ]
+    }
+   ]
+  ],
+  "numbered": [],
+  "table": [],
+  "dipnot": null,
+  "etiket": null,
+  "gri": null,
+  "gorsel": null,
+  "cites": [
+   26,
+   30,
+   31,
+   32,
+   33
+  ]
+ },
+ {
+  "id": "S13",
+  "title": "Safra yokluğu güvence vermez: malrotasyon her yaşta, volvulus her an",
+  "bullets": [
+   [
+    {
+     "t": "Safralı kusma her yaşta aksi kanıtlanana dek obstrüksiyondur",
+     "b": false
+    },
+    {
+     "cite": [
+      22
+     ]
+    }
+   ],
+   [
+    {
+     "t": "70 malrotasyonlu çocuğun yarısı >2 aylık; büyüklerde aralıklı safrasız kusma; volvulus yaş ve süreden bağımsız",
+     "b": false
+    },
+    {
+     "cite": [
+      34
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Üst GİS grafisinde rotasyon yalancı pozitif/negatif sonuç verebilir",
+     "b": false
+    },
+    {
+     "cite": [
+      35
+     ]
+    }
+   ]
+  ],
+  "numbered": [],
+  "table": [],
+  "dipnot": null,
+  "etiket": null,
+  "gri": null,
+  "gorsel": null,
+  "cites": [
+   22,
+   34,
+   35
+  ]
+ },
+ {
+  "id": "S14",
+  "title": "Diğer anatomik ve özofageal nedenler",
+  "bullets": [
+   [
+    {
+     "t": "SMA sendromu (n=22): kusma %50; kilo kaybı şart değil; tanı %82 üst GİS grafisiyle",
+     "b": false
+    },
+    {
+     "cite": [
+      36
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Duplikasyon (n=72): ağrı 57/72, bulantı-kusma; USG ile değerlendirilir",
+     "b": false
+    },
+    {
+     "cite": [
+      37
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Akalazya (n=126): disfaji %73,8, kusma %53,2, kilo kaybı %38,9",
+     "b": false
+    },
+    {
+     "cite": [
+      9
+     ]
+    }
+   ]
+  ],
+  "numbered": [],
+  "table": [],
+  "dipnot": null,
+  "etiket": null,
+  "gri": null,
+  "gorsel": null,
+  "cites": [
+   9,
+   36,
+   37
+  ]
+ },
+ {
+  "id": "S15",
+  "title": "Mukozal nedenler: EoE, çölyak, H. pylori, İSPA/FPIES",
+  "bullets": [
+   [
+    {
+     "t": "EoE: kusmayla başvurabilir; mukoza normal görünse de ≥2 seviyeden çoklu biyopsi",
+     "b": false
+    },
+    {
+     "cite": [
+      38
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Çölyak: kusmada seroloji önerisi derleme düzeyinde",
+     "b": false
+    },
+    {
+     "cite": [
+      39
+     ]
+    },
+    {
+     "t": "; total IgA + TGA-IgA",
+     "b": false
+    },
+    {
+     "cite": [
+      40
+     ]
+    }
+   ],
+   [
+    {
+     "t": "H. pylori: tanı duyarlılık testli invaziv yöntemle",
+     "b": false
+    },
+    {
+     "cite": [
+      41
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Kronik FPIES: büyüme geriliği, kilo kaybı",
+     "b": false
+    },
+    {
+     "cite": [
+      42
+     ]
+    }
+   ]
+  ],
+  "numbered": [],
+  "table": [],
+  "dipnot": null,
+  "etiket": null,
+  "gri": null,
+  "gorsel": null,
+  "cites": [
+   38,
+   39,
+   40,
+   41,
+   42
+  ]
+ },
+ {
+  "id": "S16",
+  "title": "Nörolojik taklitçiler: KİBAS bulgusu yoksa bile tümörü düşün",
+  "bullets": [
+   [
+    {
+     "t": "Posterior fossa tümöründe bulantı-kusma %75",
+     "b": false
+    },
+    {
+     "cite": [
+      25
+     ]
+    }
+   ],
+   [
+    {
+     "t": "<3 yaş beyin tümörlü 21 bebeğin 3'ü kusmayla gelip önce batın görüntülemesi aldı",
+     "b": false
+    },
+    {
+     "cite": [
+      43
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Panayiotopoulos (~3–6 y): iktal kusma, SKS ile karışır; EEG'de çoklu, sıklıkla oksipital odak",
+     "b": false
+    },
+    {
+     "cite": [
+      19
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Şant disfonksiyonu: bulantı-kusma sık",
+     "b": false
+    },
+    {
+     "cite": [
+      44
+     ]
+    }
+   ]
+  ],
+  "numbered": [],
+  "table": [],
+  "dipnot": null,
+  "etiket": null,
+  "gri": null,
+  "gorsel": null,
+  "cites": [
+   19,
+   25,
+   43,
+   44
+  ]
+ },
+ {
+  "id": "S17",
+  "title": "Metabolik taklitçiler: atak anındaki biyokimya ipucu verir",
+  "bullets": [
+   [
+    {
+     "t": "ÜDB her yaşta akut/kronik; açıklanamayan ensefalopatide amonyak",
+     "b": false
+    },
+    {
+     "cite": [
+      45
+     ]
+    }
+   ],
+   [
+    {
+     "t": "OTC eksikliğinde heterozigot kızlarda ağırlık değişken",
+     "b": false
+    },
+    {
+     "cite": [
+      45
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Atakta hipoketotik hipoglisemi, asidoz, transaminaz/CK/laktat ↑ → YAOB",
+     "b": false
+    },
+    {
+     "cite": [
+      46
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Organik asidemilerde en sık yatış nedeni kusma",
+     "b": false
+    },
+    {
+     "cite": [
+      47
+     ]
+    },
+    {
+     "t": "; adolesanda AİP",
+     "b": false
+    },
+    {
+     "cite": [
+      46
+     ]
+    }
+   ]
+  ],
+  "numbered": [],
+  "table": [],
+  "dipnot": [
+   {
+    "t": "Häberle öneri derecesi C–D; mitokondri için tek sayı verilmedi (biyokimyasal anormallik ≠ tanı).",
+    "b": false
+   }
+  ],
+  "etiket": null,
+  "gri": null,
+  "gorsel": null,
+  "cites": [
+   45,
+   46,
+   47
+  ]
+ },
+ {
+  "id": "S18",
+  "title": "Endokrin, renal, toksik nedenler ve başkasına yüklenen yapay bozukluk",
+  "bullets": [
+   [
+    {
+     "t": "Hiponatremi/hipoglisemide Addison ve YAOB dışla",
+     "b": false
+    },
+    {
+     "cite": [
+      23
+     ]
+    },
+    {
+     "t": "; ACTH + kortizol eşzamanlı",
+     "b": false
+    },
+    {
+     "cite": [
+      24
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Aralıklı UPJ darlığı: görüntüleme ağrı atağı sırasında",
+     "b": false
+    },
+    {
+     "cite": [
+      48
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Kaçırılan DKA: serebral ödem ve ölüm riski artar",
+     "b": false
+    },
+    {
+     "cite": [
+      49
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Semptom yalnız bakım veren yanında → başkasına yüklenen yapay bozukluk",
+     "b": false
+    },
+    {
+     "cite": [
+      50,
+      51
+     ]
+    }
+   ]
+  ],
+  "numbered": [],
+  "table": [],
+  "dipnot": null,
+  "etiket": "son madde vaka düzeyi + AAP klinik raporu.",
+  "gri": null,
+  "gorsel": null,
+  "cites": [
+   23,
+   24,
+   48,
+   49,
+   50,
+   51
+  ]
+ },
+ {
+  "id": "S19",
+  "title": "Adolesan: KHS, yeme bozukluğu, ARFID, gebelik",
+  "bullets": [
+   [
+    {
+     "t": "Siklik kusmalı adolesanda KHS düşünülmeli",
+     "b": false
+    },
+    {
+     "cite": [
+      52
+     ]
+    },
+    {
+     "t": "; idrar THC destekler, yalancı pozitiflik olabilir",
+     "b": false
+    },
+    {
+     "cite": [
+      8
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Ruminasyon yeme bozukluğuyla karışır: 6 ruminasyonun 5'inde yeme bozukluğu",
+     "b": false
+    },
+    {
+     "cite": [
+      21
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Gastroparezi/FD'li çocukların %48,5–66,7'sinde ARFID taraması pozitif",
+     "b": false
+    },
+    {
+     "cite": [
+      53
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Gebelik testi: eşik düşük",
+     "b": false
+    },
+    {
+     "cite": [
+      54
+     ]
+    }
+   ]
+  ],
+  "numbered": [],
+  "table": [],
+  "dipnot": null,
+  "etiket": "gebelik DOLAYLI (karın ağrısı, acil servis).",
+  "gri": null,
+  "gorsel": null,
+  "cites": [
+   8,
+   21,
+   52,
+   53,
+   54
+  ]
+ },
+ {
+  "id": "S20",
+  "title": "Basamak 0: aynı saat içinde yapılacaklar (acil dallar)",
+  "bullets": [
+   [
+    {
+     "t": "Safralı kusma + karın bulgusu ya da hiç görüntülenmemiş çocukta ilk safralı kusma → acil üst GİS grafisi, çocuk cerrahisi",
+     "b": false
+    },
+    {
+     "cite": [
+      22,
+      34
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Ensefalopati → glukoz, kan gazı, amonyak (buzda)",
+     "b": false
+    },
+    {
+     "cite": [
+      45,
+      46
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Na↓ / glukoz↓ → ACTH + kortizol",
+     "b": false
+    },
+    {
+     "cite": [
+      23,
+      24
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Papilödem, fokal bulgu, ataksi → beyin MR",
+     "b": false
+    },
+    {
+     "cite": [
+      23
+     ]
+    }
+   ]
+  ],
+  "numbered": [],
+  "table": [],
+  "dipnot": [
+   {
+    "t": "Stres dozu hidrokortizon için bu çalışmada pediatrik kaynak doğrulanmadı.",
+    "b": false
+   }
+  ],
+  "etiket": null,
+  "gri": null,
+  "gorsel": null,
+  "cites": [
+   22,
+   23,
+   24,
+   34,
+   45,
+   46
+  ]
+ },
+ {
+  "id": "S21",
+  "title": "Basamak 1: ilk tetkik paterne göre seçilir",
+  "bullets": [],
+  "numbered": [],
+  "table": [
+   [
+    [
+     {
+      "t": "Patern",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "İlk tetkik",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "Kanıt",
+      "b": false
+     }
+    ]
+   ],
+   [
+    [
+     {
+      "t": "Siklik (SKS şüphesi)",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "Kan + idrar tarama, üst GİS pasaj grafisi; diğer tarama testleri düşük verimli",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "NASPGHAN 2025",
+      "b": false
+     },
+     {
+      "cite": [
+       55
+      ]
+     }
+    ]
+   ],
+   [
+    [
+     {
+      "t": "Kronik günlük",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "Endoskopi + biyopsi öncelikli; anatomi için grafi",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "ÇIKARIM",
+      "b": false
+     },
+     {
+      "cite": [
+       3,
+       56
+      ]
+     }
+    ]
+   ],
+   [
+    [
+     {
+      "t": "Eforsuz regürjitasyon",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "Öğün sonrası gözlem; atipikse HRIM-empedans",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "Rome V",
+      "b": false
+     },
+     {
+      "cite": [
+       8
+      ]
+     }
+    ]
+   ],
+   [
+    [
+     {
+      "t": "Adolesan",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "Öyküye göre idrar THC; gebelik testi",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "Rome V",
+      "b": false
+     },
+     {
+      "cite": [
+       8
+      ]
+     },
+     {
+      "t": "; DOLAYLI",
+      "b": false
+     },
+     {
+      "cite": [
+       54
+      ]
+     }
+    ]
+   ]
+  ],
+  "dipnot": [
+   {
+    "t": "Batın US: çocukta hidronefroz için önerilir",
+    "b": false
+   },
+   {
+    "cite": [
+     57
+    ]
+   },
+   {
+    "t": " ↔ NASPGHAN 2025 \"diğer taramalar düşük verim\": kaynaklar çelişiyor.",
+    "b": false
+   }
+  ],
+  "etiket": null,
+  "gri": null,
+  "gorsel": null,
+  "cites": [
+   3,
+   8,
+   54,
+   55,
+   56,
+   57
+  ]
+ },
+ {
+  "id": "S22",
+  "title": "Kritik örnek: atak sırasında alınır, ama dekstrozu geciktirmez",
+  "bullets": [
+   [
+    {
+     "t": "Ne zaman: açlık/protein/araya giren hastalık tetiklemesi, <2 yaş başlangıç, ensefalopati",
+     "b": false
+    },
+    {
+     "cite": [
+      23,
+      8
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Kan: glukoz, kan gazı + elektrolit (anyon açığı), laktat, amonyak, aminoasit, açilkarnitin; Na↓/glukoz↓'de ACTH + kortizol",
+     "b": false
+    },
+    {
+     "cite": [
+      23,
+      24
+     ]
+    }
+   ],
+   [
+    {
+     "t": "İdrar: keton, organik asit, ALA/PBG; fazla plazma-idrar dondur",
+     "b": false
+    },
+    {
+     "cite": [
+      23
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Ardından %10 dekstroz, idamenin 1,5 katı",
+     "b": false
+    },
+    {
+     "cite": [
+      23
+     ]
+    }
+   ]
+  ],
+  "numbered": [],
+  "table": [],
+  "dipnot": [
+   {
+    "t": "\"Dekstroz tanı için geciktirilmez\"",
+    "b": false
+   },
+   {
+    "cite": [
+     46
+    ]
+   },
+   {
+    "t": ". Raucci listesi koşullu (metabolik uyarı varsa).",
+    "b": false
+   }
+  ],
+  "etiket": null,
+  "gri": null,
+  "gorsel": "`fig_kritik_ornek.png` (kit kutusu). Liste slaytı (kelime istisnası).",
+  "cites": [
+   8,
+   23,
+   24,
+   46
+  ]
+ },
+ {
+  "id": "S23",
+  "title": "Görüntüleme: zamanlama ve endikasyon belirleyicidir",
+  "bullets": [
+   [
+    {
+     "t": "Üst GİS grafisi: malrotasyon; doğru pozisyonlama",
+     "b": false
+    },
+    {
+     "cite": [
+      35
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Batın US: aralıklı UPJ darlığında atak sırasında",
+     "b": false
+    },
+    {
+     "cite": [
+      48
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Beyin MR: anormal nörolojik muayenede",
+     "b": false
+    },
+    {
+     "cite": [
+      23
+     ]
+    },
+    {
+     "t": "; süt çocuğunda bulgu olmasa da düşün",
+     "b": false
+    },
+    {
+     "cite": [
+      43
+     ]
+    }
+   ],
+   [
+    {
+     "t": "106 SKS'li çocuk: nörogörüntüleme <%10 yeni bulgu (hiçbiri kusmayı açıklamadı); 61 grafi normal",
+     "b": false
+    },
+    {
+     "cite": [
+      58
+     ]
+    }
+   ]
+  ],
+  "numbered": [],
+  "table": [],
+  "dipnot": null,
+  "etiket": null,
+  "gri": null,
+  "gorsel": null,
+  "cites": [
+   23,
+   35,
+   43,
+   48,
+   58
+  ]
+ },
+ {
+  "id": "S24",
+  "title": "Endoskopi: SKS'de rutin değil; günlük kusmada ve ataklar arası semptomda",
+  "bullets": [
+   [
+    {
+     "t": "Çocuk SKS'de kronik GİS semptomu yoksa gerekmez (erişkinde önerilir)",
+     "b": false
+    },
+    {
+     "cite": [
+      57
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Ataklar arası süren üst GİS yakınmasında endoskopi düşünülür",
+     "b": false
+    },
+    {
+     "cite": [
+      23
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Alarm bulgusuz 287 çocukta EGD yönetimi %7,0'de değiştirdi",
+     "b": false
+    },
+    {
+     "cite": [
+      59
+     ]
+    }
+   ],
+   [
+    {
+     "t": "FD'de alarm yoksa EGD rutin değil",
+     "b": false
+    },
+    {
+     "cite": [
+      8
+     ]
+    }
+   ]
+  ],
+  "numbered": [],
+  "table": [],
+  "dipnot": null,
+  "etiket": null,
+  "gri": null,
+  "gorsel": null,
+  "cites": [
+   8,
+   23,
+   57,
+   59
+  ]
+ },
+ {
+  "id": "S25",
+  "title": "Motilite testleri: doğru soru, doğru test, pediatrik yorum",
+  "bullets": [
+   [
+    {
+     "t": "Ruminasyon: HRIM-empedans; test öğünü + 30–60 dk kayıt",
+     "b": false
+    },
+    {
+     "cite": [
+      60
+     ]
+    }
+   ],
+   [
+    {
+     "t": "HRIM ile ruminasyon saptananların %47'si klinik kriterleri karşılamıyordu",
+     "b": false
+    },
+    {
+     "cite": [
+      61
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Mide boşalma: pediatrik 4. saat retansiyon 95. persentili %22",
+     "b": false
+    },
+    {
+     "cite": [
+      62
+     ]
+    },
+    {
+     "t": "; erişkin eşiğiyle çocukların %26'sı \"gecikmiş\"",
+     "b": false
+    },
+    {
+     "cite": [
+      63
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Ruminasyonlu çocukların %36'sında gecikmiş boşalma",
+     "b": false
+    },
+    {
+     "cite": [
+      64
+     ]
+    }
+   ]
+  ],
+  "numbered": [],
+  "table": [],
+  "dipnot": [
+   {
+    "t": "Malik normu tek merkez, n=30, vejetaryen öğün; doğrulanmış pediatrik standart yok.",
+    "b": false
+   }
+  ],
+  "etiket": null,
+  "gri": null,
+  "gorsel": null,
+  "cites": [
+   60,
+   61,
+   62,
+   63,
+   64
+  ]
+ },
+ {
+  "id": "S26",
+  "title": "Tek sayfa basamaklı algoritma",
+  "bullets": [],
+  "numbered": [],
+  "table": [],
+  "dipnot": null,
+  "etiket": null,
+  "gri": null,
+  "gorsel": "`fig_tani_algoritmasi.png` — Basamak 0 (acil) → Basamak 1 (paterne göre) → Basamak 2 (bayrağa göre hedefe yönelik) → Basamak 3 (2 ayda yanıt yok: tanıyı yeniden gözden geçir) → Rome V pozitif tanı **ya da** \"Rome V karşılığı yok → araştırmayı sürdür\".",
+  "cites": [],
+  "other": [
+   "Her kutuda kaynak numarası; ÇIKARIM kutuları kesik çizgili."
+  ]
+ },
+ {
+  "id": "S27",
+  "title": "Aşırı tetkikin bedeli",
+  "bullets": [
+   [
+    {
+     "t": "135 SKS'li çocukta tetkikler 6'sında (%4,4) yönetimi değiştirdi; hasta başı ortalama fatura 6125 $ (2015, 3. basamak)",
+     "b": false
+    },
+    {
+     "cite": [
+      65
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Fonksiyonel bulantılı 63 çocuk: 96 endoskopi, 199 radyolojik test, 4 kolesistektomi; çoğu tanısız",
+     "b": false
+    },
+    {
+     "cite": [
+      66
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Metabolik tetkik: 2/135 tanı değişikliği",
+     "b": false
+    },
+    {
+     "cite": [
+      65
+     ]
+    }
+   ]
+  ],
+  "numbered": [],
+  "table": [],
+  "dipnot": null,
+  "etiket": null,
+  "gri": null,
+  "gorsel": null,
+  "cites": [
+   65,
+   66
+  ]
+ },
+ {
+  "id": "S28",
+  "title": "Rome V: pozitif tanı, anatomik sınıflama; DGBI organik hastalıkla birlikte bulunabilir",
+  "bullets": [
+   [
+    {
+     "t": "Sınıflama yaş yerine anatomik bölge ve patofizyolojiye dayanıyor",
+     "b": false
+    },
+    {
+     "cite": [
+      67
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Testler kriterlerin birçoğunda daha büyük rol oynuyor (HRM, empedans)",
+     "b": false
+    },
+    {
+     "cite": [
+      8
+     ]
+    }
+   ],
+   [
+    {
+     "t": "DGBI, GİS semptomu yapan hastalıklarla birlikte bulunabilir",
+     "b": false
+    },
+    {
+     "cite": [
+      68
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Çölyakta GFD'ye uyumlu 191 çocuğun %43'ünde DGBI",
+     "b": false
+    },
+    {
+     "cite": [
+      69
+     ]
+    }
+   ]
+  ],
+  "numbered": [],
+  "table": [],
+  "dipnot": null,
+  "etiket": null,
+  "gri": null,
+  "gorsel": null,
+  "cites": [
+   8,
+   67,
+   68,
+   69
+  ]
+ },
+ {
+  "id": "S29",
+  "title": "Kusma alanında Rome IV → V: beş değişiklik",
+  "bullets": [],
+  "numbered": [],
+  "table": [
+   [
+    [
+     {
+      "t": "Rome IV",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "Rome V",
+      "b": false
+     }
+    ]
+   ],
+   [
+    [
+     {
+      "t": "Fonksiyonel bulantı",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "Kronik bulantı sendromu; kriterler benzer, kusma tanım dışı",
+      "b": false
+     },
+     {
+      "cite": [
+       8
+      ]
+     }
+    ]
+   ],
+   [
+    [
+     {
+      "t": "(karşılığı yok)",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "KHS, SKS'nin alt grubu",
+      "b": false
+     },
+     {
+      "cite": [
+       8
+      ]
+     }
+    ]
+   ],
+   [
+    [
+     {
+      "t": "Ruminasyon (yaşa göre)",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "Tek set; sıvı sonrası eklendi, öğürme dışlaması kalktı, GÖRH tedavisine yanıtsızlık",
+      "b": false
+     },
+     {
+      "cite": [
+       8
+      ]
+     }
+    ]
+   ],
+   [
+    [
+     {
+      "t": "PDS haftada 1 gün",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "Haftada 3 gün; postprandiyal = 2 saat içinde",
+      "b": false
+     },
+     {
+      "cite": [
+       8
+      ]
+     }
+    ]
+   ],
+   [
+    [
+     {
+      "t": "Süt çocuğu regürjitasyonu",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "Kaldırıldı (İKİNCİL)",
+      "b": false
+     },
+     {
+      "cite": [
+       4
+      ]
+     }
+    ]
+   ]
+  ],
+  "dipnot": [
+   {
+    "t": "\"attributed to\" → \"fully explained by\". Rome IV SKS eşikleri verbatim doğrulanamadı → karşılaştırılmadı.",
+    "b": false
+   }
+  ],
+  "etiket": null,
+  "gri": null,
+  "gorsel": null,
+  "cites": [
+   4,
+   8
+  ]
+ },
+ {
+  "id": "S30",
+  "title": "SKS: Rome V tanı kriterleri",
+  "bullets": [],
+  "numbered": [
+   [
+    {
+     "t": "Akut başlangıçlı, saatte birden çok tekrarlayan kusmalı stereotipik ataklar",
+     "b": false
+    }
+   ],
+   [
+    {
+     "t": "Son 12 ayda 2 saat–7 gün süren ≥4 ayrı atak",
+     "b": false
+    }
+   ],
+   [
+    {
+     "t": "Ataklar arası en az 1 hafta",
+     "b": false
+    }
+   ],
+   [
+    {
+     "t": "Ataklar arasında bazal sağlığa dönüş",
+     "b": false
+    }
+   ],
+   [
+    {
+     "t": "Uygun değerlendirmeden sonra başka bir durumla ",
+     "b": false
+    },
+    {
+     "t": "tam olarak",
+     "b": true
+    },
+    {
+     "t": " açıklanamaz",
+     "b": false
+    },
+    {
+     "cite": [
+      8
+     ]
+    }
+   ]
+  ],
+  "table": [],
+  "dipnot": null,
+  "etiket": null,
+  "gri": [
+   {
+    "t": "migren öyküsü/aile öyküsü; ataklarda halsizlik-durgunluk, terleme, fotofobi, dinmeyen bulantı, karın ağrısı ve/veya mide boşaldıktan sonra da süren öğürme; ataklar arası daha hafif/aralıklı karın ağrısı ve bulantı olabilir.",
+    "b": false
+   }
+  ],
+  "gorsel": "`fig_cvs_kriter.png` (zaman çizelgesi)",
+  "cites": [
+   8
+  ],
+  "gri_title": "Eşlik eden özellikler (kutu başlığı doğrulanmadı)"
+ },
+ {
+  "id": "S31",
+  "title": "Ruminasyon, KBS ve FD; Rome V'te \"fonksiyonel kusma\" yok",
+  "bullets": [
+   [
+    {
+     "t": "Ruminasyon:",
+     "b": true
+    },
+    {
+     "t": " ≥2 ay, 3 aylıktan sonra; yemek/sıvı sırasında ya da hemen sonra görünüşte zahmetsiz regürjitasyon; uykuda yok; GÖRH tedavisine yanıtsız; yeme bozukluğu dışlanmalı",
+     "b": false
+    },
+    {
+     "cite": [
+      8
+     ]
+    }
+   ],
+   [
+    {
+     "t": "KBS:",
+     "b": true
+    },
+    {
+     "t": " haftada ≥2 rahatsız edici bulantı; kusmayla ilişkili değil; ≥2 ay",
+     "b": false
+    },
+    {
+     "cite": [
+      8
+     ]
+    }
+   ],
+   [
+    {
+     "t": "FD:",
+     "b": true
+    },
+    {
+     "t": " postprandiyal dolgunluk, erken doyma ya da epigastrik ağrı/yanma; ≥2 ay; PDS ≥3 gün/hafta, EPS ≥1 gün/hafta",
+     "b": false
+    },
+    {
+     "cite": [
+      8
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Alt şerit: ",
+     "b": false
+    },
+    {
+     "t": "Kronik, epizodik olmayan kusmanın Rome V pediatrikte fonksiyonel karşılığı yok → araştırmayı sürdür",
+     "b": true
+    },
+    {
+     "t": " (ÇIKARIM)",
+     "b": false
+    }
+   ]
+  ],
+  "numbered": [],
+  "table": [],
+  "dipnot": [
+   {
+    "t": "KBS ve EPS kutularındaki niceleyici (\"Must include … of\") PDF'ten doğrulanmadı.",
+    "b": false
+   }
+  ],
+  "etiket": null,
+  "gri": null,
+  "gorsel": null,
+  "cites": [
+   8
+  ]
+ },
+ {
+  "id": "S32",
+  "title": "Adolesan KHS: kriterler, tuzaklar, sınıflama",
+  "bullets": [
+   [
+    {
+     "t": "Rome V: SKS benzeri ataklar; uzun (ör. 1–2 yıl), neredeyse günlük kullanım; ≥6 ay bırakmayla düzelme",
+     "b": false
+    },
+    {
+     "cite": [
+      8
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Sıcak banyo SKS'de de görülür",
+     "b": false
+    },
+    {
+     "cite": [
+      8
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Rome V pediatrik: SKS alt grubu · NASPGHAN 2025: ayrı antite",
+     "b": false
+    },
+    {
+     "cite": [
+      55
+     ]
+    },
+    {
+     "t": " · Rome V erişkin: ayrı kod",
+     "b": false
+    },
+    {
+     "cite": [
+      70
+     ]
+    }
+   ]
+  ],
+  "numbered": [],
+  "table": [],
+  "dipnot": null,
+  "etiket": null,
+  "gri": null,
+  "gorsel": null,
+  "cites": [
+   8,
+   55,
+   70
+  ]
+ },
+ {
+  "id": "S33",
+  "title": "Tedavi açıklamayla başlar; yaşam tarzı herkese",
+  "bullets": [
+   [
+    {
+     "t": "Rome V: atak şiddeti, yeti yitimi ve psikososyal etkiye göre basamaklı, bireysel tedavi",
+     "b": false
+    },
+    {
+     "cite": [
+      8
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Ebeveynlerin %78'i pozitif tanı ve bilgilendirmenin kusma şiddetini etkilediğini düşündü (n=41)",
+     "b": false
+    },
+    {
+     "cite": [
+      15
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Türkiye kohortu (n=119): yaşam tarzı uyumu %73,9 ve başarıyı öngördürüyor",
+     "b": false
+    },
+    {
+     "cite": [
+      71
+     ]
+    }
+   ]
+  ],
+  "numbered": [],
+  "table": [],
+  "dipnot": [
+   {
+    "t": "Ebeveyn algısı, kontrolsüz; Türkiye kohortu randomize değil.",
+    "b": false
+   }
+  ],
+  "etiket": null,
+  "gri": null,
+  "gorsel": null,
+  "cites": [
+   8,
+   15,
+   71
+  ]
+ },
+ {
+  "id": "S34",
+  "title": "SKS akut atak: erken, oral dışı, antimigren",
+  "bullets": [
+   [
+    {
+     "t": "NASPGHAN 2025: kişisel/ailesel migren öyküsünde antimigren ajan: ",
+     "b": false
+    },
+    {
+     "t": "güçlü öneri",
+     "b": true
+    },
+    {
+     "t": "",
+     "b": false
+    },
+    {
+     "cite": [
+      72
+     ]
+    }
+   ],
+   [
+    {
+     "t": "5-HT3 ve NK-1 antagonistleri; IV gerektiğinde erken başvuru: koşullu öneri",
+     "b": false
+    },
+    {
+     "cite": [
+      72
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Dekstroz: D10 geleneksel (2008); 2025 paneli D10/D5 üstünlüğüne karar veremedi",
+     "b": false
+    },
+    {
+     "cite": [
+      12,
+      73
+     ]
+    }
+   ],
+   [
+    {
+     "t": ">24 saat gecikme yatışın en güçlü öngördürücüsü",
+     "b": false
+    },
+    {
+     "cite": [
+      73
+     ]
+    }
+   ]
+  ],
+  "numbered": [],
+  "table": [],
+  "dipnot": null,
+  "etiket": "D10/D5 ve 24 saat İKİNCİL (Hernandez özeti).",
+  "gri": null,
+  "gorsel": null,
+  "cites": [
+   12,
+   72,
+   73
+  ]
+ },
+ {
+  "id": "S35",
+  "title": "SKS profilaksisi: 2025'te dört ilaç sınıfı, 2008 yaş şeması tarihsel",
+  "bullets": [
+   [
+    {
+     "t": "NASPGHAN 2025: propranolol, siproheptadin, aprepitant, TSA: koşullu; antikonvülzan yalnız refrakterde",
+     "b": false
+    },
+    {
+     "cite": [
+      72,
+      73
+     ]
+    }
+   ],
+   [
+    {
+     "t": "RCT (n=64, plasebosuz): tam remisyon amitriptilin %65,6 vs siproheptadin %50; yaş etkisi yok",
+     "b": false
+    },
+    {
+     "cite": [
+      74
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Amitriptilin 1,0–1,5 mg/kg/gün (İKİNCİL); düşük dozdan titrasyon, EKG/QTc (UZMAN)",
+     "b": false
+    },
+    {
+     "cite": [
+      73,
+      26
+     ]
+    }
+   ]
+  ],
+  "numbered": [],
+  "table": [],
+  "dipnot": null,
+  "etiket": null,
+  "gri": [
+   {
+    "t": "2008: ≤5 yaş siproheptadin, >5 yaş amitriptilin (tarihsel)",
+    "b": false
+   },
+   {
+    "cite": [
+     12
+    ]
+   }
+  ],
+  "gorsel": null,
+  "cites": [
+   12,
+   26,
+   72,
+   73,
+   74
+  ],
+  "gri_title": null
+ },
+ {
+  "id": "S36",
+  "title": "Refrakter SKS: ek seçenekler ve kanıt düzeyleri",
+  "bullets": [
+   [
+    {
+     "t": "Aprepitant (refrakter, n=41, retrospektif): yanıt %76–81",
+     "b": false
+    },
+    {
+     "cite": [
+      75
+     ]
+    },
+    {
+     "t": "; OKS etkinliğini azaltabilir",
+     "b": false
+    },
+    {
+     "cite": [
+      73
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Topiramat: RCT'de atak kesilmesi %39 (amitriptilin %68)",
+     "b": false
+    },
+    {
+     "cite": [
+      76
+     ]
+    },
+    {
+     "t": "; Türkiye serisinde %81",
+     "b": false
+    },
+    {
+     "cite": [
+      77
+     ]
+    }
+   ],
+   [
+    {
+     "t": "PENFS (n=30, kontrolsüz): %80 yanıt",
+     "b": false
+    },
+    {
+     "cite": [
+      78
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Katamenial SKS: düşük östrojenli OKS/medroksiprogesteron (UZMAN)",
+     "b": false
+    },
+    {
+     "cite": [
+      26
+     ]
+    }
+   ]
+  ],
+  "numbered": [],
+  "table": [],
+  "dipnot": [
+   {
+    "t": "sham-kontrollü pediatrik PENFS RCT'si sürüyor (NCT07465614).",
+    "b": false
+   }
+  ],
+  "etiket": null,
+  "gri": null,
+  "gorsel": null,
+  "cites": [
+   26,
+   73,
+   75,
+   76,
+   77,
+   78
+  ]
+ },
+ {
+  "id": "S37",
+  "title": "Ruminasyon: açıklama ve diyafragmatik solunum",
+  "bullets": [
+   [
+    {
+     "t": "Mekanizmayı açıkla, güvence ver: %23 yalnız danışmanlıkla düzeldi",
+     "b": false
+    },
+    {
+     "cite": [
+      8
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Diyafragmatik solunum birinci basamak",
+     "b": false
+    },
+    {
+     "cite": [
+      8
+     ]
+    },
+    {
+     "t": "; pediatrik etkinlik verisi sınırlı",
+     "b": false
+    },
+    {
+     "cite": [
+      79
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Ayaktan BDT (8–18 y): %87 düzelme, %73,9 tam çözülme",
+     "b": false
+    },
+    {
+     "cite": [
+      80
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Baklofen ek tedavi olabilir (retrospektif, ~%50)",
+     "b": false
+    },
+    {
+     "cite": [
+      8
+     ]
+    }
+   ]
+  ],
+  "numbered": [],
+  "table": [],
+  "dipnot": [
+   {
+    "t": "Biofeedback",
+    "b": false
+   },
+   {
+    "cite": [
+     81
+    ]
+   },
+   {
+    "t": " ve baklofen",
+    "b": false
+   },
+   {
+    "cite": [
+     82
+    ]
+   },
+   {
+    "t": " RCT'leri ERİŞKİN; anti-reflü cerrahi ve botulinum rutin önerilmez",
+    "b": false
+   },
+   {
+    "cite": [
+     8
+    ]
+   },
+   {
+    "t": ".",
+    "b": false
+   }
+  ],
+  "etiket": null,
+  "gri": null,
+  "gorsel": null,
+  "cites": [
+   8,
+   79,
+   80,
+   81,
+   82
+  ]
+ },
+ {
+  "id": "S38",
+  "title": "FD ve KBS: ilaç kanıtı zayıf, psikolojik ve otonom yaklaşım öne çıkar",
+  "bullets": [
+   [
+    {
+     "t": "Pediatrik FD/kronik bulantıda ilaç lehine RCT kanıtı yok (SR)",
+     "b": false
+    },
+    {
+     "cite": [
+      83
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Amitriptilin (n=90) plaseboya üstün değil",
+     "b": false
+    },
+    {
+     "cite": [
+      84
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Hipnoterapi (n=100): 12. ayda %60 vs %55; fonksiyonel bulantıda üstün",
+     "b": false
+    },
+    {
+     "cite": [
+      85
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Dirençli olguda mirtazapin (retrospektif %82)",
+     "b": false
+    },
+    {
+     "cite": [
+      86
+     ]
+    },
+    {
+     "t": "; POTS'ta sıvı, tuz, uyku, egzersiz",
+     "b": false
+    },
+    {
+     "cite": [
+      8
+     ]
+    }
+   ]
+  ],
+  "numbered": [],
+  "table": [],
+  "dipnot": null,
+  "etiket": null,
+  "gri": null,
+  "gorsel": null,
+  "cites": [
+   8,
+   83,
+   84,
+   85,
+   86
+  ]
+ },
+ {
+  "id": "S39",
+  "title": "Yatış, sevk, izlem ve 18 yaş",
+  "bullets": [
+   [
+    {
+     "t": "Doğrulanmış yatış kriteri yok. Öngördürücü: erkek, küçük yaş, >24 sa gecikme, antiemetik öncesi bekleme",
+     "b": false
+    },
+    {
+     "cite": [
+      87
+     ]
+    }
+   ],
+   [
+    {
+     "t": "Rome V (SKS): bayrak ya da 2 ayda yanıtsızlıkta testle destekle",
+     "b": false
+    },
+    {
+     "cite": [
+      8
+     ]
+    }
+   ],
+   [
+    {
+     "t": "18 yaş, erişkin Rome V: PDS 2 gün/hafta; ruminasyonda öğürme dışlanır; KHS ayrı kod",
+     "b": false
+    },
+    {
+     "cite": [
+      70
+     ]
+    }
+   ]
+  ],
+  "numbered": [],
+  "table": [],
+  "dipnot": null,
+  "etiket": "son madde ERİŞKİN.",
+  "gri": null,
+  "gorsel": null,
+  "cites": [
+   8,
+   70,
+   87
+  ]
+ },
+ {
+  "id": "S40",
+  "title": "Kılavuzlar arası farklar",
+  "bullets": [],
+  "numbered": [],
+  "table": [
+   [
+    [],
+    [
+     {
+      "t": "NASPGHAN 2008",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "NASPGHAN 2025",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "ANMS 2019 (ERİŞKİN)",
+      "b": false
+     }
+    ]
+   ],
+   [
+    [
+     {
+      "t": "Tanı",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "Bayrağa göre hedefe yönelik",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "Herkese kan + idrar + üst GİS grafisi",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "–",
+      "b": false
+     }
+    ]
+   ],
+   [
+    [
+     {
+      "t": "Profilaksi seçimi",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "Yaşa göre",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "4 sınıf, koşullu; yaş ölçütü (özette) yok",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "TSA birinci basamak",
+      "b": false
+     }
+    ]
+   ],
+   [
+    [
+     {
+      "t": "Dekstroz",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "D10",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "D10/D5 açık",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "D5",
+      "b": false
+     }
+    ]
+   ],
+   [
+    [
+     {
+      "t": "Antikonvülzan",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "–",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "Yalnız refrakter",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "Topiramat alternatif",
+      "b": false
+     }
+    ]
+   ],
+   [
+    [
+     {
+      "t": "KHS",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "–",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "İlişkili ama ayrı",
+      "b": false
+     }
+    ],
+    [
+     {
+      "t": "–",
+      "b": false
+     }
+    ]
+   ]
+  ],
+  "dipnot": [
+   {
+    "t": "2025 tam metinleri görülmedi; tedavi ayrıntıları ikincil özetten.",
+    "b": false
+   }
+  ],
+  "etiket": null,
+  "gri": null,
+  "gorsel": null,
+  "cites": [
+   12,
+   55,
+   72,
+   73,
+   88
+  ],
+  "cites_line": [
+   {
+    "cite": [
+     12,
+     55,
+     72,
+     73,
+     88
+    ]
+   }
+  ]
+ },
+ {
+  "id": "S41",
+  "title": "Eve götürülecek beş mesaj",
+  "bullets": [],
+  "numbered": [
+   [
+    {
+     "t": "Önce paterni tanımla: kusma mı, ruminasyon mu; siklik mi, kronik mi?",
+     "b": false
+    }
+   ],
+   [
+    {
+     "t": "Safralı kusma acil; safrasız kusma malrotasyonu dışlamaz.",
+     "b": false
+    }
+   ],
+   [
+    {
+     "t": "Bayrak yokluğu güvence değil; SKS'de herkese bir kez kan, idrar, üst GİS grafisi.",
+     "b": false
+    }
+   ],
+   [
+    {
+     "t": "Metabolik bayrakta kritik örnek atakta, dekstrozu geciktirmeden.",
+     "b": false
+    }
+   ],
+   [
+    {
+     "t": "Kronik günlük kusmanın Rome V'te fonksiyonel karşılığı yok: araştırmayı sürdür.",
+     "b": false
+    }
+   ]
+  ],
+  "table": [],
+  "dipnot": null,
+  "etiket": null,
+  "gri": null,
+  "gorsel": null,
+  "cites": []
+ },
+ {
+  "id": "S42–S45",
+  "title": "Kaynaklar (otomatik, `_kaynaklar.md`'den)",
+  "bullets": [],
+  "numbered": [],
+  "table": [],
+  "dipnot": null,
+  "etiket": null,
+  "gri": null,
+  "gorsel": null,
+  "cites": []
+ },
+ {
+  "id": "S46",
+  "title": "Teşekkür",
+  "bullets": [],
+  "numbered": [],
+  "table": [],
+  "dipnot": null,
+  "etiket": null,
+  "gri": null,
+  "gorsel": null,
+  "cites": []
+ }
+]

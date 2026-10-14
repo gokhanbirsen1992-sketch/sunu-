@@ -14,6 +14,18 @@ from check_evidence import parse_bib  # noqa: E402
 TAG = re.compile(r"\[@([\d;\s@]+)\]")
 
 
+import unicodedata
+
+ACC = {"'": "\u0301", '"': "\u0308", "`": "\u0300", "^": "\u0302", "~": "\u0303", "c": "\u0327", "v": "\u030c", "u": "\u0306"}
+
+
+def delatex(t):
+    """BibTeX aksanlarını ({\\'u}, {\\"a}, \\c{c}) Unicode'a çevirir, kalan süslü parantezleri siler."""
+    t = re.sub(r"\{?\\([\'\"`^~cvu])\{?([A-Za-z])\}?\}?", lambda m: m.group(2) + ACC[m.group(1)], t)
+    t = t.replace("{", "").replace("}", "").replace("\\&", "&")
+    return unicodedata.normalize("NFC", t)
+
+
 def short_authors(a):
     names = [n.strip() for n in re.split(r"\s+and\s+", a) if n.strip() and n.strip() != "others"]
     out = []
@@ -48,7 +60,7 @@ def main():
              "Tüm kayıtlar PubMed'de doğrulandı (qc/reference_audit.json).", ""]
     refs = []
     for i, p in enumerate(order, 1):
-        e = bib[p]
+        e = {k: delatex(v) if isinstance(v, str) else v for k, v in bib[p].items()}
         vol = e.get("volume", "")
         num = f"({e['number']})" if e.get("number") else ""
         pages = ":" + re.sub(r"-+", "-", e["pages"]) if e.get("pages") else ""

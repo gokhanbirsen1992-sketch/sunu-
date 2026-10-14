@@ -22,7 +22,7 @@ Toplam: 1 başlık + 1 yol haritası + 40 içerik + 4 kaynak + 1 teşekkür = **
 
 ### S1 · Kronik kusma bir tanı değil, bir paterndir; çocukta standart süre tanımı yok
 - "Persistan kusma" literatürde tanımsız; 15 çalışmalık sistematik derleme ortak tanım bulamadı [@29137006]
-- UEG/ESNM 2025: >4 hafta = kronik — pediatriye özgü değil [@39754724]
+- UEG/ESNM 2025: >4 hafta = kronik; pediatriye özgü değil [@39754724]
 - Araştırma tanımı örneği: 3 ayda 3 kusma epizodu [@8604272]
 Dayanak: A1-01 (V2a düzeltmesi), A1-02 (V2a: "pediatriye özgü değil"), A1-04
 
@@ -103,10 +103,10 @@ Dayanak: A2-21, A3-16, A7-07, A2-27 (V2a), A2-26 (V2a: 12/32 = %37,5)
 | İlerleyici kötüleşen ya da değişen patern | NASPGHAN 2008 [@18728540] |
 | Hepatomegali; 2 ayda standart tedaviye yanıtsızlık | Rome V [@41713704] |
 | Hematokezi/melena, kafa travması öyküsü | Raucci 2020 [@33224097] |
-Dipnot: NASPGHAN 2025 güncel algoritması tam metinden doğrulanmadı. Tablo slaytı (kelime istisnası).
+Dipnot: NASPGHAN 2025 güncel algoritması tam metinden doğrulanmadı.
 Dayanak: A2-15, A7-16, A2-16
 
-### S11 · Kırmızı bayrak yokluğu güvence değildir — ama bu kanıt kusmaya özgü değil
+### S11 · Kırmızı bayrak yokluğu güvence değildir; ama bu kanıt kusmaya özgü değil
 - DGBI şüpheli 500 çocuk (çoğu karın ağrısı/kabızlık): %45'inde bayrak, %19'unda organik tanı (çoğu GÖRH/peptik) [@40692192]
 - Organik tanılıların %38'inde başlangıçta bayrak yoktu [@40692192]
 - Hiçbir tek test yeterli değil; en iyi model AUC 0,711 [@40692192]
@@ -178,7 +178,7 @@ Dayanak: A3-36, A4-06, A3-38, A3-40 (V2b), A7-05
 
 ## 4. BASAMAKLI TETKİK
 
-### S20 · Basamak 0 — aynı saat içinde yapılacaklar (acil dallar)
+### S20 · Basamak 0: aynı saat içinde yapılacaklar (acil dallar)
 - Safralı kusma + karın bulgusu ya da hiç görüntülenmemiş çocukta ilk safralı kusma → acil üst GİS grafisi, çocuk cerrahisi [@23818085; @2769545]
 - Ensefalopati → glukoz, kan gazı, amonyak (buzda) [@22642880; @26678622]
 - Na↓ / glukoz↓ → ACTH + kortizol [@33224097; @25957977]
@@ -186,14 +186,14 @@ Dayanak: A3-36, A4-06, A3-38, A3-40 (V2b), A7-05
 Dipnot: Stres dozu hidrokortizon için bu çalışmada pediatrik kaynak doğrulanmadı.
 Dayanak: A1-40, A4-17, A3-23, A7-15, A4-11, A7-03, A4-22 (V3-01/02)
 
-### S21 · Basamak 1 — ilk tetkik paterne göre seçilir (TABLO)
+### S21 · Basamak 1: ilk tetkik paterne göre seçilir (TABLO)
 | Patern | İlk tetkik | Kanıt |
 |---|---|---|
 | Siklik (SKS şüphesi) | Kan + idrar tarama, üst GİS pasaj grafisi; diğer tarama testleri düşük verimli | NASPGHAN 2025 [@40836301] |
 | Kronik günlük | Endoskopi + biyopsi öncelikli; anatomi için grafi | ÇIKARIM [@8604272; @36056317] |
 | Eforsuz regürjitasyon | Öğün sonrası gözlem; atipikse HRIM-empedans | Rome V [@41713704] |
 | Adolesan | Öyküye göre idrar THC; gebelik testi | Rome V [@41713704]; DOLAYLI [@35430344] |
-Dipnot: Batın US — çocukta hidronefroz için önerilir [@33619730] ↔ NASPGHAN 2025 "diğer taramalar düşük verim": **çelişki, kullanıcı kararı**.
+Dipnot: Batın US: çocukta hidronefroz için önerilir [@33619730] ↔ NASPGHAN 2025 "diğer taramalar düşük verim": kaynaklar çelişiyor.
 Dayanak: A4-01, A1-07, A4-30, A5-31, A4-06, A7-05, A4-07 (V2b), V3-05/06
 
 ### S22 · Kritik örnek: atak sırasında alınır, ama dekstrozu geciktirmez
@@ -253,14 +253,14 @@ Dayanak: A5-01, A5-04 (V2c), A5-09, A7-21
 | Rome IV | Rome V |
 |---|---|
 | Fonksiyonel bulantı | Kronik bulantı sendromu; kriterler benzer, kusma tanım dışı [@41713704] |
-| — | KHS, SKS'nin alt grubu [@41713704] |
+| (karşılığı yok) | KHS, SKS'nin alt grubu [@41713704] |
 | Ruminasyon (yaşa göre) | Tek set; sıvı sonrası eklendi, öğürme dışlaması kalktı, GÖRH tedavisine yanıtsızlık [@41713704] |
 | PDS haftada 1 gün | Haftada 3 gün; postprandiyal = 2 saat içinde [@41713704] |
 | Süt çocuğu regürjitasyonu | Kaldırıldı (İKİNCİL) [@42613193] |
 Dipnot: "attributed to" → "fully explained by". Rome IV SKS eşikleri verbatim doğrulanamadı → karşılaştırılmadı.
 Dayanak: A5-24, A5-19, A5-30, A5-34, A5-08, A5-07, V3-26
 
-### S30 · SKS — Rome V tanı kriterleri
+### S30 · SKS: Rome V tanı kriterleri
 1. Akut başlangıçlı, saatte birden çok tekrarlayan kusmalı stereotipik ataklar
 2. Son 12 ayda 2 saat–7 gün süren ≥4 ayrı atak
 3. Ataklar arası en az 1 hafta
@@ -270,7 +270,7 @@ Gri kutu — "Eşlik eden özellikler (kutu başlığı doğrulanmadı)": migren
 Görsel: `fig_cvs_kriter.png` (zaman çizelgesi)
 Dayanak: A5-13 (V2c düzeltmesi), V3-24
 
-### S31 · Ruminasyon, KBS ve FD — ve Rome V'te "fonksiyonel kusma" yok (3 SÜTUN)
+### S31 · Ruminasyon, KBS ve FD; Rome V'te "fonksiyonel kusma" yok (3 SÜTUN)
 - **Ruminasyon:** ≥2 ay, 3 aylıktan sonra; yemek/sıvı sırasında ya da hemen sonra görünüşte zahmetsiz regürjitasyon; uykuda yok; GÖRH tedavisine yanıtsız; yeme bozukluğu dışlanmalı [@41713704]
 - **KBS:** haftada ≥2 rahatsız edici bulantı; kusmayla ilişkili değil; ≥2 ay [@41713704]
 - **FD:** postprandiyal dolgunluk, erken doyma ya da epigastrik ağrı/yanma; ≥2 ay; PDS ≥3 gün/hafta, EPS ≥1 gün/hafta [@41713704]
@@ -296,18 +296,18 @@ Dipnot: Ebeveyn algısı, kontrolsüz; Türkiye kohortu randomize değil.
 Dayanak: A5-42 (V2c), A7-22, A6-05
 
 ### S34 · SKS akut atak: erken, oral dışı, antimigren
-- NASPGHAN 2025: kişisel/ailesel migren öyküsünde antimigren ajan — **güçlü öneri** [@40223700]
-- 5-HT3 ve NK-1 antagonistleri; IV gerektiğinde erken başvuru — koşullu öneri [@40223700]
+- NASPGHAN 2025: kişisel/ailesel migren öyküsünde antimigren ajan: **güçlü öneri** [@40223700]
+- 5-HT3 ve NK-1 antagonistleri; IV gerektiğinde erken başvuru: koşullu öneri [@40223700]
 - Dekstroz: D10 geleneksel (2008); 2025 paneli D10/D5 üstünlüğüne karar veremedi [@18728540; @41054967]
 - >24 saat gecikme yatışın en güçlü öngördürücüsü [@41054967]
 Etiket: D10/D5 ve 24 saat İKİNCİL (Hernandez özeti).
 Dayanak: A6-06, A6-13, A6-14, A7-14, V3-31
 
 ### S35 · SKS profilaksisi: 2025'te dört ilaç sınıfı, 2008 yaş şeması tarihsel
-- NASPGHAN 2025: propranolol, siproheptadin, aprepitant, TSA — koşullu; antikonvülzan yalnız refrakterde [@40223700; @41054967]
+- NASPGHAN 2025: propranolol, siproheptadin, aprepitant, TSA: koşullu; antikonvülzan yalnız refrakterde [@40223700; @41054967]
 - RCT (n=64, plasebosuz): tam remisyon amitriptilin %65,6 vs siproheptadin %50; yaş etkisi yok [@28719594]
 - Amitriptilin 1,0–1,5 mg/kg/gün (İKİNCİL); düşük dozdan titrasyon, EKG/QTc (UZMAN) [@41054967; @30076469]
-Gri kutu: 2008 — ≤5 yaş siproheptadin, >5 yaş amitriptilin (tarihsel) [@18728540]
+Gri kutu: 2008: ≤5 yaş siproheptadin, >5 yaş amitriptilin (tarihsel) [@18728540]
 Dayanak: A6-17, A7-12, A7-13, A6-19, A7-10, A7-08, A6-16, V3-17/18
 
 ### S36 · Refrakter SKS: ek seçenekler ve kanıt düzeyleri
@@ -343,11 +343,11 @@ Dayanak: A6-46, A7-16, A5-40, A7-18
 ### S40 · Kılavuzlar arası farklar (TABLO)
 | | NASPGHAN 2008 | NASPGHAN 2025 | ANMS 2019 (ERİŞKİN) |
 |---|---|---|---|
-| Tanı | Bayrağa göre hedefe yönelik | Herkese kan + idrar + üst GİS grafisi | — |
+| Tanı | Bayrağa göre hedefe yönelik | Herkese kan + idrar + üst GİS grafisi | – |
 | Profilaksi seçimi | Yaşa göre | 4 sınıf, koşullu; yaş ölçütü (özette) yok | TSA birinci basamak |
 | Dekstroz | D10 | D10/D5 açık | D5 |
-| Antikonvülzan | — | Yalnız refrakter | Topiramat alternatif |
-| KHS | — | İlişkili ama ayrı | — |
+| Antikonvülzan | – | Yalnız refrakter | Topiramat alternatif |
+| KHS | – | İlişkili ama ayrı | – |
 [@18728540; @40836301; @40223700; @41054967; @31241819]
 Dipnot: 2025 tam metinleri görülmedi; tedavi ayrıntıları ikincil özetten.
 Dayanak: V3-33, A6 Çelişen #1–3, #9
@@ -360,7 +360,7 @@ Dayanak: V3-33, A6 Çelişen #1–3, #9
 1. Önce paterni tanımla: kusma mı, ruminasyon mu; siklik mi, kronik mi?
 2. Safralı kusma acil; safrasız kusma malrotasyonu dışlamaz.
 3. Bayrak yokluğu güvence değil; SKS'de herkese bir kez kan, idrar, üst GİS grafisi.
-4. Metabolik bayrakta kritik örnek atakta — dekstrozu geciktirmeden.
+4. Metabolik bayrakta kritik örnek atakta, dekstrozu geciktirmeden.
 5. Kronik günlük kusmanın Rome V'te fonksiyonel karşılığı yok: araştırmayı sürdür.
 
 ### S42–S45 · Kaynaklar (otomatik, `_kaynaklar.md`'den)

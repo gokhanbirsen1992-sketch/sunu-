@@ -12,7 +12,8 @@ from pptx.util import Emu
 
 ROOT = Path(__file__).resolve().parent.parent
 WORD_LIMIT = 40
-ALLOWED_FONTS = {"Arial", "Calibri", "Georgia", None}
+SKIP_PREFIX = {"dipnot", "kanit", "sayi", "ikon", "mini", "no", "karo", "kaynak", "not", "etiket", "algo", "siniflama"}
+ALLOWED_FONTS = {"Arial", "Calibri", "Cambria", None}
 AI_TELLS = [
     r"\bdelve\b", r"\btapestry\b", r"\bgame[- ]changer\b", r"\bunlock\b", r"\bharness\b",
     r"oyunun kurallarını", r"devrim niteliğinde", r"çığır açan", r"\bsihirli\b", "—",
@@ -22,18 +23,24 @@ AI_TELLS = [
 def slide_words(slide):
     words = 0
     for sh in slide.shapes:
-        if getattr(sh, "name", "").startswith(("SRC", "FOOT", "NUM")):
-            continue  # kaynak satırı / altbilgi bütçeye sayılmaz
-        if sh.has_text_frame:
-            words += len(re.findall(r"\w+", sh.text_frame.text))
+        nm = getattr(sh, "name", "")
+        if sh.is_placeholder or nm.split("-")[0] in SKIP_PREFIX:
+            continue  # başlık, bölüm, kaynak satırı, kart, dipnot, kanıt notu gövde bütçesine sayılmaz
+        frames = [sh.text_frame] if sh.has_text_frame else []
         if sh.has_table:
-            for row in sh.table.rows:
-                for c in row.cells:
-                    words += len(re.findall(r"\w+", c.text))
+            frames += [c.text_frame for row in sh.table.rows for c in row.cells]
+        for tf in frames:
+            for p in tf.paragraphs:
+                for r in p.runs:
+                    if r._r.rPr is not None and r._r.rPr.get("baseline"):
+                        continue  # kaynak üst simgesi ([4]) kelime sayılmaz
+                    words += len(re.findall(r"\w+", r.text))
     return words
 
 
-def main(path, json_out=None):
+def main(path, json_out=None, exempt=()):
+    global EXEMPT
+    EXEMPT = set(exempt)
     prs = Presentation(path)
     W, H = prs.slide_width, prs.slide_height
     rep = {"file": str(path), "slides": len(prs.slides), "issues": [], "per_slide": []}
@@ -57,7 +64,7 @@ def main(path, json_out=None):
         bad = info["fonts"] - ALLOWED_FONTS
         if bad:
             rep["issues"].append(f"S{i}: taşınamaz font {bad}")
-        if info["words"] > WORD_LIMIT and not info["title"].lower().startswith("kaynak"):
+        if info["words"] > WORD_LIMIT and i not in EXEMPT:
             rep["issues"].append(f"S{i}: {info['words']} kelime > {WORD_LIMIT}")
         info["fonts"] = sorted(f for f in info["fonts"] if f)
         rep["per_slide"].append(info)
@@ -80,4 +87,5 @@ def main(path, json_out=None):
 if __name__ == "__main__":
     a = sys.argv[1:]
     j = a[a.index("--json") + 1] if "--json" in a else None
-    main(a[0], j)
+    ex = [int(x) for x in a[a.index("--exempt") + 1].split(",")] if "--exempt" in a else []
+    main(a[0], j, ex)
