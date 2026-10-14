@@ -1,0 +1,286 @@
+{
+  "bib": {
+    "entries": 152,
+    "unique_pmids": 121,
+    "problems": [],
+    "conflicts": [
+      "PMID 8604272: çelişkili DOI/yıl {'', 'doi yok'} {'1996'} (['A1.bib', 'A2.bib'])"
+    ]
+  },
+  "claims": {
+    "n": 281,
+    "issues": [
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-03",
+        "issues": [
+          "PMID 41054967 bib'de yok"
+        ],
+        "claim": ""
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-05",
+        "issues": [
+          "PMID 40868416 bib'de yok"
+        ],
+        "claim": ""
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-08",
+        "issues": [
+          "PMID 31540764 bib'de yok"
+        ],
+        "claim": ""
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-09",
+        "issues": [
+          "PMID 21147834 bib'de yok"
+        ],
+        "claim": ""
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-10",
+        "issues": [
+          "PMID 31241819 bib'de yok"
+        ],
+        "claim": ""
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-11",
+        "issues": [
+          "PMID 31241819 bib'de yok"
+        ],
+        "claim": ""
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-12",
+        "issues": [
+          "PMID 24898244 bib'de yok"
+        ],
+        "claim": ""
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-14",
+        "issues": [
+          "PMID 41054967 bib'de yok"
+        ],
+        "claim": ""
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-18",
+        "issues": [
+          "PMID 41054967 bib'de yok"
+        ],
+        "claim": ""
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-19",
+        "issues": [
+          "PMID 28719594 bib'de yok"
+        ],
+        "claim": ""
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-20",
+        "issues": [
+          "PMID 30613204 bib'de yok"
+        ],
+        "claim": ""
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-22",
+        "issues": [
+          "PMID 27302967 bib'de yok"
+        ],
+        "claim": ""
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-23",
+        "issues": [
+          "PMID 20109231 bib'de yok"
+        ],
+        "claim": ""
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-24",
+        "issues": [
+          "PMID 11999680 bib'de yok"
+        ],
+        "claim": ""
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-25",
+        "issues": [
+          "PMID 9226529 bib'de yok"
+        ],
+        "claim": ""
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-26",
+        "issues": [
+          "PMID 40868416 bib'de yok"
+        ],
+        "claim": ""
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-27",
+        "issues": [
+          "PMID 37364137 bib'de yok"
+        ],
+        "claim": ""
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-31",
+        "issues": [
+          "PMID 35687569 bib'de yok"
+        ],
+        "claim": ""
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-32",
+        "issues": [
+          "PMID 36943582 bib'de yok"
+        ],
+        "claim": ""
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-33",
+        "issues": [
+          "PMID 27185077 bib'de yok"
+        ],
+        "claim": ""
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-34",
+        "issues": [
+          "PMID 29206813 bib'de yok"
+        ],
+        "claim": ""
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-36",
+        "issues": [
+          "PMID 19596010 bib'de yok"
+        ],
+        "claim": ""
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-37",
+        "issues": [
+          "PMID 23419589 bib'de yok"
+        ],
+        "claim": ""
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-38",
+        "issues": [
+          "PMID 30360666 bib'de yok"
+        ],
+        "claim": ""
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-40",
+        "issues": [
+          "PMID 34718171 bib'de yok"
+        ],
+        "claim": ""
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-41",
+        "issues": [
+          "PMID 35188625 bib'de yok"
+        ],
+        "claim": ""
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-42",
+        "issues": [
+          "PMID 25222805 bib'de yok"
+        ],
+        "claim": ""
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-44",
+        "issues": [
+          "PMID 33160719 bib'de yok"
+        ],
+        "claim": ""
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-45",
+        "issues": [
+          "PMID 32569429 bib'de yok"
+        ],
+        "claim": ""
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-46",
+        "issues": [
+          "PMID 33259858 bib'de yok"
+        ],
+        "claim": ""
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-48",
+        "issues": [
+          "PMID 41054967 bib'de yok"
+        ],
+        "claim": ""
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-49",
+        "issues": [
+          "PMID 31241819 bib'de yok"
+        ],
+        "claim": ""
+      },
+      {
+        "file": "A6_yonetim.md",
+        "id": "A6-55",
+        "issues": [
+          "PMID 29358999 bib'de yok"
+        ],
+        "claim": ""
+      }
+    ]
+  },
+  "summary": {
+    "bib_entries": 152,
+    "bib_problems": 0,
+    "bib_conflicts": 1,
+    "claims": 281,
+    "claims_with_issues": 33
+  }
+}
