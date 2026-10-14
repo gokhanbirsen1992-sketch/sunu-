@@ -334,9 +334,9 @@ Dayanak: A5-45 (V2c), A6-30, A6-31, A6-33, A6-34, A1-42
 Dayanak: A6-38, A6-36, A6-40, A6-41, A5-44, A5-46 (V2c)
 
 ### S39 · Yatış, sevk, izlem ve 18 yaş
-- Doğrulanmış yatış kriteri yok; öngördürücüler: erkek, küçük yaş, >24 sa gecikme, antiemetik öncesi bekleme [@33259858]
-- Rome V (SKS): bayrak ya da 2 ayda yanıtsızlıkta tanıyı testle destekle [@41713704]
-- 18 yaş (erişkin Rome V): PDS 2 gün/hafta; ruminasyonda öğürme dışlanır; KHS ayrı kod [@42613194]
+- Doğrulanmış yatış kriteri yok. Öngördürücü: erkek, küçük yaş, >24 sa gecikme, antiemetik öncesi bekleme [@33259858]
+- Rome V (SKS): bayrak ya da 2 ayda yanıtsızlıkta testle destekle [@41713704]
+- 18 yaş, erişkin Rome V: PDS 2 gün/hafta; ruminasyonda öğürme dışlanır; KHS ayrı kod [@42613194]
 Etiket: son madde ERİŞKİN.
 Dayanak: A6-46, A7-16, A5-40, A7-18
 
