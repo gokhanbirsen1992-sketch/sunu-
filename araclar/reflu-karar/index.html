@@ -1,0 +1,544 @@
+<title>GÖRH Karar Ağacı</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap">
+<style>
+/* Ortak tasarım: tek sütun klinik akış. Renkler tokendan; her araç vurgu rengini body[data-tool] ile seçer. */
+:root{
+  --bg:#f6f7f5; --panel:#ffffff; --fg:#1d2420; --muted:#58645d; --line:#d3d9d4;
+  --accent:#1f6f78; --accent-fg:#ffffff;
+  --acil:#b3261e; --ivedi:#c2410c; --elektif:#946200; --kons:#2e7d32; --izlem:#1d4ed8; --bireysel:#6b21a8; --info:#475569;
+  --sev-fg:#ffffff; --flag:#946200;
+  --font-body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --font-display:"Source Serif 4",Georgia,"Times New Roman",serif;
+  color-scheme:light;
+}
+body[data-tool="eoe"]{--accent:#8a3b5c}
+body[data-tool="hp"]{--accent:#4f5a96}
+body[data-tool="gerd"]{--accent:#7a5a1a}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#141917; --panel:#1c2320; --fg:#e8ece9; --muted:#9ca8a1; --line:#2f3935;
+    --accent:#5fb7bf; --accent-fg:#0d1a1b;
+    --acil:#ef6a63; --ivedi:#f08a4b; --elektif:#d9a93a; --kons:#6fc277; --izlem:#7ea2ff; --bireysel:#c08cf0; --info:#94a3b8;
+    --sev-fg:#0f1412; --flag:#d9a93a; color-scheme:dark }
+  :root:not([data-theme="light"]) body[data-tool="eoe"]{--accent:#e08fb0; --accent-fg:#1b1014}
+  :root:not([data-theme="light"]) body[data-tool="hp"]{--accent:#a9b2f0; --accent-fg:#11142a}
+  :root:not([data-theme="light"]) body[data-tool="gerd"]{--accent:#e0bd72; --accent-fg:#1d1505}
+}
+:root[data-theme="dark"]{
+  --bg:#141917; --panel:#1c2320; --fg:#e8ece9; --muted:#9ca8a1; --line:#2f3935;
+  --accent:#5fb7bf; --accent-fg:#0d1a1b;
+  --acil:#ef6a63; --ivedi:#f08a4b; --elektif:#d9a93a; --kons:#6fc277; --izlem:#7ea2ff; --bireysel:#c08cf0; --info:#94a3b8;
+  --sev-fg:#0f1412; --flag:#d9a93a; color-scheme:dark }
+:root[data-theme="dark"] body[data-tool="eoe"]{--accent:#e08fb0; --accent-fg:#1b1014}
+:root[data-theme="dark"] body[data-tool="hp"]{--accent:#a9b2f0; --accent-fg:#11142a}
+:root[data-theme="dark"] body[data-tool="gerd"]{--accent:#e0bd72; --accent-fg:#1d1505}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16px;line-height:1.5}
+.wrap{max-width:780px;margin:0 auto;padding-block:12px 96px;padding-inline:16px}
+a{color:var(--accent)}
+.crumb{display:flex;flex-wrap:wrap;gap:0 14px;font-size:.92rem}
+.crumb a{display:inline-flex;align-items:center;min-height:44px;text-decoration:none;font-weight:700}
+header h1{font-family:var(--font-display);font-size:1.7rem;line-height:1.15;margin:4px 0 6px;text-wrap:balance}
+header p{margin:0 0 4px;color:var(--muted);font-size:.9rem}
+header .warn{color:var(--fg);font-size:.85rem}
+nav.tabs{display:flex;flex-wrap:wrap;gap:2px;margin:14px 0 6px;border-bottom:1px solid var(--line)}
+nav.tabs button{background:none;border:0;border-bottom:3px solid transparent;color:var(--muted);font:inherit;font-weight:700;min-height:44px;padding:8px 10px;cursor:pointer}
+nav.tabs button[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.step{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700;margin:16px 0 0}
+.q{border-top:1px solid var(--line);padding:12px 0}
+.q:first-child{border-top:0}
+.q .label{font-weight:700;margin-bottom:6px}
+.q .hint{color:var(--muted);font-size:.85rem;margin:-2px 0 8px}
+.q.opt .label::after{content:" (isteğe bağlı)";font-weight:400;color:var(--muted);font-size:.85rem}
+.opts{display:flex;flex-wrap:wrap;gap:10px}
+.opts button{background:var(--panel);border:1.5px solid var(--line);border-radius:999px;color:var(--fg);font:inherit;min-height:44px;padding:9px 16px;cursor:pointer;text-align:left}
+.opts button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-fg);font-weight:700}
+
+.tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.tools button,.btn{background:var(--panel);border:1px solid var(--line);border-radius:8px;color:var(--fg);font:inherit;font-size:.95rem;min-height:44px;padding:8px 14px;cursor:pointer}
+
+.result{margin-top:18px;border:1px solid var(--line);border-radius:10px;background:var(--panel);overflow:hidden;scroll-margin-top:12px}
+.result .band{padding:14px 16px;color:var(--sev-fg)}
+.result .band .lvl{font-family:var(--font-display);font-size:1.45rem;font-weight:700;line-height:1.15}
+.result .band .sub{font-size:.95rem;margin-top:2px}
+.result .body{padding:14px 16px;display:grid;gap:12px}
+.result h3{font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+.result ul{margin:0;padding-left:20px}
+.result li{margin:4px 0}
+.result details summary{cursor:pointer;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700;min-height:32px}
+.result .more{font-size:.92rem;color:var(--muted)}
+.result .more button{background:none;border:0;padding:0;color:var(--accent);font:inherit;text-decoration:underline;cursor:pointer}
+.flag{border-left:3px solid var(--flag);padding:6px 10px;background:color-mix(in srgb,var(--flag) 11%,transparent);font-size:.92rem}
+.result.empty .band{background:var(--line);color:var(--fg)}
+.result.empty .band button{background:none;border:0;padding:0;font:inherit;color:inherit;text-decoration:underline;cursor:pointer;text-align:left}
+.k-acil{background:var(--acil)} .k-ivedi{background:var(--ivedi)} .k-elektif{background:var(--elektif)}
+.k-kons{background:var(--kons)} .k-izlem{background:var(--izlem)} .k-bireysel{background:var(--bireysel)} .k-info{background:var(--info)}
+.copybox{width:100%;min-height:160px;font:inherit;font-size:.85rem;margin-top:8px}
+
+.sticky[hidden],[hidden]{display:none!important}
+.sticky{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;justify-content:center;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));color:var(--sev-fg);border:0;width:100%;font:inherit;font-weight:700;cursor:pointer;box-shadow:0 -2px 10px rgb(0 0 0 / .18)}
+
+.form{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:8px 0 4px}
+.form .full{grid-column:1/-1}
+.form label{display:grid;gap:4px;font-weight:700;font-size:.9rem;min-width:0}
+.form input,.form select{font:inherit;min-height:44px;padding:8px 10px;border:1.5px solid var(--line);border-radius:8px;background:var(--panel);color:var(--fg);min-width:0;width:100%}
+.dose{display:grid;gap:10px;margin-top:14px}
+.drow{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:12px 14px}
+.drow h4{margin:0 0 6px;font-family:var(--font-display);font-size:1.1rem}
+.kv{display:grid;grid-template-columns:minmax(110px,180px) 1fr;gap:4px 12px;font-size:.93rem;margin:0}
+.kv dt{color:var(--muted)} .kv dd{margin:0;font-variant-numeric:tabular-nums}
+.big{font-variant-numeric:tabular-nums;font-size:1.25rem;font-weight:700}
+
+table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:560px}
+.tscroll{overflow-x:auto;margin:10px 0 20px;border:1px solid var(--line);border-radius:8px}
+th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:color-mix(in srgb,var(--accent) 8%,var(--panel))}
+tr:last-child td{border-bottom:0}
+td.num{font-variant-numeric:tabular-nums}
+.pill{display:inline-block;border-radius:999px;color:var(--sev-fg);font-size:.78rem;font-weight:700;padding:2px 9px;white-space:nowrap}
+h2{font-family:var(--font-display);font-size:1.25rem;margin:22px 0 6px}
+.note{color:var(--muted);font-size:.85rem}
+footer{margin-top:28px;color:var(--muted);font-size:.8rem;border-top:1px solid var(--line);padding-top:12px}
+@media (max-width:420px){.kv{grid-template-columns:1fr}.kv dt{margin-top:4px}}
+@media (prefers-reduced-motion:no-preference){.opts button,nav.tabs button{transition:background .12s,color .12s}}
+@media print{
+  nav.tabs,.tools,.crumb,.sticky,.opts button[aria-pressed="false"],.result .more,.copyrow{display:none!important}
+  [role=tabpanel][hidden]{display:none!important}
+  body{font-size:11pt;background:#fff;color:#000}
+  .result{break-inside:avoid;border:2px solid #000}
+  .result .band{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .result details{display:block}.result details>*{display:block}
+}
+
+</style>
+<script>document.body&&document.body.setAttribute("data-tool","gerd");</script>
+<div data-tool-wrap="gerd">
+<div class="wrap">
+<nav class="crumb" aria-label="Gezinme"><a href="https://gokhanbirsen1992-sketch.github.io/sunu-/">← Tüm araçlar</a><a href="https://gokhanbirsen1992-sketch.github.io/sunu-/yabanci-cisim/">Yabancı Cisim</a><a href="https://gokhanbirsen1992-sketch.github.io/sunu-/eozinofilik-ozofajit/">Eozinofilik Özofajit</a><a href="https://gokhanbirsen1992-sketch.github.io/sunu-/helikobakter/">H. pylori</a></nav>
+<header>
+  <h1>Gastroözofageal Reflü Karar Ağacı</h1>
+  <p>Bebek (Algoritma 1) ve çocuk (Algoritma 2) yaklaşımı, özofagus dışı belirtiler, refrakter hastalık. NASPGHAN/ESPGHAN 2018, JPGN 2018;66:516–554 (doi:10.1097/MPG.0000000000001889).</p>
+  <p class="warn">Sağlık profesyonelleri içindir. Literatür taraması Haziran 2015'te biter. Önerilerin çoğu uzman görüşüdür; kılavuzun iç tutarsızlıkları sarı şeritle işaretlidir.</p>
+</header>
+
+<nav class="tabs" role="tablist">
+  <button role="tab" id="tab-karar" data-h="karar" aria-controls="p-karar">Karar ağacı</button>
+  <button role="tab" id="tab-doz" data-h="doz" aria-controls="p-doz">Doz</button>
+  <button role="tab" id="tab-test" data-h="test" aria-controls="p-test">Alarm ve testler</button>
+  <button role="tab" id="tab-not" data-h="not" aria-controls="p-not">Kılavuz notları</button>
+</nav>
+
+<section id="p-karar" role="tabpanel" aria-labelledby="tab-karar">
+  <div id="form"></div>
+  <div class="tools"><button id="reset" type="button">Sıfırla</button></div>
+  <div id="result" class="result empty" aria-live="polite"><div class="band"><div class="lvl">Soruları cevapla</div></div></div>
+</section>
+
+<section id="p-doz" role="tabpanel" aria-labelledby="tab-doz" hidden>
+  <p class="note">Tablo 4. Günlük toplam doz; bölünme sıklığı tabloda yok. "Maksimum" sütununun doz başına mı gün başına mı olduğu tabloda yazmıyor; araç günlük üst sınır olarak uygular.</p>
+  <div id="restore" class="flag" hidden></div>
+  <div class="form">
+    <label for="d-wt">Kilo (kg)<input id="d-wt" type="number" min="1" max="150" step="0.1" placeholder="ör. 18" inputmode="decimal"></label>
+    <label for="d-age">Yaş grubu
+      <select id="d-age"><option value="chd">12 ay ve üstü</option><option value="inf">12 aydan küçük</option></select>
+    </label>
+  </div>
+  <div id="dose" class="dose"></div>
+  <div class="tools copyrow"><button id="dcopy" type="button" class="btn" hidden>Dozları kopyala</button></div>
+</section>
+
+<section id="p-test" role="tabpanel" aria-labelledby="tab-test" hidden>
+  <h2>Alarm bulguları (Tablo 2)</h2>
+  <div class="tscroll"><table>
+    <tr><th>Bulgu</th><th>Düşündür</th></tr>
+    <tr><td>Kilo kaybı, letarji, ateş</td><td>Sistemik enfeksiyon dahil çeşitli durumlar</td></tr>
+    <tr><td>Aşırı huzursuzluk / ağrı</td><td>Tek bulguysa GÖRH olası değil</td></tr>
+    <tr><td>Dizüri</td><td>İdrar yolu enfeksiyonu (özellikle bebek ve küçük çocuk)</td></tr>
+    <tr><td>Kusmanın 6 aydan sonra başlaması veya 12–18 aydan sonra artması/sürmesi</td><td>GÖRH dışı tanı</td></tr>
+    <tr><td>Fontanel kabarıklığı, baş çevresinde hızlı artış, nöbet, makro/mikrosefali</td><td>Kafa içi basınç artışı (menenjit, tümör, hidrosefali)</td></tr>
+    <tr><td>Israrlı fışkırır kusma</td><td>Pilor stenozu (2 aya kadar)</td></tr>
+    <tr><td>Gece kusması</td><td>Kafa içi basınç artışı</td></tr>
+    <tr><td>Safralı kusma</td><td>Bağırsak tıkanıklığı: Hirschsprung, atrezi, volvulus, invajinasyon</td></tr>
+    <tr><td>Hematemez</td><td>Özofagus/mide kaynaklı ciddi kanama (peptik, Mallory-Weiss, özofajit)</td></tr>
+    <tr><td>Kronik ishal, rektal kanama</td><td>Besin proteinine bağlı enteropati/proktokolit, inflamatuvar bağırsak hastalığı, enfeksiyon</td></tr>
+    <tr><td>Karın distansiyonu</td><td>Tıkanıklık, dismotilite, anatomik anomali</td></tr>
+  </table></div>
+  <p class="note">Ayırıcı tanı (Tablo 3): tıkanıklık (SMA sendromu, yabancı cisim, inkarsere herni dahil), nörolojik, metabolik (galaktozemi, üre döngüsü, organik asidemi, yağ asidi oksidasyonu, konjenital adrenal hiperplazi), kurşun zehirlenmesi, kalp yetmezliği, vasküler halka, akalazya, gastroparezi, EoE, besin alerjisi, pankreatit, böbrek, ruminasyon, siklik kusma, yapay bozukluk, istismar/ihmal.</p>
+
+  <h2>Tanı testleri (Soru 3)</h2>
+  <div class="tscroll"><table>
+    <tr><th>Test</th><th>GÖRH tanısı</th><th>Ne zaman</th><th>Not</th></tr>
+    <tr><td>Baryumlu grafi</td><td>Hayır (3.1)</td><td>Anatomik anomali; fundoplikasyon sonrası belirti (3.2)</td><td>Belirtiden bağımsız %50'ye kadar reflü görülür</td></tr>
+    <tr><td>Ultrasonografi</td><td>Hayır (3.3)</td><td>Pilor stenozu, hidronefroz vb. (3.4)</td><td>pH metriye göre duyarlılık %95, özgüllük %11</td></tr>
+    <tr><td>Endoskopi + biyopsi</td><td>Hayır (3.5)</td><td>Komplikasyon, mukoza hastalığı (EoE), tedavi artırmadan önce (3.6)</td><td>Normal endoskopinin negatif öngörü değeri %33–73; erozyon tanıyı doğrular</td></tr>
+    <tr><td>Tükürükte pepsin, diğer biyobelirteçler</td><td>Hayır (3.7, 3.8)</td><td>—</td><td>Duyarlılık %72, özgüllük %71; lipid yüklü makrofaj ilişkisiz</td></tr>
+    <tr><td>Manometri</td><td>Hayır (3.9)</td><td>Motilite bozukluğu, ruminasyon (3.10)</td><td></td></tr>
+    <tr><td>Sintigrafi</td><td>Hayır (3.11)</td><td>Mide boşalması şüphesi</td><td>Duyarlılık %69, özgüllük %78</td></tr>
+    <tr><td>Transpilorik besleme denemesi</td><td>Hayır (3.12)</td><td>—</td><td></td></tr>
+    <tr><td>PPI denemesi — bebek</td><td>Hayır (3.13)</td><td>—</td><td>5 RKÇ'de plaseboya üstünlük yok</td></tr>
+    <tr><td>PPI denemesi — tipik belirtili çocuk</td><td>Evet, 4–8 hafta (3.14)</td><td>Yanma, retrosternal/epigastrik ağrı</td><td>Uzman görüşü; yanıt tanıyı kanıtlamaz</td></tr>
+    <tr><td>PPI denemesi — özofagus dışı belirti</td><td>Hayır (3.15)</td><td>—</td><td>Astım RKÇ'sinde 1–2. ayda fayda yok</td></tr>
+    <tr><td>pH metri</td><td>Tek başına hayır</td><td>pH-impedans yoksa: belirti–asit ilişkisi, asidin rolü, tedavi etkinliği (3.16)</td><td>Pediatrik reflünün %45–89'u pH&gt;4 → görmez</td></tr>
+    <tr><td>pH-impedans</td><td>Tek başına hayır</td><td>Belirti–reflü ilişkisi, asit/asit dışı rol, tedavi etkinliği, NERD/hipersensitivite/fonksiyonel yanma ayrımı (3.17)</td><td>Ebeveynler belirtilerin &gt;%50'sini kaydetmez</td></tr>
+  </table></div>
+  <p class="note">Orofaringeal pH, nefes kondensatı pH'ı ve larinks görünümü önerilmez. Kablosuz pH kapsülü: 48 saat ve üzeri kayıt; komplikasyon %0–15.</p>
+
+  <h2>Tanımlar</h2>
+  <div class="tscroll"><table>
+    <tr><th>Terim</th><th>Tanım</th></tr>
+    <tr><td>GÖRH</td><td>Reflünün günlük işlevi etkileyen rahatsız edici belirti ve/veya komplikasyona yol açması</td></tr>
+    <tr><td>Refrakter GÖRH</td><td>Optimal tedaviye 8 haftada yanıtsız</td></tr>
+    <tr><td>NERD</td><td>Endoskopide erozyon yok, anormal asit yükü var (belirtiyle ilişkili olsun olmasın)</td></tr>
+    <tr><td>Reflü hipersensitivitesi</td><td>Erozyon yok, asit yükü normal, belirti reflü epizodlarıyla ilişkili</td></tr>
+    <tr><td>Fonksiyonel yanma</td><td>Erozyon yok, asit yükü normal, belirti–reflü ilişkisi yok</td></tr>
+    <tr><td>Ruminasyon sendromu</td><td>Yemekten dakikalar sonra, uykuda olmayan, reflü tedavisine yanıtsız zahmetsiz geri getirme</td></tr>
+  </table></div>
+</section>
+
+<section id="p-not" role="tabpanel" aria-labelledby="tab-not" hidden>
+  <h2>Kılavuzun kendi tutarsızlıkları</h2>
+  <p class="note">PDF'ten kontrol edildi; oylama yüzdeleri araç tarafından hesaplandı.</p>
+  <ul>
+    <li><strong>Üç öneri kendi uzlaşı eşiğini geçmiyor.</strong> Kural: üyelerin &gt;%75'i 6'nın üstünde oy. Öneri 5.7 (özofagus dışı belirtide asit baskılama yok) %60; 5.10 (ameliyat öncesi baklofen) %60; 3.17.4 (pH-impedansla NERD/hipersensitivite/fonksiyonel yanma ayrımı) %72,7. Metin "tüm sorularda uzlaşı sağlandı" diyor. Oy veren sayısı 9, 10 ve 11 arasında değişiyor.</li>
+    <li><strong>"Suggests" + "strong recommendation".</strong> Kılavuzun kuralı: güçlü = "recommends", zayıf = "suggests". 3.6, 3.7, 3.8, 3.9, 3.10, 3.11, 3.16 ve 3.17.1 "suggests" diye yazılıp "strong" etiketlenmiş; çoğu "Based on expert opinion".</li>
+    <li><strong>Uzman görüşüne güçlü öneri.</strong> 5.2 (erozif özofajitte PPI) ve 5.6 (tipik belirtide 4–8 hafta) "expert opinion … strong"; pediatrik kanıt çok düşük.</li>
+    <li><strong>İmkânsız güven aralığı.</strong> Aljinat ile kıvamlı formül karşılaştırması: "RR = 0,26, %95 GA 0,26–0,88". Nokta tahmini alt sınıra eşit olamaz.</li>
+    <li><strong>Omeprazol dozu.</strong> Tablo 4: 1–4 mg/kg/gün; metin: iyileşme 1–1,7 mg/kg/gün dozlarda. Üst sınırın kaynağı yok.</li>
+    <li><strong>Tablo 4'te önerilmeyen ilaçların dozları var.</strong> Domperidon ve metoklopramid için "kullanma" önerisi (5.11, 5.12) varken dozları listelenmiş; metoklopramid için yaş sınırı yazılmamış (Health Canada 1 yaş altında kontrendike).</li>
+    <li><strong>Lansoprazol</strong> için yalnız bebek dozu var. <strong>Esomeprazol</strong> "&lt;20 kg" ve "&gt;20 kg" diyor; tam 20 kg tanımsız (araç 20 kg'ı 10 mg grubuna koyar).</li>
+    <li><strong>Algoritma 1 ile 5.4/5.5 arasında gerilim.</strong> Sağlıklı bebekte ağlama ve regürjitasyon için asit baskılamaya güçlü "hayır"; algoritma ise formüle yanıtsız ve sevk edilemeyen bebekte 4–8 hafta asit baskılama öneriyor. Ayrım "otherwise healthy" ifadesine dayanıyor ve tanımsız.</li>
+    <li><strong>PPI tanı denemesi.</strong> Semptom yanıtının 2–4 haftada geldiği söylenip tanı penceresi 4–8 hafta seçilmiş. Öneri 3.14'te bir oy 3 (güçlü itiraz).</li>
+    <li><strong>Fundoplikasyon endikasyonu.</strong> "Kronik ilaç ihtiyacı" endikasyon sayılıyor; ameliyattan 1 yıl sonra hastaların %75'inden fazlası hâlâ ilaç kullanıyor.</li>
+    <li><strong>Metin–özet farkları.</strong> 3.6 "ya da" / "ve tedavi artırmadan önce"; 4.3 metinde "formülle beslenen bebek", özette kısıtsız; 6.1 metinde "kardiyorespiratuvar yetmezlik", özette "apne veya BRUE".</li>
+    <li><strong>Prognoz.</strong> "Tanıda asit baskılayıcı kullanımı kötü prognoz" bulgusu endikasyon karıştırıcılığına açık.</li>
+  </ul>
+
+  <h2>Eskime ve çıkar</h2>
+  <ul>
+    <li>Tarama Haziran 2015'te biter. Daha yeni bir NASPGHAN/ESPGHAN GÖRH kılavuzu olup olmadığı bu araçta kontrol edilmedi.</li>
+    <li>Ranitidin Tablo 4'te ilk sırada; 2020'de NDMA kontaminasyonu nedeniyle piyasadan çekildiği bilgisi araç tarafından eklendi, kılavuzda yok (doğrulayın).</li>
+    <li>Birçok yazar formül firmalarına danışmanlık beyan ediyor (s.517). Formül değişikliği önerisi (4.3) RKÇ'siz ve oyları 4, 6, 7, 8, 8, 8, 8, 9, 9, 9.</li>
+    <li>Kılavuz özofagus atrezisi gibi konjenital anomalileri kapsamaz.</li>
+  </ul>
+</section>
+
+<footer>Kaynak: Rosen R, Vandenplas Y ve ark. J Pediatr Gastroenterol Nutr 2018;66:516–554. Karar desteğidir; klinik yargının yerine geçmez. Son güncelleme: 19 Ekim 2026.</footer>
+</div>
+<button id="sticky" class="sticky" type="button" hidden></button>
+
+<script>
+/* Ortak arayüz: sekmeler (#bağlantı), soru sihirbazı, sonuç kartı, yapışık özet, özet kopyalama. */
+(function(){
+  'use strict';
+  var SRC=(document.currentScript&&document.currentScript.src)||'';
+  var $=function(s){return document.querySelector(s);};
+  var reduce=function(){try{return matchMedia('(prefers-reduced-motion: reduce)').matches;}catch(e){return false;}};
+  var strip=function(h){var d=document.createElement('div');d.innerHTML=h;return (d.textContent||'').replace(/\s+/g,' ').trim();};
+
+  function tabs(){
+    var btns=[].slice.call(document.querySelectorAll('nav.tabs [role=tab]'));
+    function act(b,focus,keepHash){
+      btns.forEach(function(x){var on=x===b;x.setAttribute('aria-selected',on?'true':'false');x.tabIndex=on?0:-1;
+        document.getElementById(x.getAttribute('aria-controls')).hidden=!on;});
+      if(focus)b.focus();
+      if(!keepHash){try{history.replaceState(null,'','#'+b.dataset.h);}catch(e){}}
+    }
+    btns.forEach(function(b,i){
+      b.addEventListener('click',function(){act(b);});
+      b.addEventListener('keydown',function(e){var j=null,n=btns.length;
+        if(e.key==='ArrowRight')j=(i+1)%n; else if(e.key==='ArrowLeft')j=(i-1+n)%n; else if(e.key==='Home')j=0; else if(e.key==='End')j=n-1;
+        if(j!==null){e.preventDefault();act(btns[j],true);}});
+    });
+    var h=(location.hash||'').slice(1), t=btns.filter(function(b){return b.dataset.h===h;})[0]||btns[0];
+    act(t,false,true);
+    return function(name){var b=btns.filter(function(x){return x.dataset.h===name;})[0]; if(b)act(b);};
+  }
+
+  function copyText(t,btn,label){
+    var done=function(){btn.textContent='Kopyalandı ✓';setTimeout(function(){btn.textContent=label;},2000);};
+    var fallback=function(){
+      var ta=document.createElement('textarea');ta.value=t;ta.setAttribute('readonly','');ta.style.cssText='position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);ta.select();var ok=false;try{ok=document.execCommand('copy');}catch(e){}ta.remove();
+      if(ok){done();return;}
+      var box=btn.parentNode.querySelector('.copybox');
+      if(!box){box=document.createElement('textarea');box.className='copybox';btn.parentNode.appendChild(box);}
+      box.value=t;box.focus();box.select();btn.textContent='Metni seçip kopyalayın';
+    };
+    try{ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,fallback);} else fallback(); }catch(e){fallback();}
+  }
+
+  /* cfg: {Q, decide, LV, tool, source, form, result, reset, sticky}
+     Q: [{k,label,hint,step,show(S),opts:[[v,text]],optional}]
+     decide(S) -> null | {k, lvl?, sub?, act:[], ev:[], flags:[]} */
+  function wizard(cfg){
+    var S={}, form=$(cfg.form), box=$(cfg.result), sticky=$(cfg.sticky), lastKey='';
+    function visibleQs(){var out=[];cfg.Q.forEach(function(q){if(q.show&&!q.show(S)){delete S[q.k];return;}out.push(q);});return out;}
+    function scrollToQ(k){var el=form.querySelector('[data-k="'+k+'"]');if(el)el.scrollIntoView({behavior:reduce()?'auto':'smooth',block:'center'});}
+    function answers(qs){return qs.filter(function(q){return S[q.k]!==undefined;}).map(function(q){
+      var t=q.opts.filter(function(o){return o[0]===S[q.k];})[0];return [q.label,t?t[1]:S[q.k]];});}
+    function summary(r,lvl,sub,qs){
+      var d=new Date(), p=function(n){return (n<10?'0':'')+n;};
+      var L=[cfg.tool+' — '+p(d.getDate())+'.'+p(d.getMonth()+1)+'.'+d.getFullYear()+' '+p(d.getHours())+':'+p(d.getMinutes()),''];
+      answers(qs).forEach(function(a){L.push(a[0]+' '+a[1]);});
+      L.push('','KARAR: '+lvl+(sub?' — '+sub:''));
+      (r.act||[]).forEach(function(a){L.push('- '+strip(a));});
+      (r.flags||[]).forEach(function(a){L.push('Not: '+strip(a));});
+      L.push('','Kaynak: '+cfg.source,'Karar desteğidir; klinik yargının yerine geçmez.');
+      return L.join('\n');
+    }
+    function render(){
+      var qs=visibleQs(); form.innerHTML=''; var lastStep='';
+      qs.forEach(function(q){
+        if(q.step&&q.step!==lastStep){var h=document.createElement('div');h.className='step';h.textContent=q.step;form.appendChild(h);lastStep=q.step;}
+        var d=document.createElement('div');d.className='q'+(q.optional?' opt':'');d.dataset.k=q.k;
+        d.innerHTML='<div class="label">'+q.label+'</div>'+(q.hint?'<div class="hint">'+q.hint+'</div>':'')+'<div class="opts" role="group"></div>';
+        var o=d.querySelector('.opts');
+        q.opts.forEach(function(op){var b=document.createElement('button');b.type='button';b.id='q-'+q.k+'-'+op[0];b.textContent=op[1];
+          b.setAttribute('aria-pressed',S[q.k]===op[0]?'true':'false');
+          b.addEventListener('click',function(){
+            if(S[q.k]===op[0]&&q.optional){delete S[q.k];} else S[q.k]=op[0];
+            var after=false; cfg.Q.forEach(function(qq){if(after&&!qq.keep)delete S[qq.k]; if(qq.k===q.k)after=true;});
+            render();});
+          o.appendChild(b);});
+        form.appendChild(d);
+      });
+      var r=cfg.decide(S), pending=qs.filter(function(q){return S[q.k]===undefined&&!q.optional;});
+      if(!r){
+        box.className='result empty';
+        var nx=pending[0];
+        box.innerHTML='<div class="band"><div class="lvl">'+(Object.keys(S).length?'Devam et':'Soruları cevapla')+'</div>'+
+          (nx?'<div class="sub">Sıradaki: <button type="button" data-go="'+nx.k+'">'+strip(nx.label)+'</button></div>':'')+'</div>';
+        var g=box.querySelector('[data-go]'); if(g)g.addEventListener('click',function(){scrollToQ(g.dataset.go);});
+        lastKey=''; updSticky(null); return;
+      }
+      var lv=cfg.LV[r.k]||['',''], lvl=r.lvl||lv[0], sub=(r.sub!==undefined&&r.sub!==null)?r.sub:lv[1];
+      var sec=function(t,a){return a&&a.length?'<div><h3>'+t+'</h3><ul>'+a.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul></div>':'';};
+      var ev=r.ev&&r.ev.length?'<details><summary>Kanıt (makaleden)</summary><ul>'+r.ev.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul></details>':'';
+      var more=pending.length?'<div class="more">Ayrıntı için cevapla: '+pending.map(function(q){return '<button type="button" data-go="'+q.k+'">'+strip(q.label)+'</button>';}).join(' · ')+'</div>':'';
+      box.className='result';
+      box.innerHTML='<div class="band k-'+r.k+'"><div class="lvl">'+lvl+'</div>'+(sub?'<div class="sub">'+sub+'</div>':'')+'</div>'+
+        '<div class="body">'+sec('Yap',r.act)+(r.flags||[]).map(function(x){return '<div class="flag">'+x+'</div>';}).join('')+ev+more+
+        '<div class="copyrow"><button type="button" class="btn" id="copy">Özeti kopyala</button></div></div>';
+      [].forEach.call(box.querySelectorAll('[data-go]'),function(g){g.addEventListener('click',function(){scrollToQ(g.dataset.go);});});
+      var cb=box.querySelector('#copy'); cb.addEventListener('click',function(){copyText(summary(r,lvl,sub,qs),cb,'Özeti kopyala');});
+      var key=r.k+'|'+lvl+'|'+sub;
+      if(key!==lastKey){lastKey=key; if(Object.keys(S).length) setTimeout(function(){box.scrollIntoView({behavior:reduce()?'auto':'smooth',block:'start'});},30);}
+      updSticky({k:r.k,lvl:lvl,sub:sub});
+    }
+    var cur=null;
+    function inView(){var r=box.getBoundingClientRect(),h=window.innerHeight||document.documentElement.clientHeight;return r.top<h-60&&r.bottom>60;}
+    function updSticky(x){if(x!==undefined)cur=x; if(!sticky)return; if(!cur||inView()||box.offsetParent===null){sticky.hidden=true;return;}
+      sticky.className='sticky k-'+cur.k; sticky.textContent=cur.lvl+(cur.sub?' · '+cur.sub:'')+'  ▸'; sticky.hidden=false;}
+    if(sticky){
+      sticky.addEventListener('click',function(){box.scrollIntoView({behavior:reduce()?'auto':'smooth',block:'start'});});
+      var tk=false; var onS=function(){if(tk)return;tk=true;requestAnimationFrame(function(){tk=false;updSticky();});};
+      window.addEventListener('scroll',onS,{passive:true}); window.addEventListener('resize',onS);
+      document.addEventListener('click',function(){setTimeout(onS,50);});
+    }
+    if(cfg.reset)$(cfg.reset).addEventListener('click',function(){Object.keys(S).forEach(function(k){delete S[k];});lastKey='';render();window.scrollTo({top:0,behavior:reduce()?'auto':'smooth'});});
+    render();
+    return {S:S,render:render,set:function(k,v){S[k]=v;render();}};
+  }
+
+  function store(key){
+    return {get:function(){try{var v=JSON.parse(localStorage.getItem(key)||'null');if(v&&Date.now()-v.t<12*3600e3)return v;}catch(e){}return null;},
+      set:function(o){try{o.t=Date.now();localStorage.setItem(key,JSON.stringify(o));}catch(e){}},
+      clear:function(){try{localStorage.removeItem(key);}catch(e){}}};
+  }
+
+  try{ if(SRC&&'serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost')){navigator.serviceWorker.register(new URL('sw.js',SRC).href).catch(function(){});} }catch(e){}
+
+  window.Ortak={tabs:tabs,wizard:wizard,copyText:copyText,store:store,strip:strip};
+})();
+
+</script>
+<script>
+(function(){
+  var RED='Kilo kaybı, letarji, ateş, dizüri; 6 aydan sonra başlayan veya 12–18 aydan sonra artan kusma; fontanel kabarıklığı, hızlı baş büyümesi, nöbet; fışkırır, gece veya safralı kusma; hematemez; kronik ishal, rektal kanama; karın distansiyonu (Tablo 2).';
+  var EDU='Aileye reflünün doğasını, tedavi seçeneklerini, yan etkileri ve seyri anlat (4.9, güçlü).';
+
+  var Q=[
+    {k:'grp',step:'Hasta',label:'Hasta grubu?',opts:[['inf','Bebek (<12 ay)'],['chd','Çocuk (12 ay–18 yaş)'],['ref','Kanıtlanmış GÖRH, optimal tedaviye dirençli']]},
+
+    {k:'ired',step:'Bebek',label:'Alarm bulgusu var mı?',hint:RED,show:function(s){return s.grp==='inf';},opts:[['n','Yok'],['y','Var']]},
+    {k:'iimp',label:'Belirtiler beslenmeyi, büyümeyi veya gelişimi etkiliyor mu?',hint:'Huzursuzluk, ağlama, sırt kamburlaştırma, regürjitasyon olabilir; büyüme iyi mi?',show:function(s){return s.grp==='inf'&&s.ired==='n';},opts:[['n','Hayır, iyi büyüyor'],['y','Evet']]},
+    {k:'ifeed',label:'Beslenme?',keep:true,show:function(s){return s.grp==='inf'&&s.ired==='n';},opts:[['bf','Anne sütü'],['ff','Formül'],['mix','Karışık']]},
+    {k:'istep',label:'Şimdiye kadar ne denendi?',show:function(s){return s.grp==='inf'&&s.iimp==='y'&&!!s.ifeed;},opts:[['none','Henüz bir şey'],['thick','Aşırı beslemeyi düzeltme + kıvam artırma (yanıtsız)'],['form','+ 2–4 hafta hidrolize/aminoasit formül veya anne diyeti (yanıtsız)']]},
+    {k:'iref',label:'Çocuk gastroenterolojisine sevk mümkün mü?',show:function(s){return s.grp==='inf'&&s.istep==='form';},opts:[['y','Evet'],['n','Hayır']]},
+
+    {k:'cred',step:'Çocuk',label:'Alarm bulgusu var mı?',hint:RED,show:function(s){return s.grp==='chd';},opts:[['n','Yok'],['y','Var']]},
+    {k:'csym',label:'Baskın belirti?',show:function(s){return s.grp==='chd'&&s.cred==='n';},opts:[['typ','Tipik: yanma, retrosternal veya epigastrik ağrı'],['reg','Sık regürjitasyon / kusma'],['ext','Yalnız özofagus dışı: öksürük, hışıltı, astım, ses kısıklığı']]},
+    {k:'cext',label:'Eşlik eden tipik belirti veya GÖRH\'ü destekleyen test var mı?',show:function(s){return s.grp==='chd'&&s.csym==='ext';},opts:[['n','Yok'],['y','Var']]},
+    {k:'cstep',label:'Şimdiye kadar?',show:function(s){return s.grp==='chd'&&(s.csym==='typ'||(s.csym==='ext'&&s.cext==='y'));},opts:[['none','Henüz bir şey yapılmadı'],['life','Yaşam tarzı ve diyet eğitimi verildi, düzelmedi'],['ppi','4–8 hafta PPI / H2 reseptör antagonisti verildi']]},
+    {k:'cresp',label:'Asit baskılamaya yanıt?',show:function(s){return s.grp==='chd'&&s.cstep==='ppi';},opts:[['ok','Düzeldi, azaltınca nüks yok'],['recur','Düzeldi ama azaltınca nüks / bırakılamıyor'],['non','Düzelmedi']]},
+    {k:'cadh',label:'Uyum ve doz uygun muydu?',show:function(s){return s.grp==='chd'&&(s.cresp==='recur'||s.cresp==='non');},opts:[['y','Evet'],['n','Hayır / şüpheli']]},
+    {k:'egd',label:'Biyopsili endoskopi sonucu?',show:function(s){return s.grp==='chd'&&s.cadh==='y';},opts:[['nd','Henüz yapılmadı'],['ero','Erozif özofajit'],['eoe','Eozinofilik özofajit'],['other','Başka mukoza hastalığı / anatomik neden'],['nresp','Erozyon yok, PPI\'ya yanıtlı belirti'],['nnon','Erozyon yok, PPI\'ya rağmen belirti']]},
+    {k:'mii',label:'pH-impedans (yoksa pH metri) sonucu?',show:function(s){return s.grp==='chd'&&s.egd==='nnon';},opts:[['nd','Henüz yapılmadı'],['abn','Anormal asit yükü'],['pos','Asit yükü normal, belirti–reflü ilişkisi pozitif'],['neg','Asit yükü normal, ilişki negatif']]},
+
+    {k:'rconf',step:'Refrakter',label:'GÖRH tanısı kanıtlandı ve diğer nedenler dışlandı mı?',hint:'Uyum, ayırıcı tanı, endoskopi, pH-impedans (8.1).',show:function(s){return s.grp==='ref';},opts:[['y','Evet'],['n','Hayır / emin değilim']]},
+    {k:'rlt',label:'Yaşamı tehdit eden komplikasyon (kardiyorespiratuvar, apne, BRUE)?',show:function(s){return s.grp==='ref'&&s.rconf==='y';},opts:[['n','Yok'],['y','Var']]},
+    {k:'rni',label:'Nörolojik engel veya kistik fibroz gibi yüksek riskli kronik durum?',show:function(s){return s.grp==='ref'&&!!s.rlt;},opts:[['n','Yok'],['y','Var']]},
+    {k:'rfund',label:'Daha önce fundoplikasyon yapıldı mı?',show:function(s){return s.grp==='ref'&&!!s.rni;},opts:[['n','Hayır'],['fail','Evet, başarısız']]}
+  ];
+
+  var LV={kons:['',''],elektif:['',''],acil:['',''],ivedi:['',''],izlem:['',''],bireysel:['',''],info:['','']};
+  var GOEOE='<a class="btn" href="https://gokhanbirsen1992-sketch.github.io/sunu-/eozinofilik-ozofajit/">Eozinofilik özofajit aracına geç →</a>';
+
+  function decide(s){
+    var R=function(k,lvl,sub,act,ev,flags){return {k:k,lvl:lvl,sub:sub,act:(act||[]).filter(Boolean),ev:ev||[],flags:(flags||[]).filter(Boolean)};};
+    if(!s.grp) return null;
+
+    if(s.grp==='inf'){
+      if(!s.ired) return null;
+      if(s.ired==='y') return R('acil','Alarm bulgusuna yönelik test ve sevk','GÖRH dışı tanıyı düşün',['Testi alarm bulgusuna göre seç: idrar tetkiki, ultrasonografi (pilor stenozu), baryumlu grafi (malrotasyon), nörolojik/metabolik değerlendirme (Tablo 2–3).','Safralı kusma, fontanel kabarıklığı veya hematemezde acil değerlendirme.','"Alarm ve testler" sekmesinde bulgu–tanı eşleşmesi.'],['Fizyolojik reflü nadiren 1 haftalıktan önce veya 6 aylıktan sonra başlar (s.523).']);
+      if(!s.iimp||!s.ifeed) return null;
+      var thk=s.ifeed==='bf'?'Anne sütü: emzirmeye devam. Kıvam gerekirse tahıl değil keçiboynuzu (42. gebelik haftası sonrası onaylı) veya ksantan gamı (1 yaş üstü onaylı, nekrotizan enterokolit endişesi); tahıl anne sütü amilazıyla sindirilir.':
+        'Formül: kıvamlı formül veya kıvam artırıcı; pirinç unu kullanılacaksa düşük arsenikli ürün.';
+      if(s.iimp==='n') return R('info','Fizyolojik reflü olası','test ve asit baskılama gerekmez',[EDU,'Beslenme, büyüme ve gelişim etkilenmiyorsa test ve tedavi (asit baskılama dahil) gerekmez (s.523).','İsteğe bağlı: yaş ve kiloya göre aşırı beslemeden kaçın (4.2).','Uyurken pozisyon tedavisi yok: sırtüstü yatır (4.4, güçlü).'],['Ağlama/huzursuzluk ve görünür regürjitasyon için PPI veya H2 reseptör antagonisti verilmez (5.4, 5.5; güçlü). Bebeklerde 6 çalışmada ağlamada, 4 çalışmada regürjitasyonda plaseboya üstünlük yok.']);
+      if(!s.istep) return null;
+      if(s.istep==='none') return R('kons','Aşırı beslemeyi düzelt, kıvam artır','Algoritma 1, ilk basamak',[EDU,'Öğün hacmini ve sıklığını yaş ve kiloya göre ayarla; toplam günlük miktarı koru (4.2).',thk,'Kıvam artırma görünür regürjitasyonu azaltır (4.1, zayıf); en az 2 hafta dene.','Uyurken baş yükseltme, yan veya yüzüstü yatırma yok (4.4, güçlü). Tütün dumanından uzak tut.'],
+        ['Kıvam artırma: günlük regürjitasyon ≈1,2, kusma ≈0,9 epizod azalır; pH metri ve pH-impedans parametreleri değişmez (kanıt düşük–çok düşük).']);
+      if(s.istep==='thick') return R('kons',s.ifeed==='bf'?'Annenin diyetinden süt ürünlerini çıkar':'2–4 hafta hidrolize formül','inek sütü proteini alerjisi GÖRH\'ü taklit edebilir',[
+        s.ifeed==='bf'?'Anne tüm süt ürünlerini (kazein ve peynir altı suyu dahil) 2–4 hafta keser.':s.ifeed==='ff'?'Yoğun hidrolize protein formülü 2–4 hafta; aminoasit formülü ağır veya dirençli olgulara (4.3).':'Formül kısmı yoğun hidrolize formülle değiştirilir; anne süt ürünlerini keser.',
+        'Düzelirse: tedaviye devam, kontrolde süt proteininin yeniden verilmesini planla (Algoritma 1).','Düzelmezse çocuk gastroenterolojisine sevk.','Soya formülü önerilmez; süt proteini alerjili bebeklerin %10–15\'i soyaya da alerjik.'],
+        ['Süt proteini alerjisinde kusma genellikle 2 haftada azalır. GÖRH için hidrolize formülün RKÇ\'si yok.'],
+        ['Öneri 4.3 metinde "formülle beslenen bebek" diyor; algoritma anne sütü alan bebek için anne diyetini öneriyor. Oyları 4, 6, 7, 8, 8, 8, 8, 9, 9, 9; birçok yazar formül firmalarına danışmanlık beyan ediyor.']);
+      if(!s.iref) return null;
+      if(s.iref==='y') return R('ivedi','Çocuk gastroenterolojisine sevk','Algoritma 1',['Ayırıcı tanıyı gözden geçir (Tablo 3).','Gerekirse test: pH-impedans (belirti–reflü ilişkisi), endoskopi (mukoza hastalığı), baryumlu grafi (anatomi).'],['Bebekte PPI tanı testi olarak kullanılmaz (3.13).']);
+      return R('elektif','4–8 hafta asit baskılama denemesi','sevk mümkün değilse; düzelirse azaltarak kes',['4–8 hafta PPI veya H2 reseptör antagonisti; dozlar "Doz" sekmesinde.','Düzelirse azaltarak kes; başarıyla kesilirse ek tedavi yok.','Düzelmez veya nüks ederse ayırıcı tanıyı yeniden düşün, test veya kısa ilaç denemesi.','Asit baskılayıcı ile enfeksiyon riski (pnömoni, gastroenterit, sepsis, nekrotizan enterokolit, C. difficile) vaka-kontrol çalışmalarında artmış.'],[],
+        ['Gerilim: Öneri 5.4/5.5 sağlıklı bebekte ağlama ve regürjitasyon için asit baskılamaya güçlü "hayır" diyor; bu basamak yalnız iki ilaç dışı adıma yanıtsız ve sevk edilemeyen bebek için. "Sağlıklı bebek" kılavuzda tanımlanmamış.']);
+    }
+
+    if(s.grp==='chd'){
+      if(!s.cred) return null;
+      if(s.cred==='y') return R('acil','Alarm bulgusuna yönelik test ve sevk','GÖRH dışı tanıyı düşün',['Testi alarm bulgusuna göre seç (Tablo 2–3); çocuk gastroenterolojisine sevk (8.2).']);
+      if(!s.csym) return null;
+      if(s.csym==='reg') return R('ivedi','Çocuk gastroenterolojisine sevk','12 aydan sonra süren veya 6 aydan sonra başlayan kusma',['Bu belirtiler GÖRH\'e özgü değil; ayırıcı tanı ve komplikasyon için değerlendirme (s.523).','Belirtiye göre: laboratuvar, kontrastlı grafi, endoskopi ve/veya pH-impedans.','Ruminasyon düşünülüyorsa (yemekten dakikalar sonra, uykuda yok) impedanslı yüksek çözünürlüklü manometri.']);
+      if(s.csym==='ext'){
+        if(!s.cext) return null;
+        if(s.cext==='n') return R('info','Asit baskılama verme','yalnız özofagus dışı belirti',['PPI denemesi tanı testi olarak kullanılmaz (3.15); PPI veya H2 reseptör antagonisti verilmez (5.7).','Taklitçileri ara: yalnız solunum belirtisi olanların %8\'ine kadarında EoE → biyopsili endoskopi düşün.','Orofaringeal disfaji ve aspirasyon için videofloroskopik yutma çalışması; öykü ve gözlem ayırt edemez.','Belirti–reflü ilişkisi için pH-impedans (tam kolon reflüsünü görür); pepsin, lipid yüklü makrofaj ve larinks görünümü kullanılmaz.'],
+          ['Pediatrik astım RKÇ\'sinde PPI 1–2. ayda bile fayda göstermedi; Cochrane çocukta öksürükte PPI faydası bulmadı.'],['Öneri 5.7 kılavuzun kendi uzlaşı eşiğini geçmiyor: 10 oyun 6\'sı 6\'nın üstünde (%60).']);
+      }
+      if(!s.cstep) return null;
+      if(s.cstep==='none') return R('kons','Yaşam tarzı ve diyet eğitimi','Algoritma 2, ilk basamak',[EDU,'Fazla kilo GÖRH sıklığını artırır; aileye bildir (4.8).','Baş yükseltme veya sol yan yatış düşünülebilir (4.5).','Tütün dumanından kaçın. Probiyotik, bitkisel tedavi, masaj önerilmez (4.6, 4.7).','Düzelmezse 4–8 hafta asit baskılama.']);
+      if(s.cstep==='life') return R('kons','4–8 hafta PPI','tipik belirti; tanı testi ve tedavi',['PPI veya H2 reseptör antagonisti 4–8 hafta (3.14, 5.6). Dozlar "Doz" sekmesinde.','Düzelirse toplam 4–8 haftaya tamamla, sonra azaltarak kes.','Düzelmez veya kesince nüks ederse çocuk gastroenterolojisine sevk.'],
+        ['Semptomatik yanıtın çoğu ilk 2–4 haftada gelir; erişkinde tipik belirtililerin %50\'sinden fazlası PPI\'ya yanıt vermez.'],['Yanıt tanıyı kanıtlamaz (plasebo, kendiliğinden düzelme). Öneri 3.14 uzman görüşü; bir oy 3.']);
+      if(!s.cresp) return null;
+      if(s.cresp==='ok') return R('kons','Tedaviyi kes, izle','',['4–8 haftalık süre tamamlandıysa azaltarak kes (Algoritma 2).','Uzun süreli asit baskılama ihtiyacını düzenli sorgula (5.9).']);
+      if(!s.cadh) return null;
+      if(s.cadh==='n') return R('elektif','Önce uyumu ve dozu düzelt','',['Doz, zamanlama (yemekten önce) ve uyumu kontrol et; başarısızlığın en sık iki nedeni uyum ve yanlış tanı (s.545).','Optimal tedaviyle 4–8 hafta sonra yeniden değerlendir (5.8).']);
+      if(!s.egd) return null;
+      var refer='Çocuk gastroenterolojisine sevk: refrakter veya 6–12 ayda kalıcı olarak kesilemeyen tedavi (8.2).';
+      switch(s.egd){
+        case 'nd': return R('ivedi','Biyopsili endoskopi','PPI\'ya yanıtsız veya bırakılamayan belirti',[refer,'Son 6 ayda yapılmadıysa biyopsili endoskopi; son 12 ayda yapılmadıysa üst GİS grafisi (s.546).','Endoskopi PPI altında mı, kesilerek mi: kılavuz tek yol önermiyor; PPI altında PPI\'ya yanıtlı EoE gözden kaçabilir, kesilerek yapılırsa iyileşmeyi görmek için ikinci endoskopi gerekebilir. Aileyle konuş.'],['Normal endoskopinin negatif öngörü değeri %33–73: GÖRH\'ü dışlamaz.']);
+        case 'ero': return R('kons','Erozif özofajit: PPI','ilk seçenek (5.2)',['PPI ilk seçenek; yoksa veya kontrendikeyse H2 reseptör antagonisti (5.3).','Pediatrik iyileşme çalışmalarında doz 1–1,7 mg/kg/gün omeprazol eşdeğeri.','PPI\'lar arasında üstünlük kanıtı yok; seçim erişim ve maliyete göre.','Uzun süreli kullanım ihtiyacını düzenli sorgula (5.9).'],['PPI ile 12. haftada iyileşme H2 reseptör antagonistinden yüksek (2009 kılavuzu, erişkin verisi).'],['Öneri 5.2 "uzman görüşü" ile "güçlü" etiketlenmiş; pediatrik kanıt çok düşük.']);
+        case 'eoe': return R('kons','Eozinofilik özofajit','reflü değil; ayrı yönetim',['ESPGHAN 2024 EoE önerilerine göre yönet.',GOEOE]);
+        case 'other': return R('ivedi','Bulunan nedeni tedavi et','',['Mukoza hastalığı (Crohn, enfeksiyon, Barrett) veya anatomik neden (hiatal herni, darlık) için uygun yönetim.','Barrett: kolumnar epitel varsa intestinal metaplazi varlığı belirtilmeli.']);
+        case 'nresp': return R('kons','PPI\'ya yanıtlı belirti','sürdür, periyodik azaltmayı dene',['En düşük etkili doz, en kısa süre.','Periyodik olarak azaltmayı dene (Algoritma 2); uzun süreli ihtiyacı düzenli sorgula (5.9).']);
+        case 'nnon':
+          if(!s.mii) return null;
+          if(s.mii==='nd') return R('ivedi','pH-impedans','erozyon yok, PPI\'ya rağmen belirti',['pH-impedans (yoksa pH metri) ile NERD, reflü hipersensitivitesi ve fonksiyonel yanmayı ayır (3.17).','Tedavi etkinliği sorulacaksa PPI altında; belirti ilişkisi sorulacaksa erişkin verisine göre PPI kesilerek (s.533).','Bu ayrımın pediatrik sonuç verisi yok.'],['Tek pediatrik çalışmada (45 çocuk) NERD %27, reflü hipersensitivitesi %29, fonksiyonel yanma %44.'],['Öneri 3.17.4 kılavuzun kendi uzlaşı eşiğini geçmiyor (11 oyun 8\'i, %72,7).']);
+          if(s.mii==='abn') return R('kons','NERD','anormal asit yükü, erozyon yok',['Asit baskılamayı optimize et (doz, uyum).','Dirençliyse refrakter GÖRH dalı: baklofen, transpilorik besleme, fundoplikasyon seçenekleri.']);
+          if(s.mii==='pos') return R('elektif','Reflü hipersensitivitesi','asit yükü normal, belirti reflüyle ilişkili',['Erişkin verisine göre klasik reflü tedavileri (ilaç, fundoplikasyon) denenebilir (s.533).','Pediatrik tedavi verisi yok.']);
+          return R('info','Fonksiyonel yanma','asit yükü normal, belirti–reflü ilişkisi yok',['Asit baskılamayı artırma; azaltarak kesmeyi düşün.','Erişkin verisine göre nöromodülatör tedavi (s.533); pediatrik veri yok.','Fonksiyonel bozukluk yaklaşımı; ruminasyonu dışla.']);
+      }
+      return null;
+    }
+
+    if(s.grp==='ref'){
+      if(!s.rconf) return null;
+      if(s.rconf==='n') return R('elektif','Önce tanıyı kanıtla','refrakter demeden önce',['Uyumu ve dozu doğrula; ayırıcı tanıyı gözden geçir (8.1).','Biyopsili endoskopi (son 6 ay), üst GİS grafisi (son 12 ay); gerekirse pH-impedans, manometri, mide boşalması.','Yalnız GÖRH\'ü açıkça kanıtlanmış hasta cerrahiye adaydır (s.543).']);
+      if(!s.rlt||!s.rni||!s.rfund) return null;
+      var a=[], f=[], k='bireysel', lvl='İleri tedavi seçenekleri', sub='uzman görüşü; RKÇ yok';
+      if(s.rfund==='fail'){
+        if(s.rni==='y'){a.push('Total özofagogastrik diskoneksiyon kurtarma ameliyatı olarak düşünülebilir (6.3). İlk basamak cerrahi değil (6.2, güçlü). Sistematik derlemede ameliyata bağlı ölüm %3,3, yeniden ameliyat %11,6; uzun dönemde anastomoz darlığı, Barrett, dumping, B12 eksikliği.');}
+        else a.push('Başarısız fundoplikasyon: baryumlu grafiyle tıkanma/kayma ayrımı (s.527); tekrar ameliyat veya transpilorik besleme uzman kararıyla.');
+        a.push('Transpilorik/jejunal besleme alternatif (6.4).');
+      } else {
+        a.push('Baklofen ameliyattan önce düşünülebilir (5.10): 0,5 mg/kg/gün, en fazla 80 mg. Yan etki: uyuklama, baş dönmesi, nöbet eşiğinde düşme (erişkin).');
+        a.push('Fundoplikasyon düşünülebilir (6.1)'+(s.rlt==='y'?': yaşamı tehdit eden komplikasyon endikasyonu var.':s.rni==='y'?': yüksek riskli kronik durum endikasyonu var.':': optimal tedaviye dirençli belirti veya kronik ilaç ihtiyacı.'));
+        a.push('Transpilorik/jejunal besleme fundoplikasyona alternatif (6.4); aspirasyon pnömonisi oranları benzer. Komplikasyon: tıkanma %29, yerinden çıkma %66, invajinasyon %20, perforasyon %2–3.');
+        f.push('Öneri 5.10 (baklofen) kılavuzun kendi uzlaşı eşiğini geçmiyor: 10 oyun 6\'sı (%60).');
+      }
+      a.push('Radyofrekans ablasyon (Stretta) önerilmez (6.5, güçlü); endoskopik tam kat plikasyon önerilmez (6.6).');
+      a.push('Aileyle gerçekçi beklenti: gaz-şişkinlik, erken doyma, disfaji, öğürme, dumping, sarmanın kayması/açılması.');
+      return R(k,lvl,sub,a,['Fundoplikasyon: tipik belirtide tam düzelme medyan %86; tekrar ameliyat %12,2 (823 çocuk); 1 yıl sonra hastaların %75\'inden fazlası hâlâ ilaç kullanıyor; özofagus dışı belirtilerde tutarlı fayda yok.'],
+        f.concat(['"Kronik ilaç ihtiyacı" fundoplikasyon endikasyonu sayılıyor; oysa ameliyattan sonra da çoğu hasta ilaç kullanıyor.']));
+    }
+    return null;
+  }
+
+  Ortak.tabs();
+  Ortak.wizard({Q:Q,decide:decide,LV:LV,tool:'GÖRH karar ağacı',source:'NASPGHAN/ESPGHAN, JPGN 2018;66:516–554',form:'#form',result:'#result',reset:'#reset',sticky:'#sticky'});
+
+  // ---------- DOZ (Tablo 4) ----------
+  var $=function(s){return document.querySelector(s);};
+  var fmt=function(x){return (Math.round(x*10)/10).toLocaleString('tr-TR');};
+  var DR=[
+    {g:'H2 reseptör antagonistleri'},
+    {n:'Ranitidin',lo:5,hi:10,max:300,flag:'2020\'de NDMA kontaminasyonu nedeniyle piyasadan çekildiği bildirildi (kılavuz sonrası; araç ekledi, doğrulayın).'},
+    {n:'Simetidin',lo:30,hi:40,max:800},
+    {n:'Nizatidin',lo:10,hi:20,max:300},
+    {n:'Famotidin',lo:1,hi:1,max:40},
+    {g:'Proton pompası inhibitörleri'},
+    {n:'Omeprazol',lo:1,hi:4,max:40,note:'Metin: özofajit iyileşmesi 1–1,7 mg/kg/gün dozlarda. Tablodaki 4 mg/kg/gün üst sınırının kaynağı yok.',alt:[1,1.7]},
+    {n:'Lansoprazol',inf:2,max:30},
+    {n:'Esomeprazol',fixed:true,max:40},
+    {n:'Pantoprazol',lo:1,hi:2,max:40},
+    {g:'Prokinetikler ve diğerleri'},
+    {n:'Baklofen',lo:0.5,hi:0.5,max:80,note:'Yalnız diğer ilaçlar başarısızsa, ameliyattan önce (5.10).'},
+    {n:'Metoklopramid',lo:0.4,hi:0.9,max:60,bad:'Kullanılmaz (5.12). Ekstrapiramidal yan etki %9; Health Canada 1 yaş altında kontrendike. Tablo yaş sınırı vermiyor.'},
+    {n:'Domperidon',lo:0.8,hi:0.9,max:30,bad:'Kullanılmaz (5.11). QTc uzaması, ani ölüm uyarıları.'},
+    {g:'Aljinatlar (kronik tedavide önerilmez, 5.1)'},
+    {n:'Magnezyum aljinat + simetikon',alg:'mg'},
+    {n:'Sodyum aljinat (225 mg sodyum + 87,5 mg magnezyum aljinat)',alg:'na'}
+  ];
+  function dose(wt,ag){
+    if(isNaN(wt)) return {err:'Kilo gir.'};
+    if(wt<1||wt>150) return {err:'Aralık dışı: kilo 1–150 kg.'};
+    var out=[];
+    DR.forEach(function(d){
+      if(d.g){out.push({g:d.g});return;}
+      var rows=[], warn=d.bad||d.flag||'', note=d.note||'';
+      if(d.alg==='mg') rows.push(['Doz',wt<5?'2,5 ml × 3 /gün':wt>5?'5 ml × 3 /gün':'tam 5 kg tanımsız (2,5 ml veya 5 ml × 3)']);
+      else if(d.alg==='na') rows.push(['Doz',wt<4.54?'1 saşe /gün':'2 saşe /gün']);
+      else if(d.fixed){ rows.push(['Doz',(wt<=20?'10':'20')+' mg/gün']); if(wt===20) warn='Tablo "<20 kg" ve ">20 kg" diyor; tam 20 kg tanımsız, araç 10 mg seçti.'; rows.push(['Maksimum',d.max+' mg']); }
+      else if(d.inf){ if(ag==='inf'){var v=Math.min(d.inf*wt,d.max); rows.push(['Doz',fmt(v)+' mg/gün ('+d.inf+' mg/kg/gün'+(d.inf*wt>d.max?', üst sınır uygulandı':'')+')']);} else {rows.push(['Doz','Tablo 4 yalnız bebek dozu veriyor; çocuk dozu yok']);} rows.push(['Maksimum',d.max+' mg']); }
+      else {
+        var lo=d.lo*wt, hi=d.hi*wt, clo=Math.min(lo,d.max), chi=Math.min(hi,d.max);
+        rows.push(['Doz',(clo===chi?fmt(clo):fmt(clo)+'–'+fmt(chi))+' mg/gün']);
+        rows.push(['Kural',(d.lo===d.hi?d.lo:d.lo+'–'+d.hi).toString().replace('.',',')+' mg/kg/gün, en fazla '+d.max+' mg'+(hi>d.max?' (üst sınır uygulandı)':'')]);
+        if(d.alt) rows.push(['Metindeki iyileşme dozu',fmt(Math.min(d.alt[0]*wt,d.max))+'–'+fmt(Math.min(d.alt[1]*wt,d.max))+' mg/gün (1–1,7 mg/kg/gün)']);
+      }
+      out.push({h:d.n,rows:rows,note:note,warn:warn,bad:!!d.bad});
+    });
+    return {out:out};
+  }
+  var st=Ortak.store('gerd.dose'), lastText='';
+  function renderDose(save){
+    var wt=parseFloat(String($('#d-wt').value).replace(',','.')), ag=$('#d-age').value, el=$('#dose'), cb=$('#dcopy');
+    var r=dose(wt,ag);
+    if(r.err){el.innerHTML='<p class="note">'+r.err+'</p>';cb.hidden=true;return;}
+    if(save)st.set({wt:wt,ag:ag});
+    el.innerHTML='<p class="note">'+fmt(wt)+' kg · '+(ag==='inf'?'12 aydan küçük':'12 ay ve üstü')+'</p>'+r.out.map(function(d){
+      if(d.g) return '<h2>'+d.g+'</h2>';
+      return '<div class="drow"'+(d.bad?' style="opacity:.75"':'')+'><h4>'+d.h+'</h4><dl class="kv">'+d.rows.map(function(x){return '<dt>'+x[0]+'</dt><dd>'+x[1]+'</dd>';}).join('')+'</dl>'+(d.note?'<p class="note">'+d.note+'</p>':'')+(d.warn?'<div class="flag">'+d.warn+'</div>':'')+'</div>';}).join('');
+    lastText='GÖRH dozları (Tablo 4, JPGN 2018;66:516–554)\n'+fmt(wt)+' kg, '+(ag==='inf'?'<12 ay':'≥12 ay')+'\n'+r.out.filter(function(d){return !d.g&&!d.bad;}).map(function(d){return d.h+': '+d.rows.map(function(x){return x[0]+' '+Ortak.strip(x[1]);}).join('; ');}).join('\n')+'\nDozu hasta bazında doğrula.';
+    cb.hidden=false;
+  }
+  ['d-wt','d-age'].forEach(function(id){$('#'+id).addEventListener('input',function(){renderDose(true);});});
+  $('#dcopy').addEventListener('click',function(){Ortak.copyText(lastText,$('#dcopy'),'Dozları kopyala');});
+  var prev=st.get();
+  if(prev){$('#d-wt').value=prev.wt;$('#d-age').value=prev.ag;var dd=new Date(prev.t);
+    var rs=$('#restore');rs.hidden=false;rs.innerHTML='Son girilen değerler yüklendi ('+('0'+dd.getHours()).slice(-2)+':'+('0'+dd.getMinutes()).slice(-2)+'). Başka hasta ise <button type="button" class="btn" id="dclear">Temizle</button>';
+    $('#dclear').addEventListener('click',function(){st.clear();$('#d-wt').value='';rs.hidden=true;renderDose(false);});}
+  renderDose(false);
+  window.__gerd={decide:decide,dose:dose,Q:Q};
+})();
+</script>
+</div>
+<script>document.body.setAttribute("data-tool","gerd");</script>
