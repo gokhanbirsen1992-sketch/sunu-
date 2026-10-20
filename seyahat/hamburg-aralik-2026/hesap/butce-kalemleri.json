@@ -1,0 +1,64 @@
+{
+ "kur": {
+  "EUR_TRY": 55.6227,
+  "kaynak": "ECB euro referans kuru 19.10.2026 — https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html (05-belge-pratik.md [20])",
+  "tarih": "2026-10-19"
+ },
+ "yedek_oran": 0.1,
+ "kalemler": [
+  {
+   "ad": "Uçuş AYT⇄HAM (SunExpress XQ170 + Corendon XC151, 213 USD)",
+   "eur": 189.76,
+   "etiket": "[kesin] USD / [çıkarım] EUR",
+   "kaynak": "01-ucus.md B1"
+  },
+  {
+   "ad": "Otel 6 gece — Lindner Am Michel, iade edilemez (954 USD)",
+   "eur": 849.89,
+   "etiket": "[kesin] USD / [çıkarım] EUR",
+   "kaynak": "02-otel.md orta"
+  },
+  {
+   "ad": "Antalya ev⇄AYT taksi ×2 (üst sınır 2×840 TL)",
+   "eur": 30.2,
+   "etiket": "[doğrulanmalı] tarife / [çıkarım]",
+   "kaynak": "03-transfer-ulasim.md §1"
+  },
+  {
+   "ad": "Hamburg ulaşım: hvv (S1 havalimanı dâhil) + Lübeck SH-Ticket",
+   "eur": 79.1,
+   "etiket": "[kesin] fiyatlar / [çıkarım] toplam",
+   "kaynak": "04-gezi-programi.md §7"
+  },
+  {
+   "ad": "Müze/bilet/tur (çekirdek 10 kalem)",
+   "eur": 142.5,
+   "etiket": "[kesin]/[doğrulanmalı] fiyatlar / [çıkarım] toplam",
+   "kaynak": "04-gezi-programi.md §7"
+  },
+  {
+   "ad": "Yemek + Noel pazarı atıştırma, 7 gün × 45 €",
+   "eur": 315.0,
+   "etiket": "[çıkarım] (Numbeo [doğrulanmalı])",
+   "kaynak": "05-belge-pratik.md §6-7"
+  },
+  {
+   "ad": "Schengen vizesi 90 € + iDATA 39,92 €",
+   "eur": 129.92,
+   "etiket": "[kesin]",
+   "kaynak": "05-belge-pratik.md §1"
+  },
+  {
+   "ad": "Seyahat sağlık sigortası (yer tutucu)",
+   "eur": 10.0,
+   "etiket": "[doğrulanmalı]",
+   "kaynak": "05-belge-pratik.md §4"
+  },
+  {
+   "ad": "eSIM Airalo 3 GB (~10 USD)",
+   "eur": 8.91,
+   "etiket": "[doğrulanmalı]",
+   "kaynak": "05-belge-pratik.md §6"
+  }
+ ]
+}
