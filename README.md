@@ -29,6 +29,26 @@ bildirimle yeniden denenir. İstatistikler asla yapay zekâya hesaplatılmaz —
 deterministik hesaplanır. Atıflar yalnızca gerçekten bulunan kaynaklardan `[n]` işaretiyle yapılır
 ve kod tarafından APA'ya dönüştürülür; **uydurma kaynak yapısal olarak engellenir**.
 
+## ✈️ Hamburg Turu Ajan Ordusu (`/hamburg-turu`)
+
+Araştırma pipeline'ındaki işçi/denetçi desenini seyahat planlamaya uyarlayan ajan seti.
+`/hamburg-turu [gidiş] [dönüş] [kişi] [kalkış IATA]` komutu 5 işçi ajanı paralel çalıştırır,
+raporları `seyahat/hamburg-<ay>-<yıl>/` altına yazdırır, bütçeyi `butce_hesapla.py` ile
+deterministik toplar ve sonunda **denetçi ajan** her `[kesin]` iddiayı kaynak sayfadan doğrular.
+
+| Ajan | Dosya | Ne yapar |
+|---|---|---|
+| `hamburg-ucus-ajani` | `01-ucus.md` | SlickTrip + Turkish Airlines MCP ile canlı uçuş araması, 3 öneri, rezervasyon linkleri |
+| `hamburg-otel-ajani` | `02-otel.md` | Semt bazlı otel araması (SlickTrip), ekonomik/orta/üst öneri, iptal koşulu |
+| `hamburg-transfer-ajani` | `03-transfer-ulasim.md` | Ev→AYT, HAM→otel (S1), HVV/Hamburg Card/Deutschlandticket hesabı, Lübeck treni |
+| `hamburg-gezi-ajani` | `04-gezi-programi.md` | Gün gün saatli program, Noel pazarları, ön rezervasyon listesi, B planı |
+| `hamburg-belge-butce-ajani` | `05-belge-pratik.md` | Schengen vize zaman çizelgesi, sigorta, kur, eSIM, acil bilgiler, bütçe şablonu |
+| `hamburg-denetci-ajani` | `DENETIM.md` | Kaynak doğrulama, tutarlılık (saat/tarih/toplam), kırmızı/sarı bayraklar |
+
+Ortak kurallar `.claude/skills/hamburg-turu/protokol.md` içindedir: her load-bearing sayı için
+kaynak URL ya da "bulamadım"; `[kesin] / [doğrulanmalı] / [çıkarım]` etiketi; sorgu tarihi damgası.
+Hazır plan: [`seyahat/hamburg-aralik-2026/PLAN.md`](seyahat/hamburg-aralik-2026/PLAN.md).
+
 ## Kurulum
 
 Python 3.10+ gerekir.
