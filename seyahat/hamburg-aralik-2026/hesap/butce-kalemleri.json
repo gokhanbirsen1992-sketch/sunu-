@@ -31,8 +31,8 @@
    "kaynak": "04-gezi-programi.md §7"
   },
   {
-   "ad": "Müze/bilet/tur (çekirdek 10 kalem)",
-   "eur": 142.5,
+   "ad": "Müze/bilet/tur (çekirdek 10 kalem; Dialog im Dunkeln yetişkin 24,50 €)",
+   "eur": 148.5,
    "etiket": "[kesin]/[doğrulanmalı] fiyatlar / [çıkarım] toplam",
    "kaynak": "04-gezi-programi.md §7"
   },
@@ -45,7 +45,7 @@
   {
    "ad": "Schengen vizesi 90 € + iDATA 39,92 €",
    "eur": 129.92,
-   "etiket": "[kesin]",
+   "etiket": "[kesin] 90 € / [doğrulanmalı] 39,92 €",
    "kaynak": "05-belge-pratik.md §1"
   },
   {

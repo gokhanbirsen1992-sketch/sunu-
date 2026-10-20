@@ -23,10 +23,10 @@ Sorgu tarihi: **2026-10-20 (Salı)**. Yolcu: 1 yetişkin, T.C. vatandaşı, Anta
 | Randevu sistemi | Önce **"Ziyaret" bekleme listesine** kayıt (Alman temsilciliklerinin sitesi üzerinden, 18.03.2024'ten beri tek yol) → e-posta onayı → sıra geldiğinde iDATA'dan tarih bildirimi; sıra kayıt tarihine göre | `[kesin]` | [5][2] |
 | Bekleme süresi (ziyaret/turist) | Resmî sayfa: "birkaç aydan yaklaşık bir yıla kadar"; SSS: 1–7 ay; başka sayfa: 11 aya kadar. Ticari kaynaklar (Ekim 2026): 2–12 ay, İzmir için ~12 ay gözlemi | `[doğrulanmalı — resmî sayfaların tarihi belirsiz, veriler çelişkili]` | [5][3][24] |
 | Vize ücreti | **90 €** (C tipi); 12 yaş altı T.C. çocuklar muaf | `[kesin]` | [3][4] |
-| iDATA hizmet bedeli | **39,92 €** ve/veya 12 € randevu bedeli; TL ile, iDATA'nın ilan ettiği kurla; 6 yaş altı muaf. Eski sayfalarda 32,81 € (güncel değil) | `[kesin]` | [4][8] |
-| İşlem süresi | Tam dosya normalde **15 gün**, istisnai **45 gün**; bayram/Noel çevresinde uzayabilir; seyahate 15 günden az kala yapılan başvuru zamanında sonuçlanmaz | `[kesin]` | [3] |
+| iDATA hizmet bedeli | **32,81 € (resmî tarihsiz PDF) – 39,92 €** ve/veya 12 € randevu bedeli; TL ile, iDATA'nın ilan ettiği kurla; 6 yaş altı muaf | `[doğrulanmalı]` (DENETIM: 39,92/12 € arama özetinde bulunamadı) | [4][8] |
+| İşlem süresi | Tam dosya normalde **15 gün**, istisnai **45 gün**; bayram/Noel çevresinde uzayabilir; seyahate 15 günden az kala yapılan başvuru zamanında sonuçlanmaz | `[doğrulanmalı]` (AB Vize Kodu md. 23 ile uyumlu; resmî sayfa özeti teyit edilemedi) | [3] |
 | Başvuru penceresi | En erken seyahatten 6 ay önce, en geç 15 gün önce (Vize Kodu) | `[doğrulanmalı — ikincil konsolosluk sayfaları]` | [16] |
-| Pasaport | Son **10 yıl** içinde düzenlenmiş (uzatma kabul edilmez), planlanan dönüşten en az **3 ay** sonrasına kadar geçerli, en az **2 boş sayfa** | `[kesin]` | [3] |
+| Pasaport | Son **10 yıl** içinde düzenlenmiş (uzatma kabul edilmez), planlanan dönüşten en az **3 ay** sonrasına kadar geçerli, en az **2 boş sayfa** | `[doğrulanmalı]` (Vize Kodu md. 12 ile uyumlu) | [3] |
 | Biyometri | 12 yaş üstü herkesten parmak izi (25.09.2014'ten beri); VIS'te son 59 ay içinde kaydı olanlardan tekrar alınmaz | `[kesin]` / `[doğrulanmalı]` | [2][16] |
 | Sigorta | Asgari **30.000 €** tıbbi teminat, tüm Schengen'de geçerli; poliçe **aslı** (çıktı yalnızca ödeme belgesiyle); gidiş ve dönüş günlerini tam gün kapsamalı | `[kesin]` | [3] |
 | Yeşil (hususi) / gri pasaport | 90 günü geçmeyen kalışlarda Schengen vizesinden muaf ifadesi resmî sayfada var (staj/araştırma bağlamında yazılmış) | `[doğrulanmalı — genel turistik muafiyet sayfası teyit edilemedi]` | [17] |

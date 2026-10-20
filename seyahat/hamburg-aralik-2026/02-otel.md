@@ -71,7 +71,7 @@
 Uçuş uyumu: 01-uçuş dosyası henüz yok. Kural `[çıkarım]`: HAM'a 7 Aralık 14:30'dan önce iniş → odaya giriş 15:00'i bekler (CAB20/Lindner bagaj emaneti var); 13 Aralık kalkış öğleden önceyse 11:00/12:00 çıkış sorun değil. Uçuş ajanı saatleri yazınca bu satır güncellenmeli.
 
 ## Noel pazarı (semt kararı için)
-Rathausmarkt Historischer Weihnachtsmarkt (Roncalli): **23 Kasım – 23 Aralık 2026, her gün 11:00–21:00**, giriş ücretsiz — hamburg.de [17] `[doğrulanmalı]` (sayfanın açılış-saatleri bölümünde hâlâ 2025 ibaresi var; WebFetch ile doğrudan açılamadı). 7–13 Aralık tamamen bu aralıkta `[çıkarım]`.
+Rathausmarkt Historischer Weihnachtsmarkt (Roncalli): **23 Kasım – 23 Aralık 2026, her gün 11:00–21:00**, giriş ücretsiz — hamburg.de [17]; tarih aralığı `[kesin]` (DENETIM: 2026 tarihi doğrulandı), saatler `[doğrulanmalı]` (sayfanın açılış-saatleri bölümünde hâlâ 2025 ibaresi var). 7–13 Aralık tamamen bu aralıkta `[çıkarım]`.
 
 ## Kaynaklar
 1. SlickTrip arama — Altstadt/Rathaus (rating, ≥3★, puan ≥4): https://slicktrip.com/hotels?key=Hamburg-Altstadt-Rathaus%3B2026-12-07%3B2026-12-13%3B1%3B0&hotel_class=3,4,5&guest_rating=8&src=claude&utm_source=claude&utm_medium=mcp&utm_campaign=assistant&st_ref=2a7942c00f

@@ -38,7 +38,7 @@ Totensonntag 2026 = 22 Kasım; seyahat haftasına etkisi yok. `[çıkarım]`
 | Miniatur Wunderland | **22,00** (resmî fiyat sayfası, indeks eski) | her gün en az 09:30–18:00, çoğu gün daha uzun | **şart**: zaman dilimli online bilet; biletsiz "saatlerce bekleme" (resmî uyarı) | [17][18] | fiyat `[doğrulanmalı]`, saat/uyarı `[kesin]` |
 | Speicherstadtmuseum (Am Sandtorkai 36) | **5,00** | Kas–Şub her gün 10:00–17:00 | hayır | [19] | `[kesin]` |
 | Internationales Maritimes Museum | 18,00; **Störtebeker-Ticket 9,00 (16:30'dan sonra giriş)** | her gün 10:00–18:00; 4 Ara 14:00'te kapanıyor | hayır | [20] | `[kesin]` |
-| Dialog im Dunkeln (Alter Wandrahm 4) | **ab 18,50** | Sa–Per 10–17, Cu 10–17:45 (başka sayfada Cu–Cts 11–17:45), Paz 10–17; Pzt kapalı | **şart** (online slot, 8 kişilik gruplar, 15 dk aralık) | [21][22] | fiyat `[kesin]`, saat `[doğrulanmalı]` |
+| Dialog im Dunkeln (Alter Wandrahm 4) | **yetişkin 24,50** (18,50 muhtemelen çocuk/indirimli; DENETIM) | Sa–Per 10–17, Cu 10–17:45 (başka sayfada Cu–Cts 11–17:45), Paz 10–17; Pzt kapalı | **şart** (online slot, 8 kişilik gruplar, 15 dk aralık) | [21][22] | fiyat `[doğrulanmalı]`, Pzt kapalı `[kesin]`, saat `[doğrulanmalı]` |
 | Chocoversum | online early bird **23,00**, gün fiyatı 29,00 (31 Ara 2026'ya kadar geçerli) | her gün 10–18; tur ~90 dk | online bilet tarihe bağlı, iptal yok | [23][24] | `[kesin]` |
 | Alter Elbtunnel | ücretsiz | 7/24 (yaya/bisiklet); yalnız yılbaşı gecesi kapalı | hayır | [25] | `[kesin]` |
 | Rickmer Rickmers | **7,00** | her gün 10–18, gişe 17:30 | hayır | [26] | `[kesin]` |
@@ -47,12 +47,12 @@ Totensonntag 2026 = 22 Kasım; seyahat haftasına etkisi yok. `[çıkarım]`
 | 1 saatlik liman turu | Abicht online **26,00** (eski sayfa 32,50; "ab 24"); Barkassen-Meyer "ab 24" | **Kış tarifesi çelişkili:** Abicht eski sayfa: Kas–Paskalya yalnız Cts/Paz 10–18; Barkassen-Meyer: 1 Kas–Şub sonu her gün ~10–17, ~30 dk'da bir | hayır (open ticket) | [29][30][31] | `[doğrulanmalı]` |
 | St. Michaelis kulesi | **8,00** (indirimli 6) | Kas–Mar her gün 10:00–18:00, son giriş 17:30; 52 basamaktan sonra asansör | hayır | [32][33] | `[kesin]` |
 | Rathaus turu (Senatskanzlei) | **8,00** (Hamburg CARD 6), ~1 saat; **yalnız kartla ödeme**, bilet fuayedeki bilgi bankosundan | Kasım'dan itibaren **saat başı**; tarihler sayfada ilan ediliyor; Senat/Bürgerschaft kullanıyorsa iptal | hayır (ama gün listesi kontrol) | [34] | fiyat `[kesin]`, 11 Ara günü `[doğrulanmalı]` |
-| Hamburger Kunsthalle | **18,00** (indirimli 9; akşam 17–18 / Per 20–21 kısa ziyaret 9) | Sa–Paz 10–18, Per 10–21; **Pzt kapalı**; gişe 17:30 | hayır | [35][36] | `[kesin]` |
+| Hamburger Kunsthalle | **18,00** (indirimli 9; akşam 17–18 / Per 20–21 kısa ziyaret 9) | Sa–Paz 10–18, Per 10–21; **Pzt kapalı**; gişe 17:30 | hayır | [35][36] | fiyat `[doğrulanmalı]` (DENETIM: 16 € de geçiyor), Pzt kapalı `[kesin]` |
 | EisArena Planten un Blomen (Holstenwall 30) | giriş **15,00** (2,5 saat) + paten kirası **10,00** | her gün 10–22, Salı 20'ye kadar (tatil dışı) | online bilet, iptal yok | [37][38] | `[kesin]` |
 | Fischmarkt Altona | ücretsiz | **15 Kas – 14 Mar: Pazar 07:00–09:30** | – | [39] | `[kesin]`; Bürgerschaft 6 May 2026'da "daha geç başlangıç" incelemesini kabul etti, uygulanan değişiklik bulamadım [40] `[doğrulanmalı]` |
 | Lübeck Weihnachtsstadt | ücretsiz | **23 Kas – 30 Ara 2026**; Traditioneller Markt (Markt/Breite Str.) Pzt–Per 11–21, Cu–Cts 11–22; Historischer Markt 23 Kas–23 Ara; Märchenwald (Marienkirche) Pzt–Cts 10–19:30; Maritimer Markt Koberg 23 Kas–29 Ara; Kunsthandwerkermarkt St. Petri 24 Kas–20 Ara; **Heiligen-Geist-Hospital 27 Kas–6 Ara → seyahatte kapalı** | – | [41][42][43][72] | `[kesin]` |
 | Niederegger Café + Marzipan-Museum (Breite Str. 89, Lübeck) | müze ücretsiz | Pzt–Cu 09–19 | – | [44] | `[kesin]` |
-| Hamburg–Lübeck tren | SH-Tarif tek yön **18,90** (1 Nis 2026'dan); **Schleswig-Holstein-Ticket 1 kişi 34,00** (Pzt–Cu 09:00'dan itibaren geçerli); RE8 ~45 dk | – | otomat | [45] | fiyat `[kesin]`, 9:00 kuralı `[doğrulanmalı]` |
+| Hamburg–Lübeck tren | SH-Tarif tek yön **18,90** (1 Nis 2026'dan); **Schleswig-Holstein-Ticket 1 kişi 34,00** (Pzt–Cu 09:00'dan itibaren geçerli); RE8 ~45 dk | – | otomat | [45] | fiyat `[kesin]`, 9:00 kuralı `[kesin]` (DENETIM: bahn.de doğrulandı) |
 | Deutschlandticket | 63,00/ay, aylık iptal (hvv + RE Lübeck dâhil) | – | abonelik, uygulama | [48] | `[doğrulanmalı]` |
 | Hamburg CARD 5 gün | 51,50 veya 54,90 (iki resmî sayfa çelişkili); hvv AB dâhil | – | – | [49] | `[doğrulanmalı]` |
 | Holstentor Museum (Lübeck) | **bulamadım** | – | – | – | – |
@@ -82,7 +82,7 @@ Kunsthalle Pazartesi kapalı; Dialog im Dunkeln Pazartesi kapalı → pazar akş
 |---|---|---|---|---|---|---|---|
 | 12:45 | HAM iniş (XQ170) | – | – | – | – | 01-ucus.md | `[kesin]` |
 | 13:30–14:00 | Havalimanı → Hauptbahnhof | ~25 dk | hvv Einzelkarte AB 4,10 (gün sonu için Tageskarte 8,20 daha mantıklı) | hayır | S1 | [46][47] | `[kesin]` ücret; süre `[çıkarım]` |
-| 14:30 | Otel check-in | – | – | – | – | – | – |
+| 14:15–14:30 | Otel: valiz emaneti; oda 15:00 (02-otel) | – | – | – | – | 02-otel.md | `[kesin]` |
 | 15:00–16:00 | Rathausmarkt (Roncalli) — gün ışığında Rathaus cephesi; 16:00'da "uçan Noel Baba" | 1 sa | ücretsiz | hayır | yürüyüş | [1] | `[kesin]` |
 | 16:00–17:00 | Jungfernstieg "Weißer Zauber" + Binnenalster ışıkları | 1 sa | ücretsiz | hayır | yürüyüş 5 dk | [4][10] | `[doğrulanmalı]` (2026 ilan edilmedi) |
 | 17:00–18:00 | Mönckebergstraße → St. Petri pazarı | 1 sa | ücretsiz | hayır | yürüyüş | [5][8] | `[doğrulanmalı]` |
@@ -117,7 +117,7 @@ Kunsthalle Pazartesi kapalı; Dialog im Dunkeln Pazartesi kapalı → pazar akş
 | 20:00 | *Alternatif:* Elbphilharmonie Gaechinger Cantorey, Bach (ab 34) — 8 Ara konseri yerine | 2 sa | ab 34 | ŞART | U3 Baumwall | [15] | `[doğrulanmalı]` |
 
 ### Gün 4 — 10 Aralık Perşembe (Lübeck günübirlik)
-SH-Ticket hafta içi 09:00'dan itibaren geçerli `[doğrulanmalı]` → 09:00 sonrası RE8.
+SH-Ticket hafta içi 09:00'dan itibaren geçerli `[kesin]` (bahn.de) → 09:00 sonrası RE8.
 
 | Saat | Yer | Süre | Bilet | Ön rez.? | Ulaşım | Kaynak | Etiket |
 |---|---|---|---|---|---|---|---|
@@ -189,7 +189,7 @@ Sonuç: **Her iki senaryoda Fischmarkt sığar.** 13:35 kalkışta sabah kültü
 1. **7 Ara öncesi:** Miniatur Wunderland 8 Ara 09:30 zaman dilimi — 22,00 [17] (Aralık yoğun; biletsiz saatlerce kuyruk uyarısı resmî).
 2. **7 Ara öncesi:** Elbphilharmonie Plaza 8 Ara 15:30 slotu — 5,00 [13].
 3. **7 Ara öncesi (isteğe bağlı):** Elbphilharmonie 8 Ara 20:00 Sol Gabetta (ab 29,30) **veya** 9 Ara 20:00 Bach (ab 34) [14][15]. Konser bileti Plaza'ya konserden 2 saat önce ücretsiz giriş sağlar.
-4. **7 Ara öncesi:** Dialog im Dunkeln 11 Ara 14:30 — ab 18,50 [21].
+4. **7 Ara öncesi:** Dialog im Dunkeln 11 Ara 14:30 — yetişkin 24,50 € `[doğrulanmalı]` (18,50 muhtemelen çocuk; DENETIM) [21].
 5. **Varıştan sonra:** EisArena 11 Ara online bilet — 15,00 + 10,00 [38] (iptal edilemez; hava kötüyse yerinde al).
 6. **10 Ara sabah:** Schleswig-Holstein-Ticket otomattan — 34,00 [45] (DB Reisezentrum'da +2 € danışma ücreti).
 7. **Kontrol:** Rathaus turu gün listesi [34] (11 Ara tur günü mü?); liman turu kış tarifesi (Barkassen-Meyer/Abicht) [30][31].
@@ -236,6 +236,8 @@ Ulasim karsilastirma: hvv+SH-Ticket 79.10 | Deutschlandticket 63.00 | Hamburg CA
 Deutschlandticket tasarrufu: 16.10 EUR
 8 Ara konseri alinirsa Plaza bileti gereksiz: 137.50 + 29.30 = 166.80
 ```
+**DENETIM sonrası düzeltme (2026-10-20):** Dialog im Dunkeln yetişkin 24,50 € alındığında çekirdek 148,50 €, çekirdek+ulaşım **227,60 €**, üst sınır 375,50 € `[çıkarım]`; PLAN.md bu değerleri kullanır. Yukarıdaki blok ilk hesabın kaydıdır.
+
 Notlar: Yemek, otel, uçuş hariç. Deutschlandticket (63 €/ay, aylık iptal) Lübeck RE8 dâhil tüm ulaşımı kapsar ve 16,10 € ucuz; yabancı kart/adresle abonelik açılabilirliği **doğrulanmadı** → açık nokta. Hamburg CARD, hvv dışında müzelerde %10–30 indirim sağlar ama bu programda ulaşım+indirim toplamı hvv kombinasyonunu geçmiyor `[çıkarım]`.
 
 ## 8. Yemek (adres + kaynak)

@@ -71,7 +71,7 @@ Tek bilet + en ucuz direkt isteyen için C2 Pegasus 227 USD (8→13 Ara, 5 gece,
 ## Transfer/otel ajanları için kritik saatler (ÖNERİLEN B1)
 - **Gidiş varış: 7 Aralık 2026 Pazartesi 12:45, HAM (yerel, CET)** — XQ170, direkt, 4h05. `[kesin]`
 - **Dönüş kalkış: 13 Aralık 2026 Pazar 19:10, HAM (yerel)** — XC151, AYT varış 14 Aralık 01:10 (TRT). `[kesin]` (Alternatif: XQ171 13:35 kalkış, AYT 19:10 varış.)
-- Antalya tarafı: XQ170 AYT kalkış 7 Ara 10:40 → evden (Muratpaşa) havalimanına en geç 08:30 civarı çıkılmalı (uluslararası, 2 saat önce). `[çıkarım]`
+- Antalya tarafı: XQ170 AYT kalkış 7 Ara 10:40 → evden (Muratpaşa) havalimanına 07:00–07:45 arası çıkılmalı (2–3 saat önce terminal + ~25 dk yol; 03-transfer ile uyumlu). `[çıkarım]`
 
 ## Bagaj (WebFetch çalışmadığı için resmî sayfa doğrudan okunamadı; WebSearch özetleri — hepsi `[doğrulanmalı]`, THY hariç)
 | Havayolu | Koltuk altı | Kabin (8 kg) | Bagaj | Kaynak |
