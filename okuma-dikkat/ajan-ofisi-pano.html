@@ -1,0 +1,279 @@
+<title>Okuma Ajan Ofisi</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: kontrol bandı → özet → ajan masaları ızgarası → zaman şeridi + akış → çıktılar */
+:root{
+  --bg:#f3f4f7; --panel:#ffffff; --ink:#1c2233; --mute:#626a80; --line:#dde1ea; --soft:#eceef4;
+  --accent:#3346b8; --accent-soft:#e3e7fb;
+  --ok:#1f7a4d; --ok-soft:#ddf1e6; --warn:#a35f00; --warn-soft:#fbecd6; --bad:#b3261e; --bad-soft:#f9dedc;
+  --s-pubmed:#3346b8; --s-kunye:#7a8be0; --s-consensus:#0e8a8a; --s-scite:#8a4fb5; --s-web:#b86a1d; --s-arac:#8d93a5; --s-dosya:#5b6b4a;
+  --f-disp:"Literata",Georgia,"Times New Roman",serif; --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#12151d; --panel:#1a1f2b; --ink:#e6e9f2; --mute:#99a1b6; --line:#2b3242; --soft:#222838;
+  --accent:#8c9bff; --accent-soft:#252c4d;
+  --ok:#5fd09a; --ok-soft:#173326; --warn:#f0b04a; --warn-soft:#3a2b12; --bad:#ff8a80; --bad-soft:#3d1c1a;
+  --s-pubmed:#8c9bff; --s-kunye:#b9c2ff; --s-consensus:#46c9c9; --s-scite:#c79af0; --s-web:#eaa35a; --s-arac:#7d8498; --s-dosya:#a3b88a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12151d; --panel:#1a1f2b; --ink:#e6e9f2; --mute:#99a1b6; --line:#2b3242; --soft:#222838;
+  --accent:#8c9bff; --accent-soft:#252c4d;
+  --ok:#5fd09a; --ok-soft:#173326; --warn:#f0b04a; --warn-soft:#3a2b12; --bad:#ff8a80; --bad-soft:#3d1c1a;
+  --s-pubmed:#8c9bff; --s-kunye:#b9c2ff; --s-consensus:#46c9c9; --s-scite:#c79af0; --s-web:#eaa35a; --s-arac:#7d8498; --s-dosya:#a3b88a; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 var(--f-body);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px}
+.wrap{max-width:1240px;margin:0 auto;display:grid;gap:18px}
+h1{font:700 clamp(26px,4vw,36px)/1.1 var(--f-disp);margin:0;text-wrap:balance;letter-spacing:-.01em}
+h2{font:700 19px/1.25 var(--f-disp);margin:0;text-wrap:balance}
+.eyebrow{font:500 11px/1 var(--f-body);letter-spacing:.09em;text-transform:uppercase;color:var(--mute)}
+.case{color:var(--mute);max-width:78ch;margin:6px 0 0}
+.top{display:grid;gap:14px}
+.bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px;position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.tabs{display:flex;gap:4px;background:var(--soft);padding:3px;border-radius:8px}
+.tabs button{border:0;background:transparent;color:var(--mute);font:500 13px var(--f-body);padding:6px 10px;border-radius:6px;cursor:pointer}
+.tabs button[aria-pressed="true"]{background:var(--panel);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.12)}
+.btn{border:1px solid var(--line);background:var(--panel);color:var(--ink);font:600 13px var(--f-body);padding:6px 12px;border-radius:7px;cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--panel)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.speed{display:flex;gap:2px}
+.speed .btn{padding:6px 8px;font-weight:500}
+.speed .btn[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.clock{font:500 13px var(--f-mono);font-variant-numeric:tabular-nums;color:var(--mute);margin-left:auto;white-space:nowrap}
+.clock b{color:var(--ink);font-weight:500}
+.scrub{flex:1 1 100%;width:100%;accent-color:var(--accent)}
+.note{font-size:13px;color:var(--mute);margin:0}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.stat .v{font:600 24px/1.1 var(--f-mono);font-variant-numeric:tabular-nums}
+.stat .k{font-size:12px;color:var(--mute)}
+.desks{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}
+.desk{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px;display:grid;gap:8px;align-content:start;min-width:0;transition:border-color .3s}
+.desk.on{border-color:var(--accent)}
+.desk .hd{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.desk .nm{font:600 14px/1.3 var(--f-body)}
+.pill{font:600 11px/1 var(--f-body);padding:4px 7px;border-radius:99px;white-space:nowrap;letter-spacing:.02em}
+.p-wait{background:var(--soft);color:var(--mute)} .p-run{background:var(--accent-soft);color:var(--accent)}
+.p-done{background:var(--ok-soft);color:var(--ok)} .p-lim{background:var(--warn-soft);color:var(--warn)} .p-coord{background:var(--soft);color:var(--ink)}
+.now{font:400 12.5px/1.45 var(--f-mono);background:var(--soft);border-radius:7px;padding:8px;min-height:58px;overflow-wrap:anywhere}
+.now .t{display:flex;gap:6px;align-items:center;margin-bottom:3px;font-family:var(--f-body);font-size:12px;color:var(--mute)}
+.dot{width:8px;height:8px;border-radius:50%;flex:none;display:inline-block}
+.spin{width:10px;height:10px;border:2px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:sp .8s linear infinite;display:inline-block}
+@keyframes sp{to{transform:rotate(360deg)}}
+.cnt{display:flex;gap:12px;font:500 12px var(--f-mono);font-variant-numeric:tabular-nums;color:var(--mute);flex-wrap:wrap}
+.cnt b{color:var(--ink);font-weight:500}
+.prog{height:4px;background:var(--soft);border-radius:2px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--accent);width:0}
+.desk.lim .prog i{background:var(--warn)} .desk.done .prog i{background:var(--ok)}
+.grid2{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:12px;align-items:start}
+@media (max-width:860px){.grid2{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px;min-width:0;display:grid;gap:10px;align-content:start}
+.tl{overflow-x:auto}
+.tl svg{display:block;min-width:620px;width:100%;height:auto}
+.legend{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:12px;color:var(--mute)}
+.legend span{display:inline-flex;gap:5px;align-items:center}
+.feed{list-style:none;margin:0;padding:0;display:grid;gap:2px;max-height:430px;overflow:auto;font:400 12px/1.4 var(--f-mono)}
+.feed li{display:grid;grid-template-columns:52px 1fr;gap:8px;padding:5px 4px;border-bottom:1px solid var(--soft)}
+.feed .tm{color:var(--mute);font-variant-numeric:tabular-nums}
+.feed .who{font-family:var(--f-body);font-weight:600;font-size:12px}
+.feed .q{overflow-wrap:anywhere}
+.feed .r{color:var(--mute)} .feed .err{color:var(--bad)}
+.feed li.new{animation:fl 1.2s ease-out}
+@keyframes fl{from{background:var(--accent-soft)}to{background:transparent}}
+.outs{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+.out ul{margin:0;padding-left:18px;display:grid;gap:6px;font-size:14px}
+.tag{font:500 11px var(--f-mono);padding:1px 5px;border-radius:4px;background:var(--warn-soft);color:var(--warn);white-space:nowrap}
+.tag.k{background:var(--ok-soft);color:var(--ok)} .tag.c{background:var(--accent-soft);color:var(--accent)}
+.out.locked{opacity:.45}
+.fail{border-left:3px solid var(--warn)}
+footer{font-size:12.5px;color:var(--mute);max-width:90ch;display:grid;gap:6px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="eyebrow">Ajan ofisi · kayıt oynatıcı · 6 Kasım 2026</div>
+      <h1>Okuma Ajan Ofisi</h1>
+      <p class="case">Vaka: 9 yaş kız, 4. sınıf; Türkçe metni hızlı, hatalı ve eksik okuyor, dikkatsiz. Literatür ajanlarının iki oturumdaki gerçek araç çağrıları, gerçek zaman damgalarıyla yeniden oynatılıyor.</p>
+    </div>
+    <div class="bar" role="group" aria-label="Oynatma">
+      <div class="tabs" id="tabs"></div>
+      <button class="btn primary" id="play" type="button">Duraklat</button>
+      <div class="speed" id="speed"></div>
+      <button class="btn" id="reset" type="button">Başa sar</button>
+      <div class="clock" id="clock"></div>
+      <input class="scrub" id="scrub" type="range" min="0" max="1000" value="0" aria-label="Zaman">
+    </div>
+    <p class="note" id="runnote"></p>
+  </header>
+
+  <section class="stats" id="stats" aria-label="Özet"></section>
+
+  <section aria-label="Ajan masaları"><div class="desks" id="desks"></div></section>
+
+  <section class="grid2">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:baseline">
+        <h2>Zaman şeridi</h2><span class="note">Her çentik bir araç çağrısı; çubuk yanıt süresi. Tıklayınca o ana gider.</span>
+      </div>
+      <div class="tl" id="tl"></div>
+      <div class="legend" id="legend"></div>
+    </div>
+    <div class="card">
+      <h2>Canlı akış</h2>
+      <ul class="feed" id="feed" aria-live="off"></ul>
+    </div>
+  </section>
+
+  <section class="card" id="outsec">
+    <div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:baseline">
+      <h2 id="outh">Teslim edilen raporlar</h2>
+      <span class="note" id="outnote"></span>
+    </div>
+    <div class="outs" id="outs"></div>
+  </section>
+
+  <footer>
+    <div><b>Bu canlı değil.</b> Sayfa, iki Claude oturumunun olay kayıtlarındaki araç çağrılarını (sorgu metni, istek ve yanıt zamanı, dönen kayıt sayısı, hata) aynı sırayla ve hızlandırılarak oynatır. Hiçbir çağrı uydurulmadı; saatler kayıttaki UTC değerinin TSİ'ye (+3) çevrilmiş hâlidir.</div>
+    <div>"Dönen kayıt" = aracın o sorguda döndürdüğü kayıt sayısı (PubMed <code>returned_count</code>, Consensus gösterilen makale). Aynı makale farklı sorgularda tekrar sayılır; tekil makale sayısı değildir.</div>
+    <div>Rapor maddeleri ajanların kendi teslim metinlerinden Türkçeye özetlendi. Etiketler ajanlarındır. Koordinatör denetimi (atıfların PubMed'den bağımsız yeniden çekilmesi, geri çekilme kontrolü) bu oturumlarda tamamlanmadı; maddeleri kaynak olarak kullanmadan önce künyeyi doğrulayın.</div>
+  </footer>
+</div>
+<script>const DATA=[{"id":"05bb","label":"Oturum 1 · 5 ajan","note":"Beş eksenli ajan ofisi (klinik çalışma tasarım ofisi şablonu). 12:39:35–12:39:46 arasında model kullanım limiti doldu; beş ajan da rapor yazamadan durdu.","t0":"12:37:51","t0e":1793968671.824238,"dur":114.7,"agents":[{"name":"Koordinatör","st":0.0,"en":null,"status":"koord","calls":[[0.0,81.2,"dosya","Bash","Check project-files mount and create output folder",null,0,null],[86.3,86.3,"arac","ToolSearch","select:mcp__PubMed__get_article_metadata",null,0,null],[87.6,92.1,"scite","Scite__search_literature","dyslexia \"transparent orthography\" OR \"consistent orthography\" reading speed accuracy deficit German Italian",null,1,"Scite: ücretli plan gerekli"],[88.8,92.2,"scite","Scite__search_literature","Turkish children oral reading fluency words per minute errors primary school norms",null,1,"Scite: ücretli plan gerekli"],[89.8,92.2,"scite","Scite__search_literature","\"repeated reading\" meta-analysis fluency accuracy comprehension students",null,1,"Scite: ücretli plan gerekli"],[90.8,92.2,"scite","Scite__search_literature","ADHD \"reading disability\" OR \"reading disorder\" comorbidity prevalence meta-analysis children",null,1,"Scite: ücretli plan gerekli"],[95.0,95.6,"pubmed","PubMed__search_articles","dyslexia transparent orthography reading speed accuracy German OR Italian OR Turkish children",10,0,null],[95.9,96.2,"pubmed","PubMed__search_articles","Turkish children oral reading fluency errors primary school",0,0,null],[96.6,96.9,"pubmed","PubMed__search_articles","repeated reading meta-analysis fluency",1,0,null],[97.5,97.9,"pubmed","PubMed__search_articles","ADHD reading disorder comorbidity prevalence meta-analysis children",4,0,null],[98.3,98.6,"pubmed","PubMed__search_articles","methylphenidate reading accuracy fluency ADHD randomized",0,0,null],[98.9,102.3,"consensus","Consensus__search","fast but inaccurate reading errors omissions ADHD inattention children oral reading",20,0,null],[106.7,107.1,"kunye","PubMed__get_article_metadata","PMID 26408529, 42352655, 31752659, 27118666, 17076755",null,0,null],[107.6,108.0,"pubmed","PubMed__search_articles","Wimmer[Author] dyslexia German reading speed accuracy",4,0,null],[108.5,108.8,"pubmed","PubMed__search_articles","Turkish dyslexia reading speed accuracy children orthography",0,0,null],[109.4,109.8,"pubmed","PubMed__search_articles","Tamm L[Author] ADHD reading difficulties randomized trial comparing treatments",2,0,null],[110.6,111.1,"pubmed","PubMed__search_articles","(methylphenidate OR stimulant) AND ADHD AND (reading comprehension OR reading fluency) AND (randomized OR crossover)",3,0,null],[111.5,111.8,"pubmed","PubMed__search_articles","Turkey OR Turkish AND attention deficit AND reading AND children AND primary school",2,0,null]]},{"name":"Ajan A: fenotip ayrımı","st":16.9,"en":103.8,"status":"limit","calls":[[83.7,83.7,"arac","ToolSearch","select:mcp__PubMed__search_articles,mcp__PubMed__get_article_metadata,mcp__Scite__search_literature",null,0,null],[86.1,86.6,"pubmed","PubMed__search_articles","dyslexia transparent orthography reading speed accuracy (Italian OR Finnish OR German OR Turkish) children",1,0,null],[87.0,87.4,"pubmed","PubMed__search_articles","Turkish dyslexia reading fluency children",1,0,null],[87.9,88.2,"pubmed","PubMed__search_articles","ADHD reading disability comorbidity meta-analysis prevalence",3,0,null],[88.7,89.2,"pubmed","PubMed__search_articles","ADHD inattention reading errors omission substitution oral reading accuracy children",0,0,null],[89.6,89.9,"pubmed","PubMed__search_articles","Turkey reading errors (omission OR substitution) elementary school children Turkish language",0,0,null],[92.3,92.9,"pubmed","PubMed__search_articles","dyslexia consistent orthography reading speed deficit",11,0,null],[93.0,93.4,"pubmed","PubMed__search_articles","Turkish dyslexia",12,0,null],[93.9,94.2,"pubmed","PubMed__search_articles","Turkish reading fluency children",4,0,null],[94.6,94.9,"pubmed","PubMed__search_articles","ADHD dyslexia comorbidity meta-analysis",7,0,null],[95.5,95.8,"pubmed","PubMed__search_articles","ADHD reading fluency accuracy children without dyslexia",8,0,null],[96.3,96.6,"pubmed","PubMed__search_articles","oral reading errors omissions substitutions children attention",0,0,null],[97.0,97.4,"pubmed","PubMed__search_articles","Turkey specific learning disorder reading children",30,0,null],[97.8,98.0,"pubmed","PubMed__search_articles","speed accuracy trade-off reading impulsivity children ADHD",null,1,"Consensus: hız sınırı"],[100.9,101.4,"kunye","PubMed__get_article_metadata","PMID 35572334, 32096102, 31526093, 28621157, 22419585 +6",null,0,null],[101.9,102.5,"kunye","PubMed__get_article_metadata","PMID 41392372, 41234445, 41149958, 40090866, 39003410 +10",null,0,null],[102.8,103.4,"kunye","PubMed__get_article_metadata","PMID 41908134, 36731345, 31752659, 30905334, 27159142 +10",null,0,null]]},{"name":"Ajan B: DEHB ve tıbbi değerlendirme","st":32.8,"en":114.7,"status":"limit","calls":[[83.8,83.8,"arac","ToolSearch","select:mcp__PubMed__search_articles,mcp__PubMed__get_article_metadata,mcp__Scite__search_literature",null,0,null],[86.6,87.1,"pubmed","PubMed__search_articles","ADHD girls inattentive presentation diagnosis delay sex differences (meta-analysis[Publication Type] OR review[Publication Type])",0,0,null],[87.7,88.2,"pubmed","PubMed__search_articles","Vanderbilt ADHD Diagnostic Parent Rating Scale psychometric properties",6,0,null],[89.1,89.5,"pubmed","PubMed__search_articles","(Conners OR SNAP-IV OR \"Strengths and Difficulties Questionnaire\" OR Vanderbilt) AND Turkish AND (validity OR reliability OR adaptation)",20,0,null],[90.0,90.4,"pubmed","PubMed__search_articles","inattention reading comprehension children longitudinal (ADHD symptoms) word reading",0,0,null],[91.1,91.4,"pubmed","PubMed__search_articles","methylphenidate reading fluency OR reading accuracy OR reading comprehension ADHD randomized",15,0,null],[92.0,92.5,"pubmed","PubMed__search_articles","celiac disease ADHD attention deficit association meta-analysis OR systematic review",15,0,null],[92.8,93.3,"pubmed","PubMed__search_articles","ferritin iron deficiency ADHD children meta-analysis",7,0,null],[94.0,94.4,"pubmed","PubMed__search_articles","sleep-disordered breathing children inattention ADHD symptoms meta-analysis adenotonsillectomy attention",1,0,null],[95.0,95.4,"pubmed","PubMed__search_articles","convergence insufficiency ADHD children reading randomized OR CITT attention",10,0,null],[96.0,96.4,"pubmed","PubMed__search_articles","absence epilepsy children attention deficit misdiagnosed ADHD childhood absence epilepsy attention",5,0,null],[96.9,97.3,"pubmed","PubMed__search_articles","thyroid function ADHD children screening TSH attention deficit",10,0,null],[97.7,98.2,"pubmed","PubMed__search_articles","hearing loss OR auditory processing disorder children ADHD attention misdiagnosis reading",10,0,null],[100.8,101.2,"pubmed","PubMed__search_articles","ADHD AND girls AND (inattentive OR \"sex differences\" OR gender) AND (underdiagnosis OR \"late diagnosis\" OR referral) AND (review[pt] OR meta-analysis[",11,0,null],[102.0,102.4,"pubmed","PubMed__search_articles","ADHD AND (girls OR females) AND meta-analysis AND (symptoms OR presentation OR comorbidity) AND children",15,0,null],[103.3,103.5,"pubmed","PubMed__search_articles","(inattention OR \"inattentive symptoms\") AND (reading comprehension OR \"reading achievement\" OR \"word reading\") AND children AND (longitudinal OR meta-",15,0,null],[104.5,104.9,"pubmed","PubMed__search_articles","methylphenidate AND ADHD AND (reading[Title] OR \"academic performance\"[Title]) AND (randomized OR meta-analysis)",9,0,null],[105.7,106.1,"pubmed","PubMed__search_articles","(celiac disease OR coeliac disease) AND (ADHD OR \"attention deficit\") AND (meta-analysis OR \"systematic review\" OR cohort)",15,0,null],[107.0,107.3,"pubmed","PubMed__search_articles","(sleep-disordered breathing OR \"obstructive sleep apnea\" OR \"sleep duration\") AND children AND (inattention OR ADHD) AND (meta-analysis OR \"systematic",15,0,null],[108.2,108.6,"pubmed","PubMed__search_articles","(\"hearing loss\" OR \"auditory processing\") AND children AND (ADHD OR \"attention deficit\") AND (review OR prevalence) AND (reading OR academic)",10,0,null],[109.9,110.2,"pubmed","PubMed__search_articles","(refractive error OR hyperopia OR \"uncorrected refractive error\") AND children AND (reading OR \"academic performance\" OR attention) AND (randomized OR",10,0,null],[110.8,111.2,"pubmed","PubMed__search_articles","childhood absence epilepsy AND attention AND (ADHD OR \"attention deficit\") AND (cohort OR prospective)",10,0,null],[112.0,112.5,"pubmed","PubMed__search_articles","ADHD AND (girls OR females) AND (reading OR \"learning disability\" OR academic) AND children AND (sex differences)",10,0,null],[113.1,113.4,"pubmed","PubMed__search_articles","ADHD AND \"learning disorder\" AND comorbidity AND (meta-analysis OR \"systematic review\") AND dyslexia",1,0,null],[113.9,114.5,"pubmed","PubMed__search_articles","iron supplementation ADHD children randomized OR (ferritin AND ADHD AND meta-analysis)",10,0,null]]},{"name":"Ajan C: okuma müdahaleleri","st":48.4,"en":112.0,"status":"limit","calls":[[83.9,83.9,"arac","ToolSearch","select:mcp__PubMed__search_articles,mcp__PubMed__get_article_metadata,mcp__Scite__search_literature,mcp__Consensus__search",null,0,null],[86.4,86.8,"pubmed","PubMed__search_articles","repeated reading meta-analysis fluency comprehension",0,0,null],[87.5,87.8,"pubmed","PubMed__search_articles","(reading fluency intervention) AND (meta-analysis OR systematic review) AND (elementary OR primary school OR children)",null,1,"Consensus: hız sınırı"],[88.8,89.3,"pubmed","PubMed__search_articles","Turkish reading fluency intervention OR Turkish repeated reading OR Turkey dyslexia intervention reading",24,0,null],[90.1,90.7,"pubmed","PubMed__search_articles","GraphoGame randomized OR (tablet reading intervention randomized children) OR (computer-assisted reading intervention randomized controlled trial dysl",25,0,null],[91.3,91.8,"pubmed","PubMed__search_articles","parent-delivered reading intervention randomized OR paired reading parents randomized OR (home reading program parents randomized controlled trial)",25,0,null],[92.8,93.5,"pubmed","PubMed__search_articles","(transparent orthography OR Italian OR German OR Finnish OR Spanish) AND dyslexia AND (treatment OR intervention OR training) AND (randomized OR contr",30,0,null],[93.8,99.7,"scite","Scite__search_literature","\"repeated reading\" meta-analysis fluency effect size",null,1,"Scite: ücretli plan gerekli"],[95.1,99.8,"scite","Scite__search_literature","\"error correction\" oral reading \"word supply\" OR \"phrase drill\" OR \"sentence repeat\" accuracy",null,1,"Scite: ücretli plan gerekli"],[96.3,99.8,"scite","Scite__search_literature","Turkish \"repeated reading\" OR \"tekrarlı okuma\" fluency elementary Turkey",null,1,"Scite: ücretli plan gerekli"],[97.2,102.7,"consensus","Consensus__search","repeated reading intervention effect on reading fluency accuracy comprehension meta-analysis",29,0,null],[98.1,102.9,"consensus","Consensus__search","Turkish primary school students reading fluency repeated reading intervention",30,0,null],[99.0,99.7,"consensus","Consensus__search","fast inaccurate readers accuracy before rate intervention oral reading errors self-monitoring",null,1,"Consensus: hız sınırı"],[106.4,111.0,"dosya","Bash","Print saved Consensus Turkish search output",30,0,null],[107.4,111.3,"pubmed","PubMed__search_articles","(reading fluency intervention) AND (meta-analysis OR systematic review) AND (elementary OR primary school OR children)",25,0,null],[110.0,111.7,"kunye","PubMed__get_article_metadata","PMID 42541519, 42251118, 42083826, 41891804, 41149958 +19",null,0,null]]},{"name":"Ajan D: dikkat müdahaleleri","st":63.7,"en":104.0,"status":"limit","calls":[[83.9,83.9,"arac","ToolSearch","select:mcp__PubMed__search_articles,mcp__PubMed__get_article_metadata,mcp__Scite__search_literature",null,0,null],[87.2,87.6,"pubmed","PubMed__search_articles","Sonuga-Barke nonpharmacological interventions ADHD meta-analysis probably blinded",3,0,null],[88.2,88.6,"pubmed","PubMed__search_articles","behavioral parent training ADHD meta-analysis blinded outcomes Daley",1,0,null],[89.2,89.7,"pubmed","PubMed__search_articles","working memory training meta-analysis far transfer academic Cogmed ADHD",0,0,null],[90.2,90.6,"pubmed","PubMed__search_articles","neurofeedback ADHD meta-analysis blinded sham randomized Cortese",1,0,null],[91.0,91.4,"pubmed","PubMed__search_articles","physical exercise ADHD children meta-analysis executive function randomized",10,0,null],[91.9,92.3,"pubmed","PubMed__search_articles","omega-3 ADHD meta-analysis randomized placebo",10,0,null],[92.7,93.2,"pubmed","PubMed__search_articles","mindfulness children ADHD meta-analysis randomized attention",7,0,null],[93.4,93.9,"pubmed","PubMed__search_articles","school-based interventions ADHD meta-analysis self-monitoring academic outcomes",0,0,null],[96.1,96.5,"pubmed","PubMed__search_articles","(working memory training OR cognitive training) AND ADHD AND meta-analysis AND (academic OR transfer)",15,0,null],[97.3,97.6,"pubmed","PubMed__search_articles","neurofeedback ADHD meta-analysis",15,0,null],[98.1,98.3,"pubmed","PubMed__search_articles","school-based intervention ADHD meta-analysis",null,1,"Consensus: hız sınırı"],[99.1,99.7,"pubmed","PubMed__search_articles","(sleep OR screen time OR elimination diet OR artificial food colors OR sugar OR iron) AND ADHD AND meta-analysis",20,0,null],[100.2,100.6,"pubmed","PubMed__search_articles","(yoga OR mindfulness) AND children AND (attention OR ADHD) AND meta-analysis",15,0,null],[101.2,101.7,"pubmed","PubMed__search_articles","Melby-Lervåg working memory training meta-analysis",5,0,null],[102.4,102.9,"pubmed","PubMed__search_articles","ADHD psychosocial interventions network meta-analysis children nonpharmacological 2023 2024 2025",0,0,null],[103.3,103.8,"pubmed","PubMed__search_articles","parent training ADHD meta-analysis Rimestad OR Daley OR Dekkers",10,0,null]]},{"name":"Ajan E: değerlendirme yolu, Türkiye","st":80.7,"en":104.8,"status":"limit","calls":[[83.6,83.7,"arac","ToolSearch","select:mcp__PubMed__search_articles,mcp__PubMed__get_article_metadata,mcp__Scite__search_literature,mcp__Consensus__search",null,0,null],[89.2,89.6,"pubmed","PubMed__search_articles","(Turkish OR Turkey) AND reading AND (test OR scale OR assessment) AND (validity OR reliability) AND (children OR dyslexia)",30,0,null],[90.2,90.7,"pubmed","PubMed__search_articles","(Turkish OR Turkey) AND (rapid automatized naming OR phonological awareness) AND reading AND children",3,0,null],[91.4,91.9,"pubmed","PubMed__search_articles","(Turkey OR Turkish) AND (specific learning disorder OR specific learning disability OR dyslexia) AND (diagnosis OR assessment OR \"guidance and researc",40,0,null],[92.9,93.3,"pubmed","PubMed__search_articles","\"response to intervention\" AND (learning disabilit* OR dyslexia OR reading) AND (identification OR diagnosis OR nonresponders OR \"inadequate response\"",30,0,null],[94.1,94.3,"pubmed","PubMed__search_articles","(curriculum-based measurement OR \"oral reading fluency\" OR \"words correct per minute\") AND (reliability OR validity OR progress monitoring) AND childr",null,1,"Consensus: hız sınırı"],[95.3,95.7,"pubmed","PubMed__search_articles","(eye tracking OR eye movements) AND reading AND (ADHD OR attention) AND children AND (regressions OR skipping OR fixations)",30,0,null],[96.6,96.9,"pubmed","PubMed__search_articles","(Turkish OR Turkey OR Türkiye) AND (reading errors OR \"reading accuracy\" OR \"reading fluency\" OR \"reading speed\") AND (children OR students)",40,0,null],[98.1,98.3,"pubmed","PubMed__search_articles","(transparent orthography OR consistent orthography OR shallow orthography) AND (reading fluency OR reading speed OR \"words per minute\") AND (Italian O",null,1,"Consensus: hız sınırı"],[101.7,102.4,"kunye","PubMed__get_article_metadata","PMID 40320963, 36603350, 35278167, 42914667, 42854312 +15",null,0,null],[102.8,103.2,"pubmed","PubMed__search_articles","(curriculum-based measurement OR \"oral reading fluency\" OR \"words correct per minute\") AND (reliability OR validity OR progress monitoring) AND childr",30,0,null],[103.9,104.6,"pubmed","PubMed__search_articles","(transparent orthography OR consistent orthography OR shallow orthography) AND (reading fluency OR reading speed OR \"words per minute\") AND (Italian O",21,0,null]]}]},{"id":"4ac2","label":"Oturum 2 · 3 ajan","note":"Limit sonrası yeniden başlatılan, üç eksene indirilmiş ofis. Üç ajan da rapor teslim etti.","t0":"12:40:18","t0e":1793968818.737739,"dur":203.0,"agents":[{"name":"Koordinatör","st":13.1,"en":null,"status":"koord","calls":[[13.1,13.5,"dosya","Artifact","{\"action\": \"quickstart\", \"design_systems\": false, \"intent\": \"other\"}",null,0,null],[204.2,204.5,"dosya","Bash","Create folder and check git state",null,0,null]]},{"name":"Ayırıcı tanı literatürü","st":0.0,"en":115.9,"status":"bitti","calls":[[16.1,16.1,"arac","ToolSearch","select:mcp__PubMed__search_articles,mcp__PubMed__get_article_metadata,mcp__Consensus__search,WebSearch",null,0,null],[18.4,18.8,"pubmed","PubMed__search_articles","ADHD dyslexia comorbidity meta-analysis",7,0,null],[19.0,19.4,"pubmed","PubMed__search_articles","Learning disabilities, dyslexia, and vision joint statement pediatrics",1,0,null],[19.5,19.9,"pubmed","PubMed__search_articles","Turkish reading fluency dyslexia children transparent orthography",0,0,null],[21.9,22.3,"kunye","PubMed__get_article_metadata","PMID 41908134, 36731345, 31752659, 30905334, 27159142 +2",null,0,null],[22.4,22.7,"pubmed","PubMed__search_articles","Turkish dyslexia children reading",6,0,null],[24.5,25.1,"kunye","PubMed__get_article_metadata","PMID 41234445, 41149958, 39003410, 33760863, 31749734 +1",null,0,null],[25.2,25.5,"pubmed","PubMed__search_articles","convergence insufficiency attention ADHD children reading",6,0,null],[25.6,26.2,"pubmed","PubMed__search_articles","coloured overlays OR Irlen reading systematic review",6,0,null],[28.9,29.2,"pubmed","PubMed__search_articles","Griffiths coloured overlays lenses reading systematic review",1,0,null],[29.1,29.5,"kunye","PubMed__get_article_metadata","PMID 42086155, 33771952, 32304536, 26829465, 22922781 +1",null,0,null],[29.6,30.0,"pubmed","PubMed__search_articles","dyslexia ADHD comorbidity prevalence systematic review",3,0,null],[31.9,32.3,"kunye","PubMed__get_article_metadata","PMID 27580753, 30053315, 21390464",null,0,null],[32.6,33.7,"pubmed","PubMed__search_articles","Turgay DSM-IV disruptive behavior disorders rating scale Turkish validity",2,0,null],[33.1,33.4,"pubmed","PubMed__search_articles","iron deficiency ferritin ADHD meta-analysis children",5,0,null],[35.5,35.9,"kunye","PubMed__get_article_metadata","PMID 42940731, 42794260, 42832553, 42280439, 41664666 +2",null,0,null],[38.6,38.9,"pubmed","PubMed__search_articles","Wolraich clinical practice guideline ADHD 2019 Pediatrics",3,0,null],[39.1,39.4,"pubmed","PubMed__search_articles","sleep-disordered breathing obstructive sleep apnea inattention ADHD symptoms children meta-analysis",1,0,null],[39.5,40.0,"pubmed","PubMed__search_articles","hyperopia reading literacy children systematic review",1,0,null],[41.8,42.5,"kunye","PubMed__get_article_metadata","PMID 31570648, 41910119, 42181473",null,0,null],[42.8,43.1,"pubmed","PubMed__search_articles","childhood absence epilepsy misdiagnosed ADHD inattention attention deficits",0,0,null],[43.2,43.6,"pubmed","PubMed__search_articles","hyperopia literacy Vision In Preschoolers Hyperopia in Preschoolers VIP-HIP",3,0,null],[47.7,48.2,"pubmed","PubMed__search_articles","childhood absence epilepsy attentional deficits pretreatment Masur",3,0,null],[48.2,48.8,"pubmed","PubMed__search_articles","Convergence Insufficiency Treatment Trial Attention and Reading Trial reading comprehension randomized",2,0,null],[48.9,58.2,"web","WebSearch","Türkçe okuma akıcılığı 4. sınıf dakikada doğru okunan kelime sayısı norm",null,0,null],[60.1,60.8,"kunye","PubMed__get_article_metadata","PMID 24089388, 26942226, 24284470",null,0,null],[61.2,61.5,"pubmed","PubMed__search_articles","Scheiman convergence insufficiency reading performance randomized clinical trial 2019 JAMA Ophthalmology",0,0,null],[61.7,71.6,"web","WebSearch","Türkçe okuma hızı normları ilkokul sınıf düzeyi dakikada kelime Akyol Yıldız 4. sınıf ortalama",null,0,null],[74.7,78.4,"consensus","Consensus__search","reading fluency deficit main marker of dyslexia in transparent orthographies accuracy",8,0,null],[75.3,78.3,"consensus","Consensus__search","comorbidity between reading disability and ADHD prevalence Willcutt Pennington",6,0,null],[114.2,114.3,"dosya","SubagentHandback","{\"message\": \"## Differential diagnosis and assessment: 9-year-old reading fast w",null,0,null]]},{"name":"Okuma akıcılığı müdahaleleri","st":6.5,"en":104.8,"status":"bitti","calls":[[15.9,16.1,"arac","ToolSearch","select:mcp__PubMed__search_articles,mcp__PubMed__get_article_metadata,mcp__Consensus__search,mcp__Scite__search_literature,WebSearch",null,0,null],[17.6,17.7,"consensus","Consensus__search","repeated reading meta-analysis reading fluency effect size",null,1,"Araç yüklenmemiş"],[18.1,19.5,"scite","Scite__search_literature","Therrien 2004 \"repeated reading\" meta-analysis",null,1,"Scite: ücretli plan gerekli"],[18.7,19.5,"scite","Scite__search_literature","Stevens Walker Vaughn 2017 repeated reading fluency synthesis learning disabilities",null,1,"Scite: ücretli plan gerekli"],[20.7,26.6,"consensus","Consensus__search","repeated reading meta-analysis reading fluency effect size",19,0,null],[21.2,24.8,"consensus","Consensus__search","fluency interventions elementary students reading difficulties meta-analysis Hudson 2020",20,0,null],[21.7,25.0,"consensus","Consensus__search","reading fluency transparent orthography accuracy high speed comprehension Turkish Finnish German",20,0,null],[28.8,33.1,"consensus","Consensus__search","phrase drill error correction oral reading accuracy elementary students",20,0,null],[29.3,34.2,"consensus","Consensus__search","self-monitoring reading accuracy errors self-correction students intervention",20,0,null],[29.8,32.4,"consensus","Consensus__search","repeated reading akıcı okuma Turkish elementary students intervention reading fluency Turkey",20,0,null],[36.8,43.0,"web","WebSearch","Therrien 2004 repeated reading meta-analysis mean effect size fluency 0.83 comprehension 0.67 transfer 0.50",null,0,null],[37.6,45.0,"web","WebSearch","Lee Yoon 2017 repeated reading reading disabilities Hedges g overall effect listening passage preview",null,0,null],[38.0,41.0,"consensus","Consensus__search","paired reading parent tutoring reading accuracy fluency children Topping",20,0,null],[48.3,56.1,"web","WebSearch","Therrien 2004 repeated reading essential components \"four times\" adult corrective feedback cue fluency and comprehension effect size",null,0,null],[48.7,52.2,"consensus","Consensus__search","emphasizing reading speed versus accuracy instructions effect on comprehension children oral reading",20,0,null],[103.2,103.4,"dosya","SubagentHandback","{\"message\": \"## Evidence-based reading interventions for accuracy and fluency (e",null,0,null]]},{"name":"Dikkat ve Türkçe literatür","st":12.6,"en":203.0,"status":"bitti","calls":[[15.7,15.8,"arac","ToolSearch","select:mcp__PubMed__search_articles,mcp__Consensus__search,WebSearch,mcp__PubMed__get_article_metadata",null,0,null],[17.4,17.9,"pubmed","PubMed__search_articles","Melby-Lervåg Hulme working memory training meta-analysis",5,0,null],[18.2,18.6,"pubmed","PubMed__search_articles","Cortese cognitive training ADHD meta-analysis randomized controlled trials neuropsychological academic 2015",1,0,null],[18.7,19.1,"pubmed","PubMed__search_articles","ADHD medication academic achievement reading meta-analysis",4,0,null],[20.6,21.1,"kunye","PubMed__get_article_metadata","PMID 31419156, 30652908, 27474138, 25721181, 38850546 +2",null,0,null],[22.9,23.3,"pubmed","PubMed__search_articles","Cortese neurofeedback ADHD meta-analysis probably blinded",4,0,null],[23.7,24.1,"pubmed","PubMed__search_articles","omega-3 fatty acids ADHD children meta-analysis Cochrane",5,0,null],[24.3,24.9,"pubmed","PubMed__search_articles","school-based interventions ADHD academic outcomes meta-analysis self-monitoring daily report card",0,0,null],[25.1,25.4,"pubmed","PubMed__search_articles","Daley behavioral interventions ADHD meta-analysis blinded parenting",3,0,null],[26.7,27.2,"kunye","PubMed__get_article_metadata","PMID 39661381, 30833909, 27238063, 38547138, 27678554 +2",null,0,null],[29.0,29.3,"pubmed","PubMed__search_articles","Bloch Qawasmi omega-3 ADHD meta-analysis",2,0,null],[29.6,29.9,"pubmed","PubMed__search_articles","Wolraich clinical practice guideline ADHD 2019 Pediatrics",3,0,null],[30.2,30.6,"pubmed","PubMed__search_articles","DuPaul school-based interventions ADHD meta-analysis academic",0,0,null],[30.7,31.3,"pubmed","PubMed__search_articles","physical activity exercise executive function ADHD children meta-analysis",5,0,null],[32.5,33.0,"kunye","PubMed__get_article_metadata","PMID 21961774, 31570648, 42877282, 42857135, 42444654",null,0,null],[36.3,45.1,"web","WebSearch","AAP 2019 ADHD guideline elementary school-aged children 6 to 11 FDA-approved medications along with PTBM and/or behavioral classroom intervention",null,0,null],[37.2,47.8,"web","WebSearch","NICE NG87 ADHD recommendations children 5 years and over ADHD-focused group parent-training programme medication methylphenidate first line",null,0,null],[37.8,44.3,"web","WebSearch","Moore Russell school-based non-pharmacological interventions ADHD academic outcomes meta-analysis 2018",null,0,null],[49.8,50.2,"pubmed","PubMed__search_articles","screen time reading academic performance children meta-analysis Adelantado-Renau",0,0,null],[50.5,51.0,"pubmed","PubMed__search_articles","sleep restriction attention school-aged children meta-analysis academic performance Dewald",0,0,null],[51.2,60.0,"web","WebSearch","self-monitoring interventions students with ADHD meta-analysis academic productivity accuracy effect size",null,0,null],[62.4,67.0,"consensus","Consensus__search","screen media use and academic performance children adolescents meta-analysis",5,0,null],[63.3,72.9,"web","WebSearch","tekrarlı okuma yöntemi ilkokul 4. sınıf okuma akıcılığı okuma hataları DergiPark",null,0,null],[64.1,72.1,"web","WebSearch","Yıldız Mustafa okuma akıcılığı Türkçe 4. sınıf dakikada doğru okunan kelime sayısı norm",null,0,null],[75.5,82.3,"web","WebSearch","Erden Kurdoğlu Uslu 2002 okuma hızı normları sınıf düzeylerine Türk Psikiyatri Dergisi dakikada kelime",null,0,null],[76.3,85.7,"web","WebSearch","Keskin eşli okuma (paired reading) okuma akıcılığı ilkokul öğrencileri deneysel çalışma",null,0,null],[77.0,87.1,"web","WebSearch","tekrarlı okuma okuma akıcılığı meta-analiz Türkiye etki büyüklüğü",null,0,null],[88.7,88.7,"arac","ToolSearch","select:WebFetch",null,0,null],[90.3,90.4,"web","WebFetch","https://dergipark.org.tr/tr/pub/pauefd/article/991882",null,1,"Ağ izni yok (host engelli)"],[91.4,91.5,"web","WebFetch","https://www.turkpsikiyatri.com/PDF/C13S1/ilkogretimOkullarina.pdf",null,1,"Ağ izni yok (host engelli)"],[92.3,92.4,"web","WebFetch","https://arastirmax.com/en/node/34212",null,1,"Ağ izni yok (host engelli)"],[96.0,103.0,"web","WebSearch","Sur 2022 \"Tekrarlı Okumanın Okuma Başarısına Etkisi\" meta analiz etki büyüklüğü Hedges g çalışma sayısı",null,0,null],[96.9,103.7,"web","WebSearch","Akyol Temur 2006 ilköğretim üçüncü sınıf öğrencilerinin okuma düzeyleri ve sesli okuma hataları sonuçlar",null,0,null],[97.9,108.0,"web","WebSearch","4. sınıf öğrencileri okuma hızı dakikada doğru okunan sözcük ortalaması Türkçe akıcı okuma çalışması sınıf düzeyi beklenen",null,0,null],[111.8,119.3,"web","WebSearch","Ekwall Shanker okuma envanteri Akyol kelime tanıma yüzdesi bağımsız düzey %99 öğretim düzeyi %90-98 endişe düzeyi",null,0,null],[165.1,165.2,"dosya","SubagentHandback","{\"message\": \"## REPORT: Attention/self-regulation interventions and Turkish read",null,0,null]]}]}];
+const OUTS={
+"Ayırıcı tanı literatürü":[
+ ["Disleksi–DEHB çift yönlü komorbiditesi \"%25–40\" (McGrath & Stoodley 2019, PMID 31752659).","k"],
+ ["Okuma güçlüğü, kızlarda da özellikle dikkatsizlik belirtileriyle ilişkili; H/İ ile ilişki yalnız erkeklerde (Willcutt & Pennington 2000).","k"],
+ ["Saydam ortografide en güvenilir ayırıcı işaret hız (Carioti 2021, 79 çalışma); ama Türkçe'de uygun uyaranla doğruluk hataları da yakalanıyor (Güven & Friedmann 2019/2021/2022). Hızlı-hatalı profil disleksiyi dışlamaz.","c"],
+ ["Tıbbi ayırıcı: DEHB'li çocuklarda OSA havuzlanmış %44 (Leow 2026, PMID 41910119); yeni tanı absans epilepside %36 dikkat defisiti, ebeveyn değerlendirmesi saptamıyor (Masur 2013, PMID 24089388).","k"],
+ ["Önerilmeyenler: renkli lens/filtre, görme terapisi, göz egzersizi, prizma (AAP/AAO 2009, PMID 19651597; Griffiths 2016, PMID 27580753).","k"],
+ ["4. sınıf Türkçe doğru kelime/dk normu için hakemli tablo bulunamadı; dolaşan ~97 değeri ikincil, akademik olmayan kaynak.","d"]],
+"Okuma akıcılığı müdahaleleri":[
+ ["Tekrarlı okuma akıcılıkta en etkili müdahale olarak kalıyor (Stevens, Walker & Vaughn 2017, 19 çalışma).","k"],
+ ["Tekrarlı okuma + dinleyerek ön-okuma en etkili kombinasyon (Lee & Yoon 2017). g değerleri ikincil özetten alındı.","d"],
+ ["Hız/doğruluk talimatı vermek hata sayısını değiştirmiyor (Taylor 2013, N=72). Hata düzeltme (ifade tekrarı) kanıtı küçük-n / tek-denekli.","k"],
+ ["Türkçe: hatalar eklerde yoğunlaşıyor (Alatlı 2026); 3. sınıfta anlamayı yalnız prozodi özgün olarak yordadı (Kocaarslan 2021, N=140).","k"],
+ ["Parmakla takip için kontrollü kanıt bulunamadı.","d"],
+ ["Önerilen seans (ajanın çıkarımı, paket olarak test edilmedi): model okuma → ilk okuma ve hata işaretleme → hatalı ifadeyi 3 kez okuma → metni 3–4 kez tekrar → hata ve doğru kelime/dk grafiği; hedef \"sıfır atlama, doğru ek\", hız değil → kısa anlatma.","c"]],
+"Dikkat ve Türkçe literatür":[
+ ["Ebeveyn eğitimi: kör değerlendiricide DEHB belirtisinde anlamlı düşüş yok; ebeveynlik ve davranış sorunları düzeliyor (Daley 2014, 32 RKÇ).","k"],
+ ["Çalışma belleği eğitimi okuma/aritmetiğe uzak transfer göstermiyor (Melby-Lervåg 2016); nörogeribildirim kör SMD 0,04 (Westwood 2025, 38 RKÇ).","k"],
+ ["Metilfenidat okuma hızını artırıyor (SMD 0,47), okuma doğruluğunu artırmıyor (Kortekaas-Rijlaarsdam 2019, 34 çalışma). Hızlı-hatalı profilde hatayı tek başına çözmeyebilir.","k"],
+ ["Okulda günlük rapor kartı medyan g=0,62 (Moore 2018); arama özetinden alındı.","d"],
+ ["Türkçe tekrarlı okuma meta-analizi var (Sur 2022, 25 çalışma, \"çok büyük\" etki) ama sayısal g alınamadı; Erden 2002 normlarının 4. sınıf değeri alınamadı (DergiPark ve turkpsikiyatri.com bu ortamda engelliydi).","d"],
+ ["Uyku müdahalesi ve koro okuma için kayıt getirilemedi.","d"]]
+};
+const TAGL={k:"özette var",d:"doğrulanmamış",c:"çıkarım"};
+const SRC={pubmed:"PubMed arama",kunye:"PubMed künye",consensus:"Consensus",scite:"Scite",web:"Web",arac:"Araç yükleme",dosya:"Dosya/kabuk"};
+const $=id=>document.getElementById(id);
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+let R=0,T=0,playing=!matchMedia('(prefers-reduced-motion: reduce)').matches,spd=4,last=performance.now(),feedN=0;
+const fmt=s=>{s=Math.max(0,Math.round(s));return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')};
+const tsi=(run,s)=>{const d=new Date((run.t0e+s)*1000+3*3600e3);return d.toISOString().slice(11,19)};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function short(n){return n.replace(/^Ajan ([A-E]): /,'$1 · ')}
+function build(){
+  const run=DATA[R];
+  $('tabs').innerHTML=DATA.map((r,i)=>`<button type="button" aria-pressed="${i===R}" data-i="${i}">${esc(r.label)}</button>`).join('');
+  $('speed').innerHTML=[1,4,10,25].map(v=>`<button class="btn" type="button" aria-pressed="${v===spd}" data-v="${v}">${v}×</button>`).join('');
+  $('runnote').textContent=run.note;
+  $('desks').innerHTML=run.agents.map((a,i)=>`<article class="desk" id="d${i}"><div class="hd"><div class="nm">${esc(a.name)}</div><span class="pill p-wait" id="p${i}">bekliyor</span></div><div class="prog"><i id="g${i}"></i></div><div class="now" id="n${i}"></div><div class="cnt" id="c${i}"></div></article>`).join('');
+  $('legend').innerHTML=Object.entries(SRC).map(([k,v])=>`<span><i class="dot" style="background:var(--s-${k})"></i>${v}</span>`).join('')+`<span><i class="dot" style="background:var(--bad)"></i>hata</span>`;
+  drawTL(); $('feed').innerHTML=''; feedN=0; buildOuts(); update(true);
+}
+function drawTL(){
+  const run=DATA[R],W=900,L=150,lh=46,top=22,H=top+run.agents.length*lh+8,x=s=>L+(s/run.dur)*(W-L-12);
+  let g=`<svg viewBox="0 0 ${W} ${H}" id="svg" role="img" aria-label="Ajan zaman şeridi">`;
+  const step=run.dur>150?30:15;
+  for(let s=0;s<=run.dur;s+=step) g+=`<line x1="${x(s)}" x2="${x(s)}" y1="${top-4}" y2="${H-6}" stroke="var(--line)" stroke-width="1"/><text x="${x(s)}" y="12" font-size="10" text-anchor="middle" fill="var(--mute)" font-family="JetBrains Mono,monospace">+${fmt(s)}</text>`;
+  run.agents.forEach((a,i)=>{const y=top+i*lh;
+    g+=`<text x="0" y="${y+lh/2+4}" font-size="11.5" fill="var(--ink)" font-family="IBM Plex Sans,sans-serif">${esc(short(a.name).slice(0,24))}</text>`;
+    const st=a.st,en=a.en??run.dur;
+    g+=`<rect x="${x(st)}" y="${y+lh/2-1}" width="${Math.max(1,x(en)-x(st))}" height="2" fill="var(--line)"/>`;
+    if(a.en!=null) g+=`<circle cx="${x(a.en)}" cy="${y+lh/2}" r="4.5" fill="${a.status==='bitti'?'var(--ok)':'var(--warn)'}"/>`;
+    a.calls.forEach(c=>{const col=c[6]?'var(--bad)':`var(--s-${c[2]})`;
+      if(c[1]!=null&&c[1]>c[0]) g+=`<rect x="${x(c[0])}" y="${y+6}" width="${Math.max(1.5,x(c[1])-x(c[0]))}" height="5" rx="1" fill="${col}" opacity=".35"/>`;
+      g+=`<rect x="${x(c[0])-1}" y="${y+12}" width="2.5" height="12" fill="${col}"/>`;});
+  });
+  g+=`<rect id="mask" x="${L}" y="${top-4}" width="0" height="${H-top}" fill="var(--panel)" opacity=".7"/>`;
+  g+=`<line id="ph" x1="${L}" x2="${L}" y1="${top-6}" y2="${H-4}" stroke="var(--accent)" stroke-width="2"/></svg>`;
+  $('tl').innerHTML=g;
+  const svg=$('svg'); svg.style.cursor='pointer';
+  svg.onclick=e=>{const r=svg.getBoundingClientRect(),px=(e.clientX-r.left)/r.width*W;if(px<L)return;T=Math.min(run.dur,Math.max(0,(px-L)/(W-L-12)*run.dur));$('feed').innerHTML='';feedN=0;update(true)};
+  TL={x,W,L,top,H};
+}
+let TL;
+function buildOuts(){
+  const run=DATA[R];
+  if(run.id==='05bb'){
+    $('outh').textContent='Rapor çıkmadı';
+    $('outnote').textContent='';
+    $('outs').innerHTML=`<div class="card fail out"><div class="eyebrow">Neden durdu</div><ul><li>Beş ajan 15:38–15:39 TSİ arasında 16 sn arayla başladı; ajanlar ve koordinatör birlikte 105 araç çağrısı yaptı.</li><li>15:39:35–15:39:46 TSİ arasında model kullanım limiti doldu; ajanlar rapor yazma aşamasına geçemedi.</li><li>Ajan C'nin 3 Scite çağrısı ücretli plan gerektiği için, 1 Consensus çağrısı hız sınırı nedeniyle reddedildi.</li><li>Bu sonuç üzerine oturum 2'de ofis 3 eksene indirilip yeniden başlatıldı (sekmeyi değiştirin).</li></ul></div>`;
+    return;
+  }
+  $('outh').textContent='Teslim edilen raporlar';
+  $('outnote').innerHTML=`<span class="tag k">özette var</span> <span class="tag">doğrulanmamış</span> <span class="tag c">çıkarım</span>`;
+  $('outs').innerHTML=run.agents.filter(a=>OUTS[a.name]).map(a=>`<div class="card out" data-en="${a.en}"><div style="display:flex;justify-content:space-between;gap:8px"><h2 style="font-size:16px">${esc(a.name)}</h2><span class="pill p-wait">bekleniyor</span></div><ul>${OUTS[a.name].map(([t,k])=>`<li>${esc(t)} <span class="tag ${k==='k'?'k':k==='c'?'c':''}">${TAGL[k]}</span></li>`).join('')}</ul></div>`).join('');
+}
+function update(full){
+  const run=DATA[R];
+  $('scrub').value=Math.round(T/run.dur*1000);
+  $('clock').innerHTML=`TSİ <b>${tsi(run,T)}</b> · +${fmt(T)} / ${fmt(run.dur)}`;
+  $('play').textContent=playing?'Duraklat':(T>=run.dur?'Tekrar oynat':'Oynat');
+  let tc=0,tn=0,tz=0,te=0,act=0;
+  run.agents.forEach((a,i)=>{
+    const done=a.calls.filter(c=>c[0]<=T), cur=done[done.length-1];
+    const n=done.reduce((s,c)=>s+(c[1]!=null&&c[1]<=T&&c[5]?c[5]:0),0);
+    const z=done.filter(c=>c[1]!=null&&c[1]<=T&&c[5]===0&&(c[2]==='pubmed'||c[2]==='consensus')).length;
+    const e=done.filter(c=>c[6]&&(c[1]==null||c[1]<=T)).length;
+    tc+=done.length;tn+=n;tz+=z;te+=e;
+    const started=T>=a.st, ended=a.en!=null&&T>=a.en;
+    let cls='p-wait',lab='bekliyor';
+    if(a.status==='koord'){cls='p-coord';lab=started?'koordine ediyor':'bekliyor'}
+    else if(ended){cls=a.status==='bitti'?'p-done':'p-lim';lab=a.status==='bitti'?'rapor teslim':'limit: durdu'}
+    else if(started){cls='p-run';lab='çalışıyor';act++}
+    const p=$('p'+i);p.className='pill '+cls;p.textContent=lab;
+    const d=$('d'+i);d.classList.toggle('on',started&&!ended&&a.status!=='koord');d.classList.toggle('lim',ended&&a.status==='limit');d.classList.toggle('done',ended&&a.status==='bitti');
+    const span=(a.en??run.dur)-a.st; $('g'+i).style.width=(started?Math.min(100,(T-a.st)/span*100):0)+'%';
+    let now='';
+    if(!started) now=`<div class="t">+${fmt(a.st)} itibarıyla başlayacak</div>`;
+    else if(ended&&a.status==='limit') now=`<div class="t"><i class="dot" style="background:var(--warn)"></i>Durdu</div>Model kullanım limiti doldu; rapor yazılamadı.`;
+    else if(ended) now=`<div class="t"><i class="dot" style="background:var(--ok)"></i>Rapor koordinatöre teslim edildi</div>${done.length} çağrı · ${fmt(a.en-a.st)} sürdü`;
+    else if(cur){const wait=cur[1]==null||cur[1]>T;
+      now=`<div class="t">${wait?'<span class="spin"></span>':`<i class="dot" style="background:${cur[6]?'var(--bad)':`var(--s-${cur[2]})`}"></i>`}${SRC[cur[2]]} · ${esc(cur[3])}</div>${esc(cur[4])}`+
+        (wait?'':(cur[6]?`<div style="color:var(--bad)">${esc(cur[7]||'hata')}</div>`:(cur[5]!=null?`<div style="color:var(--mute)">→ ${cur[5]} kayıt</div>`:'')));}
+    else now=`<div class="t">Görevi okuyor, araçları planlıyor…</div>`;
+    $('n'+i).innerHTML=now;
+    $('c'+i).innerHTML=`<span>çağrı <b>${done.length}</b>/${a.calls.length}</span><span>kayıt <b>${n}</b></span><span>boş <b>${z}</b></span><span>hata <b>${e}</b></span>`;
+  });
+  $('stats').innerHTML=[[act,'çalışan ajan'],[tc,'araç çağrısı'],[tn,'dönen kayıt'],[tz,'sıfır sonuçlu sorgu'],[te,'reddedilen çağrı']].map(([v,k])=>`<div class="stat"><div class="v">${v}</div><div class="k">${k}</div></div>`).join('');
+  const px=TL.x(T); $('ph').setAttribute('x1',px);$('ph').setAttribute('x2',px);
+  $('mask').setAttribute('x',px);$('mask').setAttribute('width',Math.max(0,TL.W-12-px));
+  // feed
+  const all=[];run.agents.forEach(a=>a.calls.forEach(c=>{if(c[0]<=T)all.push([c[0],a.name,c,'q']);if(c[1]!=null&&c[1]<=T&&(c[6]||c[5]!=null))all.push([c[1],a.name,c,'r'])}));
+  run.agents.forEach(a=>{if(a.en!=null&&a.en<=T)all.push([a.en,a.name,null,a.status])});
+  all.sort((p,q)=>p[0]-q[0]);
+  if(all.length!==feedN){
+    const fresh=all.length-feedN>0&&!full?all.length-feedN:0;
+    $('feed').innerHTML=all.slice(-60).reverse().map((e,j)=>{const [t,nm,c,k]=e;
+      let body;
+      if(k==='q') body=`<span class="dot" style="background:var(--s-${c[2]})"></span> ${SRC[c[2]]}: <span class="q">${esc(c[4])}</span>`;
+      else if(k==='r') body=c[6]?`<span class="err">✕ ${esc(c[7]||'hata')}</span>`:`<span class="r">← ${c[5]} kayıt döndü</span>`;
+      else body=k==='bitti'?`<span style="color:var(--ok)">✓ Rapor teslim edildi</span>`:`<span style="color:var(--warn)">■ Limit: ajan durdu</span>`;
+      return `<li class="${j<fresh?'new':''}"><span class="tm">+${fmt(t)}</span><div><div class="who">${esc(short(nm))}</div>${body}</div></li>`}).join('');
+    feedN=all.length;
+  }
+  document.querySelectorAll('.out[data-en]').forEach(o=>{const ok=T>=+o.dataset.en;o.classList.toggle('locked',!ok);const p=o.querySelector('.pill');p.className='pill '+(ok?'p-done':'p-wait');p.textContent=ok?'+'+fmt(+o.dataset.en)+' teslim':'bekleniyor'});
+}
+function loop(now){const dt=(now-last)/1000;last=now;
+  if(playing){T+=dt*spd;const d=DATA[R].dur;if(T>=d){T=d;playing=false}update(false)}
+  requestAnimationFrame(loop)}
+$('tabs').onclick=e=>{const b=e.target.closest('button');if(!b)return;R=+b.dataset.i;T=0;playing=true;build()};
+$('speed').onclick=e=>{const b=e.target.closest('button');if(!b)return;spd=+b.dataset.v;[...$('speed').children].forEach(x=>x.setAttribute('aria-pressed',x===b))};
+$('play').onclick=()=>{if(!playing&&T>=DATA[R].dur){T=0;$('feed').innerHTML='';feedN=0}playing=!playing;update(true)};
+$('reset').onclick=()=>{T=0;$('feed').innerHTML='';feedN=0;update(true)};
+$('scrub').oninput=e=>{T=e.target.value/1000*DATA[R].dur;$('feed').innerHTML='';feedN=0;update(true)};
+if(!playing){T=DATA[R].dur}
+build();requestAnimationFrame(loop);
+</script>
