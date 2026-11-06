@@ -1,0 +1,307 @@
+<title>Okuma Dikkat Panosu</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Klinik pano: üstte vaka + mantık denetimi, sonra 4 adımlı akış (değerlendir → ev → okul → takip), en altta kanıt tablosu ve kaynaklar */
+:root{
+  --bg:#F4F6F9; --surface:#FFFFFF; --ink:#16202E; --muted:#56637A; --line:#D9DFE8;
+  --accent:#1F4E8C; --mark:#FFE55C; --mark-ink:#3D3200;
+  --ok:#1E7A4F; --warn:#A6620A; --bad:#B4322A;
+  --f-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body:"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0F141B; --surface:#171E28; --ink:#E6EBF2; --muted:#9AA7BA; --line:#2A3443;
+  --accent:#7FAEEB; --mark:#E8CF3A; --mark-ink:#1A1600;
+  --ok:#5BC08D; --warn:#E3A64A; --bad:#F0847B; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#0F141B; --surface:#171E28; --ink:#E6EBF2; --muted:#9AA7BA; --line:#2A3443;
+  --accent:#7FAEEB; --mark:#E8CF3A; --mark-ink:#1A1600;
+  --ok:#5BC08D; --warn:#E3A64A; --bad:#F0847B; color-scheme:dark }
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55}
+.wrap{max-width:1120px;margin:0 auto;padding-block:28px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:40px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.15}
+h1{font-size:clamp(2rem,5vw,3.1rem);font-weight:800;letter-spacing:-.02em}
+h2{font-size:1.55rem;font-weight:700}
+h3{font-size:1.08rem;font-weight:700}
+p{margin:0}
+.eyebrow{font-family:var(--f-mono);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+mark{background:var(--mark);color:var(--mark-ink);padding:0 .15em;border-radius:2px}
+.lead{max-width:68ch;color:var(--ink);font-size:1.08rem}
+.muted{color:var(--muted)}
+section{display:grid;gap:16px}
+.sec-head{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap}
+.step{font-family:var(--f-mono);font-size:.8rem;color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:2px 10px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;display:grid;gap:8px;align-content:start;min-width:0}
+.tag{font-family:var(--f-mono);font-size:.7rem;font-weight:600;padding:1px 7px;border-radius:4px;white-space:nowrap;border:1px solid currentColor}
+.t-k{color:var(--ok)} .t-d{color:var(--warn)} .t-c{color:var(--accent)}
+.src{font-family:var(--f-mono);font-size:.74rem;color:var(--muted)}
+.case{display:grid;gap:18px;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)}
+@media (max-width:760px){.case{grid-template-columns:1fr}}
+.audit{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--mark);border-radius:10px;padding:18px 20px;display:grid;gap:10px}
+.audit ul,.card ul{margin:0;padding-left:1.1em;display:grid;gap:6px}
+.office{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.agent{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:6px}
+.agent .who{font-family:var(--f-display);font-weight:700}
+.agent .n{font-family:var(--f-mono);font-size:1.6rem;font-weight:600;color:var(--accent);font-variant-numeric:tabular-nums}
+ol.proto{margin:0;padding:0;list-style:none;display:grid;gap:10px;counter-reset:s}
+ol.proto li{counter-increment:s;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 16px 12px 56px;position:relative}
+ol.proto li::before{content:counter(s);position:absolute;left:14px;top:11px;width:28px;height:28px;border-radius:50%;background:var(--mark);color:var(--mark-ink);font-family:var(--f-mono);font-weight:600;display:grid;place-items:center;font-size:.85rem}
+.dose{display:flex;flex-wrap:wrap;gap:10px}
+.dose div{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 14px}
+.dose b{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.tbl{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;min-width:720px;font-size:.92rem}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+tr:last-child td{border-bottom:0}
+td.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.no{color:var(--bad);font-weight:700}
+.tracker{display:grid;gap:14px;grid-template-columns:minmax(0,320px) minmax(0,1fr)}
+@media (max-width:760px){.tracker{grid-template-columns:1fr}}
+form{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:10px}
+label{display:grid;gap:4px;font-size:.88rem;color:var(--muted)}
+input{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:8px 10px;width:100%}
+input:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button{font:inherit;font-weight:700;cursor:pointer;border-radius:6px;padding:9px 14px;border:1px solid var(--accent);background:var(--accent);color:var(--bg)}
+button.ghost{background:transparent;color:var(--accent)}
+.chartbox{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;display:grid;gap:8px;min-width:0}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:.82rem;color:var(--muted)}
+.legend i{display:inline-block;width:14px;height:3px;vertical-align:middle;margin-right:6px}
+.banner{font-size:.85rem;background:var(--mark);color:var(--mark-ink);padding:6px 10px;border-radius:6px}
+.refs{columns:2 320px;column-gap:28px;font-size:.84rem;color:var(--muted);margin:0;padding-left:1.2em}
+.refs li{break-inside:avoid;margin-bottom:5px}
+footer{font-size:.82rem;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+</style>
+
+<div class="wrap">
+
+<header style="display:grid;gap:14px">
+  <span class="eyebrow">Vaka panosu · literatür taraması 06.11.2026</span>
+  <h1>Okuma Dikkat Panosu</h1>
+  <div class="case">
+    <div style="display:grid;gap:12px">
+      <p class="lead"><b>9 yaş, kız, 4. sınıf.</b> Türkçe metinleri hızlı, <mark>hatalı ve eksik</mark> okuyor; kelime/satır atlıyor, yanlış okuyor. Yakınma: “dikkatsiz okuma”.</p>
+      <p class="lead">Kısa cevap: “Dikkatli oku” talimatı tek başına işe yaramıyor. Sırası şu: <b>önce nedeni ayır</b> (DEHB-dikkatsiz tip, disleksi alt tipi, basit tıbbi nedenler), <b>sonra</b> günde 10–15 dk düzeltici geri bildirimli tekrarlı okuma ve çocuğun kendi hatalarını saydığı öz-izleme.</p>
+    </div>
+    <aside class="audit">
+      <h3>Mantık zinciri denetimi</h3>
+      <ul>
+        <li>“Dikkatsiz” bir <b>betimleme, tanı değil</b>. Hızlı + atlamalı okuma iki ayrı mekanizmadan doğabilir: dürtüsel okuma stili ya da zayıf kelime çözümlemesini bağlamdan <b>tahminle</b> kapatmak. <span class="tag t-c">çıkarım</span></li>
+        <li>Türkçe saydam bir yazı sistemi; disleksi burada genelde <b>yavaşlıkla</b> görünür. Ama bu “hızlı okuyorsa disleksi değildir” demek değil: yüzeysel disleksili 4. sınıfların yalnızca ⅓’ü yavaş okuyor. <span class="tag t-k">kesin</span> <span class="src">Güven &amp; Friedmann 2022</span></li>
+        <li>Basit ayırt edici test: aynı düzeydeki yeni bir metni “acele etme” diyerek okut. Hatalar belirgin azalıyorsa dürtüsellik lehine; azalmıyorsa çözümleme sorunu lehine. <span class="tag t-c">çıkarım, valide değil</span></li>
+        <li>Talimatın etkisi sınırlı: üçüncü sınıflara “en doğru / en hızlı / en ifadeli oku” demek hata sayısını, dakikada doğru kelimeyi ve prozodiyi değiştirmedi. <span class="tag t-k">kesin</span> <span class="src">Taylor 2013, n=72</span></li>
+      </ul>
+    </aside>
+  </div>
+</header>
+
+<section>
+  <div class="sec-head"><h2>Ajan ofisi</h2><span class="muted">Üç araştırma ajanı paralel çalıştı, bulguları bu panoda birleştirildi</span></div>
+  <div class="office">
+    <div class="agent"><span class="eyebrow">Ajan 1</span><span class="who">Ayırıcı tanı ve değerlendirme</span><span class="n">27</span><span class="src">kaynak · PubMed, Consensus, web</span></div>
+    <div class="agent"><span class="eyebrow">Ajan 2</span><span class="who">Okuma akıcılığı müdahaleleri</span><span class="n">28</span><span class="src">kaynak · Consensus, web (Scite: erişim yok)</span></div>
+    <div class="agent"><span class="eyebrow">Ajan 3</span><span class="who">Dikkat + Türkçe literatür</span><span class="n">23</span><span class="src">kaynak · PubMed, Consensus, web (DergiPark tam metin engelli)</span></div>
+    <div class="agent"><span class="eyebrow">Sentez</span><span class="who">Pano + güven etiketleri</span><span class="n">3</span><span class="src">etiket: kesin · doğrulanmalı · çıkarım</span></div>
+  </div>
+  <p class="muted" style="font-size:.88rem">Sınırlılık: Kaynakların çoğu yalnızca özetten okundu, tam metin incelenmedi. Türkçe çalışmalarda arama sonucu parçacıklarına dayanıldı, DergiPark tam metinleri açılamadı. <span class="tag t-k">kesin</span> etiketi, sayının özetle birebir eşleştiği anlamına gelir.</p>
+</section>
+
+<section>
+  <div class="sec-head"><span class="step">Adım 1 · 2–4 hafta</span><h2>Önce nedeni ayır</h2></div>
+  <div class="grid">
+    <div class="card"><h3>DEHB taraması</h3>
+      <p>Ebeveyn ve öğretmen formu: Turgay DSM-IV ölçeği (Türkçe geçerli) ya da Conners. Sonra çocuk psikiyatrisi.</p>
+      <p>DEHB ile disleksi birlikteliği iki yönlü <b>%25–40</b>. <span class="tag t-k">kesin</span></p>
+      <p>Okuma güçlüğü kızlarda <b>dikkatsizlikle</b> ilişkili; hiperaktivite-dürtüsellikle ilişki yalnızca erkeklerde görüldü. <span class="tag t-k">kesin</span></p>
+      <span class="src">McGrath &amp; Stoodley 2019 · Willcutt &amp; Pennington 2000</span></div>
+    <div class="card"><h3>Hata analizi (disleksi alt tipi)</h3>
+      <p>Hız puanı yetmez, hata tipi önemli: harf yeri, ünlü, yüzeysel disleksi. Türkçede uygun uyaranla <b>%30’a varan</b> hata yakalanabiliyor. <span class="tag t-k">kesin</span></p>
+      <p>Araç: Akyol’un Türkçeye uyarladığı Yanlış Analizi Envanteri. Değerlendirmeyi RAM ya da özel eğitim uzmanı yapar.</p>
+      <span class="src">Güven &amp; Friedmann 2019/2021/2022</span></div>
+    <div class="card"><h3>Görme</h3>
+      <p>Kırılma kusuru, özellikle düzeltilmemiş hipermetropi, okuma ve dikkatle ilişkili. Gözlük etkisi küçük, kanıtın kesinliği düşük. <span class="tag t-d">doğrulanmalı</span></p>
+      <p>Görme sorunları birincil disleksinin <b>nedeni değil</b>. <span class="tag t-k">kesin</span> <span class="src">AAP/AAO 2009</span></p>
+      <span class="src">Elbasheer 2026 (sistematik derleme)</span></div>
+    <div class="card"><h3>Uyku</h3>
+      <p>Horlama ve tanıklı apne sorgulanmalı. DEHB’li çocuklarda OSA prevalansı <b>%44</b> (11 çalışma); adenotonsillektomi sonrası belirtiler düzeldi. <span class="tag t-d">doğrulanmalı</span></p>
+      <span class="src">Leow 2026, J Atten Disord</span></div>
+    <div class="card"><h3>Ferritin</h3>
+      <p>DEHB’de ferritin daha düşük (g = −0,246); demir eksikliği DEHB ile ilişkili (OR 1,636). <span class="tag t-k">kesin</span></p>
+      <p>Ancak anemisi olmayan çocuklarda demir takviyesi dikkati düzeltmedi. Düşükse tedavi et ama okumanın düzelmesini bekleme. <span class="tag t-c">çıkarım</span></p>
+      <span class="src">Tseng 2018 · Fiani 2025</span></div>
+    <div class="card"><h3>Absans epilepsi</h3>
+      <p>Dalma ve göz kırpma atakları varsa EEG. Yeni tanı almış çocuklarda tedavi öncesi dikkat bozukluğu <b>%36</b>; ebeveyn değerlendirmesi bunu güvenilir şekilde yakalamadı. <span class="tag t-k">kesin</span></p>
+      <span class="src">Masur 2013, Neurology</span></div>
+  </div>
+  <p class="muted" style="font-size:.88rem">İşitme ve tiroid için okuma bağlamında kanıt getirilemedi. Rutin pratiğe göre karar verilir. <span class="tag t-c">bulunamadı</span></p>
+</section>
+
+<section>
+  <div class="sec-head"><span class="step">Adım 2 · ev, ≥ 8–10 hafta</span><h2>Günlük okuma protokolü</h2></div>
+  <div class="dose">
+    <div>Süre <b>10–15 dk</b></div><div>Sıklık <b>4–5 gün/hafta</b></div><div>Toplam <b>≥ 8–10 hafta</b></div><div>Metin <b>100–200 kelime</b></div><div>Hedef doğruluk <b>%93–97</b> <span class="tag t-c">çıkarım</span></div>
+  </div>
+  <ol class="proto">
+    <li><b>Metni doğruluğa göre seç.</b> Sınıf düzeyine göre değil, çocuğun az hatayla okuyabildiği düzeye göre seç. Doğruluk ölçütüyle seçilen metinde ES 1,03; hız ölçütüyle seçilende 0,29. <span class="tag t-k">kesin</span> <span class="src">Burns 2024</span></li>
+    <li><b>Önce sen oku (model).</b> Doğal duraklarla yüksek sesle okurken çocuk parmağıyla takip etmeden, gözüyle izlesin. Tekrarlı okumaya bu dinleyerek ön okuma eklenince etki g 0,94’ten 1,95’e çıktı. <span class="tag t-d">doğrulanmalı</span> <span class="src">Lee &amp; Yoon 2017, ASHA özeti</span></li>
+    <li><b>Çocuk okur, sen sözünü kesmeden işaretlersin:</b> atlama, yanlış kelime, <mark>yanlış ek</mark>. Türkçede hatalar eklerde yoğunlaşıyor. <span class="tag t-d">doğrulanmalı</span> <span class="src">Alatlı 2026</span></li>
+    <li><b>İfade tekrarı.</b> Hatalı kelimeyi içeren ifadeyi sen doğru oku, çocuk 3 kez tekrarlasın. Yalnızca doğru kelimeyi söylemekten daha etkili görünüyor; kanıt küçük örneklem ve tek-denekli. <span class="tag t-d">doğrulanmalı</span> <span class="src">O’Shea 1984 · Nelson 2004</span></li>
+    <li><b>3–4 kez yeniden okuma.</b> Virgül ve noktalarda kısa dur, gerekirse kurşun kalemle “/” işareti koy. Türk 3. sınıflarında anlamayı hız ve doğruluğun ötesinde yalnızca <b>prozodi</b> öngördü. <span class="tag t-k">kesin</span> <span class="src">Kocaarslan 2021, n=140</span></li>
+    <li><b>Öz-izleme.</b> Çocuk kendi hatasını sayar ve grafiğe işler (aşağıdaki takip aracı). Hedef hız değil, <mark>“0 atlanan kelime / doğru ekler”</mark>. Öz-izlemenin etkisi Tau-U 0,79. <span class="tag t-k">kesin</span> <span class="src">Guzman 2017</span></li>
+    <li><b>1–2 dakikalık anlatım.</b> “Ne oldu, kim, neden?” Okuma anlamaya hizmet etmiyorsa hız anlamsız.</li>
+  </ol>
+  <p class="muted" style="font-size:.9rem">Bu paket bir bütün olarak test edilmedi. Bileşenlerin her biri kanıtlı, birleşimi <span class="tag t-c">çıkarım</span>. Kalıcılık zayıf: etki son testte d 0,37 iken ortalama 11 ay sonra 0,22’ye düştü. Program bitince haftada 2–3 oturumla idame sürdürülmeli. <span class="src">Suggate 2016</span> Ebeveynle eşli okuma sonuçları karışık; gönüllü tutor ebeveynden iyi çıktı (d 0,21) ve kazanım kayboldu. <span class="src">Villiger 2019</span></p>
+</section>
+
+<section>
+  <div class="sec-head"><span class="step">Adım 3 · okul ve dikkat</span><h2>Sınıf ve tıbbi tedavi</h2></div>
+  <div class="grid">
+    <div class="card"><h3>Günlük rapor kartı</h3><p>Öğretmenle 1–2 somut hedef belirle (ör. “sesli okumada atlama ≤ 2”). Puan eve gelir, evde küçük ödülle bağlanır. Okul temelli derlemede medyan g 0,62. <span class="tag t-d">doğrulanmalı</span></p><span class="src">Moore 2018 (28 çalışma)</span></div>
+    <div class="card"><h3>Ebeveyn davranış eğitimi</h3><p>Ebeveynlik becerileri kör değerlendiricilerle de düzeliyor (SMD 0,63). DEHB belirtilerinde azalma ise yalnızca kör olmayan değerlendiricide görülüyor. <span class="tag t-k">kesin</span></p><span class="src">Daley 2014 (32 RKÇ)</span></div>
+    <div class="card"><h3>DEHB tanısı konursa</h3><p>AAP 2019, 6–11 yaş için ilaç + ebeveyn eğitimi ve/veya sınıf içi davranış müdahalesi öneriyor. <span class="tag t-k">kesin</span></p><p><b>Kritik:</b> Metilfenidat okuma <b>hızını</b> artırdı (SMD 0,47), <b>doğruluğu</b> değiştirmedi. Bu çocuğun asıl sorunu doğruluk; ilaç tek başına çözmez. <span class="tag t-k">kesin</span></p><span class="src">Wolraich 2019 · Kortekaas-Rijlaarsdam 2019</span></div>
+    <div class="card"><h3>Ekran ve egzersiz</h3><p>TV izleme dil becerisiyle ters ilişkili (ES −0,20). Toplam ekran süresi ile okuma puanı arasında ilişki yok (r −0,02). <span class="tag t-k">kesin</span> Bilişsel katılım gerektiren egzersiz inhibisyonu iyileştirdi, kanıtın kesinliği düşük; okumaya etkisi ölçülmedi. <span class="tag t-d">doğrulanmalı</span></p><span class="src">Adelantado-Renau 2019 · Al-Jbouri 2026 · Liang 2026</span></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><h2>Kanıtsız ya da önerilmeyen</h2></div>
+  <div class="tbl"><table>
+    <thead><tr><th>Yaklaşım</th><th>Bulgu</th><th>Kaynak</th><th>Etiket</th></tr></thead>
+    <tbody>
+      <tr><td class="no">Renkli lens / overlay (Irlen)</td><td>Etki küçük ya da plaseboya benzer; “önerilemez”</td><td class="src">Griffiths 2016 · AWMF S3 (A düzeyi)</td><td><span class="tag t-k">kesin</span></td></tr>
+      <tr><td class="no">Görme terapisi, göz egzersizi, prizma</td><td>Disleksi için önerilmez. Konverjans yetmezliği RKÇ’sinde dikkat üzerinde plaseboya üstünlük yok (d 0,036)</td><td class="src">AAP/AAO 2009 · CITT-ART 2021</td><td><span class="tag t-k">kesin</span></td></tr>
+      <tr><td class="no">Çalışma belleği eğitimi (Cogmed vb.)</td><td>Aktif kontrole karşı kelime çözümleme ve okuduğunu anlamaya uzak transfer yok</td><td class="src">Melby-Lervåg 2016 · Cortese 2015</td><td><span class="tag t-k">kesin</span></td></tr>
+      <tr><td class="no">Nörofeedback</td><td>Kör değerlendiricide SMD 0,04 (−0,10 ile 0,18)</td><td class="src">Westwood 2025 (38 RKÇ)</td><td><span class="tag t-k">kesin</span></td></tr>
+      <tr><td>Omega-3</td><td>DEHB belirtilerinde küçük etki; okuma sonucu bildiren çalışma yok</td><td class="src">Bloch 2011 · Cochrane 2016</td><td><span class="tag t-k">kesin</span></td></tr>
+      <tr><td>“Yavaş oku” talimatı (tek başına)</td><td>Hata ve prozodiyi değiştirmedi</td><td class="src">Taylor 2013</td><td><span class="tag t-k">kesin</span></td></tr>
+      <tr><td>Parmakla / cetvelle takip</td><td>Kontrollü kanıt bulunamadı. Zararsız ama kanıtlı değil</td><td class="src">—</td><td><span class="tag t-c">bulunamadı</span></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="step">Adım 4 · haftalık</span><h2>Takip: 1 dakikalık soğuk okuma</h2></div>
+  <p class="muted" style="max-width:72ch">Her hafta daha önce okunmamış bir metinden 1 dakika okut. Dakikadaki doğru kelimeyi ve atlama/hata sayısını gir. Türk 4. sınıfları için hakemli bir norm tablosu <b>bulunamadı</b>; internette dolaşan “90–100 kelime” doğrulanmamış bir blog kaynağı. <span class="tag t-c">bulunamadı</span> Bu yüzden çocuğun kendi başlangıç değerini referans al. Veriler yalnızca bu tarayıcıda saklanır.</p>
+  <div class="tracker">
+    <form id="f">
+      <label for="d">Tarih<input id="d" type="date" required></label>
+      <label for="w">Dakikada doğru kelime<input id="w" type="number" min="0" max="300" required></label>
+      <label for="e">Hata + atlama sayısı<input id="e" type="number" min="0" max="100" required></label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button type="submit">Ölçümü ekle</button><button type="button" class="ghost" id="undo">Son ölçümü sil</button></div>
+      <p id="msg" class="muted" style="font-size:.85rem" aria-live="polite"></p>
+    </form>
+    <div class="chartbox">
+      <p id="ex" class="banner" hidden>Örnek veri gösteriliyor. İlk gerçek ölçümü eklediğinde silinir.</p>
+      <svg id="ch" viewBox="0 0 640 260" width="100%" role="img" aria-label="Haftalık okuma ölçümleri grafiği"></svg>
+      <div class="legend"><span><i style="background:var(--accent)"></i>Doğru kelime/dk (sol eksen)</span><span><i style="background:var(--bad)"></i>Doğruluk % (sağ eksen)</span></div>
+      <p class="muted" style="font-size:.85rem">Hedef: doğruluk eğrisinin %97’nin üstüne çıkması. Hızın artması ikincil.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><h2>Türkçe literatür notu</h2></div>
+  <div class="grid">
+    <div class="card"><p><b>Tekrarlı okuma meta-analizi</b> (Sur 2022; 25 çalışma, 50 etki büyüklüğü): okuma başarısına “çok büyük” etki, sınıf düzeyine göre fark yok. Sayısal g değerine ulaşılamadı. <span class="tag t-d">doğrulanmalı</span></p><span class="src">doi:10.9779/pauefd.991882</span></div>
+    <div class="card"><p><b>Hata tipleri:</b> 4. sınıf okuma güçlüğünde en sık ekleme, <mark>kelime atlama</mark>, yerine koyma ve tekrar görülüyor (Mersin, n=32). Türkçe müdahale çalışmaları küçük örneklemli ya da tek-denekli. <span class="tag t-d">doğrulanmalı</span></p><span class="src">Akyol &amp; Temur 2006 · Güzel-Özmen 2011</span></div>
+    <div class="card"><p><b>Prozodi ölçeği:</b> Yıldız ve ark. 2009, 4. sınıf için Türkçe uyarlama. Evde ifadeli okuma puanlamasında kullanılabilir. <span class="tag t-d">doğrulanmalı</span></p><span class="src">Int J Human Sciences 6(1)</span></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><h2>Kaynaklar</h2></div>
+  <ol class="refs">
+    <li>Burns 2024. Assess Eff Interv. 10.1177/15345084241247064</li>
+    <li>Carioti 2021. Ann Dyslexia. 10.1007/s11881-021-00226-0</li>
+    <li>Cortese 2015. JAACAP. 10.1016/j.jaac.2014.12.010</li>
+    <li>CITT-ART 2021. Optom Vis Sci. PMID 33771952</li>
+    <li>Daley 2014. JAACAP. 10.1016/j.jaac.2014.05.013</li>
+    <li>Elbasheer 2026. Cureus. PMID 42181473</li>
+    <li>Fiani 2025. Neurosci Biobehav Rev. PMID 40945632</li>
+    <li>Galuschka &amp; Schulte-Körne 2016. Dtsch Arztebl Int. PMID 27159142</li>
+    <li>Griffiths 2016. Ophthalmic Physiol Opt. PMID 27580753</li>
+    <li>Guzman 2017. Sch Psychol Q. 10.1037/spq0000199</li>
+    <li>Güven &amp; Friedmann 2019. Front Psychol. PMID 31749734</li>
+    <li>Güven &amp; Friedmann 2022. Sci Stud Read. 10.1080/10888438.2022.2058399</li>
+    <li>Kocaarslan 2021. Psychol Sch. 10.1002/pits.22641</li>
+    <li>Kortekaas-Rijlaarsdam 2019. Eur Child Adolesc Psychiatry. 10.1007/s00787-018-1106-3</li>
+    <li>Lee &amp; Yoon 2017. J Learn Disabil. 10.1177/0022219415605194</li>
+    <li>Leow 2026. J Atten Disord. PMID 41910119</li>
+    <li>Masur 2013. Neurology. PMID 24089388</li>
+    <li>McGrath &amp; Stoodley 2019. J Neurodev Disord. PMID 31752659</li>
+    <li>Melby-Lervåg 2016. Perspect Psychol Sci. 10.1177/1745691616635612</li>
+    <li>Moore 2018. Rev Educ 6(3):209–263</li>
+    <li>Suggate 2016. J Learn Disabil. 10.1177/0022219414528540</li>
+    <li>Sur 2022. PAUEFD. 10.9779/pauefd.991882</li>
+    <li>Taylor 2013. Sch Psychol Rev. 10.1080/02796015.2013.12087464</li>
+    <li>Therrien 2004. Remedial Spec Educ. 10.1177/07419325040250040801</li>
+    <li>Tseng 2018. Sci Rep. PMID 29335588</li>
+    <li>Villiger 2019. Learn Instr. 10.1016/j.learninstruc.2018.11.004</li>
+    <li>Westwood 2025. JAMA Psychiatry. 10.1001/jamapsychiatry.2024.3702</li>
+    <li>Willcutt &amp; Pennington 2000. J Learn Disabil. 10.1177/002221940003300206</li>
+    <li>Wolraich 2019 (AAP). Pediatrics. PMID 31570648</li>
+    <li>AAP/AAO 2009. Pediatrics. PMID 19651597</li>
+  </ol>
+  <footer>Bu pano bir literatür sentezidir ve klinik değerlendirmenin yerine geçmez. Kaynakların çoğu özet düzeyinde okundu. “Doğrulanmalı” etiketli sayıları kullanmadan önce birincil kaynakla karşılaştırın.</footer>
+</section>
+</div>
+
+<script>
+(function(){
+  var KEY='okuma-takip-v1';
+  var SAMPLE=[{d:'2026-11-02',w:96,e:9},{d:'2026-11-09',w:94,e:7},{d:'2026-11-16',w:92,e:5},{d:'2026-11-23',w:95,e:4},{d:'2026-11-30',w:97,e:2}];
+  function load(){try{var v=JSON.parse(localStorage.getItem(KEY)||'null');return Array.isArray(v)?v:null}catch(_){return null}}
+  function save(a){try{localStorage.setItem(KEY,JSON.stringify(a));return true}catch(_){return false}}
+  var data=load();
+  var ch=document.getElementById('ch'), ex=document.getElementById('ex'), msg=document.getElementById('msg');
+  function css(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim()}
+  function acc(r){var t=r.w+r.e;return t?100*r.w/t:0}
+  function draw(){
+    var rows=(data&&data.length)?data:SAMPLE; ex.hidden=!!(data&&data.length);
+    rows=rows.slice().sort(function(a,b){return a.d<b.d?-1:1});
+    var W=640,H=260,L=46,R=50,T=16,B=36,iw=W-L-R,ih=H-T-B;
+    var maxW=Math.max(60,Math.ceil(Math.max.apply(null,rows.map(function(r){return r.w}))/20)*20+20);
+    var minA=80;
+    function x(i){return L+(rows.length<2?iw/2:i*iw/(rows.length-1))}
+    function yw(v){return T+ih-(v/maxW)*ih}
+    function ya(v){return T+ih-((Math.max(minA,v)-minA)/(100-minA))*ih}
+    var line=css('--line'),mut=css('--muted'),acc1=css('--accent'),bad=css('--bad'),mk=css('--mark');
+    var s='';
+    for(var k=0;k<=4;k++){var v=maxW*k/4,y=yw(v);s+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+y+'" y2="'+y+'" stroke="'+line+'"/>';
+      s+='<text x="'+(L-8)+'" y="'+(y+4)+'" text-anchor="end" font-size="11" fill="'+mut+'">'+Math.round(v)+'</text>';
+      var av=minA+(100-minA)*k/4;s+='<text x="'+(W-R+8)+'" y="'+(y+4)+'" font-size="11" fill="'+bad+'">%'+Math.round(av)+'</text>';}
+    var y97=ya(97);s+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+y97+'" y2="'+y97+'" stroke="'+mk+'" stroke-width="2" stroke-dasharray="5 4"/>';
+    var pw=rows.map(function(r,i){return x(i)+','+yw(r.w)}).join(' ');
+    var pa=rows.map(function(r,i){return x(i)+','+ya(acc(r))}).join(' ');
+    s+='<polyline points="'+pw+'" fill="none" stroke="'+acc1+'" stroke-width="2.5"/>';
+    s+='<polyline points="'+pa+'" fill="none" stroke="'+bad+'" stroke-width="2.5"/>';
+    rows.forEach(function(r,i){
+      s+='<circle cx="'+x(i)+'" cy="'+yw(r.w)+'" r="'+(i===rows.length-1?5:3.5)+'" fill="'+acc1+'"/>';
+      s+='<circle cx="'+x(i)+'" cy="'+ya(acc(r))+'" r="'+(i===rows.length-1?5:3.5)+'" fill="'+bad+'"/>';
+      if(rows.length<=10||i%2===0){var p=r.d.split('-');s+='<text x="'+x(i)+'" y="'+(H-12)+'" text-anchor="middle" font-size="11" fill="'+mut+'">'+p[2]+'.'+p[1]+'</text>';}
+    });
+    ch.innerHTML=s;
+  }
+  try{document.getElementById('d').valueAsDate=new Date()}catch(_){}
+  document.getElementById('f').addEventListener('submit',function(ev){
+    ev.preventDefault();
+    var r={d:document.getElementById('d').value,w:+document.getElementById('w').value,e:+document.getElementById('e').value};
+    if(!r.d){msg.textContent='Tarih girin.';return}
+    data=(data||[]).filter(function(x){return x.d!==r.d});data.push(r);
+    msg.textContent=save(data)?'Eklendi. Doğruluk: %'+acc(r).toFixed(1):'Eklendi, ancak bu tarayıcı veriyi saklayamıyor.';
+    draw();
+  });
+  document.getElementById('undo').addEventListener('click',function(){
+    if(!data||!data.length){msg.textContent='Silinecek ölçüm yok.';return}
+    data.sort(function(a,b){return a.d<b.d?-1:1});data.pop();save(data);msg.textContent='Son ölçüm silindi.';draw();
+  });
+  if(window.matchMedia){try{window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',draw)}catch(_){}}
+  new MutationObserver(draw).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+  draw();
+})();
+</script>
