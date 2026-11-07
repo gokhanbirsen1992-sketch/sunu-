@@ -1,6 +1,6 @@
 ---
 name: palet-kombin
-description: Kullanıcının kişisel renk paletine göre giysi/aksesuar seçimi, ürün×renk matrisi ve kombin üretimi. "Kombin yap", "bu ürün palete uyar mı", "ne alayım hangi renk", "X rengi olur mu", "5 kombin yap", "listeyi güncelle" dendiğinde kullan. Paleti yeniden icat etme; data/profil.md ve data/palet.json'daki kararlar sabittir, yalnızca kullanıcı açıkça değiştirirse güncelle.
+description: Kullanıcının kişisel renk paletine göre giysi/aksesuar seçimi, ürün×renk matrisi ve kombin üretimi. "Kombin yap", "bu ürün palete uyar mı", "ne alayım hangi renk", "X rengi olur mu", "5 kombin yap", "listeyi güncelle" dendiğinde kullan. Paleti yeniden icat etme; ref/profil.md ve ref/palet.json'daki kararlar sabittir, yalnızca kullanıcı açıkça değiştirirse güncelle.
 ---
 
 # Palet-Kombin
@@ -8,8 +8,8 @@ description: Kullanıcının kişisel renk paletine göre giysi/aksesuar seçimi
 Amaç: kullanıcı ürünü kendisi seçer; bu skill yalnızca **hangi üründe hangi renk olur / olabilir / olmaz** sorusuna mekanik, tutarlı cevap verir ve istenirse kombin üretir.
 
 ## 0. Önce oku
-- `data/profil.md` — vücut, ten, bağlam (hastane, Antalya), stil kararları, öğrenilmiş tercihler.
-- `data/palet.json` — renkler (hex), roller, ürün×renk matrisi (I/O/X), sayım kuralları.
+- `ref/profil.md` — vücut, ten, bağlam (hastane, Antalya), stil kararları, öğrenilmiş tercihler.
+- `ref/palet.json` — renkler (hex), roller, ürün×renk matrisi (I/O/X), sayım kuralları.
 
 Bu iki dosya karar kaynağıdır. Bellekten renk uydurma.
 
@@ -17,7 +17,7 @@ Bu iki dosya karar kaynağıdır. Bellekten renk uydurma.
 
 **a) "X ürün Y renk olur mu?"** → matristeki hücreyi oku: I = ideal, O = olabilir, X = yasak. Tek cümle + gerekçe (yüz-ten kontrastı / alt gövde koyuluğu / rol çakışması). Hücre yoksa 4. bölümdeki türetme kuralıyla karar ver ve "[çıkarım]" etiketle.
 
-**b) "Ne alayım / liste"** → `data/palet.json` içindeki `adetler` ile ürün satırlarını birleştir; her ürün için adet + yeşil/sarı renkler + kırmızı renkler. Kullanıcı renk seçimini kendi yapar; karar verilmiş tek renk dayatma (kullanıcı bunu açıkça reddetti).
+**b) "Ne alayım / liste"** → `ref/palet.json` içindeki `adetler` ile ürün satırlarını birleştir; her ürün için adet + yeşil/sarı renkler + kırmızı renkler. Kullanıcı renk seçimini kendi yapar; karar verilmiş tek renk dayatma (kullanıcı bunu açıkça reddetti).
 
 **c) "Kombin yap"** → 5. bölümdeki kombin kuralları. Varsayılan 5 kombin, yukarıdan aşağı: iç katman / orta-dış katman / pantolon / ayakkabı. Hastane kombinlerinde blazer yok (blazer yalnızca 10 dk geçiş katmanı); iç katman tek başına ayakta durmalı.
 
@@ -36,7 +36,7 @@ Hastanede giyilen **gömlek + polo + kazak** toplamında vurgu aileden en fazla 
 ## 4. Matriste olmayan renk/ürün için türetme
 - Yeni renk → en yakın palet rengine eşle (ör. "terracotta" → kiremit, "haki" → zeytin ailesi). Eşleşmiyorsa (mavi, gri, siyah, pastel) → X.
 - Yeni ürün → en yakın katman tipine eşle: yüze değen (gömlek kuralı), orta (kazak kuralı), dış (blazer/kaban kuralı), alt (pantolon kuralı), deri (ayakkabı kuralı).
-- Sonucu "[çıkarım]" etiketle ve kullanıcı onaylarsa `data/palet.json`'a ekle.
+- Sonucu "[çıkarım]" etiketle ve kullanıcı onaylarsa `ref/palet.json`'a ekle.
 
 ## 5. Kombin kuralları
 - Katman sırası: iç (gömlek/polo/tişört) → orta (kazak/hırka; kazak yalnızca gömlek üstüne, polo üstüne kazak olur, gömlek üstüne polo olmaz) → dış (blazer/kaban) → pantolon → ayakkabı.
@@ -47,4 +47,4 @@ Hastanede giyilen **gömlek + polo + kazak** toplamında vurgu aileden en fazla 
 - Çıktıda her kombin için tek satır gerekçe; kural ihlali varsa söyle.
 
 ## 6. Dil ve biçim
-Türkçe, yoğun, dolgusuz. Jargon kullanma ("vurgu" dersen hangi renkler olduğunu aynı cümlede yaz). Tablo tercih; kullanıcı "karar verilmiş liste" değil "seçenekli liste" ister. Kullanıcı bir kuralı reddederse `data/profil.md`'ye "öğrenilmiş tercih" olarak ekle, tekrar dayatma.
+Türkçe, yoğun, dolgusuz. Jargon kullanma ("vurgu" dersen hangi renkler olduğunu aynı cümlede yaz). Tablo tercih; kullanıcı "karar verilmiş liste" değil "seçenekli liste" ister. Kullanıcı bir kuralı reddederse `ref/profil.md`'ye "öğrenilmiş tercih" olarak ekle, tekrar dayatma.

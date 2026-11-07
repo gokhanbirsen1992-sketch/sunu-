@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Ürün × renk matrisini data/palet.json'dan okuyup PNG üretir.
+"""Ürün × renk matrisini ref/palet.json'dan okuyup PNG üretir.
 Kullanım: python3 matris.py [cikti.png]
 """
 import json, sys, os
 from PIL import Image, ImageDraw, ImageFont
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-D = json.load(open(os.path.join(HERE, "..", "data", "palet.json"), encoding="utf-8"))
+D = json.load(open(os.path.join(HERE, "..", "ref", "palet.json"), encoding="utf-8"))
 F = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"; FB = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
 out = sys.argv[1] if len(sys.argv) > 1 else "matris.png"
 

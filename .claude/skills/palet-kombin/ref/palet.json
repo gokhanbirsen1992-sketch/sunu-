@@ -1,0 +1,169 @@
+{
+  "palet": "Palet 1 · Toprak-Şarap",
+  "renkler": {
+    "Ekru": "#EDE4D2",
+    "Kum/krem": "#D9C9A3",
+    "Koyu yeşil": "#2F4A2A",
+    "Zeytin": "#4F5A2E",
+    "Koyu zeytin": "#3E4A2A",
+    "Haki": "#6B6B3F",
+    "Çikolata": "#2E1F16",
+    "Koyu kahve": "#3B2A1E",
+    "Tütün": "#8A5A2B",
+    "Taba": "#9A6B3F",
+    "Camel": "#B98A4A",
+    "Taupe": "#7A6A58",
+    "Koyu indigo": "#2B3448",
+    "Pas": "#B4532A",
+    "Kiremit": "#9E3B2E",
+    "Bordo": "#5E1F2A",
+    "Şarap": "#722F37",
+    "Hardal": "#C9962E",
+    "Okra": "#B07A2A",
+    "Kahve deri": "#5C3A1E",
+    "Pirinç metal": "#B08D57"
+  },
+  "roller": {
+    "taban": [
+      "Koyu kahve",
+      "Çikolata",
+      "Zeytin",
+      "Koyu zeytin",
+      "Haki",
+      "Taupe",
+      "Koyu indigo"
+    ],
+    "orta": [
+      "Camel",
+      "Tütün",
+      "Taba",
+      "Koyu zeytin"
+    ],
+    "vurgu": [
+      "Pas",
+      "Kiremit",
+      "Bordo",
+      "Şarap",
+      "Hardal",
+      "Okra"
+    ],
+    "ic": [
+      "Ekru",
+      "Kum/krem",
+      "Koyu yeşil",
+      "Koyu kahve"
+    ],
+    "deri": [
+      "Kahve deri"
+    ],
+    "metal": [
+      "Pirinç metal"
+    ]
+  },
+  "yasak_genel": [
+    "siyah",
+    "saf beyaz",
+    "açık gri",
+    "pastel",
+    "mavi (yalnızca koyu indigo denim)",
+    "parlak kumaş",
+    "süet",
+    "gümüş metal",
+    "kahve dışı deri (bordo ayakkabı/kemer dahil)"
+  ],
+  "sayim": {
+    "hastane_vurgu_max": 3,
+    "hastane_kapsam": [
+      "Gömlek",
+      "Örgü polo",
+      "Kazak"
+    ],
+    "gomlek_min_ekru": 2,
+    "ayni_vurgu_rengi_max": 2
+  },
+  "adetler": {
+    "Gömlek": 6,
+    "Tişört": 1,
+    "Örgü polo": 2,
+    "Kazak": 2,
+    "Hırka": 1,
+    "Blazer": 1,
+    "Kaban": 1,
+    "Pantolon": 3,
+    "Denim": 1,
+    "Loafer": 1,
+    "Sneaker": 1,
+    "Kemer": 1,
+    "Çorap": 5,
+    "Saat": 1,
+    "Güneş gözlüğü": 1,
+    "Çanta": 1,
+    "Atkı": 1,
+    "Şemsiye": 1
+  },
+  "kumas_kesim": {
+    "Gömlek": "pamuk poplin 110-130 g · yumuşak yaka · regular · içeri sokulur | alma: slim, sert/düğmeli yaka, keten, saten, desen",
+    "Tişört": "ağır pamuk 180-220 g · yuvarlak ince bant yaka | alma: ince, V yaka, logo",
+    "Örgü polo": "ince merino / pamuk-ipek · uzun kol · düz yatan yaka | alma: akrilik, polyester, kalkık yaka",
+    "Kazak": "ekstra ince merino · yuvarlak yaka · gömlek yakası 1 cm görünür | alma: kalın, dar bant, fermuar, boğazlı",
+    "Hırka": "ekstra ince merino · düğmeli V yaka · bel hizası | alma: şal yaka, uzun, kalın",
+    "Blazer": "yün-pamuk · astarsız/yarım astar · vatkasız yumuşak omuz · 2 düğme · kalçayı örter · 54-56 regular | alma: vatka, slim, kısa, parlak",
+    "Kaban": "pamuk gabardin su itici · düz · dizüstü · tek sıra | alma: kapüşon, şişme, parlak, dar",
+    "Pantolon": "pamuk twill 250-300 g ×2 + hafif flanel 240-280 g ×1 · yüksek bel · tek pens · straight-tapered · paça bilek kemiğinde kırıksız | alma: düşük bel, skinny, düz chino, uzun paça",
+    "Denim": "12-13 oz tek ton · straight · kırıksız | alma: yırtık, açık, taşlama, skinny",
+    "Loafer": "tam deri · kauçuk taban · penny · yuvarlak burun | alma: süet, kalın taban, sivri",
+    "Sneaker": "deri · minimal · ince taban · logosuz | alma: kalın taban, mesh, logo",
+    "Kemer": "tam deri · 3 cm · pirinç ince toka | alma: geniş, gümüş, parlak",
+    "Çorap": "ince merino · baldır boyu | alma: spor, kısa, beyaz",
+    "Saat": "kahve deri kayış · pirinç kasa · 38-40 mm | alma: siyah kayış, çelik spor, 44 mm+",
+    "Güneş gözlüğü": "tortoise asetat · yuvarlak-kare | alma: gümüş metal, aviator",
+    "Çanta": "kahve deri · yapısız tote / ince evrak | alma: sırt çantası, siyah, naylon",
+    "Atkı": "ince yün · tek sarım | alma: kalın, püskül, desen",
+    "Şemsiye": "düz · uzun sap | alma: desenli, mini"
+  },
+  "renk_sirasi": [
+    "Ekru",
+    "Kum/krem",
+    "Koyu yeşil",
+    "Zeytin",
+    "Koyu zeytin",
+    "Haki",
+    "Çikolata",
+    "Koyu kahve",
+    "Tütün",
+    "Taba",
+    "Camel",
+    "Taupe",
+    "Koyu indigo",
+    "Pas",
+    "Kiremit",
+    "Bordo",
+    "Şarap",
+    "Hardal",
+    "Okra"
+  ],
+  "matris_aciklama": "I = ideal, O = olabilir, X = yasak. Sıra renk_sirasi ile aynı.",
+  "matris": {
+    "Gömlek": "IOIOOOOOOXXXXIOIOOO",
+    "Tişört": "IOOOOOOOOXXXXOOIOOO",
+    "Örgü polo": "OXIOIOOOIXXXXOOIIOO",
+    "Kazak": "OOOOIOOOIOIXXOOIOOO",
+    "Hırka": "OXOOOOIIIOOXXXXOOXX",
+    "Blazer": "XXOOIOOOOOIXXXXOOXX",
+    "Kaban": "XXOOIOIIOXXXXXXXXXX",
+    "Pantolon": "XXOIOOIIOXXIXXXXXXX",
+    "Denim": "XXXXXXOOXXXXIXXXXXX",
+    "Ayakkabı deri": "XXXXXXIIOOXXXXXXXXX",
+    "Sneaker": "IOXXXXOOOXXXXXXXXXX",
+    "Kemer/çanta": "XXXXXXIIOOXXXXXXXXX",
+    "Çorap": "XXOOIOIIOXXXXOOIIOO",
+    "Atkı": "OOOOIOOOIOIXXOOIIOO"
+  },
+  "gerekce": {
+    "yuz": "Gömlek/polo/tişört ten rengine yakın olamaz (camel, taupe, taba): yüzü siler. Tütün tenden koyu, serbest.",
+    "alt": "Pantolon, kaban, ayakkabı yalnızca koyu taban: geniş gövdede açık alt kütle gösterir.",
+    "vurgu": "Vurgu aile küçük/kısa yüzeyde; hırka-blazer-pantolon-kabanda kostüm olur.",
+    "deri": "Tüm deri kahve, tüm metal pirinç: tek ton sistemi.",
+    "haki": "Haki = zeytinin açık-sarımsı tonu; zeytin ailesiyle aynı kural, 'ideal' değil 'olabilir' (askeri okunma riski)."
+  }
+}

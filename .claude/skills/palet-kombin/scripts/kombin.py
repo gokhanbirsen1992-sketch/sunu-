@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """5 kombin kartı üretir. Girdi JSON (stdin veya dosya):
 {"baslik": "...", "kombinler": [{"ad": "1 · Hastane", "katmanlar": [["ekru gömlek","Ekru"], ...], "pantolon": ["taupe pamuk","Taupe"], "ayakkabi": ["kahve loafer","Kahve deri"]}, ...]}
-Renk adları data/palet.json'daki anahtarlardır.
+Renk adları ref/palet.json'daki anahtarlardır.
 Kullanım: python3 kombin.py girdi.json cikti.png
 """
 import json, sys, os
 from PIL import Image, ImageDraw, ImageFont
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-P = json.load(open(os.path.join(HERE, "..", "data", "palet.json"), encoding="utf-8"))
+P = json.load(open(os.path.join(HERE, "..", "ref", "palet.json"), encoding="utf-8"))
 C = P["renkler"]; vurgu = set(P["roller"]["vurgu"])
 F = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"; FB = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
 src = json.load(open(sys.argv[1], encoding="utf-8")) if len(sys.argv) > 1 and sys.argv[1] != "-" else json.load(sys.stdin)
