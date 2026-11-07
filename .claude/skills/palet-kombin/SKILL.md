@@ -24,10 +24,10 @@ Bu iki dosya karar kaynağıdır. Bellekten renk uydurma.
 **d) "Görsel yap"** → `scripts/matris.py` (matris) veya `scripts/kombin.py` (5 kombin kartı). Çıktı PNG, scratchpad'e yaz, SendUserFile ile gönder.
 
 ## 2. Sabit kurallar (fizik, zevk değil)
-1. Yüze değen parça (gömlek, polo, tişört): ten rengine yakın renk yasak → camel, taupe, tütün, taba.
+1. Yüze değen parça (gömlek, polo, tişört): ten rengine yakın renk yasak → camel, taupe, taba. (Tütün tenden koyu, serbest.)
 2. Alt gövde (pantolon, denim) ve kaban: yalnızca koyu taban renkleri.
 3. Vurgu aile (pas, kiremit, bordo, şarap, hardal, okra): küçük veya kısa süreli yüzeyde; pantolon/kaban/hırka/blazer'da yasak veya "olabilir" en fazla.
-4. Deri hep kahve, metal hep pirinç. Siyah, saf beyaz, açık gri, pastel, parlak kumaş, süet yok.
+4. Deri hep kahve (bordo ayakkabı/kemer yok), metal hep pirinç. Mavi yalnızca koyu indigo denim. Siyah, saf beyaz, açık gri, pastel, parlak kumaş, süet yok.
 5. Bitişik iki katman aynı renk olmaz; bir kombinde en fazla bir vurgu parça.
 
 ## 3. Sayım kuralı (tek)
