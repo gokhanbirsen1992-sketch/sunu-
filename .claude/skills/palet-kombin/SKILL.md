@@ -1,0 +1,50 @@
+---
+name: palet-kombin
+description: Kullanıcının kişisel renk paletine göre giysi/aksesuar seçimi, ürün×renk matrisi ve kombin üretimi. "Kombin yap", "bu ürün palete uyar mı", "ne alayım hangi renk", "X rengi olur mu", "5 kombin yap", "listeyi güncelle" dendiğinde kullan. Paleti yeniden icat etme; data/profil.md ve data/palet.json'daki kararlar sabittir, yalnızca kullanıcı açıkça değiştirirse güncelle.
+---
+
+# Palet-Kombin
+
+Amaç: kullanıcı ürünü kendisi seçer; bu skill yalnızca **hangi üründe hangi renk olur / olabilir / olmaz** sorusuna mekanik, tutarlı cevap verir ve istenirse kombin üretir.
+
+## 0. Önce oku
+- `data/profil.md` — vücut, ten, bağlam (hastane, Antalya), stil kararları, öğrenilmiş tercihler.
+- `data/palet.json` — renkler (hex), roller, ürün×renk matrisi (I/O/X), sayım kuralları.
+
+Bu iki dosya karar kaynağıdır. Bellekten renk uydurma.
+
+## 1. Cevap türleri
+
+**a) "X ürün Y renk olur mu?"** → matristeki hücreyi oku: I = ideal, O = olabilir, X = yasak. Tek cümle + gerekçe (yüz-ten kontrastı / alt gövde koyuluğu / rol çakışması). Hücre yoksa 4. bölümdeki türetme kuralıyla karar ver ve "[çıkarım]" etiketle.
+
+**b) "Ne alayım / liste"** → `data/palet.json` içindeki `adetler` ile ürün satırlarını birleştir; her ürün için adet + yeşil/sarı renkler + kırmızı renkler. Kullanıcı renk seçimini kendi yapar; karar verilmiş tek renk dayatma (kullanıcı bunu açıkça reddetti).
+
+**c) "Kombin yap"** → 5. bölümdeki kombin kuralları. Varsayılan 5 kombin, yukarıdan aşağı: iç katman / orta-dış katman / pantolon / ayakkabı. Hastane kombinlerinde blazer yok (blazer yalnızca 10 dk geçiş katmanı); iç katman tek başına ayakta durmalı.
+
+**d) "Görsel yap"** → `scripts/matris.py` (matris) veya `scripts/kombin.py` (5 kombin kartı). Çıktı PNG, scratchpad'e yaz, SendUserFile ile gönder.
+
+## 2. Sabit kurallar (fizik, zevk değil)
+1. Yüze değen parça (gömlek, polo, tişört): ten rengine yakın renk yasak → camel, taupe, tütün, taba.
+2. Alt gövde (pantolon, denim) ve kaban: yalnızca koyu taban renkleri.
+3. Vurgu aile (pas, kiremit, bordo, şarap, hardal, okra): küçük veya kısa süreli yüzeyde; pantolon/kaban/hırka/blazer'da yasak veya "olabilir" en fazla.
+4. Deri hep kahve, metal hep pirinç. Siyah, saf beyaz, açık gri, pastel, parlak kumaş, süet yok.
+5. Bitişik iki katman aynı renk olmaz; bir kombinde en fazla bir vurgu parça.
+
+## 3. Sayım kuralı (tek)
+Hastanede giyilen **gömlek + polo + kazak** toplamında vurgu aileden en fazla **3 parça**; gömlekte en az **2 ekru**. Tişört, çorap, atkı, denim sayıma girmez.
+
+## 4. Matriste olmayan renk/ürün için türetme
+- Yeni renk → en yakın palet rengine eşle (ör. "terracotta" → kiremit, "haki" → zeytin ailesi). Eşleşmiyorsa (mavi, gri, siyah, pastel) → X.
+- Yeni ürün → en yakın katman tipine eşle: yüze değen (gömlek kuralı), orta (kazak kuralı), dış (blazer/kaban kuralı), alt (pantolon kuralı), deri (ayakkabı kuralı).
+- Sonucu "[çıkarım]" etiketle ve kullanıcı onaylarsa `data/palet.json`'a ekle.
+
+## 5. Kombin kuralları
+- Katman sırası: iç (gömlek/polo/tişört) → orta (kazak/hırka; kazak yalnızca gömlek üstüne, polo üstüne kazak olur, gömlek üstüne polo olmaz) → dış (blazer/kaban) → pantolon → ayakkabı.
+- Hastane: iç katman tek başına düzgün (tişört hariç); blazer yok; loafer.
+- Hafta sonu: tişört, denim, sneaker serbest.
+- Kaban + aynı renk pantolon → iç katman açık (ekru).
+- Camel ↔ hardal, camel ↔ tütün bitişik gelirse "sınırda", tercih etme.
+- Çıktıda her kombin için tek satır gerekçe; kural ihlali varsa söyle.
+
+## 6. Dil ve biçim
+Türkçe, yoğun, dolgusuz. Jargon kullanma ("vurgu" dersen hangi renkler olduğunu aynı cümlede yaz). Tablo tercih; kullanıcı "karar verilmiş liste" değil "seçenekli liste" ister. Kullanıcı bir kuralı reddederse `data/profil.md`'ye "öğrenilmiş tercih" olarak ekle, tekrar dayatma.
