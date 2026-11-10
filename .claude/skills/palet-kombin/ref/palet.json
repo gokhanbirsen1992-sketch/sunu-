@@ -92,6 +92,7 @@
     "Pantolon": 3,
     "Denim": 1,
     "Loafer": 1,
+    "Bot (yağmur)": 1,
     "Sneaker": 1,
     "Kemer": 1,
     "Çorap": 5,
@@ -111,7 +112,7 @@
     "Kaban": "pamuk gabardin su itici · düz · dizüstü · tek sıra | alma: kapüşon, şişme, parlak, dar",
     "Pantolon": "pamuk twill 250-300 g ×2 + hafif flanel 240-280 g ×1 · yüksek bel · tek pens · straight-tapered · paça bilek kemiğinde kırıksız | alma: düşük bel, skinny, düz chino, uzun paça",
     "Denim": "12-13 oz tek ton · straight · kırıksız | alma: yırtık, açık, taşlama, skinny",
-    "Loafer": "tam deri · kauçuk taban · penny · yuvarlak burun | alma: süet, kalın taban, sivri",
+    "Loafer": "tam deri · kauçuk taban · penny · yuvarlak burun · kemerle aynı ton | alma: süet, kalın taban, sivri",
     "Sneaker": "deri · minimal · ince taban · logosuz | alma: kalın taban, mesh, logo",
     "Kemer": "tam deri · 3 cm · pirinç ince toka | alma: geniş, gümüş, parlak",
     "Çorap": "ince merino · baldır boyu | alma: spor, kısa, beyaz",
@@ -119,7 +120,8 @@
     "Güneş gözlüğü": "tortoise asetat · yuvarlak-kare | alma: gümüş metal, aviator",
     "Çanta": "kahve deri · yapısız tote / ince evrak | alma: sırt çantası, siyah, naylon",
     "Atkı": "ince yün · tek sarım | alma: kalın, püskül, desen",
-    "Şemsiye": "düz · uzun sap | alma: desenli, mini"
+    "Şemsiye": "düz · uzun sap | alma: desenli, mini",
+    "Bot (yağmur)": "su geçirmez tam deri · kauçuk taban · chelsea veya derby · loafer ve kemerle aynı kahve tonu | alma: süet, kalın traktör taban, siyah"
   },
   "renk_sirasi": [
     "Ekru",
@@ -165,5 +167,28 @@
     "vurgu": "Vurgu aile küçük/kısa yüzeyde; hırka-blazer-pantolon-kabanda kostüm olur.",
     "deri": "Tüm deri kahve, tüm metal pirinç: tek ton sistemi.",
     "haki": "Haki = zeytinin açık-sarımsı tonu; zeytin ailesiyle aynı kural, 'ideal' değil 'olabilir' (askeri okunma riski)."
+  },
+  "magaza_modu": {
+    "aciklama": "Rafta ideal kesim bulunmuyor (kullanıcı 3 saatte hiçbir şey alamadı). Mağazada yalnızca 3 şart eleme kriteridir; kumas_kesim'deki diğer her şey 'varsa iyi'.",
+    "sartlar": [
+      "Renk matriste I veya O",
+      "Omuz dikişi omuzda; bel ve uyluk rahat",
+      "Parlak, süet, siyah, logolu değil"
+    ],
+    "gevsetilen": [
+      "Pantolon: orta bel düz kesim kabul; pens ve yüksek bel tercih, şart değil; paça ve bel terziye",
+      "Blazer: yarı yapısız, hafif vatka kabul",
+      "Gömlek: oxford veya düğmeli yaka kabul; slim olmasın",
+      "Polo/kazak: pamuk karışım kabul; akrilik olmasın"
+    ],
+    "uyari": "Türkiye'de 'İtalyan kesim' etiketi slim demektir; aranan şeyin tersi."
+  },
+  "renk_esleme": {
+    "vizon (koyu, gri-kahve)": "Taupe",
+    "vizon (açık, pembemsi bej)": "taş/kum: pantolonda sınırda, yüze değen parçada yasak",
+    "terracotta": "Kiremit/Pas",
+    "mink, greige, gri-kahve, koyu bej": "Taupe (karta tutarak doğrula)",
+    "bej": "yasak (pantolonda açık kütle)",
+    "antrasit": "bu palette yok"
   }
 }

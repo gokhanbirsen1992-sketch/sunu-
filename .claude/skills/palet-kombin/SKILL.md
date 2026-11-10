@@ -9,9 +9,12 @@ Amaç: kullanıcı ürünü kendisi seçer; bu skill yalnızca **hangi üründe 
 
 ## 0. Önce oku
 - `ref/profil.md` — vücut, ten, bağlam (hastane, Antalya), stil kararları, öğrenilmiş tercihler.
-- `ref/palet.json` — renkler (hex), roller, ürün×renk matrisi (I/O/X), sayım kuralları.
+- `ref/palet.json` — renkler (hex), roller, ürün×renk matrisi (I/O/X), sayım kuralları, `magaza_modu`, `renk_esleme` (vizon, mink, terracotta gibi mağaza adları).
+- `ref/dolap.json` — seçilmiş dolap (parça, renk, alternatifler, zincirleme şartlar, satın alma turu), Prag kapsülü.
 
-Bu iki dosya karar kaynağıdır. Bellekten renk uydurma.
+Bu üç dosya karar kaynağıdır. Bellekten renk veya beden uydurma; beden `profil.md`'de "çözülmedi" ise kullanıcıya sor.
+
+Matrisi veya dolabı her değiştirdiğinde `python3 scripts/denetim.py` çalıştır; "Temiz: 0 ihlal" görmeden kullanıcıya dönme.
 
 ## 1. Cevap türleri
 
@@ -21,7 +24,13 @@ Bu iki dosya karar kaynağıdır. Bellekten renk uydurma.
 
 **c) "Kombin yap"** → 5. bölümdeki kombin kuralları. Varsayılan 5 kombin, yukarıdan aşağı: iç katman / orta-dış katman / pantolon / ayakkabı. Hastane kombinlerinde blazer yok (blazer yalnızca 10 dk geçiş katmanı); iç katman tek başına ayakta durmalı.
 
-**d) "Görsel yap"** → `scripts/matris.py` (matris) veya `scripts/kombin.py` (5 kombin kartı). Çıktı PNG, scratchpad'e yaz, SendUserFile ile gönder.
+**d) "Görsel yap"** → `scripts/matris.py` (matris), `scripts/kombin.py` (5 kombin kartı), `scripts/liste.py` (seçilmiş dolap listesi). Çıktı PNG, scratchpad'e yaz, SendUserFile ile gönder.
+
+**e) "Mağazadayım / bu ürünü alayım mı"** → `magaza_modu`: yalnızca 3 şart eleme kriteri (renk I/O, omuz-bel-uyluk oturuyor, parlak/süet/siyah/logolu değil). Pens, astar, gramaj, yaka tipi "varsa iyi"dir; bunlar yüzünden ürünü eleme. Mağaza renk adını `renk_esleme` ile palete çevir.
+
+**f) "Dolabı kontrol et"** → `scripts/denetim.py` çıktısını raporla; kullanılmayan parça, vurgu sayımı, deri tonu tekliği.
+
+**g) Seyahat** → `dolap.json > seyahat_prag_kasim` örnek; soğuk şehirde hafif flanel/pamuk twill önerme, pensli yüksek bel şartı arama.
 
 ## 2. Sabit kurallar (fizik, zevk değil)
 1. Yüze değen parça (gömlek, polo, tişört): ten rengine yakın renk yasak → camel, taupe, taba. (Tütün tenden koyu, serbest.)
@@ -40,7 +49,9 @@ Hastanede giyilen **gömlek + polo + kazak** toplamında vurgu aileden en fazla 
 
 ## 5. Kombin kuralları
 - Katman sırası: iç (gömlek/polo/tişört) → orta (kazak/hırka; kazak yalnızca gömlek üstüne, polo üstüne kazak olur, gömlek üstüne polo olmaz) → dış (blazer/kaban) → pantolon → ayakkabı.
-- Hastane: iç katman tek başına düzgün (tişört hariç); blazer yok; loafer.
+- Hastane: iç katman tek başına düzgün (tişört hariç); blazer yok; loafer. Yağmur günü loafer ve sneaker yerine bot.
+- Yeşil üstüne yeşil yok (koyu yeşil / koyu zeytin / zeytin / haki aynı aile sayılır, pantolon dahil); kahve üstüne kahve (çikolata / koyu kahve) aynı şekilde.
+- Loafer, bot, kemer, çanta aynı kahve tonu.
 - Hafta sonu: tişört, denim, sneaker serbest.
 - Kaban + aynı renk pantolon → iç katman açık (ekru).
 - Camel ↔ hardal, camel ↔ tütün bitişik gelirse "sınırda", tercih etme.

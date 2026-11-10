@@ -5,6 +5,23 @@
 - Çocuk gastroenteroloji uzmanı, Antalya. Hastanede önlük yok; blazer yalnızca dışarı çıkarken 10 dk. Gün boyu görünen: iç katman + pantolon + ayakkabı.
 - Bakım (kuru temizleme, elde yıkama) sorun değil.
 
+## Beden (çözülmedi, önce sor)
+- Kullanıcı beyanı: bel çevresi 100 cm (büyük ihtimalle göbek hizası); pantolonda EU 48 (= W32) oluyor (büyük ihtimalle düşük/orta bel, kalça kemiğine oturan model). İkisi çelişmez: ölçüm yeri farklı.
+- Sonuç: düşük/orta bel pantolon ve denimde 48/W32; yüksek bel pensli modelde göbek ölçüsü geçerli, 54-56/W38-40 denenmeli. Dönüşüm: inç = EU − 16.
+- Ceket/gömlek bedeni doğrulanmadı; "54-56, L-XL" yalnızca tahmindi. Beden yazmadan önce kullanıcıya sor.
+
+## Alışveriş durumu
+- 2026-11-10 itibarıyla hiçbir parça alınmadı. İlk denemede 3 saat mağaza, sıfır alım: yüksek bel pensli pantolon rafta yok. Bundan sonra `palet.json > magaza_modu` geçerli (3 şart), ayrıntılı kesim şartları eleme kriteri değil.
+- Pantolon planı: (1) terziye diktir, (2) online iadeli, (3) orta bel düz kesim al + terzi. Öneri: bu hafta (3), aynı hafta (1).
+- Seçilmiş dolap, alternatifler ve Prag kapsülü: `ref/dolap.json`.
+
+## Denetimde çıkan notlar
+- Yağmur ayakkabısı eksikti; koyu kahve kauçuk tabanlı bot eklendi (Antalya Aralık-Ocak + Prag).
+- Loafer, bot, kemer, çanta aynı kahve tonu olmalı; hangisi önce alınırsa diğerleri ona uyar.
+- Yeşil ağırlığı: 4 yeşil parça (koyu yeşil gömlek, koyu zeytin polo ve kazak, zeytin pantolon); yeşil üstüne yeşil giyilmez, zeytin pantolon daha az kombin verir. Rahatsız ederse koyu yeşil gömlek hardal olur (vurgu 3, sınır).
+- Mevcut siyah kayışlı saat ve gümüş aviatorla sistem çalışır; değiştirmek en son iş.
+- Prag'da "İtalyan pantolon" (hafif flanel, pamuk twill) üşütür ve rahat değil: kadife, ağır flanel, denim + merino tayt.
+
 ## İklim (MGM Antalya, 1930-2025 ortalama)
 Ocak ort. 10,1 °C (ort. maks 15,0 / min 6,1), Aralık yağış 250,9 mm, Ocak 12,4 yağışlı gün, Kasım 15,6 °C, Mart 12,9 °C. Sonuç: ince çok katman, su itici dış, süet yok, kauçuk taban; kalın palto yok.
 
