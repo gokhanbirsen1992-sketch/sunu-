@@ -68,7 +68,7 @@
       "matris": "Tişört",
       "renk": "Ekru",
       "alt": [],
-      "sart": "hafta sonu; hastane değil",
+      "sart": "hafta sonu; hastane değil; denim yok, pantolonla giyilir",
       "tur": 0,
       "durum": "alindi"
     },
@@ -174,16 +174,6 @@
     },
     {
       "no": 18,
-      "urun": "Denim",
-      "matris": "Denim",
-      "renk": "Koyu indigo",
-      "alt": [],
-      "sart": "hafta sonu",
-      "tur": 0,
-      "durum": "eksik"
-    },
-    {
-      "no": 19,
       "urun": "Loafer",
       "matris": "Ayakkabı deri",
       "renk": "Koyu kahve",
@@ -193,7 +183,7 @@
       "durum": "mevcut"
     },
     {
-      "no": 20,
+      "no": 19,
       "urun": "Loafer",
       "matris": "Ayakkabı deri",
       "renk": "Tütün",
@@ -203,18 +193,17 @@
       "durum": "mevcut"
     },
     {
-      "no": 21,
+      "no": 20,
       "urun": "Chelsea bot",
       "matris": "Ayakkabı deri",
-      "renk": "Camel",
+      "renk": "Tütün",
       "alt": [],
-      "sart": "PALET DIŞI, mevcut parça: yalnızca denim/hafta sonu ve zeytin pantolon; koyu kahve kemerle aynı gün değil",
+      "sart": "süet, krep taban; fotoğrafta tütün-taba arası (camel değil), matriste olabilir. Hafta sonu ve kuru gün; yağmurda giyilmez; zeytin, vizon ve koyu kahve pantolonla",
       "tur": 0,
-      "durum": "mevcut",
-      "tolerans": true
+      "durum": "mevcut"
     },
     {
-      "no": 22,
+      "no": 21,
       "urun": "Sneaker",
       "matris": "Sneaker",
       "renk": "Ekru",
@@ -224,7 +213,7 @@
       "durum": "mevcut"
     },
     {
-      "no": 23,
+      "no": 22,
       "urun": "Kemer",
       "matris": "Kemer/çanta",
       "renk": "Koyu kahve",
@@ -234,7 +223,7 @@
       "durum": "mevcut"
     },
     {
-      "no": 24,
+      "no": 23,
       "urun": "Bot (yağmur)",
       "matris": "Ayakkabı deri",
       "renk": "Koyu kahve",
@@ -256,8 +245,9 @@
     "Renkli parça (hardal, bordo) 2/3; üçüncü için yer var (ör. pas gömlek veya bordo kazak).",
     "Camel iki orta katmanda (kazak, hırka): hardal gömlek ikisiyle de giyilmez, yalnızca koyu zeytin kazakla veya tek.",
     "Yeşil 5 parça (zeytin gömlek, koyu zeytin polo, kazak, blazer, zeytin pantolon): yeşil üstüne yeşil yok.",
-    "Koyu kahve loafer + koyu kahve kemer; kahve loafer kemersiz pantolonla; camel chelsea yalnızca hafta sonu.",
-    "Dışarı çıkış: yeşil gün tütün kaban, diğer günler koyu zeytin blazer."
+    "Koyu kahve loafer + koyu kahve kemer; kahve loafer kemersiz pantolonla; tütün süet chelsea hafta sonu ve kuru gün.",
+    "Dışarı çıkış: yeşil gün tütün kaban, diğer günler koyu zeytin blazer.",
+    "Denim yok (kullanıcı istemiyor): hafta sonu da üç pantolon; farkı tişört, sneaker ve süet bot yaratır."
   ],
   "seyahat_prag_kasim": {
     "iklim": "gündüz ort. 8 °C, gece 2 °C, 9-13 yağışlı gün (weathermonth 1991-2020; ČHMÚ ile doğrulanmadı)",
