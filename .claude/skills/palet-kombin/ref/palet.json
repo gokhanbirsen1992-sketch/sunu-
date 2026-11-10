@@ -121,7 +121,8 @@
     "Çanta": "kahve deri · yapısız tote / ince evrak | alma: sırt çantası, siyah, naylon",
     "Atkı": "ince yün · tek sarım | alma: kalın, püskül, desen",
     "Şemsiye": "düz · uzun sap | alma: desenli, mini",
-    "Bot (yağmur)": "su geçirmez tam deri · kauçuk taban · chelsea veya derby · loafer ve kemerle aynı kahve tonu | alma: süet, kalın traktör taban, siyah"
+    "Bot (yağmur)": "su geçirmez tam deri · kauçuk taban · chelsea veya derby · loafer ve kemerle aynı kahve tonu | alma: süet, kalın traktör taban, siyah",
+    "Kravat": "örgü ipek, yün veya grenadin · mat · 7,5-8 cm en · düz veya çok küçük desen · ucu bel bandında biter · yalnızca ekru gömlekle | alma: parlak saten, dar (6 cm altı), büyük desen, logolu"
   },
   "renk_sirasi": [
     "Ekru",
@@ -159,7 +160,8 @@
     "Sneaker": "IOXXXXOOOXXXXXXXXXX",
     "Kemer/çanta": "XXXXXXIIOOXXXXXXXXX",
     "Çorap": "XXOOIOIIOXXXXOOIIOO",
-    "Atkı": "OOOOIOOOIOIXXOOIIOO"
+    "Atkı": "OOOOIOOOIOIXXOOIIOO",
+    "Kravat": "XXIOOXOOIOXXXOOIIOO"
   },
   "gerekce": {
     "yuz": "Gömlek/polo/tişört ten rengine yakın olamaz (camel, taupe, taba): yüzü siler. Tütün tenden koyu, serbest.",
@@ -190,5 +192,13 @@
     "mink, greige, gri-kahve, koyu bej": "Taupe (karta tutarak doğrula)",
     "bej": "yasak (pantolonda açık kütle)",
     "antrasit": "bu palette yok"
+  },
+  "kongre": {
+    "kural": "Kravat o günün tek renkli parçasıdır; gömlek ekru, blazer camel. Koyu veya renkli gömleğe kravat takılmaz.",
+    "ek_parca": [
+      "kravat ×2 (bordo, koyu yeşil veya tütün)",
+      "takım yalnızca konuşmacı/tören günü: çikolata veya koyu kahve; tek takım her işe yarasın isteniyorsa lacivert-midnight istisnası (palet dışı, bilinçli)",
+      "takımla koyu kahve derby veya bot; loafer blazerla"
+    ]
   }
 }
