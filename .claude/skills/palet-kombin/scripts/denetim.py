@@ -33,14 +33,16 @@ for u, row in M.items():
             if abs(rank[row[ix[a]]] - rank[row[ix[b]]]) >= 2: bad.append(f"B komşu ton: {u} {a}={row[ix[a]]} {b}={row[ix[b]]}")
 # C
 G = W["giysi"]
+warn = []
 for g in G:
-    if g["matris"] and M[g["matris"]][ix[g["renk"]]] == "X": bad.append(f"C yasak hücre: {g['urun']}/{g['renk']}")
+    if g["matris"] and M[g["matris"]][ix[g["renk"]]] == "X":
+        (warn if g.get("tolerans") else bad).append(f"C yasak hücre: {g['urun']}/{g['renk']}" + (" (mevcut parça, tolerans)" if g.get("tolerans") else ""))
 s = P["sayim"]
 nv = sum(g["renk"] in vurgu for g in G if g["matris"] in s["hastane_kapsam"])
 if nv > s["hastane_vurgu_max"]: bad.append(f"C vurgu {nv} > {s['hastane_vurgu_max']}")
-if sum(g["urun"] == "Gömlek" and g["renk"] == "Ekru" for g in G) < s["gomlek_min_ekru"]: bad.append("C ekru gömlek yetersiz")
-deri = {g["renk"] for g in G if g["matris"] in ("Ayakkabı deri", "Kemer/çanta")}
-if len(deri) > 1: bad.append(f"C deri tonu tek değil: {deri}")
+if sum(g["urun"] == "Gömlek" and g["renk"] in ("Ekru", "Kum/krem") for g in G) < s["gomlek_min_ekru"]: bad.append("C ekru gömlek yetersiz")
+deri = {g["renk"] for g in G if g["matris"] in ("Ayakkabı deri", "Kemer/çanta") and not g.get("tolerans") and g.get("durum") != "eksik"}
+if len(deri) > 1: warn.append(f"C deri tonu tek değil: {sorted(deri)} (kemerli günde kemerle aynı tondaki ayakkabı)")
 # D
 aile = {"Ekru": "ekru", "Kum/krem": "ekru", "Koyu yeşil": "yesil", "Koyu zeytin": "yesil", "Zeytin": "yesil", "Haki": "yesil",
         "Çikolata": "kahve", "Koyu kahve": "kahve"}
@@ -54,6 +56,7 @@ for i, o, p in itertools.product(ic, orta, pant):
     f = [fam(c) for c in seq]
     if any(f[k] == f[k + 1] for k in range(len(f) - 1)): continue
     if sum(c in vurgu for c in seq) > 1: continue
+    if any({seq[k], seq[k + 1]} == {"Hardal", "Camel"} for k in range(len(seq) - 1)): continue  # sarı aile bitişik: sınırda, sayma
     key = (i["urun"], i["renk"], o["urun"] if o else "", o["renk"] if o else "", p["renk"])
     if key in seen: continue
     seen.add(key)
@@ -64,6 +67,7 @@ for g in ic + orta[1:] + pant:
     n = use.get((g["urun"], g["renk"]), 0)
     print(f"  {g['no']:>2} {g['urun']:10} {g['renk']:12} {n}")
     if n == 0: bad.append(f"D kullanılmayan parça: {g['urun']}/{g['renk']}")
+for w in warn: print("  UYARI", w)
 print("İHLAL:" if bad else "Temiz: 0 ihlal")
 for b in bad: print("  ", b)
 sys.exit(1 if bad else 0)

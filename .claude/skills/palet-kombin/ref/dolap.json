@@ -1,49 +1,277 @@
 {
   "aciklama": "Seçilmiş dolap (Palet 1). 'renk' = seçim; 'alt' = bulunamazsa sırayla alternatifler; 'sart' = zincirleme kural. Renk adları palet.json anahtarlarıdır. 'matris' = palet.json matris satırı.",
-  "durum": "Henüz hiçbir parça alınmadı (2026-11-10). Alındıkça 'alindi': true yap.",
+  "durum": "2026-11 alışverişi yapıldı. durum: alindi = yeni alındı, mevcut = zaten vardı, eksik = henüz yok.",
   "giysi": [
-    {"no": 1,  "urun": "Gömlek",    "matris": "Gömlek",    "renk": "Ekru",        "alt": ["Kum/krem"],                 "sart": "zorunlu", "tur": 1},
-    {"no": 2,  "urun": "Gömlek",    "matris": "Gömlek",    "renk": "Ekru",        "alt": ["Kum/krem"],                 "sart": "zorunlu", "tur": 1},
-    {"no": 3,  "urun": "Gömlek",    "matris": "Gömlek",    "renk": "Koyu yeşil",  "alt": ["Koyu zeytin", "Zeytin", "Hardal"], "sart": "zeytin pantolonla aynı gün değil; hardal seçilirse vurgu 3 olur (sınır)", "tur": 3},
-    {"no": 4,  "urun": "Gömlek",    "matris": "Gömlek",    "renk": "Koyu kahve",  "alt": ["Çikolata"],                 "sart": "kahve pantolonla aynı gün değil", "tur": 3},
-    {"no": 5,  "urun": "Gömlek",    "matris": "Gömlek",    "renk": "Pas",         "alt": ["Kiremit", "Hardal"],        "sart": "vurgu", "tur": 2},
-    {"no": 6,  "urun": "Gömlek",    "matris": "Gömlek",    "renk": "Bordo",       "alt": ["Şarap", "Hardal"],          "sart": "vurgu; 5 ile farklı aile", "tur": 2},
-    {"no": 7,  "urun": "Tişört",    "matris": "Tişört",    "renk": "Ekru",        "alt": ["Bordo", "Koyu kahve"],      "sart": "hafta sonu; hastane değil; sayıma girmez", "tur": 4},
-    {"no": 8,  "urun": "Örgü polo", "matris": "Örgü polo", "renk": "Tütün",       "alt": ["Koyu kahve"],               "sart": "nötr; tütün hırkayla aynı gün değil", "tur": 2},
-    {"no": 9,  "urun": "Örgü polo", "matris": "Örgü polo", "renk": "Koyu zeytin", "alt": ["Koyu yeşil", "Bordo"],      "sart": "zeytin pantolonla aynı gün değil; bordo seçilirse gömlek 6 hardal olur", "tur": 2},
-    {"no": 10, "urun": "Kazak",     "matris": "Kazak",     "renk": "Camel",       "alt": ["Tütün", "Taba"],            "sart": "camel blazerla aynı gün değil; en çok kullanılan parça, kaliteli al", "tur": 3},
-    {"no": 11, "urun": "Kazak",     "matris": "Kazak",     "renk": "Koyu zeytin", "alt": ["Bordo", "Pas"],             "sart": "zeytin pantolonla aynı gün değil; vurgu seçilirse gömlek 5 veya 6 nötr olur", "tur": 3},
-    {"no": 12, "urun": "Hırka",     "matris": "Hırka",     "renk": "Tütün",       "alt": ["Koyu kahve", "Camel"],      "sart": "içeride blazer yerine; camel seçilirse kazak 10 tütün olur", "tur": 1},
-    {"no": 13, "urun": "Blazer",    "matris": "Blazer",    "renk": "Camel",       "alt": ["Koyu zeytin", "Tütün"],     "sart": "günde 10 dk geçiş katmanı; tütün seçilirse hırka koyu kahve olur", "tur": 2},
-    {"no": 14, "urun": "Kaban",     "matris": "Kaban",     "renk": "Koyu kahve",  "alt": ["Koyu zeytin", "Tütün"],     "sart": "camel yok (blazerla çakışır)", "tur": 4},
-    {"no": 15, "urun": "Pantolon",  "matris": "Pantolon",  "renk": "Koyu kahve",  "alt": ["Çikolata"],                 "sart": "", "tur": 1},
-    {"no": 16, "urun": "Pantolon",  "matris": "Pantolon",  "renk": "Taupe",       "alt": ["Haki"],                     "sart": "koyu vizon = taupe; açık vizon/bej değil", "tur": 1},
-    {"no": 17, "urun": "Pantolon",  "matris": "Pantolon",  "renk": "Zeytin",      "alt": ["Koyu zeytin"],              "sart": "üstte yeşil yok", "tur": 1},
-    {"no": 18, "urun": "Denim",     "matris": "Denim",     "renk": "Koyu indigo", "alt": ["Koyu kahve"],               "sart": "hafta sonu", "tur": 4},
-    {"no": 19, "urun": "Loafer",    "matris": "Ayakkabı deri", "renk": "Koyu kahve", "alt": [],                        "sart": "kauçuk taban; kemer ve botla AYNI ton", "tur": 1},
-    {"no": 20, "urun": "Bot (yağmur)", "matris": "Ayakkabı deri", "renk": "Koyu kahve", "alt": [],                     "sart": "chelsea veya derby, kauçuk taban, su geçirmez deri; Antalya yağmur günü + Prag", "tur": 1},
-    {"no": 21, "urun": "Sneaker",   "matris": "Sneaker",   "renk": "Ekru",        "alt": ["Koyu kahve"],               "sart": "hafta sonu; yağmurda giyilmez", "tur": 3},
-    {"no": 22, "urun": "Kemer",     "matris": "Kemer/çanta", "renk": "Koyu kahve", "alt": [],                          "sart": "3 cm, pirinç toka; loaferla AYNI ton", "tur": 1},
-    {"no": 23, "urun": "Şemsiye",   "matris": null,        "renk": "Koyu kahve",  "alt": [],                           "sart": "siyah da olur", "tur": 4}
+    {
+      "no": 1,
+      "urun": "Gömlek",
+      "matris": "Gömlek",
+      "renk": "Ekru",
+      "alt": [],
+      "sart": "açık nötr",
+      "tur": 0,
+      "durum": "alindi"
+    },
+    {
+      "no": 2,
+      "urun": "Gömlek",
+      "matris": "Gömlek",
+      "renk": "Kum/krem",
+      "alt": [],
+      "sart": "açık nötr; ekrunun yerine sayılır",
+      "tur": 0,
+      "durum": "alindi"
+    },
+    {
+      "no": 3,
+      "urun": "Gömlek",
+      "matris": "Gömlek",
+      "renk": "Zeytin",
+      "alt": [],
+      "sart": "zeytin pantolon ve koyu zeytin kazak/poloyla aynı gün değil",
+      "tur": 0,
+      "durum": "alindi"
+    },
+    {
+      "no": 4,
+      "urun": "Gömlek",
+      "matris": "Gömlek",
+      "renk": "Koyu kahve",
+      "alt": [],
+      "sart": "kahve pantolonla aynı gün değil",
+      "tur": 0,
+      "durum": "alindi"
+    },
+    {
+      "no": 5,
+      "urun": "Gömlek",
+      "matris": "Gömlek",
+      "renk": "Hardal",
+      "alt": [],
+      "sart": "vurgu; camel kazak/hırkayla değil, koyu zeytin kazakla veya tek",
+      "tur": 0,
+      "durum": "alindi"
+    },
+    {
+      "no": 6,
+      "urun": "Gömlek",
+      "matris": "Gömlek",
+      "renk": "Bordo",
+      "alt": [],
+      "sart": "vurgu",
+      "tur": 0,
+      "durum": "alindi"
+    },
+    {
+      "no": 7,
+      "urun": "Tişört",
+      "matris": "Tişört",
+      "renk": "Ekru",
+      "alt": [],
+      "sart": "hafta sonu; hastane değil",
+      "tur": 0,
+      "durum": "alindi"
+    },
+    {
+      "no": 8,
+      "urun": "Örgü polo",
+      "matris": "Örgü polo",
+      "renk": "Tütün",
+      "alt": [],
+      "sart": "tütün kabanın altında tek başına değil, araya hırka/kazak",
+      "tur": 0,
+      "durum": "alindi"
+    },
+    {
+      "no": 9,
+      "urun": "Örgü polo",
+      "matris": "Örgü polo",
+      "renk": "Koyu zeytin",
+      "alt": [],
+      "sart": "zeytin pantolonla aynı gün değil",
+      "tur": 0,
+      "durum": "alindi"
+    },
+    {
+      "no": 10,
+      "urun": "Kazak",
+      "matris": "Kazak",
+      "renk": "Camel",
+      "alt": [],
+      "sart": "hardal gömlekle değil",
+      "tur": 0,
+      "durum": "alindi"
+    },
+    {
+      "no": 11,
+      "urun": "Kazak",
+      "matris": "Kazak",
+      "renk": "Koyu zeytin",
+      "alt": [],
+      "sart": "zeytin pantolon ve zeytin gömlekle aynı gün değil",
+      "tur": 0,
+      "durum": "alindi"
+    },
+    {
+      "no": 12,
+      "urun": "Hırka",
+      "matris": "Hırka",
+      "renk": "Camel",
+      "alt": [],
+      "sart": "plan tütündü; camel kazakla aynı işi görür, hardal gömlekle değil",
+      "tur": 0,
+      "durum": "alindi"
+    },
+    {
+      "no": 13,
+      "urun": "Blazer",
+      "matris": "Blazer",
+      "renk": "Koyu zeytin",
+      "alt": [],
+      "sart": "10 dk geçiş; koyu zeytin kazak/polo ve zeytin pantolon günü yerine kaban",
+      "tur": 0,
+      "durum": "alindi"
+    },
+    {
+      "no": 14,
+      "urun": "Kaban",
+      "matris": "Kaban",
+      "renk": "Tütün",
+      "alt": [],
+      "sart": "plan koyu kahveydi; olabilir",
+      "tur": 0,
+      "durum": "alindi"
+    },
+    {
+      "no": 15,
+      "urun": "Pantolon",
+      "matris": "Pantolon",
+      "renk": "Koyu kahve",
+      "alt": [],
+      "sart": "",
+      "tur": 0,
+      "durum": "alindi"
+    },
+    {
+      "no": 16,
+      "urun": "Pantolon",
+      "matris": "Pantolon",
+      "renk": "Taupe",
+      "alt": [],
+      "sart": "vizon olarak alındı; ton karta tutulup doğrulanmalı (koyu vizon = taupe)",
+      "tur": 0,
+      "durum": "alindi"
+    },
+    {
+      "no": 17,
+      "urun": "Pantolon",
+      "matris": "Pantolon",
+      "renk": "Zeytin",
+      "alt": [],
+      "sart": "üstte yeşil yok",
+      "tur": 0,
+      "durum": "alindi"
+    },
+    {
+      "no": 18,
+      "urun": "Denim",
+      "matris": "Denim",
+      "renk": "Koyu indigo",
+      "alt": [],
+      "sart": "hafta sonu",
+      "tur": 0,
+      "durum": "eksik"
+    },
+    {
+      "no": 19,
+      "urun": "Loafer",
+      "matris": "Ayakkabı deri",
+      "renk": "Koyu kahve",
+      "alt": [],
+      "sart": "kemerle aynı ton; köprülü pantolon günü",
+      "tur": 0,
+      "durum": "mevcut"
+    },
+    {
+      "no": 20,
+      "urun": "Loafer",
+      "matris": "Ayakkabı deri",
+      "renk": "Tütün",
+      "alt": [],
+      "sart": "kahve ton (koyu kahve ile tütün arası); kemersiz yan ayarlı pantolon günü",
+      "tur": 0,
+      "durum": "mevcut"
+    },
+    {
+      "no": 21,
+      "urun": "Chelsea bot",
+      "matris": "Ayakkabı deri",
+      "renk": "Camel",
+      "alt": [],
+      "sart": "PALET DIŞI, mevcut parça: yalnızca denim/hafta sonu ve zeytin pantolon; koyu kahve kemerle aynı gün değil",
+      "tur": 0,
+      "durum": "mevcut",
+      "tolerans": true
+    },
+    {
+      "no": 22,
+      "urun": "Sneaker",
+      "matris": "Sneaker",
+      "renk": "Ekru",
+      "alt": [],
+      "sart": "hafta sonu; yağmurda giyilmez",
+      "tur": 0,
+      "durum": "mevcut"
+    },
+    {
+      "no": 23,
+      "urun": "Kemer",
+      "matris": "Kemer/çanta",
+      "renk": "Koyu kahve",
+      "alt": [],
+      "sart": "koyu kahve loaferla",
+      "tur": 0,
+      "durum": "mevcut"
+    },
+    {
+      "no": 24,
+      "urun": "Bot (yağmur)",
+      "matris": "Ayakkabı deri",
+      "renk": "Koyu kahve",
+      "alt": [],
+      "sart": "hâlâ eksik: koyu, kauçuk taban, su geçirmez; camel chelsea yağmur günü hastaneye uymaz",
+      "tur": 0,
+      "durum": "eksik"
+    }
   ],
   "aksesuar": [
-    {"urun": "Çorap ×5", "renk": "Koyu kahve ×3, Bordo ×2", "alt": "Koyu zeytin", "tur": 1},
-    {"urun": "Saat", "renk": "kahve kayış, pirinç kasa", "alt": "mevcut siyah kayışlı saatle sistem çalışır; en son iş", "tur": 4},
-    {"urun": "Güneş gözlüğü", "renk": "tortoise asetat", "alt": "mevcut gümüş aviatorla sistem çalışır; en son iş", "tur": 4},
-    {"urun": "Çanta", "renk": "koyu kahve deri", "alt": "", "tur": 3},
-    {"urun": "Atkı", "renk": "Bordo", "alt": "Tütün, Camel", "tur": 4}
+    {
+      "urun": "Aksesuarlar",
+      "renk": "mevcut",
+      "alt": "kullanıcı: 'aksesuarlar var zaten'; ayrıntı sorulmadı",
+      "tur": 0
+    }
   ],
   "zincir_kurallar": [
-    "Gömlek 5 + gömlek 6 + polo 9 + kazak 11 içinde vurgu (pas, kiremit, bordo, şarap, hardal, okra) toplamı en fazla 3.",
-    "Camel yalnızca bir orta katmanda aynı gün (kazak, hırka veya blazer).",
-    "Aynı vurgu rengi en fazla 2 parça.",
-    "Yeşil üstüne yeşil yok: koyu yeşil gömlek, koyu zeytin polo/kazak yalnızca kahve ve taupe pantolonla.",
-    "Loafer, bot, kemer, çanta aynı kahve tonu."
+    "Renkli parça (hardal, bordo) 2/3; üçüncü için yer var (ör. pas gömlek veya bordo kazak).",
+    "Camel iki orta katmanda (kazak, hırka): hardal gömlek ikisiyle de giyilmez, yalnızca koyu zeytin kazakla veya tek.",
+    "Yeşil 5 parça (zeytin gömlek, koyu zeytin polo, kazak, blazer, zeytin pantolon): yeşil üstüne yeşil yok.",
+    "Koyu kahve loafer + koyu kahve kemer; kahve loafer kemersiz pantolonla; camel chelsea yalnızca hafta sonu.",
+    "Dışarı çıkış: yeşil gün tütün kaban, diğer günler koyu zeytin blazer."
   ],
   "seyahat_prag_kasim": {
     "iklim": "gündüz ort. 8 °C, gece 2 °C, 9-13 yağışlı gün (weathermonth 1991-2020; ČHMÚ ile doğrulanmadı)",
-    "ek_parca": ["yün kaban koyu kahve/koyu zeytin (%70+ yün)", "bot (listede no 20)", "atkı bordo, eldiven kahve deri, bere koyu kahve merino", "merino içlik tayt"],
-    "pantolon": ["koyu kahve fitilli kadife, straight", "zeytin ağır flanel/yün karışım 340-400 g", "denim 13 oz + tayt"],
+    "ek_parca": [
+      "yün kaban koyu kahve/koyu zeytin (%70+ yün)",
+      "bot (listede no 20)",
+      "atkı bordo, eldiven kahve deri, bere koyu kahve merino",
+      "merino içlik tayt"
+    ],
+    "pantolon": [
+      "koyu kahve fitilli kadife, straight",
+      "zeytin ağır flanel/yün karışım 340-400 g",
+      "denim 13 oz + tayt"
+    ],
     "not": "Hafif flanel ve pamuk twill Prag'a gitmez. Pensli yüksek bel şartı seyahatte aranmaz, rahatlık öncelik. Katman: gömlek + kazak + hırka + kaban."
   }
 }

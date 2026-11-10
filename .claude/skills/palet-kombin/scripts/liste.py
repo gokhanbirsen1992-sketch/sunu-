@@ -39,11 +39,11 @@ for a in W["aksesuar"]:
 H = 150 + 40 + sum(h + 5 for *_, h in rows) + 80 + sum(h + 5 for *_, h in acc) + 40 + len(W["zincir_kurallar"]) * 22 + 60
 img = Image.new("RGB", (Wd, H), "#F6F3EC"); d = ImageDraw.Draw(img)
 d.text((40, 26), f"{P['palet']} · Seçilmiş Dolap · {len(W['giysi'])} giysi + aksesuar", font=ImageFont.truetype(FB, 30), fill="#1E1E1E")
-d.text((40, 68), "Seçim yoksa alternatife in (soldan sağa). TUR = satın alma sırası. Sağ kare: alındı.", font=ImageFont.truetype(F, 16), fill="#555")
+d.text((40, 68), "Seçim yoksa alternatife in (soldan sağa). Durum: alindi / mevcut / eksik. Dolu kare: dolapta.", font=ImageFont.truetype(F, 16), fill="#555")
 m = P["magaza_modu"]["sartlar"]
 d.text((40, 92), "Mağazada yalnızca 3 şart: " + "  ·  ".join(m), font=ImageFont.truetype(F, 15), fill="#8A2A2A")
 y = 140
-for k, t in [("no", "NO"), ("urun", "ÜRÜN"), ("renk", "SEÇİM"), ("alt", "ALTERNATİF"), ("sart", "ŞART"), ("tur", "TUR")]:
+for k, t in [("no", "NO"), ("urun", "ÜRÜN"), ("renk", "SEÇİM"), ("alt", "ALTERNATİF"), ("sart", "ŞART"), ("tur", "DURUM")]:
     d.text((X[k], y), t, font=fh, fill="#777")
 y += 30
 for i, (g, la, ls, h) in enumerate(rows):
@@ -55,8 +55,9 @@ for i, (g, la, ls, h) in enumerate(rows):
     d.text((X["renk"], y + 11), g["renk"], font=ft, fill="#2E5A2E")
     for k, l in enumerate(la): d.text((X["alt"], y + 11 + k * 20), l, font=ft, fill="#444")
     for k, l in enumerate(ls): d.text((X["sart"], y + 11 + k * 20), l, font=ft, fill="#8A2A2A" if "değil" in l or "yok" in l or "AYNI" in l else "#444")
-    d.text((X["tur"] + 8, y + 10), str(g["tur"]), font=fb, fill="#1E1E1E")
-    d.rectangle((X["box"], y + h // 2 - 10, X["box"] + 20, y + h // 2 + 10), outline="#888", width=2)
+    du = g.get("durum")
+    d.text((X["tur"] - 14, y + 11), du if du else f"tur {g['tur']}", font=ft, fill={"eksik": "#A33A33", "alindi": "#2E7D32", "mevcut": "#555"}.get(du, "#1E1E1E"))
+    d.rectangle((X["box"], y + h // 2 - 10, X["box"] + 20, y + h // 2 + 10), outline="#888", width=2, fill="#2E7D32" if du in ("alindi", "mevcut") else None)
     y += h + 5
 y += 20; d.line((40, y, Wd - 40, y), fill="#D9D3C6", width=2); d.text((40, y + 12), "AKSESUAR", font=ImageFont.truetype(FB, 20), fill="#1E1E1E"); y += 50
 for i, (a, la, h) in enumerate(acc):
@@ -64,7 +65,6 @@ for i, (a, la, h) in enumerate(acc):
     d.text((X["sw"], y + 10), a["urun"], font=fb, fill="#1E1E1E")
     d.text((X["renk"], y + 11), a["renk"], font=ft, fill="#2E5A2E")
     for k, l in enumerate(la): d.text((X["alt"] + 120, y + 11 + k * 20), l, font=ft, fill="#444")
-    d.text((X["tur"] + 8, y + 10), str(a["tur"]), font=fb, fill="#1E1E1E")
     d.rectangle((X["box"], y + h // 2 - 10, X["box"] + 20, y + h // 2 + 10), outline="#888", width=2)
     y += h + 5
 y += 20; d.line((40, y, Wd - 40, y), fill="#D9D3C6", width=2); d.text((40, y + 12), "ZİNCİR KURALLAR", font=ImageFont.truetype(FB, 18), fill="#1E1E1E"); y += 44
