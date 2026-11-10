@@ -22,6 +22,10 @@
 - Mevcut siyah kayışlı saat ve gümüş aviatorla sistem çalışır; değiştirmek en son iş.
 - Prag'da "İtalyan pantolon" (hafif flanel, pamuk twill) üşütür ve rahat değil: kadife, ağır flanel, denim + merino tayt.
 
+## Yan ayarlı bel (kemersiz pantolon)
+- Kullanıcı mağazada kemer köprüsü olmayan, beli yandan ayarlanan (side adjuster) İtalyan kesim pantolon buldu. Kabul: sorun değil, tercih edilir. "Kemer görünür" kuralı yalnızca köprülü pantolon ve denim için geçerli; yan ayarlı pantolonda kemer takılmaz, bel bandı gövdeyi kendisi böler.
+- Şartlar: gömlek/polo içeride; bel tam otursun (ayar payı yalnızca 2-4 cm); bel bandı göbeğin altında kıvrılmasın. Loafer-kemer ton eşleşmesi o gün aranmaz.
+
 ## İklim (MGM Antalya, 1930-2025 ortalama)
 Ocak ort. 10,1 °C (ort. maks 15,0 / min 6,1), Aralık yağış 250,9 mm, Ocak 12,4 yağışlı gün, Kasım 15,6 °C, Mart 12,9 °C. Sonuç: ince çok katman, su itici dış, süet yok, kauçuk taban; kalın palto yok.
 
