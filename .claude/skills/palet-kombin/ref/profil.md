@@ -11,7 +11,7 @@
 - Ceket/gömlek bedeni doğrulanmadı; "54-56, L-XL" yalnızca tahmindi. Beden yazmadan önce kullanıcıya sor.
 
 ## Alışveriş durumu
-- 2026-11: alışveriş yapıldı, 17 parça alındı (güncel durum `ref/dolap.json`). Plandan sapmalar: pas yerine hardal gömlek, koyu yeşil yerine zeytin gömlek, ikinci ekru yerine krem, hırka tütün yerine camel, blazer camel yerine koyu zeytin, kaban koyu kahve yerine tütün, taupe yerine vizon pantolon. Hepsi matriste I veya O. Eksik: koyu yağmur botu. Denim listeden çıkarıldı.
+- 2026-11: alışveriş yapıldı, 17 parça alındı (güncel durum `ref/dolap.json`). Plandan sapmalar: pas yerine hardal gömlek, koyu yeşil yerine zeytin gömlek, ikinci ekru yerine krem, hırka tütün yerine camel, blazer camel yerine koyu zeytin, kaban koyu kahve yerine tütün, taupe yerine vizon pantolon. Hepsi matriste I veya O. Denim listeden çıkarıldı.
 - Geçmiş: ilk denemede 3 saat mağaza, sıfır alım: yüksek bel pensli pantolon rafta yok. Bundan sonra `palet.json > magaza_modu` geçerli (3 şart), ayrıntılı kesim şartları eleme kriteri değil.
 - Pantolon planı: (1) terziye diktir, (2) online iadeli, (3) orta bel düz kesim al + terzi. Öneri: bu hafta (3), aynı hafta (1).
 - Seçilmiş dolap, alternatifler ve Prag kapsülü: `ref/dolap.json`.
@@ -47,6 +47,8 @@ Akdeniz smart-casual, İtalyan silüet: yumuşak omuzlu astarsız ceket, yüksek
 - Pinterest'te beğendiği formül: renkli blazer + sade iç + pensli pantolon + loafer/sneaker; ama blazer 10 dk olduğu için renk iç katmana taşındı.
 - Karar verilmiş tek-renk liste istemiyor; her ürün için ideal/olabilir/yasak renk listesi ister, seçimi kendisi yapar.
 - Bordo tişört serbest (hafta sonu, sayıma girmez).
+- Yağmur botu almayacak; mevcut süet chelsea'yı yağmurda da giyecek. Karar verildi, tekrar önerme.
+- Tütün kaban ile taba mont aynı parça ve eskiden vardı; yeni kaban alınmadı.
 - Denim istemiyor; önerme. Hafta sonu da pantolon.
 - Mevcut süet chelsea (tütün-taba, krep taban) hafta sonu botu olarak kabul; 'süet yok' kuralı yalnızca yağmur ve hastane için.
 - Koyu kahve gömlek kabul edildi (iç katman, koyu; aynı gün kahve pantolon yok).

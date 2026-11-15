@@ -88,7 +88,7 @@
       "matris": "Örgü polo",
       "renk": "Tütün",
       "alt": [],
-      "sart": "tütün kabanın altında tek başına değil, araya hırka/kazak",
+      "sart": "tütün montun altında tek başına değil, araya hırka veya kazak",
       "tur": 0,
       "durum": "alindi"
     },
@@ -154,26 +154,16 @@
     },
     {
       "no": 16,
-      "urun": "Kaban",
-      "matris": "Kaban",
-      "renk": "Tütün",
-      "alt": [],
-      "sart": "plan koyu kahveydi; olabilir",
-      "tur": 0,
-      "durum": "alindi"
-    },
-    {
-      "no": 17,
       "urun": "Mont",
       "matris": null,
-      "renk": "Taba",
+      "renk": "Tütün",
       "alt": [],
-      "sart": "eski dolaptan; hafta sonu kısa dış katman (blazer satırına göre olabilir)",
+      "sart": "eski dolaptan, tütün-taba arası; tek parça (önce 'tütün kaban' ve 'taba mont' diye iki kez yazılmıştı). Tütün polonun üstüne doğrudan değil",
       "tur": 0,
       "durum": "mevcut"
     },
     {
-      "no": 18,
+      "no": 17,
       "urun": "Trençkot",
       "matris": null,
       "renk": "Kum/krem",
@@ -184,7 +174,7 @@
       "tolerans": true
     },
     {
-      "no": 19,
+      "no": 18,
       "urun": "Denim mont",
       "matris": null,
       "renk": "Koyu indigo",
@@ -195,7 +185,7 @@
       "tolerans": true
     },
     {
-      "no": 20,
+      "no": 19,
       "urun": "Pantolon",
       "matris": "Pantolon",
       "renk": "Koyu kahve",
@@ -205,7 +195,7 @@
       "durum": "alindi"
     },
     {
-      "no": 21,
+      "no": 20,
       "urun": "Pantolon",
       "matris": "Pantolon",
       "renk": "Taupe",
@@ -215,7 +205,7 @@
       "durum": "alindi"
     },
     {
-      "no": 22,
+      "no": 21,
       "urun": "Pantolon",
       "matris": "Pantolon",
       "renk": "Zeytin",
@@ -225,7 +215,7 @@
       "durum": "alindi"
     },
     {
-      "no": 23,
+      "no": 22,
       "urun": "Loafer",
       "matris": "Ayakkabı deri",
       "renk": "Koyu kahve",
@@ -235,7 +225,7 @@
       "durum": "mevcut"
     },
     {
-      "no": 24,
+      "no": 23,
       "urun": "Loafer",
       "matris": "Ayakkabı deri",
       "renk": "Tütün",
@@ -245,17 +235,17 @@
       "durum": "mevcut"
     },
     {
-      "no": 25,
+      "no": 24,
       "urun": "Chelsea bot",
       "matris": "Ayakkabı deri",
       "renk": "Tütün",
       "alt": [],
-      "sart": "süet, krep taban; fotoğrafta tütün-taba arası (camel değil), matriste olabilir. Hafta sonu ve kuru gün; yağmurda giyilmez; zeytin, vizon ve koyu kahve pantolonla",
+      "sart": "süet, krep taban, tütün-taba arası. Hafta sonu; kullanıcı kararı: yağmur ayakkabısı da bu, ayrıca bot alınmayacak",
       "tur": 0,
       "durum": "mevcut"
     },
     {
-      "no": 26,
+      "no": 25,
       "urun": "Sneaker",
       "matris": "Sneaker",
       "renk": "Ekru",
@@ -265,7 +255,7 @@
       "durum": "mevcut"
     },
     {
-      "no": 27,
+      "no": 26,
       "urun": "Kemer",
       "matris": "Kemer/çanta",
       "renk": "Koyu kahve",
@@ -273,16 +263,6 @@
       "sart": "koyu kahve loaferla",
       "tur": 0,
       "durum": "mevcut"
-    },
-    {
-      "no": 28,
-      "urun": "Bot (yağmur)",
-      "matris": "Ayakkabı deri",
-      "renk": "Koyu kahve",
-      "alt": [],
-      "sart": "hâlâ eksik: koyu, kauçuk taban, su geçirmez; camel chelsea yağmur günü hastaneye uymaz",
-      "tur": 0,
-      "durum": "eksik"
     }
   ],
   "aksesuar": [
@@ -298,7 +278,7 @@
     "Camel iki orta katmanda (kazak, hırka): hardal gömlek ikisiyle de giyilmez, yalnızca koyu zeytin kazakla veya tek.",
     "Yeşil 5 parça (zeytin gömlek, koyu zeytin polo, kazak, blazer, zeytin pantolon): yeşil üstüne yeşil yok.",
     "Koyu kahve loafer + koyu kahve kemer; kahve loafer kemersiz pantolonla; tütün süet chelsea hafta sonu ve kuru gün.",
-    "Dışarı çıkış: yeşil gün tütün kaban, diğer günler koyu zeytin blazer.",
+    "Dışarı çıkış: yeşil gün tütün mont, diğer günler koyu zeytin blazer.",
     "Denim yok (kullanıcı istemiyor): hafta sonu da üç pantolon; farkı tişört, sneaker ve süet bot yaratır.",
     "Ekru kazak yalnızca koyu veya renkli gömleğin üstüne; ekru ve krem gömlekle aynı gün değil."
   ],
