@@ -104,6 +104,16 @@
     },
     {
       "no": 11,
+      "urun": "Polo",
+      "matris": "Örgü polo",
+      "renk": "Koyu yeşil",
+      "alt": [],
+      "sart": "eski dolaptan; zeytin pantolon, koyu zeytin kazak ve koyu zeytin blazerla aynı gün değil",
+      "tur": 0,
+      "durum": "mevcut"
+    },
+    {
+      "no": 12,
       "urun": "Kazak",
       "matris": "Kazak",
       "renk": "Camel",
@@ -113,7 +123,7 @@
       "durum": "alindi"
     },
     {
-      "no": 12,
+      "no": 13,
       "urun": "Kazak",
       "matris": "Kazak",
       "renk": "Koyu zeytin",
@@ -123,7 +133,7 @@
       "durum": "alindi"
     },
     {
-      "no": 13,
+      "no": 14,
       "urun": "Kazak",
       "matris": "Kazak",
       "renk": "Ekru",
@@ -133,7 +143,7 @@
       "durum": "mevcut"
     },
     {
-      "no": 14,
+      "no": 15,
       "urun": "Hırka",
       "matris": "Hırka",
       "renk": "Camel",
@@ -143,7 +153,7 @@
       "durum": "alindi"
     },
     {
-      "no": 15,
+      "no": 16,
       "urun": "Blazer",
       "matris": "Blazer",
       "renk": "Koyu zeytin",
@@ -153,7 +163,7 @@
       "durum": "alindi"
     },
     {
-      "no": 16,
+      "no": 17,
       "urun": "Mont",
       "matris": null,
       "renk": "Tütün",
@@ -163,7 +173,7 @@
       "durum": "mevcut"
     },
     {
-      "no": 17,
+      "no": 18,
       "urun": "Trençkot",
       "matris": null,
       "renk": "Kum/krem",
@@ -174,7 +184,7 @@
       "tolerans": true
     },
     {
-      "no": 18,
+      "no": 19,
       "urun": "Denim mont",
       "matris": null,
       "renk": "Koyu indigo",
@@ -185,7 +195,7 @@
       "tolerans": true
     },
     {
-      "no": 19,
+      "no": 20,
       "urun": "Pantolon",
       "matris": "Pantolon",
       "renk": "Koyu kahve",
@@ -195,7 +205,7 @@
       "durum": "alindi"
     },
     {
-      "no": 20,
+      "no": 21,
       "urun": "Pantolon",
       "matris": "Pantolon",
       "renk": "Taupe",
@@ -205,7 +215,7 @@
       "durum": "alindi"
     },
     {
-      "no": 21,
+      "no": 22,
       "urun": "Pantolon",
       "matris": "Pantolon",
       "renk": "Zeytin",
@@ -215,7 +225,7 @@
       "durum": "alindi"
     },
     {
-      "no": 22,
+      "no": 23,
       "urun": "Loafer",
       "matris": "Ayakkabı deri",
       "renk": "Koyu kahve",
@@ -225,7 +235,7 @@
       "durum": "mevcut"
     },
     {
-      "no": 23,
+      "no": 24,
       "urun": "Loafer",
       "matris": "Ayakkabı deri",
       "renk": "Tütün",
@@ -235,7 +245,7 @@
       "durum": "mevcut"
     },
     {
-      "no": 24,
+      "no": 25,
       "urun": "Chelsea bot",
       "matris": "Ayakkabı deri",
       "renk": "Tütün",
@@ -245,7 +255,7 @@
       "durum": "mevcut"
     },
     {
-      "no": 25,
+      "no": 26,
       "urun": "Sneaker",
       "matris": "Sneaker",
       "renk": "Ekru",
@@ -255,7 +265,7 @@
       "durum": "mevcut"
     },
     {
-      "no": 26,
+      "no": 27,
       "urun": "Kemer",
       "matris": "Kemer/çanta",
       "renk": "Koyu kahve",
@@ -276,7 +286,7 @@
   "zincir_kurallar": [
     "Renkli parça (hardal, bordo) 2/3; üçüncü için yer var (ör. pas gömlek veya bordo kazak).",
     "Camel iki orta katmanda (kazak, hırka): hardal gömlek ikisiyle de giyilmez, yalnızca koyu zeytin kazakla veya tek.",
-    "Yeşil 5 parça (zeytin gömlek, koyu zeytin polo, kazak, blazer, zeytin pantolon): yeşil üstüne yeşil yok.",
+    "Yeşil 6 parça (zeytin gömlek, koyu yeşil polo, koyu zeytin polo, kazak, blazer, zeytin pantolon): yeşil üstüne yeşil yok.",
     "Koyu kahve loafer + koyu kahve kemer; kahve loafer kemersiz pantolonla; tütün süet chelsea hafta sonu ve kuru gün.",
     "Dışarı çıkış: yeşil gün tütün mont, diğer günler koyu zeytin blazer.",
     "Denim yok (kullanıcı istemiyor): hafta sonu da üç pantolon; farkı tişört, sneaker ve süet bot yaratır.",
@@ -300,7 +310,6 @@
   "mevcut_envanter": {
     "aciklama": "Kullanıcının eski dolabı (2026-11-15 beyanı). Palet 1'e girenler yukarıda 'giysi' listesine eklendi.",
     "ton_dogrulanacak": [
-      "yeşil polo yaka (koyu yeşil/zeytinse Palet 1 örgü polo satırı; açık veya parlak yeşilse dışarıda)",
       "deri mont (kahveyse hafta sonu dış katman; siyahsa Palet 3)",
       "mavi parçalar lacivert mi açık mavi mi"
     ],
