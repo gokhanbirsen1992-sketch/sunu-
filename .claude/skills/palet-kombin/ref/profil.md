@@ -16,6 +16,9 @@
 - Pantolon planı: (1) terziye diktir, (2) online iadeli, (3) orta bel düz kesim al + terzi. Öneri: bu hafta (3), aynı hafta (1).
 - Seçilmiş dolap, alternatifler ve Prag kapsülü: `ref/dolap.json`.
 
+## Eski dolap
+- Kullanıcı eski dolabını listeledi (ayrıntı `ref/dolap.json > mevcut_envanter`). Palet 1'e alınanlar: ekru kazak, haki tişört, taba mont, bej trençkot (yağmurluk toleransı), denim mont (hafta sonu toleransı). Mavi, siyah, gri, desenli parçalar Palet 1'e girmez; yaz paletleri ve Palet 3 için ayrıldı. Yeni parça önermeden önce bu envantere bak.
+
 ## Denetimde çıkan notlar
 - Yağmur ayakkabısı eksikti; koyu kahve kauçuk tabanlı bot eklendi (Antalya Aralık-Ocak + Prag).
 - Loafer, bot, kemer, çanta aynı kahve tonu olmalı; hangisi önce alınırsa diğerleri ona uyar.
