@@ -1,0 +1,356 @@
+<title>Uzamış Yenidoğan Sarılığı — Pediyatrik Algoritma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+    --radius: 12px; --maxw: 1080px;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+      --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+      --accent: #4cc4b6; --accent-wash: #12312d;
+      --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+      --safe: #6dc98a; --safe-wash: #16301f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f8f8; --surface: #ffffff; --surface-2: #eef2f2;
+    --ink: #14201f; --ink-soft: #4a5957; --line: #d5dedd; --line-strong: #b7c4c3;
+    --accent: #0f766e; --accent-wash: #e6f1ef;
+    --alarm: #b91c1c; --alarm-wash: #fbeaea; --warn: #b45309; --warn-wash: #fbf1e4;
+    --safe: #15803d; --safe-wash: #e7f2ea;
+    --shadow: 0 1px 2px rgba(20,32,31,.06), 0 8px 24px rgba(20,32,31,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1716; --surface: #14201f; --surface-2: #1a2827;
+    --ink: #e7eeed; --ink-soft: #a3b2b0; --line: #263635; --line-strong: #354947;
+    --accent: #4cc4b6; --accent-wash: #12312d;
+    --alarm: #f38b8b; --alarm-wash: #34201f; --warn: #e2a862; --warn-wash: #322616;
+    --safe: #6dc98a; --safe-wash: #16301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 20px 72px; }
+
+  header.masthead { border-left: 4px solid var(--accent); padding: 4px 0 4px 18px; margin-bottom: 28px; }
+  .eyebrow { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+  h1 { font-size: clamp(1.5rem, 3.4vw, 2.15rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .sub { color: var(--ink-soft); margin: 10px 0 0; max-width: 66ch; font-size: .98rem; }
+  .meta { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .74rem; padding: 4px 10px; border-radius: 100px; background: var(--accent-wash); color: var(--accent); font-weight: 600; border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  section { margin-top: 34px; }
+  h2 { font-size: 1.18rem; margin: 0 0 14px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 10px; }
+  h2 .n { font-size: .78rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 6px; padding: 1px 7px; translate: 0 -2px; }
+  .lede { color: var(--ink-soft); max-width: 72ch; margin: -4px 0 16px; font-size: .95rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 860px) { .grid.three { grid-template-columns: repeat(3, 1fr); } }
+  .card h3 { margin: 0 0 8px; font-size: 1rem; }
+
+  ul.clean { margin: 0; padding-left: 1.15em; }
+  ul.clean li { margin: 5px 0; }
+  ul.clean li::marker { color: var(--accent); }
+  b, strong { font-weight: 700; }
+
+  /* severity bands */
+  .sev { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .sev { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } }
+  .sev .band { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); border-top: 4px solid var(--tone, var(--accent)); }
+  .sev .band .lvl { font-weight: 700; font-size: .95rem; color: var(--tone, var(--accent)); }
+  .sev .band .rng { font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--ink-soft); margin: 2px 0 8px; }
+  .sev .band p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .sev .band.rem { --tone: var(--safe); }
+  .sev .band.mild { --tone: #2563eb; }
+  .sev .band.mod { --tone: var(--warn); }
+  .sev .band.sev { --tone: var(--alarm); }
+  @media (prefers-color-scheme: dark) { .sev .band.mild { --tone: #7da3f8; } }
+
+  /* mechanism / category cards */
+  .mech { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .mech { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .mech { grid-template-columns: repeat(3, 1fr); } }
+  .mech .m { border: 1px solid var(--line); border-left: 4px solid var(--tone, var(--accent)); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); box-shadow: var(--shadow); }
+  .mech .m .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .95rem; margin-bottom: 6px; }
+  .mech .m ul { margin: 0; padding-left: 1.05em; }
+  .mech .m li { margin: 3px 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m p { margin: 0; font-size: .86rem; color: var(--ink-soft); }
+  .mech .m.t1 { --tone: var(--warn); }
+  .mech .m.t2 { --tone: var(--alarm); }
+  .mech .m.t3 { --tone: #2563eb; }
+  .mech .m.t4 { --tone: #7c3aed; }
+  .mech .m.t5 { --tone: #0891b2; }
+  .mech .m.t6 { --tone: var(--safe); }
+  @media (prefers-color-scheme: dark) { .mech .m.t3 { --tone: #7da3f8; } .mech .m.t4 { --tone: #b79cf5; } }
+
+  /* flowchart */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .node { width: 100%; max-width: 660px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow); position: relative; }
+  .node .k { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
+  .node .t { font-weight: 600; font-size: .98rem; }
+  .node p { margin: 6px 0 0; font-size: .88rem; color: var(--ink-soft); }
+  .node.start { border-color: var(--accent); background: var(--accent-wash); }
+  .node.start .k { color: var(--accent); }
+  .node.decision { border-color: var(--warn); background: var(--warn-wash); border-radius: 14px; }
+  .node.decision .k { color: var(--warn); }
+  .node.action { border-left: 4px solid var(--accent); }
+  .node.safe { border-color: color-mix(in srgb, var(--safe) 40%, var(--line)); }
+  .node.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+  .node.alarm .k { color: var(--alarm); }
+  .connector { width: 2px; height: 26px; background: var(--line-strong); }
+  .branches { width: 100%; max-width: 660px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .branches { grid-template-columns: 1fr; } }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch .label { font-size: .74rem; font-weight: 700; padding: 3px 12px; border-radius: 100px; margin-bottom: 8px; }
+  .branch.yes .label { background: var(--alarm-wash); color: var(--alarm); border: 1px solid color-mix(in srgb, var(--alarm) 30%, transparent); }
+  .branch.no .label { background: var(--safe-wash); color: var(--safe); border: 1px solid color-mix(in srgb, var(--safe) 30%, transparent); }
+
+  /* tables */
+  .table-scroll { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; background: var(--surface); }
+  caption { text-align: left; padding: 12px 16px; font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); border-top: none; }
+  td.step { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  td.dose { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+  td.pts { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); white-space: nowrap; text-align: right; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 45%, transparent); }
+
+  /* alarm grid */
+  .alarm-grid { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .alarm-grid { grid-template-columns: 1fr 1fr; } }
+  .alarm-item { display: flex; gap: 10px; align-items: flex-start; background: var(--alarm-wash); border: 1px solid color-mix(in srgb, var(--alarm) 22%, transparent); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .alarm-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--alarm); margin-top: 7px; flex: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pill { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-wash); padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: .9rem; margin-top: 4px; }
+  .callout.safe { border-color: var(--safe); background: var(--safe-wash); }
+  .callout.alarm { border-color: var(--alarm); background: var(--alarm-wash); }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
+  footer ol { padding-left: 1.2em; margin: 10px 0 0; }
+  footer li { margin: 4px 0; }
+  .disclaimer { margin-top: 20px; padding: 14px 16px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: .82rem; color: var(--ink-soft); }
+
+  /* legacy tone modifiers (mevcut 8 belge ile uyum) */
+  .sev .band.a { --tone: var(--safe); }
+  .sev .band.b { --tone: var(--warn); }
+  .sev .band.c { --tone: var(--alarm); }
+  .mech .m.osm { --tone: #2563eb; } .mech .m.sec { --tone: var(--alarm); }
+  .mech .m.inf { --tone: var(--warn); } .mech .m.fat { --tone: #7c3aed; }
+  .mech .m.hem { --tone: var(--alarm); } .mech .m.con { --tone: #2563eb; }
+  .mech .m.stor { --tone: #7c3aed; } .mech .m.imm { --tone: #0891b2; }
+  .mech .m.other { --tone: var(--safe); } .mech .m.tum { --tone: var(--alarm); }
+  .mech .m.obs { --tone: var(--accent); }
+  .cat .h { font-weight: 700; color: var(--tone, var(--accent)); font-size: .96rem; margin-bottom: 6px; }
+  .cat.obs { border-top: 4px solid var(--alarm); } .cat.hep { border-top: 4px solid var(--warn); }
+  .cat.gen { border-top: 4px solid #7c3aed; }
+  @media (prefers-color-scheme: dark) {
+    .mech .m.osm, .mech .m.con { --tone: #7da3f8; }
+    .mech .m.fat, .mech .m.stor { --tone: #b79cf5; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .node, .card, .mech .m, .sev .band { box-shadow: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Pediyatrik Gastroenteroloji / Hepatoloji · Klinik Karar Aracı</p>
+    <h1>Uzamış Yenidoğan Sarılığı — Triyaj Algoritması</h1>
+    <p class="sub">≥2 hafta süren sarılıkta ilk ve en kritik adım fraksiyone bilirubindir: <b>konjuge (direkt) yükseklik her zaman patolojiktir ve kolestaz yolunu açar</b>; unkonjuge yükseklik ise çoğu kez iyi huyludur ama hemoliz/hipotiroidi/enfeksiyon dışlanmalıdır.</p>
+    <div class="meta">
+      <span class="tag">≥ 2 hafta (term) / ≥ 3 hafta (preterm)</span>
+      <span class="tag">Fraksiyone bilirubin</span>
+      <span class="tag">Konjuge vs unkonjuge</span>
+      <span class="tag">0–3 ay</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> Tanım ve ilk değerlendirme</h2>
+    <p class="lede">Uzamış sarılık = term bebekte <b>≥14 gün</b>, preterm bebekte <b>≥21 gün</b> süren klinik sarılık. İlk hedef: <b>total + direkt (konjuge) bilirubin</b> ölçmek. <b>Direkt bilirubin &gt; 1 mg/dL</b> (veya total &gt; %20'si) anormaldir → <b>kolestaz</b>; asla fizyolojik/anne sütü sarılığı sayılmaz.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Öykü</h3>
+        <ul class="clean">
+          <li>Beslenme (yalnız anne sütü?), kilo alımı, <b>dışkı rengi</b> (açolik/kil) ve idrar rengi (koyu).</li>
+          <li>Doğum: gebelik haftası, kan grubu uyuşmazlığı, sefal hematom, geç mekonyum.</li>
+          <li>Aile: hemoglobinopati, G6PD, splenektomi, Gilbert/Crigler-Najjar; akrabalık.</li>
+          <li>Letarji, kötü emme, kusma, ateş (sepsis/İYE/metabolik ipuçları).</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Muayene</h3>
+        <ul class="clean">
+          <li>Sarılığın derecesi/sefalokaudal yayılımı, solukluk (hemoliz).</li>
+          <li><b>Hepatomegali/splenomegali</b>, batın muayenesi, dismorfizm.</li>
+          <li>Büyüme eğrisi, hidrasyon, aktivite; <b>akut bilirubin ensefalopatisi</b> bulguları.</li>
+          <li>Tiroid muayenesi/konjenital hipotiroidi bulguları (hipotoni, makroglossi, umbilikal herni).</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout alarm">
+      <b>Altın kural:</b> Konjuge hiperbilirubinemi asla fizyolojik kabul edilmez — ivedi araştırılır ve <b>biliyer atrezi</b> zamana duyarlıdır (Kasai ideali &lt; 45–60. gün). Ayrıntı: <b>Yenidoğan Kolestazı</b> algoritması.
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> Mekanizmaya göre ayrım</h2>
+    <div class="mech">
+      <div class="m t3">
+        <div class="h">Unkonjuge (direkt ≤ 1 mg/dL) — sık/çoğu iyi huylu</div>
+        <ul>
+          <li><b>Anne sütü sarılığı</b> (en sık; iyi beslenen, büyüyen bebek)</li>
+          <li>Yetersiz beslenme / artmış enterohepatik dolaşım</li>
+          <li><b>Hemoliz:</b> ABO/Rh, G6PD, sferositoz</li>
+          <li><b>Hipotiroidi</b>, konjenital İYE, sepsis</li>
+          <li>Gilbert / <b>Crigler-Najjar</b> (tip 1–2), pilor stenozu</li>
+        </ul>
+      </div>
+      <div class="m t2">
+        <div class="h">Konjuge (direkt &gt; 1 mg/dL) — HER ZAMAN patolojik</div>
+        <ul>
+          <li><b>Biliyer atrezi</b> (ivedi), koledok kisti</li>
+          <li>İdiyopatik neonatal hepatit, enfeksiyon (TORCH, İYE, sepsis)</li>
+          <li>Metabolik: galaktozemi, tirozinemi, α1-antitripsin</li>
+          <li>Genetik kolestaz: Alagille, PFIC; endokrin (hipotiroidi/hipopituitarizm)</li>
+          <li>→ <b>Yenidoğan Kolestazı</b> algoritmasına geç</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> Karar akışı</h2>
+    <p class="lede">≥2 hafta sarılık → <b>fraksiyone bilirubin</b> → direkt yüksek mi? Evetse kolestaz yolu (ivedi), hayırsa unkonjuge nedenleri basamakla dışla.</p>
+    <div class="flow">
+      <div class="node start"><span class="k">Başlangıç</span><span class="t">≥ 2 hafta (preterm ≥ 3 hafta) süren sarılık</span><p>Dışkı/idrar rengini değerlendir; beslenme ve büyümeyi sorgula.</p></div>
+      <div class="connector"></div>
+      <div class="node action"><span class="k">Adım 1</span><span class="t">Total + direkt (konjuge) bilirubin ölç</span><p>Her uzamış sarılıkta zorunlu ilk test. Açolik dışkı/koyu idrar varsa gecikmeden.</p></div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 1 — kritik</span><span class="t">Direkt bilirubin &gt; 1 mg/dL (veya total'in &gt;%20'si)?</span></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">EVET → KOLESTAZ (ivedi)</span>
+          <div class="node alarm"><span class="k">Konjuge</span><span class="t">Kolestaz yolunu başlat</span><p>Biliyer atrezi zaman-kritik. KCFT/GGT, INR/albümin, USG; <b>Yenidoğan Kolestazı</b> algoritması (galaktozemi/sepsis/endokrin acil dışlamaları dâhil).</p></div></div>
+        <div class="branch no"><span class="label">HAYIR → unkonjuge yol</span>
+          <div class="node action"><span class="k">Adım 2</span><span class="t">Unkonjuge nedenleri dışla</span><p>TKS + periferik yayma + retikülosit, DAT (Coombs), kan grubu, G6PD; TSH/sT4; idrar tetkik + kültür.</p></div></div>
+      </div>
+      <div class="connector"></div>
+      <div class="node decision"><span class="k">Karar 2</span><span class="t">Hemoliz / hipotiroidi / enfeksiyon var mı?</span><p>Anemi + retikülositoz + DAT(+); düşük sT4/yüksek TSH; piyüri/pozitif kültür.</p></div>
+      <div class="branches">
+        <div class="branch yes"><span class="label">VAR → nedene yönelik</span>
+          <div class="node action"><span class="k">Yönet</span><span class="t">Spesifik tedavi + TSB izlemi</span><p>Hemolizde fototerapi eşiği (AAP), hipotiroidide levotiroksin, İYE'de antibiyotik. Crigler-Najjar şüphesinde ileri tetkik.</p></div></div>
+        <div class="branch no"><span class="label">YOK → anne sütü sarılığı</span>
+          <div class="node action safe"><span class="k">İyi huylu</span><span class="t">Anne sütü sarılığı</span><p>İyi beslenen, büyüyen, direkt normal bebekte en olası tanı. <b>Emzirmeyi sürdür</b>; TSB eşiğin altındaysa izlem.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> Basamaklı tetkik</h2>
+    <div class="table-scroll">
+      <table>
+        <caption>Uzamış sarılıkta hedefe yönelik tetkik</caption>
+        <thead><tr><th>Basamak</th><th>Hedef</th><th>Testler</th></tr></thead>
+        <tbody>
+          <tr><td class="step">Zorunlu</td><td>Konjuge/unkonjuge ayrımı</td><td><b>Total + direkt bilirubin</b> (fraksiyone)</td></tr>
+          <tr><td class="step">Unkonjuge-1</td><td>Hemoliz</td><td>TKS, periferik yayma, retikülosit, DAT (Coombs), kan grubu (anne-bebek), G6PD</td></tr>
+          <tr><td class="step">Unkonjuge-2</td><td>Endokrin / enfeksiyon</td><td>TSH, sT4 (yenidoğan taraması sonucu), tam idrar + idrar kültürü</td></tr>
+          <tr><td class="step">Unkonjuge-3</td><td>Nadir/kalıcı</td><td>Crigler-Najjar/Gilbert (UGT1A1) — inatçı, izole indirekt yükseklikte</td></tr>
+          <tr><td class="step">Konjuge</td><td>Kolestaz</td><td>ALT/AST, <b>GGT</b>, ALP, INR, albümin, glukoz; karaciğer USG → <b>Yenidoğan Kolestazı</b> algoritması (galaktozemi, α1-AT, TORCH, biliyer atrezi doğrulama)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> Kırmızı bayraklar</h2>
+    <div class="alarm-grid">
+      <div class="alarm-item"><span class="dot"></span><span><b>Direkt bilirubin &gt; 1 mg/dL</b> → kolestaz, ivedi</span></div>
+      <div class="alarm-item"><span class="dot"></span><span><b>Açolik/kil rengi dışkı</b> veya koyu idrar → biliyer atrezi</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Hepatosplenomegali, kanama (K vit eksikliği)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Kötü beslenme, letarji, kusma → sepsis/metabolik (galaktozemi)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Çok yüksek TSB / <b>akut bilirubin ensefalopatisi</b> (hipertoni, opistotonus, tiz ağlama)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Büyüme geriliği, solukluk + hızlı TSB artışı (hemoliz)</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>Ateş, piyüri → idrar yolu enfeksiyonu</span></div>
+      <div class="alarm-item"><span class="dot"></span><span>İzole, inatçı yüksek indirekt (&gt;3 hafta) → Crigler-Najjar</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> Tedavi</h2>
+    <p class="lede">Unkonjuge kolda tedavi nedene yöneliktir ve TSB eşik aşarsa fototerapidir; konjuge kolda tedavi kolestaz algoritmasına göre yürür. Dozlar yaklaşık olup kiloya göre bireyselleştirilir.</p>
+    <div class="table-scroll">
+      <table>
+        <caption>Duruma göre tedavi</caption>
+        <thead><tr><th>Durum</th><th>Tedavi</th><th>Doz / not</th></tr></thead>
+        <tbody>
+          <tr><td class="step">Anne sütü sarılığı</td><td>Emzirmeyi sürdür; destek</td><td class="dose">Kesmeye gerek yok</td></tr>
+          <tr><td class="step">TSB eşik üstü (unkonjuge)</td><td>Fototerapi (± exchange)</td><td class="dose">AAP 2022 eşik nomogramı (GH + saat + risk)</td></tr>
+          <tr><td class="step">Konjenital hipotiroidi</td><td>Levotiroksin</td><td class="dose">10–15 mcg/kg/gün PO</td></tr>
+          <tr><td class="step">İdrar yolu enfeksiyonu</td><td>Uygun antibiyotik</td><td class="dose">Kültür/duyarlılığa göre</td></tr>
+          <tr><td class="step">Crigler-Najjar tip 2</td><td>Fenobarbital</td><td class="dose">3–5 mg/kg/gün (yanıtı değerlendir)</td></tr>
+          <tr><td class="step">Crigler-Najjar tip 1</td><td>Yoğun fototerapi ± exchange; nakil</td><td class="dose">Fenobarbitale yanıtsız</td></tr>
+          <tr><td class="step">Kolestaz (konjuge)</td><td>UDKA + ADEK; nedene yönelik</td><td class="dose">UDKA 10–20 mg/kg/gün ÷2–3 → <b>Yenidoğan Kolestazı</b></td></tr>
+          <tr><td class="step">Galaktozemi şüphesi</td><td>Laktozsuz/soya mama (acil)</td><td class="dose">Tetkik beklenirken süt kes</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      Yenidoğan taraması ile <b>konjenital hipotiroidi ve galaktozemi</b> sonuçlarını teyit et; sarılık bunların geç bulgusu olabilir. K vitamini eksikliği kanamasına karşı kolestazda K vitamini ver.
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span> İzlem ve yönetim ilkeleri</h2>
+    <div class="grid two">
+      <div class="card">
+        <h3>Unkonjuge kol</h3>
+        <ul class="clean">
+          <li>İyi huylu anne sütü sarılığında TSB düşene dek klinik izlem; büyüme/beslenme takibi.</li>
+          <li>Fototerapi alanlarda TSB ve hidrasyon izlemi; eşik altına inince kes.</li>
+          <li>Hipotiroidide tedaviye erken başla, tiroid fonksiyon takibi.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Konjuge kol</h3>
+        <ul class="clean">
+          <li>Gecikmeden kolestaz tetkiki + <b>cerrahi ile eş zamanlı</b> biliyer atrezi değerlendirmesi.</li>
+          <li>Beslenme (MCT), yağda eriyen vitamin (A-D-E-K) ve büyüme izlemi.</li>
+          <li>Sentetik bozulma (INR↑, albümin↓) → nakil merkezi ile temas.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="disclaimer">
+    <b>Uyarı:</b> Bu şema eğitim ve hızlı başvuru amaçlıdır; bireysel klinik karar, güncel kılavuzlar ve yerel protokollerin yerine geçmez. Fototerapi/exchange eşikleri AAP 2022 nomogramına göre gebelik haftası, postnatal saat ve risk faktörleriyle belirlenir; dozları ve eşikleri uygulamadan önce doğrulayın.
+  </div>
+
+  <footer>
+    <b>Kaynaklar</b>
+    <ol>
+      <li>Kemper AR, Newman TB, Slaughter JL, ve ark. Clinical Practice Guideline Revision: Management of Hyperbilirubinemia in the Newborn Infant ≥35 Weeks. <i>Pediatrics.</i> 2022;150(3):e2022058859.</li>
+      <li>Fawaz R, Baumann U, Ekong U, ve ark. Guideline for the Evaluation of Cholestatic Jaundice in Infants: NASPGHAN–ESPGHAN. <i>JPGN.</i> 2017;64(1):154–168.</li>
+      <li>Maisels MJ. Managing the Jaundiced Newborn: Prolonged (Persistent) Jaundice. <i>Pediatr Rev / CMAJ</i> derlemeleri.</li>
+    </ol>
+  </footer>
+</div>

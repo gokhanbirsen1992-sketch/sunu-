@@ -76,9 +76,11 @@ HTML sınıf sözlüğü ve örnek iskelet: **`reference/sablon.md`** (üretmede
    doğru yerleştirmek için `tools/build.py` içindeki `CATS` listesine slug'ı ekle.)
 4. **Doğrula:** üretilen app.html JS'ini `node --check` ile ve Kiril taramasıyla
    (`grep -lP '[\x{0400}-\x{04FF}]'`) kontrol et.
-5. **PDF (istenirse):** Chromium ile standalone HTML'i yazdır:
-   `/opt/pw-browsers/chromium-1194/chrome-linux/chrome --headless=new --no-sandbox
-   --print-to-pdf=docs/pediatrik-<slug>-algoritmasi.pdf <sarmalı-html>`.
+5. **PDF (istenirse):** Mevcut Chrome ile standalone HTML'i yazdır. Chrome yolu
+   oturuma göre değişebilir — `google-chrome-stable` (genelde `/usr/bin`) ya da
+   `/opt/pw-browsers/chromium-*/chrome-linux/chrome`; hangisi varsa onu kullan:
+   `<chrome> --headless=new --no-sandbox --disable-gpu --print-to-pdf=docs/pediatrik-<slug>-algoritmasi.pdf <doctype-sarmalı-html>`
+   (dbus hataları zararsızdır). Baskı için gövdeyi `<!doctype html>…<body>` ile sarmala.
 6. **Commit + push:** `claude/pediatric-gastro-constipation-algo-kfrmkq` dalına,
    açıklayıcı mesajla (`docs/frag/` commit'lenmez).
 
