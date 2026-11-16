@@ -26,6 +26,7 @@ Mektup, hakemin nedensellik eleştirilerini dilsel olarak kabul etmiş ama bunu 
 
 ### K2. ACMG sınıflamasında kriter hataları
 v2: "likely pathogenic … based largely on in silico predictions (PVS1_moderate) and database reports (PS4_supporting)".
+
 - **PVS1 in silico bir kriter değildir.** Null varyantlar için kullanılır (nonsense, frameshift, kanonik ±1/2 splice, başlangıç kodonu, tek/çok ekzon delesyonu). İn silico kanıtın kriteri PP3'tür [kesin — Richards 2015, PMID 25741868, DOI: https://doi.org/10.1038/gim.2015.30]. c.1210-11 poliprimidin bölgesindedir, kanonik splice dinükleotidinde değildir. PVS1'in herhangi bir gücüyle uygulanması savunulamaz [çıkarım; ClinGen SVI splice önerileriyle karşılaştırılmalı — doğrulanmalı].
 - **PS4 vaka-kontrol prevalans kriteridir.** "ClinVar kayıtları / veritabanı raporları" PS4 için yeterli değildir [kesin — Richards 2015 kriter tanımı].
 - v1, de novo durumu da sınıflamaya katmıştı (PS2/PM6). CFTR'de tek alel bir Mendel dominant hastalığa yol açmadığı için de novo kriteri kavramsal olarak uygun değil [çıkarım].
@@ -47,6 +48,7 @@ v2: "likely pathogenic … based largely on in silico predictions (PVS1_moderate
 **M2. Mektubun kendi sonucuyla çelişkisi.** Son paragraf "trio WES'in tanısal değerini desteklediğini" söylüyor. Aynı metin varyantın şiddete katkısının belirsiz olduğunu ve nedenselliğin gösterilemediğini kabul ediyor. Tanı konmadıysa tanısal değer de gösterilmemiştir. Bu cümle ya kaldırılmalı ya da "risk alelinin saptanması ve aile danışmanlığı" düzeyine indirilmeli.
 
 **M3. Eski kanıtsız iddia yerine yeni kanıtsız iddia (ensefalopati).** "Pankreatik ensefalopati" etiketi bırakılmış, bu doğru. Ama yerine "birincil mekanizma şoka bağlı serebral hipoperfüzyon ve SIRS" konmuş. Bu da hakemin istediği veriler olmadan kurulmuş bir nedensellik:
+
 - Vazoaktif ilaç, mekanik ventilasyon, RRT, idrar çıkışı, laktat, sıvı hacmi, pSOFA/PELOD-2 verilmemiş (hakem m9 ele alınmamış).
 - Gün gün GKS ve tedavi zaman çizelgesi yok (hakem m8 ele alınmamış).
 - Sepsis / steril SIRS ayrımı yapılmamış (hakem m10). Prokalsitonin 1,69 ve ampirik antibiyotik var. Nekroz kültürü yok.
