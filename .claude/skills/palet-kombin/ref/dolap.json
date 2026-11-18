@@ -237,6 +237,16 @@
     },
     {
       "no": 24,
+      "urun": "Pantolon",
+      "matris": "Pantolon",
+      "renk": "Haki",
+      "alt": [],
+      "sart": "eski dolaptan, keten: yeşil üstle değil (zeytin gömlek, koyu yeşil ve koyu zeytin polo, koyu zeytin kazak). Keten kışın mevsim dışı durur; sıcak poliklinik günü ve Mart sonrası",
+      "tur": 0,
+      "durum": "mevcut"
+    },
+    {
+      "no": 25,
       "urun": "Loafer",
       "matris": "Ayakkabı deri",
       "renk": "Koyu kahve",
@@ -246,7 +256,7 @@
       "durum": "mevcut"
     },
     {
-      "no": 25,
+      "no": 26,
       "urun": "Loafer",
       "matris": "Ayakkabı deri",
       "renk": "Tütün",
@@ -256,7 +266,7 @@
       "durum": "mevcut"
     },
     {
-      "no": 26,
+      "no": 27,
       "urun": "Chelsea bot",
       "matris": "Ayakkabı deri",
       "renk": "Tütün",
@@ -266,7 +276,7 @@
       "durum": "mevcut"
     },
     {
-      "no": 27,
+      "no": 28,
       "urun": "Sneaker",
       "matris": "Sneaker",
       "renk": "Ekru",
@@ -276,7 +286,7 @@
       "durum": "mevcut"
     },
     {
-      "no": 28,
+      "no": 29,
       "urun": "Kemer",
       "matris": "Kemer/çanta",
       "renk": "Koyu kahve",
@@ -326,7 +336,6 @@
       "mavi parçalar lacivert mi açık mavi mi"
     ],
     "yaza_sakla": [
-      "haki keten pantolon",
       "bej loafer",
       "beyaz keten pantolon (krem tonundaysa)",
       "beyaz polo",
