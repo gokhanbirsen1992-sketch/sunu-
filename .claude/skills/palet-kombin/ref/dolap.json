@@ -226,6 +226,17 @@
     },
     {
       "no": 23,
+      "urun": "Pantolon",
+      "matris": "Pantolon",
+      "renk": "Kum/krem",
+      "alt": [],
+      "sart": "eski dolaptan, bej: yalnızca koyu veya renkli üstle (koyu kahve, zeytin, bordo, hardal gömlek; koyu yeşil, koyu zeytin, tütün polo). Ekru, krem gömlek ve ekru kazakla değil",
+      "tur": 0,
+      "durum": "mevcut",
+      "tolerans": true
+    },
+    {
+      "no": 24,
       "urun": "Loafer",
       "matris": "Ayakkabı deri",
       "renk": "Koyu kahve",
@@ -235,7 +246,7 @@
       "durum": "mevcut"
     },
     {
-      "no": 24,
+      "no": 25,
       "urun": "Loafer",
       "matris": "Ayakkabı deri",
       "renk": "Tütün",
@@ -245,7 +256,7 @@
       "durum": "mevcut"
     },
     {
-      "no": 25,
+      "no": 26,
       "urun": "Chelsea bot",
       "matris": "Ayakkabı deri",
       "renk": "Tütün",
@@ -255,7 +266,7 @@
       "durum": "mevcut"
     },
     {
-      "no": 26,
+      "no": 27,
       "urun": "Sneaker",
       "matris": "Sneaker",
       "renk": "Ekru",
@@ -265,7 +276,7 @@
       "durum": "mevcut"
     },
     {
-      "no": 27,
+      "no": 28,
       "urun": "Kemer",
       "matris": "Kemer/çanta",
       "renk": "Koyu kahve",
@@ -290,7 +301,8 @@
     "Koyu kahve loafer + koyu kahve kemer; kahve loafer kemersiz pantolonla; tütün süet chelsea hafta sonu ve kuru gün.",
     "Git-gel katmanı: ılık gün camel hırka veya ekru kazak, serin gün tütün mont, yağmur bej trençkot. Blazer yalnızca toplantı günü.",
     "Denim yok (kullanıcı istemiyor): hafta sonu da üç pantolon; farkı tişört, sneaker ve süet bot yaratır.",
-    "Ekru kazak yalnızca koyu veya renkli gömleğin üstüne; ekru ve krem gömlekle aynı gün değil."
+    "Ekru kazak yalnızca koyu veya renkli gömleğin üstüne; ekru ve krem gömlekle aynı gün değil.",
+    "Bej pantolon koşullu: üst koyu veya renkli olacak; açık üst + açık alt yok. Yeni açık pantolon alınmaz."
   ],
   "seyahat_prag_kasim": {
     "iklim": "gündüz ort. 8 °C, gece 2 °C, 9-13 yağışlı gün (weathermonth 1991-2020; ČHMÚ ile doğrulanmadı)",
@@ -315,7 +327,6 @@
     ],
     "yaza_sakla": [
       "haki keten pantolon",
-      "bej pantolon",
       "bej loafer",
       "beyaz keten pantolon (krem tonundaysa)",
       "beyaz polo",

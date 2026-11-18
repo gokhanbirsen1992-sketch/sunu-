@@ -51,7 +51,8 @@ Akdeniz smart-casual, İtalyan silüet: yumuşak omuzlu astarsız ceket, yüksek
 - Bordo tişört serbest (hafta sonu, sayıma girmez).
 - Yağmur botu almayacak; mevcut süet chelsea'yı yağmurda da giyecek. Karar verildi, tekrar önerme.
 - Tütün kaban ile taba mont aynı parça ve eskiden vardı; yeni kaban alınmadı.
-- Denim istemiyor; önerme. Hafta sonu da pantolon.
+- Denim istemiyor; önerme.
+- Mevcut bej pantolon dolaba koşullu eklendi (koyu veya renkli üstle). 'Açık pantolon yok' kuralı yeni alım için geçerli, eldeki parçayı dışlamaz. Kullanıcı eldeki parçaların listeye girmesini istiyor: bir parçayı dışarıda bırakıyorsan nedenini açıkça yaz. Hafta sonu da pantolon.
 - Mevcut süet chelsea (tütün-taba, krep taban) hafta sonu botu olarak kabul; 'süet yok' kuralı yalnızca yağmur ve hastane için.
 - Koyu kahve gömlek kabul edildi (iç katman, koyu; aynı gün kahve pantolon yok).
 - Pas sevdiği renk; en fazla 2 pas parça, aynı gün değil.
