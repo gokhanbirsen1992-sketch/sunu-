@@ -158,7 +158,7 @@
       "matris": "Blazer",
       "renk": "Koyu zeytin",
       "alt": [],
-      "sart": "10 dk geçiş; koyu zeytin kazak/polo ve zeytin pantolon günü yerine kaban",
+      "sart": "yalnızca toplantı, kongre, özel gün; rutin git-gelde giyilmez. Yeşil üst ve zeytin pantolon günü değil",
       "tur": 0,
       "durum": "alindi"
     },
@@ -288,7 +288,7 @@
     "Camel iki orta katmanda (kazak, hırka): hardal gömlek ikisiyle de giyilmez, yalnızca koyu zeytin kazakla veya tek.",
     "Yeşil 6 parça (zeytin gömlek, koyu yeşil polo, koyu zeytin polo, kazak, blazer, zeytin pantolon): yeşil üstüne yeşil yok.",
     "Koyu kahve loafer + koyu kahve kemer; kahve loafer kemersiz pantolonla; tütün süet chelsea hafta sonu ve kuru gün.",
-    "Dışarı çıkış: yeşil gün tütün mont, diğer günler koyu zeytin blazer.",
+    "Git-gel katmanı: ılık gün camel hırka veya ekru kazak, serin gün tütün mont, yağmur bej trençkot. Blazer yalnızca toplantı günü.",
     "Denim yok (kullanıcı istemiyor): hafta sonu da üç pantolon; farkı tişört, sneaker ve süet bot yaratır.",
     "Ekru kazak yalnızca koyu veya renkli gömleğin üstüne; ekru ve krem gömlekle aynı gün değil."
   ],

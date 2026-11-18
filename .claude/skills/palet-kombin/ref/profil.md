@@ -2,8 +2,9 @@
 
 ## Kişi
 - 185 cm / 100 kg, geniş gövde. Sıcak-buğday ten, koyu saç-sakal, topuz, kol dövmesi, küpe. Yüksek kontrast.
-- Çocuk gastroenteroloji uzmanı, Antalya. Hastanede önlük yok; blazer yalnızca dışarı çıkarken 10 dk. Gün boyu görünen: iç katman + pantolon + ayakkabı.
+- Çocuk gastroenteroloji uzmanı, Antalya. Hastanede önlük yok; blazer rutin günde giyilmez, yalnızca toplantıda. Gün boyu görünen: iç katman + pantolon + ayakkabı.
 - Bakım (kuru temizleme, elde yıkama) sorun değil.
+- Blazer yalnızca toplantı, kongre ve özel gün için (kullanıcı kararı). Rutin hastane git-gelinde blazer önerme. Git-gel katmanı: ılık gün camel hırka veya ekru kazak, serin gün tütün mont, yağmur bej trençkot.
 - Poliklinik içi 30 °C'yi buluyor (kullanıcı beyanı). Hastane içi kombin TEK KATMAN: poplin gömlek (kol kıvrık) veya kısa kol polo + pantolon. Kazak, hırka, merino uzun kol polo içeride giyilmez; yalnızca dışarı çıkış veya serin gün katmanı. Renk yükünü gömlek taşır.
 
 ## Beden (çözülmedi, önce sor)

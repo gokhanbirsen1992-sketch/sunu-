@@ -22,7 +22,7 @@ Matrisi veya dolabı her değiştirdiğinde `python3 scripts/denetim.py` çalı�
 
 **b) "Ne alayım / liste"** → `ref/palet.json` içindeki `adetler` ile ürün satırlarını birleştir; her ürün için adet + yeşil/sarı renkler + kırmızı renkler. Kullanıcı renk seçimini kendi yapar; karar verilmiş tek renk dayatma (kullanıcı bunu açıkça reddetti).
 
-**c) "Kombin yap"** → 5. bölümdeki kombin kuralları. Varsayılan 5 kombin, yukarıdan aşağı: iç katman / orta-dış katman / pantolon / ayakkabı. Hastane kombinlerinde blazer yok (blazer yalnızca 10 dk geçiş katmanı); iç katman tek başına ayakta durmalı.
+**c) "Kombin yap"** → 5. bölümdeki kombin kuralları. Varsayılan 5 kombin, yukarıdan aşağı: iç katman / orta-dış katman / pantolon / ayakkabı. Hastane kombinlerinde blazer yok; blazer yalnızca toplantı ve kongre günü. Rutin git-gel katmanı mont, hırka, kazak veya yağmurda trençkot. İç katman tek başına ayakta durmalı.
 
 **d) "Görsel yap"** → `scripts/matris.py` (matris), `scripts/kombin.py` (5 kombin kartı), `scripts/liste.py` (seçilmiş dolap listesi). Çıktı PNG, scratchpad'e yaz, SendUserFile ile gönder.
 
@@ -49,7 +49,7 @@ Hastanede giyilen **gömlek + polo + kazak** toplamında vurgu aileden en fazla 
 
 ## 5. Kombin kuralları
 - Katman sırası: iç (gömlek/polo/tişört) → orta (kazak/hırka; kazak yalnızca gömlek üstüne, polo üstüne kazak olur, gömlek üstüne polo olmaz) → dış (blazer/kaban) → pantolon → ayakkabı.
-- Hastane: poliklinik 30 °C, içeride TEK KATMAN (gömlek veya kısa kol polo); kazak, hırka, uzun kol merino polo önerme, yalnızca çıkış katmanı olarak ayrı göster. Blazer yok; loafer. Yağmur günü loafer ve sneaker yerine bot.
+- Hastane: poliklinik 30 °C, içeride TEK KATMAN (gömlek veya kısa kol polo); kazak, hırka, uzun kol merino polo önerme, yalnızca git-gel katmanı olarak ayrı göster. Blazer rutin günde yok, toplantıda var; loafer. Yağmur günü loafer ve sneaker yerine bot.
 - Yeşil üstüne yeşil yok (koyu yeşil / koyu zeytin / zeytin / haki aynı aile sayılır, pantolon dahil); kahve üstüne kahve (çikolata / koyu kahve) aynı şekilde.
 - Loafer, bot, kemer, çanta aynı kahve tonu.
 - Hafta sonu: tişört, denim, sneaker serbest.
