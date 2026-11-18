@@ -4,6 +4,7 @@
 - 185 cm / 100 kg, geniş gövde. Sıcak-buğday ten, koyu saç-sakal, topuz, kol dövmesi, küpe. Yüksek kontrast.
 - Çocuk gastroenteroloji uzmanı, Antalya. Hastanede önlük yok; blazer yalnızca dışarı çıkarken 10 dk. Gün boyu görünen: iç katman + pantolon + ayakkabı.
 - Bakım (kuru temizleme, elde yıkama) sorun değil.
+- Poliklinik içi 30 °C'yi buluyor (kullanıcı beyanı). Hastane içi kombin TEK KATMAN: poplin gömlek (kol kıvrık) veya kısa kol polo + pantolon. Kazak, hırka, merino uzun kol polo içeride giyilmez; yalnızca dışarı çıkış veya serin gün katmanı. Renk yükünü gömlek taşır.
 
 ## Beden (çözülmedi, önce sor)
 - Kullanıcı beyanı: bel çevresi 100 cm (büyük ihtimalle göbek hizası); pantolonda EU 48 (= W32) oluyor (büyük ihtimalle düşük/orta bel, kalça kemiğine oturan model). İkisi çelişmez: ölçüm yeri farklı.

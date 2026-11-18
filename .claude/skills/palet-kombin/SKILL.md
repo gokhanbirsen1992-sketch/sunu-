@@ -49,7 +49,7 @@ Hastanede giyilen **gömlek + polo + kazak** toplamında vurgu aileden en fazla 
 
 ## 5. Kombin kuralları
 - Katman sırası: iç (gömlek/polo/tişört) → orta (kazak/hırka; kazak yalnızca gömlek üstüne, polo üstüne kazak olur, gömlek üstüne polo olmaz) → dış (blazer/kaban) → pantolon → ayakkabı.
-- Hastane: iç katman tek başına düzgün (tişört hariç); blazer yok; loafer. Yağmur günü loafer ve sneaker yerine bot.
+- Hastane: poliklinik 30 °C, içeride TEK KATMAN (gömlek veya kısa kol polo); kazak, hırka, uzun kol merino polo önerme, yalnızca çıkış katmanı olarak ayrı göster. Blazer yok; loafer. Yağmur günü loafer ve sneaker yerine bot.
 - Yeşil üstüne yeşil yok (koyu yeşil / koyu zeytin / zeytin / haki aynı aile sayılır, pantolon dahil); kahve üstüne kahve (çikolata / koyu kahve) aynı şekilde.
 - Loafer, bot, kemer, çanta aynı kahve tonu.
 - Hafta sonu: tişört, denim, sneaker serbest.
