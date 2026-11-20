@@ -358,50 +358,30 @@
   "seyahat_prag_2026_11_21_28": {
     "iklim": "geç Kasım ortalaması gündüz 4-7 °C, gece -1 ile 1 °C, kar olası; gerçek tahmin bulunamadı",
     "bavul": {
-      "gomlek": [
-        "Ekru",
-        "Kum/krem",
-        "Koyu kahve",
-        "Bordo",
-        "Hardal"
-      ],
-      "polo": [
-        "Tütün",
-        "Koyu zeytin"
+      "ust": [
+        "Tütün polo",
+        "Koyu zeytin polo",
+        "Ekru gömlek",
+        "Bordo gömlek"
       ],
       "kazak_hirka": [
         "Ekru kazak",
-        "Koyu zeytin kazak",
         "Camel hırka"
       ],
       "pantolon": [
         "Koyu kahve",
-        "Taupe (vizon)",
-        "Zeytin"
+        "Taupe (vizon)"
       ],
       "dis": [
-        "Tütün mont",
-        "Bej trençkot"
+        "Tütün mont"
       ],
       "ayakkabi": [
-        "Süet chelsea",
-        "Ekru sneaker"
+        "Süet chelsea"
       ],
       "iclik": [
-        "Ekru tişört",
-        "Haki tişört"
+        "Ekru tişört"
       ]
     },
-    "evde": [
-      "bej pantolon",
-      "haki keten pantolon",
-      "zeytin gömlek",
-      "camel kazak",
-      "koyu yeşil polo",
-      "denim mont",
-      "loaferlar",
-      "blazer"
-    ],
     "ek": [
       "içlik tayt 2",
       "kalın çorap 8",
@@ -410,6 +390,6 @@
       "şemsiye",
       "süet spreyi"
     ],
-    "not": "Kullanıcıda yün kaban yok; en soğuk gün katmanı: gömlek + kazak + hırka + mont + trençkot. Blazer yalnızca toplantı kuralı gereği götürülmedi."
+    "not": "Kullanıcı ilk 19 parçalık listeyi fazla buldu; 11 parçaya indirildi (bavulda 6). Seyahat listesi kurarken küçük bavul varsay: her üst 2 gün, 2 pantolon, tek dış katman, tek ayakkabı."
   }
 }
