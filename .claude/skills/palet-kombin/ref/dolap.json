@@ -354,5 +354,62 @@
       "yeşil loafer",
       "ekru ve bej kapüşonlu polar (ev ve spor)"
     ]
+  },
+  "seyahat_prag_2026_11_21_28": {
+    "iklim": "geç Kasım ortalaması gündüz 4-7 °C, gece -1 ile 1 °C, kar olası; gerçek tahmin bulunamadı",
+    "bavul": {
+      "gomlek": [
+        "Ekru",
+        "Kum/krem",
+        "Koyu kahve",
+        "Bordo",
+        "Hardal"
+      ],
+      "polo": [
+        "Tütün",
+        "Koyu zeytin"
+      ],
+      "kazak_hirka": [
+        "Ekru kazak",
+        "Koyu zeytin kazak",
+        "Camel hırka"
+      ],
+      "pantolon": [
+        "Koyu kahve",
+        "Taupe (vizon)",
+        "Zeytin"
+      ],
+      "dis": [
+        "Tütün mont",
+        "Bej trençkot"
+      ],
+      "ayakkabi": [
+        "Süet chelsea",
+        "Ekru sneaker"
+      ],
+      "iclik": [
+        "Ekru tişört",
+        "Haki tişört"
+      ]
+    },
+    "evde": [
+      "bej pantolon",
+      "haki keten pantolon",
+      "zeytin gömlek",
+      "camel kazak",
+      "koyu yeşil polo",
+      "denim mont",
+      "loaferlar",
+      "blazer"
+    ],
+    "ek": [
+      "içlik tayt 2",
+      "kalın çorap 8",
+      "atkı, bere, eldiven",
+      "kemer",
+      "şemsiye",
+      "süet spreyi"
+    ],
+    "not": "Kullanıcıda yün kaban yok; en soğuk gün katmanı: gömlek + kazak + hırka + mont + trençkot. Blazer yalnızca toplantı kuralı gereği götürülmedi."
   }
 }
